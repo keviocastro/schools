@@ -1,29 +1,33 @@
-web:
-  image: php:7
-  volumes:
-    - ".:/var/www/html/"
-  ports:
-    - "80:80"
-  links:
-    - "db"
-  expose:
-    - "80"
-  environment:
-    DB_DATABASE: schools
-    DB_USERNAME: root
-    DB_PASSWORD: secret
-  entrypoint:
-    - php 
-    - /var/www/html/artisan
-    - serve
-    - --host=0.0.0.0
-    - --port=80
-db:
-  image: mysql:5.6
-  ports:
-    - "3306:3306"
-  environment:
-    MYSQL_ROOT_PASSWORD: secret
-    MYSQL_DATABASE: schools
+version: '2'
+services:
+  web:
+    image: php:7
+    depends_on:
+      - db
+    volumes:
+      - ".:/var/www/html/"
+    ports:
+      - "80:80"
+    links:
+      - "db"
+    expose:
+      - "80"
+    environment:
+      DB_DATABASE: schools
+      DB_USERNAME: root
+      DB_PASSWORD: secret
+    entrypoint:
+      - php 
+      - /var/www/html/artisan
+      - serve
+      - --host=0.0.0.0
+      - --port=80
+  db:
+    image: mysql:5.6
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: secret
+      MYSQL_DATABASE: schools
 
 
