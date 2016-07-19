@@ -1,6 +1,8 @@
 # Schools API
+[![Build Status](https://semaphoreci.com/api/v1/projects/16bb628a-54c3-4c20-b44d-7f3491caeceb/897346/badge.svg)](https://semaphore
 
 APIs e ferramentas para você gerir dados de escolas, alunos, professores, matriculas de alunos, registros de presença e notas.
+
 
 ## Official Documentation
 
