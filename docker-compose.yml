@@ -12,10 +12,6 @@ services:
       - "db"
     expose:
       - "80"
-    environment:
-      DB_DATABASE: schools
-      DB_USERNAME: root
-      DB_PASSWORD: secret
     entrypoint:
       - php 
       - /var/www/html/artisan

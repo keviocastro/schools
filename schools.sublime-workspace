@@ -4,6 +4,14 @@
 		"selected_items":
 		[
 			[
+				"test",
+				"tests"
+			],
+			[
+				"max",
+				"max-width"
+			],
+			[
 				"cidade",
 				"cidadeDisponivel"
 			],
@@ -506,19 +514,30 @@
 			[
 				"tab",
 				"tablesToMigrate"
-			],
-			[
-				"ta",
-				"tables"
-			],
-			[
-				"pedido",
-				"pedidos	(PedidoController.php)"
 			]
 		]
 	},
 	"buffers":
 	[
+		{
+			"contents": "version: '2'\nservices:\n  web:\n    image: php:7\n    depends_on:\n      - db\n    volumes:\n      - \".:/var/www/html/\"\n    ports:\n      - \"80:80\"\n    links:\n      - \"db\"\n    expose:\n      - \"80\"\n    environment:\n      DB_DATABASE: schools\n      DB_USERNAME: root\n      DB_PASSWORD: secret\n    entrypoint:\n      - php \n      - /var/www/html/artisan\n      - serve\n      - --host=0.0.0.0\n      - --port=80\n  db:\n    image: mysql:5.6\n    ports:\n      - \"3306:3306\"\n    environment:\n      MYSQL_ROOT_PASSWORD: secret\n      MYSQL_DATABASE: schools\n\n\n",
+			"file": "docker-compose.yml",
+			"file_size": 539,
+			"file_write_time": 131134333310754768,
+			"settings":
+			{
+				"buffer_size": 539,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/home/kevio/Desktop/Amazon.txt",
+			"settings":
+			{
+				"buffer_size": 271,
+				"line_ending": "Unix"
+			}
+		}
 	],
 	"build_system": "",
 	"build_system_choices":
@@ -527,10 +546,46 @@
 	"build_varint": "",
 	"command_palette":
 	{
-		"height": 372.0,
-		"last_filter": "pro sa",
+		"height": 92.0,
+		"last_filter": "git push",
 		"selected_items":
 		[
+			[
+				"git push",
+				"Git: Push"
+			],
+			[
+				"git comi",
+				"Git: Commit"
+			],
+			[
+				"git ad",
+				"Git: Add Current File"
+			],
+			[
+				"gti comi",
+				"Git: Commit"
+			],
+			[
+				"pre",
+				"Markdown Preview: Preview in Browser"
+			],
+			[
+				"preveiw",
+				"Markdown Preview: Preview in Browser"
+			],
+			[
+				"preview",
+				"Markdown Preview: Export HTML in Sublime Text"
+			],
+			[
+				"markdon",
+				"Markdown Preview: Preview in Browser"
+			],
+			[
+				"instal",
+				"Package Control: Install Package"
+			],
 			[
 				"pro sa",
 				"Project: Save As"
@@ -546,18 +601,6 @@
 			[
 				"close",
 				"File: Close All"
-			],
-			[
-				"git push",
-				"Git: Push"
-			],
-			[
-				"git comi",
-				"Git: Commit"
-			],
-			[
-				"git ad",
-				"Git: Add..."
 			],
 			[
 				"factory",
@@ -666,10 +709,6 @@
 			[
 				"php",
 				"PHPUnit: Run Tests"
-			],
-			[
-				"instal",
-				"Package Control: Install Package"
 			],
 			[
 				"artisan make tes",
@@ -1022,26 +1061,6 @@
 			[
 				"git statu",
 				"Git: Status"
-			],
-			[
-				"UPPER",
-				"Convert Case: Upper Case"
-			],
-			[
-				"GI TAD",
-				"Git: Add..."
-			],
-			[
-				"git commi",
-				"Git: Commit"
-			],
-			[
-				"open di",
-				"Git: Open Modified Files"
-			],
-			[
-				"open mo",
-				"Git: Open Modified Files"
 			]
 		],
 		"width": 521.0
@@ -1070,6 +1089,20 @@
 	],
 	"file_history":
 	[
+		"/home/kevio/Desktop/Amazon.txt",
+		"/home/kevio/www/schools/readme.md",
+		"/home/kevio/www/test.html",
+		"/home/kevio/www/schools/.env",
+		"/home/kevio/www/schools/.env.example",
+		"/home/kevio/www/schools/docker-compose.yml",
+		"/home/kevio/www/schools/resources/views/welcome.blade.php",
+		"/home/kevio/www/schools/composer.json",
+		"/home/kevio/www/schools/tests/WelcomeTest.php",
+		"/home/kevio/www/schools/phpunit.xml",
+		"/home/kevio/www/schools/tests/TestCase.php",
+		"/home/kevio/www/schools/tests/ExampleTest.php",
+		"/home/kevio/www/schools/app/Http/routes.php",
+		"/home/kevio/www/schools/.gitignore",
 		"/home/kevio/www/ws-core/app/Http/routes.php",
 		"/home/kevio/www/ws-core/tests/RevendaControllerTest.php",
 		"/home/kevio/www/ws-core/.gitignore",
@@ -1169,8 +1202,6 @@
 		"/home/kevio/www/ws-core/app/Http/Requests/UsuarioRequest.php",
 		"/home/kevio/www/ws-core/app/Http/Controllers/EnderecoController.php",
 		"/home/kevio/www/ws-core/tests/EnderecoControllerTest.php",
-		"/home/kevio/Desktop/Amazon.txt",
-		"/home/kevio/www/test.html",
 		"/home/kevio/www/webgas/ws-core/app/Http/Controllers/EnderecoController.php",
 		"/home/kevio/www/webgas/ws-core/app/Endereco.php",
 		"/home/kevio/www/webgas/ws-core/app/Http/routes.php",
@@ -1185,23 +1216,11 @@
 		"/home/kevio/www/node/docker-compose.yml",
 		"/home/kevio/www/webgas/ws-core/docker-compose.yml",
 		"/home/kevio/www/node/Dockerfile",
-		"/home/kevio/www/docker-polymer/Dockerfile",
-		"/home/kevio/www/polymer/Dockerfile",
-		"/home/kevio/www/node/app.js",
-		"/home/kevio/www/webgas/ebs/ws-core/test/Dockerfile",
-		"/home/kevio/www/webgas/ebs/ws-core/prod/Dockerfile",
-		"/home/kevio/www/webgas/ws-core/app/Http/Controllers/PedidoController.php",
-		"/home/kevio/www/webgas/ws-core/database/factories/ModelFactory.php",
-		"/home/kevio/www/webgas/ws-core/database/seeds/RevendasSeeder.php",
-		"/home/kevio/www/webgas/ws-core/scripts/wait-and-test.sh",
-		"/home/kevio/www/webgas/ws-core/app/CidadeDisponivel.php",
-		"/home/kevio/www/webgas/ws-core/database/seeds/DatabaseSeeder.php",
-		"/home/kevio/www/webgas/ebs/ws-core/test/ Dockerrun.aws.json",
-		"/home/kevio/www/webgas/ws-core/app/Http/Controllers/AppController.php"
+		"/home/kevio/www/docker-polymer/Dockerfile"
 	],
 	"find":
 	{
-		"height": 36.0
+		"height": 39.0
 	},
 	"find_in_files":
 	{
@@ -1343,6 +1362,7 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"e",
 			"(App",
 			"(App\\",
 			"App\\",
@@ -1469,8 +1489,7 @@
 			"entity",
 			"Pedido",
 			"revenda",
-			"-16.712388",
-			"revenda_id"
+			"-16.712388"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -1506,14 +1525,221 @@
 	"groups":
 	[
 		{
+			"selected": 1,
 			"sheets":
 			[
+				{
+					"buffer": 0,
+					"file": "docker-compose.yml",
+					"semi_transient": true,
+					"settings":
+					{
+						"buffer_size": 539,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								151,
+								151
+							]
+						],
+						"settings":
+						{
+							"bracket_highlighter.busy": false,
+							"bracket_highlighter.locations":
+							{
+								"close":
+								{
+								},
+								"icon":
+								{
+								},
+								"open":
+								{
+								},
+								"unmatched":
+								{
+								}
+							},
+							"bracket_highlighter.regions":
+							[
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_curly_content",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_round_content",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_default_content",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_unmatched_content",
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_c_define_content",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_angle_content",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_single_quote_content",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_double_quote_content",
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_square_content",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_regex_content",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_tag_content"
+							],
+							"syntax": "Packages/YAML/YAML.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "/home/kevio/Desktop/Amazon.txt",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 271,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								230,
+								230
+							]
+						],
+						"settings":
+						{
+							"bracket_highlighter.busy": false,
+							"bracket_highlighter.locations":
+							{
+								"close":
+								{
+								},
+								"icon":
+								{
+								},
+								"open":
+								{
+								},
+								"unmatched":
+								{
+								}
+							},
+							"bracket_highlighter.regions":
+							[
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_curly_content",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_round_content",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_default_content",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_unmatched_content",
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_c_define_content",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_angle_content",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_single_quote_content",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_double_quote_content",
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_square_content",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_regex_content",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_tag_content"
+							],
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				}
 			]
 		}
 	],
 	"incremental_find":
 	{
-		"height": 36.0
+		"height": 39.0
 	},
 	"input":
 	{
@@ -1554,11 +1780,15 @@
 	{
 		"height": 320.0
 	},
+	"output.markdown":
+	{
+		"height": 196.0
+	},
 	"pinned_build_system": "",
 	"project": "schools.sublime-project",
 	"replace":
 	{
-		"height": 68.0
+		"height": 74.0
 	},
 	"save_all_on_build": true,
 	"select_file":
@@ -1567,6 +1797,10 @@
 		"last_filter": "",
 		"selected_items":
 		[
+			[
+				"welcome",
+				"resources/views/welcome.blade.php"
+			],
 			[
 				"rotues",
 				"app/Http/routes.php"
@@ -2074,10 +2308,6 @@
 			[
 				"ptgene",
 				"resources/lang/pt-br/generico.php"
-			],
-			[
-				"revendare",
-				"app/Http/Requests/RevendaRequest.php"
 			]
 		],
 		"width": 0.0
@@ -2085,16 +2315,20 @@
 	"select_project":
 	{
 		"height": 500.0,
-		"last_filter": "",
+		"last_filter": "wsco",
 		"selected_items":
 		[
 			[
-				"resa",
-				"~/www/resap/resap.sublime-project"
+				"wsco",
+				"~/www/webgas/ws-core/ws-core.sublime-project"
 			],
 			[
 				"ws",
-				"~/www/webgas/ws-core/ws-core.sublime-project"
+				"~/www/ws-core/ws-core.sublime-project"
+			],
+			[
+				"resa",
+				"~/www/resap/resap.sublime-project"
 			],
 			[
 				"docke",
@@ -2135,10 +2369,6 @@
 			[
 				"res",
 				"~/www/resap/resap.sublime-project"
-			],
-			[
-				"wsco",
-				"~/www/webgas/ws-core/ws-core.sublime-project"
 			],
 			[
 				"ws-co",
