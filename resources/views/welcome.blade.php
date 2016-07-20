@@ -48,6 +48,11 @@
             .description {
                 font-size: 42px;
             }
+
+            .version {
+                font-size: 22px; 
+                padding: 20px; 
+            }
         </style>
     </head>
     <body>

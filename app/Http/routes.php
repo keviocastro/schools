@@ -12,6 +12,5 @@
 */
 
 Route::get('/', function () {
-	$version = shell_exec('git log -1 --pretty=format:%aD');
-    return view('welcome', ['version' => $version]);
+    return view('welcome');
 });
