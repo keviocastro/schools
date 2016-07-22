@@ -14,3 +14,7 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/schools', array('middleware' => 'auth0.jwt', function() {
+    return "Allowed access";
+}));
