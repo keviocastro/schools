@@ -19,7 +19,7 @@ return array(
     |
     */
 
-    'client_id'     => env('AUTH0_CLIENT_ID'),
+    'client_id'     => env('AUTH0_CLIENT_ID', 'w27z1v9xRPBurqaX6lDqsMI2uNWhqx0v'),
 
     /*
     |--------------------------------------------------------------------------
@@ -28,7 +28,7 @@ return array(
     |   As set in the auth0 administration page
     |
     */
-    'client_secret' => env('AUTH0_CLIENT_SECRET'),
+    'client_secret' => env('AUTH0_CLIENT_SECRET', 's7cBnjQ6vacWxYKabh0ruAax5OPxJicJ90D3JssykHaQTf1YimqEfGULQDIrhzFU'),
 
 
    /*
