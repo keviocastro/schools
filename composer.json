@@ -4,10 +4,12 @@
     "keywords": ["framework", "laravel"],
     "license": "MIT",
     "type": "project",
+    "minimum-stability": "dev",
     "require": {
         "php": ">=5.5.9",
         "laravel/framework": "5.2.*",
-        "auth0/login": "~3.0"
+        "auth0/login": "~3.0",
+        "dingo/api": "1.0.x@dev"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

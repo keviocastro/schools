@@ -1,20 +1,11 @@
 <?php
-
-/*
-|--------------------------------------------------------------------------
-| Application Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register all of the routes for an application.
-| It's a breeze. Simply tell Laravel the URIs it should respond to
-| and give it the controller to call when that URI is requested.
-|
-*/
-
+$api = app('Dingo\Api\Routing\Router');
 Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/schools', array('middleware' => 'auth0.jwt', function() {
-    return "Allowed access";
-}));
+$api->version('v1', ['middleware' => 'auth0.jwt'], function ($api) {
+
+	$api->get('auth/request-access', 'App\Http\Controllers\Auth\AuthController@requestAccess');
+});
+

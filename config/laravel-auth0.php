@@ -2,6 +2,11 @@
 
 return array(
 
+    /**
+     * Token ID for environment test
+     */
+    'token_id_test' => env('AUTH0_TOKEN_ID_TEST'),
+
     /*
     |--------------------------------------------------------------------------
     |   Your auth0 domain
@@ -40,7 +45,7 @@ return array(
     |
     */
 
-    // 'redirect_uri'  => 'http://<host>/auth0/callback'
+    'redirect_uri'  => 'http://logos.auth0.com/auth0/callback',
 
     /*
     |--------------------------------------------------------------------------

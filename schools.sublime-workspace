@@ -4,6 +4,66 @@
 		"selected_items":
 		[
 			[
+				"to",
+				"toArray	(AbstractResponse.php)"
+			],
+			[
+				"get",
+				"getAutHeader()	void"
+			],
+			[
+				"with",
+				"withItem	(AbstractResponse.php)"
+			],
+			[
+				"Reque",
+				"Request"
+			],
+			[
+				"reques",
+				"request-access"
+			],
+			[
+				"fun",
+				"fun	function …"
+			],
+			[
+				"f",
+				"for	for …"
+			],
+			[
+				"apiex",
+				"@apiErrorExample	apiDoc"
+			],
+			[
+				"apisu",
+				"@apiSuccessExample	apiDoc"
+			],
+			[
+				"requ",
+				"Request"
+			],
+			[
+				"Re",
+				"Request"
+			],
+			[
+				"de",
+				"Detail"
+			],
+			[
+				"apide",
+				"@apiDescription	apiDoc"
+			],
+			[
+				"api",
+				"@apiName	apiDoc"
+			],
+			[
+				"Route",
+				"Route"
+			],
+			[
 				"test",
 				"tests"
 			],
@@ -24,14 +84,6 @@
 				"TestCaseBase"
 			],
 			[
-				"apisu",
-				"@apiUse	apiDoc"
-			],
-			[
-				"api",
-				"@apiSuccess	apiDoc"
-			],
-			[
 				"Pro",
 				"ProdutosBaseController	(ProdutosBaseController.php)"
 			],
@@ -46,10 +98,6 @@
 			[
 				"Produ",
 				"ProdutoBase"
-			],
-			[
-				"to",
-				"toArray"
 			],
 			[
 				"Produto",
@@ -132,10 +180,6 @@
 				"prefix	(routes.php)"
 			],
 			[
-				"Route",
-				"Route-get	Route-get"
-			],
-			[
 				"Rou",
 				"Route-put	Route-put"
 			],
@@ -146,10 +190,6 @@
 			[
 				"fa",
 				"factory"
-			],
-			[
-				"fun",
-				"function"
 			],
 			[
 				"fu",
@@ -194,10 +234,6 @@
 			[
 				"ap",
 				"@apiDefine	apiDoc"
-			],
-			[
-				"get",
-				"getMessage"
 			],
 			[
 				"gene",
@@ -478,63 +514,64 @@
 			[
 				"avalia",
 				"avaliacoes	(2016_03_01_153754_create_initial_database.php)"
-			],
-			[
-				"avali",
-				"avaliacoes	(Avaliacao.php)"
-			],
-			[
-				"usuario",
-				"usuarios"
-			],
-			[
-				"reso",
-				"responseStatus"
-			],
-			[
-				"prd",
-				"produto"
-			],
-			[
-				"post",
-				"postPrecos	(RevendaController.php)"
-			],
-			[
-				"createUser",
-				"createUserRevendedor	(TestCase.php)"
-			],
-			[
-				"jar",
-				"revendaJardimAmerica"
-			],
-			[
-				"udpate",
-				"updated_at"
-			],
-			[
-				"tab",
-				"tablesToMigrate"
 			]
 		]
 	},
 	"buffers":
 	[
 		{
-			"contents": "version: '2'\nservices:\n  web:\n    image: php:7\n    depends_on:\n      - db\n    volumes:\n      - \".:/var/www/html/\"\n    ports:\n      - \"80:80\"\n    links:\n      - \"db\"\n    expose:\n      - \"80\"\n    environment:\n      DB_DATABASE: schools\n      DB_USERNAME: root\n      DB_PASSWORD: secret\n    entrypoint:\n      - php \n      - /var/www/html/artisan\n      - serve\n      - --host=0.0.0.0\n      - --port=80\n  db:\n    image: mysql:5.6\n    ports:\n      - \"3306:3306\"\n    environment:\n      MYSQL_ROOT_PASSWORD: secret\n      MYSQL_DATABASE: schools\n\n\n",
-			"file": "docker-compose.yml",
-			"file_size": 539,
-			"file_write_time": 131134333310754768,
+			"file": "app/Http/Controllers/Auth/AuthController.php",
 			"settings":
 			{
-				"buffer_size": 539,
+				"buffer_size": 1543,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "/home/kevio/Desktop/Amazon.txt",
+			"file": "composer.json",
 			"settings":
 			{
-				"buffer_size": 271,
+				"buffer_size": 1431,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "app/Http/routes.php",
+			"settings":
+			{
+				"buffer_size": 1084,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "app/Exceptions/Handler.php",
+			"settings":
+			{
+				"buffer_size": 1232,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "config/app.php",
+			"settings":
+			{
+				"buffer_size": 8475,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "tests/Http/Controllers/AuthControllerTest.php",
+			"settings":
+			{
+				"buffer_size": 564,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": ".env",
+			"settings":
+			{
+				"buffer_size": 915,
 				"line_ending": "Unix"
 			}
 		}
@@ -546,10 +583,58 @@
 	"build_varint": "",
 	"command_palette":
 	{
-		"height": 92.0,
-		"last_filter": "git push",
+		"height": 392.0,
+		"last_filter": "git che",
 		"selected_items":
 		[
+			[
+				"git che",
+				"Git: Checkout Current File"
+			],
+			[
+				"find",
+				"PHPCompanion:Find Use"
+			],
+			[
+				"fin",
+				"PHPCompanion:Find Use"
+			],
+			[
+				"find use",
+				"PHPCompanion:Find Use"
+			],
+			[
+				"fin ",
+				"PHPCompanion:Find Use"
+			],
+			[
+				"route",
+				"Laravel Artisan 5: Route:List"
+			],
+			[
+				"fun",
+				"Snippet: Function"
+			],
+			[
+				"function",
+				"Snippet: Function Signature"
+			],
+			[
+				"function	",
+				"Snippet: Function"
+			],
+			[
+				"git hce",
+				"Git: Checkout Current File"
+			],
+			[
+				"artisna make tes",
+				"Laravel Artisan 5: Make:Test"
+			],
+			[
+				"artisna makecon",
+				"Laravel Artisan 5: Make:Controller"
+			],
 			[
 				"git push",
 				"Git: Push"
@@ -560,7 +645,35 @@
 			],
 			[
 				"git ad",
-				"Git: Add Current File"
+				"Git: Add..."
+			],
+			[
+				"git coi",
+				"Git: Commit"
+			],
+			[
+				"gti pull",
+				"Git: Pull"
+			],
+			[
+				"gti push",
+				"Git: Push"
+			],
+			[
+				"goto",
+				"Goto Documentation"
+			],
+			[
+				"upper",
+				"Convert Case: Upper Case"
+			],
+			[
+				"open",
+				"SublimeLinter: Report (Open Files)"
+			],
+			[
+				"git add",
+				"Git: Add All"
 			],
 			[
 				"gti comi",
@@ -607,10 +720,6 @@
 				"Snippet: Determine if the given path is a directory."
 			],
 			[
-				"find",
-				"PHPCompanion:Find Use"
-			],
-			[
 				"namespace",
 				"PHPCompanion:Import Namespace"
 			],
@@ -625,10 +734,6 @@
 			[
 				"comp",
 				"PHPCompanion:Import Namespace"
-			],
-			[
-				"git che",
-				"Git: Checkout Current File"
 			],
 			[
 				"artisamete",
@@ -771,10 +876,6 @@
 				"Snippet: function …"
 			],
 			[
-				"open",
-				"Git: Open Modified Files"
-			],
-			[
 				"diff",
 				"Git: Diff Current File"
 			],
@@ -863,24 +964,12 @@
 				"Git: Add..."
 			],
 			[
-				"goto",
-				"Goto Documentation"
-			],
-			[
 				"gitc he",
 				"Git: Checkout Current File"
 			],
 			[
 				"rien",
 				"Indentation: Reindent Lines"
-			],
-			[
-				"git coi",
-				"Git: Commit"
-			],
-			[
-				"git add",
-				"Git: Add..."
 			],
 			[
 				"git he",
@@ -919,10 +1008,6 @@
 				"Git: Diff Current File"
 			],
 			[
-				"gti push",
-				"Git: Push"
-			],
-			[
 				"git ocmi",
 				"Git: Commit"
 			],
@@ -937,10 +1022,6 @@
 			[
 				"lower",
 				"Convert Case: Lower Case"
-			],
-			[
-				"upper",
-				"Convert Case: Upper Case"
 			],
 			[
 				"ena",
@@ -1017,53 +1098,9 @@
 			[
 				"git df",
 				"Git: Diff Staged Files"
-			],
-			[
-				"git ",
-				"Git: Pull"
-			],
-			[
-				"open ",
-				"Git: Open Modified Files"
-			],
-			[
-				"gi tpush",
-				"Git: Push"
-			],
-			[
-				"ISNTAL",
-				"Package Control: Install Package"
-			],
-			[
-				"opendi",
-				"Git: Open Modified Files"
-			],
-			[
-				"GIT OPEN",
-				"Git: Open Modified Files"
-			],
-			[
-				"git cha",
-				"Git: Change Branch"
-			],
-			[
-				"git di",
-				"Git: Diff Current File"
-			],
-			[
-				"coffe",
-				"Set Syntax: CoffeeScript"
-			],
-			[
-				"gi tlog",
-				"Git: Log Current File"
-			],
-			[
-				"git statu",
-				"Git: Status"
 			]
 		],
-		"width": 521.0
+		"width": 962.0
 	},
 	"console":
 	{
@@ -1085,24 +1122,80 @@
 	},
 	"expanded_folders":
 	[
-		"/home/kevio/www/schools"
+		"/home/kevio/www/schools",
+		"/home/kevio/www/schools/app",
+		"/home/kevio/www/schools/app/Http",
+		"/home/kevio/www/schools/app/Http/Controllers",
+		"/home/kevio/www/schools/app/Http/Controllers/Auth",
+		"/home/kevio/www/schools/app/Http/Requests",
+		"/home/kevio/www/schools/app/Providers",
+		"/home/kevio/www/schools/config"
 	],
 	"file_history":
 	[
-		"/home/kevio/Desktop/Amazon.txt",
-		"/home/kevio/www/schools/readme.md",
-		"/home/kevio/www/test.html",
+		"/home/kevio/www/schools/app/Exceptions/Handler.php",
+		"/home/kevio/www/schools/app/Providers/AppServiceProvider.php",
+		"/home/kevio/www/schools/vendor/symfony/http-kernel/Exception/UnsupportedMediaTypeHttpException.php",
+		"/home/kevio/www/schools/tests/TestCase.php",
+		"/home/kevio/www/schools/vendor/auth0/auth0-php/tests/TokenTest.php",
+		"/home/kevio/www/schools/app/Http/routes.php",
+		"/home/kevio/www/schools/tests/Http/Controllers/AuthControllerTest.php",
+		"/home/kevio/www/schools/app/Http/Controllers/Auth/AuthController.php",
+		"/home/kevio/www/schools/vendor/auth0/login/src/Auth0/Login/Auth0Service.php",
+		"/home/kevio/www/schools/vendor/auth0/login/src/Auth0/Login/Repository/Auth0UserRepository.php",
+		"/home/kevio/www/schools/config/app.php",
+		"/home/kevio/www/schools/vendor/auth0/auth0-php/tests/ApiTests.php",
+		"/home/kevio/www/schools/vendor/auth0/auth0-php/src/API/Helpers/TokenGenerator.php",
+		"/home/kevio/www/schools/vendor/auth0/auth0-php/src/Auth0JWT.php",
+		"/home/kevio/www/schools/vendor/firebase/php-jwt/src/JWT.php",
+		"/home/kevio/www/schools/config/laravel-auth0.php",
+		"/home/kevio/www/schools/vendor/auth0/login/examples/laravel-api/app/Http/Middleware/Authenticate.php",
+		"/home/kevio/www/schools/vendor/auth0/auth0-php/src/Auth0.php",
+		"/home/kevio/www/schools/vendor/laravel/framework/src/Illuminate/Foundation/Auth/ThrottlesLogins.php",
+		"/home/kevio/www/schools/app/Http/Controllers/UserController.php",
+		"/home/kevio/www/schools/vendor/ellipsesynergie/api-response/src/Contracts/Response.php",
+		"/home/kevio/www/schools/vendor/laravel/framework/src/Illuminate/Contracts/Routing/ResponseFactory.php",
+		"/home/kevio/www/schools/vendor/ellipsesynergie/api-response/src/AbstractResponse.php",
+		"/home/kevio/www/schools/vendor/league/fractal/src/Resource/Item.php",
+		"/home/kevio/www/schools/vendor/league/fractal/src/Resource/ResourceAbstract.php",
+		"/home/kevio/Desktop/Auth0.txt",
 		"/home/kevio/www/schools/.env",
 		"/home/kevio/www/schools/.env.example",
-		"/home/kevio/www/schools/docker-compose.yml",
-		"/home/kevio/www/schools/resources/views/welcome.blade.php",
+		"/home/kevio/www/schools/app/Providers/ResponseMacroServiceProvider.php",
+		"/home/kevio/www/schools/vendor/auth0/login/src/Auth0/Login/Middleware/Auth0JWTMiddleware.php",
+		"/home/kevio/www/schools/vendor/laravel/framework/src/Illuminate/Http/Response.php",
+		"/home/kevio/www/schools/vendor/league/fractal/src/TransformerAbstract.php",
 		"/home/kevio/www/schools/composer.json",
-		"/home/kevio/www/schools/tests/WelcomeTest.php",
+		"/home/kevio/www/schools/app/Http/Requests/Request.php",
+		"/home/kevio/www/schools/vendor/auth0/auth0-php/tests/AuthApiTest.php",
+		"/home/kevio/www/schools/vendor/laravel/framework/src/Illuminate/Routing/Route.php",
+		"/home/kevio/www/schools/vendor/laravel/framework/src/Illuminate/Http/Request.php",
+		"/home/kevio/www/schools/vendor/symfony/http-foundation/Request.php",
+		"/home/kevio/www/schools/vendor/laravel/framework/src/Illuminate/Foundation/Auth/AuthenticatesAndRegistersUsers.php",
+		"/home/kevio/Desktop/Amazon.txt",
+		"/home/kevio/www/schools",
+		"/home/kevio/www/schools/tests/Http/Controllers/UserControllerTest.php",
+		"/home/kevio/www/schools/storage/logs/laravel.log",
+		"/home/kevio/www/schools/vendor/auth0/login/src/Auth0/Login/LaravelSessionStore.php",
+		"/home/kevio/www/schools/vendor/laravel/framework/src/Illuminate/Foundation/Testing/Concerns/MakesHttpRequests.php",
+		"/home/kevio/www/webgas/ebs/ws-core/prod/Dockerfile",
+		"/home/kevio/www/schools/docker-compose.yml",
+		"/home/kevio/www/auth0/index.html",
+		"/home/kevio/www/auth0/app.js",
+		"/home/kevio/Desktop/auth0/README.md",
+		"/home/kevio/www/schools/public/.htaccess",
+		"/home/kevio/www/schools/app/Http/Kernel.php",
+		"/home/kevio/www/schools/vendor/auth0/login/examples/laravel-api/config/laravel-auth0.php",
 		"/home/kevio/www/schools/phpunit.xml",
-		"/home/kevio/www/schools/tests/TestCase.php",
-		"/home/kevio/www/schools/tests/ExampleTest.php",
-		"/home/kevio/www/schools/app/Http/routes.php",
+		"/home/kevio/www/schools/package.json",
+		"/home/kevio/www/schools/resources/views/welcome.blade.php",
+		"/home/kevio/Desktop/Dockerrun.aws.json",
+		"/home/kevio/www/schools/Dockerfile",
 		"/home/kevio/www/schools/.gitignore",
+		"/home/kevio/www/schools/readme.md",
+		"/home/kevio/www/test.html",
+		"/home/kevio/www/schools/tests/WelcomeTest.php",
+		"/home/kevio/www/schools/tests/ExampleTest.php",
 		"/home/kevio/www/ws-core/app/Http/routes.php",
 		"/home/kevio/www/ws-core/tests/RevendaControllerTest.php",
 		"/home/kevio/www/ws-core/.gitignore",
@@ -1167,66 +1260,21 @@
 		"/home/kevio/.config/sublime-text-3/Packages/PHPUnit/PHPUnit.sublime-settings",
 		"/home/kevio/www/ws-core/vendor/laravel/framework/src/Illuminate/Routing/Controller.php",
 		"/home/kevio/www/ws-core/resources/lang/pt-br/generico.php",
-		"/home/kevio/www/ws-core/tests/Http/Controllers/V2/Revenda/ProdutosAtivosControllerTest.php",
-		"/home/kevio/www/ws-core/.env",
-		"/home/kevio/www/ws-core/.env.example",
-		"/home/kevio/www/ws-core/vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/Handler.php",
-		"/home/kevio/www/ws-core/app/Http/Controllers/V2/Revenda/ProdutosAtivosController.php",
-		"/home/kevio/www/ws-core/app/Http/Controllers/V2/RevendaProdutosAtivosController.php",
-		"/home/kevio/www/ws-core/vendor/laravel/framework/src/Illuminate/Http/Response.php",
-		"/home/kevio/www/ws-core/app/Http/Controllers/V2/Revenda/ProdutosAtivos.php",
-		"/home/kevio/www/ws-core/app/RevendaProdutosAtivos.php",
-		"/home/kevio/www/ws-core/app/Http/Controllers/AnpController.php",
-		"/home/kevio/www/ws-core/app/Http/Controllers/InscritoController.php",
-		"/home/kevio/www/ws-core/app/Pedido.php",
-		"/home/kevio/www/ws-core/app/Usuario.php",
-		"/home/kevio/www/ws-core/resources/lang/pt-br/auth.php",
-		"/home/kevio/www/ws-core/app/Http/Middleware/JwtCheckToken.php",
-		"/home/kevio/www/ws-core/app/Http/Controllers/UsuarioController.php",
-		"/home/kevio/www/ws-core/resources/lang/pt-br/usuario.php",
-		"/home/kevio/www/ws-core/app/Http/Controllers/SolicitacaoController.php",
-		"/home/kevio/www/ws-core/resources/lang/pt-br/solicitacao.php",
-		"/home/kevio/www/ws-core/resources/lang/pt-br/revenda.php",
-		"/home/kevio/www/ws-core/resources/lang/pt-br/pedido.php",
-		"/home/kevio/www/ws-core/resources/lang/pt-br/inscrito.php",
-		"/home/kevio/www/ws-core/app/Http/Controllers/GeraisController.php",
-		"/home/kevio/www/ws-core/app/Http/Controllers/CidadeDisponivelController.php",
-		"/home/kevio/www/ws-core/resources/lang/pt-br/cidade_disponivel.php",
-		"/home/kevio/www/ws-core/app/Http/Controllers/CampanhaController.php",
-		"/home/kevio/www/ws-core/resources/lang/pt-br/campanha.php",
-		"/home/kevio/www/ws-core/app/Http/Controllers/AvaliacaoController.php",
-		"/home/kevio/www/ws-core/resources/lang/pt-br/avaliacao.php",
-		"/home/kevio/www/ws-core/app/Providers/RouteServiceProvider.php",
-		"/home/kevio/www/ws-core/app/Cidade.php",
-		"/home/kevio/www/ws-core/app/Endereco.php",
-		"/home/kevio/www/ws-core/app/Http/Requests/UsuarioRequest.php",
-		"/home/kevio/www/ws-core/app/Http/Controllers/EnderecoController.php",
-		"/home/kevio/www/ws-core/tests/EnderecoControllerTest.php",
-		"/home/kevio/www/webgas/ws-core/app/Http/Controllers/EnderecoController.php",
-		"/home/kevio/www/webgas/ws-core/app/Endereco.php",
-		"/home/kevio/www/webgas/ws-core/app/Http/routes.php",
-		"/home/kevio/www/webgas/ws-core/tests/EnderecoControllerTest.php",
-		"/home/kevio/www/webgas/ws-core/vendor/laravel/framework/src/Illuminate/Foundation/Testing/Concerns/InteractsWithPages.php",
-		"/home/kevio/www/webgas/ws-core/vendor/symfony/routing/Tests/RouteTest.php",
-		"/home/kevio/www/webgas/ws-core/vendor/laravel/framework/src/Illuminate/Foundation/Testing/Constraints/HasSource.php",
-		"/home/kevio/www/webgas/ws-core/app/Http/Controllers/RevendaController.php",
-		"/home/kevio/www/webgas/ws-core/app/Http/Controllers/Controller.php",
-		"/home/kevio/www/webgas/ws-core/tests/TestCase.php",
-		"/home/kevio/www/webgas/ws-core/tests/RevendaControllerTest.php",
-		"/home/kevio/www/node/docker-compose.yml",
-		"/home/kevio/www/webgas/ws-core/docker-compose.yml",
-		"/home/kevio/www/node/Dockerfile",
-		"/home/kevio/www/docker-polymer/Dockerfile"
+		"/home/kevio/www/ws-core/tests/Http/Controllers/V2/Revenda/ProdutosAtivosControllerTest.php"
 	],
 	"find":
 	{
-		"height": 39.0
+		"height": 50.0
 	},
 	"find_in_files":
 	{
 		"height": 207.0,
 		"where_history":
 		[
+			"/home/kevio/www/schools/vendor/auth0",
+			"/home/kevio/www/schools/vendor",
+			"/home/kevio/www/schools/vendor/auth0",
+			"/home/kevio/www/schools/vendor/auth0/auth0-php/src",
 			"/home/kevio/www/ws-core/tests",
 			"/home/kevio/www/ws-core/app",
 			"/home/kevio/www/webgas/ws-core/database/seeds",
@@ -1350,11 +1398,7 @@
 			"/home/kevio/WebProjects/resap/mod",
 			"/home/kevio/WebProjects/resap/mod/matriz_referencia",
 			"/home/kevio/WebProjects/resap/mod",
-			"/home/kevio/WebProjects/resap",
-			"/home/kevio/WebProjects/resap/mod",
-			"/home/kevio/WebProjects/resap",
-			"/home/kevio/WebProjects/resap/mod",
-			"/home/kevio/WebProjects/resap/mod/ferramentas"
+			"/home/kevio/WebProjects/resap"
 		]
 	},
 	"find_state":
@@ -1362,6 +1406,23 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"Dingo",
+			"provider",
+			"scope",
+			"redirect(",
+			"ResponseFactory",
+			"Unauthorized user",
+			"config",
+			"user_info",
+			"$user",
+			"dump(",
+			");\n",
+			"dump",
+			"w27z1v9xRPBurqaX6lDqsMI2uNWhqx0v",
+			"dump",
+			"aliases",
+			"providers",
+			"db",
 			"e",
 			"(App",
 			"(App\\",
@@ -1472,24 +1533,7 @@
 			"update",
 			"produto",
 			"unserialize",
-			"inativo",
-			"Inactive",
-			"usuario",
-			"UpdateProdutos",
-			"revenda/",
-			"revenda",
-			"RevendaData",
-			"usuario",
-			"$model",
-			"cliente_",
-			"revendedor",
-			"usuario",
-			"notFound",
-			"generico.notFound",
-			"entity",
-			"Pedido",
-			"revenda",
-			"-16.712388"
+			"inativo"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -1525,24 +1569,24 @@
 	"groups":
 	[
 		{
-			"selected": 1,
+			"selected": 3,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "docker-compose.yml",
-					"semi_transient": true,
+					"file": "app/Http/Controllers/Auth/AuthController.php",
+					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 539,
+						"buffer_size": 1543,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								151,
-								151
+								1468,
+								1468
 							]
 						],
 						"settings":
@@ -1552,12 +1596,27 @@
 							{
 								"close":
 								{
+									"1":
+									[
+										1539,
+										1540
+									]
 								},
 								"icon":
 								{
+									"1":
+									[
+										"Packages/BracketHighlighter/icons/curly_bracket.png",
+										"brackethighlighter.default"
+									]
 								},
 								"open":
 								{
+									"1":
+									[
+										1450,
+										1451
+									]
 								},
 								"unmatched":
 								{
@@ -1565,65 +1624,302 @@
 							},
 							"bracket_highlighter.regions":
 							[
-								"bh_curly",
-								"bh_curly_center",
-								"bh_curly_open",
-								"bh_curly_close",
-								"bh_curly_content",
-								"bh_round",
-								"bh_round_center",
-								"bh_round_open",
-								"bh_round_close",
-								"bh_round_content",
-								"bh_default",
-								"bh_default_center",
-								"bh_default_open",
-								"bh_default_close",
-								"bh_default_content",
-								"bh_unmatched",
-								"bh_unmatched_center",
-								"bh_unmatched_open",
-								"bh_unmatched_close",
-								"bh_unmatched_content",
-								"bh_c_define",
-								"bh_c_define_center",
-								"bh_c_define_open",
-								"bh_c_define_close",
-								"bh_c_define_content",
-								"bh_angle",
-								"bh_angle_center",
-								"bh_angle_open",
-								"bh_angle_close",
-								"bh_angle_content",
-								"bh_single_quote",
-								"bh_single_quote_center",
-								"bh_single_quote_open",
-								"bh_single_quote_close",
-								"bh_single_quote_content",
-								"bh_double_quote",
-								"bh_double_quote_center",
-								"bh_double_quote_open",
-								"bh_double_quote_close",
-								"bh_double_quote_content",
 								"bh_square",
 								"bh_square_center",
 								"bh_square_open",
 								"bh_square_close",
 								"bh_square_content",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_default_content",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_single_quote_content",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_round_content",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_angle_content",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_tag_content",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_double_quote_content",
 								"bh_regex",
 								"bh_regex_center",
 								"bh_regex_open",
 								"bh_regex_close",
 								"bh_regex_content",
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_c_define_content",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_curly_content",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_unmatched_content"
+							],
+							"syntax": "Packages/PHP/PHP.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 1800.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "composer.json",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1431,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								196,
+								196
+							]
+						],
+						"settings":
+						{
+							"bracket_highlighter.busy": false,
+							"bracket_highlighter.locations":
+							{
+								"close":
+								{
+									"1":
+									[
+										1429,
+										1430
+									]
+								},
+								"icon":
+								{
+									"1":
+									[
+										"Packages/BracketHighlighter/icons/curly_bracket.png",
+										"brackethighlighter.default"
+									]
+								},
+								"open":
+								{
+									"1":
+									[
+										0,
+										1
+									]
+								},
+								"unmatched":
+								{
+								}
+							},
+							"bracket_highlighter.regions":
+							[
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_square_content",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_default_content",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_single_quote_content",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_round_content",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_angle_content",
 								"bh_tag",
 								"bh_tag_center",
 								"bh_tag_open",
 								"bh_tag_close",
-								"bh_tag_content"
+								"bh_tag_content",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_double_quote_content",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_regex_content",
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_c_define_content",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_curly_content",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_unmatched_content"
 							],
-							"syntax": "Packages/YAML/YAML.sublime-syntax",
-							"tab_size": 2,
+							"syntax": "Packages/JavaScript/JSON.sublime-syntax",
+							"tab_size": 4,
 							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "app/Http/routes.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1084,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								145,
+								145
+							]
+						],
+						"settings":
+						{
+							"bracket_highlighter.busy": false,
+							"bracket_highlighter.locations":
+							{
+								"close":
+								{
+									"1":
+									[
+										145,
+										146
+									]
+								},
+								"icon":
+								{
+									"1":
+									[
+										"Packages/BracketHighlighter/icons/round_bracket.png",
+										"brackethighlighter.default"
+									]
+								},
+								"open":
+								{
+									"1":
+									[
+										140,
+										141
+									]
+								},
+								"unmatched":
+								{
+								}
+							},
+							"bracket_highlighter.regions":
+							[
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_square_content",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_default_content",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_single_quote_content",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_round_content",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_angle_content",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_tag_content",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_double_quote_content",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_regex_content",
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_c_define_content",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_curly_content",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_unmatched_content"
+							],
+							"syntax": "Packages/PHP/PHP.sublime-syntax",
+							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -1633,20 +1929,377 @@
 					"type": "text"
 				},
 				{
-					"buffer": 1,
-					"file": "/home/kevio/Desktop/Amazon.txt",
+					"buffer": 3,
+					"file": "app/Exceptions/Handler.php",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 271,
+						"buffer_size": 1232,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								230,
-								230
+								926,
+								926
+							]
+						],
+						"settings":
+						{
+							"bracket_highlighter.busy": false,
+							"bracket_highlighter.locations":
+							{
+								"close":
+								{
+									"1":
+									[
+										925,
+										926
+									]
+								},
+								"icon":
+								{
+									"1":
+									[
+										"Packages/BracketHighlighter/icons/curly_bracket.png",
+										"brackethighlighter.default"
+									]
+								},
+								"open":
+								{
+									"1":
+									[
+										891,
+										892
+									]
+								},
+								"unmatched":
+								{
+								}
+							},
+							"bracket_highlighter.regions":
+							[
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_square_content",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_default_content",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_single_quote_content",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_round_content",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_angle_content",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_tag_content",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_double_quote_content",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_regex_content",
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_c_define_content",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_curly_content",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_unmatched_content"
+							],
+							"syntax": "Packages/PHP/PHP.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 960.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "config/app.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 8475,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								6084,
+								6084
+							]
+						],
+						"settings":
+						{
+							"bracket_highlighter.busy": false,
+							"bracket_highlighter.locations":
+							{
+								"close":
+								{
+									"1":
+									[
+										6147,
+										6148
+									]
+								},
+								"icon":
+								{
+									"1":
+									[
+										"Packages/BracketHighlighter/icons/square_bracket.png",
+										"brackethighlighter.default"
+									]
+								},
+								"open":
+								{
+									"1":
+									[
+										4352,
+										4353
+									]
+								},
+								"unmatched":
+								{
+								}
+							},
+							"bracket_highlighter.regions":
+							[
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_square_content",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_default_content",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_single_quote_content",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_round_content",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_angle_content",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_tag_content",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_double_quote_content",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_regex_content",
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_c_define_content",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_curly_content",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_unmatched_content"
+							],
+							"syntax": "Packages/PHP/PHP.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 7738.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "tests/Http/Controllers/AuthControllerTest.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 564,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								500,
+								500
+							]
+						],
+						"settings":
+						{
+							"bracket_highlighter.busy": false,
+							"bracket_highlighter.locations":
+							{
+								"close":
+								{
+									"1":
+									[
+										508,
+										509
+									]
+								},
+								"icon":
+								{
+									"1":
+									[
+										"Packages/BracketHighlighter/icons/round_bracket.png",
+										"brackethighlighter.default"
+									]
+								},
+								"open":
+								{
+									"1":
+									[
+										451,
+										452
+									]
+								},
+								"unmatched":
+								{
+								}
+							},
+							"bracket_highlighter.regions":
+							[
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_square_content",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_default_content",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_single_quote_content",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_round_content",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_angle_content",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_tag_content",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_double_quote_content",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_regex_content",
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_c_define_content",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_curly_content",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_unmatched_content"
+							],
+							"syntax": "Packages/PHP/PHP.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 5,
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": ".env",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 915,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								570,
+								570
 							]
 						],
 						"settings":
@@ -1669,61 +2322,61 @@
 							},
 							"bracket_highlighter.regions":
 							[
-								"bh_curly",
-								"bh_curly_center",
-								"bh_curly_open",
-								"bh_curly_close",
-								"bh_curly_content",
-								"bh_round",
-								"bh_round_center",
-								"bh_round_open",
-								"bh_round_close",
-								"bh_round_content",
-								"bh_default",
-								"bh_default_center",
-								"bh_default_open",
-								"bh_default_close",
-								"bh_default_content",
-								"bh_unmatched",
-								"bh_unmatched_center",
-								"bh_unmatched_open",
-								"bh_unmatched_close",
-								"bh_unmatched_content",
-								"bh_c_define",
-								"bh_c_define_center",
-								"bh_c_define_open",
-								"bh_c_define_close",
-								"bh_c_define_content",
-								"bh_angle",
-								"bh_angle_center",
-								"bh_angle_open",
-								"bh_angle_close",
-								"bh_angle_content",
-								"bh_single_quote",
-								"bh_single_quote_center",
-								"bh_single_quote_open",
-								"bh_single_quote_close",
-								"bh_single_quote_content",
-								"bh_double_quote",
-								"bh_double_quote_center",
-								"bh_double_quote_open",
-								"bh_double_quote_close",
-								"bh_double_quote_content",
 								"bh_square",
 								"bh_square_center",
 								"bh_square_open",
 								"bh_square_close",
 								"bh_square_content",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_default_content",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_single_quote_content",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_round_content",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_angle_content",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_tag_content",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_double_quote_content",
 								"bh_regex",
 								"bh_regex_center",
 								"bh_regex_open",
 								"bh_regex_close",
 								"bh_regex_content",
-								"bh_tag",
-								"bh_tag_center",
-								"bh_tag_open",
-								"bh_tag_close",
-								"bh_tag_content"
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_c_define_content",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_curly_content",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_unmatched_content"
 							],
 							"syntax": "Packages/Text/Plain text.tmLanguage"
 						},
@@ -1731,7 +2384,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 0,
+					"stack_index": 6,
 					"type": "text"
 				}
 			]
@@ -1739,7 +2392,7 @@
 	],
 	"incremental_find":
 	{
-		"height": 39.0
+		"height": 44.0
 	},
 	"input":
 	{
@@ -1788,7 +2441,7 @@
 	"project": "schools.sublime-project",
 	"replace":
 	{
-		"height": 74.0
+		"height": 84.0
 	},
 	"save_all_on_build": true,
 	"select_file":
@@ -1797,6 +2450,150 @@
 		"last_filter": "",
 		"selected_items":
 		[
+			[
+				"handler",
+				"app/Exceptions/Handler.php"
+			],
+			[
+				"routes",
+				"app/Http/routes.php"
+			],
+			[
+				"configapp",
+				"config/app.php"
+			],
+			[
+				"appprove",
+				"app/Providers/AppServiceProvider.php"
+			],
+			[
+				"app/exceptions/handler.php",
+				"app/Exceptions/Handler.php"
+			],
+			[
+				"unsupportedmediatypehttpexception",
+				"vendor/symfony/http-kernel/Exception/UnsupportedMediaTypeHttpException.php"
+			],
+			[
+				"composer.json",
+				"composer.json"
+			],
+			[
+				".env",
+				".env"
+			],
+			[
+				"authconttes",
+				"tests/Http/Controllers/AuthControllerTest.php"
+			],
+			[
+				"autontest",
+				"vendor/auth0/auth0-php/tests/TokenTest.php"
+			],
+			[
+				"configapp.php",
+				"config/app.php"
+			],
+			[
+				"auth0userrepository",
+				"vendor/auth0/login/src/Auth0/Login/Repository/Auth0UserRepository.php"
+			],
+			[
+				"configauth",
+				"config/laravel-auth0.php"
+			],
+			[
+				"route",
+				"app/Http/routes.php"
+			],
+			[
+				"auth0",
+				"vendor/auth0/auth0-php/src/Auth0.php"
+			],
+			[
+				"testca",
+				"tests/TestCase.php"
+			],
+			[
+				"hander",
+				"app/Exceptions/Handler.php"
+			],
+			[
+				"testcase",
+				"tests/TestCase.php"
+			],
+			[
+				"composerjson",
+				"composer.json"
+			],
+			[
+				"app/http/requests/request",
+				"app/Http/Requests/Request.php"
+			],
+			[
+				"configauth0",
+				"config/laravel-auth0.php"
+			],
+			[
+				"app",
+				"config/app.php"
+			],
+			[
+				"authtes",
+				"tests/Http/Controllers/AuthControllerTest.php"
+			],
+			[
+				"authtest",
+				"vendor/auth0/auth0-php/tests/AuthApiTest.php"
+			],
+			[
+				"iluminateroutingroute",
+				"vendor/laravel/framework/src/Illuminate/Routing/Route.php"
+			],
+			[
+				"authcontroller",
+				"app/Http/Controllers/Auth/AuthController.php"
+			],
+			[
+				"authcontro",
+				"app/Http/Controllers/Auth/AuthController.php"
+			],
+			[
+				"laravel",
+				"storage/logs/laravel.log"
+			],
+			[
+				"dockercom",
+				"docker-compose.yml"
+			],
+			[
+				"config/app",
+				"config/app.php"
+			],
+			[
+				"laravel-auth0",
+				"config/laravel-auth0.php"
+			],
+			[
+				"/auth0/login/middleware/auth0jwtmiddleware",
+				"vendor/auth0/login/src/Auth0/Login/Middleware/Auth0JWTMiddleware.php"
+			],
+			[
+				"auth0jwt",
+				"vendor/auth0/auth0-php/src/Auth0JWT.php"
+			],
+			[
+				"larlog",
+				"storage/logs/laravel.log"
+			],
+			[
+				"config/laravel-auth0.php",
+				"vendor/auth0/login/examples/laravel-api/config/laravel-auth0.php"
+			],
+			[
+				"phpunit",
+				"phpunit.xml"
+			],
 			[
 				"welcome",
 				"resources/views/welcome.blade.php"
@@ -1838,10 +2635,6 @@
 				"tests/PedidoControllerTest.php"
 			],
 			[
-				"testcase",
-				"tests/TestCase.php"
-			],
-			[
 				"authcontote",
 				"tests/AuthenticateControllerTest.php"
 			],
@@ -1856,14 +2649,6 @@
 			[
 				"produtosativos",
 				"app/Http/Controllers/V2/SGW/RevendaProdutosAtivosController.php"
-			],
-			[
-				"routes",
-				"app/Http/routes.v2.php"
-			],
-			[
-				"dockercom",
-				"docker-compose.yml"
 			],
 			[
 				"produtobase",
@@ -1938,10 +2723,6 @@
 				"app/ProdutoBase.php"
 			],
 			[
-				"phpunit",
-				"phpunit.xml"
-			],
-			[
 				"routes.v2",
 				"app/Http/routes.v2.php"
 			],
@@ -1950,15 +2731,7 @@
 				"tests/AuthenticateControllerTest.php"
 			],
 			[
-				"authcontro",
-				"app/Http/Controllers/AuthenticateController.php"
-			],
-			[
 				"handlr",
-				"app/Exceptions/Handler.php"
-			],
-			[
-				"handler",
 				"app/Exceptions/Handler.php"
 			],
 			[
@@ -1972,10 +2745,6 @@
 			[
 				"produtoba",
 				"app/ProdutoBase.php"
-			],
-			[
-				"laravel",
-				"storage/logs/laravel.log"
 			],
 			[
 				"ptvali",
@@ -2056,10 +2825,6 @@
 			[
 				"produtosativo",
 				"tests/Http/Controllers/V2/Revenda/ProdutosAtivosControllerTest.php"
-			],
-			[
-				"hander",
-				"app/Exceptions/Handler.php"
 			],
 			[
 				"revendaid",
@@ -2196,118 +2961,6 @@
 			[
 				"docker",
 				"docker-compose.yml"
-			],
-			[
-				"dock",
-				"docker-compose.yml"
-			],
-			[
-				"revendasseeder",
-				"database/seeds/RevendasSeeder.php"
-			],
-			[
-				"auconto",
-				"app/Http/Controllers/AuthenticateController.php"
-			],
-			[
-				"docke",
-				"docker-compose.yml"
-			],
-			[
-				"docker-com",
-				"docker-compose.yml"
-			],
-			[
-				"authtest",
-				"tests/AuthenticateControllerTest.php"
-			],
-			[
-				"auth",
-				"app/Http/Controllers/AuthenticateController.php"
-			],
-			[
-				"authcon",
-				"app/Http/Controllers/AuthenticateController.php"
-			],
-			[
-				"docke.",
-				"docker-compose.yml"
-			],
-			[
-				"usuaricon",
-				"app/Http/Controllers/UsuarioController.php"
-			],
-			[
-				"databaseini",
-				"database/migrations/2016_03_01_153754_create_initial_database.php"
-			],
-			[
-				"multipleaddre",
-				"database/migrations/2016_05_28_103831_add_multiple_addresses_to_user.php"
-			],
-			[
-				"pessoa",
-				"app/Pessoa.php"
-			],
-			[
-				"usuario",
-				"app/Usuario.php"
-			],
-			[
-				"autcont",
-				"tests/AuthenticateControllerTest.php"
-			],
-			[
-				"autencon",
-				"app/Http/Controllers/AuthenticateController.php"
-			],
-			[
-				"revenacon",
-				"app/Http/Controllers/RevendaController.php"
-			],
-			[
-				"/venturecraft/revisionable/revisionabletrait",
-				"vendor/venturecraft/revisionable/src/Venturecraft/Revisionable/RevisionableTrait.php"
-			],
-			[
-				"composer",
-				"composer.json"
-			],
-			[
-				"vendor/venturecraft/revisionable/src/migrations/",
-				"vendor/venturecraft/revisionable/src/migrations/2013_04_09_062329_create_revisions_table.php"
-			],
-			[
-				"venturecraft",
-				"vendor/venturecraft/revisionable/.gitignore"
-			],
-			[
-				"composer.json",
-				"composer.json"
-			],
-			[
-				"revendarequ",
-				"app/Http/Requests/RevendaRequest.php"
-			],
-			[
-				"compose.j",
-				"composer.json"
-			],
-			[
-				"packeg",
-				"package.json"
-			],
-			[
-				"authcontes",
-				"tests/AuthenticateControllerTest.php"
-			],
-			[
-				"",
-				"app/Http/Controllers/AuthenticateController.php"
-			],
-			[
-				"ptgene",
-				"resources/lang/pt-br/generico.php"
 			]
 		],
 		"width": 0.0
@@ -2323,8 +2976,28 @@
 				"~/www/webgas/ws-core/ws-core.sublime-project"
 			],
 			[
+				"wscore",
+				"~/www/webgas/ws-core/ws-core.sublime-project"
+			],
+			[
+				"wscire",
+				"~/www/ws-core/ws-core.sublime-workspace"
+			],
+			[
+				"webgasws",
+				"~/www/webgas/ws-core/ws-core.sublime-project"
+			],
+			[
+				"ws-co",
+				"~/www/webgas/ws-core/ws-core.sublime-project"
+			],
+			[
 				"ws",
-				"~/www/ws-core/ws-core.sublime-project"
+				"~/www/webgas/ws-core/ws-core.sublime-project"
+			],
+			[
+				"",
+				"~/www/webgas/ws-core/ws-core.sublime-project"
 			],
 			[
 				"resa",
@@ -2340,10 +3013,6 @@
 			],
 			[
 				"DOCKE",
-				"~/www/webgas/docker-ws-core/docker-ws-core.sublime-project"
-			],
-			[
-				"",
 				"~/www/webgas/docker-ws-core/docker-ws-core.sublime-project"
 			],
 			[
@@ -2371,16 +3040,8 @@
 				"~/www/resap/resap.sublime-project"
 			],
 			[
-				"ws-co",
-				"~/www/webgas/ws-core/ws-core.sublime-project"
-			],
-			[
 				"docker ",
 				"~/www/webgas/docker-ws-core/docker-ws-core.sublime-project"
-			],
-			[
-				"wscore",
-				"~/www/webgas/ws-core/ws-core.sublime-project"
 			],
 			[
 				"dc",
@@ -2454,7 +3115,7 @@
 	"show_open_files": false,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 323.0,
+	"side_bar_width": 285.0,
 	"status_bar_visible": true,
 	"template_settings":
 	{

@@ -159,6 +159,7 @@ return [
         // Auth0
         'Auth0\Login\LoginServiceProvider',
 
+        Dingo\Api\Provider\LaravelServiceProvider::class,
     ],
 
     /*
