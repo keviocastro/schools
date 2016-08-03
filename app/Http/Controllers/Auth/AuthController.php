@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\RequestAccess;
 use App\User;
 use Auth0;
 use Illuminate\Http\Request;
@@ -49,6 +50,11 @@ class AuthController extends Controller
      */
     public function requestAccess(Request $request)
     {   
-        return $this->response->noContent();
+        $request = RequestAccess::create([
+                'status' => 0, // Pendente
+                'auth0_user_id' => Auth0::jwtuser()->sub
+            ]);
+
+        return $request;
     }
 }

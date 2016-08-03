@@ -4,8 +4,11 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-$api->version('v1', ['middleware' => 'auth0.jwt'], function ($api) {
+$api->version('v1', function ($api) {
 
-	$api->get('auth/request-access', 'App\Http\Controllers\Auth\AuthController@requestAccess');
+	 $api->group(['middleware' => 'auth0.jwt'], function ($api) {
+        // Endpoints registered here will have the "foo" middleware applied.
+		$api->get('auth/request-access', 'App\Http\Controllers\Auth\AuthController@requestAccess');
+    });
 });
 
