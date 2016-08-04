@@ -2,8 +2,8 @@
 set -e
 
 if [ -z "$APP_URL" ]; then
-	APP_URL="http://localhost"
-	echo "Using APP_URL = http://localhost"
+	APP_URL="http://localhost/api/health"
+	echo "Using APP_URL = http://localhost/api/health"
 fi
 
 cmd="$1"
