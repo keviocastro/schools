@@ -12,5 +12,6 @@ $api->version('v1', function ($api) {
     });
 
 	$api->get('health', 'App\Http\Controllers\ApiController@health');
+	$api->get('health/db', 'App\Http\Controllers\ApiController@healthDatabase');
 });
 

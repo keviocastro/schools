@@ -1,6 +1,8 @@
 #!/bin/bash
 set -e
 
+source .env
+
 if [ -z "$APP_URL" ]; then
 	APP_URL="http://localhost"
 	echo "Using APP_URL = http://localhost"
