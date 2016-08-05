@@ -50,11 +50,18 @@ class AuthController extends Controller
      */
     public function requestAccess(Request $request)
     {   
-        $request = RequestAccess::create([
-                'status' => 0, // Pendente
-                'auth0_user_id' => Auth0::jwtuser()->sub
-            ]);
+        $auth0_user_id = Auth0::jwtuser()->sub;
+        $requestAccess = RequestAccess::
+            where('auth0_user_id', $auth0_user_id)
+            ->first();
 
-        return $request;
+        if (!$requestAccess) {
+            $requestAccess = RequestAccess::create([
+                    'status' => 0, // Pendente
+                    'auth0_user_id' => $auth0_user_id
+                ]);
+        }
+
+        return $requestAccess;
     }
 }
