@@ -1,24 +1,17 @@
 version: '2'
 services:
   web:
-    image: php:7
+    image: keviocastro/laravel:5.2
     depends_on:
       - db
     volumes:
-      - ".:/var/www/html/"
+      - ".:/var/app/"
     ports:
       - "80:80"
     links:
       - "db"
     expose:
       - "80"
-    working_dir: /var/www/html/
-    entrypoint:
-      - php 
-      - /var/www/html/artisan
-      - serve
-      - --host=0.0.0.0
-      - --port=80
   db:
     image: mysql:5.7
     ports:
