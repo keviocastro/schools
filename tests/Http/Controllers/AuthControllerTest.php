@@ -16,8 +16,9 @@ class AuthControllerTest extends TestCase
      */
     public function testRequestAccessSuccess()
     {   
-        $this->post('api/auth/request-access',
-            $this->getAutHeader())->dump()
+        $this->post('api/auth/request-access', 
+            [],
+            $this->getAutHeader())
         	->assertResponseStatus(200);
     }
 }
