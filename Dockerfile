@@ -1,4 +1,4 @@
-FROM php:7
+FROM keviocastro/
 COPY . /var/www/html/
 
 RUN cp /var/www/html/.env.example /var/www/html/.env 
