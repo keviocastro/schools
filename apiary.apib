@@ -1,39 +1,36 @@
 FORMAT: 1A
-HOST: http://polls.apiblueprint.org/
+HOST: http://docs.schools1.apiary.io/
 
 # schools
 
-Polls is a simple API allowing consumers to view polls and vote in them.
+Schools é uma api para manter informações sobre escolas e seus registros administrativos.
 
-## Questions Collection [/questions]
+## Auth Collection [/auth]
 
-### List All Questions [GET]
+### Request access [POST]
+
+Registra a solicitação de acesso do usuário.
+O usuário é registrado como papel (role) de convidado (guest),
+até que algum usuário que tenha permissão para liberação de usuários
+confirme a solicitação de acesso e atribua um novo papel (role ).
+
++ Request
+    + Headers
+    
+                Authorization: Bearer <token_id>
 
 + Response 200 (application/json)
 
-        [
-            {
-                "question": "Favourite programming language?",
-                "published_at": "2015-08-05T08:40:51.620Z",
-                "choices": [
-                    {
-                        "choice": "Swift",
-                        "votes": 2048
-                    }, {
-                        "choice": "Python",
-                        "votes": 1024
-                    }, {
-                        "choice": "Objective-C",
-                        "votes": 512
-                    }, {
-                        "choice": "Ruby",
-                        "votes": 256
-                    }
-                ]
-            }
-        ]
+        {
+            "id": 100,
+            "user_id": 10,
+            "status": 0,
+            "created_at": "2016-08-15 20:26:39",
+            "updated_at": "2016-08-15 21:26:39"
+            
+        }
 
-### Create a New Question [POST]
+### Create a New Question [GET]
 
 You may create your own question using this action. It takes a JSON
 object containing a question and a collection of answers in the
