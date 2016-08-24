@@ -1,24 +1,34 @@
 FORMAT: 1A
-HOST: http://docs.schools1.apiary.io/
+HOST: http://polls.apiblueprint.org/
 
-# schools
+# Schools API
 
 Schools é uma api para manter informações sobre escolas e seus registros administrativos.
 
-## Auth Collection [/auth]
+# Data Structures
 
-### Request access [POST]
+## School (object)
+
++ id (number) - Identificador unico da escola
++ name (string) - Nome da escola
+
+# Group Auth
+
+Ações relacionadas a autentificação, registro e manutenção de dados do perfil do usuário.
+
+## Request access [/auth/request-access]
+### Create a request access [POST]
 
 Registra a solicitação de acesso do usuário.
 O usuário é registrado como papel (role) de convidado (guest),
 até que algum usuário que tenha permissão para liberação de usuários
-confirme a solicitação de acesso e atribua um novo papel (role ).
+confirme a solicitação de acesso e atribua um novo papel (role).
 
 + Request
     + Headers
     
-                Authorization: Bearer <token_id>
-
+            Autorization: Bearer "token id"
+            
 + Response 200 (application/json)
 
         {
@@ -30,48 +40,222 @@ confirme a solicitação de acesso e atribua um novo papel (role ).
             
         }
 
-### Create a New Question [GET]
+# Group Schools
 
-You may create your own question using this action. It takes a JSON
-object containing a question and a collection of answers in the
-form of choices.
+Ações relacionadas a manter os dados das escolas (schools) e turmas.
+
+## Schools Collection [/schools]
+
+### List Schools [GET]
+
++ Request 
+    + Headers
+            
+            Autorization: Bearer "token id"
+
++ Response 200 (application/json)
+
+        [
+            {
+                "id": 1,
+                "name": "School name"
+            }
+        ]
+
+### Create a New School [POST]
+
++ Request 
+    + Headers
+            
+            Autorization: Bearer "token id"
 
 + Request (application/json)
 
         {
-            "question": "Favourite programming language?",
-            "choices": [
-                "Swift",
-                "Python",
-                "Objective-C",
-                "Ruby"
-            ]
+            "name": "School name"
         }
 
 + Response 201 (application/json)
 
     + Headers
 
-            Location: /questions/2
+            Location: /schools/1
 
     + Body
 
             {
-                "question": "Favourite programming language?",
-                "published_at": "2015-08-05T08:40:51.620Z",
-                "choices": [
-                    {
-                        "choice": "Swift",
-                        "votes": 0
-                    }, {
-                        "choice": "Python",
-                        "votes": 0
-                    }, {
-                        "choice": "Objective-C",
-                        "votes": 0
-                    }, {
-                        "choice": "Ruby",
-                        "votes": 0
+                "id": 1,
+                "created_at": "2015-08-05T08:40:51.620Z",
+                "updated_at": "2016-10-07T08:40:51.620Z"
+            }
+            
+## School [/schools/{school_id}]
+
++ Parameters
+    + school_id (number) - ID of the School
+
+### View a school detail [GET]
+
++ Request 
+    + Headers
+            
+            Autorization: Bearer "token id"
+
++ Response  200 (application/json)
+    
+        {
+            "id": 1,
+            "name: "School name"
+        }
+        
+        
+
+### Delete [DELETE]
+
++ Response 204
+
+### Edit [PUT]
+
++ Request 
+    + Headers
+            
+            Autorization: Bearer "token id"
+            
++ Response 200 (apllication/json)
+    
+    + Headers
+            
+            Location: /schools/1
+            
+    + Body
+            
+            {
+                "id": 1,
+                "name": "School name"
+            }
+
+        
+## Classes Collection [/classes]
+
+### List classes [GET]
+
++ Response 200 (apllication/json)
+
+    + Body
+    
+            [
+                {
+                    "id": 1,
+                    "identifier": "AB",
+                    "grade": {
+                        "id": 1,
+                        "name": "1st grade"
+                    },
+                    "shift": {
+                        "id": 1,
+                        "name": "Day shif"
                     }
-                ]
+                }
+            ]
+    
+### Create a new class [POST]
+
++ Request 
+    + Headers
+            
+            Autorization: Bearer "token id"
+            
+    + Body
+    
+            {
+                "identifier": "AB",
+                "grade_id": 1,
+                "shift_id": 1
+            }
+            
++ Response 200 (application/json) 
+    
+    + Body
+            
+            {
+                "id": 1,
+                "identifier": "AB",
+                "grade": {
+                    "id": 1,
+                    "name": "1st grade"
+                },
+                "shift": {
+                    "id": 1,
+                    "name": "Day shif"
+                }
+            }
+            
+
+## Class [/classes/{class_id}]
+
++ Parameters
+    - class_id (number) - ID of the class
+
+### View a class detail [GET]
+
++ Request 
+    + Headers
+
+            Autorization: Bearer "token id"
+
++ Response 200 (application/json)
+
+    + Body
+    
+            {
+                "id": 1,
+                "identifier": "AB",
+                "grade": {
+                    "id": 1,
+                    "name": "1st grade"
+                },
+                "shift": {
+                    "id": 1,
+                    "name": "Day shif"
+                }
+            }
+
+### Delete [DELETE]
+
++ Response 204
+
+### Edit [PUT]
+
++ Request 
+    + Headers
+            
+            Autorization: Bearer "token id"
+            
+    + Body 
+    
+            {
+                "identifier": "AB",
+                "grade_id": 1,
+                "shift_id": 1
+            }
+            
++ Response 200 (apllication/json)
+    
+    + Headers
+            
+            Location: /schools/1
+            
+    + Body
+            
+            {
+                "id": 1,
+                "identifier": "AB",
+                "grade": {
+                    "id": 1,
+                    "name": "1st grade"
+                },
+                "shift": {
+                    "id": 1,
+                    "name": "Day shif"
+                }
             }
