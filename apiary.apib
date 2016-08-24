@@ -278,6 +278,7 @@ Lista os eventos do usuário logado (identificado pelo "token id").
 
 + Response 200 (application/json)
 
+    + Attributes (Event)
             
 # Data structures 
 
@@ -299,8 +300,8 @@ Lista os eventos do usuário logado (identificado pelo "token id").
 
 ## Subject (object)
 
-+ id (number)
-+ name (string)
++ id (number) - Identificador único da disciplina
++ name (string) - Nome da disciplina. Ex.: Matématica, Português, Fisica.
 
 ## Lesson (object)
 
@@ -310,6 +311,10 @@ Lista os eventos do usuário logado (identificado pelo "token id").
 + subject (Subject)
 + start (Date)
 + end (Date)
+
+## Lessons (array)
+
++ (Lesson)
 
 ## Event (object)
 
