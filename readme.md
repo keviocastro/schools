@@ -10,7 +10,7 @@ APIs e ferramentas para você gerir dados de escolas, alunos, professores, matri
 
 ## Para ver a coisa funcionando:
 
-Você precisa ter essas ferramentas: [composer](https://getcomposer.org/download/) , [docker](https://docs.docker.com/v1.11/engine/installation/linux/ubuntulinux/) v1.1+ e [docker-compose](https://docs.docker.com/compose/install/) v1.6+.
+Requisitos: [composer](https://getcomposer.org/download/) , [docker](https://docs.docker.com/v1.11/engine/installation/linux/ubuntulinux/) v1.1+ e [docker-compose](https://docs.docker.com/compose/install/) v1.6+.
 
 ```sh
 $ git clone git@github.com:keviocastro/schools.git
