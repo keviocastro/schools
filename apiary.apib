@@ -259,3 +259,55 @@ Ações relacionadas a manter os dados das escolas (schools) e turmas.
                     "name": "Day shif"
                 }
             }
+            
+# Group Events
+
+Ações relacionadas a manipulação de eventos atribuidos aos usuários.
+Um evento pode ser qualquer atividade programada em uma data, tais como: aulas, reuniões....
+
+## Events Collection [/events]
+
+### List events [GET]
+
+Lista os eventos do usuário logado (identificado pelo "token id")
+
++ Request 
+    + Headers
+            
+            Autorization: Bearer "token id"
+
++ Response 200 (application/json)
+
+    + Body
+    
+            {
+                "id": 1,
+                "type": "lesson",
+                "event": {
+                    "id": 1,
+                    "subject": {
+                        "name": "Mathematics"
+                    },
+                    "class": {
+                        "id": 1,
+                        "identifier": "AB"
+                    }
+                }
+            }
+            
+# Data structures 
+
+## Class (object)
+
++ id (number) - Identificador único da classe
++ identifier (string) - Abreviação/identificação da turma. Exmplo: B, para segunda turma 1do 1º ano (de 1 Ano B).
+
+## Grade (object)
+
++ id (number) - Identificador único de um ano estudantíl. 
++ name (string) - Nome do ano estudantíl. Exemplos: 2 Ano, 3 Ano, Jardim I, Jardim II.
+
+## Shift (object)
+
++ id (number) - Identificador único do turno.
++ name (string) - Nome do turno. Exmplo: Vespertino, matutino, noturno.
