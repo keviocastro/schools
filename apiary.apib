@@ -269,7 +269,7 @@ Um evento pode ser qualquer atividade programada em uma data, tais como: aulas, 
 
 ### List events [GET]
 
-Lista os eventos do usuário logado (identificado pelo "token id")
+Lista os eventos do usuário logado (identificado pelo "token id").
 
 + Request 
     + Headers
@@ -278,22 +278,6 @@ Lista os eventos do usuário logado (identificado pelo "token id")
 
 + Response 200 (application/json)
 
-    + Body
-    
-            {
-                "id": 1,
-                "type": "lesson",
-                "event": {
-                    "id": 1,
-                    "subject": {
-                        "name": "Mathematics"
-                    },
-                    "class": {
-                        "id": 1,
-                        "identifier": "AB"
-                    }
-                }
-            }
             
 # Data structures 
 
@@ -311,3 +295,31 @@ Lista os eventos do usuário logado (identificado pelo "token id")
 
 + id (number) - Identificador único do turno.
 + name (string) - Nome do turno. Exmplo: Vespertino, matutino, noturno.
+
+
+## Subject (object)
+
++ id (number)
++ name (string)
+
+## Lesson (object)
+
++ id (number)
++ date (Date)
++ class (Class)
++ subject (Subject)
++ start (Date)
++ end (Date)
+
+## Event (object)
+
++ id (number)
++ type (string) 
++ source (Lesson)
+
+
+## Date (object)
+
++ date (string)
++ datetime (number)
++ timeZone (string)
