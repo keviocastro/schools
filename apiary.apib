@@ -278,13 +278,13 @@ Lista os eventos do usuário logado.
 
 + Response 200 (application/json)
 
-    + Attributes (Event)
+    + Attributes (Events)
             
 # Data structures 
 
 ## Class (object)
 
-+ id: 1 (number) - Identificador único da classe
++ id: 1 (number) - Identificador único da classe.
 + identifier: A (string) - Abreviação/identificação da turma. Exmplo: B, para segunda turma do 1º ano (de 1 Ano B).
 
 ## Grade (object)
@@ -300,17 +300,17 @@ Lista os eventos do usuário logado.
 
 ## Subject (object)
 
-+ id: 1 (number) - Identificador único da disciplina
++ id: 1 (number) - Identificador único da disciplina.
 + name: Matématica  (string) - Nome da disciplina. Ex.: Matématica, Português, Fisica.
 
 ## Lesson (object)
 
-+ id: 1 (number)
-+ date (Date)
-+ class (Class)
-+ subject (Subject)
-+ start (Date)
-+ end (Date)
++ id: 1 (number) - Identificador único  da aula.
++ date (Date) - Data da aual.
++ class (Class) - Turma onde a aula será aplicada.
++ subject (Subject) - Disciplina (Matématica, física, ...).
++ start (Date) - Data e horário de inicio da aula.
++ end (Date) - Data e horário de termino da aula.
 
 ## Lessons (array)
 
@@ -318,10 +318,13 @@ Lista os eventos do usuário logado.
 
 ## Event (object)
 
-+ id: 1 (number)
-+ type: lesson (string) 
-+ source (Lesson)
++ id: 1 (number) - Identificador único do evento.
++ source (Lesson) - Objeto da atividade que gerou o evento. Exemplo: aula, reunião de professores, fechamento de notas do bimeste, etc.
 
+
+## Events (array)
+
++ (Event)
 
 ## Date (object)
 
