@@ -260,16 +260,13 @@ Ações relacionadas a manter os dados das escolas (schools) e turmas.
                 }
             }
             
-# Group Events
+# Group Lessons
 
-Ações relacionadas a manipulação de eventos atribuidos aos usuários.
-Um evento pode ser qualquer atividade programada em uma data, tais como: aulas, reuniões....
+Ações relacionadas de programação de aulas.
 
-## Events Collection [/events]
+## Lessons Collection [/lessons]
 
-### List events [GET]
-
-Lista os eventos do usuário logado.
+### List lessons [GET]
 
 + Request 
     + Headers
@@ -278,13 +275,13 @@ Lista os eventos do usuário logado.
 
 + Response 200 (application/json)
 
-    + Attributes (Events)
+    + Attributes (Lessons)
             
 # Data structures 
 
 ## Class (object)
 
-+ id: 1 (number) - Identificador único da classe.
++ id: 1 (number) - Identificador único da turma.
 + identifier: A (string) - Abreviação/identificação da turma. Exmplo: B, para segunda turma do 1º ano (de 1 Ano B).
 
 ## Grade (object)
@@ -316,15 +313,6 @@ Lista os eventos do usuário logado.
 
 + (Lesson)
 
-## Event (object)
-
-+ id: 1 (number) - Identificador único do evento.
-+ source (Lesson) - Objeto da atividade que gerou o evento. Exemplo: aula, reunião de professores, fechamento de notas do bimeste, etc.
-
-
-## Events (array)
-
-+ (Event)
 
 ## Date (object)
 
