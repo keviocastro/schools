@@ -284,28 +284,28 @@ Lista os eventos do usuário logado (identificado pelo "token id").
 
 ## Class (object)
 
-+ id (number) - Identificador único da classe
-+ identifier (string) - Abreviação/identificação da turma. Exmplo: B, para segunda turma 1do 1º ano (de 1 Ano B).
++ id: 1 (number) - Identificador único da classe
++ identifier: A (string) - Abreviação/identificação da turma. Exmplo: B, para segunda turma do 1º ano (de 1 Ano B).
 
 ## Grade (object)
 
-+ id (number) - Identificador único de um ano estudantíl. 
-+ name (string) - Nome do ano estudantíl. Exemplos: 2 Ano, 3 Ano, Jardim I, Jardim II.
++ id: 1 (number) - Identificador único de um ano estudantíl. 
++ name: 3 Ano (string) - Nome do ano estudantíl. Exemplos: 2 Ano, 3 Ano, Jardim I, Jardim II.
 
 ## Shift (object)
 
-+ id (number) - Identificador único do turno.
-+ name (string) - Nome do turno. Exmplo: Vespertino, matutino, noturno.
++ id: 1 (number) - Identificador único do turno.
++ name: Matutino (string) - Nome do turno. Exmplo: Vespertino, matutino, noturno.
 
 
 ## Subject (object)
 
-+ id (number) - Identificador único da disciplina
-+ name (string) - Nome da disciplina. Ex.: Matématica, Português, Fisica.
++ id: 1 (number) - Identificador único da disciplina
++ name: Matématica  (string) - Nome da disciplina. Ex.: Matématica, Português, Fisica.
 
 ## Lesson (object)
 
-+ id (number)
++ id: 1 (number)
 + date (Date)
 + class (Class)
 + subject (Subject)
@@ -318,13 +318,13 @@ Lista os eventos do usuário logado (identificado pelo "token id").
 
 ## Event (object)
 
-+ id (number)
-+ type (string) 
++ id: 1 (number)
++ type: lesson (string) 
 + source (Lesson)
 
 
 ## Date (object)
 
-+ date (string)
-+ datetime (number)
-+ timeZone (string)
++ date: 2016-08-25T16:53:48+00:00 (string)
++ datetime: 1472143991 (number)
++ timeZone: America/Sao_Paulo (string)
