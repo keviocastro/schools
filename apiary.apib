@@ -5,13 +5,6 @@ HOST: http://polls.apiblueprint.org/
 
 Schools é uma api para manter informações sobre escolas e seus registros administrativos.
 
-# Data Structures
-
-## School (object)
-
-+ id (number) - Identificador unico da escola
-+ name (string) - Nome da escola
-
 # Group Auth
 
 Ações relacionadas a autentificação, registro e manutenção de dados do perfil do usuário.
@@ -55,12 +48,7 @@ Ações relacionadas a manter os dados das escolas (schools) e turmas.
 
 + Response 200 (application/json)
 
-        [
-            {
-                "id": 1,
-                "name": "School name"
-            }
-        ]
+    + Attributes (Schools)
 
 ### Create a New School [POST]
 
@@ -71,9 +59,7 @@ Ações relacionadas a manter os dados das escolas (schools) e turmas.
 
 + Request (application/json)
 
-        {
-            "name": "School name"
-        }
+    + Attributes (SchoolFillable)
 
 + Response 201 (application/json)
 
@@ -81,13 +67,7 @@ Ações relacionadas a manter os dados das escolas (schools) e turmas.
 
             Location: /schools/1
 
-    + Body
-
-            {
-                "id": 1,
-                "created_at": "2015-08-05T08:40:51.620Z",
-                "updated_at": "2016-10-07T08:40:51.620Z"
-            }
+    + Attributes (School)
             
 ## School [/schools/{school_id}]
 
@@ -102,76 +82,50 @@ Ações relacionadas a manter os dados das escolas (schools) e turmas.
             Autorization: Bearer "token id"
 
 + Response  200 (application/json)
-    
-        {
-            "id": 1,
-            "name: "School name"
-        }
-        
-        
 
-### Delete [DELETE]
-
-+ Response 204
+    + Attributes (School)
+        
 
 ### Edit [PUT]
 
-+ Request 
++ Request (application/json)
+
     + Headers
             
             Autorization: Bearer "token id"
             
-+ Response 200 (apllication/json)
+    + Attributes (SchoolFillable)
+            
++ Response 200 (application/json)
     
     + Headers
             
             Location: /schools/1
             
-    + Body
-            
-            {
-                "id": 1,
-                "name": "School name"
-            }
+    + Attributes (School)
+
+
+### Delete [DELETE]
+
++ Response 204
 
         
 ## Classes Collection [/classes]
 
 ### List classes [GET]
 
-+ Response 200 (apllication/json)
++ Response 200 (application/json)
 
-    + Body
-    
-            [
-                {
-                    "id": 1,
-                    "identifier": "AB",
-                    "grade": {
-                        "id": 1,
-                        "name": "1st grade"
-                    },
-                    "shift": {
-                        "id": 1,
-                        "name": "Day shif"
-                    }
-                }
-            ]
+    + Attributes (Classes)
     
 ### Create a new class [POST]
 
-+ Request 
++ Request (application/json)
     + Headers
             
             Autorization: Bearer "token id"
             
-    + Body
-    
-            {
-                "identifier": "AB",
-                "grade_id": 1,
-                "shift_id": 1
-            }
+    + Attributes (ClassFillable)
             
 + Response 200 (application/json) 
     
@@ -279,10 +233,29 @@ Ações relacionadas de programação de aulas.
             
 # Data structures 
 
-## Class (object)
+## SchoolFillable (object)
+
++ name: Escola luz do saber (string) - Nome da escola
+
+## School (SchoolFillable)
+
++ id (number) - Identificador único da escola
+
+## Schools (array)
+
++ (School)
+
+## ClassFillable (object)
+
++ identifier: A (string) - Abreviação/identificação da turma. Exmplo: B, para segunda turma do 1º ano (de 1 Ano B).
+
+## Class (ClassFillable)
 
 + id: 1 (number) - Identificador único da turma.
-+ identifier: A (string) - Abreviação/identificação da turma. Exmplo: B, para segunda turma do 1º ano (de 1 Ano B).
+
+## Classes (array)
+
++ (Class)
 
 ## Grade (object)
 
