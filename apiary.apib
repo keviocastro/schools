@@ -129,20 +129,7 @@ Ações relacionadas a manter os dados das escolas (schools) e turmas.
             
 + Response 200 (application/json) 
     
-    + Body
-            
-            {
-                "id": 1,
-                "identifier": "AB",
-                "grade": {
-                    "id": 1,
-                    "name": "1st grade"
-                },
-                "shift": {
-                    "id": 1,
-                    "name": "Day shif"
-                }
-            }
+    + Attributes (Class)
             
 
 ## Class [/classes/{class_id}]
@@ -159,24 +146,8 @@ Ações relacionadas a manter os dados das escolas (schools) e turmas.
 
 + Response 200 (application/json)
 
-    + Body
-    
-            {
-                "id": 1,
-                "identifier": "AB",
-                "grade": {
-                    "id": 1,
-                    "name": "1st grade"
-                },
-                "shift": {
-                    "id": 1,
-                    "name": "Day shif"
-                }
-            }
+    + Attributes (Class)
 
-### Delete [DELETE]
-
-+ Response 204
 
 ### Edit [PUT]
 
@@ -185,34 +156,20 @@ Ações relacionadas a manter os dados das escolas (schools) e turmas.
             
             Autorization: Bearer "token id"
             
-    + Body 
-    
-            {
-                "identifier": "AB",
-                "grade_id": 1,
-                "shift_id": 1
-            }
+    + Attributes (ClassFillable)
             
-+ Response 200 (apllication/json)
++ Response 200 (application/json)
     
     + Headers
             
             Location: /schools/1
             
-    + Body
+    + Attributes (Classes)
+
             
-            {
-                "id": 1,
-                "identifier": "AB",
-                "grade": {
-                    "id": 1,
-                    "name": "1st grade"
-                },
-                "shift": {
-                    "id": 1,
-                    "name": "Day shif"
-                }
-            }
+### Delete [DELETE]
+
++ Response 204
             
 # Group Lessons
 
@@ -245,13 +202,20 @@ Ações relacionadas de programação de aulas.
 
 + (School)
 
-## ClassFillable (object)
+## ClassBase (object)
 
 + identifier: A (string) - Abreviação/identificação da turma. Exmplo: B, para segunda turma do 1º ano (de 1 Ano B).
 
-## Class (ClassFillable)
+## ClassFillable (ClassBase)
+
++ grade_id: 1 (number) - Id do ano estudantíl.
++ shift_id: 1 (number) - Id do turno.
+
+## Class (ClassBase)
 
 + id: 1 (number) - Identificador único da turma.
++ grade (Grade) - Ano estudantíl (Jardim I/1º Ano/...) da turma.
++ schift (Shift) - Turno (vespertino/matutino/...) da turma.
 
 ## Classes (array)
 
