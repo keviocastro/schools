@@ -7,8 +7,6 @@ use Tests\TestCase;
 
 class AuthControllerTest extends TestCase
 {
-	// use WithoutMiddleware;
-
     /**
      * @covers App\Http\Controllers\Auth\AuthController::requestAccess
      *
@@ -18,7 +16,7 @@ class AuthControllerTest extends TestCase
     {   
         $this->post('api/auth/request-access', 
             [],
-            $this->getAutHeader())
+            $this->getAutHeader())->dump()
         	->assertResponseStatus(200);
     }
 }

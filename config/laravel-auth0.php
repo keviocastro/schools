@@ -3,9 +3,11 @@
 return array(
 
     /**
-     * Token ID for environment test
+     * Credenciais para autentificação de usuário utilizado
+     * na automatização de testes
      */
-    'token_id_test' => env('AUTH0_TOKEN_ID_TEST'),
+    'email_user_tester' => env('AUTH0_EMAIL_USER_TESTER'),
+    'pass_user_tester' => env('AUTH0_PASS_USER_TESTER'),
 
     /*
     |--------------------------------------------------------------------------

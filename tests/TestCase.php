@@ -2,6 +2,7 @@
 
 namespace Tests;
 
+use Auth0\SDK\Auth0AuthApi;
 use Illuminate\Foundation\Testing\TestCase as TestCaseLara;
 use Config;
 
@@ -36,7 +37,30 @@ class TestCase extends TestCaseLara
      */
     public function getAutHeader()
     {
-        $token_id = Config::get('laravel-auth0.token_id_test');
-        return ['authorization' => "Bearer $token_id"];
+        $tokens = $this->getTokenUserTester();
+        return ['authorization' => "Bearer {$tokens['id_token']}"];
+    }
+
+    /**
+     * Obtem o token_id e access_token 
+     * do usuário para automatização de testes
+     * 
+     * 
+     * @return array tokens
+     */
+    public function getTokenUserTester()
+    {
+        $auth0Api = new Auth0AuthApi(
+            Config::get('laravel-auth0.domain'), 
+            Config::get('laravel-auth0.client_id'), 
+            Config::get('laravel-auth0.client_secret'));
+        
+        $tokens = $auth0Api->authorize_with_ro(
+            Config::get('laravel-auth0.email_user_tester'),
+            Config::get('laravel-auth0.pass_user_tester'),
+            'openid',
+            'Username-Password-Authentication');
+        
+        return $tokens;
     }
 }
