@@ -9,6 +9,7 @@ $api->version('v1', function ($api) {
 	 $api->group(['middleware' => 'auth0.jwt'], function ($api) {
         // Endpoints registered here will have the "foo" middleware applied.
 		$api->post('auth/request-access', 'App\Http\Controllers\Auth\AuthController@requestAccess');
+		$api->post('schools', 'App\Http\Controllers\SchoolController@store');
     });
 
 	$api->get('health', 'App\Http\Controllers\ApiController@health');
