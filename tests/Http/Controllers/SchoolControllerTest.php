@@ -34,4 +34,14 @@ class SchoolControllerTest extends TestCase
             $this->getAutHeader())
             ->assertResponseStatus(200);
     }
+
+    public function testShow()
+    {
+        $school = factory(App\School::class)->create();
+
+        $this->get("api/schools/{$school->id}",
+            $this->getAutHeader())->dump()
+            ->assertResponseStatus(200)
+            ->seeJson($school->toArray());
+    }
 }
