@@ -50,8 +50,7 @@ Ações relacionadas a manter os dados das escolas (schools) e turmas.
 
 + Response 200 (application/json)
 
-    + Attributes 
-        + school (Schools)
+    + Attributes (SchoolsPaginator)
 
 ### Create a New School [POST]
 
@@ -223,6 +222,11 @@ Ações relacionadas de programação de aulas.
 ## Schools (array)
 
 + (School)
+
+## SchoolsPaginator
+
++ Include (Paginator)
++ data (Schools)
 
 ## ClassBase (object)
 
