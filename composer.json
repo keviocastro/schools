@@ -9,7 +9,8 @@
         "php": ">=5.5.9",
         "laravel/framework": "5.2.*",
         "auth0/login": "~3.0",
-        "dingo/api": "1.0.x@dev"
+        "dingo/api": "1.0.x@dev",
+        "marcelgwerder/laravel-api-handler": "dev-master"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

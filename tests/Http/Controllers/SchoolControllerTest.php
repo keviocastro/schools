@@ -22,4 +22,16 @@ class SchoolControllerTest extends TestCase
         	->assertResponseStatus(201)
         	->seeJson($school);
     }
+
+    /**
+     * @covers SchoolController::index
+     * 
+     * @return void
+     */
+    public function testIndex()
+    {
+        $this->get('api/schools',
+            $this->getAutHeader())
+            ->assertResponseStatus(200);
+    }
 }
