@@ -21,7 +21,8 @@ confirme a solicitação de acesso e atribua um novo papel (role).
     + Headers
     
             Autorization: Bearer "token id"
-            
+    
+    
 + Response 200 (application/json)
     
     + Attributes 
@@ -39,10 +40,16 @@ confirme a solicitação de acesso e atribua um novo papel (role).
 
 Ações relacionadas a manter os dados das escolas (schools) e turmas.
 
-## Schools Collection [/schools]
+## Schools Collection [/schools{?_limit,_q,_sort,field}]
 
 ### List Schools [GET]
 
++ Parameters
+    + _q (string, optional) - Fulltext search
+    + _sort (string, optional) - Nome da coluna para ordenação. 
+    + _limit (number, optional) - Limite por página
+    + field (string, optional) - Veja [Doc de filtros](https://github.com/keviocastro/laravel-api-handler#filtering)
+        
 + Request 
     + Headers
             
