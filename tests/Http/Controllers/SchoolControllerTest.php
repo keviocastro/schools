@@ -35,13 +35,49 @@ class SchoolControllerTest extends TestCase
             ->assertResponseStatus(200);
     }
 
+    /**
+     * @covers SchoolController::show
+     * 
+     * @return void
+     */
     public function testShow()
     {
         $school = factory(App\School::class)->create();
 
         $this->get("api/schools/{$school->id}",
-            $this->getAutHeader())->dump()
+            $this->getAutHeader())
             ->assertResponseStatus(200)
             ->seeJson($school->toArray());
+    }
+
+    /**
+     * @covers SchoolController::destroy
+     * 
+     * @return void
+     */
+    public function testDestroy()
+    {
+        $school = factory(App\School::class)->create();
+
+        $this->delete("api/schools/{$school->id}",
+            [],
+            $this->getAutHeader())
+            ->assertResponseStatus(204);
+    }
+
+    /**
+     * @covers SchoolController::update
+     * 
+     * @return void
+     */
+    public function testUpdate()
+    {
+        $school = factory(App\School::class)->create()->toArray();
+
+        $this->put("api/schools/{$school['id']}",
+            $school,
+            $this->getAutHeader())
+            ->assertResponseStatus(200)
+            ->seeJson($school);
     }
 }

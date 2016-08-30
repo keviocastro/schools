@@ -15,6 +15,8 @@ $api->version('v1', function ($api) {
 		$api->get('schools', 'App\Http\Controllers\SchoolController@index');
 		$api->get('schools/{school_id}', 'App\Http\Controllers\SchoolController@show');
 		$api->post('schools', 'App\Http\Controllers\SchoolController@store');
+		$api->put('schools/{school_id}', 'App\Http\Controllers\SchoolController@update');
+		$api->delete('schools/{school_id}', 'App\Http\Controllers\SchoolController@destroy');
     
     });
 
