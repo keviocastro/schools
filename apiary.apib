@@ -21,7 +21,8 @@ confirme a solicitação de acesso e atribua um novo papel (role).
     + Headers
     
             Autorization: Bearer "token id"
-            
+    
+    
 + Response 200 (application/json)
     
     + Attributes 
@@ -39,10 +40,16 @@ confirme a solicitação de acesso e atribua um novo papel (role).
 
 Ações relacionadas a manter os dados das escolas (schools) e turmas.
 
-## Schools Collection [/schools]
+## Schools Collection [/schools{?_limit,_q,_sort,field}]
 
 ### List Schools [GET]
 
++ Parameters
+    + _q (string, optional) - Fulltext search
+    + _sort (string, optional) - Nome da coluna para ordenação. 
+    + _limit (number, optional) - Limite por página
+    + field (string, optional) - Veja [Doc de filtros](https://github.com/keviocastro/laravel-api-handler#filtering)
+        
 + Request 
     + Headers
             
@@ -50,7 +57,7 @@ Ações relacionadas a manter os dados das escolas (schools) e turmas.
 
 + Response 200 (application/json)
 
-    + Attributes (Schools)
+    + Attributes (SchoolsPaginator)
 
 ### Create a New School [POST]
 
@@ -111,6 +118,22 @@ Ações relacionadas a manter os dados das escolas (schools) e turmas.
 ### Delete [DELETE]
 
 + Response 204
+
+# Group Person
+
+## Students Collection [/students]
+
+### List students [GET]
+
++ Request (application/json)
+    + Headers
+            
+            Autorization: Bearer "token id"
+
++ Response 200 (application/json)
+
+    + Attributes (StudentsPaginator)
+
 
         
 ## Classes Collection [/classes]
@@ -199,11 +222,18 @@ Ações relacionadas de programação de aulas.
 
 ## School (SchoolFillable)
 
-+ id (number) - Identificador único da escola
++ id: 1 (number) - Identificador único da escola
++ updated_at: `2016-08-30 13:17:11` (string) - Data da ultima alteração da escola
++ created_at: `2016-08-30 13:17:11` (string) - Data de cadastro
 
 ## Schools (array)
 
 + (School)
+
+## SchoolsPaginator
+
++ Include (Paginator)
++ data (Schools)
 
 ## ClassBase (object)
 
@@ -252,6 +282,55 @@ Ações relacionadas de programação de aulas.
 ## Lessons (array)
 
 + (Lesson)
+
+## Student (object)
+
++ name: Caio Fernando Chaves (string) - Nome
++ age: 15 (number) - Idade
++ birthday: `2001-04-21` (string) - Data de aniversário
++ class (Class)
++ piture: `https://randomuser.me/api/portraits/lego/6.jpg` (string) - Foto
++ gender: male (string)
++ responsible (array)
+    + (object)
+        + name: Maria ferreira da silva (string)  
+    + (object)
+        + name: Ântonio Carlos Benutino (string)
++ `place_of_birth` (City)
++ more: É filho de pais divorciados. Reside a avó materna (string)
+
+## Students (array)
+
++ (Student)
+
+## StudentsPaginator
+
++ Include Paginator
++ data (array) 
+    + (Student)
+
+## Paginator (object)
+
++ total: 25 (number) - Total de resultados encontrados
++ per_page: 15 (number) - Quantidade de resultados por página
++ current_page: 1 (number) - Página atual
++ last_page: 2 (number) - Ultima página
++ next_page_url: `http://localhost/api/<resource>?page=2` (string) - Url para resultados da proxima página
++ prev_page_url: null (string) - Url para resultados da página anterior
++ from: 1 (number) - Número inicial de resultados de paginação da página atual
++ to: 15 (number) - Número final de resultados de paginação da página atual
+
+## City (object)
+
++ id: 1 (number) - Identificador único da cidade
++ name: Goiânia (string) - Nome da cidade
++ state (State)
+
+## State (object)
+
++ id: 1 (number) - Identificador único do estado
++ name: Goiás (string) - Nome
++ code: GO (string) - Código de unidade federativa
 
 
 ## Date (object)
