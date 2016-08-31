@@ -12,7 +12,11 @@ use Marcelgwerder\ApiHandler\ApiHandler;
 
 class Controller extends BaseController
 {
-    use AuthorizesRequests, AuthorizesResources, DispatchesJobs, ValidatesRequests;
+    use AuthorizesRequests, 
+        AuthorizesResources, 
+        DispatchesJobs, 
+        ValidatesRequests,
+        Helpers;
 
     /**
      * Ppi to work with filter parameters, search, sort and limits methodos listing.
