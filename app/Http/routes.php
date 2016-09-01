@@ -18,6 +18,10 @@ $api->version('v1', function ($api) {
 		$api->put('schools/{school_id}', 'App\Http\Controllers\SchoolController@update');
 		$api->delete('schools/{school_id}', 'App\Http\Controllers\SchoolController@destroy');
     
+    	// Persons
+		$api->get('students', 'App\Http\Controllers\StudentController@index');
+    	
+    	
     });
 
 	$api->get('health', 'App\Http\Controllers\ApiController@health');

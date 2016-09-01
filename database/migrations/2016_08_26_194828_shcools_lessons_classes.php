@@ -21,19 +21,22 @@ class ShcoolsLessonsClasses extends Migration
         Schema::create('grades', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
+            $table->timestamps();
         });
 
         Schema::create('shifts', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
+            $table->timestamps();
         });
 
         Schema::create('subjects', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
+            $table->timestamps();
         });
 
-        Schema::create('classes', function (Blueprint $table) {
+        Schema::create('school_classes', function (Blueprint $table) {
             $table->increments('id');
             $table->string('identifier');
             $table->unsignedInteger('grade_id');
@@ -48,13 +51,13 @@ class ShcoolsLessonsClasses extends Migration
 
         Schema::create('lessons', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('class_id');
+            $table->unsignedInteger('school_class_id');
             $table->unsignedInteger('subject_id');
             $table->dateTime('start');
             $table->dateTime('end');
             $table->timestamps();
 
-            $table->foreign('class_id')->references('id')->on('classes');
+            $table->foreign('school_class_id')->references('id')->on('school_classes');
             $table->foreign('subject_id')->references('id')->on('subjects');
         });
     }
@@ -69,7 +72,7 @@ class ShcoolsLessonsClasses extends Migration
         $tables = [
             'schools',
             'lessons',
-            'classes',
+            'school_classes',
             'grades',
             'shifts',
             'subjects',

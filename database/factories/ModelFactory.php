@@ -11,17 +11,78 @@
 |
 */
 
-$factory->define(App\User::class, function (Faker\Generator $faker) {
-    return [
-        'name' => $faker->name,
-        'email' => $faker->safeEmail,
-        'password' => bcrypt(str_random(10)),
-        'remember_token' => str_random(10),
-    ];
-});
+$faker = Faker\Factory::create('pt_BR');
 
-$factory->define(App\School::class, function (Faker\Generator $faker) {
+$factory->define(App\School::class, function () use ($factory, $faker) {
     return [
         'name' => $faker->company.' school',
     ];
 });
+
+
+$factory->define(App\SchoolClass::class, function () use ($factory, $faker) {
+    return [
+        'identifier' => $faker->randomLetter(),
+        'shift_id' => function(){
+        	return factory(App\Shift::class)->create()->id;
+        },
+        'grade_id' => function(){
+        	return factory(App\Grade::class)->create()->id;
+        },
+    ];
+});
+
+$factory->define(App\Shift::class, function () use ($factory, $faker) {
+    return [
+        'name' => $faker->randomElement(['matutino','noturno','vespertino']),
+    ];
+});
+
+$factory->define(App\Grade::class, function () use ($factory, $faker) {
+    return [
+        'name' => $faker->randomElement([
+        		'Jardim I',
+        		'Jardim II',
+        		'1º Ano - fundamental I',
+        		'2º Ano - fundamental I',
+        		'3º Ano - fundamental I',
+        		'4º Ano - fundamental I',
+        		'5º Ano - fundamental II',
+        		'6º Ano - fundamental II',
+        		'7º Ano - fundamental II',
+        		'8º Ano - fundamental II',
+        		'9º Ano - fundamental II',
+        		'1º Ano - Esino médio',
+        		'2º Ano - Esino médio',
+        		'3º Ano - Esino médio',
+        	]),
+    ];
+});
+
+
+$factory->define(App\Person::class, function () use ($factory, $faker) {
+    
+    $gender = $faker->randomElement(['female' ,'male']);
+
+    return [
+    	'name' => $faker->name($gender), 
+    	'birthday' => $faker->dateTimeThisCentury->format('Y-m-d'), 
+    	'gender' => $gender, 
+    	'place_of_birth' => $faker->city, 
+    	'more' => $faker->text(),
+    	];
+});
+
+$factory->define(App\Student::class, function ($faker) use ($factory) {
+    
+    return [
+	    	'person_id' => function(){
+	    		return 	factory(App\Person::class)->create()->id;
+	    	},
+	    	'school_class_id' => function(){
+	    		return factory(App\SchoolClass::class)->create()->id;
+	    	}
+    	];
+});
+
+

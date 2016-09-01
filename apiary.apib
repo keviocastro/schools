@@ -129,7 +129,7 @@ Ações relacionadas a manter os dados das escolas (schools) e turmas.
 + Response 204
 
 
-# Group Person
+# Group Persons
 
 ## Students Collection [/students]
 
@@ -146,13 +146,13 @@ Ações relacionadas a manter os dados das escolas (schools) e turmas.
 
 
         
-## Classes Collection [/classes]
+## School Classes Collection [/school-classes]
 
-### List classes [GET]
+### List School Classes [GET]
 
 + Response 200 (application/json)
 
-    + Attributes (Classes)
+    + Attributes (SchoolClasses)
     
 ### Create a new class [POST]
 
@@ -161,19 +161,19 @@ Ações relacionadas a manter os dados das escolas (schools) e turmas.
             
             authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ3NTM0MDYzNywiaWF0IjoxNDcyNzQ4NjM3fQ.YPYoloAKQ6seizoGxnT6YSQPRjX1HoPLcfUC68Msm3g
             
-    + Attributes (ClassFillable)
+    + Attributes (SchoolClassFillable)
             
 + Response 200 (application/json) 
     
-    + Attributes (Class)
+    + Attributes (SchoolClass)
             
 
-## Class [/classes/{class_id}]
+## School Class [/classes/{class_id}]
 
 + Parameters
-    - class_id (number) - ID of the class
+    - school_class_id (number) - ID of the school class
 
-### View a class detail [GET]
+### View a school class detail [GET]
 
 + Request 
     + Headers
@@ -182,7 +182,7 @@ Ações relacionadas a manter os dados das escolas (schools) e turmas.
 
 + Response 200 (application/json)
 
-    + Attributes (Class)
+    + Attributes (SchoolClass)
 
 
 ### Edit [PUT]
@@ -192,11 +192,11 @@ Ações relacionadas a manter os dados das escolas (schools) e turmas.
             
             authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ3NTM0MDYzNywiaWF0IjoxNDcyNzQ4NjM3fQ.YPYoloAKQ6seizoGxnT6YSQPRjX1HoPLcfUC68Msm3g
             
-    + Attributes (ClassFillable)
+    + Attributes (SchoolClassFillable)
             
 + Response 200 (application/json)
     
-    + Attributes (Classes)
+    + Attributes (SchoolClasses)
 
             
 ### Delete [DELETE]
@@ -241,24 +241,24 @@ Ações relacionadas de programação de aulas.
 + Include (Paginator)
 + data (Schools)
 
-## ClassBase (object)
+## SchoolClassBase (object)
 
 + identifier: A (string) - Abreviação/identificação da turma. Exmplo: B, para segunda turma do 1º ano (de 1 Ano B).
 
-## ClassFillable (ClassBase)
+## SchoolClassFillable (SchoolClass)
 
 + grade_id: 1 (number) - Id do ano estudantíl.
 + shift_id: 1 (number) - Id do turno.
 
-## Class (ClassBase)
+## SchoolClass (SchoolClassBase)
 
 + id: 1 (number) - Identificador único da turma.
 + grade (Grade) - Ano estudantíl (Jardim I/1º Ano/...) da turma.
 + schift (Shift) - Turno (vespertino/matutino/...) da turma.
 
-## Classes (array)
+## SchoolClasses (array)
 
-+ (Class)
++ (SchoolClass)
 
 ## Grade (object)
 
@@ -280,7 +280,7 @@ Ações relacionadas de programação de aulas.
 
 + id: 1 (number) - Identificador único  da aula.
 + date (Date) - Data da aual.
-+ class (Class) - Turma onde a aula será aplicada.
++ class (SchoolClass) - Turma onde a aula será aplicada.
 + subject (Subject) - Disciplina (Matématica, física, ...).
 + start (Date) - Data e horário de inicio da aula.
 + end (Date) - Data e horário de termino da aula.
@@ -289,21 +289,23 @@ Ações relacionadas de programação de aulas.
 
 + (Lesson)
 
-## Student (object)
+## Person (object)
 
++ id: 1 (number) - Identificador único da pessoa
 + name: Caio Fernando Chaves (string) - Nome
 + age: 15 (number) - Idade
 + birthday: `2001-04-21` (string) - Data de aniversário
-+ class (Class)
 + piture: `https://randomuser.me/api/portraits/lego/6.jpg` (string) - Foto
 + gender: male (string)
++ `place_of_birth` (City) - Cidade de nascimento
++ more: Mais detalhes sobre a pessoa (string)
+
+## Student (object)
+
++ Include Person
++ class (SchoolClass)
 + responsible (array)
-    + (object)
-        + name: Maria ferreira da silva (string)  
-    + (object)
-        + name: Ântonio Carlos Benutino (string)
-+ `place_of_birth` (City)
-+ more: É filho de pais divorciados. Reside a avó materna (string)
+    + (Person)
 
 ## Students (array)
 
