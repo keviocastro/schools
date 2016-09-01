@@ -84,7 +84,7 @@ Ações relacionadas a manter os dados das escolas (schools) e turmas.
 ### View a school detail [GET]
 
 + Parameters
-    + school_id (number) - ID of the School
+    + school_id: 1 (number) - ID of the School
 
 + Request 
     + Headers
@@ -99,7 +99,7 @@ Ações relacionadas a manter os dados das escolas (schools) e turmas.
 ### Edit [PUT]
 
 + Parameters
-    + school_id (number) - ID of the School
+    + school_id: 1 (number) - ID of the School
 
 + Request (application/json)
 
@@ -117,7 +117,14 @@ Ações relacionadas a manter os dados das escolas (schools) e turmas.
 ### Delete [DELETE]
 
 + Parameters
-    + school_id (number) - ID of the School
+    + school_id: 1 (number) - ID of the School
+
++ Request (application/json)
+
+    + Headers
+            
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ3NTM0MDYzNywiaWF0IjoxNDcyNzQ4NjM3fQ.YPYoloAKQ6seizoGxnT6YSQPRjX1HoPLcfUC68Msm3g
+
 
 + Response 204
 
