@@ -15,7 +15,8 @@ class SchoolClassControllerTest extends TestCase
     public function testIndex()
     {
     	$shcoolClass = factory(App\SchoolClass::class)->create();
-        $this->get('api/school-classes',
+        
+        $this->get('api/school-classes?sort=-id',
         	$this->getAutHeader())
         	->assertResponseStatus(200)
         	->seeJson($shcoolClass->toArray());
@@ -66,5 +67,21 @@ class SchoolClassControllerTest extends TestCase
         	$this->getAutHeader())
         	->assertResponseStatus(200)
         	->seeJson($shcoolClass_changed);
+    }
+
+    /**
+     * @covers SchoolClassController::destroy
+     * 
+     * @return void
+     */
+    public function testDestroy()
+    {
+        $schoolClass = factory(\App\SchoolClass::class)->create();
+
+        $this->delete("api/school-classes/{$schoolClass->id}",
+            [],
+            $this->getAutHeader())
+            ->assertResponseStatus(204)
+            ->dontSeeInDatabase('school_classes', ['id' => $schoolClass->id]);
     }
 }

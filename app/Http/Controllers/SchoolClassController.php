@@ -53,17 +53,6 @@ class SchoolClassController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -85,13 +74,16 @@ class SchoolClassController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Removes school class resource from storage.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
-        //
+        $schoolClass = SchoolClass::findOrFail($id);
+        $schoolClass->delete();
+
+        return $this->response->noContent();
     }
 }

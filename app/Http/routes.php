@@ -24,7 +24,9 @@ $api->version('v1', function ($api) {
 		// School classes
 		$api->get('school-classes', 'App\Http\Controllers\SchoolClassController@index');
 		$api->post('school-classes', 'App\Http\Controllers\SchoolClassController@store');
+		$api->get('school-classes/{school_class_id}', 'App\Http\Controllers\SchoolClassController@show');
 		$api->put('school-classes/{school_class_id}', 'App\Http\Controllers\SchoolClassController@update');
+		$api->delete('school-classes/{school_id}', 'App\Http\Controllers\SchoolClassController@destroy');
     	
 
     });

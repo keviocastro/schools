@@ -18,7 +18,7 @@ class SchoolControllerTest extends TestCase
     {
     	$school = factory(\App\School::class)->make()->toArray();
 
-        $this->post('api/schools', 
+        $this->post('api/schools?sort=-id', 
             $school,
             $this->getAutHeader())
         	->assertResponseStatus(201)
@@ -64,7 +64,8 @@ class SchoolControllerTest extends TestCase
         $this->delete("api/schools/{$school->id}",
             [],
             $this->getAutHeader())
-            ->assertResponseStatus(204);
+            ->assertResponseStatus(204)
+            ->dontSeeInDatabase('schools', ['id' => $school->id]);
     }
 
     /**
