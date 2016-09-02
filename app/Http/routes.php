@@ -20,8 +20,12 @@ $api->version('v1', function ($api) {
     
     	// Persons
 		$api->get('students', 'App\Http\Controllers\StudentController@index');
+
+		// School classes
+		$api->get('school-classes', 'App\Http\Controllers\SchoolClassController@index');
+		$api->post('school-classes', 'App\Http\Controllers\SchoolClassController@store');
     	
-    	
+
     });
 
 	$api->get('health', 'App\Http\Controllers\ApiController@health');

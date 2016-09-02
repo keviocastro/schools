@@ -30,6 +30,6 @@ class SchoolClass extends Model
      */
     public function shift()
     {
-    	$this->belongsTo('App\Shift');
+    	return $this->belongsTo('App\Shift');
     }
 }
