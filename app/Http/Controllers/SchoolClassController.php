@@ -31,8 +31,8 @@ class SchoolClassController extends Controller
     {
         $this->validate($request, [
             'identifier' => 'required|string',
-            'grade_id' => 'exists:grades,id',
-            'shift_id' => 'exists:shifts,id',
+            'grade_id' => 'required|exists:grades,id',
+            'shift_id' => 'required|exists:shifts,id',
         ]);
 
         $schoolClass = SchoolClass::create($request->all());
@@ -72,7 +72,16 @@ class SchoolClassController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request, [
+            'identifier' => 'string',
+            'grade_id' => 'exists:grades,id',
+            'shift_id' => 'exists:shifts,id',
+        ]);
+
+        $schoolClass = SchoolClass::findOrFail($id);
+        $schoolClass->update($request->all());
+
+        return $schoolClass;
     }
 
     /**

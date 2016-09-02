@@ -29,6 +29,7 @@ class SchoolClassControllerTest extends TestCase
     public function testStore()
     {
     	$shcoolClass = factory(App\SchoolClass::class)->make()->toArray();
+        
         $this->post('api/school-classes',
         	$shcoolClass,
         	$this->getAutHeader())
@@ -48,5 +49,22 @@ class SchoolClassControllerTest extends TestCase
         	$this->getAutHeader())
         	->assertResponseStatus(200)
         	->seeJson($shcoolClass);
+    }
+
+    /**
+     * @covers SchoolClassController::update
+     *
+     * @return void
+     */
+    public function testUpdate()
+    {
+    	$shcoolClass = factory(App\SchoolClass::class)->create();
+    	$shcoolClass_changed = factory(App\SchoolClass::class)->make()->toArray();
+
+        $this->put("api/school-classes/{$shcoolClass->id}",
+        	$shcoolClass_changed,
+        	$this->getAutHeader())
+        	->assertResponseStatus(200)
+        	->seeJson($shcoolClass_changed);
     }
 }

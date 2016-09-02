@@ -75,11 +75,12 @@ class SchoolControllerTest extends TestCase
     public function testUpdate()
     {
         $school = factory(\App\School::class)->create()->toArray();
-
+        $school_changed = factory(\App\School::class)->make()->toArray();
+        
         $this->put("api/schools/{$school['id']}",
-            $school,
+            $school_changed,
             $this->getAutHeader())
             ->assertResponseStatus(200)
-            ->seeJson($school);
+            ->seeJson($school_changed);
     }
 }
