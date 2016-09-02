@@ -7,3 +7,5 @@ Homestead.json
 /.idea
 /.phpintel
 schools.sublime-workspace
+circle.yml
+dredd.yml
