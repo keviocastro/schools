@@ -42,14 +42,14 @@ class SchoolClassController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Display the school class resource.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
-        //
+        return SchoolClass::findOrFail($id);
     }
 
     /**
