@@ -40,15 +40,16 @@ confirme a solicitação de acesso e atribua um novo papel (role).
 
 Ações relacionadas a manter os dados das escolas (schools) e turmas.
 
-## Schools Collection [/schools{?_limit,_q,_sort,field}]
+## Schools Collection [/schools{?limit,q,sort,field,with}]
 
 ### List Schools [GET]
 
 + Parameters
-    + _q (string, optional) - Fulltext search
-    + _sort (string, optional) - Nome da coluna para ordenação. 
-    + _limit (number, optional) - Limite por página
-    + field (string, optional) - Veja [Doc de filtros](https://github.com/keviocastro/laravel-api-handler#filtering)
+    + q (string, optional) - Fulltext search
+    + sort (string, optional) - Nome da coluna para ordenação. 
+    + limit (number, optional) - Limite por página
+    + with (string, optional) - Nome da relação para ser carregada. Veja a [doc](https://github.com/keviocastro/laravel-api-handler#include-related-models) 
+    + field (string, optional) - Veja a [doc](https://github.com/keviocastro/laravel-api-handler#filtering)
         
 + Request 
     + Headers
@@ -131,9 +132,16 @@ Ações relacionadas a manter os dados das escolas (schools) e turmas.
 
 # Group Persons
 
-## Students Collection [/students]
+## Students Collection [/students{?limit,q,sort,field,with}]
 
 ### List students [GET]
+
++ Parameters
+    + q (string, optional) - Fulltext search
+    + sort (string, optional) - Nome da coluna para ordenação. 
+    + limit (number, optional) - Limite por página
+    + with (string, optional) - Nome da relação para ser carregada. Veja a [doc](https://github.com/keviocastro/laravel-api-handler#include-related-models) 
+    + field (string, optional) - Veja a [doc](https://github.com/keviocastro/laravel-api-handler#filtering)
 
 + Request (application/json)
     + Headers
