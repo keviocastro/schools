@@ -18,7 +18,7 @@ class StudentControllerTest extends TestCase
     {
     	$student = factory(\App\Student::class)->create();
 
-    	$this->get('api/students',$this->getAutHeader())
+    	$this->get('api/students',$this->getAutHeader())->dump()
     		->assertResponseStatus(200);
     }
 

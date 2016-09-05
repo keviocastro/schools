@@ -30,9 +30,10 @@ class SchoolClassController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'identifier' => 'required|string',
-            'grade_id' => 'required|exists:grades,id',
-            'shift_id' => 'required|exists:shifts,id',
+            'school_class_id' => 'required|exists:shcool_classes,id',
+            'subject_id' => 'required|exists:subjects,id',
+            'start' => 'required|datetime',
+            'end' => 'required|datetime',
         ]);
 
         $schoolClass = SchoolClass::create($request->all());

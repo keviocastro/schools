@@ -38,6 +38,41 @@ $factory->define(App\Shift::class, function () use ($factory, $faker) {
     ];
 });
 
+$factory->define(App\Subject::class, function () use ($factory, $faker) {
+    return [
+        'name' => $faker->randomElement([
+            'Matématica',
+            'Ciências',
+            'Inglês',
+            'História',
+            'Língua Portuguesa',
+            'Espanhol',
+            'Francês',
+            'Educação Física',
+            'Teologia',
+            'Física',
+            'Física Quântica',
+            'Filosofia',
+            'Direito',
+            'Artes',
+            'Química',
+            'Química',
+            'Estátistica',
+            'Computação',
+            'Geometria',
+            'Astronomia',
+            'Horologia',
+            'Biologia',
+            'Botânica',
+            'Ecologia',
+            'Genética',
+            'Neurociência',
+            'Nutrição',
+            'Zoologia',
+            ]),
+    ];
+});
+
 $factory->define(App\Grade::class, function () use ($factory, $faker) {
     return [
         'name' => $faker->randomElement([
@@ -83,6 +118,21 @@ $factory->define(App\Student::class, function ($faker) use ($factory) {
 	    		return factory(App\SchoolClass::class)->create()->id;
 	    	}
     	];
+});
+
+$factory->define(App\Lesson::class, function ($faker) use ($factory) {
+    
+    $start = $faker->dateTimeThisYear();
+    return [
+            'school_class_id' => function(){
+                return  factory(App\SchoolClass::class)->create()->id;
+            },
+            'subject_id' => function(){
+                return factory(App\Subject::class)->create()->id;
+            },
+            'start' => $start->format('Y-m-d H:i:s'),
+            'end' => $start->modify('+ 30 minutes')->format('Y-m-d H:i:s'),
+        ];
 });
 
 
