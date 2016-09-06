@@ -23,6 +23,6 @@ class ResponseMacroServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        
     }
 }

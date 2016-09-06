@@ -31,6 +31,9 @@ $api->version('v1', function ($api) {
 		// Lessons
 		$api->get('lessons', 'App\Http\Controllers\LessonController@index');
 		$api->post('lessons', 'App\Http\Controllers\LessonController@store');
+		$api->get('lessons/{lesson_id}', 'App\Http\Controllers\LessonController@show');
+		$api->put('lessons/{lesson_id}', 'App\Http\Controllers\LessonController@update');
+		$api->delete('lessons/{lesson_id}', 'App\Http\Controllers\LessonController@destroy');
 		
     	
 

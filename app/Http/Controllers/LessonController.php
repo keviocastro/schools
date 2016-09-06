@@ -30,21 +30,14 @@ class LessonController extends Controller
      */
     public function store(Request $request)
     {
-        $rules = [
+        $this->validationForStoreAction($request, [
             'school_class_id' => 'required|exists:school_classes,id',
             'subject_id' => 'required|exists:shifts,id',
             'start' => 'required|date_format:Y-m-d H:i:s',
             'end' => 'required|date_format:Y-m-d H:i:s',
-        ];
+        ]);
         
-        $validator = app('validator')->make($request->all(), $rules);
-
-        if ($validator->fails()) {
-            throw new StoreResourceFailedException('Could not create new lesson.', $validator->errors());
-        }
-
         $lesson = Lesson::create($request->all());
-        $lesson->load('schoolClass', 'subject');
 
         return $this->response->created("/lessons/{$lesson->id}", $lesson);
     }
@@ -57,7 +50,7 @@ class LessonController extends Controller
      */
     public function show($id)
     {
-        //
+        return Lesson::findOrFail($id);
     }
 
     /**
@@ -69,7 +62,17 @@ class LessonController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validationForUpdateAction($request, [
+            'school_class_id' => 'exists:school_classes,id',
+            'subject_id' => 'exists:shifts,id',
+            'start' => 'date_format:Y-m-d H:i:s',
+            'end' => 'date_format:Y-m-d H:i:s',
+        ]);
+
+        $lesson = Lesson::findOrFail($id);
+        $lesson->update($request->all());
+
+        return $lesson;
     }
 
     /**
@@ -80,6 +83,9 @@ class LessonController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $lesson = Lesson::findOrFail($id);
+        $lesson->delete();
+
+        return $this->response->noContent();
     }
 }

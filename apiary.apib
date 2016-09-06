@@ -32,8 +32,8 @@ confirme a solicitação de acesso e atribua um novo papel (role).
                              0 pendente
                              1 negada
                              2 aprovada
-        + created_at 2016-08-15 20:26:39 (string)
-        + updated_at: 2016-08-15 21:26:39 (string)
+        + created_at: `2016-08-15 20:26:39` (string) Data que a solicitação foi criada
+        + updated_at: `2016-08-15 21:26:39` (string) Data da ultima alteração da solicitação
 
 
 # Group Schools
@@ -233,6 +233,58 @@ Ações relacionadas de programação de aulas.
 + Response 200 (application/json)
 
     + Attributes (Lessons)
+
+
+### Create a new lesson [POST]
+
++ Request (application/json)
+    + Headers
+            
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ3NTM0MDYzNywiaWF0IjoxNDcyNzQ4NjM3fQ.YPYoloAKQ6seizoGxnT6YSQPRjX1HoPLcfUC68Msm3g
+            
+    + Attributes (LessonFillable)
+            
++ Response 200 (application/json) 
+    
+    + Attributes (Lesson)
+
+
+## Lesson [/lesson/{lesson_id}]
+
++ Parameters
+    - lesson_id (number) - ID of the lesson
+
+### View a lesson detail [GET]
+
++ Request 
+    + Headers
+
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ3NTM0MDYzNywiaWF0IjoxNDcyNzQ4NjM3fQ.YPYoloAKQ6seizoGxnT6YSQPRjX1HoPLcfUC68Msm3g
+
++ Response 200 (application/json)
+
+    + Attributes 
+        + Lesson (Lesson)
+
+### Edit [PUT]
+
++ Request 
+    + Headers
+            
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ3NTM0MDYzNywiaWF0IjoxNDcyNzQ4NjM3fQ.YPYoloAKQ6seizoGxnT6YSQPRjX1HoPLcfUC68Msm3g
+            
+    + Attributes (LessonFillable)
+            
++ Response 200 (application/json)
+    
+    + Attributes (Lesson)
+
+
+### Delete [DELETE]
+
++ Response 204
+
+
             
 # Data structures 
 
@@ -290,14 +342,25 @@ Ações relacionadas de programação de aulas.
 + id: 1 (number) - Identificador único da disciplina.
 + name: Matématica  (string) - Nome da disciplina. Ex.: Matématica, Português, Fisica.
 
+# LessonBase (object)
+
++ start: `2016-08-30 13:17:11` (string) - Data e horário de inicio da aula.
++ end: `2016-08-30 13:17:11` (string) - Data e horário de termino da aula.
+
+# LessonFillable (object)
+
++ school_class_id: 1 (number) - Identificador único da turma.
++ subject_id: 1 (number) - Identificador único da disciplina (Matématica, física, ...).
++ Include LessonBase
+
 ## Lesson (object)
 
 + id: 1 (number) - Identificador único  da aula.
-+ date (Date) - Data da aual.
-+ class (SchoolClass) - Turma onde a aula será aplicada.
-+ subject (Subject) - Disciplina (Matématica, física, ...).
-+ start (Date) - Data e horário de inicio da aula.
-+ end (Date) - Data e horário de termino da aula.
++ created_at: `2016-08-30 13:17:11` (string) - Data de criação
++ updated_at: `2016-08-30 13:17:11` (string) - Data da ultima alteração
++ Include (LessonBase)
++ school_class (SchoolClass)
++ subject (Subject)
 
 ## Lessons (array)
 
