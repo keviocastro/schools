@@ -12,19 +12,6 @@ class SchoolController extends Controller
 {
 	 use Helpers;
 
-     /**
-      * Valida parametros da requisição do recurso de escolas
-      * 
-      * @param  Request $request 
-      * @return void
-      */
-     public function validation(Request $request)
-     {
-         $this->validate($request, [
-            'name' => 'required|string',
-        ]);
-     }
-
     /**
      * Registra escola
      * 
@@ -33,7 +20,7 @@ class SchoolController extends Controller
      */
     public function store(Request $request)
     {   
-    	$this->validation($request);
+    	$this->validationForStoreAction($request, ['name' => 'required|string']);
     	$school = School::create($request->all());
 
         return $this->response->created("/schools/{$school->id}", $school);
@@ -88,7 +75,7 @@ class SchoolController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $this->validation($request);
+        $this->validationForUpdateAction($request, ['name' => 'required|string']);
 
         $school = School::findOrFail($id);
         $school->update($request->all());

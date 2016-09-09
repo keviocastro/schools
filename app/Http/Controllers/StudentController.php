@@ -17,9 +17,7 @@ class StudentController extends Controller
     {
         $result = $this->apiHandler->parseMultiple(new Student);
 
-        return $result->getBuilder()
-            ->with('person', 'schoolClass.grade')
-            ->paginate();
+        return $result->getBuilder()->paginate();
     }
 
 }

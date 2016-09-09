@@ -5,6 +5,17 @@ HOST: http://localhost/api
 
 Schools é uma api para manter informações sobre escolas e seus registros administrativos.
 
+# Authentication
+
+A autentificação de usuário para acesso aos recursos da api, deve ser feita atribuindo
+sempre o seguinte cabeçario na requisição:
+
+`authorization: Bearer token_id`
+
+Onde "token id" é obtido durante a autenficação do usuário no microservice de atentificação
+auth0 através do dominio "logos.auth0.com".
+Veja ver mais detalhes de como realizar essa autentificação nesse link: https://auth0.com/docs 
+
 # Group Auth
 
 Ações relacionadas a autentificação, registro e manutenção de dados do perfil do usuário.
@@ -20,7 +31,7 @@ confirme a solicitação de acesso e atribua um novo papel (role).
 + Request
     + Headers
     
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ3NTM0MDYzNywiaWF0IjoxNDcyNzQ4NjM3fQ.YPYoloAKQ6seizoGxnT6YSQPRjX1HoPLcfUC68Msm3g
+            authorization: Bearer <token_id>
     
     
 + Response 200 (application/json)
@@ -51,10 +62,10 @@ Ações relacionadas a manter os dados das escolas (schools) e turmas.
     + with (string, optional) - Nome da relação para ser carregada. Veja a [doc](https://github.com/keviocastro/laravel-api-handler#include-related-models) 
     + field (string, optional) - Veja a [doc](https://github.com/keviocastro/laravel-api-handler#filtering)
         
-+ Request 
++ Request
     + Headers
             
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ3NTM0MDYzNywiaWF0IjoxNDcyNzQ4NjM3fQ.YPYoloAKQ6seizoGxnT6YSQPRjX1HoPLcfUC68Msm3g
+            authorization: Bearer <token_id>
 
 + Response 200 (application/json)
 
@@ -65,7 +76,7 @@ Ações relacionadas a manter os dados das escolas (schools) e turmas.
 + Request 
     + Headers
             
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ3NTM0MDYzNywiaWF0IjoxNDcyNzQ4NjM3fQ.YPYoloAKQ6seizoGxnT6YSQPRjX1HoPLcfUC68Msm3g
+            authorization: Bearer <token_id>
 
 + Request (application/json)
 
@@ -90,7 +101,7 @@ Ações relacionadas a manter os dados das escolas (schools) e turmas.
 + Request 
     + Headers
             
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ3NTM0MDYzNywiaWF0IjoxNDcyNzQ4NjM3fQ.YPYoloAKQ6seizoGxnT6YSQPRjX1HoPLcfUC68Msm3g
+            authorization: Bearer <token_id>
 
 + Response  200 (application/json)
 
@@ -106,7 +117,7 @@ Ações relacionadas a manter os dados das escolas (schools) e turmas.
 
     + Headers
             
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ3NTM0MDYzNywiaWF0IjoxNDcyNzQ4NjM3fQ.YPYoloAKQ6seizoGxnT6YSQPRjX1HoPLcfUC68Msm3g
+            authorization: Bearer <token_id>
             
     + Attributes (SchoolFillable)
             
@@ -124,7 +135,7 @@ Ações relacionadas a manter os dados das escolas (schools) e turmas.
 
     + Headers
             
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ3NTM0MDYzNywiaWF0IjoxNDcyNzQ4NjM3fQ.YPYoloAKQ6seizoGxnT6YSQPRjX1HoPLcfUC68Msm3g
+            authorization: Bearer <token_id>
 
 
 + Response 204
@@ -149,7 +160,7 @@ Ações relacionadas a manter os dados das escolas (schools) e turmas.
 + Request (application/json)
     + Headers
             
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ3NTM0MDYzNywiaWF0IjoxNDcyNzQ4NjM3fQ.YPYoloAKQ6seizoGxnT6YSQPRjX1HoPLcfUC68Msm3g
+            authorization: Bearer <token_id>
             
     + Attributes (SchoolClassFillable)
             
@@ -168,7 +179,7 @@ Ações relacionadas a manter os dados das escolas (schools) e turmas.
 + Request 
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ3NTM0MDYzNywiaWF0IjoxNDcyNzQ4NjM3fQ.YPYoloAKQ6seizoGxnT6YSQPRjX1HoPLcfUC68Msm3g
+            authorization: Bearer <token_id>
 
 + Response 200 (application/json)
 
@@ -180,7 +191,7 @@ Ações relacionadas a manter os dados das escolas (schools) e turmas.
 + Request 
     + Headers
             
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ3NTM0MDYzNywiaWF0IjoxNDcyNzQ4NjM3fQ.YPYoloAKQ6seizoGxnT6YSQPRjX1HoPLcfUC68Msm3g
+            authorization: Bearer <token_id>
             
     + Attributes (SchoolClassFillable)
             
@@ -210,7 +221,7 @@ Ações relacionadas a manter os dados das escolas (schools) e turmas.
 + Request (application/json)
     + Headers
             
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ3NTM0MDYzNywiaWF0IjoxNDcyNzQ4NjM3fQ.YPYoloAKQ6seizoGxnT6YSQPRjX1HoPLcfUC68Msm3g
+            authorization: Bearer <token_id>
 
 + Response 200 (application/json)
 
@@ -228,7 +239,7 @@ Ações relacionadas de programação de aulas.
 + Request 
     + Headers
             
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ3NTM0MDYzNywiaWF0IjoxNDcyNzQ4NjM3fQ.YPYoloAKQ6seizoGxnT6YSQPRjX1HoPLcfUC68Msm3g
+            authorization: Bearer <token_id>
 
 + Response 200 (application/json)
 
@@ -240,7 +251,7 @@ Ações relacionadas de programação de aulas.
 + Request (application/json)
     + Headers
             
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ3NTM0MDYzNywiaWF0IjoxNDcyNzQ4NjM3fQ.YPYoloAKQ6seizoGxnT6YSQPRjX1HoPLcfUC68Msm3g
+            authorization: Bearer <token_id>
             
     + Attributes (LessonFillable)
             
@@ -259,7 +270,7 @@ Ações relacionadas de programação de aulas.
 + Request 
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ3NTM0MDYzNywiaWF0IjoxNDcyNzQ4NjM3fQ.YPYoloAKQ6seizoGxnT6YSQPRjX1HoPLcfUC68Msm3g
+            authorization: Bearer <token_id>
 
 + Response 200 (application/json)
 
@@ -271,7 +282,7 @@ Ações relacionadas de programação de aulas.
 + Request 
     + Headers
             
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ3NTM0MDYzNywiaWF0IjoxNDcyNzQ4NjM3fQ.YPYoloAKQ6seizoGxnT6YSQPRjX1HoPLcfUC68Msm3g
+            authorization: Bearer <token_id>
             
     + Attributes (LessonFillable)
             
@@ -283,6 +294,73 @@ Ações relacionadas de programação de aulas.
 ### Delete [DELETE]
 
 + Response 204
+
+
+# Group Attendance Records
+
+## Attendance records Collection [/attendance-records{?limit,q,sort,field,with}]
+
+### List attendance records [GET]
+
++ Request 
+    + Headers
+
+            authorization: Bearer <token_id>
+
++ Response 200 (application/json)
+
+    + Attributes (AttendaceRecordPaginator)
+
+
+### Create a new attendance record [POST]
+
++ Request (application/json)
+    + Headers
+            
+            authorization: Bearer <token_id>
+            
+    + Attributes (AttendanceRecordFillable)
+            
++ Response 200 (application/json) 
+    
+    + Attributes 
+        + attendance_record (AttendanceRecord)
+
+
+## Attendance Record [/attendance-record/{id}]
+
++ Parameters
+    - id (number) - ID of the attendance record
+
+### View a attendance record detail [GET]
+
++ Request 
+    + Headers
+
+            authorization: Bearer <token_id>
+
++ Response 200 (application/json)
+
+    + Attributes 
+        + attendance_record (AttendanceRecord)
+
+### Edit [PUT]
+
++ Request 
+    + Headers
+            
+            authorization: Bearer <token_id>
+            
+    + Attributes (AttendanceRecordFillable)
+            
++ Response 200 (application/json)
+    
+    + Attributes 
+        + attendance_record (AttendanceRecord)
+
+
+
+
 
 
             
@@ -417,9 +495,38 @@ Ações relacionadas de programação de aulas.
 + name: Goiás (string) - Nome
 + federated_unit: GO (string) - Código de unidade federativa
 
+## AttendanceRecordFillable (object)
 
-## Date (object)
++ lesson_id: 1 (number) - Identificador único da aula relacionada
++ student_id: 1 (number) - Identificador único do aluno
++ presence: 1 (number) - Presença do aluno na aula
+                         0 Faltou a aula
+                         1 Estava presente
 
-+ date: 2016-08-25T16:53:48+00:00 (string)
-+ datetime: 1472143991 (number)
-+ timeZone: America/Sao_Paulo (string)
+## AttendanceRecord (object)
+
++ id: 1 (number) - Identificador único do registro de presença
++ Include AttendanceRecordFillable
++ created_at: `2016-08-30 13:17:11` (string) - Data de criação
++ updated_at: `2016-08-30 13:17:11` (string) - Data da ultima alteração
+
+## AttendanceRecords (array)
+
++ (AttendanceRecord)
+
+## AttendaceRecordPaginator
+
++ Include (Paginator)
++ data (AttendanceRecords)
+
+## Assessment (object)
+
++ id: 1 (number) - Identificador único da avaliação
++ name: Avaliação 1 (string)
+
+## StudentGrade
+
++ id: 1 (number) - Identificador único do registro de nota do aluno
++ grade: 7.5 (number) - Valor de resulta do aluno na avaliação
++ assessment_id: 1 (number) - Identificador da avaliação
++ student_id: 1 (number) - Id do aluno

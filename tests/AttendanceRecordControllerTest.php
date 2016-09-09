@@ -1,0 +1,71 @@
+<?php
+
+use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Foundation\Testing\WithoutMiddleware;
+use Tests\TestCase;
+
+class AttendanceRecordControllerTest extends TestCase
+{
+    /**
+     * @covers AttendanceRecordController::index
+     *
+     * @return void
+     */
+    public function testIndex()
+    {
+        $attendanceRecord = factory(App\AttendanceRecord::class)->create();
+        
+        $this->get('api/attendance-records?sort=-id',
+        	$this->getAutHeader())
+        	->assertResponseStatus(200)
+        	->seeJson($attendanceRecord->toArray());
+    }
+
+    /**
+     * @covers AttendanceRecordController::update
+     *
+     * @return void
+     */
+    public function testUpdate()
+    {
+    	$attendanceRecord = factory(App\AttendanceRecord::class)->create();
+    	$attendanceRecord_changed = factory(App\AttendanceRecord::class)->make()->toArray();
+
+        $this->put("api/attendance-records/{$attendanceRecord->id}",
+        	$attendanceRecord_changed,
+        	$this->getAutHeader())
+        	->assertResponseStatus(200)
+        	->seeJson($attendanceRecord_changed);
+    }
+
+    /**
+     * @covers AttendanceRecordController::show
+     *
+     * @return void
+     */
+    public function testShow()
+    {
+    	$attendanceRecord = factory(App\AttendanceRecord::class)->create()->toArray();
+        $this->get("api/attendance-records/{$attendanceRecord['id']}",
+        	$this->getAutHeader())
+        	->assertResponseStatus(200)
+        	->seeJson($attendanceRecord);
+    }
+
+    /**
+     * @covers AttendanceRecordController::store
+     *
+     * @return void
+     */
+    public function testStore()
+    {
+    	$attendanceRecord = factory(App\AttendanceRecord::class)->make()->toArray();
+        
+        $this->post('api/attendance-records',
+        	$attendanceRecord,
+        	$this->getAutHeader())
+        	->assertResponseStatus(201)
+        	->seeJson($attendanceRecord);
+    }
+}

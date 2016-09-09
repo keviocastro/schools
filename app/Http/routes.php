@@ -34,7 +34,12 @@ $api->version('v1', function ($api) {
 		$api->get('lessons/{lesson_id}', 'App\Http\Controllers\LessonController@show');
 		$api->put('lessons/{lesson_id}', 'App\Http\Controllers\LessonController@update');
 		$api->delete('lessons/{lesson_id}', 'App\Http\Controllers\LessonController@destroy');
-		
+
+		// Attendance records
+		$api->get('attendance-records', 'App\Http\Controllers\AttendanceRecordController@index');
+		$api->post('attendance-records', 'App\Http\Controllers\AttendanceRecordController@store');
+		$api->get('attendance-records/{id}', 'App\Http\Controllers\AttendanceRecordController@show');
+		$api->put('attendance-records/{id}', 'App\Http\Controllers\AttendanceRecordController@update');
     	
 
     });

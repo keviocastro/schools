@@ -135,4 +135,16 @@ $factory->define(App\Lesson::class, function ($faker) use ($factory) {
         ];
 });
 
+$factory->define(App\AttendanceRecord::class, function ($faker) use ($factory) {
+    
+    return [
+            'lesson_id' => function(){
+                return  factory(App\Lesson::class)->create()->id;
+            },
+            'student_id' => function(){
+                return factory(App\Student::class)->create()->id;
+            },
+            'presence' => rand(0,1),
+        ];
+});
 
