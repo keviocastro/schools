@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\AttendanceRecord;
 use App\Http\Requests;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Input;
+use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
 
 class AttendanceRecordController extends Controller
 {
@@ -33,6 +35,16 @@ class AttendanceRecordController extends Controller
             'student_id' => 'required|exists:students,id',
             'presence' => 'required|integer|in:0,1',
             ]);
+
+        $currentRecord = AttendanceRecord::
+                    where('lesson_id', '=', Input::get('lesson_id'))
+                    ->where('student_id', '=', Input::get('student_id'))
+                    ->first();
+
+        if ($currentRecord) {
+            throw new ConflictHttpException('The record of the student to the lesson already exists.');
+        }
+
         $attendanceRecord = AttendanceRecord::create($request->all());
 
         return $this->response->created("/attendance-records/{$attendanceRecord->id}", $attendanceRecord);

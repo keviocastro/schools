@@ -314,6 +314,10 @@ Ações relacionadas de programação de aulas.
 
 ### Create a new attendance record [POST]
 
+O registro de presença de um aluno em uma aula é único.
+Se o registro de presença que já existe for solicitado, será
+retornado o registro já existente e nenhuma alteração será realizada.
+
 + Request (application/json)
     + Headers
             
@@ -325,6 +329,14 @@ Ações relacionadas de programação de aulas.
     
     + Attributes 
         + attendance_record (AttendanceRecord)
+
++ Response 409 (application/json) 
+    
+    {
+        "message": "The record of the student to the lesson already exists.",
+        "status_code": 409 
+    }
+            
 
 
 ## Attendance Record [/attendance-record/{id}]
@@ -357,6 +369,12 @@ Ações relacionadas de programação de aulas.
     
     + Attributes 
         + attendance_record (AttendanceRecord)
+
+
+
+
+
+
 
 
 

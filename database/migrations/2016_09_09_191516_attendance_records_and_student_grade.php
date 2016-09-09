@@ -23,6 +23,8 @@ class AttendanceRecordsAndStudentGrade extends Migration
 
             $table->foreign('lesson_id')->references('id')->on('lessons');
             $table->foreign('student_id')->references('id')->on('students');
+
+            $table->unique(['lesson_id', 'student_id']);
         });
 
         Schema::create('assessments', function (Blueprint $table) {
@@ -51,7 +53,7 @@ class AttendanceRecordsAndStudentGrade extends Migration
     public function down()
     {
         Schema::drop('attendance_records');
-        Schema::drop('assessments');
         Schema::drop('student_grades');
+        Schema::drop('assessments');
     }
 }
