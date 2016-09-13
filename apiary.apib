@@ -339,12 +339,24 @@ retornado o registro já existente e nenhuma alteração será realizada.
             
 
 
-## Attendance Record [/attendance-record/{id}]
+## Attendance Record [/attendance-record/{id}{?with}]
 
 + Parameters
-    - id (number) - ID of the attendance record
+    + id (number) - ID of the attendance record
+    
 
 ### View a attendance record detail [GET]
+
++ Parameters
+    + with (string) - Include related models
+        + Members
+            + lesson
+            + lesson.schoolClass
+            + lesson.schoolClass.grade
+            + lesson.schoolClass.shift
+            + lesson.subject
+            + student.person
+            + student.schoolClass
 
 + Request 
     + Headers
@@ -369,12 +381,6 @@ retornado o registro já existente e nenhuma alteração será realizada.
     
     + Attributes 
         + attendance_record (AttendanceRecord)
-
-
-
-
-
-
 
 
 

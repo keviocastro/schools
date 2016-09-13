@@ -12,6 +12,7 @@ class RequestAccess extends Migration
      */
     public function up()
     {
+        // Solicitações de acesso ao sistema
         Schema::create('request_accesses', function (Blueprint $table) {
             $table->increments('id');
             $table->string('auth0_user_id');

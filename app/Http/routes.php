@@ -40,6 +40,7 @@ $api->version('v1', function ($api) {
 		$api->post('attendance-records', 'App\Http\Controllers\AttendanceRecordController@store');
 		$api->get('attendance-records/{id}', 'App\Http\Controllers\AttendanceRecordController@show');
 		$api->put('attendance-records/{id}', 'App\Http\Controllers\AttendanceRecordController@update');
+		$api->delete('attendance-records/{id}', 'App\Http\Controllers\AttendanceRecordController@destroy');
     	
 
     });

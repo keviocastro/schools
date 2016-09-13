@@ -12,6 +12,7 @@ class AttendanceRecordsAndStudentGrade extends Migration
      */
     public function up()
     {
+        // Registros de presença
         Schema::create('attendance_records', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedInteger('lesson_id');
@@ -27,12 +28,14 @@ class AttendanceRecordsAndStudentGrade extends Migration
             $table->unique(['lesson_id', 'student_id']);
         });
 
+        // Avaliações
         Schema::create('assessments', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
             $table->timestamps();
         });
 
+        // Notas dos alunos
         Schema::create('student_grades', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->float('grade');

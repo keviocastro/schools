@@ -80,4 +80,20 @@ class AttendanceRecordControllerTest extends TestCase
             $this->getAutHeader())
             ->assertResponseStatus(409);
     }
+
+    /**
+     * @covers AttendanceRecordController::destroy
+     * 
+     * @return void
+     */
+    public function testDestroy()
+    {
+        $attendanceRecord = factory(\App\AttendanceRecord::class)->create();
+
+        $this->delete("api/attendance-records/{$attendanceRecord->id}",
+            [],
+            $this->getAutHeader())
+            ->assertResponseStatus(204)
+            ->dontSeeInDatabase('attendance_records', ['id' => $attendanceRecord->id]);
+    }
 }

@@ -12,6 +12,7 @@ class Students extends Migration
      */
     public function up()
     {
+        // Informações básica de pessoas
         Schema::create('people', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
@@ -23,6 +24,7 @@ class Students extends Migration
         });
 
 
+        // Estudantes
         Schema::create('students', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('person_id');
@@ -34,6 +36,7 @@ class Students extends Migration
 
         });
 
+        // Responsáveis pelo estudante
         Schema::create('student_responsible', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('student_id');

@@ -58,7 +58,8 @@ class AttendanceRecordController extends Controller
      */
     public function show($id)
     {
-        return AttendanceRecord::findOrFail($id);
+        $result = $this->apiHandler->parseSingle(new AttendanceRecord, $id);
+        return $result->getResult();
     }
 
     /**
@@ -90,6 +91,9 @@ class AttendanceRecordController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $attendanceRecord = AttendanceRecord::findOrFail($id);
+        $attendanceRecord->delete();
+
+        return $this->response->noContent();
     }
 }

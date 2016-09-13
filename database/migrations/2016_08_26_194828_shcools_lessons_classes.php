@@ -12,30 +12,35 @@ class ShcoolsLessonsClasses extends Migration
      */
     public function up()
     {   
+        // Escolas
         Schema::create('schools', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
             $table->timestamps();
         });
 
+        // Ano estudantil (Jardim I, 1º Ano, etc.)
         Schema::create('grades', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
             $table->timestamps();
         });
 
+        // Turno da turma (matutino, vespertino, noturno)
         Schema::create('shifts', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
             $table->timestamps();
         });
 
+        // Disciplina (matématica, português, física quântica)
         Schema::create('subjects', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
             $table->timestamps();
         });
 
+        // Turmas (1º Ano A, Jardim I - A, Jardim I - B)
         Schema::create('school_classes', function (Blueprint $table) {
             $table->increments('id');
             $table->string('identifier');
@@ -49,6 +54,7 @@ class ShcoolsLessonsClasses extends Migration
         });
 
 
+        // Aulas
         Schema::create('lessons', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('school_class_id');
