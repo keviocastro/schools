@@ -12,6 +12,30 @@ class ShcoolsLessonsClasses extends Migration
      */
     public function up()
     {   
+        // Calendários escolares/anos letivos
+        Schema::create('school_calendars', function(Blueprint $table){
+            $table->increments('id');
+            $table->integer('year');
+            $table->date('start');
+            $table->date('end');
+            $table->timestamps();
+
+        });        
+
+        // Fases avaliativas (bimestres, semestres, etc.)
+        Schema::create('evaluation_phases', function(Blueprint $table){
+            $table->bigIncrements('id');
+            $table->string('name');
+            $table->date('start');
+            $table->date('end');
+            $table->unsignedInteger('school_calendar_id');
+            $table->timestamps();
+
+            $table->foreign('school_calendar_id')
+                ->references('id')->on('school_calendars');
+             
+        });
+
         // Escolas
         Schema::create('schools', function (Blueprint $table) {
             $table->increments('id');
@@ -54,6 +78,20 @@ class ShcoolsLessonsClasses extends Migration
         });
 
 
+        // Disciplinas existentes para um turma
+        Schema::create('school_class_subjects', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->unsignedInteger('school_class_id');
+            $table->unsignedInteger('subject_id');
+            $table->timestamps();
+
+            $table->foreign('school_class_id')
+                ->references('id')->on('school_classes');
+            
+            $table->foreign('subject_id')
+                ->references('id')->on('subjects');
+        });
+
         // Aulas
         Schema::create('lessons', function (Blueprint $table) {
             $table->increments('id');
@@ -76,12 +114,15 @@ class ShcoolsLessonsClasses extends Migration
     public function down()
     {
         $tables = [
-            'schools',
             'lessons',
+            'school_class_subjects',
             'school_classes',
-            'grades',
-            'shifts',
             'subjects',
+            'shifts',
+            'grades',
+            'schools',
+            'evaluation_phases',
+            'school_calendars',
         ];
 
         foreach ($tables as $value) {

@@ -36,22 +36,23 @@ confirme a solicitação de acesso e atribua um novo papel (role).
     
 + Response 200 (application/json)
     
-    + Attributes 
-        + id: 1 (number) - Identificador único da solicitação
-        + auth0_user_id: auth0|57c0840deae095471aba4093 (string) - id do usuário
-        + status: 0 (number) - Situação da solicitação. 
-                             0 pendente
-                             1 negada
-                             2 aprovada
-        + created_at: `2016-08-15 20:26:39` (string) Data que a solicitação foi criada
-        + updated_at: `2016-08-15 21:26:39` (string) Data da ultima alteração da solicitação
+    + Attributes
+        + request_access (object) 
+            + id: 1 (number) - Identificador único da solicitação
+            + auth0_user_id: auth0|57c0840deae095471aba4093 (string) - id do usuário
+            + status: 0 (number) - Situação da solicitação. 
+                                0 pendente
+                                1 negada
+                                2 aprovada
+            + created_at: `2016-08-15 20:26:39` (string) Data que a solicitação foi criada
+            + updated_at: `2016-08-15 21:26:39` (string) Data da ultima alteração da solicitação
 
 
 # Group Schools
 
 Ações relacionadas a manter os dados das escolas (schools) e turmas.
 
-## Schools Collection [/schools{?limit,q,sort,field,with}]
+## Schools Collection [/schools{?limit,q,sort}]
 
 ### List Schools [GET]
 
@@ -59,8 +60,6 @@ Ações relacionadas a manter os dados das escolas (schools) e turmas.
     + q (string, optional) - Fulltext search
     + sort (string, optional) - Nome da coluna para ordenação. 
     + limit (number, optional) - Limite por página
-    + with (string, optional) - Nome da relação para ser carregada. Veja a [doc](https://github.com/keviocastro/laravel-api-handler#include-related-models) 
-    + field (string, optional) - Veja a [doc](https://github.com/keviocastro/laravel-api-handler#filtering)
         
 + Request
     + Headers
@@ -69,7 +68,10 @@ Ações relacionadas a manter os dados das escolas (schools) e turmas.
 
 + Response 200 (application/json)
 
-    + Attributes (SchoolsPaginator)
+    + Attributes 
+        + Include (Paginator)
+        + data (array)
+            + (School)
 
 ### Create a New School [POST]
 
@@ -105,7 +107,8 @@ Ações relacionadas a manter os dados das escolas (schools) e turmas.
 
 + Response  200 (application/json)
 
-    + Attributes (School)
+    + Attributes 
+        + school (School)
         
 
 ### Edit [PUT]
@@ -123,7 +126,8 @@ Ações relacionadas a manter os dados das escolas (schools) e turmas.
             
 + Response 200 (application/json)
     
-    + Attributes (School)
+    + Attributes 
+        + school (School)
 
 
 ### Delete [DELETE]
@@ -140,20 +144,27 @@ Ações relacionadas a manter os dados das escolas (schools) e turmas.
 
 + Response 204
 
-## School Classes Collection [/school-classes{?limit,q,sort,field,with}]
+
+## School Classes Collection [/school-classes{?limit,q,sort,with}]
 
 ### List School Classes [GET]
 
 + Parameters
-    + q (string, optional) - Fulltext search
+    + q (string, optional) - Fulltext search.
     + sort (string, optional) - Nome da coluna para ordenação. 
-    + limit (number, optional) - Limite por página
-    + with (string, optional) - Nome da relação para ser carregada. Veja a [doc](https://github.com/keviocastro/laravel-api-handler#include-related-models) 
-    + field (string, optional) - Veja a [doc](https://github.com/keviocastro/laravel-api-handler#filtering)
+    + limit (number, optional) - Limite por página.
+    + with (string, optional) - Nome da relação a ser incluída na resposta.
+        + Members 
+            + grade
+            + shift
+
 
 + Response 200 (application/json)
 
-    + Attributes (SchoolClasses)
+    + Attributes 
+        + Include Paginator
+        + data (array) 
+            + (SchoolClass)
     
 ### Create a new school class [POST]
 
@@ -166,15 +177,22 @@ Ações relacionadas a manter os dados das escolas (schools) e turmas.
             
 + Response 200 (application/json) 
     
-    + Attributes (SchoolClass)
+    + Attributes 
+        + school_class (SchoolClass)
             
 
-## School Class [/school-classes/{school_class_id}]
+## School Class [/school-classes/{school_class_id}{?with}]
 
 + Parameters
     - school_class_id (number) - ID of the school class
 
 ### View a school class detail [GET]
+
++ Parameters
+    + with (string, optional) - Nome da relação a ser incluída na resposta.
+        + Members 
+            + grade
+            + shift
 
 + Request 
     + Headers
@@ -183,7 +201,8 @@ Ações relacionadas a manter os dados das escolas (schools) e turmas.
 
 + Response 200 (application/json)
 
-    + Attributes (SchoolClass)
+    + Attributes 
+        + school_class (SchoolClass)
 
 
 ### Edit [PUT]
@@ -197,7 +216,8 @@ Ações relacionadas a manter os dados das escolas (schools) e turmas.
             
 + Response 200 (application/json)
     
-    + Attributes (SchoolClasses)
+    + Attributes 
+        + school_class (SchoolClass)
 
             
 ### Delete [DELETE]
@@ -207,7 +227,7 @@ Ações relacionadas a manter os dados das escolas (schools) e turmas.
 
 # Group People
 
-## Students Collection [/students{?limit,q,sort,field,with}]
+## Students Collection [/students{?limit,q,sort,with}]
 
 ### List students [GET]
 
@@ -215,8 +235,12 @@ Ações relacionadas a manter os dados das escolas (schools) e turmas.
     + q (string, optional) - Fulltext search
     + sort (string, optional) - Nome da coluna para ordenação. 
     + limit (number, optional) - Limite por página
-    + with (string, optional) - Nome da relação para ser carregada. Veja a [doc](https://github.com/keviocastro/laravel-api-handler#include-related-models) 
-    + field (string, optional) - Veja a [doc](https://github.com/keviocastro/laravel-api-handler#filtering)
+    + with (string, optional) - Nome da relação a ser incluida na resposta
+        + Members
+            + person
+            + schoolClass
+            + schoolClass.grade
+            + schoolClass.shift
 
 + Request (application/json)
     + Headers
@@ -225,16 +249,30 @@ Ações relacionadas a manter os dados das escolas (schools) e turmas.
 
 + Response 200 (application/json)
 
-    + Attributes (StudentsPaginator)
+    + Attributes 
+        + Include Paginator 
+        + data (array)
+            + (Student)
 
             
 # Group Lessons
 
 Ações relacionadas de programação de aulas.
 
-## Lessons Collection [/lessons]
+## Lessons Collection [/lessons{?limit,q,sort,with}]
 
 ### List lessons [GET]
+
++ Parameters
+    + q (string, optional) - Fulltext search
+    + sort (string, optional) - Nome da coluna para ordenação. 
+    + limit (number, optional) - Limite por página
+    + with (string, optional) Nome da relação a ser incluida da resposta.
+        + Members
+            + schoolClass
+            + schoolClass.grade
+            + schoolClass.shift
+            + subject
 
 + Request 
     + Headers
@@ -243,7 +281,10 @@ Ações relacionadas de programação de aulas.
 
 + Response 200 (application/json)
 
-    + Attributes (Lessons)
+    + Attributes 
+        + Include Paginator
+        + data (array)
+            + (Lesson)
 
 
 ### Create a new lesson [POST]
@@ -257,15 +298,24 @@ Ações relacionadas de programação de aulas.
             
 + Response 200 (application/json) 
     
-    + Attributes (Lesson)
+    + Attributes 
+        + lesson (Lesson)
 
 
-## Lesson [/lesson/{lesson_id}]
+## Lesson [/lesson/{lesson_id}{?with}]
 
 + Parameters
     - lesson_id (number) - ID of the lesson
 
 ### View a lesson detail [GET]
+
++ Parameters
+    + with (string, optional) Nome da relação a ser incluida da resposta.
+        + Members
+            + schoolClass
+            + schoolClass.grade
+            + schoolClass.shift
+            + subject
 
 + Request 
     + Headers
@@ -275,7 +325,7 @@ Ações relacionadas de programação de aulas.
 + Response 200 (application/json)
 
     + Attributes 
-        + Lesson (Lesson)
+        + lesson (Lesson)
 
 ### Edit [PUT]
 
@@ -288,7 +338,8 @@ Ações relacionadas de programação de aulas.
             
 + Response 200 (application/json)
     
-    + Attributes (Lesson)
+    + Attributes 
+        + lesson (Lesson)
 
 
 ### Delete [DELETE]
@@ -302,6 +353,20 @@ Ações relacionadas de programação de aulas.
 
 ### List attendance records [GET]
 
++ Parameters
+    + q (string, optional) - Fulltext search
+    + sort (string, optional) - Nome da coluna para ordenação. 
+    + limit (number, optional) - Limite por página
+    + with (string) - Nome da relação a ser incluída na resposta
+        + Members
+            + lesson
+            + lesson.schoolClass
+            + lesson.schoolClass.grade
+            + lesson.schoolClass.shift
+            + lesson.subject
+            + student.person
+            + student.schoolClass
+
 + Request 
     + Headers
 
@@ -309,7 +374,10 @@ Ações relacionadas de programação de aulas.
 
 + Response 200 (application/json)
 
-    + Attributes (AttendaceRecordPaginator)
+    + Attributes 
+        + Include Paginator
+        + data (array)
+            + (AttendanceRecord)
 
 
 ### Create a new attendance record [POST]
@@ -332,10 +400,10 @@ retornado o registro já existente e nenhuma alteração será realizada.
 
 + Response 409 (application/json) 
     
-    {
-        "message": "The record of the student to the lesson already exists.",
-        "status_code": 409 
-    }
+        {
+            "message": "The record of the student to the lesson already exists.",
+            "status_code": 409 
+        }
             
 
 
@@ -384,11 +452,55 @@ retornado o registro já existente e nenhuma alteração será realizada.
 
 
 
+# Group Evaluative stages
+
+"Evaluative stages" representa as fases avaliativas de uma escola, 
+que normalmente são identificadas como BIMESTRE/SEMESTRE/TRIMESTRE/...
+Uma fase avaliativa é um período dentro de um ano letivo que o professor
+precisa concluír o registro de notas e presenças dos seus alunos.
+
+
+## Evaluative stages Collection [/evaluation-phases{?limit,q,sort,field,with}]
+
+### List evaluation phases [GET]
+
++ Parameters
+    + q (string, optional) - Fulltext search
+    + sort (string, optional) - Nome da coluna para ordenação. 
+    + limit (number, optional) - Limite por página
+    + with (string) - Nome da relação a ser incluída na resposta
+
++ Request 
+    + Headers
+
+            authorization: Bearer <token_id>
+
++ Response 200 (application/json)
+
+    + Attributes 
+        + Include Paginator
+        + data (array)
+            + (EvaluationPhase)
 
 
 
             
 # Data structures 
+
+## EvaluationPhase
+
++ id: 1 (number) - Identificador único da fase avaliativa
++ name: 1º Bimestre (string)
++ start: `2016-02-01` (string) - Data inicial do período avaliativo
++ end: `2016-04-01` (string) - Ultimo dia do período avaliativo
++ school_year_id: 1 (number) - Ano letivo em que o período avaliativo existe
+
+## SchoolCalendar
+
++ id: 1 (number) - Identificador único da fase avaliativa
++ year: 2014 (number) - Ano de referência
++ start: `2016-02-01` - Inicio do ano letivo
++ end: `2016-12-10` - Fim do ano letivo
 
 ## SchoolFillable (object)
 
@@ -400,21 +512,13 @@ retornado o registro já existente e nenhuma alteração será realizada.
 + updated_at: `2016-08-30 13:17:11` (string) - Data da ultima alteração da escola
 + created_at: `2016-08-30 13:17:11` (string) - Data de cadastro
 
-## Schools (array)
-
-+ (School)
-
-## SchoolsPaginator
-
-+ Include (Paginator)
-+ data (Schools)
-
 ## SchoolClassBase (object)
 
 + identifier: A (string) - Abreviação/identificação da turma. Exmplo: B, para segunda turma do 1º ano (de 1 Ano B).
 
 ## SchoolClassFillable (SchoolClass)
 
++ school_year_id: 1 (number) - Ano letivo em que a turma existe.
 + grade_id: 1 (number) - Id do ano estudantíl.
 + shift_id: 1 (number) - Id do turno.
 
@@ -424,9 +528,11 @@ retornado o registro já existente e nenhuma alteração será realizada.
 + grade (Grade) - Ano estudantíl (Jardim I/1º Ano/...) da turma.
 + schift (Shift) - Turno (vespertino/matutino/...) da turma.
 
-## SchoolClasses (array)
+## SchoolClassSubject
 
-+ (SchoolClass)
++ id: 1 (number) - Identificador único da disciplina em uma turma.
++ school_class_id - Identificador da turma
++ subject_id - Identificador da disciplina
 
 ## Grade (object)
 
@@ -464,10 +570,6 @@ retornado o registro já existente e nenhuma alteração será realizada.
 + school_class (SchoolClass)
 + subject (Subject)
 
-## Lessons (array)
-
-+ (Lesson)
-
 ## Person (object)
 
 + id: 1 (number) - Identificador único da pessoa
@@ -485,27 +587,6 @@ retornado o registro já existente e nenhuma alteração será realizada.
 + class (SchoolClass)
 + responsible (array)
     + (Person)
-
-## Students (array)
-
-+ (Student)
-
-## StudentsPaginator
-
-+ Include Paginator
-+ data (array) 
-    + (Student)
-
-## Paginator (object)
-
-+ total: 25 (number) - Total de resultados encontrados
-+ per_page: 15 (number) - Quantidade de resultados por página
-+ current_page: 1 (number) - Página atual
-+ last_page: 2 (number) - Ultima página
-+ next_page_url: `http://localhost/api/<resource>?page=2` (string) - Url para resultados da proxima página
-+ prev_page_url: null (string, nullable) - Url para resultados da página anterior
-+ from: 1 (number) - Número inicial de resultados de paginação da página atual
-+ to: 15 (number) - Número final de resultados de paginação da página atual
 
 ## City (object)
 
@@ -534,15 +615,6 @@ retornado o registro já existente e nenhuma alteração será realizada.
 + created_at: `2016-08-30 13:17:11` (string) - Data de criação
 + updated_at: `2016-08-30 13:17:11` (string) - Data da ultima alteração
 
-## AttendanceRecords (array)
-
-+ (AttendanceRecord)
-
-## AttendaceRecordPaginator
-
-+ Include (Paginator)
-+ data (AttendanceRecords)
-
 ## Assessment (object)
 
 + id: 1 (number) - Identificador único da avaliação
@@ -554,3 +626,15 @@ retornado o registro já existente e nenhuma alteração será realizada.
 + grade: 7.5 (number) - Valor de resulta do aluno na avaliação
 + assessment_id: 1 (number) - Identificador da avaliação
 + student_id: 1 (number) - Id do aluno
++ school_class_subject_id: 1 (number) - Disciplina relacionada a turma a qual o aluno realizou a avaliação
+
+## Paginator (object)
+
++ total: 25 (number) - Total de resultados encontrados
++ per_page: 15 (number) - Quantidade de resultados por página
++ current_page: 1 (number) - Página atual
++ last_page: 2 (number) - Ultima página
++ next_page_url: `http://localhost/api/<resource>?page=2` (string) - Url para resultados da proxima página
++ prev_page_url: null (string, nullable) - Url para resultados da página anterior
++ from: 1 (number) - Número inicial de resultados de paginação da página atual
++ to: 15 (number) - Número final de resultados de paginação da página atual
