@@ -28,31 +28,39 @@ class AttendanceRecordsAndStudentGrade extends Migration
             $table->unique(['lesson_id', 'student_id']);
         });
 
-        // Avaliações
+        // Avaliações de uma fase do ano letivo
         Schema::create('assessments', function (Blueprint $table) {
             $table->increments('id');
+            $table->unsignedInteger('school_calendar_phase_id');
             $table->string('name');
             $table->timestamps();
+
+            $table->foreign('school_calendar_phase_id')
+                ->references('id')
+                ->on('school_calendar_phases');
         });
 
 
-        // Notas dos alunos
+        // Notas dos alunos de uma avaliação em uma fase do ano letivo
         Schema::create('student_grades', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->float('grade');
+            $table->unsignedInteger('school_class_student_id');
             $table->unsignedInteger('assessment_id');
-            $table->unsignedInteger('student_id');
             $table->bigInteger('school_class_subject_id')->unsigned();
             $table->timestamps();
 
             $table->foreign('school_class_subject_id')
-                ->references('id')->on('school_class_subjects');
+                ->references('id')
+                ->on('school_class_subjects');
 
             $table->foreign('assessment_id')
-                ->references('id')->on('assessments');
+                ->references('id')
+                ->on('assessments');
             
-            $table->foreign('student_id')
-                ->references('id')->on('students');
+            $table->foreign('school_class_student_id')
+                ->references('id')
+                ->on('school_class_students');
         });
     }
 

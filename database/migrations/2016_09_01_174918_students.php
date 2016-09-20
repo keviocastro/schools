@@ -46,6 +46,20 @@ class Students extends Migration
             $table->foreign('person_id')->references('id')->on('people');
 
         });
+
+        Schema::create('school_class_students', function(Blueprint $table) {
+            $table->increments('id');
+            $table->unsignedInteger('school_class_id');
+            $table->unsignedInteger('student_id');
+
+            $table->foreign('school_class_id')
+                ->references('id')
+                ->on('school_classes');
+
+            $table->foreign('student_id')
+                ->references('id')
+                ->on('students');
+        });
     }
 
     /**
@@ -55,6 +69,7 @@ class Students extends Migration
      */
     public function down()
     {
+        Schema::drop('school_class_students');
         Schema::drop('student_responsible');
         Schema::drop('students');
         Schema::drop('people');

@@ -11,7 +11,11 @@ class SchoolClass extends Model
      *
      * @var array
      */
-    protected $fillable = ['identifier', 'grade_id', 'shift_id'];
+    protected $fillable = [
+        'identifier', 
+        'grade_id', 
+        'shift_id',
+        'school_calendar_id'];
 
     /**
      * Get a grade record associate with the shcool class 

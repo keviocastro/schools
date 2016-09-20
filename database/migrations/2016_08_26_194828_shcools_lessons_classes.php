@@ -20,20 +20,19 @@ class ShcoolsLessonsClasses extends Migration
             $table->date('end');
             $table->timestamps();
 
-        });        
+        });    
 
-        // Fases avaliativas (bimestres, semestres, etc.)
-        Schema::create('evaluation_phases', function(Blueprint $table){
-            $table->bigIncrements('id');
+        // Fases avaliativas de um ano letivo (bimestres, semestres, etc.)
+        Schema::create('school_calendar_phases', function(Blueprint $table){
+            $table->increments('id');
             $table->string('name');
+            $table->unsignedInteger('school_calendar_id');
             $table->date('start');
             $table->date('end');
-            $table->unsignedInteger('school_calendar_id');
             $table->timestamps();
 
             $table->foreign('school_calendar_id')
                 ->references('id')->on('school_calendars');
-             
         });
 
         // Escolas
@@ -68,12 +67,21 @@ class ShcoolsLessonsClasses extends Migration
         Schema::create('school_classes', function (Blueprint $table) {
             $table->increments('id');
             $table->string('identifier');
+            $table->unsignedInteger('school_calendar_id');
             $table->unsignedInteger('grade_id');
             $table->unsignedInteger('shift_id');
             $table->timestamps();
 
-            $table->foreign('grade_id')->references('id')->on('grades');
-            $table->foreign('shift_id')->references('id')->on('shifts');
+            $table->foreign('school_calendar_id')
+                ->references('id')
+                ->on('school_calendars');
+            
+            $table->foreign('grade_id')
+                ->references('id')->on('grades');
+            
+            $table->foreign('shift_id')
+                ->references('id')
+                ->on('shifts');
 
         });
 
@@ -121,7 +129,7 @@ class ShcoolsLessonsClasses extends Migration
             'shifts',
             'grades',
             'schools',
-            'evaluation_phases',
+            'school_calendar_phases',
             'school_calendars',
         ];
 

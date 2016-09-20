@@ -13,6 +13,17 @@
 
 $faker = Faker\Factory::create('pt_BR');
 
+$factory->define(App\SchoolCalendar::class, function() use ($factory, $faker) {
+    
+    $dateTime = $faker->dateTimeThisDecade;
+    
+    return [
+        'year' => $dateTime->format('Y'),
+        'start' => $dateTime->setDate($dateTime->format('Y'), rand(1,3), rand(1,28)),
+        'end' => $dateTime->setDate($dateTime->format('Y'), rand(11,12), rand(1,30)),
+    ];
+});
+
 $factory->define(App\School::class, function () use ($factory, $faker) {
     return [
         'name' => $faker->company.' school',
@@ -29,6 +40,9 @@ $factory->define(App\SchoolClass::class, function () use ($factory, $faker) {
         'grade_id' => function(){
         	return factory(App\Grade::class)->create()->id;
         },
+        'school_calendar_id' => function(){
+            return factory(App\SchoolCalendar::class)->create()->id;
+        }
     ];
 });
 

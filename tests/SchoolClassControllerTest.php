@@ -14,12 +14,12 @@ class SchoolClassControllerTest extends TestCase
      */
     public function testIndex()
     {
-    	$shcoolClass = factory(App\SchoolClass::class)->create();
+    	$schoolClass = factory(App\SchoolClass::class)->create();
         
         $this->get('api/school-classes?sort=-id',
         	$this->getAutHeader())
         	->assertResponseStatus(200)
-        	->seeJson($shcoolClass->toArray());
+        	->seeJson($schoolClass->toArray());
     }
 
     /**
@@ -29,13 +29,16 @@ class SchoolClassControllerTest extends TestCase
      */
     public function testStore()
     {
-    	$shcoolClass = factory(App\SchoolClass::class)->make()->toArray();
+        $schoolCalendar = factory(App\SchoolCalendar::class)->create();
+    	$schoolClass = factory(App\SchoolClass::class)->make()->toArray();
+        $schoolClass['school_calendar_id'] = $schoolCalendar->id;
         
+        // dd($schoolClass);
         $this->post('api/school-classes',
-        	$shcoolClass,
+        	$schoolClass,
         	$this->getAutHeader())
         	->assertResponseStatus(201)
-        	->seeJson($shcoolClass);
+        	->seeJson($schoolClass);
     }
 
     /**

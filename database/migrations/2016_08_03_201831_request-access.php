@@ -15,7 +15,7 @@ class RequestAccess extends Migration
         // Solicitações de acesso ao sistema
         Schema::create('request_accesses', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('auth0_user_id');
+            $table->string('user_id');
             // 0 - pending
             // 1 - denied
             // 2 - aprroved

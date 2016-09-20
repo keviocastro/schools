@@ -12,7 +12,7 @@ class RequestAccess extends Model
      * @var array
      */
     protected $fillable = [
-        'auth0_user_id', 'status'
+        'user_id', 'status'
     ];
 
     /**

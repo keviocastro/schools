@@ -39,7 +39,7 @@ confirme a solicitação de acesso e atribua um novo papel (role).
     + Attributes
         + request_access (object) 
             + id: 1 (number) - Identificador único da solicitação
-            + auth0_user_id: auth0|57c0840deae095471aba4093 (string) - id do usuário
+            + user_id: auth0|57c0840deae095471aba4093 (string) - id do usuário no microservice de autentificação auth0.
             + status: 0 (number) - Situação da solicitação. 
                                 0 pendente
                                 1 negada
@@ -452,50 +452,18 @@ retornado o registro já existente e nenhuma alteração será realizada.
 
 
 
-# Group Evaluative stages
-
-"Evaluative stages" representa as fases avaliativas de uma escola, 
-que normalmente são identificadas como BIMESTRE/SEMESTRE/TRIMESTRE/...
-Uma fase avaliativa é um período dentro de um ano letivo que o professor
-precisa concluír o registro de notas e presenças dos seus alunos.
-
-
-## Evaluative stages Collection [/evaluation-phases{?limit,q,sort,field,with}]
-
-### List evaluation phases [GET]
-
-+ Parameters
-    + q (string, optional) - Fulltext search
-    + sort (string, optional) - Nome da coluna para ordenação. 
-    + limit (number, optional) - Limite por página
-    + with (string) - Nome da relação a ser incluída na resposta
-
-+ Request 
-    + Headers
-
-            authorization: Bearer <token_id>
-
-+ Response 200 (application/json)
-
-    + Attributes 
-        + Include Paginator
-        + data (array)
-            + (EvaluationPhase)
-
-
-
             
 # Data structures 
 
-## EvaluationPhase
+## SchoolCalendarPhase
 
 + id: 1 (number) - Identificador único da fase avaliativa
 + name: 1º Bimestre (string)
 + start: `2016-02-01` (string) - Data inicial do período avaliativo
 + end: `2016-04-01` (string) - Ultimo dia do período avaliativo
-+ school_year_id: 1 (number) - Ano letivo em que o período avaliativo existe
++ school_calendar_id: 1 (number) - Ano letivo em que o período avaliativo existe
 
-## SchoolCalendar
+## SchoolCalendar (object)
 
 + id: 1 (number) - Identificador único da fase avaliativa
 + year: 2014 (number) - Ano de referência
@@ -518,15 +486,16 @@ precisa concluír o registro de notas e presenças dos seus alunos.
 
 ## SchoolClassFillable (SchoolClass)
 
-+ school_year_id: 1 (number) - Ano letivo em que a turma existe.
 + grade_id: 1 (number) - Id do ano estudantíl.
 + shift_id: 1 (number) - Id do turno.
++ school_calendar_id: 1 (number) - Ano letivo em que a turma existe. 
 
 ## SchoolClass (SchoolClassBase)
 
 + id: 1 (number) - Identificador único da turma.
 + grade (Grade) - Ano estudantíl (Jardim I/1º Ano/...) da turma.
 + schift (Shift) - Turno (vespertino/matutino/...) da turma.
++ schoolCalendar (SchoolCalendar)
 
 ## SchoolClassSubject
 
