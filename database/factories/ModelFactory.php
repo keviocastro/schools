@@ -162,3 +162,57 @@ $factory->define(App\AttendanceRecord::class, function ($faker) use ($factory) {
         ];
 });
 
+$factory->define(App\SchoolCalendarPhase::class, function ($faker) use ($factory) {
+    
+    $schoolCalendar = factory(App\SchoolCalendar::class)->create();
+
+    $startDate = $faker->dateTimeBetween($schoolCalendar->start, $schoolCalendar->end);
+    $endDate = $faker->dateTimeBetween($startDate, $schoolCalendar->end);
+
+    return [
+            'school_calendar_id' => $schoolCalendar->id,
+            'name' => $faker->randomElement([
+                    '1º Bimestre',
+                    '2º Bimestre',
+                    '3º Bimestre',
+                    '4º Bimestre',
+                    '1º Semestre',
+                    '2º Semestre',
+                    'N1',
+                    'N2',
+                    'Reavaliação 1',
+                    'Reavaliação 2',
+                    'Recuperação 1',
+                    'Recuperação 2',
+                ]),
+            'start' => $startDate,
+            'end' => $endDate
+        ];
+});
+
+$factory->define(App\Assessment::class, function ($faker) use ($factory) {
+    
+    return [
+            'school_calendar_phase_id' => function(){
+                return  factory(App\SchoolCalendarPhase::class)->create()->id;
+            },
+            'name' => $faker->randomElement([
+                    'Nota 1',
+                    'Nota 2',
+                    'Nota 3',
+                    'Prova 1',
+                    'Prova 2',
+                    'Prova 3',
+                    'Avaliação 1',
+                    'Avaliação 2',
+                    'Avaliação 3',
+                    'N1',
+                    'N2',
+                    'N3',
+                    'N1.1',
+                    'N2.1',
+                    'N3.1',
+                ])
+        ];
+});
+

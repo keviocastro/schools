@@ -42,7 +42,8 @@ $api->version('v1', function ($api) {
 		$api->put('attendance-records/{id}', 'App\Http\Controllers\AttendanceRecordController@update');
 		$api->delete('attendance-records/{id}', 'App\Http\Controllers\AttendanceRecordController@destroy');
     	
-
+		// Assessments
+		$api->get('assessments', 'App\Http\Controllers\AssessmentController@index');
     });
 
 	$api->get('health', 'App\Http\Controllers\ApiController@health');

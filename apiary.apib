@@ -16,6 +16,11 @@ Onde "token id" é obtido durante a autenficação do usuário no microservice d
 auth0 através do dominio "logos.auth0.com".
 Veja ver mais detalhes de como realizar essa autentificação nesse link: https://auth0.com/docs 
 
+# Group caralho
+
+Que caralhoooo
+
+
 # Group Auth
 
 Ações relacionadas a autentificação, registro e manutenção de dados do perfil do usuário.
@@ -257,7 +262,7 @@ Ações relacionadas a manter os dados das escolas (schools) e turmas.
             
 # Group Lessons
 
-Ações relacionadas de programação de aulas.
+Ações relacionadas aos horários de aulas.
 
 ## Lessons Collection [/lessons{?limit,q,sort,with}]
 
@@ -452,8 +457,48 @@ retornado o registro já existente e nenhuma alteração será realizada.
 
 
 
+
+# Group Assessments
+
+O recurso de avaliações oferece ações relacionadas ao registro,
+pesquisa e indicadores sobre as notas dos alunos, a programação e avaliações
+durante um ano letivo e os calculos envolvidos.
+
+## Assessments Collection [/assessments{?limit,offset,q,sort,field,with}]
+
+### List assessments [GET]
+
++ Parameters
+    + q (string, optional) - Fulltext search.
+    + sort (string, optional) - Nome da coluna para ordenação. 
+    + limit (number, optional) - Limite por página.
+    + field (string, optional) - Nome da coluna e valor para filtrar resultados.
+    + with (string) - Nome da relação a ser incluída na resposta.
+        + Members
+            + schoolCalendarPhase
+            + schoolCalendarPhase.schoolCalendar
+
++ Request 
+    + Headers
+
+            authorization: Bearer <token_id>
+
++ Response 200 (application/json)
+
+    + Attributes 
+        + Include Paginator
+        + data (array)
+            + (Assessment)
+
+
             
 # Data structures 
+
+## Assessment (object)
+
++ id: 1 (number) - Identificador único da avaliação/nota
++ name: Nota N1 - Descrição da avaliação/nota
++ schoolCalendarPhase (SchoolCalendarPhase)
 
 ## SchoolCalendarPhase
 
@@ -461,7 +506,7 @@ retornado o registro já existente e nenhuma alteração será realizada.
 + name: 1º Bimestre (string)
 + start: `2016-02-01` (string) - Data inicial do período avaliativo
 + end: `2016-04-01` (string) - Ultimo dia do período avaliativo
-+ school_calendar_id: 1 (number) - Ano letivo em que o período avaliativo existe
++ schoolCalendar (SchoolCalendar)
 
 ## SchoolCalendar (object)
 
@@ -583,11 +628,6 @@ retornado o registro já existente e nenhuma alteração será realizada.
 + Include AttendanceRecordFillable
 + created_at: `2016-08-30 13:17:11` (string) - Data de criação
 + updated_at: `2016-08-30 13:17:11` (string) - Data da ultima alteração
-
-## Assessment (object)
-
-+ id: 1 (number) - Identificador único da avaliação
-+ name: Avaliação 1 (string)
 
 ## StudentGrade
 
