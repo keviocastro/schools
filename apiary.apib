@@ -490,9 +490,47 @@ e a nota do aluno no 1º Bimestre será composta pela conta (N1*0,4)+(N2*0,6)=NO
         + data (array)
             + (Assessment)
 
+# Group Occurrence 
 
-            
+`Occurrence` são registros feitos sobre alunos ou professores.
+
+## Occurrence Collection [/occurences{?limit,offset,q,sort,field,with}]
+
+### List occurences [GET]
+
++ Parameters
+    + q (string, optional) - Fulltext search.
+    + sort (string, optional) - Nome da coluna para ordenação. 
+    + limit (number, optional) - Limite por página.
+    + field (string, optional) - Nome da coluna e valor para filtrar resultados.
+    + with (string) - Nome da relação a ser incluída na resposta.
+        + Members
+            + ownerPerson
+            + aboutPerson
+
++ Request 
+    + Headers
+
+            authorization: Bearer <token_id>
+
++ Response 200 (application/json)
+
+    + Attributes 
+        + Include Paginator
+        + data (array)
+            + (Occurrence)
+
 # Data structures 
+
+## Occurrence (object)
+
++ id: 1 (number) - Identificador única de uma ocorrência
++ comment: O aluno brigou em sala de aula (string) - Descrição da ocorrência
++ owner_person_id: 1 (number) - ID da pessoa que registrou a ocorrência
++ about_person_id: 1 (number) - ID da pessoa alvo da ocorrência 
++ level_id: 1 (number) - ID do nível de ocorrência (leve/medio/grave)
++ created_at: `2016-04-01 10:21:20` (string)
++ updated_at: `2016-08-01 08:10:20` (string)
 
 ## Assessment (object)
 
