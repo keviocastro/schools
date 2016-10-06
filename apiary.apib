@@ -16,22 +16,17 @@ Onde "token id" é obtido durante a autenficação do usuário no microservice d
 auth0 através do dominio "logos.auth0.com".
 Veja ver mais detalhes de como realizar essa autentificação nesse link: https://auth0.com/docs 
 
-# Group caralho
-
-Que caralhoooo
-
-
 # Group Auth
 
-Ações relacionadas a autentificação, registro e manutenção de dados do perfil do usuário.
-
 ## Request access [/auth/request-access]
-### Create a request access [POST]
 
-Registra a solicitação de acesso do usuário.
-O usuário é registrado como papel (role) de convidado (guest),
-até que algum usuário que tenha permissão para liberação de usuários
-confirme a solicitação de acesso e atribua um novo papel (role).
+`Request access` são solicitações de acesso que um usuário faz a uma conta.
+
+Exemplo: considerando que a Escola Luz do Saber tem uma conta na sua aplicação, e o Professor Medeiros 
+vai começar a utilizar o aplicativo para registrar presenças e notas dos alunos. Então o 
+Professor Medeiros acessa seu aplicativo informando usuário e senha para se cadastrar. Com isso o cadastro do Professor Medeiros fica pendente até que um usuário da Escola Luz do Saber com permissão para liberação confirme seu cadastro. 
+
+### Create a request access [POST]
 
 + Request
     + Headers
@@ -55,7 +50,8 @@ confirme a solicitação de acesso e atribua um novo papel (role).
 
 # Group Schools
 
-Ações relacionadas a manter os dados das escolas (schools) e turmas.
+'Schools' são as escolas associadas a uma conta.
+'School Class' são as turmas de uma escola que existem em um determinado ano letivo/calendario escolar.
 
 ## Schools Collection [/schools{?limit,q,sort}]
 
@@ -262,7 +258,7 @@ Ações relacionadas a manter os dados das escolas (schools) e turmas.
             
 # Group Lessons
 
-Ações relacionadas aos horários de aulas.
+`Lessons` são as aulas programadas para as turmas de uma escola.
 
 ## Lessons Collection [/lessons{?limit,q,sort,with}]
 
@@ -353,6 +349,9 @@ Ações relacionadas aos horários de aulas.
 
 
 # Group Attendance Records
+
+`Attendance Records` são os registros de presenças dos alunos em uma aula, definindo
+se o aluno estava ou não presente durante a aula.
 
 ## Attendance records Collection [/attendance-records{?limit,q,sort,field,with}]
 
@@ -460,9 +459,10 @@ retornado o registro já existente e nenhuma alteração será realizada.
 
 # Group Assessments
 
-O recurso de avaliações oferece ações relacionadas ao registro,
-pesquisa e indicadores sobre as notas dos alunos, a programação e avaliações
-durante um ano letivo e os calculos envolvidos.
+`Assessments` são as definições das avaliações que um professor precisar aplicar
+aos seus alunos durante uma fase do ano.
+Exemplo: No 1º Bimestre o professor precisa avaliar seus alunos com duas provas (N1 e N2),
+e a nota do aluno no 1º Bimestre será composta pela conta (N1*0,4)+(N2*0,6)=NOTA_DO_BIMESTRE.
 
 ## Assessments Collection [/assessments{?limit,offset,q,sort,field,with}]
 
