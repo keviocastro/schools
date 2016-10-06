@@ -26,3 +26,23 @@ $ docker-compose up
 
 @todo
 
+## Solucionando problemas de instalação
+
+ERROR: In file './docker-compose.yml' service 'version' doesn't have any configuration options. All top level keys in your docker-compose.yml must map to a dictionary of configuration options.
+
+Esse erro ocorre porque a versão do docker-compose que está instalado é inferior  a v1.6.
+Execute os comandos para atualizar:
+
+```sh
+$ sudo -i
+$ apt-get autoremove docker-compose
+$ rm -rf /usr/local/bin/docker-compose
+$ curl -L https://github.com/docker/compose/releases/download/1.8.0/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
+$ chmod +x /usr/local/bin/docker-compose
+```
+
+Pronto, agora você pode verificar se a versão do docker-compose esta correta:
+
+```sh
+$ docker-compose --version
+```
