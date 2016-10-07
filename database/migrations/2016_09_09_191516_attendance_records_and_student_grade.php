@@ -21,6 +21,7 @@ class AttendanceRecordsAndStudentGrade extends Migration
             // 1 Estava presente
             $table->tinyInteger('presence');
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('lesson_id')->references('id')->on('lessons');
             $table->foreign('student_id')->references('id')->on('students');
@@ -34,6 +35,7 @@ class AttendanceRecordsAndStudentGrade extends Migration
             $table->unsignedInteger('school_calendar_phase_id');
             $table->string('name');
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('school_calendar_phase_id')
                 ->references('id')
@@ -49,6 +51,7 @@ class AttendanceRecordsAndStudentGrade extends Migration
             $table->unsignedInteger('assessment_id');
             $table->bigInteger('school_class_subject_id')->unsigned();
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('school_class_subject_id')
                 ->references('id')

@@ -21,6 +21,7 @@ class Students extends Migration
             $table->string('place_of_birth');
             $table->string('more');
             $table->timestamps();
+            $table->softDeletes();
         });
 
 
@@ -30,6 +31,7 @@ class Students extends Migration
             $table->unsignedInteger('person_id');
             $table->unsignedInteger('school_class_id');
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('school_class_id')->references('id')->on('school_classes');
             $table->foreign('person_id')->references('id')->on('people');
@@ -41,6 +43,7 @@ class Students extends Migration
             $table->increments('id');
             $table->unsignedInteger('student_id');
             $table->unsignedInteger('person_id');
+            $table->softDeletes();
 
             $table->foreign('student_id')->references('id')->on('students');
             $table->foreign('person_id')->references('id')->on('people');
@@ -51,6 +54,7 @@ class Students extends Migration
             $table->increments('id');
             $table->unsignedInteger('school_class_id');
             $table->unsignedInteger('student_id');
+            $table->softDeletes();
 
             $table->foreign('school_class_id')
                 ->references('id')
