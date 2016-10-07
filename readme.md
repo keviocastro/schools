@@ -37,6 +37,12 @@ Vamos ao fluxo:
 5. Agora você pode fazer seu commit e push. Depois de enviar seu código para esse repositório, verifique se o servidor de integração continua concluiu o build com sucesso Você pode vericar o status do build do seu commit no icone no alto desta documentação ou em https://semaphoreci.com/keviocastro/schools e também será notificado no canal code na nossa conta do chat Slack. 
 6. Pronto, agora é só pegar outro café e assistir uma piada do Paulinho Gogó e Ceará no Youtube. 
 
+
+Links úteis:
+https://help.apiary.io/tools/automated-testing/testing-local/ Ferramenta de testes da documentação
+https://apiblueprint.org/ Syntax da documentação
+http://martinfowler.com/bliki/TestDrivenDevelopment.html Um artido do mestre falando sobre TDD.
+
 ## Solucionando problemas de instalação
 
 - ERROR: In file './docker-compose.yml' service 'version' doesn't have any configuration options. All top level keys in your docker-compose.yml must map to a dictionary of configuration options.
