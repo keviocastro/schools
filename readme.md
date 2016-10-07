@@ -30,10 +30,10 @@ Consideramos a documentação como nosso contrato e como tal, ele ter ser seguid
 
 Vamos ao fluxo:
 
-1. Escreve seu contrato/documentação do recurso que vai desenvolver no arquivo apiary.apib, e compile sua documentação utilizando o comando ```sh $ apiary preview```.
+1. Escreve seu contrato/documentação do recurso que vai desenvolver no arquivo apiary.apib, e compile sua documentação utilizando o comando ``` $ apiary preview```.
 2. Escreva seu teste unitário no diretório testes/ para a ação do controllador que vai implementar seu recurso.
 3. Desenvolva o recurso e atualize seu teste quando necessário. Se você precisar desenvolver outras classes/metodos escreva o teste unitário para eles também utilizando TDD.
-4. Quando estiver pronto e seu teste unitário estiver VERDE, execute o comando para testar se sua implementação esta de acordo com o contrato que você escreveu. O comando para isso é este: ```sh $ dredd```.
+4. Quando estiver pronto e seu teste unitário estiver VERDE, execute o comando para testar se sua implementação esta de acordo com o contrato que você escreveu. O comando para isso é este: ``` $ dredd```.
 5. Agora você pode fazer seu commit e push. Depois de enviar seu código para esse repositório, verifique se o servidor de integração continua concluiu o build com sucesso Você pode vericar o status do build do seu commit no icone no alto desta documentação ou em https://semaphoreci.com/keviocastro/schools e também será notificado no canal code na nossa conta do chat Slack. 
 6. Pronto, agora é só pegar outro café e assistir uma piada do Paulinho Gogó e Ceará no Youtube. 
 
