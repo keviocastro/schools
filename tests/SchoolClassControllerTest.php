@@ -33,7 +33,6 @@ class SchoolClassControllerTest extends TestCase
     	$schoolClass = factory(App\SchoolClass::class)->make()->toArray();
         $schoolClass['school_calendar_id'] = $schoolCalendar->id;
         
-        // dd($schoolClass);
         $this->post('api/school-classes',
         	$schoolClass,
         	$this->getAutHeader())

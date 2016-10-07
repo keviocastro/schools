@@ -25,7 +25,8 @@ class SchoolClass extends Model
         'identifier', 
         'grade_id', 
         'shift_id',
-        'school_calendar_id'];
+        'school_calendar_id',
+        'school_id'];
 
     /**
      * Get a grade record associate with the shcool class 
