@@ -65,7 +65,7 @@ class SchoolControllerTest extends TestCase
             [],
             $this->getAutHeader())
             ->assertResponseStatus(204)
-            ->dontSeeInDatabase('schools', ['id' => $school->id]);
+            ->seeIsSoftDeletedInDatabase('schools', ['id' => $school->id]);
     }
 
     /**

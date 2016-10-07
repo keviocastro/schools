@@ -94,6 +94,6 @@ class AttendanceRecordControllerTest extends TestCase
             [],
             $this->getAutHeader())
             ->assertResponseStatus(204)
-            ->dontSeeInDatabase('attendance_records', ['id' => $attendanceRecord->id]);
+            ->seeIsSoftDeletedInDatabase('attendance_records', ['id' => $attendanceRecord->id]);
     }
 }
