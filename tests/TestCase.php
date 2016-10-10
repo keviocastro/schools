@@ -2,12 +2,15 @@
 
 namespace Tests;
 
+use Kirkbater\Testing\SoftDeletes;
 use Auth0\SDK\Auth0AuthApi;
 use Illuminate\Foundation\Testing\TestCase as TestCaseLara;
 use Config;
 
 class TestCase extends TestCaseLara
 {
+    use SoftDeletes;
+
     /**
      * The base URL to use while testing the application.
      *

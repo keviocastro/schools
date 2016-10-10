@@ -40,6 +40,9 @@ $factory->define(App\SchoolClass::class, function () use ($factory, $faker) {
         'grade_id' => function(){
         	return factory(App\Grade::class)->create()->id;
         },
+        'school_id' => function(){
+            return factory(App\School::class)->create()->id;
+        },
         'school_calendar_id' => function(){
             return factory(App\SchoolCalendar::class)->create()->id;
         }

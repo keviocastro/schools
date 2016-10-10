@@ -19,6 +19,7 @@ class ShcoolsLessonsClasses extends Migration
             $table->date('start');
             $table->date('end');
             $table->timestamps();
+            $table->softDeletes();
 
         });    
 
@@ -30,6 +31,7 @@ class ShcoolsLessonsClasses extends Migration
             $table->date('start');
             $table->date('end');
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('school_calendar_id')
                 ->references('id')->on('school_calendars');
@@ -40,6 +42,7 @@ class ShcoolsLessonsClasses extends Migration
             $table->increments('id');
             $table->string('name');
             $table->timestamps();
+            $table->softDeletes();
         });
 
         // Ano estudantil (Jardim I, 1º Ano, etc.)
@@ -47,6 +50,7 @@ class ShcoolsLessonsClasses extends Migration
             $table->increments('id');
             $table->string('name');
             $table->timestamps();
+            $table->softDeletes();
         });
 
         // Turno da turma (matutino, vespertino, noturno)
@@ -54,6 +58,7 @@ class ShcoolsLessonsClasses extends Migration
             $table->increments('id');
             $table->string('name');
             $table->timestamps();
+            $table->softDeletes();
         });
 
         // Disciplina (matématica, português, física quântica)
@@ -61,16 +66,23 @@ class ShcoolsLessonsClasses extends Migration
             $table->increments('id');
             $table->string('name');
             $table->timestamps();
+            $table->softDeletes();
         });
 
         // Turmas (1º Ano A, Jardim I - A, Jardim I - B)
         Schema::create('school_classes', function (Blueprint $table) {
             $table->increments('id');
             $table->string('identifier');
+            $table->unsignedInteger('school_id');
             $table->unsignedInteger('school_calendar_id');
             $table->unsignedInteger('grade_id');
             $table->unsignedInteger('shift_id');
             $table->timestamps();
+            $table->softDeletes();
+
+            $table->foreign('school_id')
+                ->references('id')
+                ->on('schools');
 
             $table->foreign('school_calendar_id')
                 ->references('id')
@@ -92,6 +104,7 @@ class ShcoolsLessonsClasses extends Migration
             $table->unsignedInteger('school_class_id');
             $table->unsignedInteger('subject_id');
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('school_class_id')
                 ->references('id')->on('school_classes');
@@ -108,6 +121,7 @@ class ShcoolsLessonsClasses extends Migration
             $table->dateTime('start');
             $table->dateTime('end');
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('school_class_id')->references('id')->on('school_classes');
             $table->foreign('subject_id')->references('id')->on('subjects');

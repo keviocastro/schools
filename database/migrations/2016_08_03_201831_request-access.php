@@ -21,6 +21,7 @@ class RequestAccess extends Migration
             // 2 - aprroved
             $table->tinyInteger('status')->default(0);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

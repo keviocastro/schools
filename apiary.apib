@@ -31,7 +31,7 @@ Professor Medeiros acessa seu aplicativo informando usuário e senha para se cad
 + Request
     + Headers
     
-            authorization: Bearer <token_id>
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ3ODQ1MjI3MSwiaWF0IjoxNDc1ODYwMjcxfQ.TyXdSxKWVaqGb9Y7uJh44Ybz807DLtUWNxw__K8JU7w
     
     
 + Response 200 (application/json)
@@ -58,14 +58,14 @@ Professor Medeiros acessa seu aplicativo informando usuário e senha para se cad
 ### List Schools [GET]
 
 + Parameters
-    + q (string, optional) - Fulltext search
-    + sort (string, optional) - Nome da coluna para ordenação. 
-    + limit (number, optional) - Limite por página
+    + q (string, optional) - Fulltext search.
+    + sort (string, optional) - Nome da coluna para ordenação acendente.
+    + limit (number, optional) - Limite por página.
         
 + Request
     + Headers
             
-            authorization: Bearer <token_id>
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ3ODQ1MjI3MSwiaWF0IjoxNDc1ODYwMjcxfQ.TyXdSxKWVaqGb9Y7uJh44Ybz807DLtUWNxw__K8JU7w
 
 + Response 200 (application/json)
 
@@ -79,7 +79,7 @@ Professor Medeiros acessa seu aplicativo informando usuário e senha para se cad
 + Request 
     + Headers
             
-            authorization: Bearer <token_id>
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ3ODQ1MjI3MSwiaWF0IjoxNDc1ODYwMjcxfQ.TyXdSxKWVaqGb9Y7uJh44Ybz807DLtUWNxw__K8JU7w
 
 + Request (application/json)
 
@@ -99,12 +99,12 @@ Professor Medeiros acessa seu aplicativo informando usuário e senha para se cad
 ### View a school detail [GET]
 
 + Parameters
-    + school_id: 1 (number) - ID of the School
+    + school_id: 10 (number) - ID of the School
 
 + Request 
     + Headers
             
-            authorization: Bearer <token_id>
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ3ODQ1MjI3MSwiaWF0IjoxNDc1ODYwMjcxfQ.TyXdSxKWVaqGb9Y7uJh44Ybz807DLtUWNxw__K8JU7w
 
 + Response  200 (application/json)
 
@@ -121,7 +121,7 @@ Professor Medeiros acessa seu aplicativo informando usuário e senha para se cad
 
     + Headers
             
-            authorization: Bearer <token_id>
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ3ODQ1MjI3MSwiaWF0IjoxNDc1ODYwMjcxfQ.TyXdSxKWVaqGb9Y7uJh44Ybz807DLtUWNxw__K8JU7w
             
     + Attributes (SchoolFillable)
             
@@ -140,7 +140,7 @@ Professor Medeiros acessa seu aplicativo informando usuário e senha para se cad
 
     + Headers
             
-            authorization: Bearer <token_id>
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ3ODQ1MjI3MSwiaWF0IjoxNDc1ODYwMjcxfQ.TyXdSxKWVaqGb9Y7uJh44Ybz807DLtUWNxw__K8JU7w
 
 
 + Response 204
@@ -159,6 +159,11 @@ Professor Medeiros acessa seu aplicativo informando usuário e senha para se cad
             + grade
             + shift
 
++ Request (application/json)
+
+    + Headers
+            
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ3ODQ1MjI3MSwiaWF0IjoxNDc1ODYwMjcxfQ.TyXdSxKWVaqGb9Y7uJh44Ybz807DLtUWNxw__K8JU7w
 
 + Response 200 (application/json)
 
@@ -172,7 +177,7 @@ Professor Medeiros acessa seu aplicativo informando usuário e senha para se cad
 + Request (application/json)
     + Headers
             
-            authorization: Bearer <token_id>
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ3ODQ1MjI3MSwiaWF0IjoxNDc1ODYwMjcxfQ.TyXdSxKWVaqGb9Y7uJh44Ybz807DLtUWNxw__K8JU7w
             
     + Attributes (SchoolClassFillable)
             
@@ -198,7 +203,7 @@ Professor Medeiros acessa seu aplicativo informando usuário e senha para se cad
 + Request 
     + Headers
 
-            authorization: Bearer <token_id>
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ3ODQ1MjI3MSwiaWF0IjoxNDc1ODYwMjcxfQ.TyXdSxKWVaqGb9Y7uJh44Ybz807DLtUWNxw__K8JU7w
 
 + Response 200 (application/json)
 
@@ -211,7 +216,7 @@ Professor Medeiros acessa seu aplicativo informando usuário e senha para se cad
 + Request 
     + Headers
             
-            authorization: Bearer <token_id>
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ3ODQ1MjI3MSwiaWF0IjoxNDc1ODYwMjcxfQ.TyXdSxKWVaqGb9Y7uJh44Ybz807DLtUWNxw__K8JU7w
             
     + Attributes (SchoolClassFillable)
             
@@ -246,7 +251,7 @@ Professor Medeiros acessa seu aplicativo informando usuário e senha para se cad
 + Request (application/json)
     + Headers
             
-            authorization: Bearer <token_id>
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ3ODQ1MjI3MSwiaWF0IjoxNDc1ODYwMjcxfQ.TyXdSxKWVaqGb9Y7uJh44Ybz807DLtUWNxw__K8JU7w
 
 + Response 200 (application/json)
 
@@ -278,7 +283,7 @@ Professor Medeiros acessa seu aplicativo informando usuário e senha para se cad
 + Request 
     + Headers
             
-            authorization: Bearer <token_id>
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ3ODQ1MjI3MSwiaWF0IjoxNDc1ODYwMjcxfQ.TyXdSxKWVaqGb9Y7uJh44Ybz807DLtUWNxw__K8JU7w
 
 + Response 200 (application/json)
 
@@ -293,7 +298,7 @@ Professor Medeiros acessa seu aplicativo informando usuário e senha para se cad
 + Request (application/json)
     + Headers
             
-            authorization: Bearer <token_id>
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ3ODQ1MjI3MSwiaWF0IjoxNDc1ODYwMjcxfQ.TyXdSxKWVaqGb9Y7uJh44Ybz807DLtUWNxw__K8JU7w
             
     + Attributes (LessonFillable)
             
@@ -303,10 +308,10 @@ Professor Medeiros acessa seu aplicativo informando usuário e senha para se cad
         + lesson (Lesson)
 
 
-## Lesson [/lesson/{lesson_id}{?with}]
+## Lesson [/lessons/{lesson_id}{?with}]
 
 + Parameters
-    - lesson_id (number) - ID of the lesson
+    - lesson_id: 1 (number) - ID of the lesson
 
 ### View a lesson detail [GET]
 
@@ -321,7 +326,7 @@ Professor Medeiros acessa seu aplicativo informando usuário e senha para se cad
 + Request 
     + Headers
 
-            authorization: Bearer <token_id>
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ3ODQ1MjI3MSwiaWF0IjoxNDc1ODYwMjcxfQ.TyXdSxKWVaqGb9Y7uJh44Ybz807DLtUWNxw__K8JU7w
 
 + Response 200 (application/json)
 
@@ -333,7 +338,7 @@ Professor Medeiros acessa seu aplicativo informando usuário e senha para se cad
 + Request 
     + Headers
             
-            authorization: Bearer <token_id>
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ3ODQ1MjI3MSwiaWF0IjoxNDc1ODYwMjcxfQ.TyXdSxKWVaqGb9Y7uJh44Ybz807DLtUWNxw__K8JU7w
             
     + Attributes (LessonFillable)
             
@@ -374,7 +379,7 @@ se o aluno estava ou não presente durante a aula.
 + Request 
     + Headers
 
-            authorization: Bearer <token_id>
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ3ODQ1MjI3MSwiaWF0IjoxNDc1ODYwMjcxfQ.TyXdSxKWVaqGb9Y7uJh44Ybz807DLtUWNxw__K8JU7w
 
 + Response 200 (application/json)
 
@@ -393,7 +398,7 @@ retornado o registro já existente e nenhuma alteração será realizada.
 + Request (application/json)
     + Headers
             
-            authorization: Bearer <token_id>
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ3ODQ1MjI3MSwiaWF0IjoxNDc1ODYwMjcxfQ.TyXdSxKWVaqGb9Y7uJh44Ybz807DLtUWNxw__K8JU7w
             
     + Attributes (AttendanceRecordFillable)
             
@@ -411,7 +416,7 @@ retornado o registro já existente e nenhuma alteração será realizada.
             
 
 
-## Attendance Record [/attendance-record/{id}{?with}]
+## Attendance Record [/attendance-records/{id}{?with}]
 
 + Parameters
     + id (number) - ID of the attendance record
@@ -433,7 +438,7 @@ retornado o registro já existente e nenhuma alteração será realizada.
 + Request 
     + Headers
 
-            authorization: Bearer <token_id>
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ3ODQ1MjI3MSwiaWF0IjoxNDc1ODYwMjcxfQ.TyXdSxKWVaqGb9Y7uJh44Ybz807DLtUWNxw__K8JU7w
 
 + Response 200 (application/json)
 
@@ -445,7 +450,7 @@ retornado o registro já existente e nenhuma alteração será realizada.
 + Request 
     + Headers
             
-            authorization: Bearer <token_id>
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ3ODQ1MjI3MSwiaWF0IjoxNDc1ODYwMjcxfQ.TyXdSxKWVaqGb9Y7uJh44Ybz807DLtUWNxw__K8JU7w
             
     + Attributes (AttendanceRecordFillable)
             
@@ -481,7 +486,7 @@ e a nota do aluno no 1º Bimestre será composta pela conta (N1*0,4)+(N2*0,6)=NO
 + Request 
     + Headers
 
-            authorization: Bearer <token_id>
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ3ODQ1MjI3MSwiaWF0IjoxNDc1ODYwMjcxfQ.TyXdSxKWVaqGb9Y7uJh44Ybz807DLtUWNxw__K8JU7w
 
 + Response 200 (application/json)
 
@@ -531,7 +536,7 @@ e a nota do aluno no 1º Bimestre será composta pela conta (N1*0,4)+(N2*0,6)=NO
 + Request 
     + Headers
 
-            authorization: Bearer <token_id>
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ3ODQ1MjI3MSwiaWF0IjoxNDc1ODYwMjcxfQ.TyXdSxKWVaqGb9Y7uJh44Ybz807DLtUWNxw__K8JU7w
 
 + Response 200 (application/json)
 
@@ -701,7 +706,7 @@ e a nota do aluno no 1º Bimestre será composta pela conta (N1*0,4)+(N2*0,6)=NO
 + per_page: 15 (number) - Quantidade de resultados por página
 + current_page: 1 (number) - Página atual
 + last_page: 2 (number) - Ultima página
-+ next_page_url: `http://localhost/api/<resource>?page=2` (string) - Url para resultados da proxima página
++ next_page_url: `http://localhost/api/<resource>?page=2` (string, nullable) - Url para resultados da proxima página
 + prev_page_url: null (string, nullable) - Url para resultados da página anterior
 + from: 1 (number) - Número inicial de resultados de paginação da página atual
 + to: 15 (number) - Número final de resultados de paginação da página atual

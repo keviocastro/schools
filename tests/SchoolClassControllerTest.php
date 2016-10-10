@@ -33,7 +33,6 @@ class SchoolClassControllerTest extends TestCase
     	$schoolClass = factory(App\SchoolClass::class)->make()->toArray();
         $schoolClass['school_calendar_id'] = $schoolCalendar->id;
         
-        // dd($schoolClass);
         $this->post('api/school-classes',
         	$schoolClass,
         	$this->getAutHeader())
@@ -85,6 +84,6 @@ class SchoolClassControllerTest extends TestCase
             [],
             $this->getAutHeader())
             ->assertResponseStatus(204)
-            ->dontSeeInDatabase('school_classes', ['id' => $schoolClass->id]);
+            ->seeIsSoftDeletedInDatabase('school_classes', ['id' => $schoolClass->id]);
     }
 }
