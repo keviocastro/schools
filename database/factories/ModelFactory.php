@@ -216,3 +216,26 @@ $factory->define(App\Assessment::class, function ($faker) use ($factory) {
         ];
 });
 
+$factory->define(App\Level::class, function ($faker) use ($factory) {
+    
+    return [
+        'name' => $faker->randomElement(['leve', 'medio', 'grave'])
+    ];
+});
+
+$factory->define(App\Occurence::class, function ($faker) use ($factory) {
+    
+    return [
+        'level_id' => function(){
+            return factory(App\Level::class)->create()->id;
+        },
+        'comment' => $faker->sentence,
+        'owner_person_id' => function(){
+            return factory(App\Person::class)->create()->id;
+        },
+        'about_person_id' => function(){
+            return factory(App\Student::class)->create()->id;
+        }
+    ];
+});
+

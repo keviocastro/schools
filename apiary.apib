@@ -496,17 +496,37 @@ e a nota do aluno no 1º Bimestre será composta pela conta (N1*0,4)+(N2*0,6)=NO
 
 ## Occurrence Collection [/occurences{?limit,offset,q,sort,field,with}]
 
+### Create a new Occorence [POST]
+
++ Request (application/json)
+    + Headers
+            
+            authorization: Bearer <token_id>
+            
+    + Attributes (Occurences)
+            
++ Response 200 (application/json) 
+    
+    + Attributes 
+        + Occurences (Occurences)
+
++ Parameters
+    + comment (string) - descrição sobre os fatos da occorencia
+    + level_id (number) - Nivel da occorencia
+    + owner_person_id (number) - ID do usuario que esta criando a occorencia
+        + Default: ID do usuário logado.
+    + about_person_id (number) - ID do usuario que esta recebendo a occorencia
+    
+
 ### List occurences [GET]
 
 + Parameters
     + q (string, optional) - Fulltext search.
-    + sort (string, optional) - Nome da coluna para ordenação. 
-    + limit (number, optional) - Limite por página.
-    + field (string, optional) - Nome da coluna e valor para filtrar resultados.
     + with (string) - Nome da relação a ser incluída na resposta.
         + Members
             + ownerPerson
             + aboutPerson
+            + level
 
 + Request 
     + Headers

@@ -44,6 +44,9 @@ $api->version('v1', function ($api) {
     	
 		// Assessments
 		$api->get('assessments', 'App\Http\Controllers\AssessmentController@index');
+
+		//OCCURRENCE
+		$api->get('occurences', 'App\Http\Controllers\OccurenceController@index');
     });
 
 	$api->get('health', 'App\Http\Controllers\ApiController@health');
