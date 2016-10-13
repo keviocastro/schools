@@ -506,21 +506,14 @@ e a nota do aluno no 1º Bimestre será composta pela conta (N1*0,4)+(N2*0,6)=NO
 + Request (application/json)
     + Headers
             
-            authorization: Bearer <token_id>
-            
-    + Attributes (Occurences)
-            
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ3ODQ1MjI3MSwiaWF0IjoxNDc1ODYwMjcxfQ.TyXdSxKWVaqGb9Y7uJh44Ybz807DLtUWNxw__K8JU7w
+    + Attributes (Occurence)
+
 + Response 200 (application/json) 
     
     + Attributes 
-        + Occurences (Occurences)
-
-+ Parameters
-    + comment (string) - descrição sobre os fatos da occorencia
-    + level_id (number) - Nivel da occorencia
-    + owner_person_id (number) - ID do usuario que esta criando a occorencia
-        + Default: ID do usuário logado.
-    + about_person_id (number) - ID do usuario que esta recebendo a occorencia
+        + Occurences (OccurenceFillable)
+        
     
 
 ### List occurences [GET]
@@ -710,3 +703,21 @@ e a nota do aluno no 1º Bimestre será composta pela conta (N1*0,4)+(N2*0,6)=NO
 + prev_page_url: null (string, nullable) - Url para resultados da página anterior
 + from: 1 (number) - Número inicial de resultados de paginação da página atual
 + to: 15 (number) - Número final de resultados de paginação da página atual
+
+## Occurence (object)
+
++ comment: fulano fez isso (string) - descrição sobre os fatos da occorencia
++ level_id: 1 (number) - Nivel da occorencia
++ owner_person_id: 1 (number) - ID do usuario que esta criando a occorencia
+                                Default: ID do usuário logado.
++ about_person_id: 1 (number) - ID do usuario que esta recebendo a occorencia
+
+## OccurenceFillable (object)
+
++ id: 1 (number) - Indenteificador da occorencia
++ (Occurence)
++ created_at: data (string)
++ updated_at: data (string)
++ level: [id,name] (object)
++ about_person: ['id','name','birthday','gender','place_of_birth','more'] (object)
++ owner_person: ['id','name','birthday','gender','place_of_birth','more'] (object)
