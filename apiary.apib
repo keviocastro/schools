@@ -292,23 +292,6 @@ Professor Medeiros acessa seu aplicativo informando usuário e senha para se cad
         + data (array)
             + (Lesson)
 
-### List lessons per day [GET]
-
-+ Request 
-    + Headers
-            
-            authorization: Bearer <token id>
-
-+ Response 200 (application/json)
-
-    + Attributes 
-        + Include Paginator
-        + data (array)
-            + (object)
-                + day: `2016-08-30` (string)
-                + lessons (array[Lesson])
-
-
 ### Create a new lesson [POST]
 
 + Request (application/json)
@@ -367,6 +350,25 @@ Professor Medeiros acessa seu aplicativo informando usuário e senha para se cad
 ### Delete [DELETE]
 
 + Response 204
+
+
+## Lessons per day [/lessons/per-day]
+
+### List Lessons per day [GET]
+
++ Request 
+    + Headers
+            
+            authorization: Bearer <token id>
+
++ Response 200 (application/json)
+
+    + Attributes 
+        + Include Paginator
+        + data (array)
+            + (object)
+                + day: `2016-08-30` (string)
+                + lessons (array[Lesson])
 
 
 # Group Attendance Records
