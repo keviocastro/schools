@@ -28,19 +28,14 @@ class OccurenceControllerTest extends TestCase
 			  "data" => [
 			    [
 			      "id",
+			      "level_id",
 			      "comment",
 			      "owner_person_id",
 			      "about_person_id",
-			      "level_id",
+			      "deleted_at",
 			      "created_at",
 			      "updated_at",
-			      "level" => ['id','name'],
-			      "about_person" => [
-			      	'id','name','birthday','gender','place_of_birth','more'
-			      ],
-			      "owner_person" =>[
-			      	'id','name','birthday','gender','place_of_birth','more'
-			      ]
+			      "level" => ['id','name','deleted_at']
 			    ]
 			  ]
 			];
