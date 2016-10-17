@@ -28,7 +28,16 @@ class OccurenceController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validationForStoreAction($request, [
+            'level_id' => 'required|numeric|exists:levels,id',
+            'comment' => 'required|string',
+            'owner_person_id' => 'required|numeric|exists:people,id',
+            'about_person_id' => 'required|numeric|exists:people,id|different:owner_person_id',
+        ]);
+        
+        $occurence = Occurence::create($request->all());
+
+        return $this->response->created("/occurence/{$occurence->id}", $occurence);
     }
 
     /**
@@ -63,6 +72,9 @@ class OccurenceController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $occurence = Occurence::findOrFail($id);
+        $occurence->delete();
+
+        return $this->response->noContent();
     }
 }

@@ -47,6 +47,8 @@ $api->version('v1', function ($api) {
 
 		//OCCURRENCE
 		$api->get('occurences', 'App\Http\Controllers\OccurenceController@index');
+		$api->post('occurences', 'App\Http\Controllers\OccurenceController@store');
+		$api->delete('occurences/{id}', 'App\Http\Controllers\OccurenceController@destroy');
     });
 
 	$api->get('health', 'App\Http\Controllers\ApiController@health');

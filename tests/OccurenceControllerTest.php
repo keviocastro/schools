@@ -8,7 +8,7 @@ use Tests\TestCase;
 class OccurenceControllerTest extends TestCase
 {
     /**
-     * A basic test example.
+     * OccurenceControllerTest::index
      *
      * @return void
      */
@@ -44,9 +44,43 @@ class OccurenceControllerTest extends TestCase
 			    ]
 			  ]
 			];
-        $this->get('api/occurences?with=level,aboutPerson,ownerPerson',
+        $this->get('api/occurences?with=level',
         	$this->getAutHeader())
         	->assertResponseStatus(200)
         	->seeJsonStructure($struture);
+    }
+
+    /**
+     * OccurenceControllerTest::store
+     *
+     * @return void
+     */
+    public function testStore()
+    {
+    	$ocurrence = factory(App\Occurence::class)->make()->toArray();
+
+    	// dd($ocurrence);
+
+        $this->post('api/occurences',
+        	$ocurrence,
+        	$this->getAutHeader())
+        	->assertResponseStatus(201)
+        	->seeJson($ocurrence);
+    }
+
+    /**
+     * OccurenceControllerTest::destroy
+     *
+     * @return void
+     */
+    public function testDestroy()
+    {
+        $occurence = factory(\App\Occurence::class)->create();
+
+        $this->delete("api/occurences/{$occurence->id}",
+            [],
+            $this->getAutHeader())
+            ->assertResponseStatus(204)
+            ->seeIsSoftDeletedInDatabase('occurences', ['id' => $occurence->id]);
     }
 }

@@ -15,6 +15,7 @@ class Occurence extends Migration
         Schema::create('levels', function(Blueprint $table){
             $table->increments('id');
             $table->string('name');
+            $table->softDeletes();
         });
 
         Schema::create('occurences', function (Blueprint $table) {
@@ -23,6 +24,7 @@ class Occurence extends Migration
             $table->string('comment');
             $table->unsignedInteger('owner_person_id');
             $table->unsignedInteger('about_person_id')->nulllable();
+            $table->softDeletes();
             $table->timestamps();
             
             $table->foreign('level_id')->references('id')->on('levels');
