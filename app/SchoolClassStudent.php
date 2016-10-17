@@ -5,9 +5,9 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class AttendanceRecord extends Model
+class SchoolClassStudent extends Model
 {
-	 use SoftDeletes;
+    use SoftDeletes;
 
     /**
      * The attributes that should be mutated to dates.
@@ -22,18 +22,6 @@ class AttendanceRecord extends Model
      * @var array
      */
     protected $fillable = [
-        'lesson_id', 'school_class_student_id', 'presence'
-    ];
-
-    /**
-     * Get a lesson record
-     *
-     * @Relation
-     * 
-     * @return App\SchoolClass
-     */
-    public function lesson()
-    {
-    	return $this->belongsTo('App\Lesson');
-    }
+        'school_class_id', 
+        'student_id'];
 }

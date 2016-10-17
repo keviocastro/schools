@@ -47,4 +47,14 @@ class SchoolClass extends Model
     {
     	return $this->belongsTo('App\Shift');
     }
+
+    /**
+     * @Relation
+     * 
+     * @return 
+     */
+    public function students()
+    {
+        return $this->hasMany('App\Student');
+    }
 }

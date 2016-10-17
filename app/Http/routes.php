@@ -29,6 +29,7 @@ $api->version('v1', function ($api) {
 		$api->delete('school-classes/{school_id}', 'App\Http\Controllers\SchoolClassController@destroy');
 
 		// Lessons
+		$api->get('lessons/per-day', 'App\Http\Controllers\LessonController@listPerDay');
 		$api->get('lessons', 'App\Http\Controllers\LessonController@index');
 		$api->post('lessons', 'App\Http\Controllers\LessonController@store');
 		$api->get('lessons/{lesson_id}', 'App\Http\Controllers\LessonController@show');

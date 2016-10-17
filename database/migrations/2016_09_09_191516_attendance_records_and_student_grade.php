@@ -16,7 +16,7 @@ class AttendanceRecordsAndStudentGrade extends Migration
         Schema::create('attendance_records', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedInteger('lesson_id');
-            $table->unsignedInteger('student_id');
+            $table->unsignedInteger('school_class_student_id');
             // 0 Faltou a aula
             // 1 Estava presente
             $table->tinyInteger('presence');
@@ -24,9 +24,9 @@ class AttendanceRecordsAndStudentGrade extends Migration
             $table->softDeletes();
 
             $table->foreign('lesson_id')->references('id')->on('lessons');
-            $table->foreign('student_id')->references('id')->on('students');
+            $table->foreign('school_class_student_id')->references('id')->on('students');
 
-            $table->unique(['lesson_id', 'student_id']);
+            $table->unique(['lesson_id', 'school_class_student_id']);
         });
 
         // Avaliações de uma fase do ano letivo

@@ -55,6 +55,7 @@ class Students extends Migration
             $table->unsignedInteger('school_class_id');
             $table->unsignedInteger('student_id');
             $table->softDeletes();
+            $table->timestamps();
 
             $table->foreign('school_class_id')
                 ->references('id')

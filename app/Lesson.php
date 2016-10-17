@@ -52,4 +52,5 @@ class Lesson extends Model
     {
     	return $this->belongsTo('App\Subject');
     }
+
 }

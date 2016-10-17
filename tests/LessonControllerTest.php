@@ -44,10 +44,18 @@ class LessonControllerTest extends TestCase
      */
     public function testShow()
     {
-        $lesson = factory(App\Lesson::class)->create();
-        
-        $this->get("api/lessons/$lesson->id",
-            $this->getAutHeader())
+        $schoolClass = factory(App\SchoolClass::class)->create();
+        $students = factory(App\Student::class, 10)->create([
+                'school_class_id' => function() use ($schoolClass){
+                    return $schoolClass->id;
+                }
+            ]);
+        $lesson = factory(App\Lesson::class)->create([
+                'school_class_id' => $schoolClass->id
+            ]);
+
+        $this->get("api/lessons/$lesson->id?with=students",
+            $this->getAutHeader())->dump()
             ->assertResponseStatus(200)
             ->seeJson($lesson->toArray());
     }
@@ -83,6 +91,41 @@ class LessonControllerTest extends TestCase
             $this->getAutHeader())
             ->assertResponseStatus(204)
             ->seeIsSoftDeletedInDatabase('lessons', ['id' => $lesson->id]);
+    }
+
+    /**
+     * @covers LessonController::indexLesson
+     * 
+     * @return void
+     */
+    public function testListPerDay()
+    {
+        $structure = [
+            'total',
+            'per_page',
+            'current_page',
+            'last_page',
+            'next_page_url',
+            'prev_page_url',
+            'from',
+            'to',
+            'data' => [
+                [
+                    'day',
+                    'lessons' => [
+                        'id',
+                        'start',
+                        'end'   
+                    ]
+                ]
+            ]
+        ];
+
+        
+        $this->get('api/lessons/per-day',
+            $this->getAutHeader())->dump()
+            ->assertResponseStatus(200)
+            ->seeJsonStructure($structure);
     }
 
 }
