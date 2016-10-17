@@ -2,7 +2,7 @@
 
 namespace Tests;
 
-use Kirkbater\Testing\SoftDeletes;
+use Kirkbater\Testing\SoftDeletes as SoftDeletes;
 use Auth0\SDK\Auth0AuthApi;
 use Illuminate\Foundation\Testing\TestCase as TestCaseLara;
 use Config;

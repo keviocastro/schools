@@ -64,7 +64,7 @@ class AttendanceRecordControllerTest extends TestCase
         
         $this->post('api/attendance-records',
             $attendanceRecord,
-            $this->getAutHeader())->dump()
+            $this->getAutHeader())
             ->assertResponseStatus(201)
             ->seeJson($attendanceRecord);
 
