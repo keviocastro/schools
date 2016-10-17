@@ -54,7 +54,7 @@ class LessonControllerTest extends TestCase
                 'school_class_id' => $schoolClass->id
             ]);
 
-        $this->get("api/lessons/$lesson->id?with=students",
+        $this->get("api/lessons/$lesson->id",
             $this->getAutHeader())
             ->assertResponseStatus(200)
             ->seeJson($lesson->toArray());
