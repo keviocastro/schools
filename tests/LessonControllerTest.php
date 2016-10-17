@@ -55,7 +55,7 @@ class LessonControllerTest extends TestCase
             ]);
 
         $this->get("api/lessons/$lesson->id?with=students",
-            $this->getAutHeader())->dump()
+            $this->getAutHeader())
             ->assertResponseStatus(200)
             ->seeJson($lesson->toArray());
     }
@@ -123,7 +123,7 @@ class LessonControllerTest extends TestCase
 
         
         $this->get('api/lessons/per-day',
-            $this->getAutHeader())->dump()
+            $this->getAutHeader())
             ->assertResponseStatus(200)
             ->seeJsonStructure($structure);
     }
