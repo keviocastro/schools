@@ -292,7 +292,6 @@ Professor Medeiros acessa seu aplicativo informando usuário e senha para se cad
         + data (array)
             + (Lesson)
 
-
 ### Create a new lesson [POST]
 
 + Request (application/json)
@@ -351,6 +350,38 @@ Professor Medeiros acessa seu aplicativo informando usuário e senha para se cad
 ### Delete [DELETE]
 
 + Response 204
+
+
+## Lessons per day [/lessons/per-day]
+
+### List Lessons per day [GET]
+
++ Request 
+    + Headers
+            
+            authorization: Bearer <token id>
+
++ Response 200 (application/json)
+
+    + Attributes 
+        + Include Paginator
+        + data (array)
+            + (object)
+                + day: `2016-10-01` (string)
+                + lessons (array[Lesson,Lesson,Lesson])
+            + (object)
+                + day: `2016-10-02` (string)
+                + lessons (array[Lesson,Lesson])
+            + (object)
+                + day: `2016-10-03` (string)
+                + lessons (array[Lesson,Lesson])
+            + (object)
+                + day: `2016-10-04` (string)
+                + lessons (array[Lesson,Lesson])
+            + (object)
+                + day: `2016-10-05` (string)
+                + lessons (array[Lesson])
+
 
 
 # Group Attendance Records
@@ -606,7 +637,7 @@ e a nota do aluno no 1º Bimestre será composta pela conta (N1*0,4)+(N2*0,6)=NO
 
 + id: 1 (number) - Identificador único da turma.
 + grade (Grade) - Ano estudantíl (Jardim I/1º Ano/...) da turma.
-+ schift (Shift) - Turno (vespertino/matutino/...) da turma.
++ shift (Shift) - Turno (vespertino/matutino/...) da turma.
 + schoolCalendar (SchoolCalendar)
 
 ## SchoolClassSubject
@@ -642,11 +673,17 @@ e a nota do aluno no 1º Bimestre será composta pela conta (N1*0,4)+(N2*0,6)=NO
 + subject_id: 1 (number) - Identificador único da disciplina (Matématica, física, ...).
 + Include LessonBase
 
+## Teacher (object)
+
++ id: 1 (number) - Identificador único do professor
++ Include (Person)
+
 ## Lesson (object)
 
 + id: 1 (number) - Identificador único  da aula.
 + created_at: `2016-08-30 13:17:11` (string) - Data de criação
 + updated_at: `2016-08-30 13:17:11` (string) - Data da ultima alteração
++ teacher (Teacher)
 + Include (LessonBase)
 + school_class (SchoolClass)
 + subject (Subject)
