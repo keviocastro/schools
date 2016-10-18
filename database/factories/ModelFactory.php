@@ -152,6 +152,21 @@ $factory->define(App\Lesson::class, function ($faker) use ($factory) {
         ];
 });
 
+$factory->define(App\Lesson::class, function ($faker) use ($factory) {
+    
+    $start = $faker->dateTimeThisMonth('+ 30 days');
+    return [
+            'school_class_id' => function(){
+                return  factory(App\SchoolClass::class)->create()->id;
+            },
+            'subject_id' => function(){
+                return factory(App\Subject::class)->create()->id;
+            },
+            'start' => $start->format('Y-m-d H:i:s'),
+            'end' => $start->modify('+ 30 minutes')->format('Y-m-d H:i:s'),
+        ];
+}, 'Next15Days');
+
 $factory->define(App\SchoolClassStudent::class, function ($faker) use ($factory) {
     
     return [

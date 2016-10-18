@@ -100,6 +100,9 @@ class LessonControllerTest extends TestCase
      */
     public function testListPerDay()
     {
+
+        $lessons = factory(App\Lesson::class, 'Next15Days', 5)->create();
+
         $structure = [
             'total',
             'per_page',
@@ -112,11 +115,7 @@ class LessonControllerTest extends TestCase
             'data' => [
                 [
                     'day',
-                    'lessons' => [
-                        'id',
-                        'start',
-                        'end'   
-                    ]
+                    'lessons' => []
                 ]
             ]
         ];

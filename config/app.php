@@ -160,6 +160,7 @@ return [
         'Auth0\Login\LoginServiceProvider',
 
         Dingo\Api\Provider\LaravelServiceProvider::class,
+        Barryvdh\Cors\ServiceProvider::class,
     ],
 
     /*
