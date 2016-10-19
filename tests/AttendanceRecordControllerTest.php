@@ -30,13 +30,27 @@ class AttendanceRecordControllerTest extends TestCase
     public function testUpdate()
     {
     	$attendanceRecord = factory(App\AttendanceRecord::class)->create();
-    	$attendanceRecord_changed = factory(App\AttendanceRecord::class)->make()->toArray();
 
         $this->put("api/attendance-records/{$attendanceRecord->id}",
-        	$attendanceRecord_changed,
+        	['presence' => 0],
         	$this->getAutHeader())
         	->assertResponseStatus(200)
-        	->seeJson($attendanceRecord_changed);
+        	->seeJson(['presence' => 0]);
+
+
+        // Não é permitido alterar o estudante nem a aula.
+        $newAttendanceRecord = factory(App\AttendanceRecord::class)->create();
+        $this->put("api/attendance-records/{$attendanceRecord->id}",
+            [
+                'school_class_student_id' => $newAttendanceRecord->school_class_student_id,
+                'lesson_id' => $newAttendanceRecord->lesson_id
+            ],
+            $this->getAutHeader())
+            ->assertResponseStatus(200)
+            ->seeJson([
+                    'school_class_student_id' => $attendanceRecord->school_class_student_id,
+                    'lesson_id' => $attendanceRecord->lesson_id
+                ]);
     }
 
     /**
@@ -67,7 +81,6 @@ class AttendanceRecordControllerTest extends TestCase
             $this->getAutHeader())
             ->assertResponseStatus(201)
             ->seeJson($attendanceRecord);
-
 
         // The record of the student to the lesson already exists.
     	$attendanceRecord = factory(App\AttendanceRecord::class)->create();

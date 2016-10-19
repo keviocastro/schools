@@ -32,7 +32,7 @@ class AttendanceRecordController extends Controller
     {
         $this->validationForStoreAction($request, [
             'lesson_id' => 'required|exists:lessons,id',
-            'school_class_student_id' => 'required|exists:school_class_students,student_id',
+            'school_class_student_id' => 'required|exists:school_class_students,id',
             'presence' => 'required|integer|in:0,1',
             ]);
 
@@ -72,13 +72,11 @@ class AttendanceRecordController extends Controller
     public function update(Request $request, $id)
     {
         $this->validationForUpdateAction($request, [
-            'lesson_id' => 'exists:lessons,id',
-            'school_class_student_id' => 'exists:school_class_students,student_id',
             'presence' => 'integer|in:0,1',
             ]);
 
         $attendanceRecord = AttendanceRecord::findOrFail($id);
-        $attendanceRecord->update($request->all());
+        $attendanceRecord->update($request->only('presence'));
 
         return $attendanceRecord;
     }

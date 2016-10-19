@@ -1,6 +1,6 @@
 branch-defaults:
   master:
-    environment: null
+    environment: gennin
     group_suffix: null
 global:
   application_name: schools
