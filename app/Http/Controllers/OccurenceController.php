@@ -51,7 +51,6 @@ class OccurenceController extends Controller
         //
     }
 
-
     /**
      * Update the specified resource in storage.
      *
@@ -61,7 +60,17 @@ class OccurenceController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validationForStoreAction($request, [
+            'level_id' => 'required|numeric|exists:levels,id',
+            'comment' => 'required|string',
+            'owner_person_id' => 'required|numeric|exists:people,id',
+            'about_person_id' => 'required|numeric|exists:people,id|different:owner_person_id',
+        ]);
+
+        $occurence = Occurence::findOrFail($id);
+        $occurence->update($request->all());
+
+        return $occurence;
     }
 
     /**

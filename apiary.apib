@@ -570,6 +570,27 @@ e a nota do aluno no 1º Bimestre será composta pela conta (N1*0,4)+(N2*0,6)=NO
         + data (array)
             + (Occurrence)
 
+
+### Edit [PUT]
+
++ Parameters
+    + id: 1 (number) - ID of the occurence
+
++ Request (application/json)
+
+    + Headers
+            
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ3ODQ1MjI3MSwiaWF0IjoxNDc1ODYwMjcxfQ.TyXdSxKWVaqGb9Y7uJh44Ybz807DLtUWNxw__K8JU7w
+            
+    + Attributes (OccurenceFillable)
+            
++ Response 200 (application/json)
+    
+    + Attributes 
+        + occurence (Occurence)
+
+
+
 ### Delete [DELETE /occurences/{id}]
 
 + Request (application/json)

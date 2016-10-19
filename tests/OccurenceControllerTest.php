@@ -78,4 +78,23 @@ class OccurenceControllerTest extends TestCase
             ->assertResponseStatus(204)
             ->seeIsSoftDeletedInDatabase('occurences', ['id' => $occurence->id]);
     }
+
+
+
+    /**
+     * OccurenceControllerTest::update
+     *
+     * @return void
+     */
+    public function testUpdate()
+    {
+        $occurence = factory(App\Occurence::class)->create();
+        $occurence_changed = factory(App\Occurence::class)->make()->toArray();
+        
+        $this->put("api/occurences/{$occurence->id}",
+            $occurence_changed,
+            $this->getAutHeader())
+            ->assertResponseStatus(200)
+            ->seeJson($occurence_changed);
+    }
 }
