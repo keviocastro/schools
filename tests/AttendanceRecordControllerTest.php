@@ -73,7 +73,7 @@ class AttendanceRecordControllerTest extends TestCase
     	$attendanceRecord = factory(App\AttendanceRecord::class)->create();
         $this->post('api/attendance-records',
             [
-                'student_id' => $attendanceRecord->student_id, 
+                'school_class_student_id' => $attendanceRecord->school_class_student_id, 
                 'lesson_id' => $attendanceRecord->lesson_id, 
                 'presence' => 1,
             ],

@@ -46,4 +46,25 @@ class Student extends Model
     {
         return $this->belongsTo('App\SchoolClass');
     }
+
+    /**
+     * Get the student responsible
+     *
+     * @Relation
+     *
+     */
+    public function studentResponsible()
+    {
+        return $this->hasMany('App\StudentResponsible');
+    }
+
+    /**
+     * Obtem a lista de registros de chamadas do aluno
+     *
+     * @Relation
+     */
+    public function attendanceRecords()
+    {
+        return $this->hasMany('App\AttendanceRecord');
+    }
 }

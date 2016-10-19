@@ -152,14 +152,45 @@ $factory->define(App\Lesson::class, function ($faker) use ($factory) {
         ];
 });
 
-$factory->define(App\AttendanceRecord::class, function ($faker) use ($factory) {
+$factory->define(App\Lesson::class, function ($faker) use ($factory) {
+    
+    $start = $faker->dateTimeThisMonth('+ 30 days');
+    return [
+            'school_class_id' => function(){
+                return  factory(App\SchoolClass::class)->create()->id;
+            },
+            'subject_id' => function(){
+                return factory(App\Subject::class)->create()->id;
+            },
+            'start' => $start->format('Y-m-d H:i:s'),
+            'end' => $start->modify('+ 30 minutes')->format('Y-m-d H:i:s'),
+        ];
+}, 'Next15Days');
+
+$factory->define(App\SchoolClassStudent::class, function ($faker) use ($factory) {
     
     return [
-            'lesson_id' => function(){
-                return  factory(App\Lesson::class)->create()->id;
+            'school_class_id' => function(){
+                return  factory(App\SchoolClass::class)->create()->id;
             },
             'student_id' => function(){
                 return factory(App\Student::class)->create()->id;
+            }
+        ];
+});
+
+$factory->define(App\AttendanceRecord::class, function ($faker) use ($factory) {
+    
+    $schoolClassStudent = factory(App\SchoolClassStudent::class)->create();
+
+    return [
+            'lesson_id' => function() use ($schoolClassStudent){
+                return  factory(App\Lesson::class)->create([
+                        'school_class_id' => $schoolClassStudent->school_class_id
+                    ])->id;
+            },
+            'school_class_student_id' => function() use ($schoolClassStudent){
+                return $schoolClassStudent->id;
             },
             'presence' => rand(0,1),
         ];
