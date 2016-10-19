@@ -4,6 +4,7 @@ Route::get('/', function () {
 	return view('welcome');
 });
 $api->version('v1', function ($api) {
+<<<<<<< HEAD
 	$api->group(['middleware' => 'cors'], function ($api) {
 		$api->group(['middleware' => 'auth0.jwt'], function ($api) {
 	        // Auth
@@ -95,6 +96,9 @@ $api->version('v1', function ($api) {
 		$api->put('occurences/{id}', 'App\Http\Controllers\OccurenceController@update');
     });
 =======
+=======
+
+>>>>>>> 5a3047c290f34ebf1592633fd763cf6faeb41815
 	$api->group(['middleware' => 'cors'], function ($api) {
 
 		$api->group(['middleware' => 'auth0.jwt'], function ($api) {
@@ -143,6 +147,9 @@ $api->version('v1', function ($api) {
 			$api->delete('occurences/{id}', 'App\Http\Controllers\OccurenceController@destroy');
 		});
 	});
+<<<<<<< HEAD
+>>>>>>> 5a3047c290f34ebf1592633fd763cf6faeb41815
+=======
 >>>>>>> 5a3047c290f34ebf1592633fd763cf6faeb41815
 
 	$api->get('health', 'App\Http\Controllers\ApiController@health');
