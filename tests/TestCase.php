@@ -40,8 +40,14 @@ class TestCase extends TestCaseLara
      */
     public function getAutHeader()
     {
-        $tokens = $this->getTokenUserTester();
-        return ['authorization' => "Bearer {$tokens['id_token']}"];
+        $token = env('auth0_token_test');
+        if (empty($token)) {
+            $tokens = $this->getTokenUserTester();
+            $token = $tokens['id_token'];
+            putenv("auth0_token_test=$token");
+        }
+
+        return ['authorization' => "Bearer {$token}"];
     }
 
     /**
