@@ -555,6 +555,9 @@ e a nota do aluno no 1º Bimestre será composta pela conta (N1*0,4)+(N2*0,6)=NO
 
 + Parameters
     + q (string, optional) - Fulltext search.
+    + sort (string, optional) - Nome da coluna para ordenação. 
+    + limit (number, optional) - Limite por página.
+    + field (string, optional) - Nome da coluna e valor para filtrar resultados.
     + with (string) - Nome da relação a ser incluída na resposta.
         + Members
             + ownerPerson
@@ -573,6 +576,24 @@ e a nota do aluno no 1º Bimestre será composta pela conta (N1*0,4)+(N2*0,6)=NO
         + data (array)
             + (Occurrence)
 
+## Occurence [/occurences/{id}]
+
+`Occurrence/id` Usado para tratar atributos unicos baseando no ID do registro de occorencia.
+
+### View a occurence detail [GET]
+
++ Parameters
+    + id: 1 (number) - ID of the occurence
+
++ Request 
+    + Headers
+            
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ3ODQ1MjI3MSwiaWF0IjoxNDc1ODYwMjcxfQ.TyXdSxKWVaqGb9Y7uJh44Ybz807DLtUWNxw__K8JU7w
+    
++ Response 200 (application/json)
+    
+    + Attributes 
+        + Occurence (Occurence)
 
 ### Edit [PUT]
 
@@ -590,14 +611,13 @@ e a nota do aluno no 1º Bimestre será composta pela conta (N1*0,4)+(N2*0,6)=NO
 + Response 200 (application/json)
     
     + Attributes 
-        + occurence (Occurence)
+        + Occurence (Occurence)
 
-
-
-### Delete [DELETE /occurences/{id}]
+### Delete [DELETE]
 
 + Request (application/json)
     + Headers
+    
             authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ3ODQ1MjI3MSwiaWF0IjoxNDc1ODYwMjcxfQ.TyXdSxKWVaqGb9Y7uJh44Ybz807DLtUWNxw__K8JU7w
     
 

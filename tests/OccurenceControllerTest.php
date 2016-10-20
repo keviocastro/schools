@@ -63,6 +63,22 @@ class OccurenceControllerTest extends TestCase
         	->seeJson($ocurrence);
     }
 
+
+    /**
+     * OccurenceControllerTest::show
+     *
+     * @return void
+     */
+    public function testShow()
+    {
+    	$occurence = factory(App\Occurence::class)->create();
+    	
+        $this->get("api/occurences/{$occurence->id}",
+        	$this->getAutHeader())
+        	->assertResponseStatus(200)
+        	->seeJson($occurence->toArray());
+    }
+
     /**
      * OccurenceControllerTest::destroy
      *
@@ -79,8 +95,6 @@ class OccurenceControllerTest extends TestCase
             ->seeIsSoftDeletedInDatabase('occurences', ['id' => $occurence->id]);
     }
 
-
-
     /**
      * OccurenceControllerTest::update
      *
@@ -90,7 +104,7 @@ class OccurenceControllerTest extends TestCase
     {
         $occurence = factory(App\Occurence::class)->create();
         $occurence_changed = factory(App\Occurence::class)->make()->toArray();
-        
+
         $this->put("api/occurences/{$occurence->id}",
             $occurence_changed,
             $this->getAutHeader())
