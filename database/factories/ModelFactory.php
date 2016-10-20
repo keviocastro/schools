@@ -137,6 +137,19 @@ $factory->define(App\Student::class, function ($faker) use ($factory) {
     	];
 });
 
+$factory->define(App\StudentResponsible::class, function ($faker) use ($factory) {
+    
+    return [
+            'student_id' => function(){
+                return  factory(App\Student::class)->create()->id;
+            },
+            'person_id' => function(){
+                return factory(App\Person::class)->create()->id;
+            }
+        ];
+});
+
+
 $factory->define(App\Lesson::class, function ($faker) use ($factory) {
     
     $start = $faker->dateTimeThisYear();

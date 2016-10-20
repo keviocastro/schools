@@ -1122,12 +1122,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/flysystem.git",
-                "reference": "75138bb14160f3ba963750aa95e08d1d394fb198"
+                "reference": "63c877e35ce8ad6d82d2a2249fbef5ff874e2d3a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/75138bb14160f3ba963750aa95e08d1d394fb198",
-                "reference": "75138bb14160f3ba963750aa95e08d1d394fb198",
+                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/63c877e35ce8ad6d82d2a2249fbef5ff874e2d3a",
+                "reference": "63c877e35ce8ad6d82d2a2249fbef5ff874e2d3a",
                 "shasum": ""
             },
             "require": {
@@ -1197,7 +1197,7 @@
                 "sftp",
                 "storage"
             ],
-            "time": "2016-10-18 16:20:02"
+            "time": "2016-10-19 21:24:27"
         },
         {
             "name": "league/fractal",
@@ -2897,12 +2897,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/fzaninotto/Faker.git",
-                "reference": "87c9003bc4dadd245a62979a1e35396d6bbf3edf"
+                "reference": "409c90a58a0018aab219a9b521cfb57483596474"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/87c9003bc4dadd245a62979a1e35396d6bbf3edf",
-                "reference": "87c9003bc4dadd245a62979a1e35396d6bbf3edf",
+                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/409c90a58a0018aab219a9b521cfb57483596474",
+                "reference": "409c90a58a0018aab219a9b521cfb57483596474",
                 "shasum": ""
             },
             "require": {
@@ -2939,7 +2939,7 @@
                 "faker",
                 "fixtures"
             ],
-            "time": "2016-10-17 12:45:45"
+            "time": "2016-10-20 13:01:38"
         },
         {
             "name": "hamcrest/hamcrest-php",

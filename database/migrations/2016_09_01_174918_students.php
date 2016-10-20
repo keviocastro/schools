@@ -39,7 +39,7 @@ class Students extends Migration
         });
 
         // Responsáveis pelo estudante
-        Schema::create('student_responsible', function (Blueprint $table) {
+        Schema::create('student_responsibles', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('student_id');
             $table->unsignedInteger('person_id');
@@ -75,7 +75,7 @@ class Students extends Migration
     public function down()
     {
         Schema::drop('school_class_students');
-        Schema::drop('student_responsible');
+        Schema::drop('student_responsibles');
         Schema::drop('students');
         Schema::drop('people');
     }

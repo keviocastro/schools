@@ -10,8 +10,6 @@ services:
       - "80:80"
     links:
       - "db"
-    expose:
-      - "80"
   db:
     image: mysql:5.7
     ports:

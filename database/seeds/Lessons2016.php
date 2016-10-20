@@ -19,7 +19,12 @@ class Lessons2016 extends Seeder
         $schoolClass = factory(App\SchoolClass::class)->create();
         $students = factory(App\Student::class, 35)->create([
                 'school_class_id' => $schoolClass->id
-            ]);
+            ])
+            ->each(function($student){
+                factory(App\StudentResponsible::class)->create([
+                        'student_id' => $student->id 
+                    ]);
+            });
 
         while ( $start->lt($last) ) {
         	if ($start->dayOfWeek !=  Carbon::SUNDAY && 

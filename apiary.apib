@@ -244,6 +244,7 @@ Professor Medeiros acessa seu aplicativo informando usuário e senha para se cad
     + limit (number, optional) - Limite por página
     + with (string, optional) - Nome da relação a ser incluida na resposta
         + Members
+            + studentResponsible
             + person
             + schoolClass
             + schoolClass.grade
@@ -322,7 +323,9 @@ Professor Medeiros acessa seu aplicativo informando usuário e senha para se cad
             + schoolClass.grade
             + schoolClass.students
             + schoolClass.shift
-            + subject
+            + schoolClass.students.responsibles
+            + schoolClass.students.attendanceRecords
+            + schoolClass.students.person
 
 + Request 
     + Headers

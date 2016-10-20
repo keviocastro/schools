@@ -51,9 +51,8 @@ class Student extends Model
      * Get the student responsible
      *
      * @Relation
-     *
      */
-    public function studentResponsible()
+    public function responsibles()
     {
         return $this->hasMany('App\StudentResponsible');
     }

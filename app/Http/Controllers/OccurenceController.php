@@ -60,7 +60,7 @@ class OccurenceController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $this->validationForStoreAction($request, [
+        $this->validationForUpdateAction($request, [
             'level_id' => 'required|numeric|exists:levels,id',
             'comment' => 'required|string',
             'owner_person_id' => 'required|numeric|exists:people,id',

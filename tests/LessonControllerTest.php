@@ -49,12 +49,18 @@ class LessonControllerTest extends TestCase
                 'school_class_id' => function() use ($schoolClass){
                     return $schoolClass->id;
                 }
-            ]);
+            ])
+            ->each(function($stu){
+                factory(App\StudentResponsible::class)->create([
+                        'student_id' => $stu->id
+                    ]);
+            });
+
         $lesson = factory(App\Lesson::class)->create([
                 'school_class_id' => $schoolClass->id
             ]);
 
-        $this->get("api/lessons/$lesson->id",
+        $this->get("api/lessons/$lesson->id?with=schoolClass.students.responsibles",
             $this->getAutHeader())
             ->assertResponseStatus(200)
             ->seeJson($lesson->toArray());
@@ -121,8 +127,8 @@ class LessonControllerTest extends TestCase
         ];
 
         
-        $this->get('api/lessons/per-day',
-            $this->getAutHeader())
+        $this->get('api/lessons/per-day?with=schoolClass.grade',
+            $this->getAutHeader())->dump()
             ->assertResponseStatus(200)
             ->seeJsonStructure($structure);
     }
