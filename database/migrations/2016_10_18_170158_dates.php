@@ -17,13 +17,6 @@ class Dates extends Migration
             $table->date('day');
             $table->timestamps();
         });
-
-        Schema::table('lessons', function(Blueprint $table){
-            $table->unsignedInteger('day_id')->nullable();
-
-            $table->foreign('day_id')
-                ->references('id')->on('days');
-        });
     }
 
     /**
