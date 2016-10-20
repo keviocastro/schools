@@ -1,3 +1,4 @@
+
 FORMAT: 1A
 HOST: http://localhost/api
 
@@ -319,6 +320,7 @@ Professor Medeiros acessa seu aplicativo informando usuário e senha para se cad
         + Members
             + schoolClass
             + schoolClass.grade
+            + schoolClass.students
             + schoolClass.shift
             + subject
 
@@ -531,9 +533,9 @@ e a nota do aluno no 1º Bimestre será composta pela conta (N1*0,4)+(N2*0,6)=NO
 
 # Group Occurrence 
 
-`Occurrence` são registros feitos sobre alunos ou professores.
+`Occurrence` são registros de ocorrências registrar por professor em relação aos alunos.
 
-## Occurrence Collection [/occurences{?limit,offset,q,sort,field,with,id}]
+## Occurrence Collection [/occurences{?limit,offset,q,sort,field,with}]
 
 ### Create a new Occorence [POST]
 
@@ -555,6 +557,9 @@ e a nota do aluno no 1º Bimestre será composta pela conta (N1*0,4)+(N2*0,6)=NO
 
 + Parameters
     + q (string, optional) - Fulltext search.
+    + sort (string, optional) - Nome da coluna para ordenação. 
+    + limit (number, optional) - Limite por página.
+    + field (string, optional) - Nome da coluna e valor para filtrar resultados.
     + with (string) - Nome da relação a ser incluída na resposta.
         + Members
             + ownerPerson
