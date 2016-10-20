@@ -34,7 +34,7 @@ class LessonController extends Controller
     {
         $this->validationForStoreAction($request, [
             'school_class_id' => 'required|exists:school_classes,id',
-            'subject_id' => 'required|exists:shifts,id',
+            'subject_id' => 'required|exists:subjects,id',
             'start' => 'required|date_format:Y-m-d H:i:s',
             'end' => 'required|date_format:Y-m-d H:i:s',
         ]);
@@ -67,7 +67,7 @@ class LessonController extends Controller
     {
         $this->validationForUpdateAction($request, [
             'school_class_id' => 'exists:school_classes,id',
-            'subject_id' => 'exists:shifts,id',
+            'subject_id' => 'exists:subjects,id',
             'start' => 'date_format:Y-m-d H:i:s',
             'end' => 'date_format:Y-m-d H:i:s',
         ]);

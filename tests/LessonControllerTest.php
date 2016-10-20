@@ -128,7 +128,7 @@ class LessonControllerTest extends TestCase
 
         
         $this->get('api/lessons/per-day?with=schoolClass.grade',
-            $this->getAutHeader())->dump()
+            $this->getAutHeader())
             ->assertResponseStatus(200)
             ->seeJsonStructure($structure);
     }
