@@ -17,6 +17,9 @@ class Lessons2016 extends Seeder
         $last = Carbon::create(2016, 12, 10, 8, 45);
 
         $schoolClass = factory(App\SchoolClass::class)->create();
+        $students = factory(App\Students::class, 35)->create([
+                'school_class_id' => $schoolClass->id
+            ]);
 
         while ( $start->lt($last) ) {
         	if ($start->dayOfWeek !=  Carbon::SUNDAY && 
