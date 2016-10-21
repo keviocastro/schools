@@ -47,13 +47,63 @@ class LessonController extends Controller
     /**
      * Display the specified resource.
      *
+     * @todo Incluir parametros attach=students.last_ocurrences,students.attendance_record
+     *       Refatorar sql para o model.
+     *       Filtrar o resultados de faltas de acordo com o ano letivo da turma
+     * 
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request, $id)
     {
-        $result = $this->apiHandler->parseSingle(New Lesson, $id);
-        return $result->getResult();
+        $attach = $request->input('attach');
+        $result = $this->apiHandler->parseSingle(New Lesson, $id)->getResult();
+
+        if ($attach == 'students') {
+
+            $subQuery = <<<EOL
+SELECT count(*) FROM attendance_records
+INNER JOIN lessons ON lessons.id = attendance_records.lesson_id
+where presence = 0
+    AND lessons.subject_id = {$result->subject_id} 
+    AND attendance_records.student_id = students.id
+EOL;
+
+            $students = \App\Student::select('students.*')
+                ->addSelect(DB::raw("($subQuery) as totalAbsences"))
+                ->join(
+                    'school_class_students', 
+                    'school_class_students.student_id', 
+                    '=', 
+                    'students.id'
+                    )
+                ->join('people', 'people.id', '=', 'students.person_id')
+                ->where('school_class_students.school_class_id', $result->school_class_id)
+                ->orderBy('people.name')
+                ->with('person')
+                ->get();
+
+            $students->map(function($item, $key) use ($result){
+                $item->attendance_record = \App\AttendanceRecord::
+                    where('lesson_id', $result->id)
+                    ->where('student_id', $item->id)
+                    ->first();
+            });
+
+            $students->map(function($item, $key) use ($result){
+                $item->last_occurrences = \App\Occurence::
+                    where('about_person_id', $item->id)
+                    ->orderBy('updated_at')
+                    ->take(2)
+                    ->with('level')
+                    ->get();
+            });
+
+            $result['students'] = $students;
+
+        }
+
+        return $result;
     }
 
     /**

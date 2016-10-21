@@ -29,7 +29,9 @@ class AttendanceRecordControllerTest extends TestCase
      */
     public function testUpdate()
     {
-    	$attendanceRecord = factory(App\AttendanceRecord::class)->create();
+    	$attendanceRecord = factory(App\AttendanceRecord::class)->create([
+                'presence' => 1
+            ]);
 
         $this->put("api/attendance-records/{$attendanceRecord->id}",
         	['presence' => 0],
@@ -42,13 +44,13 @@ class AttendanceRecordControllerTest extends TestCase
         $newAttendanceRecord = factory(App\AttendanceRecord::class)->create();
         $this->put("api/attendance-records/{$attendanceRecord->id}",
             [
-                'school_class_student_id' => $newAttendanceRecord->school_class_student_id,
+                'student_id' => $newAttendanceRecord->student_id,
                 'lesson_id' => $newAttendanceRecord->lesson_id
             ],
             $this->getAutHeader())
             ->assertResponseStatus(200)
             ->seeJson([
-                    'school_class_student_id' => $attendanceRecord->school_class_student_id,
+                    'student_id' => $attendanceRecord->student_id,
                     'lesson_id' => $attendanceRecord->lesson_id
                 ]);
     }
@@ -86,7 +88,7 @@ class AttendanceRecordControllerTest extends TestCase
     	$attendanceRecord = factory(App\AttendanceRecord::class)->create();
         $this->post('api/attendance-records',
             [
-                'school_class_student_id' => $attendanceRecord->school_class_student_id, 
+                'student_id' => $attendanceRecord->student_id, 
                 'lesson_id' => $attendanceRecord->lesson_id, 
                 'presence' => 1,
             ],

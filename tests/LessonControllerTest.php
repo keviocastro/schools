@@ -44,28 +44,66 @@ class LessonControllerTest extends TestCase
      */
     public function testShow()
     {
-        $schoolClass = factory(App\SchoolClass::class)->create();
-        $students = factory(App\Student::class, 10)->create([
-                'school_class_id' => function() use ($schoolClass){
-                    return $schoolClass->id;
-                }
-            ])
-            ->each(function($stu){
-                factory(App\StudentResponsible::class)->create([
-                        'student_id' => $stu->id
-                    ]);
-            });
+        $lesson = factory(App\Lesson::class)->create();
 
-        $lesson = factory(App\Lesson::class)->create([
-                'school_class_id' => $schoolClass->id
-            ]);
-
-        $this->get("api/lessons/$lesson->id?with=schoolClass.students.responsibles.person",
+        $this->get("api/lessons/$lesson->id",
             $this->getAutHeader())
             ->assertResponseStatus(200)
             ->seeJson($lesson->toArray());
     }
 
+    /**
+     * Teste do parametro: attache=students
+     * Deve retornar os estudantes da aula contendo
+     * o registro de presença dos estudantes.
+     * Deve retornar a quantidade total de faltas no ano
+     * de cada estudante, na mesma diciplina da aula. 
+     *
+     * @covers LessonController::show
+     *
+     * @return void
+     */
+    public function testShowParamAttachStudents()
+    {
+        // Dados criados:
+        // 2 estudantes, sendo o primeiro com 0 faltas 
+        // e o segundo com 2 faltas
+        $schoolClass = factory(App\SchoolClass::class)->create();
+        $subject = factory(App\Subject::class)->create();
+        $lessons = factory(App\Lesson::class, 2)->create([
+                'school_class_id' => $schoolClass->id,
+                'subject_id' => $subject->id
+            ]);
+        $students = factory(App\Student::class, 2)->create([
+                'school_class_id' => function() use ($schoolClass){
+                    return $schoolClass->id;
+                }
+            ]);
+        $presence = 0;
+        foreach ($students as $stu) {
+            
+            factory(App\SchoolClassStudent::class)->create([
+                    'student_id' => $stu->id,
+                    'school_class_id' => $schoolClass->id
+                ]);
+            foreach ($lessons as $lesson) {
+                factory(App\AttendanceRecord::class)->create([
+                    'student_id' => $stu->id,
+                    'lesson_id' => $lesson->id,
+                    'presence' => $presence
+                ]);
+            }
+            $presence = 1;
+        }
+
+        $students[0]->totalAbsences = 2;
+        $students[0]->totalAbsences = 0;
+
+        $this->get("api/lessons/{$lessons[0]->id}?attach=students",
+            $this->getAutHeader())
+            ->assertResponseStatus(200)
+            ->seeJson($students->toArray());
+    }
     /**
      * @covers LessonController::update
      *

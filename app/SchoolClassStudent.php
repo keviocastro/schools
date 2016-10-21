@@ -24,4 +24,17 @@ class SchoolClassStudent extends Model
     protected $fillable = [
         'school_class_id', 
         'student_id'];
+
+
+    /**
+     * Get student
+     * 
+     * @Relation 
+     * 
+     * @return App\Student
+     */
+    public function student()
+    {
+        return $this->belongsTo('App\Student');
+    }
 }

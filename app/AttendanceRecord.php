@@ -22,7 +22,7 @@ class AttendanceRecord extends Model
      * @var array
      */
     protected $fillable = [
-        'lesson_id', 'school_class_student_id', 'presence'
+        'lesson_id', 'student_id', 'presence'
     ];
 
     /**

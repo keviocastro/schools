@@ -32,13 +32,13 @@ class AttendanceRecordController extends Controller
     {
         $this->validationForStoreAction($request, [
             'lesson_id' => 'required|exists:lessons,id',
-            'school_class_student_id' => 'required|exists:school_class_students,id',
+            'student_id' => 'required|exists:students,id',
             'presence' => 'required|integer|in:0,1',
             ]);
 
         $currentRecord = AttendanceRecord::
                     where('lesson_id', '=', Input::get('lesson_id'))
-                    ->where('school_class_student_id', '=', Input::get('school_class_student_id'))
+                    ->where('student_id', '=', Input::get('student_id'))
                     ->first();
 
         if ($currentRecord) {

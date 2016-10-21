@@ -49,12 +49,14 @@ class SchoolClass extends Model
     }
 
     /**
+     * Get class students
+     * 
      * @Relation
      * 
      * @return 
      */
     public function students()
     {
-        return $this->hasMany('App\Student');
+        return $this->hasMany('App\SchoolClassStudent');
     }
 }

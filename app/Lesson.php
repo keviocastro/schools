@@ -5,6 +5,9 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+/**
+ * Aula
+ */
 class Lesson extends Model
 {
      use SoftDeletes;
@@ -51,6 +54,18 @@ class Lesson extends Model
     public function subject()
     {
     	return $this->belongsTo('App\Subject');
+    }
+
+    /**
+     * Registros de chamada da aula 
+     *
+     * @Relation
+     * 
+     * @return App\AttendanceRecords
+     */
+    public function attendanceRecords()
+    {
+        return $this->hasMany('App\AttendanceRecord');
     }
 
 }
