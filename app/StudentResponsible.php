@@ -19,4 +19,16 @@ class StudentResponsible extends Model
      * @var bool
      */
     public $timestamps = false;
+
+    /**
+     * Get the person record.
+     * 
+     * @Relation
+     *
+     * @return App\Person
+     */
+    public function person()
+    {
+        return $this->belongsTo('App\Person');
+    }
 }
