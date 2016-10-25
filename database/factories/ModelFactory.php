@@ -114,7 +114,9 @@ $factory->define(App\Grade::class, function () use ($factory, $faker) {
 
 $factory->define(App\Person::class, function () use ($factory, $faker) {
     
-    $gender = $faker->randomElement(['female' ,'male']);
+    $gender = $faker->randomElement(['women' ,'man']);
+
+    $avatarUrl = 'https://randomuser.me/api/portraits/'.$gender.'/'.rand(1,80).'.jpg';
 
     return [
     	'name' => $faker->name($gender), 
@@ -122,6 +124,7 @@ $factory->define(App\Person::class, function () use ($factory, $faker) {
     	'gender' => $gender, 
     	'place_of_birth' => $faker->city, 
     	'more' => $faker->text(),
+        'avatarUrl' => $avatarUrl
     	];
 });
 

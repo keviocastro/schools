@@ -16,6 +16,7 @@ class Students extends Migration
         Schema::create('people', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
+            $table->string('avatarUrl');
             $table->date('birthday')->nulllable();
             $table->string('gender');
             $table->string('place_of_birth');

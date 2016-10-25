@@ -317,7 +317,7 @@ Professor Medeiros acessa seu aplicativo informando usuário e senha para se cad
 ### View a lesson detail [GET]
 
 + Parameters
-    + with (string, optional) Nome da relação a ser incluida da resposta.
+    + with (string, optional) Nome da relação a ser incluida na resposta.
         + Members
             + attendanceRecords
             + schoolClass
@@ -327,6 +327,14 @@ Professor Medeiros acessa seu aplicativo informando usuário e senha para se cad
             + schoolClass.students.responsibles
             + schoolClass.students.attendanceRecords
             + schoolClass.students.person
+    + attach (string, optional) Anexa mais informações da aula na responsta
+        + Members
+            + students
+            + students.attendanceRecord
+            + students.last_occurrences
+    + attach-with (string, optional)
+        + Members
+            +
 
 + Request 
     + Headers

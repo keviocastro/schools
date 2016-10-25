@@ -5,6 +5,9 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+/**
+ * Disciplina (Ex.: matématica, português, física quântica)
+ */
 class Subject extends Model
 {
 	 use SoftDeletes;

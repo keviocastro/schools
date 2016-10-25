@@ -80,7 +80,7 @@ EOL;
                 ->join('people', 'people.id', '=', 'students.person_id')
                 ->where('school_class_students.school_class_id', $result->school_class_id)
                 ->orderBy('people.name')
-                ->with('person', 'responsibles')
+                ->with('person', 'responsibles.person')
                 ->get();
 
             $students->map(function($item, $key) use ($result){
