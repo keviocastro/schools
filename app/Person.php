@@ -26,5 +26,7 @@ class Person extends Model
     	'birthday', 
     	'gender', 
     	'place_of_birth', 
-    	'more'];
+    	'more',
+        'avatarUrl',
+        'phone'];
 }
