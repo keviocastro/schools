@@ -30,6 +30,7 @@ class Lessons2016 extends Seeder
                     ]);
             });
 
+        $subject = factory(App\Subject::class)->create();
         while ( $start->lt($last) ) {
         	if ($start->dayOfWeek !=  Carbon::SUNDAY && 
         		$start->dayOfWeek != Carbon::SATURDAY) {
@@ -37,7 +38,8 @@ class Lessons2016 extends Seeder
 	        	factory(App\Lesson::class)->create([
 	        			'school_class_id' => $schoolClass->id,
 	        			'start' => $start,
-	        			'end' => $end
+	        			'end' => $end,
+                        'subject_id' => $subject->id
 	        		]);
         	}
 
