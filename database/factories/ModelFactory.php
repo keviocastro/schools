@@ -125,7 +125,7 @@ $factory->define(App\Person::class, function () use ($factory, $faker) {
     	'place_of_birth' => $faker->city, 
     	'more' => $faker->text(),
         'avatarUrl' => $avatarUrl,
-        'phone' => $faker->tollFreePhoneNumber,
+        'phone' => $faker->phoneNumber,
     	];
 });
 
