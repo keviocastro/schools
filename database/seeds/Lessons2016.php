@@ -20,9 +20,13 @@ class Lessons2016 extends Seeder
         $students = factory(App\Student::class, 35)->create([
                 'school_class_id' => $schoolClass->id
             ])
-            ->each(function($student){
+            ->each(function($student) use ($schoolClass){
                 factory(App\StudentResponsible::class)->create([
                         'student_id' => $student->id 
+                    ]);
+                factory(App\SchoolClassStudent::class)->create([
+                        'student_id' => $student->id,
+                        'school_class_id' => $schoolClass->id
                     ]);
             });
 
