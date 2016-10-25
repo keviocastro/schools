@@ -21,6 +21,7 @@ class Students extends Migration
             $table->string('gender');
             $table->string('place_of_birth');
             $table->string('more');
+            $table->string('phone');
             $table->timestamps();
             $table->softDeletes();
         });
