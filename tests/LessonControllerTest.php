@@ -53,21 +53,27 @@ class LessonControllerTest extends TestCase
     }
 
     /**
-     * Teste do parametro: attache=students
-     * Deve retornar os estudantes da aula contendo
-     * o registro de presença dos estudantes.
-     * Deve retornar a quantidade total de faltas no ano
-     * de cada estudante, na mesma diciplina da aula. 
+     * Teste do parametro: attach=students
+     * 
+     * attach=students =    Deve retornar os estudantes da aula.
+     *                      Deve retornar a quantidade total de faltas 
+     *                      no ano de cada estudante, na mesma diciplina da aula. 
+     * 
+     * attach=students.attendanceRecord = Deve retornar o registro de presença do 
+     *                                     estudante para a aula.
+     *
+     * attach=students.last_occurences = Deve retornar as ultimas 3 ocorrencias 
+     *                                     registradas para o estudante.
      *
      * @covers LessonController::show
      *
      * @return void
      */
-    public function testShowParamAttachStudents()
+    public function testShowParamAttach()
     {
         // Dados criados:
-        // 2 estudantes, sendo o primeiro com 0 faltas 
-        // e o segundo com 2 faltas
+        // 2 estudantes, sendo o primeiro com 2 faltas 
+        // e o segundo com 0 faltas
         $schoolClass = factory(App\SchoolClass::class)->create();
         $subject = factory(App\Subject::class)->create();
         $lessons = factory(App\Lesson::class, 2)->create([
@@ -80,29 +86,47 @@ class LessonControllerTest extends TestCase
                 }
             ]);
         $presence = 0;
-        foreach ($students as $stu) {
+        foreach ($students as $key => $stu) {
             
             factory(App\SchoolClassStudent::class)->create([
                     'student_id' => $stu->id,
                     'school_class_id' => $schoolClass->id
                 ]);
+            factory(App\StudentResponsible::class)->create([
+                    'student_id' => $stu->id
+                ]);
+            
+            $students[$key]->last_occurences = factory(App\Occurence::class)->create([
+                    'about_person_id' => $stu->id
+                ])->toArray();
+
             foreach ($lessons as $lesson) {
-                factory(App\AttendanceRecord::class)->create([
+                $students[$key]->attendance_record = factory(App\AttendanceRecord::class)->create([
                     'student_id' => $stu->id,
                     'lesson_id' => $lesson->id,
                     'presence' => $presence
-                ]);
+                ])->toArray();
             }
             $presence = 1;
         }
 
-        $students[0]->totalAbsences = 2;
-        $students[0]->totalAbsences = 0;
+        $students[0]->load('person', 'responsibles.person')->totalAbsences = 2;
+        $students[1]->load('person', 'responsibles.person')->totalAbsences = 0;
+        $lesson = $lessons[0]->toArray();
+        $studentsOrdered = collect($students->toArray())->sortBy(function($student, $key){
+            return  $student['person']['name'];
+        });
 
-        $this->get("api/lessons/{$lessons[0]->id}?attach=students",
+        $lesson['students'] = $studentsOrdered->all();
+        $result = ['lesson' => $lesson];
+
+        // dump(json_encode($result));     
+
+        // students.attendanceRecord,students.last_occurences
+        $this->get("api/lessons/{$lesson['id']}?attach=students,students.attendanceRecord,students.last_occurences",
             $this->getAutHeader())
             ->assertResponseStatus(200)
-            ->seeJson($students->toArray());
+            ->seeJson();
     }
     /**
      * @covers LessonController::update

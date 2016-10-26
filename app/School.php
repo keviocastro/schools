@@ -9,6 +9,14 @@ class School extends Model
 {
 	 use SoftDeletes;
 
+     /**
+     * 
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = ['deleted_at'];
+    
     /**
      * The attributes that should be mutated to dates.
      *

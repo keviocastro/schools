@@ -30,6 +30,14 @@ class Lesson extends Model
     	'start', 
     	'end',
     	];
+    
+    /**
+     * 
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = ['deleted_at'];
 
 
     /**

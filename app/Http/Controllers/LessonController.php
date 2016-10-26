@@ -56,10 +56,12 @@ class LessonController extends Controller
      */
     public function show(Request $request, $id)
     {
-        $attach = $request->input('attach');
         $result = $this->apiHandler->parseSingle(New Lesson, $id)->getResult();
+        $attach = explode(',', $request->input('attach'));
 
-        if ($attach == 'students') {
+        if (in_array('students',$attach) || 
+            in_array('students.attendanceRecord',$attach) ||
+            in_array('students.last_occurences',$attach)) {
 
             $subQuery = <<<EOL
 SELECT count(*) FROM attendance_records
@@ -83,21 +85,25 @@ EOL;
                 ->with('person', 'responsibles.person')
                 ->get();
 
-            $students->map(function($item, $key) use ($result){
-                $item->attendance_record = \App\AttendanceRecord::
-                    where('lesson_id', $result->id)
-                    ->where('student_id', $item->id)
-                    ->first();
-            });
+            if (in_array('students.attendanceRecord',$attach)) {
+                $students->map(function($item, $key) use ($result){
+                    $item->attendance_record = \App\AttendanceRecord::
+                        where('lesson_id', $result->id)
+                        ->where('student_id', $item->id)
+                        ->first();
+                });
+            }
 
-            $students->map(function($item, $key) use ($result){
-                $item->last_occurrences = \App\Occurence::
-                    where('about_person_id', $item->id)
-                    ->orderBy('updated_at')
-                    ->take(2)
-                    ->with('level')
-                    ->get();
-            });
+            if (in_array('students.last_occurences',$attach)) {
+                $students->map(function($item, $key) use ($result){
+                    $item->last_occurences = \App\Occurence::
+                        where('about_person_id', $item->id)
+                        ->orderBy('updated_at')
+                        ->take(2)
+                        ->with('level')
+                        ->get();
+                });
+            }
 
             $result['students'] = $students;
 

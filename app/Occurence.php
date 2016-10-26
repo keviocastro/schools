@@ -8,6 +8,15 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Occurence extends Model
 {
     use SoftDeletes;
+
+    /**
+     * 
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = ['deleted_at'];
+    
     /**
      * The attributes that are mass assignable.
      *

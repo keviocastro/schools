@@ -15,6 +15,14 @@ class Student extends Model
      * @var array
      */
     protected $dates = ['deleted_at'];
+    
+    /**
+     * 
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = ['deleted_at'];
 
     /**
      * The attributes that are mass assignable.
