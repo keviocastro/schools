@@ -41,19 +41,35 @@ class Controller extends BaseController
     /**
      * Validation for store action 
      * 
-     * @param  [type] $request   
+     * @param  Illuminate\Http\Request $request   
      * @param  array  $rules     See https://laravel.com/docs/5.3/validation
-     * @param  string $error_msg 
+     * @param  string $error_msg
+     * @param  bool $accept_items_array When an array of items is accepted, as shown below
+     *                                  [
+     *                                      ['attribute_1' => 'value_1', 'attribute_2' => 'value_2'],
+     *                                      ['attribute_1' => 'value_1', 'attribute_2' => 'value_2']
+     *                                  ]
      * @return void
      *
      * @throws  Dingo\Api\Exception\StoreResourceFailedException
      */
-    public function validationForStoreAction($request, array $rules, $error_msg='Could not create new resource.')
+    public function validationForStoreAction($request, array $rules, $error_msg, $accept_items_array=false)
     {
-        $validator = app('validator')->make($request->all(), $rules);
+        $error_msg = empty($error_msg) ? 'Could not create new resource.' : $error_msg;
 
-        if ($validator->fails()) {
-            throw new StoreResourceFailedException($error_msg, $validator->errors());
+        if ($accept_items_array) {
+            $params = collect($request->all());
+            $params->map(function($item, $key) use ($rules){
+                $validator = app('validator')->make($item, $rules);
+                if ($validator->fails()) {
+                    throw new StoreResourceFailedException($error_msg, $validator->errors());
+                }
+            });
+        }else{
+            $validator = app('validator')->make($request->all(), $rules);
+            if ($validator->fails()) {
+                throw new StoreResourceFailedException($error_msg, $validator->errors());
+            }
         }
     }
 

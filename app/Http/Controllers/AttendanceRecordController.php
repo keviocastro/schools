@@ -34,7 +34,7 @@ class AttendanceRecordController extends Controller
             'lesson_id' => 'required|exists:lessons,id',
             'student_id' => 'required|exists:students,id',
             'presence' => 'required|integer|in:0,1',
-            ]);
+            ], '', true);
 
         $currentRecord = AttendanceRecord::
                     where('lesson_id', '=', Input::get('lesson_id'))
@@ -44,8 +44,7 @@ class AttendanceRecordController extends Controller
         if ($currentRecord) {
             throw new ConflictHttpException('The record of the student to the lesson already exists.');
         }
-
-        $attendanceRecord = AttendanceRecord::create($request->all());
+        $attendanceRecord = AttendanceRecord::insert($request->all());
 
         return $this->response->created("/attendance-records/{$attendanceRecord->id}", $attendanceRecord);
     }
