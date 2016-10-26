@@ -76,4 +76,39 @@ class Lesson extends Model
         return $this->hasMany('App\AttendanceRecord');
     }
 
+    /**
+     * Get students Lesson
+     *
+     * @param bool Exibir total de aulas do aluno no ano na mesma disciplina
+     * 
+     * @return array of App\Students
+     */
+    public function students($totalAbsences=false)
+    {
+        $students = \App\Student::select('students.*')
+            ->join(
+                'school_class_students', 
+                'school_class_students.student_id', 
+                '=', 
+                'students.id'
+                )
+            ->join('people', 'people.id', '=', 'students.person_id')
+            ->where('school_class_students.school_class_id', $this->school_class_id)
+            ->orderBy('people.name')
+            ->with('person', 'responsibles.person');
+
+        if ($totalAbsences) {
+            
+            $subQuery = "SELECT count(*) FROM attendance_records ".
+                        "INNER JOIN lessons ON lessons.id = attendance_records.lesson_id ".
+                        "WHERE presence = 0 ".
+                            "AND lessons.subject_id = {$this->subject_id} ".
+                            "AND attendance_records.student_id = students.id";
+                
+            $students->addSelect(\DB::raw("($subQuery) as totalAbsences"));
+        }
+        
+        return $students->get();
+    }
+
 }

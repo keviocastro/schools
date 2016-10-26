@@ -63,27 +63,7 @@ class LessonController extends Controller
             in_array('students.attendanceRecord',$attach) ||
             in_array('students.last_occurences',$attach)) {
 
-            $subQuery = <<<EOL
-SELECT count(*) FROM attendance_records
-INNER JOIN lessons ON lessons.id = attendance_records.lesson_id
-where presence = 0
-    AND lessons.subject_id = {$result->subject_id} 
-    AND attendance_records.student_id = students.id
-EOL;
-
-            $students = \App\Student::select('students.*')
-                ->addSelect(DB::raw("($subQuery) as totalAbsences"))
-                ->join(
-                    'school_class_students', 
-                    'school_class_students.student_id', 
-                    '=', 
-                    'students.id'
-                    )
-                ->join('people', 'people.id', '=', 'students.person_id')
-                ->where('school_class_students.school_class_id', $result->school_class_id)
-                ->orderBy('people.name')
-                ->with('person', 'responsibles.person')
-                ->get();
+           $students = $result->students(true);
 
             if (in_array('students.attendanceRecord',$attach)) {
                 $students->map(function($item, $key) use ($result){
