@@ -28,6 +28,11 @@ class Lessons2016 extends Seeder
                         'student_id' => $student->id,
                         'school_class_id' => $schoolClass->id
                     ]);
+                if (rand(0,1)) {
+                    factory(App\Occurence::class, 4)->create([
+                            'about_person_id' => $student->id
+                        ]);
+                }
             });
 
         $subject = factory(App\Subject::class)->create();
