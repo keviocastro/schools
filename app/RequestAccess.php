@@ -33,11 +33,4 @@ class RequestAccess extends Model
         'user_id', 'status'
     ];
 
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
-    protected $hidden = [
-    ];
 }

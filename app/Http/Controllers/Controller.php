@@ -58,8 +58,10 @@ class Controller extends BaseController
         $error_msg = empty($error_msg) ? 'Could not create new resource.' : $error_msg;
 
         if ($accept_items_array) {
-            $params = collect($request->all());
-            $params->map(function($item, $key) use ($rules){
+            $inputs = $request->all();
+            $inputs = count($inputs, COUNT_RECURSIVE) == count($inputs) ? [$inputs] : $inputs;
+
+            collect($inputs)->map(function($item, $key) use ($rules){
                 $validator = app('validator')->make($item, $rules);
                 if ($validator->fails()) {
                     throw new StoreResourceFailedException($error_msg, $validator->errors());

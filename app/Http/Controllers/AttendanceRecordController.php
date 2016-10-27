@@ -24,6 +24,7 @@ class AttendanceRecordController extends Controller
 
     /**
      * Store a newly created resource in storage.
+     * Permite criar varios registros em uma mesma requisição
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -36,17 +37,25 @@ class AttendanceRecordController extends Controller
             'presence' => 'required|integer|in:0,1',
             ], '', true);
 
-        $currentRecord = AttendanceRecord::
-                    where('lesson_id', '=', Input::get('lesson_id'))
-                    ->where('student_id', '=', Input::get('student_id'))
-                    ->first();
+        $inputs = $request->all();
+        $records = count($inputs, COUNT_RECURSIVE) == count($inputs) ? [$inputs] : $inputs;
+        $attendanceRecords = [];
 
-        if ($currentRecord) {
-            throw new ConflictHttpException('The record of the student to the lesson already exists.');
+        foreach ($records as $key => $record) {
+
+            $currentRecord = AttendanceRecord::
+                        where('lesson_id', '=', $record['lesson_id'])
+                        ->where('student_id', '=', $record['student_id'])
+                        ->first();
+
+            if ($currentRecord) {
+                throw new ConflictHttpException("The record of the student (student.id = {$record['student_id']} ) to the lesson already exists.");
+            }
+            
+            array_push($attendanceRecords, AttendanceRecord::create($record));
         }
-        $attendanceRecord = AttendanceRecord::insert($request->all());
 
-        return $this->response->created("/attendance-records/{$attendanceRecord->id}", $attendanceRecord);
+        return $this->response->created(null, $attendanceRecords);
     }
 
     /**

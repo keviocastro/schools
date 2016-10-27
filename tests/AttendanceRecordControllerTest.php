@@ -70,19 +70,21 @@ class AttendanceRecordControllerTest extends TestCase
     }
 
     /**
+     * Deve permitir registrar um array de registros.
+     * 
      * @covers AttendanceRecordController::store
      *
      * @return void
      */
     public function testStore()
     {
-        $attendanceRecord = factory(App\AttendanceRecord::class)->make()->toArray();
+        $attendanceRecords = factory(App\AttendanceRecord::class, 2)->make()->toArray();
         
         $this->post('api/attendance-records',
-            $attendanceRecord,
+            $attendanceRecords,
             $this->getAutHeader())
             ->assertResponseStatus(201)
-            ->seeJson($attendanceRecord);
+            ->seeJson($attendanceRecords);
 
         // The record of the student to the lesson already exists.
     	$attendanceRecord = factory(App\AttendanceRecord::class)->create();
