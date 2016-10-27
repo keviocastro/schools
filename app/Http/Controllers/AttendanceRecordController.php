@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\AttendanceRecord;
 use App\Http\Requests;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
 use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
 
@@ -37,25 +38,32 @@ class AttendanceRecordController extends Controller
             'presence' => 'required|integer|in:0,1',
             ], '', true);
 
-        $inputs = $request->all();
-        $records = count($inputs, COUNT_RECURSIVE) == count($inputs) ? [$inputs] : $inputs;
+        $records = $this->makeMultipleInputData();
         $attendanceRecords = [];
 
-        foreach ($records as $key => $record) {
+        DB::transaction(function() use ($records, &$attendanceRecords){
+            foreach ($records as $key => $record) {
+                $currentRecord = AttendanceRecord::
+                            where('lesson_id', '=', $record['lesson_id'])
+                            ->where('student_id', '=', $record['student_id'])
+                            ->first();
 
-            $currentRecord = AttendanceRecord::
-                        where('lesson_id', '=', $record['lesson_id'])
-                        ->where('student_id', '=', $record['student_id'])
-                        ->first();
-
-            if ($currentRecord) {
-                throw new ConflictHttpException("The record of the student (student.id = {$record['student_id']} ) to the lesson already exists.");
+                if ($currentRecord) {
+                    throw new ConflictHttpException("The record of the student (student.id = {$record['student_id']} ) to the lesson already exists.");
+                }
+                
+                array_push($attendanceRecords, AttendanceRecord::create($record));
             }
-            
-            array_push($attendanceRecords, AttendanceRecord::create($record));
-        }
 
-        return $this->response->created(null, $attendanceRecords);
+        });
+
+        
+        if ($this->checkMultipleInputData()) {
+            return $this->response->created(null, ['attendance_records' => $attendanceRecords]);
+        }else{
+            return $this->response->created('attendance_records/{$attendanceRecords[0]->id}', $attendanceRecords[0]);
+        }
+    
     }
 
     /**

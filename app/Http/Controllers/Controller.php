@@ -53,13 +53,12 @@ class Controller extends BaseController
      *
      * @throws  Dingo\Api\Exception\StoreResourceFailedException
      */
-    public function validationForStoreAction($request, array $rules, $error_msg, $accept_items_array=false)
+    public function validationForStoreAction($request, array $rules, $error_msg='', $accept_items_array=false)
     {
         $error_msg = empty($error_msg) ? 'Could not create new resource.' : $error_msg;
 
         if ($accept_items_array) {
-            $inputs = $request->all();
-            $inputs = count($inputs, COUNT_RECURSIVE) == count($inputs) ? [$inputs] : $inputs;
+            $inputs = $this->makeMultipleInputData();
 
             collect($inputs)->map(function($item, $key) use ($rules){
                 $validator = app('validator')->make($item, $rules);
@@ -91,6 +90,37 @@ class Controller extends BaseController
 
         if ($validator->fails()) {
             throw new UpdateResourceFailedException($error_msg, $validator->errors());
+        }
+    }
+
+    /**
+     * Checks for multiple records on request
+     * 
+     * Example for true: [['name' => 'first name', 'age' => 30], ['name' => 'second name', 'age' => 20]]
+     * Example for false: ['name' => 'first name', 'age' => 30]
+     * 
+     * @return bool
+     */
+    public function checkMultipleInputData()
+    {
+        $inputs = request()->all();
+        return count($inputs, COUNT_RECURSIVE) == count($inputs) ? false : true;
+    }
+
+    /**
+     * Cria sempre um array de inputs da requisição.
+     * 
+     * @example ['name' => 'first name', 'age' => 30] retorna [['name' => 'first name', 'age' => 30]]
+     *          [['name' => 'first name', 'age' => 30],[...]] retorna identico.  
+     * 
+     * @return array of parameters
+     */
+    public function makeMultipleInputData()
+    {
+        if ($this->checkMultipleInputData()) {
+            return request()->all();
+        }else{
+            return [request()->all()];
         }
     }
 }
