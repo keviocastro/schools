@@ -65,7 +65,7 @@ class LessonControllerTest extends TestCase
      * attach=students.last_occurences = Retornar as ultimas 3 ocorrencias 
      *                                     registradas para o estudante.
      *
-     * attach=totalLessonsInYear = Retorna o total de aulas da mesma disciplina, no ano letivo.
+     * attach=absenceSummary = Resumo total de faltas do aluno durante o ano
      *
      * @covers LessonController::show
      *

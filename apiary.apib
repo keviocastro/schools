@@ -1,4 +1,5 @@
 
+
 FORMAT: 1A
 HOST: http://localhost/api
 
@@ -349,7 +350,7 @@ Professor Medeiros acessa seu aplicativo informando usuário e senha para se cad
 + Response 200 (application/json)
 
     + Attributes 
-        + lesson (Lesson)
+        + lesson (LessonDetail)
 
 ### Edit [PUT]
 
@@ -753,6 +754,19 @@ e a nota do aluno no 1º Bimestre será composta pela conta (N1*0,4)+(N2*0,6)=NO
 + Include (LessonBase)
 + school_class (SchoolClass)
 + subject (Subject)
+
+## LessonDetail (object)
+
++ Include Lesson
++ students (array)
+    + (object)
+        + Include (Student)
+        + attendance_record (AttendanceRecord)
+        + last_occurences (array[Occurrence])
+        + absence_summary (object)
+            + percentage_absences_reprove: 25 - Percentual máximo de faltas as aulas para não ser reprovado
+            + total_lessons_year: 200 - total de aulas programadas no ano da mesma disciplina
+            + total_absences_year: 22 - total de faltas que o aluno tem no ano da mesma disciplina
 
 ## Person (object)
 
