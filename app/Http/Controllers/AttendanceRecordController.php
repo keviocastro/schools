@@ -35,7 +35,7 @@ class AttendanceRecordController extends Controller
         $this->validationForStoreAction($request, [
             'lesson_id' => 'required|exists:lessons,id',
             'student_id' => 'required|exists:students,id',
-            'presence' => 'required|integer|in:0,1',
+            'presence' => 'required|integer|in:0,1,2',
             ], '', true);
 
         $records = $this->makeMultipleInputData();

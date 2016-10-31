@@ -19,6 +19,7 @@ class AttendanceRecordsAndStudentGrade extends Migration
             $table->unsignedInteger('student_id');
             // 0 Faltou a aula
             // 1 Estava presente
+            // 2 Falta abonada
             $table->tinyInteger('presence');
             $table->timestamps();
             $table->softDeletes();
@@ -47,23 +48,20 @@ class AttendanceRecordsAndStudentGrade extends Migration
         Schema::create('student_grades', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->float('grade');
-            $table->unsignedInteger('school_class_student_id');
+            $table->unsignedInteger('student_id');
             $table->unsignedInteger('assessment_id');
-            $table->bigInteger('school_class_subject_id')->unsigned();
+            $table->unsignedInteger('subject_id');
+            $table->unsignedInteger('owner_person_id');
+            $table->unsignedInteger('school_class_id');
+            
             $table->timestamps();
             $table->softDeletes();
 
-            $table->foreign('school_class_subject_id')
-                ->references('id')
-                ->on('school_class_subjects');
-
-            $table->foreign('assessment_id')
-                ->references('id')
-                ->on('assessments');
-            
-            $table->foreign('school_class_student_id')
-                ->references('id')
-                ->on('school_class_students');
+            $table->foreign('student_id')->references('id')->on('students');
+            $table->foreign('assessment_id')->references('id')->on('assessments');
+            $table->foreign('subject_id')->references('id')->on('subjects');
+            $table->foreign('owner_person_id')->references('id')->on('people');
+            $table->foreign('school_class_id')->references('id')->on('school_classes');
         });
     }
 

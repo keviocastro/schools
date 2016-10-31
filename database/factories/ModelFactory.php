@@ -205,7 +205,7 @@ $factory->define(App\AttendanceRecord::class, function ($faker) use ($factory) {
             'student_id' => function(){
                 return factory(App\Student::class)->create()->id;
             },
-            'presence' => rand(0,1),
+            'presence' => rand(0,1,2),
         ];
 });
 
@@ -282,6 +282,28 @@ $factory->define(App\Occurence::class, function ($faker) use ($factory) {
         },
         'about_person_id' => function(){
             return factory(App\Student::class)->create()->id;
+        }
+    ];
+});
+
+$factory->define(App\StudentGrades::class, function ($faker) use ($factory) {
+    
+    return [
+        'grade' => $faker->randomDigit,
+        'student_id' => function(){
+            return factory(App\Student::class)->create()->id;
+        },
+        'subject_id' => function(){
+            return factory(App\Subject::class)->create()->id;
+        },
+        'assessment_id' => function(){
+            return factory(App\Assessment::class)->create()->id;
+        },
+        'owner_person_id' => function(){
+            return factory(App\Person::class)->create()->id;
+        },
+        'school_class_id' => function(){
+            return factory(App\SchoolClass::class)->create()->id;
         }
     ];
 });
