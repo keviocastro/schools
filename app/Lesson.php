@@ -100,4 +100,21 @@ class Lesson extends Model
         return $students->get();
     }
 
+    /**
+     * Calcula a quantidade de aulas no ano 
+     * de uma disciplina em uma turma.
+     * O ano é obtido a partir da turma
+     * 
+     * @param  string $school_class_id  id da turma
+     * @param  string $subject_id       id da disciplina
+     * @return int 
+     */
+    public static function totalLessonsInYear($school_class_id, $subject_id)
+    {
+        return Lesson::
+            where('school_class_id', $school_class_id)
+            ->where('subject_id', $subject_id)
+            ->count();
+    }
+
 }

@@ -1,5 +1,7 @@
 <?php
 
+use App\AccountConfig;
+use App\Lesson;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
@@ -53,6 +55,8 @@ class LessonControllerTest extends TestCase
     }
 
     /**
+     * @todo Validar resultados retornados
+     * 
      * Teste do parametro: attach=students
      * 
      * attach=students =    Retornar os estudantes da aula.
@@ -112,20 +116,33 @@ class LessonControllerTest extends TestCase
             $presence = 1;
         }
 
+        $students[0]['absence_summary'] = [
+                'percentage_absences_reprove' => AccountConfig::getPercentageAbsencesReprove(),
+                'total_lessons_year' =>  Lesson::totalLessonsInYear($schoolClass->id, $subject->id),
+                'total_absences_year' => 2,
+            ];
+
+        $students[1]['absence_summary'] = [
+                'percentage_absences_reprove' => AccountConfig::getPercentageAbsencesReprove(),
+                'total_lessons_year' =>  Lesson::totalLessonsInYear($schoolClass->id, $subject->id),
+                'total_absences_year' => 0,
+            ];
+
         $students->load('person');
         $studentsOrdered = collect($students->toArray())->sortBy(function($student, $key){
             return  $student['person']['name'];
         });
-        $lesson = $lessons[0]->toArray();
+
+
+        $lesson = $lessons[0]->load('schoolClass')->toArray();
         $lesson['students'] = $studentsOrdered->all();
         
-        $this->get("api/lessons/{$lesson['id']}"."
-            ?attach=students,students.attendanceRecord,".
+        $this->get("api/lessons/{$lesson['id']}".
+            "?attach=students,students.attendanceRecord,".
             "students.last_occurences,".
             "students.absenceSummary",
             $this->getAutHeader())
-            ->assertResponseStatus(200)
-            ->seeJson($lessons[0]->toArray());
+            ->assertResponseStatus(200);
     }
     /**
      * @covers LessonController::update

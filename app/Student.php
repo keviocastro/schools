@@ -93,14 +93,9 @@ class Student extends Model
             ->where('lessons.subject_id', $subject_id   )
             ->count();
 
-        $total_lessons_year = Lesson::
-            where('school_class_id', $school_class_id)
-            ->where('subject_id', $subject_id)
-            ->count();
-
         return [
             'percentage_absences_reprove' => AccountConfig::getPercentageAbsencesReprove(),
-            'total_lessons_year' =>  $total_lessons_year,
+            'total_lessons_year' =>  Lesson::totalLessonsInYear($school_class_id, $subject_id),
             'total_absences_year' => $total_absences,
         ];
 
