@@ -83,7 +83,7 @@ class Lesson extends Model
      * 
      * @return array of App\Students
      */
-    public function students($totalAbsences=false)
+    public function students()
     {
         $students = \App\Student::select('students.*')
             ->join(
@@ -97,17 +97,6 @@ class Lesson extends Model
             ->orderBy('people.name')
             ->with('person', 'responsibles.person');
 
-        if ($totalAbsences) {
-            
-            $subQuery = "SELECT count(*) FROM attendance_records ".
-                        "INNER JOIN lessons ON lessons.id = attendance_records.lesson_id ".
-                        "WHERE presence = 0 ".
-                            "AND lessons.subject_id = {$this->subject_id} ".
-                            "AND attendance_records.student_id = students.id";
-                
-            $students->addSelect(\DB::raw("($subQuery) as totalAbsences"));
-        }
-        
         return $students->get();
     }
 

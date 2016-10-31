@@ -55,15 +55,17 @@ class LessonControllerTest extends TestCase
     /**
      * Teste do parametro: attach=students
      * 
-     * attach=students =    Deve retornar os estudantes da aula.
-     *                      Deve retornar a quantidade total de faltas 
+     * attach=students =    Retornar os estudantes da aula.
+     *                      Retornar a quantidade total de faltas 
      *                      no ano de cada estudante, na mesma diciplina da aula. 
      * 
-     * attach=students.attendanceRecord = Deve retornar o registro de presença do 
+     * attach=students.attendanceRecord = Retornar o registro de presença do 
      *                                     estudante para a aula.
      *
-     * attach=students.last_occurences = Deve retornar as ultimas 3 ocorrencias 
+     * attach=students.last_occurences = Retornar as ultimas 3 ocorrencias 
      *                                     registradas para o estudante.
+     *
+     * attach=totalLessonsInYear = Retorna o total de aulas da mesma disciplina, no ano letivo.
      *
      * @covers LessonController::show
      *
@@ -110,23 +112,20 @@ class LessonControllerTest extends TestCase
             $presence = 1;
         }
 
-        $students[0]->load('person', 'responsibles.person')->totalAbsences = 2;
-        $students[1]->load('person', 'responsibles.person')->totalAbsences = 0;
-        $lesson = $lessons[0]->toArray();
+        $students->load('person');
         $studentsOrdered = collect($students->toArray())->sortBy(function($student, $key){
             return  $student['person']['name'];
         });
-
+        $lesson = $lessons[0]->toArray();
         $lesson['students'] = $studentsOrdered->all();
-        $result = ['lesson' => $lesson];
-
-        // dump(json_encode($result));     
-
-        // students.attendanceRecord,students.last_occurences
-        $this->get("api/lessons/{$lesson['id']}?attach=students,students.attendanceRecord,students.last_occurences",
+        
+        $this->get("api/lessons/{$lesson['id']}"."
+            ?attach=students,students.attendanceRecord,".
+            "students.last_occurences,".
+            "students.absenceSummary",
             $this->getAutHeader())
             ->assertResponseStatus(200)
-            ->seeJson();
+            ->seeJson($lessons[0]->toArray());
     }
     /**
      * @covers LessonController::update

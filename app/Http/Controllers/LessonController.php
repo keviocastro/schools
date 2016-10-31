@@ -55,7 +55,7 @@ class LessonController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show(Request $request, $id)
-    {
+    {   
         $result = $this->apiHandler->parseSingle(New Lesson, $id)->getResult();
         $attach = explode(',', $request->input('attach'));
 
@@ -63,7 +63,7 @@ class LessonController extends Controller
             in_array('students.attendanceRecord',$attach) ||
             in_array('students.last_occurences',$attach)) {
 
-           $students = $result->students(true);
+           $students = $result->students();
 
             if (in_array('students.attendanceRecord',$attach)) {
                 $students->map(function($item, $key) use ($result){
@@ -75,13 +75,23 @@ class LessonController extends Controller
             }
 
             if (in_array('students.last_occurences',$attach)) {
-                $students->map(function($item, $key) use ($result){
+                $students->map(function($item, $key){
                     $item->last_occurences = \App\Occurence::
                         where('about_person_id', $item->id)
                         ->orderBy('updated_at')
                         ->take(2)
                         ->with('level')
                         ->get();
+                });
+            }
+
+            if (in_array('students.absenceSummary', $attach)) {
+                $students->map(function($item, $key) use ($result){
+                    $item->absence_summary = $item->absenceSummaryYear(
+                            $result->school_class_id,
+                            $result->subject_id,
+                            $result->schoolClass->school_calendar_id
+                        );
                 });
             }
 
