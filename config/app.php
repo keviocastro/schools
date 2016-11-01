@@ -157,10 +157,12 @@ return [
         App\Providers\RouteServiceProvider::class,
 
         // Auth0
-        'Auth0\Login\LoginServiceProvider',
+        Auth0\Login\LoginServiceProvider::class,
 
         Dingo\Api\Provider\LaravelServiceProvider::class,
         Barryvdh\Cors\ServiceProvider::class,
+
+        Marcelgwerder\ApiHandler\ApiHandlerServiceProvider::class,
     ],
 
     /*
@@ -206,7 +208,8 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-        'Auth0' => 'Auth0\Login\Facade\Auth0',
+        'Auth0' => Auth0\Login\Facade\Auth0::class,
+        'ApiHandler' => Marcelgwerder\ApiHandler\Facades\ApiHandler::class,
 
     ],
 

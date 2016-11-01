@@ -2,6 +2,7 @@
 
 use App\AccountConfig;
 use App\Lesson;
+use Carbon\Carbon;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
@@ -178,37 +179,54 @@ class LessonControllerTest extends TestCase
     }
 
     /**
-     * @covers LessonController::indexLesson
+     * @covers LessonController::listPerDay
      * 
      * @return void
      */
     public function testListPerDay()
     {
 
-        $lessons = factory(App\Lesson::class, 'Next15Days', 5)->create();
+        // Cria lessons para 3 dias
+        $start = Carbon::now();
+        $dateLesson = clone $start;
+        $end = clone $start;
+        $end->addDays(2);
+        $result = [];
 
-        $structure = [
-            'total',
-            'per_page',
-            'current_page',
-            'last_page',
-            'next_page_url',
-            'prev_page_url',
-            'from',
-            'to',
-            'data' => [
-                [
-                    'day',
-                    'lessons' => []
-                ]
-            ]
+        // Remove existentes para verificar se vai retornar exatamente as 
+        // que foram criadas
+        Lesson::
+            where(DB::raw('DATE_FORMAT(start, "%Y-%m-%d")'), '>=', $dateLesson->format('Y-m-d'))
+            ->orWhere(DB::raw('DATE_FORMAT(end, "%Y-%m-%d")', '<=', $end->format('Y-m-d')))
+            ->delete();
+
+        $i = 0;
+        while ( $dateLesson->lte($end) ) {
+            $result[$i]['day'] = $dateLesson->format('Y-m-d');
+            $lessons = factory(App\Lesson::class, 2)->create([
+                    'start' => $dateLesson->format('Y-m-d H:i:s'),
+                    'end' => $dateLesson->format('Y-m-d H:i:s'),
+                ])->toArray();
+            // Attributo "day" que a api retorna mas não existe na base
+            $lessons[0]['day'] = $dateLesson->format('Y-m-d');
+            $lessons[1]['day'] = $dateLesson->format('Y-m-d');
+            
+            $result[$i]['lessons'] = $lessons;
+            $i++; 
+            $dateLesson->addDays(1);
+        }
+
+        $jsonResult = [
+            'start' => $start->format('Y-m-d'),
+            'end' => $end->format('Y-m-d'),
+            'data' => $result
         ];
 
-        
-        $this->get('api/lessons/per-day?with=schoolClass.grade',
+        $this->get("api/lessons/per-day?start={$start->format('Y-m-d')}".
+            "&end={$end->format('Y-m-d')}",
             $this->getAutHeader())
             ->assertResponseStatus(200)
-            ->seeJsonStructure($structure);
+            ->seeJsonEquals($jsonResult);
     }
 
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Dingo\Api\Exception\ResourceException;
 use Dingo\Api\Exception\StoreResourceFailedException;
 use Dingo\Api\Exception\UpdateResourceFailedException;
 use Dingo\Api\Routing\Helpers;
@@ -90,6 +91,25 @@ class Controller extends BaseController
 
         if ($validator->fails()) {
             throw new UpdateResourceFailedException($error_msg, $validator->errors());
+        }
+    }
+
+    /**
+     * Validation for list actions
+     * 
+     * @param  array  $rules     See https://laravel.com/docs/5.3/validation
+     * @param  string $error_msg $error_msg 
+     * @return void
+     *
+     * @throws  Dingo\Api\Exception\UpdateResourceFailedException
+     */
+    public function validationForListAction(array $rules, $error_msg='Invalid parameters.')
+    {
+        $payload = request()->all();
+        $validator = app('validator')->make($payload, $rules);
+
+        if ($validator->fails()) {
+            throw new ResourceException($error_msg, $validator->errors());
         }
     }
 

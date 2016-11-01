@@ -3,6 +3,9 @@
 	[
 		{
 			"path": "."
+		},
+		{
+			"path": "/home/kevio/www/docker-images/docker-laravel"
 		}
 	]
 }
