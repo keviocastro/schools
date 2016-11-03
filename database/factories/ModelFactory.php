@@ -205,7 +205,7 @@ $factory->define(App\AttendanceRecord::class, function ($faker) use ($factory) {
             'student_id' => function(){
                 return factory(App\Student::class)->create()->id;
             },
-            'presence' => rand(0,1,2),
+            'presence' => rand(0,2),
         ];
 });
 

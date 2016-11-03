@@ -39,7 +39,7 @@ class StudentGradesControllerTest extends TestCase
 			  ]
 			];
         $this->get('api/student-grades?with=student,subject,assessment,schoolClass,ownerPerson',
-        	$this->getAutHeader())->dump()
+        	$this->getAutHeader())
         	->assertResponseStatus(200)
         	->seeJsonStructure($struture);
     }
