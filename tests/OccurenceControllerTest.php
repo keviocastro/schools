@@ -38,7 +38,7 @@ class OccurenceControllerTest extends TestCase
 			    ]
 			  ]
 			];
-        $this->get('api/occurences?with=level',
+        $this->get('api/occurences?_with=level',
         	$this->getAutHeader())
         	->assertResponseStatus(200)
         	->seeJsonStructure($struture);

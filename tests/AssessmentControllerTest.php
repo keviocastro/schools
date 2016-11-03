@@ -16,7 +16,7 @@ class AssessmentControllerTest extends TestCase
     {
         $assessment = factory(App\Assessment::class)->create();
         
-        $this->get('api/assessments?sort=-id',
+        $this->get('api/assessments?_sort=-id',
         	$this->getAutHeader())
         	->assertResponseStatus(200)
         	->seeJson($assessment->toArray());

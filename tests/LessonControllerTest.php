@@ -19,7 +19,7 @@ class LessonControllerTest extends TestCase
     {
         $lesson = factory(\App\Lesson::class)->create();
 
-    	$this->get('api/lessons?sort=-id',$this->getAutHeader())
+    	$this->get('api/lessons?_sort=-id',$this->getAutHeader())
     		->assertResponseStatus(200)
     		->seeJson($lesson->toArray());
     }
@@ -195,10 +195,12 @@ class LessonControllerTest extends TestCase
 
         // Remove existentes para verificar se vai retornar exatamente as 
         // que foram criadas
+
         Lesson::
-            where(DB::raw('DATE_FORMAT(start, "%Y-%m-%d")'), '>=', $dateLesson->format('Y-m-d'))
-            ->orWhere(DB::raw('DATE_FORMAT(end, "%Y-%m-%d")', '<=', $end->format('Y-m-d')))
+            where(DB::raw('DATE_FORMAT(start, "%Y-%m-%d")'), '>=', $start->format('Y-m-d'))
+            ->where(DB::raw('DATE_FORMAT(end, "%Y-%m-%d")'), '<=', $end->format('Y-m-d'))
             ->delete();
+
 
         $i = 0;
         while ( $dateLesson->lte($end) ) {
@@ -206,12 +208,16 @@ class LessonControllerTest extends TestCase
             $lessons = factory(App\Lesson::class, 2)->create([
                     'start' => $dateLesson->format('Y-m-d H:i:s'),
                     'end' => $dateLesson->format('Y-m-d H:i:s'),
-                ])->toArray();
+                ]);
+            $lessons->load('schoolClass.grade', 
+                'schoolClass.shift',
+                'schoolClass.students',
+                'subject');
             // Attributo "day" que a api retorna mas não existe na base
-            $lessons[0]['day'] = $dateLesson->format('Y-m-d');
-            $lessons[1]['day'] = $dateLesson->format('Y-m-d');
+            $lessons[0]->day = $dateLesson->format('Y-m-d');
+            $lessons[1]->day = $dateLesson->format('Y-m-d');
             
-            $result[$i]['lessons'] = $lessons;
+            $result[$i]['lessons'] = $lessons->toArray();
             $i++; 
             $dateLesson->addDays(1);
         }
@@ -222,8 +228,13 @@ class LessonControllerTest extends TestCase
             'data' => $result
         ];
 
-        $this->get("api/lessons/per-day?start={$start->format('Y-m-d')}".
-            "&end={$end->format('Y-m-d')}",
+        $this->get("api/lessons/per-day".
+            "?start={$start->format('Y-m-d')}".
+            "&end={$end->format('Y-m-d')}".
+            "&_with=schoolClass.grade".
+                ",schoolClass.shift".
+                ",schoolClass.students".
+                ",subject",
             $this->getAutHeader())
             ->assertResponseStatus(200)
             ->seeJsonEquals($jsonResult);

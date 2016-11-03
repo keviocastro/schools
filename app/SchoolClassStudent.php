@@ -35,7 +35,7 @@ class SchoolClassStudent extends Model
 
 
     /**
-     * Get student
+     * Get student and person
      * 
      * @Relation 
      * 
@@ -43,6 +43,8 @@ class SchoolClassStudent extends Model
      */
     public function student()
     {
-        return $this->belongsTo('App\Student');
+        return $this->belongsTo('App\Student')
+            ->with('person');
     }
+
 }

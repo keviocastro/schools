@@ -18,7 +18,7 @@ class SchoolControllerTest extends TestCase
     {
     	$school = factory(\App\School::class)->make()->toArray();
 
-        $this->post('api/schools?sort=-id', 
+        $this->post('api/schools?_sort=-id', 
             $school,
             $this->getAutHeader())
         	->assertResponseStatus(201)

@@ -16,7 +16,7 @@ class SchoolClassControllerTest extends TestCase
     {
     	$schoolClass = factory(App\SchoolClass::class)->create();
         
-        $this->get('api/school-classes?sort=-id',
+        $this->get('api/school-classes?_sort=-id',
         	$this->getAutHeader())
         	->assertResponseStatus(200)
         	->seeJson($schoolClass->toArray());

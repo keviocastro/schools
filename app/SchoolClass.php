@@ -65,6 +65,7 @@ class SchoolClass extends Model
      */
     public function students()
     {
-        return $this->hasMany('App\SchoolClassStudent');
+        return $this->hasMany('App\SchoolClassStudent')
+            ->with('student');
     }
 }

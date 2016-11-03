@@ -16,7 +16,7 @@ class AttendanceRecordControllerTest extends TestCase
     {
         $attendanceRecord = factory(App\AttendanceRecord::class)->create();
         
-        $this->get('api/attendance-records?sort=-id',
+        $this->get('api/attendance-records?_sort=-id',
         	$this->getAutHeader())
         	->assertResponseStatus(200)
         	->seeJson($attendanceRecord->toArray());
