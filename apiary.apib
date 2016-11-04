@@ -260,6 +260,31 @@ Professor Medeiros acessa seu aplicativo informando usuário e senha para se cad
         + data (array)
             + (Student)
 
+# Group Students
+
+Ações relacionadas a informações dos alunos: cadastrais, indicadores de desempenho
+e relatórios como "Boletim anual do aluno" e "Histórico escolar".
+
+## Annual Student Summary [/students/{student_id}/annual-summary]
+
+### View a annual student summary [GET]
+
++ Request 
+    + Headers
+    
+            authorization: Bearer {token_id}
+            
++ Response 200 (application/json)
+
+    + Attributes (object)
+        + absences_school_calendar_phase: 4 (number) - Total de faltas do aluno na fase avaliativa do ano `(ex: bimestre)`
+        + absences_school_calendar: 12 (number) - Total de faltas do aluno no ano letivo
+        + best_average_school_calendar_phase: 9.5 (number) - Melhor média do aluno na fase avaliativa
+        + worst_average_school_calendar_phase: 2.5 (number) - Pior média do aluno na fase avaliativa 
+        + best_average_school_calendar: 9.5 (number) - Melhor média do aluno no ano letivo
+        + worst_average_school_calendar: 2.5 (number) - Pior média do aluno no ano letivo 
+
+
             
 # Group Lessons
 
