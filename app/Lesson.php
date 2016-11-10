@@ -79,9 +79,7 @@ class Lesson extends Model
     /**
      * Get students Lesson
      *
-     * @param bool Exibir total de aulas do aluno no ano na mesma disciplina
-     * 
-     * @return array of App\Students
+     * @return \Illuminate\Database\Eloquent\Collection of App\Students
      */
     public function students()
     {

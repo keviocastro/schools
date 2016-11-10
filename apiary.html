@@ -1064,15 +1064,14 @@ Professor Medeiros acessa seu aplicativo informando usuário e senha para se cad
 <h1 id="group-schools"><a name="user-content-group-schools" href="#group-schools" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Group Schools</h1>
 <p>&lsquo;Schools&rsquo; são as escolas associadas a uma conta.<br />
 &lsquo;School Class&rsquo; são as turmas de uma escola que existem em um determinado ano letivo/calendario escolar.</p>
-<h2 id="schools-collection-schoolslimitqsort"><a name="user-content-schools-collection-schoolslimitqsort" href="#schools-collection-schoolslimitqsort" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Schools Collection [/schools{?limit,q,sort}]</h2>
+<h2 id="schools-collection-schools_q_sort"><a name="user-content-schools-collection-schools_q_sort" href="#schools-collection-schools_q_sort" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Schools Collection [/schools{?_q,_sort}]</h2>
 <h3 id="list-schools-get"><a name="user-content-list-schools-get" href="#list-schools-get" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>List Schools [GET]</h3>
 <ul>
 <li>
 <p>Parameters</p>
 <ul>
-<li>q (string, optional) - Fulltext search.</li>
-<li>sort (string, optional) - Nome da coluna para ordenação acendente.</li>
-<li>limit (number, optional) - Limite por página.</li>
+<li>_q (string, optional) - Fulltext search.</li>
+<li>_sort (string, optional) - Nome da coluna para ordenação acendente.</li>
 </ul>
 </li>
 <li>
@@ -1208,16 +1207,15 @@ Professor Medeiros acessa seu aplicativo informando usuário e senha para se cad
 <p>Response 204</p>
 </li>
 </ul>
-<h2 id="school-classes-collection-school-classeslimitqsortwith"><a name="user-content-school-classes-collection-school-classeslimitqsortwith" href="#school-classes-collection-school-classeslimitqsortwith" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>School Classes Collection [/school-classes{?limit,q,sort,with}]</h2>
+<h2 id="school-classes-collection-school-classes_q_sort_with"><a name="user-content-school-classes-collection-school-classes_q_sort_with" href="#school-classes-collection-school-classes_q_sort_with" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>School Classes Collection [/school-classes{?_q,_sort,_with}]</h2>
 <h3 id="list-school-classes-get"><a name="user-content-list-school-classes-get" href="#list-school-classes-get" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>List School Classes [GET]</h3>
 <ul>
 <li>
 <p>Parameters</p>
 <ul>
-<li>q (string, optional) - Fulltext search.</li>
-<li>sort (string, optional) - Nome da coluna para ordenação. </li>
-<li>limit (number, optional) - Limite por página.</li>
-<li>with (string, optional) - Nome da relação a ser incluída na resposta.<ul>
+<li>_q (string, optional) - Fulltext search.</li>
+<li>_sort (string, optional) - Nome da coluna para ordenação. </li>
+<li>_with (string, optional) - Nome da relação a ser incluída na resposta.<ul>
 <li>Members <ul>
 <li>grade</li>
 <li>shift</li>
@@ -1274,7 +1272,7 @@ Professor Medeiros acessa seu aplicativo informando usuário e senha para se cad
 </ul>
 </li>
 </ul>
-<h2 id="school-class-school-classesschool_class_idwith"><a name="user-content-school-class-school-classesschool_class_idwith" href="#school-class-school-classesschool_class_idwith" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>School Class [/school-classes/{school_class_id}{?with}]</h2>
+<h2 id="school-class-school-classesschool_class_id_with"><a name="user-content-school-class-school-classesschool_class_id_with" href="#school-class-school-classesschool_class_id_with" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>School Class [/school-classes/{school_class_id}{?_with}]</h2>
 <ul>
 <li>Parameters<ul>
 <li>school_class_id (number) - ID of the school class</li>
@@ -1286,7 +1284,7 @@ Professor Medeiros acessa seu aplicativo informando usuário e senha para se cad
 <li>
 <p>Parameters</p>
 <ul>
-<li>with (string, optional) - Nome da relação a ser incluída na resposta.<ul>
+<li>_with (string, optional) - Nome da relação a ser incluída na resposta.<ul>
 <li>Members <ul>
 <li>grade</li>
 <li>shift</li>
@@ -1344,16 +1342,15 @@ Professor Medeiros acessa seu aplicativo informando usuário e senha para se cad
 <li>Response 204</li>
 </ul>
 <h1 id="group-people"><a name="user-content-group-people" href="#group-people" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Group People</h1>
-<h2 id="students-collection-studentslimitqsortwith"><a name="user-content-students-collection-studentslimitqsortwith" href="#students-collection-studentslimitqsortwith" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Students Collection [/students{?limit,q,sort,with}]</h2>
+<h2 id="students-collection-students_q_sort_with"><a name="user-content-students-collection-students_q_sort_with" href="#students-collection-students_q_sort_with" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Students Collection [/students{?_q,_sort,_with}]</h2>
 <h3 id="list-students-get"><a name="user-content-list-students-get" href="#list-students-get" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>List students [GET]</h3>
 <ul>
 <li>
 <p>Parameters</p>
 <ul>
-<li>q (string, optional) - Fulltext search</li>
-<li>sort (string, optional) - Nome da coluna para ordenação. </li>
-<li>limit (number, optional) - Limite por página</li>
-<li>with (string, optional) - Nome da relação a ser incluida na resposta<ul>
+<li>_q (string, optional) - Fulltext search</li>
+<li>_sort (string, optional) - Nome da coluna para ordenação. </li>
+<li>_with (string, optional) - Nome da relação a ser incluida na resposta<ul>
 <li>Members<ul>
 <li>studentResponsible</li>
 <li>person</li>
@@ -1388,18 +1385,49 @@ Professor Medeiros acessa seu aplicativo informando usuário e senha para se cad
 </ul>
 </li>
 </ul>
+<h1 id="group-students"><a name="user-content-group-students" href="#group-students" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Group Students</h1>
+<p>Ações relacionadas a informações dos alunos: cadastrais, indicadores de desempenho<br />
+e relatórios como &ldquo;Boletim anual do aluno&rdquo; e &ldquo;Histórico escolar&rdquo;.</p>
+<h2 id="annual-student-summary-studentsstudent_idannual-summary"><a name="user-content-annual-student-summary-studentsstudent_idannual-summary" href="#annual-student-summary-studentsstudent_idannual-summary" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Annual Student Summary [/students/{student_id}/annual-summary]</h2>
+<h3 id="view-a-annual-student-summary-get"><a name="user-content-view-a-annual-student-summary-get" href="#view-a-annual-student-summary-get" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>View a annual student summary [GET]</h3>
+<ul>
+<li>
+<p>Request </p>
+<ul>
+<li>
+<p>Headers</p>
+<pre><code>authorization: Bearer &lt;token_id&gt;
+</code></pre>
+</li>
+<li>
+<p>Response 200 (application/json)</p>
+<ul>
+<li>Attributes (object)<ul>
+<li>school_calendar_phase_absences: 4 (number)<br />
+    Total de faltas do aluno no bimestre/fase do ano atual</li>
+<li>school_calendar_absences: 12 (number)<br />
+    Total de faltas do aluno no ano letivo</li>
+<li>best_average_student_grade_phase (number)<br />
+    Melhor média do aluno no bimestre</li>
+<li>best_average_student_grade_phase</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
 <h1 id="group-lessons"><a name="user-content-group-lessons" href="#group-lessons" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Group Lessons</h1>
 <p><code>Lessons</code> são as aulas programadas para as turmas de uma escola.</p>
-<h2 id="lessons-collection-lessonslimitqsortwith"><a name="user-content-lessons-collection-lessonslimitqsortwith" href="#lessons-collection-lessonslimitqsortwith" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Lessons Collection [/lessons{?limit,q,sort,with}]</h2>
+<h2 id="lessons-collection-lessons_q_sort_with"><a name="user-content-lessons-collection-lessons_q_sort_with" href="#lessons-collection-lessons_q_sort_with" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Lessons Collection [/lessons{?_q,_sort,_with}]</h2>
 <h3 id="list-lessons-get"><a name="user-content-list-lessons-get" href="#list-lessons-get" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>List lessons [GET]</h3>
 <ul>
 <li>
 <p>Parameters</p>
 <ul>
-<li>q (string, optional) - Fulltext search</li>
-<li>sort (string, optional) - Nome da coluna para ordenação. </li>
-<li>limit (number, optional) - Limite por página</li>
-<li>with (string, optional) Nome da relação a ser incluida da resposta.<ul>
+<li>_q (string, optional) - Fulltext search</li>
+<li>_sort (string, optional) - Nome da coluna para ordenação. </li>
+<li>_with (string, optional) Nome da relação a ser incluida da resposta.<ul>
 <li>Members<ul>
 <li>schoolClass</li>
 <li>schoolClass.grade</li>
@@ -1458,7 +1486,7 @@ Professor Medeiros acessa seu aplicativo informando usuário e senha para se cad
 </ul>
 </li>
 </ul>
-<h2 id="lesson-lessonslesson_idwith"><a name="user-content-lesson-lessonslesson_idwith" href="#lesson-lessonslesson_idwith" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Lesson [/lessons/{lesson_id}{?with}]</h2>
+<h2 id="lesson-lessonslesson_id_with"><a name="user-content-lesson-lessonslesson_id_with" href="#lesson-lessonslesson_id_with" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Lesson [/lessons/{lesson_id}{?_with}]</h2>
 <ul>
 <li>Parameters<ul>
 <li>lesson_id: 1 (number) - ID of the lesson</li>
@@ -1470,7 +1498,7 @@ Professor Medeiros acessa seu aplicativo informando usuário e senha para se cad
 <li>
 <p>Parameters</p>
 <ul>
-<li>with (string, optional) Nome da relação a ser incluida na resposta.<ul>
+<li>_with (string, optional) Nome da relação a ser incluida na resposta.<ul>
 <li>Members<ul>
 <li>attendanceRecords</li>
 <li>schoolClass</li>
@@ -1496,7 +1524,7 @@ o ano.</p>
 <li>students</li>
 <li>students.attendanceRecord</li>
 <li>students.last_occurences</li>
-<li>students.summaryFaults</li>
+<li>students.absenceSummary</li>
 </ul>
 </li>
 </ul>
@@ -1550,19 +1578,18 @@ o ano.</p>
 <ul>
 <li>Response 204</li>
 </ul>
-<h2 id="lessons-per-day-lessonsper-daywithlimitqsortstartend"><a name="user-content-lessons-per-day-lessonsper-daywithlimitqsortstartend" href="#lessons-per-day-lessonsper-daywithlimitqsortstartend" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Lessons per day [/lessons/per-day{?with,limit,q,sort,start,end}]</h2>
+<h2 id="lessons-per-day-lessonsper-day_with_q_sortstartend"><a name="user-content-lessons-per-day-lessonsper-day_with_q_sortstartend" href="#lessons-per-day-lessonsper-day_with_q_sortstartend" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Lessons per day [/lessons/per-day{?_with,_q,_sort,start,end}]</h2>
 <h3 id="list-lessons-per-day-get"><a name="user-content-list-lessons-per-day-get" href="#list-lessons-per-day-get" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>List Lessons per day [GET]</h3>
 <ul>
 <li>
 <p>Parameters</p>
 <ul>
-<li>with (string, optional) Nome da relação a ser incluida da resposta.<ul>
+<li>_with (string, optional) Nome da relação a ser incluida da resposta.<ul>
 <li>Members<ul>
 <li>schoolClass</li>
 <li>schoolClass.grade</li>
 <li>schoolClass.shift</li>
 <li>schoolClass.students</li>
-<li>schoolClass.students.person</li>
 <li>schoolClass.students.studentResponsible</li>
 <li>schoolClass.students.attendanceRecords</li>
 <li>subject</li>
@@ -1578,9 +1605,7 @@ o ano.</p>
 <li>Default: NOW() + 15 days </li>
 </ul>
 </li>
-<li>q (string, optional) - Fulltext search</li>
-<li>sort (string, optional) - Nome da coluna para ordenação. </li>
-<li>limit (number, optional) - Limite por página</li>
+<li>_q (string, optional) - Fulltext search</li>
 </ul>
 </li>
 <li>
@@ -1595,7 +1620,8 @@ o ano.</p>
 <p>Response 200 (application/json)</p>
 <ul>
 <li>Attributes <ul>
-<li>Include Paginator</li>
+<li>start: &lsquo;2016-10-01&rsquo; (string)</li>
+<li>end: &lsquo;2016-10-15&rsquo; (string)</li>
 <li>data (array)<ul>
 <li>(object)<ul>
 <li>day: <code>2016-10-01</code> (string)</li>
@@ -1612,16 +1638,15 @@ o ano.</p>
 <h1 id="group-attendance-records"><a name="user-content-group-attendance-records" href="#group-attendance-records" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Group Attendance Records</h1>
 <p><code>Attendance Records</code> são os registros de presenças dos alunos em uma aula, definindo<br />
 se o aluno estava ou não presente durante a aula.</p>
-<h2 id="attendance-records-collection-attendance-recordslimitqsortfieldwith"><a name="user-content-attendance-records-collection-attendance-recordslimitqsortfieldwith" href="#attendance-records-collection-attendance-recordslimitqsortfieldwith" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Attendance records Collection [/attendance-records{?limit,q,sort,field,with}]</h2>
+<h2 id="attendance-records-collection-attendance-records_q_sort_with"><a name="user-content-attendance-records-collection-attendance-records_q_sort_with" href="#attendance-records-collection-attendance-records_q_sort_with" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Attendance records Collection [/attendance-records{?_q,_sort,_with}]</h2>
 <h3 id="list-attendance-records-get"><a name="user-content-list-attendance-records-get" href="#list-attendance-records-get" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>List attendance records [GET]</h3>
 <ul>
 <li>
 <p>Parameters</p>
 <ul>
-<li>q (string, optional) - Fulltext search</li>
-<li>sort (string, optional) - Nome da coluna para ordenação. </li>
-<li>limit (number, optional) - Limite por página</li>
-<li>with (string) - Nome da relação a ser incluída na resposta<ul>
+<li>_q (string, optional) - Fulltext search</li>
+<li>_sort (string, optional) - Nome da coluna para ordenação. </li>
+<li>_with (string) - Nome da relação a ser incluída na resposta<ul>
 <li>Members<ul>
 <li>lesson</li>
 <li>lesson.schoolClass</li>
@@ -1698,7 +1723,7 @@ defindo vários objetos de atributo em um array.</p>
 }</p>
 </li>
 </ul>
-<h2 id="attendance-record-attendance-recordsidwith"><a name="user-content-attendance-record-attendance-recordsidwith" href="#attendance-record-attendance-recordsidwith" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Attendance Record [/attendance-records/{id}{?with}]</h2>
+<h2 id="attendance-record-attendance-recordsid_with"><a name="user-content-attendance-record-attendance-recordsid_with" href="#attendance-record-attendance-recordsid_with" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Attendance Record [/attendance-records/{id}{?_with}]</h2>
 <ul>
 <li>Parameters<ul>
 <li>id (number) - ID of the attendance record</li>
@@ -1710,7 +1735,7 @@ defindo vários objetos de atributo em um array.</p>
 <li>
 <p>Parameters</p>
 <ul>
-<li>with (string) - Include related models<ul>
+<li>_with (string) - Include related models<ul>
 <li>Members<ul>
 <li>lesson</li>
 <li>lesson.schoolClass</li>
@@ -1773,17 +1798,15 @@ defindo vários objetos de atributo em um array.</p>
 aos seus alunos durante uma fase do ano.<br />
 Exemplo: No 1º Bimestre o professor precisa avaliar seus alunos com duas provas (N1 e N2),<br />
 e a nota do aluno no 1º Bimestre será composta pela conta (N1<em>0,4)+(N2</em>0,6)=NOTA_DO_BIMESTRE.</p>
-<h2 id="assessments-collection-assessmentslimitoffsetqsortfieldwith"><a name="user-content-assessments-collection-assessmentslimitoffsetqsortfieldwith" href="#assessments-collection-assessmentslimitoffsetqsortfieldwith" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Assessments Collection [/assessments{?limit,offset,q,sort,field,with}]</h2>
+<h2 id="assessments-collection-assessments_q_sort_with"><a name="user-content-assessments-collection-assessments_q_sort_with" href="#assessments-collection-assessments_q_sort_with" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Assessments Collection [/assessments{?_q,_sort,_with}]</h2>
 <h3 id="list-assessments-get"><a name="user-content-list-assessments-get" href="#list-assessments-get" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>List assessments [GET]</h3>
 <ul>
 <li>
 <p>Parameters</p>
 <ul>
-<li>q (string, optional) - Fulltext search.</li>
-<li>sort (string, optional) - Nome da coluna para ordenação. </li>
-<li>limit (number, optional) - Limite por página.</li>
-<li>field (string, optional) - Nome da coluna e valor para filtrar resultados.</li>
-<li>with (string) - Nome da relação a ser incluída na resposta.<ul>
+<li>_q (string, optional) - Fulltext search.</li>
+<li>_sort (string, optional) - Nome da coluna para ordenação. </li>
+<li>_with (string) - Nome da relação a ser incluída na resposta.<ul>
 <li>Members<ul>
 <li>schoolCalendarPhase</li>
 <li>schoolCalendarPhase.schoolCalendar</li>
@@ -1817,7 +1840,7 @@ e a nota do aluno no 1º Bimestre será composta pela conta (N1<em>0,4)+(N2</em>
 </ul>
 <h1 id="group-occurrence"><a name="user-content-group-occurrence" href="#group-occurrence" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Group Occurrence</h1>
 <p><code>Occurrence</code> são registros de ocorrências registrar por professor em relação aos alunos.</p>
-<h2 id="occurrence-collection-occurenceslimitoffsetqsortfieldwith"><a name="user-content-occurrence-collection-occurenceslimitoffsetqsortfieldwith" href="#occurrence-collection-occurenceslimitoffsetqsortfieldwith" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Occurrence Collection [/occurences{?limit,offset,q,sort,field,with}]</h2>
+<h2 id="occurrence-collection-occurences_q_sort_with"><a name="user-content-occurrence-collection-occurences_q_sort_with" href="#occurrence-collection-occurences_q_sort_with" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Occurrence Collection [/occurences{?_q,_sort,_with}]</h2>
 <h3 id="create-a-new-occorence-post"><a name="user-content-create-a-new-occorence-post" href="#create-a-new-occorence-post" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Create a new Occorence [POST]</h3>
 <ul>
 <li>
@@ -1848,11 +1871,9 @@ e a nota do aluno no 1º Bimestre será composta pela conta (N1<em>0,4)+(N2</em>
 <li>
 <p>Parameters</p>
 <ul>
-<li>q (string, optional) - Fulltext search.</li>
-<li>sort (string, optional) - Nome da coluna para ordenação. </li>
-<li>limit (number, optional) - Limite por página.</li>
-<li>field (string, optional) - Nome da coluna e valor para filtrar resultados.</li>
-<li>with (string) - Nome da relação a ser incluída na resposta.<ul>
+<li>_q (string, optional) - Fulltext search.</li>
+<li>_sort (string, optional) - Nome da coluna para ordenação. </li>
+<li>_with (string) - Nome da relação a ser incluída na resposta.<ul>
 <li>Members<ul>
 <li>ownerPerson</li>
 <li>aboutPerson</li>
@@ -2068,12 +2089,10 @@ e a nota do aluno no 1º Bimestre será composta pela conta (N1<em>0,4)+(N2</em>
 <li>Include Lesson</li>
 <li>students (array)<ul>
 <li>(object)<ul>
+<li>Include (Student)</li>
 <li>attendance_record (AttendanceRecord)</li>
-<li>last_occurences (array[])<ul>
-<li>(Occurrence)</li>
-</ul>
-</li>
-<li>absence_summary<ul>
+<li>last_occurences (array[Occurrence])</li>
+<li>absence_summary (object)<ul>
 <li>percentage_absences_reprove: 25 - Percentual máximo de faltas as aulas para não ser reprovado</li>
 <li>total_lessons_year: 200 - total de aulas programadas no ano da mesma disciplina</li>
 <li>total_absences_year: 22 - total de faltas que o aluno tem no ano da mesma disciplina</li>

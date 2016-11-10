@@ -10,7 +10,6 @@ class SchoolCalendar extends Model
 	 use SoftDeletes;
 
      /**
-     * 
      * The attributes that should be hidden for arrays.
      *
      * @var array
@@ -33,5 +32,17 @@ class SchoolCalendar extends Model
     	'year', 
     	'start', 
     	'end'];
+
+    /**
+     * Get the Phases of the school calendar
+     * 
+     * @Relation
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function schoolCalendarPhases()
+    {
+        return $this->hasMany('App\SchoolCalendarPhase');
+    }
 
 }

@@ -18,8 +18,12 @@ $api->version('v1', function ($api) {
 			$api->put('schools/{school_id}', 'App\Http\Controllers\SchoolController@update');
 			$api->delete('schools/{school_id}', 'App\Http\Controllers\SchoolController@destroy');
 	    	
-	    	// Persons
+	    	// People
 			$api->get('students', 'App\Http\Controllers\StudentController@index');
+
+			// Students 
+			$api->get('students/{student_id}/annual-summary', 
+				'App\Http\Controllers\StudentController@annualSummary');
 			
 			// School classes
 			$api->get('school-classes', 'App\Http\Controllers\SchoolClassController@index');

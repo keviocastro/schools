@@ -9,7 +9,7 @@ class TestListener extends PHPUnit_Framework_BaseTestListener
 {
     public function endTestSuite(PHPUnit_Framework_TestSuite $suite)
     {
-        $this->destroyAuthToken();
+        // $this->destroyAuthToken();
     }
 
     public function destroyAuthToken()

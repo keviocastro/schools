@@ -37,7 +37,7 @@ class SchoolClass extends Model
         'school_id'];
 
     /**
-     * Get a grade record associate with the shcool class 
+     * Ano da turma 
      *
      * @Relation
      */
@@ -47,7 +47,7 @@ class SchoolClass extends Model
     }
 
     /**
-     * Get a shift record associate with the shcool class 
+     * Turno da turma 
      *
      * @Relation
      */
@@ -57,15 +57,27 @@ class SchoolClass extends Model
     }
 
     /**
-     * Get class students
+     * Estudantes da aula
      * 
      * @Relation
      * 
-     * @return 
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany 
      */
     public function students()
     {
         return $this->hasMany('App\SchoolClassStudent')
             ->with('student');
+    }
+
+    /**
+     * Ano letivo da turma
+     * 
+     * @Relation
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\belongsTo
+     */
+    public function schoolCalendar()
+    {
+        return $this->belongsTo('App\SchoolCalendar');
     }
 }

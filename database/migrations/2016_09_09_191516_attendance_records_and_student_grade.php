@@ -47,23 +47,23 @@ class AttendanceRecordsAndStudentGrade extends Migration
         Schema::create('student_grades', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->float('grade');
-            $table->unsignedInteger('school_class_student_id');
+            $table->unsignedInteger('student_id');
             $table->unsignedInteger('assessment_id');
-            $table->bigInteger('school_class_subject_id')->unsigned();
+            $table->unsignedInteger('subject_id');
             $table->timestamps();
             $table->softDeletes();
 
-            $table->foreign('school_class_subject_id')
+            $table->foreign('subject_id')
                 ->references('id')
-                ->on('school_class_subjects');
+                ->on('subjects');
 
             $table->foreign('assessment_id')
                 ->references('id')
                 ->on('assessments');
             
-            $table->foreign('school_class_student_id')
+            $table->foreign('student_id')
                 ->references('id')
-                ->on('school_class_students');
+                ->on('students');
         });
     }
 

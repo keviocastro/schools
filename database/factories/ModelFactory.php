@@ -209,9 +209,13 @@ $factory->define(App\AttendanceRecord::class, function ($faker) use ($factory) {
         ];
 });
 
-$factory->define(App\SchoolCalendarPhase::class, function ($faker) use ($factory) {
+$factory->define(App\SchoolCalendarPhase::class, function ($faker, $attributes) use ($factory) {
     
-    $schoolCalendar = factory(App\SchoolCalendar::class)->create();
+    if (empty($attributes['school_calendar_id'])) {
+        $schoolCalendar = factory(App\SchoolCalendar::class)->create();
+    }else{
+        $schoolCalendar = App\SchoolCalendar::findOrFail($attributes['school_calendar_id']);
+    }
 
     $startDate = $faker->dateTimeBetween($schoolCalendar->start, $schoolCalendar->end);
     $endDate = $faker->dateTimeBetween($startDate, $schoolCalendar->end);
@@ -286,3 +290,18 @@ $factory->define(App\Occurence::class, function ($faker) use ($factory) {
     ];
 });
 
+$factory->define(App\StudentGrade::class, function ($faker) use ($factory) {
+    
+    return [
+        'assessment_id' => function(){
+            return factory(App\Assessment::class)->create()->id;
+        },
+        'student_id' => function(){
+            return factory(App\Student::class)->create()->id;
+        },
+        'subject_id' => function(){
+            return factory(App\Subject::class)->create()->id;
+        },
+        'grade' => $faker->randomFloat(1,0,10)
+    ];
+});
