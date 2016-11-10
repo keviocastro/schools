@@ -23,4 +23,16 @@ class SchoolCalendarPhase extends Model
      * @var array
      */
     protected $dates = ['deleted_at'];
+
+    /**
+     * Get a SchoolCalendar
+     * 
+     * @Relation
+     * 
+     * @return Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function schoolCalendar()
+    {
+        return $this->belongsTo('App\SchoolCalendar');
+    }
 }

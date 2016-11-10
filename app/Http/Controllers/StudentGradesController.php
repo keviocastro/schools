@@ -2,9 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\StudentGrades;
+use App\Assessment;
 use App\Http\Requests;
+use App\SchoolClass;
+use App\SchoolClassStudent;
+use App\Student;
+use App\StudentGrades;
+use Exception;
+use Illuminate\Http\Request;
+
 
 class StudentGradesController extends Controller
 {
@@ -18,16 +24,6 @@ class StudentGradesController extends Controller
         $result = $this->apiHandler->parseMultiple(new StudentGrades);
         
         return $result->getBuilder()->paginate();
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
     }
 
     /**
@@ -45,8 +41,26 @@ class StudentGradesController extends Controller
             'assessment_id' => 'required|numeric',
             'owner_person_id' => 'required|numeric',
         ]);
+
+        $schoolClassId = $request->input('school_class_id');
+        $studentId = $request->input('student_id');
+
+        $schoolClass = SchoolClass::find($schoolClassId);
+        $assessment  = Assessment::find($request->input('assessment_id'));
+
+        //dump($schoolClass->schoolCalendar->id);
+        //dd($assessment->schoolCalendarPhase->schoolCalendar->id);
+        $calendar = $schoolClass->schoolCalendar->id;
+        $calendarPhase = $assessment->schoolCalendarPhase->schoolCalendar->id;
+
+        $consulta = SchoolClassStudent::where('school_class_id', $schoolClassId)->where('student_id', $studentId)->get();
         
-        $studentGrades = StudentGrades::create($request->all());
+        if(!empty($consulta->toArray()) && $calendar == $calendarPhase)
+        {
+            $studentGrades = StudentGrades::create($request->all());
+        }
+        else
+            return response('Student is not in this class or student not in a same year phase of grade.', 422);
 
         return $this->response->created("/studentGrades/{$studentGrades->id}", $studentGrades);
     }

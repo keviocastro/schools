@@ -45,4 +45,15 @@ class SchoolClassStudent extends Model
     {
         return $this->belongsTo('App\Student');
     }
+    /**
+     * Get schoolClass
+     * 
+     * @Relation 
+     * 
+     * @return App\SchoolClass
+     */
+    public function schoolClass()
+    {
+        return $this->belongsTo('App\SchoolClass');
+    }
 }

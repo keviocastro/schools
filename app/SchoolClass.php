@@ -67,4 +67,16 @@ class SchoolClass extends Model
     {
         return $this->hasMany('App\SchoolClassStudent');
     }
+
+    /**
+     * Get a SchoolCalendar
+     * 
+     * @Relation
+     * 
+     * @return Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function schoolCalendar()
+    {
+        return $this->belongsTo('App\SchoolCalendar');
+    }
 }

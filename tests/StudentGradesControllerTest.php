@@ -51,15 +51,64 @@ class StudentGradesControllerTest extends TestCase
      */
     public function testStore()
     {
-    	$studantGrades = factory(App\StudentGrades::class)->make()->toArray();
-
-    	// dd($studantGrades);
-
+    	$studantGrade = factory(App\StudentGrades::class)->make()->toArray();
+		// Success
         $this->post('api/student-grades',
-        	$studantGrades,
+        	$studantGrade,
         	$this->getAutHeader())
         	->assertResponseStatus(201)
-        	->seeJson($studantGrades);
+        	->seeJson($studantGrade);
+
+        // grade não pode ser maior que 10
+		$studantGrade['grade'] = 20;
+		$this->post('api/student-grades',
+        	$studantGrade,
+        	$this->getAutHeader())
+        	->assertResponseStatus(422)
+        	->seeJson([
+        			'errors' => [
+        				'grade' => [
+        					"The grade may not be greater than 10."
+        				]
+        			]
+        		]);
+
+        // grade não pode ser menor que 0
+        $studantGrade['grade'] = -5;
+		$this->post('api/student-grades',
+        	$studantGrade,
+        	$this->getAutHeader())
+        	->assertResponseStatus(422)
+        	->seeJsonStructure([
+        			'errors' => [
+        				'grade'
+        			]
+        		]);
+        
+        // O aluno precisa estar na turma 
+    	$student = factory(App\Student::class)->create();
+    	$schoolClass = factory(App\SchoolClass::class)->create();
+
+    	$studantGrade = factory(App\StudentGrades::class)->make([
+    			'student_id' => $student->id,
+    			'school_class_id' => $schoolClass->id
+    		])->toArray();
+
+        $studantGrade['school_class_id'] = 7923;
+
+    	$this->post('api/student-grades',
+        	$studantGrade,
+        	$this->getAutHeader())
+        	->assertResponseStatus(422);
+
+        //a nota tem que estar relacionada a fase do ano atual do aluno
+    	$studantGrade = factory(App\StudentGrades::class)->make()->toArray();
+
+    	$this->post('api/student-grades',
+        	$studantGrade,
+        	$this->getAutHeader())
+        	->assertResponseStatus(201);
+        
     }
 
     /**
@@ -92,5 +141,9 @@ class StudentGradesControllerTest extends TestCase
             $this->getAutHeader())
             ->assertResponseStatus(200)
             ->seeJson($studantGrades_changed);
+
+
+
+
     }
 }

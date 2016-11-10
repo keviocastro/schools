@@ -717,10 +717,41 @@ e a nota do aluno no 1º Bimestre será composta pela conta (N1*0,4)+(N2*0,6)=NO
     + Attributes 
         + StudentGrade (StudentGrade)
 
+# Group Students
+
+`Students` Definir texto refetente depois.
+
+## Students Collection [/students{?limit,offset,q,sort,field,with}]
+
+### Create a new Students [POST]
+
++ Request (application/json)
+    + Headers
+            
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ3ODQ1MjI3MSwiaWF0IjoxNDc1ODYwMjcxfQ.TyXdSxKWVaqGb9Y7uJh44Ybz807DLtUWNxw__K8JU7w
+    
+    + Students (Students)
+
++ Response 201 (application/json) 
+    
+    + Attributes 
+        + Students (Students)
 
 
 # Data structures
+## Students
+
++ id: 1 (number) - Identificador único do registro de nota do aluno
++ subjects (array)
+    + (Subject)
++ schoolCalendarPhase (array)
+    + (SchoolCalendarPhase)
++ StudentGrade (array)
+    + (StudentGrade)
+
+
 ## StudentGradeFillable
+
 + grade: 7.5 (number) - Valor de resulta do aluno na avaliação
 
 ## StudentGrade
