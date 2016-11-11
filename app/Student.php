@@ -106,25 +106,28 @@ class Student extends Model
                 ->select('student_grades.subject_id',
                     DB::raw('round(avg(grade),1) average'))
                 ->groupBy('subject_id')
-                ->with('subject');
+                ->with('subject', 'assessment');
         
         if ($school_calendar_phase_id) {
-            $query->with(['assessment' => function($query) 
-                use ($school_calendar_phase_id) {
-
-                        $query->where('school_calendar_phase_id', 
+            $query
+            ->join('assessments', 
+                'assessments.id', 
+                '=',
+                'student_grades.assessment_id')
+                ->where('school_calendar_phase_id', 
                             $school_calendar_phase_id);
-                }]);
 
         }elseif($school_calendar_id) {
             
-            $query->with(['assessment.schoolCalendarPhase' => function($query) 
-                use ($school_calendar_id) {
-
-                        $query->where('school_calendar_id', 
-                            $school_calendar_id);
-
-                }]);
+            $query->join('assessments', 
+                'assessments.id', 
+                '=',
+                'student_grades.assessment_id')
+                ->join('school_calendar_phases',
+                    'school_calendar_phases.id',
+                    '=',
+                    'assessments.school_calendar_phase_id')
+                ->where('school_calendar_id', $school_calendar_id);
         }
 
         return $query;
@@ -135,10 +138,11 @@ class Student extends Model
      * Resumo anual de notas e faltas do aluno
      * 
      * @param  integer $school_calendar_id       
-     * @param  integer $school_calendar_phase_id Opctional. Inclui resumo da fase do ano
+     * @param  integer $school_calendar_phase_id Opctional. Inclui resumo da fase do ano.
      * 
      * @return array [
      *         'absences_year' => 25,               // Faltas no ano
+     *         'absences_year_phase' => 4,           // Faltas nota do bimestre/fase
      *         'best_average_year' => [
      *              '9.7'                           // Melhor nota do ano
      *              'subject' => [
@@ -155,7 +159,6 @@ class Student extends Model
      *             'subject' => [...] 
      *         ]
      *         'low_average_year_phase' => [...]    // Pior nota do bimestre/fase
-     *         'absences_year_phase' => 4           // Faltas nota do bimestre/fase
      * ]                            
      */
     public function annualSummary($school_calendar_id, $school_calendar_phase_id=0)
@@ -171,10 +174,10 @@ class Student extends Model
         $data = $this->studentGradesAverage($school_calendar_id)
             ->orderBy('average', 'desc')
             ->first();
+
         $result['best_average_year'] = [
-            'school_calendar_id' => $school_calendar_id,
-            'average' => $data->average,
-            'subject' => $data->subject->toArray()
+            'average' => $data ? $data->average : '',
+            'subject' => $data ? $data->subject->toArray() : ''
         ];
 
         // Nota mais baixa do ano
@@ -182,42 +185,43 @@ class Student extends Model
             ->orderBy('average', 'asc')
             ->first();
         $result['low_average_year'] = [
-            'school_calendar_id' => $school_calendar_id,
-            'average' => $data->average,
-            'subject' => $data->subject->toArray()
+            'average' => $data ? $data->average : '',
+            'subject' => $data ? $data->subject->toArray() : '' 
         ];
 
         if ($school_calendar_phase_id) {
 
-            $data = $this->studentGradesAverage(false,$school_calendar_phase_id)
-                ->orderBy('average', 'desc')
-                ->first();
-            // Nota mais alta da fase do ano
-            $result['best_average_year_phase'] = [
-                'school_calendar_phase_id' => $school_calendar_phase_id,
-                'average' => $data->average,
-                'subject' => $data->subject->toArray()
-            ];
-
-            // Nota mais baixa da fase do ano
-            $data = $this->studentGradesAverage(false,$school_calendar_phase_id)
-                ->orderBy('average', 'asc')
-                ->first();
-            $result['low_average_year_phase'] = [
-                'school_calendar_phase_id' => $school_calendar_phase_id,
-                'average' => $data->average,
-                'subject' => $data->subject->toArray()
-            ];
-
             $absences = $this->absencesYearPhase($school_calendar_phase_id)
                 ->where('presence', 0)
                 ->count();
+
             $result['absences_year_phase'] = $absences;
+
+            $data = $this->studentGradesAverage($school_calendar_id,
+                $school_calendar_phase_id)
+                ->orderBy('average', 'desc')
+                ->first();
+
+            // Nota mais alta da fase do ano
+            $result['best_average_year_phase'] = [
+                'average' => $data ? $data->average : '',
+                'subject' => $data ? $data->subject->toArray() : ''
+            ];
+
+            // Nota mais baixa da fase do ano
+            $data = $this->studentGradesAverage($school_calendar_id,
+                $school_calendar_phase_id)
+                ->orderBy('average', 'asc')
+                ->first();
+            $result['low_average_year_phase'] = [
+                'average' => $data ? $data->average : '',
+                'subject' => $data ? $data->subject->toArray() : '' 
+            ];
+
 
         }
 
         return $result;
-
     }
 
     /**

@@ -14,6 +14,9 @@ use App\Subject;
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 
+/**
+ * @author Kévio Castro keviocastro@gmail.com
+ */
 class SchoolCalendar2016 extends Seeder
 {
     /**
@@ -206,64 +209,42 @@ class SchoolCalendar2016 extends Seeder
 
         // Marcar 4 faltas
         // Registra nota para todos os alunos em todas as disciplinas
+        // 1º disciplina criada é a maior média do ano = 10
+        // 2º disciplina criada é a menor média do ano = 0.2
+        $fixedDataSubjects = [
+                [
+                    'subject_id' =>  $subjectFixedData->id,
+                    'grade' => 10,
+                    'student_id' => 1,
+                ],
+                [
+                    'subject_id' => $subjectFixedData2->id,
+                    'grade' => 0.2,
+                    'student_id' => 1,
+                ]
+            ];
+        // 1 Bimeste: notas e frequencias 
         self::createAttendanceRecords($schoolCalendarPhase1, 4, $studentFixedData->id);
-        // Média aritimética para disciplina 1, no bimestre/fase 1 é 10
-        // A disciplina 1 terá a maior nota para ao aluno 1 no ano letivo
-        $assessments_phase_1 = $schoolCalendarPhase1->assessments;
-        $fixedData = [[
-                'student_id' => $studentFixedData->id,
-                'subject_id' => $subjectFixedData->id,
-                'assessment_id' => $assessments_phase_1[0]->id,
-                'grade' => 10
-            ],[
-                'student_id' => 1,
-                'subject_id' => 1,
-                'assessment_id' => $assessments_phase_1[1]->id,
-                'grade' => 10
-            ]
-        ];
         self::createStudentGrades($schoolCalendarPhase1, 
-            $schoolClass, $subjects, $fixedData);
+            $schoolClass, $subjects, $fixedDataSubjects);
 
+        // 2 Bimestre ...
         self::createAttendanceRecords($schoolCalendarPhase2, 3, $studentFixedData->id);
-        // Média aritimética para disciplina 2, no bimestre/fase 2 é 0.2
-        // A disciplina 2 terá a menor nota para o aluno 1 no ano letivo
         $assessments_phase_2 = $schoolCalendarPhase2->assessments;
         self::createStudentGrades($schoolCalendarPhase2, $schoolClass, 
-            $subjects, $fixedData);
+            $subjects, $fixedDataSubjects);
 
+        // 3 Bimestre ... 
         self::createAttendanceRecords($schoolCalendarPhase3, 6, $studentFixedData->id);
         self::createStudentGrades($schoolCalendarPhase3, $schoolClass, 
-            $subjects, $fixedData);
+            $subjects, $fixedDataSubjects);
 
+        // 4 Bimestre ...
         self::createAttendanceRecords($schoolCalendarPhase4, 2, $studentFixedData->id);
-        // Média disciplina 2 = 4
-        // Média disciplina 1 = 4
         $assessments_phase_4 = $schoolCalendarPhase4->assessments;
-        self::createStudentGrades($schoolCalendarPhase4, $schoolClass, $subjects);
+        self::createStudentGrades($schoolCalendarPhase4, $schoolClass, 
+            $subjects, $fixedDataSubjects);
 
-
-        dump( [
-            'school_calendar_id' => $schoolCalendar->id, 
-            'school_class_id' => $schoolClass->id,
-            'absences' => [
-                    'student_id' => $studentFixedData->id,
-                    'school_calendar_phase_id' => $schoolCalendarPhase1->id,
-                    'absences' => 4
-                ],[
-                    'student_id' => $studentFixedData->id,
-                    'school_calendar_phase_id' => $schoolCalendarPhase2->id,
-                    'absences' => 3 
-                ],[
-                    'student_id' => $studentFixedData->id,
-                    'school_calendar_phase_id' => $schoolCalendarPhase3->id,
-                    'absences' => 6
-                ],[
-                    'student_id' => $studentFixedData->id,
-                    'school_calendar_phase_id' => $schoolCalendarPhase4->id,
-                    'absences' => 2
-                ]
-            ]);
     }
 
     /**
@@ -389,7 +370,7 @@ class SchoolCalendar2016 extends Seeder
         SchoolCalendarPhase $schoolCalendarPhase,
         SchoolClass $schoolClass,
         array $subjects,
-        array $fixedData=[]
+        array $fixedDataSubjects=[]
         ){
 
         $studentGrades = [];
@@ -397,23 +378,19 @@ class SchoolCalendar2016 extends Seeder
 
         $schoolClass->students->each(function($student, $key) 
             use ($schoolCalendarPhase, $subjects, &$studentGrades, 
-                $fixedData, $faker){
+                $fixedDataSubjects, $faker){
             
                 foreach ($schoolCalendarPhase->assessments as $key => $assessment) {
                     foreach ($subjects as $key => $subject) {
 
 
                         $grade = false;
-                        if (!empty($fixedData)) {
+                        if (!empty($fixedDataSubjects)) {
                             
-                            // Pesquisa no array fixedData se tem 
-                            // valor definido para o aluno na disciplina e na
-                            // avaliação 
-                            foreach ($fixedData as $data) {
+                            foreach ($fixedDataSubjects as $data) {
                                 
                                 if ($student->id == $data['student_id'] && 
-                                    $subject->id == $data['subject_id'] && 
-                                    $assessment->id == $data['assessment_id']
+                                    $subject->id == $data['subject_id']
                                     ) {
                                     
                                     $grade = $data['grade'];

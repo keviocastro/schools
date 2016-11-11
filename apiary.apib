@@ -265,9 +265,13 @@ Professor Medeiros acessa seu aplicativo informando usuário e senha para se cad
 Ações relacionadas a informações dos alunos: cadastrais, indicadores de desempenho
 e relatórios como "Boletim anual do aluno" e "Histórico escolar".
 
-## Annual Student Summary [/students/{student_id}/annual-summary]
+## Annual Student Summary [/students/{student_id}/annual-summary{?school_calendar_id,school_calendar_phase_id}]
 
 ### View a annual student summary [GET]
+
++ Parameters
+    + school_calendar_id (required, number)       - ID do ano letivo
+    + school_calendar_phase_id (required, number) - ID da fase avaliativa do ano letivo (Ex.: Bimestre)
 
 + Request 
     + Headers
@@ -277,13 +281,20 @@ e relatórios como "Boletim anual do aluno" e "Histórico escolar".
 + Response 200 (application/json)
 
     + Attributes (object)
-        + absences_school_calendar_phase: 4 (number) - Total de faltas do aluno na fase avaliativa do ano `(ex: bimestre)`
-        + absences_school_calendar: 12 (number) - Total de faltas do aluno no ano letivo
-        + best_average_school_calendar_phase: 9.5 (number) - Melhor média do aluno na fase avaliativa
-        + worst_average_school_calendar_phase: 2.5 (number) - Pior média do aluno na fase avaliativa 
-        + best_average_school_calendar: 9.5 (number) - Melhor média do aluno no ano letivo
-        + worst_average_school_calendar: 2.5 (number) - Pior média do aluno no ano letivo 
-
+        + absences_year: 12 (number) - Total de faltas do aluno no ano letivo
+        + absences_year_phase: 4 (number) - Total de faltas do aluno na fase avaliativa do ano `(ex: bimestre)`
+        + best_average_year (object) - Melhor média do aluno no ano
+            + average: 9.5 (number) 
+            + (Subject)
+        + low_average_year (object) - Pior média do aluno no ano
+            + average: 4.2 (number) 
+            + (Subject) 
+        + best_average_year_phase (object) - Melhor média do aluno na fase do ano
+            + average: 10 (number) 
+            + (Subject)
+        + low_average_year_phase (object) - Pior média do aluno na fase do ano
+            + average: 2.5 (number) 
+            + (Subject) 
 
             
 # Group Lessons

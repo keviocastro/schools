@@ -29,6 +29,11 @@ class StudentController extends Controller
      */
     public function annualSummary(Request $request, $student_id)
     {
+        $this->validationForListAction([
+                'school_calendar_id' => 'required|exists:school_calendars,id',
+                'school_calendar_phase_id' => 'exists:school_calendar_phases,id'
+            ]);
+
         $school_calendar_id = $request->input('school_calendar_id');
         $school_calendar_phase_id = $request->input('school_calendar_phase_id', false);
 

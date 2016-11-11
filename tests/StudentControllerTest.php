@@ -46,32 +46,13 @@ class StudentControllerTest extends TestCase
         Artisan::call('db:seed',[
                 '--class' => 'SchoolCalendar2016'
             ]);
-       
-       $subject_attributes = array_keys(factory(Subject::class)->make()->toArray());
 
+        $subject = Subject::find(1);
+        $subject2 = Subject::find(2);
+       
         $this->get("api/students/1/annual-summary".
             "?school_calendar_id=1&school_calendar_phase_id=1",
             $this->getAutHeader())
-            ->seeJsonStructure([
-                "absences_year",
-                'absences_year_phase',
-                "best_average_year" => [
-                    'average', 
-                    'subject' => $subject_attributes
-                ],
-                "low_average_year" => [
-                    'average', 
-                    'subject' => $subject_attributes
-                ],
-                "best_average_year_phase" => [
-                    'average', 
-                    'subject' => $subject_attributes
-                ],
-                "low_average_year_phase" => [
-                    'average', 
-                    'subject' => $subject_attributes
-                ],
-            ])
             ->seeJsonEquals([
                 "absences_year" => 15,
                 'absences_year_phase' => 4,
@@ -91,8 +72,7 @@ class StudentControllerTest extends TestCase
                     'average' => 0.2,
                     'subject' => $subject2->toArray()
                 ],
-            ])
-            ;
+            ]);
         
     } 
 
