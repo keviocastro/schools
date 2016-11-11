@@ -156,6 +156,7 @@ class SchoolCalendar2016 extends Seeder
         $subjects = [];
 
         $subject = factory(Subject::class)->create();
+        $subjectFixedData = $subject;
         array_push($subjects, $subject);
         self::createLessonsBetweenTwoDates(
             $start, 
@@ -166,6 +167,7 @@ class SchoolCalendar2016 extends Seeder
 
 
         $subject = factory(Subject::class)->create();
+        $subjectFixedData2 = $subject;
         array_push($subjects, $subject);
         self::createLessonsBetweenTwoDates(
             $start, 
@@ -205,16 +207,41 @@ class SchoolCalendar2016 extends Seeder
         // Marcar 4 faltas
         // Registra nota para todos os alunos em todas as disciplinas
         self::createAttendanceRecords($schoolCalendarPhase1, 4, $studentFixedData->id);
-        self::createStudentGrades($schoolCalendarPhase1, $schoolClass, $subjects);
+        // Média aritimética para disciplina 1, no bimestre/fase 1 é 10
+        // A disciplina 1 terá a maior nota para ao aluno 1 no ano letivo
+        $assessments_phase_1 = $schoolCalendarPhase1->assessments;
+        $fixedData = [[
+                'student_id' => $studentFixedData->id,
+                'subject_id' => $subjectFixedData->id,
+                'assessment_id' => $assessments_phase_1[0]->id,
+                'grade' => 10
+            ],[
+                'student_id' => 1,
+                'subject_id' => 1,
+                'assessment_id' => $assessments_phase_1[1]->id,
+                'grade' => 10
+            ]
+        ];
+        self::createStudentGrades($schoolCalendarPhase1, 
+            $schoolClass, $subjects, $fixedData);
 
         self::createAttendanceRecords($schoolCalendarPhase2, 3, $studentFixedData->id);
-        self::createStudentGrades($schoolCalendarPhase2, $schoolClass, $subjects);
+        // Média aritimética para disciplina 2, no bimestre/fase 2 é 0.2
+        // A disciplina 2 terá a menor nota para o aluno 1 no ano letivo
+        $assessments_phase_2 = $schoolCalendarPhase2->assessments;
+        self::createStudentGrades($schoolCalendarPhase2, $schoolClass, 
+            $subjects, $fixedData);
 
         self::createAttendanceRecords($schoolCalendarPhase3, 6, $studentFixedData->id);
-        self::createStudentGrades($schoolCalendarPhase3, $schoolClass, $subjects);
+        self::createStudentGrades($schoolCalendarPhase3, $schoolClass, 
+            $subjects, $fixedData);
 
         self::createAttendanceRecords($schoolCalendarPhase4, 2, $studentFixedData->id);
+        // Média disciplina 2 = 4
+        // Média disciplina 1 = 4
+        $assessments_phase_4 = $schoolCalendarPhase4->assessments;
         self::createStudentGrades($schoolCalendarPhase4, $schoolClass, $subjects);
+
 
         dump( [
             'school_calendar_id' => $schoolCalendar->id, 
@@ -338,29 +365,72 @@ class SchoolCalendar2016 extends Seeder
      * @param  SchoolCalendarPhase $schoolCalendarPhase 
      * @param  SchoolClass         $schoolClass         
      * @param  array               $subjects            
+     * @param  array               $subjects         
+     * @param  array               $fixedData   Definir valores que não serão aleatório
+     *                                          Exemplo:
+     *                             [
+     *                                 [
+     *                                     'student_id' => 1,
+     *                                     'subject_id' => 1,
+     *                                     'assessment_id' => 1,
+     *                                     'grade' => 10
+     *                                 ],
+     *                                 [
+     *                                     'student_id' => 1,
+     *                                     'subject_id' => 1,
+     *                                     'assessment_id' => 2,
+     *                                     'grade' => 9.2
+     *                                 ]
+     *                              ]
      * 
      * @return void                                   
      */
     public static function createStudentGrades(
         SchoolCalendarPhase $schoolCalendarPhase,
         SchoolClass $schoolClass,
-        array $subjects
+        array $subjects,
+        array $fixedData=[]
         ){
 
         $studentGrades = [];
+        $faker = \Faker\Factory::create();
 
         $schoolClass->students->each(function($student, $key) 
-            use ($schoolCalendarPhase, $subjects, &$studentGrades){
+            use ($schoolCalendarPhase, $subjects, &$studentGrades, 
+                $fixedData, $faker){
             
                 foreach ($schoolCalendarPhase->assessments as $key => $assessment) {
                     foreach ($subjects as $key => $subject) {
 
-                        $grade = factory(App\StudentGrade::class)->make([
+
+                        $grade = false;
+                        if (!empty($fixedData)) {
+                            
+                            // Pesquisa no array fixedData se tem 
+                            // valor definido para o aluno na disciplina e na
+                            // avaliação 
+                            foreach ($fixedData as $data) {
+                                
+                                if ($student->id == $data['student_id'] && 
+                                    $subject->id == $data['subject_id'] && 
+                                    $assessment->id == $data['assessment_id']
+                                    ) {
+                                    
+                                    $grade = $data['grade'];
+                                }
+                            }
+                        }
+
+                        $grade = $grade ? $grade : $faker->randomFloat(1,0,10);
+
+                        $studentGrade = factory(App\StudentGrade::class)->make([
                                 'assessment_id' => $assessment->id,
                                 'student_id' => $student->id,
                                 'subject_id' => $subject->id,
+                                'grade' => $grade
                             ])->toArray();
-                        array_push($studentGrades, $grade);
+
+                        array_push($studentGrades, $studentGrade);
                     }
                 }
         });
