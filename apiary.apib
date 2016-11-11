@@ -265,6 +265,34 @@ Professor Medeiros acessa seu aplicativo informando usuário e senha para se cad
 Ações relacionadas a informações dos alunos: cadastrais, indicadores de desempenho
 e relatórios como "Boletim anual do aluno" e "Histórico escolar".
 
+## Annual Report [/students/{student_id}{?school_calendar_id}]
+
+### Annual Report [GET]
+
++ Parameters
+    + school_calendar_id (required, number) - ID do ano letivo
+
++ Request 
+    + Headers
+    
+            authorization: Bearer {token_id}
+            
++ Response 200 (application/json)
+
+    + Attributes (object)
+        + subjects (array[Subject]) - Disciplinas cursadas no ano
+        + school_calendar_phases (array[SchoolCalendarPhase])
+        + absences (array)
+            + school_calendar_phase_id
+            + subject_id
+            + absences
+        + student_grades (array)
+            + school_calendar_phase_id
+            + subject_id
+            + assessments (array[Assessment])
+
+
+
 ## Annual Student Summary [/students/{student_id}/annual-summary{?school_calendar_id,school_calendar_phase_id}]
 
 ### View a annual student summary [GET]
