@@ -1,5 +1,3 @@
-
-
 FORMAT: 1A
 HOST: http://localhost/api
 
@@ -265,6 +263,36 @@ Professor Medeiros acessa seu aplicativo informando usuário e senha para se cad
 Ações relacionadas a informações dos alunos: cadastrais, indicadores de desempenho
 e relatórios como "Boletim anual do aluno" e "Histórico escolar".
 
+## Annual Report [/students/{student_id}/annual-report{?school_calendar_id}]
+
+### Annual Report [GET]
+
++ Parameters
+    + school_calendar_id (required, number) - ID do ano letivo
+
++ Request 
+    + Headers
+    
+            authorization: Bearer {token_id}
+            
++ Response 200 (application/json)
+
+    + Attributes (object)
+        + subjects (array[Subject]) - `Disciplinas cursadas no ano`
+        + school_calendar_phases (array[SchoolCalendarPhase]) - `Fases avaliativas do ano letivo (Ex.: bimestres)`
+        + absences (array) - Faltas no ano letivo
+            + school_calendar_phase_id
+            + subject_id 
+            + absences
+        + student_grades (array) - Notas no ano letivo
+            + (object)
+                + school_calendar_phase_id
+                + subject_id
+                + assessments (array)
+                    + (StudentGrade)
+
+
+
 ## Annual Student Summary [/students/{student_id}/annual-summary{?school_calendar_id,school_calendar_phase_id}]
 
 ### View a annual student summary [GET]
@@ -285,16 +313,16 @@ e relatórios como "Boletim anual do aluno" e "Histórico escolar".
         + absences_year_phase: 4 (number) - Total de faltas do aluno na fase avaliativa do ano `(ex: bimestre)`
         + best_average_year (object) - Melhor média do aluno no ano
             + average: 9.5 (number) 
-            + (Subject)
+            + subject (Subject)
         + low_average_year (object) - Pior média do aluno no ano
             + average: 4.2 (number) 
-            + (Subject) 
+            + subject (Subject) 
         + best_average_year_phase (object) - Melhor média do aluno na fase do ano
             + average: 10 (number) 
-            + (Subject)
+            + subject (Subject)
         + low_average_year_phase (object) - Pior média do aluno na fase do ano
             + average: 2.5 (number) 
-            + (Subject) 
+            + subject (Subject) 
 
             
 # Group Lessons
@@ -342,7 +370,7 @@ e relatórios como "Boletim anual do aluno" e "Histórico escolar".
         + lesson (Lesson)
 
 
-## Lesson [/lessons/{lesson_id}{?_with}]
+## Lesson [/lessons/{lesson_id}{?_with,attach}]
 
 + Parameters
     - lesson_id: 1 (number) - ID of the lesson
@@ -489,6 +517,7 @@ defindo vários objetos de atributo em um array.
             
 + Response 201 (application/json) 
     + Headers
+            
             Location: /attendance_records/1
     
     + Attributes 
@@ -497,10 +526,10 @@ defindo vários objetos de atributo em um array.
 
 + Response 409 (application/json)
 
-    {
-        "message": "The record of the student (student.id = 1 ) to the lesson already exists.",
-        "status_code": 409
-    }
+        {
+            "message": "The record of the student (student.id = 1 ) to the lesson already exists.",
+            "status_code": 409
+        }
 
 
 
@@ -860,19 +889,16 @@ e a nota do aluno no 1º Bimestre será composta pela conta (N1*0,4)+(N2*0,6)=NO
 ## OccurenceFillable (object)
 
 + comment: fulano fez isso (string) - descrição sobre os fatos da occorencia
-+ level_id: 1 (number) - Nivel da occorencia
++ level_id: 1 (number) - `Nivel da occorencia`
 + owner_person_id: 1 (number) - ID do usuario que esta criando a occorencia
-    + Default: ID do usuário logado.
 + about_person_id: 2 (number) - ID do usuario que esta recebendo a occorencia
 
 ## Occurence (object)
 
 + id: 1 (number) - ID da occorencia
-+ created_at: `2016-08-30 13:17:11` (string) - Data de criação
-+ updated_at: `2016-08-30 13:17:11` (string) - Data da ultima alteração
-+ level (Level) - Tabla de niveis da occorencia
-+ ower_person 1 (number) - Tabela person
-+ about_person 1 (number) - Tabela person
++ level (Level) - Nível da ocorrência
++ ower_person: 1 (number) - Pessoa que criou o registro
++ about_person: 1 (number) - Pessoa a qual o registro se refere
 + Include (OccurenceFillable) - object imputaveis
 
 
