@@ -24,6 +24,8 @@ $api->version('v1', function ($api) {
 			// Students 
 			$api->get('students/{student_id}/annual-summary', 
 				'App\Http\Controllers\StudentController@annualSummary');
+			$api->get('students/{student_id}/annual-report', 
+				'App\Http\Controllers\StudentController@annualReport');
 			
 			// School classes
 			$api->get('school-classes', 'App\Http\Controllers\SchoolClassController@index');

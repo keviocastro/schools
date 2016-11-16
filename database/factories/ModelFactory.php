@@ -134,9 +134,6 @@ $factory->define(App\Student::class, function ($faker) use ($factory) {
     return [
 	    	'person_id' => function(){
 	    		return 	factory(App\Person::class)->create()->id;
-	    	},
-	    	'school_class_id' => function(){
-	    		return factory(App\SchoolClass::class)->create()->id;
 	    	}
     	];
 });

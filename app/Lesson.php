@@ -85,13 +85,13 @@ class Lesson extends Model
     {
         $students = \App\Student::select('students.*')
             ->join(
-                'school_class_students', 
-                'school_class_students.student_id', 
+                'school_class_student', 
+                'school_class_student.student_id', 
                 '=', 
                 'students.id'
                 )
             ->join('people', 'people.id', '=', 'students.person_id')
-            ->where('school_class_students.school_class_id', $this->school_class_id)
+            ->where('school_class_student.school_class_id', $this->school_class_id)
             ->orderBy('people.name')
             ->with('person', 'responsibles.person');
 

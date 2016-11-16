@@ -1,6 +1,7 @@
 <?php
 
 use App\Assessment;
+use App\SchoolClassSubject;
 use App\Lesson;
 use App\Occurence;
 use App\SchoolCalendar;
@@ -129,9 +130,7 @@ class SchoolCalendar2016 extends Seeder
         $schoolClass = factory(SchoolClass::class)->create([
                 'school_calendar_id' => $schoolCalendar->id
             ]);
-        $students = factory(Student::class, 20)->create([
-                'school_class_id' => $schoolClass->id
-            ])
+        $students = factory(Student::class, 20)->create()
             ->each(function($student) use ($schoolClass){
                 factory(StudentResponsible::class)->create([
                         'student_id' => $student->id 
@@ -206,6 +205,17 @@ class SchoolCalendar2016 extends Seeder
             $schoolClass,
             $subject);
 
+        // Definindo disciplinas da turma
+        $schoolClassSubjects = [];
+        foreach ($subjects as $key => $subject) {
+            array_push($schoolClassSubjects, [
+                    'school_class_id' => $schoolClass->id,
+                    'subject_id' => $subject->id
+                ]); 
+        }
+
+        SchoolClassSubject::insert($schoolClassSubjects);
+
 
         // Marcar 4 faltas
         // Registra nota para todos os alunos em todas as disciplinas
@@ -223,23 +233,23 @@ class SchoolCalendar2016 extends Seeder
                     'student_id' => 1,
                 ]
             ];
-        // 1 Bimeste: notas e frequencias 
+        // 1 Bimeste: 4 faltas pro aluno $studentFixedData (1 aluno criado)
         self::createAttendanceRecords($schoolCalendarPhase1, 4, $studentFixedData->id);
         self::createStudentGrades($schoolCalendarPhase1, 
             $schoolClass, $subjects, $fixedDataSubjects);
 
-        // 2 Bimestre ...
+        // 2 Bimestre: 3 faltas pro aluno $studentFixedData
         self::createAttendanceRecords($schoolCalendarPhase2, 3, $studentFixedData->id);
         $assessments_phase_2 = $schoolCalendarPhase2->assessments;
         self::createStudentGrades($schoolCalendarPhase2, $schoolClass, 
             $subjects, $fixedDataSubjects);
 
-        // 3 Bimestre ... 
+        // 3 Bimestre: 6 faltas
         self::createAttendanceRecords($schoolCalendarPhase3, 6, $studentFixedData->id);
         self::createStudentGrades($schoolCalendarPhase3, $schoolClass, 
             $subjects, $fixedDataSubjects);
 
-        // 4 Bimestre ...
+        // 4 Bimestre: 2 faltas
         self::createAttendanceRecords($schoolCalendarPhase4, 2, $studentFixedData->id);
         $assessments_phase_4 = $schoolCalendarPhase4->assessments;
         self::createStudentGrades($schoolCalendarPhase4, $schoolClass, 
@@ -318,7 +328,8 @@ class SchoolCalendar2016 extends Seeder
             foreach ($lesson->students() as $key => $student) {
                 
                 if ($student_id == $student->id &&
-                        $total_absences_student_id < $totalAbsences 
+                        $total_absences_student_id < $totalAbsences && 
+                        $lesson->subject_id == 1 
                     ){
                     
                     $presence = 0;

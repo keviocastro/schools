@@ -34,6 +34,18 @@ class SchoolCalendar extends Model
     	'end'];
 
     /**
+     * Turma do ano letivo
+     * 
+     * @Relation
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function schoolClasses()
+    {
+        return $this->hasMany('App\SchoolClass');
+    }
+
+    /**
      * Get the Phases of the school calendar
      * 
      * @Relation

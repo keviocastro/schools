@@ -80,4 +80,16 @@ class SchoolClass extends Model
     {
         return $this->belongsTo('App\SchoolCalendar');
     }
+
+    /**
+     * Disciplinas da turma
+     * 
+     * @Relation
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function subjects()
+    {
+        return $this->belongsToMany('App\Subject', 'school_class_subjects');
+    }
 }

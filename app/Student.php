@@ -30,7 +30,7 @@ class Student extends Model
      *
      * @var array
      */
-    protected $fillable = ['person_id', 'class_id'];
+    protected $fillable = ['person_id'];
 
     /**
      * Get the person record associated with the student.
@@ -86,6 +86,16 @@ class Student extends Model
     public function studentGrades()
     {
         return $this->hasMany('App\StudentGrade');
+    }
+
+    /**
+     * Notas do aluno agrupado por fase e por disciplina
+     * 
+     * @return \Illuminate\Support\Collection
+     */
+    public function studentGradesByPhaseAndSubject()
+    {
+        # code...
     }
 
     /**
@@ -164,7 +174,6 @@ class Student extends Model
     public function annualSummary($school_calendar_id, $school_calendar_phase_id=0)
     {
          $absences = $this->absencesYear($school_calendar_id)
-            ->where('presence', 0)
             ->count();
 
         // Faltas no ano
@@ -192,7 +201,6 @@ class Student extends Model
         if ($school_calendar_phase_id) {
 
             $absences = $this->absencesYearPhase($school_calendar_phase_id)
-                ->where('presence', 0)
                 ->count();
 
             $result['absences_year_phase'] = $absences;
@@ -242,7 +250,7 @@ class Student extends Model
                 'school_classes.id', 
                 '=', 
                 'lessons.school_class_id')
-            
+            ->where('presence', 0)
             ->where('school_classes.school_calendar_id', $school_calendar_id);
     }
 
@@ -276,11 +284,87 @@ class Student extends Model
                 '=',
                 'school_calendars.id')
 
+            ->where('presence', 0)
             ->where('school_calendar_phases.id', $school_calendar_phase_id)
             
             ->whereRaw('DATE_FORMAT(lessons.start, "%Y-%m-%d") >= school_calendar_phases.start')
 
             ->whereRaw('DATE_FORMAT(lessons.end, "%Y-%m-%d") <= school_calendar_phases.end');
+    }
+
+    /**
+     * Query para obter todas as disciplinas que o aluno estudou no ano
+     * 
+     * @param  integer $school_calendar_id 
+     * 
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function subjectsYear($school_calendar_id)
+    {
+        // Turmas do aluno no ano letivo
+        $classes_id = [];
+        $schoolClasses = $this->schoolClasses()
+            ->select('school_classes.id')
+            ->where('school_calendar_id', $school_calendar_id)
+            ->get();
+
+        $schoolClasses->each(function($item, $key) use (&$classes_id){
+            array_push($classes_id, $item->id);
+        });
+
+        // Todas as disciplinas de todas as turmas do aluno
+        // no ano letivo
+        $query = Subject::
+            select(\DB::raw('DISTINCT subjects.id'),
+                'subjects.*')
+            ->join('school_class_subjects', 
+                'school_class_subjects.subject_id',
+                '=',
+                'subjects.id')
+            ->groupBy('subjects.id')
+            ->whereIn('school_class_subjects.school_class_id', $classes_id);
+
+
+        return $query;
+    }
+
+    /**
+     * Total de faltas agrupado por disciplina e por fase do ano
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function totalAbsencesYearPerSubject($school_calendar_id)
+    {
+        return $this->attendanceRecords()
+            ->addSelect(
+                DB::raw('COUNT(DISTINCT subject_id, school_calendar_phases.id) as absences'),
+                'school_calendar_phases.id as school_calendar_phase_id',
+                'subject_id'
+                )
+            ->join('lessons', 
+                'lessons.id', 
+                '=' ,
+                'attendance_records.lesson_id')
+            
+            ->join('school_classes', 
+                'school_classes.id', 
+                '=', 
+                'lessons.school_class_id')
+            
+            ->join('school_calendars', 
+                'school_calendars.id', 
+                '=', 
+                'school_classes.school_calendar_id')
+
+            ->join('school_calendar_phases',
+                'school_calendar_phases.school_calendar_id',
+                '=',
+                'school_calendars.id')
+
+            ->where('presence', 0)
+            ->whereRaw('DATE_FORMAT(lessons.start, "%Y-%m-%d") >= school_calendar_phases.start')
+            ->whereRaw('DATE_FORMAT(lessons.end, "%Y-%m-%d") <= school_calendar_phases.end')
+            ->groupBy('subject_id', 'school_calendar_phases.id');
     }
 
 
@@ -310,4 +394,18 @@ class Student extends Model
 
         return $totalAbsences;
     }
+
+    /**
+     * Turmas onde o aluno estudou
+     * 
+     * @Relation 
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany 
+     */
+    public function schoolClasses()
+    {
+        return $this->belongsToMany('App\SchoolClass');
+    }
 }
+
+

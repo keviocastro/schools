@@ -9,23 +9,32 @@ class SchoolClassStudent extends Model
 {
     use SoftDeletes;
 
+
+    /**
+     * Tabela associada com esse modelo
+     * 
+     * @var string
+     */
+    protected $table = 'school_class_student';
+
     /**
      * 
-     * The attributes that should be hidden for arrays.
+     * Atributos que não serão exibidos quando esse modelo
+     * for convertido para array
      *
      * @var array
      */
     protected $hidden = ['deleted_at'];
     
     /**
-     * The attributes that should be mutated to dates.
+     * Atributos que serão convertidos para data
      *
      * @var array
      */
     protected $dates = ['deleted_at'];
 
     /**
-     * The attributes that are mass assignable.
+     * Atributos que podem ser alterados
      *
      * @var array
      */
@@ -45,6 +54,18 @@ class SchoolClassStudent extends Model
     {
         return $this->belongsTo('App\Student')
             ->with('person');
+    }
+
+    /**
+     * Turma do aluno 
+     *
+     * @Relation
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function schoolClass()
+    {
+        return $this->belongsTo('App\SchoolClass');
     }
 
 }

@@ -76,4 +76,34 @@ class StudentControllerTest extends TestCase
         
     } 
 
+    /**
+     * @covers StudentControllerTest::annualReport
+     * 
+     * @return void
+     */
+    public function testAnnualReport()
+    {
+
+
+        $this->get('api/students/1/annual-report'.
+            "?school_calendar_id=1",
+            $this->getAutHeader())->dump()
+            ->seeJsonStructure([
+                    'subjects' => ['*' => ['id', 'name']],
+                    'school_calendar_phases' => ['*' => ['id', 'name', 'start', 'end']],
+                    'absences' => [
+                        '*' => [
+                            'school_calendar_phases_id', 
+                            'subject_id', 
+                            'absences']
+                        ],
+                    'student_grades' => [
+                        '*' => [
+                            'school_calendar_phase_id', 
+                            'grade', 
+                            'assessment_id']
+                        ]
+                ]);
+    }
+
 }
