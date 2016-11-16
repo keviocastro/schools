@@ -89,13 +89,17 @@ class Student extends Model
     }
 
     /**
-     * Notas do aluno agrupado por fase e por disciplina
+     * Notas do aluno contendo informações da avaliação
      * 
-     * @return \Illuminate\Support\Collection
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function studentGradesByPhaseAndSubject()
+    public function studentGradesWithAssessment()
     {
-        # code...
+        return $this->studentGrades()
+            ->join('assessments',
+                'assessments.id',
+                '=',
+                'student_grades.assessment_id');
     }
 
     /**

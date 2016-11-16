@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests;
+use App\Http\Transformers\StudentGradeTransformer;
 use App\SchoolCalendar;
 use App\Student;
 use Illuminate\Http\Request;
@@ -43,6 +44,19 @@ class StudentController extends Controller
             $school_calendar_phase_id);
     }
 
+    /**
+     * Relatório anual do aluno, contendo
+     * notas do aluno no ano agrupado por disciplina e fase do ano,
+     * faltas do aluno no ano,
+     * fases do ano letivo
+     * disciplinas do aluno letivo
+     * 
+     * 
+     * @param  Request $request    
+     * @param  integer  $student_id
+     * 
+     * @return \Illuminate\Http\Response
+     */
     public function annualReport(Request $request, $student_id)
     {
         $this->validationForListAction([
@@ -61,30 +75,12 @@ class StudentController extends Controller
 
         $result['absences'] = $student->totalAbsencesYearPerSubject($school_calendar_id)->get();
 
-        $grades = $student->studentGrades()
-            ->join('assessments',
-                'assessments.id',
-                '=',
-                'student_grades.assessment_id')
+        $grades = $student->studentGradesWithAssessment()
             ->get();
 
-        $grouped = $grades->groupBy(function($item, $key) use ($grades){
-            return $item->school_calendar_phase_id.'-'.$item->subject_id; 
-        });
-
-        $formated = [];
-        $grouped->each(function($item, $key) use (&$formated){
-            $ids = explode('-',$key);
-            array_push($formated, [
-                    'school_calendar_phase_id' => $ids[0],
-                    'subject_id' => $ids[1],
-                    'assessments' => $item->toArray()
-                ]);
-        });
-
-        $result['student_grades'] = $formated;
+        $result['student_grades'] = StudentGradeTransformer::
+            groupBySubjectAndPhase($grades);
 
         return $result;
     }
-
 }

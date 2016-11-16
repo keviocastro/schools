@@ -38,7 +38,7 @@ class StudentControllerTest extends TestCase
     {
         // Precisa remover todos os dados da base,
         // porque se tiver mais dados inseridos do que o Sedder SchoolCalendar2016
-        // as quantidades não ficarao corretas
+        // as quantidades não ficarão corretas
        Artisan::call('migrate:refresh',[
                '--seed' => true
            ]);
@@ -83,25 +83,39 @@ class StudentControllerTest extends TestCase
      */
     public function testAnnualReport()
     {
+        Artisan::call('migrate:refresh',[
+               '--seed' => true
+           ]);
 
+        Artisan::call('db:seed',[
+                '--class' => 'SchoolCalendar2016'
+            ]);
 
         $this->get('api/students/1/annual-report'.
             "?school_calendar_id=1",
-            $this->getAutHeader())->dump()
+            $this->getAutHeader())
             ->seeJsonStructure([
                     'subjects' => ['*' => ['id', 'name']],
                     'school_calendar_phases' => ['*' => ['id', 'name', 'start', 'end']],
                     'absences' => [
                         '*' => [
-                            'school_calendar_phases_id', 
+                            'school_calendar_phase_id', 
                             'subject_id', 
                             'absences']
                         ],
                     'student_grades' => [
                         '*' => [
                             'school_calendar_phase_id', 
-                            'grade', 
-                            'assessment_id']
+                            'subject_id',
+                            'assessments' => [
+                                '*' => [
+                                    'grade',
+                                    'student_id',
+                                    'assessment_id',
+                                    'subject_id',
+                                    'name'
+                                ]]
+                            ]
                         ]
                 ]);
     }

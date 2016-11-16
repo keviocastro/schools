@@ -87,11 +87,7 @@ class LessonControllerTest extends TestCase
                 'school_class_id' => $schoolClass->id,
                 'subject_id' => $subject->id
             ]);
-        $students = factory(App\Student::class, 2)->create([
-                'school_class_id' => function() use ($schoolClass){
-                    return $schoolClass->id;
-                }
-            ]);
+        $students = factory(App\Student::class, 2)->create();
         $presence = 0;
         foreach ($students as $key => $stu) {
             
