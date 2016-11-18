@@ -2,9 +2,11 @@
 
 namespace App;
 
+use App\SchoolCalendar;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\DB;
+use Stringy\Stringy as S;
 
 class Student extends Model
 {
@@ -100,6 +102,109 @@ class Student extends Model
                 'assessments.id',
                 '=',
                 'student_grades.assessment_id');
+    }
+
+    /**
+     * Médias das disciplinas cursadas por fase do ano
+     * 
+     * @param  SchoolCalendar   $schoolCalendar 
+     * @param  bool             $toArray          
+     * 
+     * @return \Illuminate\Database\Eloquent\Collection                         
+     */
+    public function subjectAvaragePerYearPhase(
+        SchoolCalendar $schoolCalendar,
+        $toArray=false)
+    {
+        // Contém fases (schoolCalendarPhase), 
+        // avaliações (assessments) da fase 
+        // e notas do aluno (studentGrades)
+        // no ano letivo (shcoolCalendar)
+        $phases = $schoolCalendar->schoolCalendarPhases()
+            ->with(['assessments.studentGrades' => function($query){
+                $query->where('student_id', $this->id);
+            }])->get();
+
+
+        $phases->each(function($phase, $key) use ($schoolCalendar, $toArray) {
+
+            $phase->subject_average = $this->subjectsYear($schoolCalendar->id)->get();
+
+            $formula = $phase->average_calculation;
+            $formula_variables = [];
+            
+            // Extrair as variáveis da formula
+            while (  $assessment_name = (string) S::create($formula)->between('{', '}') ) 
+            {
+                $formula_variables[] = $assessment_name;
+                $formula = str_replace('{'.$assessment_name.'}', '', $formula);
+            }
+
+            // Substituir as variáveis da formula por nota 
+            // de cada disciplina
+            $formula = $phase->average_calculation;
+            $phase->subject_average->each(function($subject, $key) 
+                use ($phase, $formula_variables, $formula, $toArray){
+
+
+                // Obtem a nota da disciplina referente
+                // a avaliação.
+                $grades_for_subject = collect();
+                $calculation = $formula; 
+                $result = null;
+                foreach ($formula_variables as $key => $variable) {
+                    
+                    $assessment = $phase->assessments
+                        ->where('name', $variable)->first();
+                        // first() porque só existe um nota de uma disciplina
+                        // para uma avaliação.
+                    
+                    $grade = $assessment->studentGrades
+                        ->where('subject_id', $subject->id)
+                        ->first();   
+
+                    $grades_for_subject->put($variable, $grade);
+                    $calculation = str_replace('{'.$variable.'}', 
+                        $grade->grade, $calculation);
+                }
+
+                eval("\$result = $calculation;");
+
+                $subject->average_calculation = $calculation; 
+                $subject->average = round($result, 1);
+
+                if ($toArray) {
+                     $grades_for_subject = $grades_for_subject->toArray(); 
+                }
+
+                $subject->student_grades = $grades_for_subject;
+
+                return $subject;
+
+            });
+
+            if ($toArray) {
+                $phase->subject_average = $phase->subject_average->toArray();
+            }
+
+        });
+
+        // Remove o array de assesments de cada fase porque
+        // ele já esta agrupado no atributo 
+        // $phases[$key]['subject_average'][$key]['student_grades']
+        $phases->transform(function($item, $key){
+            $item = collect($item)->filter(function($item, $key){
+                    return $key != 'assessments';
+            });
+            
+            return $item;
+        });
+
+        if ($toArray) {
+            $phases = $phases->toArray();
+        }
+
+        return $phases;
     }
 
     /**

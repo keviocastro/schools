@@ -30,4 +30,16 @@ class Assessment extends Model
      * @var array
      */
     protected $fillable = [];
+
+    /**
+     * Notas da avaliação
+     * 
+     * @Relation
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function studentGrades()
+    {
+        return $this->hasMany('App\StudentGrade');
+    }
 }

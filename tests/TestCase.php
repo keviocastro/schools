@@ -40,11 +40,18 @@ class TestCase extends TestCaseLara
      */
     public function getAutHeader()
     {
-        $token = env('auth0_token_test');
+        $token = Config::get('laravel-auth0.token_user_tester');
+        
         if (empty($token)) {
             $tokens = $this->getTokenUserTester();
             $token = $tokens['id_token'];
-            putenv("auth0_token_test=$token");
+
+            $path = base_path('.env');
+            file_put_contents($path, str_replace(
+                'AUTH0_TOKEN_USER_TESTER='.Config::get('laravel-auth0.token_user_tester'), 
+                'AUTH0_TOKEN_USER_TESTER='.$token, 
+                file_get_contents($path)
+            ));
         }
 
         return ['authorization' => "Bearer {$token}"];

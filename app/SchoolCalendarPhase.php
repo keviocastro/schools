@@ -29,6 +29,18 @@ class SchoolCalendarPhase extends Model
     protected $dates = ['deleted_at'];
 
     /**
+     * Atributos que podem ser incluídos/alterados na base de dados
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'school_calendar_id', 
+        'name', 
+        'start',
+        'end',
+        'average_calculation'];
+
+    /**
      * Avaliações da fase do ano letivo
      *
      * @Relation
@@ -67,4 +79,5 @@ class SchoolCalendarPhase extends Model
     {
         return $this->belongsTo('App\SchoolCalendar');
     }
+
 }

@@ -6,8 +6,9 @@ return array(
      * Credenciais para autentificação de usuário utilizado
      * na automatização de testes
      */
-    'email_user_tester' => env('AUTH0_EMAIL_USER_TESTER'),
-    'pass_user_tester' => env('AUTH0_PASS_USER_TESTER'),
+    'email_user_tester' => env('AUTH0_EMAIL_USER_TESTER', 'tester@logoseducacao.com.br'),
+    'pass_user_tester' => env('AUTH0_PASS_USER_TESTER', 'ga+6pH'),
+    'token_user_tester' => env('AUTH0_TOKEN_USER_TESTER'),
 
     /*
     |--------------------------------------------------------------------------

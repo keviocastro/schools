@@ -83,17 +83,17 @@ class StudentControllerTest extends TestCase
      */
     public function testAnnualReport()
     {
-        Artisan::call('migrate:refresh',[
-               '--seed' => true
-           ]);
+        // Artisan::call('migrate:refresh',[
+        //        '--seed' => true
+        //    ]);
 
-        Artisan::call('db:seed',[
-                '--class' => 'SchoolCalendar2016'
-            ]);
+        // Artisan::call('db:seed',[
+        //         '--class' => 'SchoolCalendar2016'
+        //     ]);
 
         $this->get('api/students/1/annual-report'.
             "?school_calendar_id=1",
-            $this->getAutHeader())
+            $this->getAutHeader())->dump()
             ->seeJsonStructure([
                     'subjects' => ['*' => ['id', 'name']],
                     'school_calendar_phases' => ['*' => ['id', 'name', 'start', 'end']],

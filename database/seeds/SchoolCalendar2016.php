@@ -55,7 +55,8 @@ class SchoolCalendar2016 extends Seeder
             'school_calendar_id' => $schoolCalendar->id,
             'name' => '1º Bimestre',
             'start' => '2016-01-16',
-            'end' => '2016-04-15'
+            'end' => '2016-04-15',
+            'average_calculation' => '({Nota 1.1} + {Nota 1.2})/2'
         ]);
         $assessments = [
             [
@@ -73,7 +74,8 @@ class SchoolCalendar2016 extends Seeder
             'school_calendar_id' => $schoolCalendar->id,
             'name' => '2º Bimestre',
             'start' => '2016-04-16',
-            'end' => '2016-06-30'
+            'end' => '2016-06-30',
+            'average_calculation' => '({Nota 2.1} + {Nota 2.2})/2'
         ]);
         $assessments = [
             [
@@ -91,7 +93,8 @@ class SchoolCalendar2016 extends Seeder
             'school_calendar_id' => $schoolCalendar->id,
             'name' => '3º Bimestre',
             'start' => '2016-08-01',
-            'end' => '2016-09-30'
+            'end' => '2016-09-30',
+            'average_calculation' => '({Nota 3.1} + {Nota 3.2})/2'
         ]);
         $assessments = [
             [
@@ -109,7 +112,8 @@ class SchoolCalendar2016 extends Seeder
             'school_calendar_id' => $schoolCalendar->id,
             'name' => '4º Bimestre',
             'start' => '2016-10-01',
-            'end' => '2016-12-16'
+            'end' => '2016-12-16',
+            'average_calculation' => '({Nota 4.1} + {Nota 4.2})/2'
         ]);
         $assessments = [
             [
@@ -216,40 +220,109 @@ class SchoolCalendar2016 extends Seeder
 
         SchoolClassSubject::insert($schoolClassSubjects);
 
+        /**
+         * NOTAS:
+         * 
+         *     1º disciplina criada tem as notas:
+         *      Nota 1.1 = 10
+         *      Nota 1.2 = 9.2 
+         *      Nota 2.1 = 8.5 
+         *      Nota 2.2 = 10
+         *      Nota 3.1 = 9.5
+         *      Nota 3.2 = 9.0
+         *      Nota 4.1 = 10
+         *      Nota 4.2 = 9.6
+         *      
+         *      Média = (10+9.2)/2 = 9.6 +      // 1 Bimestre. 
+         *              (8.5+10)/2 = 9.25 +     // 2 Bim.
+         *              (9.5+9.0)/2 = 9.25 +    // 3 Bim.
+         *              (10+9.6)/2 = 9.8        // 4 Bim.
+         *              
+         *      A média anual é calculada por: 
+         *      ( (1 Bim + 2 Bim) * 0.4 + (3 Bim + 4 Bim) * 0.6 ) / 2 = MÉDIA NO ANO
+         *      
+         *      1 Semestre = (9.6 + 9.25)*0.4 = 7.54
+         *      2 Semestre = (9.25 + 9.8)*0.6 = 11.43
+         *      
+         *      ( 7.54 + 11.43 ) /2  = 9.48 
+         *      
+         *     2º disciplina criada é a menor média do ano = 0.2
+         *
+         * FALTAS:
+         *
+         *  Pra o 1º aluno criado:
+         *  
+         *     1º Bimestre = 4
+         *     2º Bimestre = 3
+         *     3º Bimestre = 6
+         *     4º Bimestre = 2
+         *      
+         */
 
-        // Marcar 4 faltas
-        // Registra nota para todos os alunos em todas as disciplinas
-        // 1º disciplina criada é a maior média do ano = 10
-        // 2º disciplina criada é a menor média do ano = 0.2
+        
+
+        // 1º Bimeste
+        $assessments = $schoolCalendarPhase1->assessments()
+            ->orderBy('id')->get();
+        
         $fixedDataSubjects = [
                 [
                     'subject_id' =>  $subjectFixedData->id,
                     'grade' => 10,
-                    'student_id' => 1,
+                    'student_id' => $studentFixedData->id,
+                    'assessment_id' => $assessments[0]->id
+                ],
+                [
+                    'subject_id' => $subjectFixedData->id,
+                    'grade' => 9.2,
+                    'student_id' => $studentFixedData->id,
+                    'assessment_id' => $assessments[1]->id
                 ],
                 [
                     'subject_id' => $subjectFixedData2->id,
                     'grade' => 0.2,
-                    'student_id' => 1,
+                    'student_id' => $studentFixedData->id,
                 ]
             ];
-        // 1 Bimeste: 4 faltas pro aluno $studentFixedData (1 aluno criado)
         self::createAttendanceRecords($schoolCalendarPhase1, 4, $studentFixedData->id);
         self::createStudentGrades($schoolCalendarPhase1, 
             $schoolClass, $subjects, $fixedDataSubjects);
 
-        // 2 Bimestre: 3 faltas pro aluno $studentFixedData
+        // 2º Bimestre
+        $assessments = $schoolCalendarPhase2->assessments()
+            ->orderBy('id')->get();
+        $fixedDataSubjects[0]['assessment_id'] = $assessments[0]->id;
+        $fixedDataSubjects[0]['grade'] = 8.5;
+
+        $fixedDataSubjects[1]['assessment_id'] = $assessments[1]->id;
+        $fixedDataSubjects[1]['grade'] = 10;
+
         self::createAttendanceRecords($schoolCalendarPhase2, 3, $studentFixedData->id);
         $assessments_phase_2 = $schoolCalendarPhase2->assessments;
         self::createStudentGrades($schoolCalendarPhase2, $schoolClass, 
             $subjects, $fixedDataSubjects);
 
-        // 3 Bimestre: 6 faltas
+        // 3º Bimestre
+        $assessments = $schoolCalendarPhase3->assessments()
+            ->orderBy('id')->get();
+        $fixedDataSubjects[0]['assessment_id'] = $assessments[0]->id;
+        $fixedDataSubjects[0]['grade'] = 9.5;
+
+        $fixedDataSubjects[1]['assessment_id'] = $assessments[1]->id;
+        $fixedDataSubjects[1]['grade'] = 9.0;
+        
         self::createAttendanceRecords($schoolCalendarPhase3, 6, $studentFixedData->id);
         self::createStudentGrades($schoolCalendarPhase3, $schoolClass, 
             $subjects, $fixedDataSubjects);
 
-        // 4 Bimestre: 2 faltas
+        // 4º Bimestre
+        $assessments = $schoolCalendarPhase4->assessments()
+            ->orderBy('id')->get();
+        $fixedDataSubjects[0]['assessment_id'] = $assessments[0]->id;
+        $fixedDataSubjects[0]['grade'] = 10;
+
+        $fixedDataSubjects[1]['assessment_id'] = $assessments[1]->id;
+        $fixedDataSubjects[1]['grade'] = 9.6;
         self::createAttendanceRecords($schoolCalendarPhase4, 2, $studentFixedData->id);
         $assessments_phase_4 = $schoolCalendarPhase4->assessments;
         self::createStudentGrades($schoolCalendarPhase4, $schoolClass, 
@@ -364,7 +437,12 @@ class SchoolCalendar2016 extends Seeder
      *                                 [
      *                                     'student_id' => 1,
      *                                     'subject_id' => 1,
-     *                                     'assessment_id' => 1,
+     *                                     'assessment_id' => 1,  // Se não informar valor 
+     *                                                            // para avaliação (assessment_id)
+     *                                                            // será atribuido "grade"
+     *                                                            // para todas as avaliações
+     *                                                            // Deixando a nota com a mesma
+     *                                                            // média do valor de "grade"
      *                                     'grade' => 10
      *                                 ],
      *                                 [
@@ -403,8 +481,13 @@ class SchoolCalendar2016 extends Seeder
                                 if ($student->id == $data['student_id'] && 
                                     $subject->id == $data['subject_id']
                                     ) {
+
+                                    if (empty($data['assessment_id'])) {
+                                        $grade = $data['grade'];
+                                    }elseif($assessment->id == $data['assessment_id']){
+                                        $grade = $data['grade'];
+                                    }
                                     
-                                    $grade = $data['grade'];
                                 }
                             }
                         }

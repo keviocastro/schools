@@ -68,19 +68,16 @@ class StudentController extends Controller
         $schoolCalendar = SchoolCalendar::findOrFail($school_calendar_id);
         $student = Student::findOrFail($student_id);
 
-        $result['subjects'] = $student->subjectsYear($school_calendar_id)
+        $subject_avarage = $student
+            ->subjectAvaragePerYearPhase($schoolCalendar, true);
+
+        $result['average_by_phase'] = $subject_avarage;
+
+        $result['absences_by_phase'] = $student
+            ->totalAbsencesYearPerSubject($school_calendar_id)
             ->get();
-        
-        $result['school_calendar_phases'] = $schoolCalendar->schoolCalendarPhases;
-
-        $result['absences'] = $student->totalAbsencesYearPerSubject($school_calendar_id)->get();
-
-        $grades = $student->studentGradesWithAssessment()
-            ->get();
-
-        $result['student_grades'] = StudentGradeTransformer::
-            groupBySubjectAndPhase($grades);
 
         return $result;
     }
+
 }

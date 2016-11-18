@@ -234,7 +234,8 @@ $factory->define(App\SchoolCalendarPhase::class, function ($faker, $attributes) 
                     'Recuperação 2',
                 ]),
             'start' => $startDate,
-            'end' => $endDate
+            'end' => $endDate,
+            'average_calculation' => 'arithmetical'
         ];
 });
 

@@ -9,11 +9,14 @@ class TestListener extends PHPUnit_Framework_BaseTestListener
 {
     public function endTestSuite(PHPUnit_Framework_TestSuite $suite)
     {
-        // $this->destroyAuthToken();
     }
 
     public function destroyAuthToken()
     {
-        putenv("auth0_token_test=");
+        file_put_contents($path, str_replace(
+                'AUTH0_TOKEN_USER_TESTER='.Config::get('laravel-auth0.token_user_tester'), 
+                'AUTH0_TOKEN_USER_TESTER=', 
+                file_get_contents($path)
+            ));
     }
 }

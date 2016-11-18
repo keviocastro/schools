@@ -53,6 +53,10 @@ class AttendanceRecordsAndStudentGrade extends Migration
             $table->timestamps();
             $table->softDeletes();
 
+            // Um estudante não pode ter mais de uma nota para a mesma
+            // disciplina na mesma avaliação
+            $table->unique('student_id', 'assessment_id', 'subject_id');
+
             $table->foreign('subject_id')
                 ->references('id')
                 ->on('subjects');
@@ -64,6 +68,7 @@ class AttendanceRecordsAndStudentGrade extends Migration
             $table->foreign('student_id')
                 ->references('id')
                 ->on('students');
+
         });
     }
 

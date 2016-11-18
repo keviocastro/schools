@@ -18,6 +18,10 @@ class ShcoolsLessonsClasses extends Migration
             $table->integer('year');
             $table->date('start');
             $table->date('end');
+            // Calculo de média de notas no ano
+            // Exemplo: 
+            // ( 1 Bimestre * 0,4 + 2 Bimestre * 0,6 ) / 2 = Média do aluno em uma disciplina no ano
+            $table->string('average_calculation'); 
             $table->timestamps();
             $table->softDeletes();
 
@@ -30,6 +34,10 @@ class ShcoolsLessonsClasses extends Migration
             $table->unsignedInteger('school_calendar_id');
             $table->date('start');
             $table->date('end');
+            // Calculo de média de notas na fase do ano
+            // Exmplo:
+            // (NOTA 1 + NOTA 2)/2  = Nota do aluno no bimestre em uma disciplina
+            $table->string('average_calculation');
             $table->timestamps();
             $table->softDeletes();
 

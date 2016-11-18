@@ -285,13 +285,17 @@ e relatórios como "Boletim anual do aluno" e "Histórico escolar".
                 + school_calendar_phase_id: 1
                 + subject_id: 1 
                 + absences: 6
-        + student_grades (array) - Notas no ano letivo
+        + average_by_phase (array) - Notas no ano letivo
             + (object)
-                + school_calendar_phase_id: 1 - Fase do ano
-                + subject_id: 1 - Disciplina
-                + average: 7.2 - Média do aluno para a disciplina na fase do ano
-                + assessments (array)
-                    + (StudentGrade)
+                + include (SchoolCalendarPhase)
+                + subject_average (array)
+                    + (object)
+                        + include (Subject)
+                        + average: 7.2 - Média do aluno para a disciplina na fase do ano
+                        + student_grades (array)
+                            + (object)
+                                + include (StudentGrade)
+                                + assessment (Assessment)
         + occurences (array[Occurence])
 
 
@@ -300,8 +304,8 @@ e relatórios como "Boletim anual do aluno" e "Histórico escolar".
 ### View a annual student summary [GET]
 
 + Parameters
-    + school_calendar_id (required, number)       - ID do ano letivo
-    + school_calendar_phase_id (required, number) - ID da fase avaliativa do ano letivo (Ex.: Bimestre)
+    + school_calendar_id (required, number)       - `ID do ano letivo`
+    + school_calendar_phase_id (required, number) - `ID da fase avaliativa do ano letivo (Ex.: Bimestre)`
 
 + Request 
     + Headers
