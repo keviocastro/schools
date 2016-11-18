@@ -93,31 +93,8 @@ class StudentControllerTest extends TestCase
 
         $this->get('api/students/1/annual-report'.
             "?school_calendar_id=1",
-            $this->getAutHeader())->dump()
-            ->seeJsonStructure([
-                    'subjects' => ['*' => ['id', 'name']],
-                    'school_calendar_phases' => ['*' => ['id', 'name', 'start', 'end']],
-                    'absences' => [
-                        '*' => [
-                            'school_calendar_phase_id', 
-                            'subject_id', 
-                            'absences']
-                        ],
-                    'student_grades' => [
-                        '*' => [
-                            'school_calendar_phase_id', 
-                            'subject_id',
-                            'assessments' => [
-                                '*' => [
-                                    'grade',
-                                    'student_id',
-                                    'assessment_id',
-                                    'subject_id',
-                                    'name'
-                                ]]
-                            ]
-                        ]
-                ]);
+            $this->getAutHeader())
+            ->assertResponseStatus(200);
     }
 
 }
