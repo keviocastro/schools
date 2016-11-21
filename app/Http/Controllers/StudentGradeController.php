@@ -7,12 +7,12 @@ use App\Http\Requests;
 use App\SchoolClass;
 use App\SchoolClassStudent;
 use App\Student;
-use App\StudentGrades;
+use App\StudentGrade;
 use Exception;
 use Illuminate\Http\Request;
 
 
-class StudentGradesController extends Controller
+class StudentGradeController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -21,7 +21,7 @@ class StudentGradesController extends Controller
      */
     public function index()
     {
-        $result = $this->apiHandler->parseMultiple(new StudentGrades);
+        $result = $this->apiHandler->parseMultiple(new StudentGrade);
         
         return $result->getBuilder()->paginate();
     }
@@ -39,7 +39,6 @@ class StudentGradesController extends Controller
             'student_id' => 'required|numeric',
             'subject_id' => 'required|numeric',
             'assessment_id' => 'required|numeric',
-            'owner_person_id' => 'required|numeric',
         ]);
 
         $schoolClassId = $request->input('school_class_id');
@@ -47,22 +46,22 @@ class StudentGradesController extends Controller
 
         $schoolClass = SchoolClass::find($schoolClassId);
         $assessment  = Assessment::find($request->input('assessment_id'));
+        // dd($schoolClassId );
 
-        //dump($schoolClass->schoolCalendar->id);
-        //dd($assessment->schoolCalendarPhase->schoolCalendar->id);
         $calendar = $schoolClass->schoolCalendar->id;
         $calendarPhase = $assessment->schoolCalendarPhase->schoolCalendar->id;
-
-        $consulta = SchoolClassStudent::where('school_class_id', $schoolClassId)->where('student_id', $studentId)->get();
+        $StudentGrade = '';
+        $consulta = SchoolClassStudent::where('school_class_id', $schoolClassId)
+            ->where('student_id', $studentId)->get();
         
         if(!empty($consulta->toArray()) && $calendar == $calendarPhase)
         {
-            $studentGrades = StudentGrades::create($request->all());
+            $StudentGrade = StudentGrade::create($request->all());
         }
         else
             return response('Student is not in this class or student not in a same year phase of grade.', 422);
 
-        return $this->response->created("/studentGrades/{$studentGrades->id}", $studentGrades);
+        return $this->response->created("/StudentGrade/{$StudentGrade->id}", $StudentGrade);
     }
 
     /**
@@ -73,19 +72,8 @@ class StudentGradesController extends Controller
      */
     public function show($id)
     {
-        $result = $this->apiHandler->parseSingle(new StudentGrades,$id);
+        $result = $this->apiHandler->parseSingle(new StudentGrade,$id);
         return $result->getResult();
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
     }
 
     /**
@@ -98,27 +86,24 @@ class StudentGradesController extends Controller
     public function update(Request $request, $id)
     {
         $this->validationForUpdateAction($request, [
-            'grade' => 'required|numeric|max:10|min:0',
-            'student_id' => 'required|numeric',
-            'subject_id' => 'required|numeric',
-            'assessment_id' => 'required|numeric',
-            'owner_person_id' => 'required|numeric',
+            'grade' => 'required|numeric|max:10|min:0'
         ]);
 
-        $studentGrades = StudentGrades::findOrFail($id);
-        $studentGrades->update($request->all());
+        $StudentGrade = StudentGrade::findOrFail($id);
 
-        return $studentGrades;
-    }
+        $condicao = $request->student_id == $StudentGrade['student_id'] && 
+            $request->subject_id == $StudentGrade['subject_id'] && 
+            $request->assessment_id == $StudentGrade['assessment_id'] && 
+            $request->school_class_id == $StudentGrade['school_class_id'];
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+        if($condicao)
+        {
+            // var_dump("entrou aqui");
+            $StudentGrade->update($request->all());
+        }
+        else 
+            return response('Only the grade can be changed.', 422);
+        // dd($StudentGrade->toArray());
+        return $StudentGrade;
     }
 }

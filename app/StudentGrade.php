@@ -5,7 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class StudentGrades extends Model
+class StudentGrade extends Model
 {
     use SoftDeletes;
     /**
@@ -13,12 +13,12 @@ class StudentGrades extends Model
      *
      * @var array
      */
-    protected $fillable = ['grade','student_id','subject_id','assessment_id','owner_person_id','school_class_id'];
+    protected $fillable = ['grade','student_id','subject_id','assessment_id','school_class_id'];
     
     /**
      * @Relation
      * 
-     * @return App\Student
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function student()
     {
@@ -27,7 +27,7 @@ class StudentGrades extends Model
     /**
      * @Relation
      * 
-     * @return App\Subject
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function subject()
     {
@@ -36,7 +36,7 @@ class StudentGrades extends Model
     /**
      * @Relation
      * 
-     * @return App\Assessment
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function assessment()
     {
@@ -45,16 +45,7 @@ class StudentGrades extends Model
     /**
      * @Relation
      * 
-     * @return App\Person
-     */
-    public function ownerPerson()
-    {
-        return $this->belongsTo('App\Person', 'owner_person_id');
-    }
-    /**
-     * @Relation
-     * 
-     * @return App\SchoolClass
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function schoolClass()
     {

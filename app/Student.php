@@ -36,7 +36,7 @@ class Student extends Model
      * 
      * @Relation
      *
-     * @return App\Person
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function person()
     {
@@ -48,7 +48,7 @@ class Student extends Model
      *
      * @Relation
      *
-     * @return App\SchoolClass
+     * @return A\Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function schoolClass()
     {

@@ -31,8 +31,7 @@ class OccurenceController extends Controller
         $this->validationForStoreAction($request, [
             'level_id' => 'required|numeric|exists:levels,id',
             'comment' => 'required|string',
-            'owner_person_id' => 'required|numeric|exists:people,id',
-            'about_person_id' => 'required|numeric|exists:people,id|different:owner_person_id',
+            'about_person_id' => 'required|numeric|exists:people,id',
         ]);
         
         $occurence = Occurence::create($request->all());
@@ -64,8 +63,7 @@ class OccurenceController extends Controller
         $this->validationForUpdateAction($request, [
             'level_id' => 'required|numeric|exists:levels,id',
             'comment' => 'required|string',
-            'owner_person_id' => 'required|numeric|exists:people,id',
-            'about_person_id' => 'required|numeric|exists:people,id|different:owner_person_id',
+            'about_person_id' => 'required|numeric|exists:people,id',
         ]);
 
         $occurence = Occurence::findOrFail($id);

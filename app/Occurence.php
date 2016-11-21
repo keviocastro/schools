@@ -22,7 +22,7 @@ class Occurence extends Model
      *
      * @var array
      */
-    protected $fillable = ['comment','level_id','owner_person_id','about_person_id'];
+    protected $fillable = ['comment','level_id','about_person_id'];
 
     /**
      * The attributes that should be mutated to dates.
@@ -34,7 +34,7 @@ class Occurence extends Model
     /**
      * @Relation
      * 
-     * @return App\Level
+     * @return Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function level()
     {
@@ -43,16 +43,7 @@ class Occurence extends Model
     /**
      * @Relation
      * 
-     * @return App\Person
-     */
-    public function ownerPerson()
-    {
-    	return $this->belongsTo('App\Person', 'owner_person_id');
-    }
-    /**
-     * @Relation
-     * 
-     * @return App\Person
+     * @return Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function aboutPerson()
     {

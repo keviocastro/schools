@@ -40,6 +40,8 @@ class SchoolClass extends Model
      * Get a grade record associate with the shcool class 
      *
      * @Relation
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function grade()
     {
@@ -50,6 +52,8 @@ class SchoolClass extends Model
      * Get a shift record associate with the shcool class 
      *
      * @Relation
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function shift()
     {
@@ -61,7 +65,8 @@ class SchoolClass extends Model
      * 
      * @Relation
      * 
-     * @return 
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\hasMany
      */
     public function students()
     {
@@ -73,7 +78,7 @@ class SchoolClass extends Model
      * 
      * @Relation
      * 
-     * @return Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function schoolCalendar()
     {

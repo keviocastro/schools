@@ -5,16 +5,16 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 
-class StudentGradesControllerTest extends TestCase
+class StudentGradeControllerTest extends TestCase
 {
-    /**
-     * StudentGradesControllerTest::index
+    /*
+     * StudentGradeControllerTest::index
      *
      * @return void
      */
     public function testIndex()
     {
-    	$studantGrades = factory(App\StudentGrades::class)->create();
+    	$studantGrade = factory(App\StudentGrade::class)->create();
 
     	$struture = [
 			  "total",
@@ -32,27 +32,27 @@ class StudentGradesControllerTest extends TestCase
 			      "student_id",
 			      "subject_id",
 			      "assessment_id",
-			      "owner_person_id",
 			      "created_at",
 			      "updated_at",
 			    ]
 			  ]
 			];
-        $this->get('api/student-grades?with=student,subject,assessment,schoolClass,ownerPerson',
+        $this->get('api/student-grades?with=student,subject,assessment,schoolClass',
         	$this->getAutHeader())
         	->assertResponseStatus(200)
         	->seeJsonStructure($struture);
     }
 
     /**
-     * StudentGradesControllerTest::store
+     * StudentGradeControllerTest::store
      *
      * @return void
      */
     public function testStore()
     {
-    	$studantGrade = factory(App\StudentGrades::class)->make()->toArray();
 		// Success
+    	$studantGrade = factory(App\StudentGrade::class)->make()->toArray();
+
         $this->post('api/student-grades',
         	$studantGrade,
         	$this->getAutHeader())
@@ -84,17 +84,18 @@ class StudentGradesControllerTest extends TestCase
         				'grade'
         			]
         		]);
-        
+
         // O aluno precisa estar na turma 
     	$student = factory(App\Student::class)->create();
     	$schoolClass = factory(App\SchoolClass::class)->create();
 
-    	$studantGrade = factory(App\StudentGrades::class)->make([
+    	$studantGrade = factory(App\StudentGrade::class)->make([
     			'student_id' => $student->id,
     			'school_class_id' => $schoolClass->id
     		])->toArray();
 
-        $studantGrade['school_class_id'] = 7923;
+    	$schoolClass = factory(App\SchoolClass::class)->create();
+        $studantGrade['school_class_id'] = $schoolClass->id;
 
     	$this->post('api/student-grades',
         	$studantGrade,
@@ -102,7 +103,7 @@ class StudentGradesControllerTest extends TestCase
         	->assertResponseStatus(422);
 
         //a nota tem que estar relacionada a fase do ano atual do aluno
-    	$studantGrade = factory(App\StudentGrades::class)->make()->toArray();
+    	$studantGrade = factory(App\StudentGrade::class)->make()->toArray();
 
     	$this->post('api/student-grades',
         	$studantGrade,
@@ -112,13 +113,13 @@ class StudentGradesControllerTest extends TestCase
     }
 
     /**
-     * StudentGradesControllerTest::show
+     * StudentGradeControllerTest::show
      *
      * @return void
      */
     public function testShow()
     {
-        $studantGrades = factory(App\StudentGrades::class)->create();
+        $studantGrades = factory(App\StudentGrade::class)->create();
     	
         $this->get("api/student-grades/{$studantGrades->id}",
         	$this->getAutHeader())
@@ -127,23 +128,35 @@ class StudentGradesControllerTest extends TestCase
     }
 
     /**
-     * StudentGradesControllerTest::update
+     * @todo A nota somente podera ser edita caso nao esteja concluída a fase do ano pelo professor  
+     * 
+     * StudentGradeControllerTest::update
      *
      * @return void
      */
     public function testUpdate()
     {
-        $studantGrades = factory(App\StudentGrades::class)->create();
-        $studantGrades_changed = factory(App\StudentGrades::class)->make()->toArray();
+        $studantGrades = factory(App\StudentGrade::class)->create();
+        $studantGrade_changed = $studantGrades->toArray();
+        $studantGrade_changed['grade'] = '9.9';
 
         $this->put("api/student-grades/{$studantGrades->id}",
-            $studantGrades_changed,
+            $studantGrade_changed,
             $this->getAutHeader())
-            ->assertResponseStatus(200)
-            ->seeJson($studantGrades_changed);
+            ->assertResponseStatus(200);
+            // ->seeJson($studantGrade_changed);
 
+        //somente a nota pode ser alterada
+        
+        $studantGrades = factory(App\StudentGrade::class)->create();
 
+        $studantGrade_changed = $studantGrades->toArray();
+        $studantGrade_changed['student_id'] = 2;
+        $studantGrade_changed['grade'] = 1.9;
 
-
+        $this->put("api/student-grades/{$studantGrades->id}",
+            $studantGrade_changed,
+            $this->getAutHeader())
+            ->assertResponseStatus(422);
     }
 }

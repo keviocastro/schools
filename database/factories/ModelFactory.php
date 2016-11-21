@@ -277,16 +277,13 @@ $factory->define(App\Occurence::class, function ($faker) use ($factory) {
             return factory(App\Level::class)->create()->id;
         },
         'comment' => $faker->sentence,
-        'owner_person_id' => function(){
-            return factory(App\Person::class)->create()->id;
-        },
         'about_person_id' => function(){
             return factory(App\Student::class)->create()->id;
         }
     ];
 });
 
-$factory->define(App\StudentGrades::class, function ($faker) use ($factory) {
+$factory->define(App\StudentGrade::class, function ($faker) use ($factory) {
     
     $schoolClass = factory(App\SchoolClass::class)->create();
     $student = factory(App\Student::class)->create();
@@ -309,9 +306,6 @@ $factory->define(App\StudentGrades::class, function ($faker) use ($factory) {
             return factory(App\Subject::class)->create()->id;
         },
         'assessment_id' => $assessment->id,
-        'owner_person_id' => function(){
-            return factory(App\Person::class)->create()->id;
-        },
         'school_class_id' => $schoolClass->id
     ];
 });

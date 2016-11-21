@@ -45,7 +45,7 @@ class Lesson extends Model
      *
      * @Relation
      * 
-     * @return App\SchoolClass
+     * @return Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function schoolClass()
     {
@@ -57,7 +57,7 @@ class Lesson extends Model
      * 
      * @Relation
      * 
-     * @return App\Subject
+     * @return Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function subject()
     {
@@ -69,7 +69,7 @@ class Lesson extends Model
      *
      * @Relation
      * 
-     * @return App\AttendanceRecords
+     * @return Illuminate\Database\Eloquent\Relations\hasMany
      */
     public function attendanceRecords()
     {

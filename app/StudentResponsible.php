@@ -40,7 +40,7 @@ class StudentResponsible extends Model
      * 
      * @Relation
      *
-     * @return App\Person
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function person()
     {

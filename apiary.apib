@@ -574,7 +574,6 @@ e a nota do aluno no 1º Bimestre será composta pela conta (N1*0,4)+(N2*0,6)=NO
     + field (string, optional) - Nome da coluna e valor para filtrar resultados.
     + with (string) - Nome da relação a ser incluída na resposta.
         + Members
-            + ownerPerson
             + aboutPerson
             + level
 
@@ -668,7 +667,6 @@ e a nota do aluno no 1º Bimestre será composta pela conta (N1*0,4)+(N2*0,6)=NO
             + subject
             + assessment
             + schoolClass
-            + ownerPerson
 
 + Request 
     + Headers
@@ -719,7 +717,7 @@ e a nota do aluno no 1º Bimestre será composta pela conta (N1*0,4)+(N2*0,6)=NO
 
 # Group Students
 
-`Students` Definir texto refetente depois.
+`Students` Coleção de estudantes onde cada um pertence a um registro de pessoa, escola, atividade, nota...
 
 ## Students Collection [/students{?limit,offset,q,sort,field,with}]
 
@@ -730,7 +728,7 @@ e a nota do aluno no 1º Bimestre será composta pela conta (N1*0,4)+(N2*0,6)=NO
             
             authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ3ODQ1MjI3MSwiaWF0IjoxNDc1ODYwMjcxfQ.TyXdSxKWVaqGb9Y7uJh44Ybz807DLtUWNxw__K8JU7w
     
-    + Students (Students)
+    + Attributes (StudentsFillable)
 
 + Response 201 (application/json) 
     
@@ -739,9 +737,11 @@ e a nota do aluno no 1º Bimestre será composta pela conta (N1*0,4)+(N2*0,6)=NO
 
 
 # Data structures
+
 ## Students
 
 + id: 1 (number) - Identificador único do registro de nota do aluno
++ Include (StudentsFillable) - object imputaveis
 + subjects (array)
     + (Subject)
 + schoolCalendarPhase (array)
@@ -749,6 +749,10 @@ e a nota do aluno no 1º Bimestre será composta pela conta (N1*0,4)+(N2*0,6)=NO
 + StudentGrade (array)
     + (StudentGrade)
 
+## StudentsFillable
+
++ person_id: 11 (number) - Identificador único do registro de people
++ school_class_id: 22 (number) - indentificador de uma turma
 
 ## StudentGradeFillable
 
@@ -761,7 +765,6 @@ e a nota do aluno no 1º Bimestre será composta pela conta (N1*0,4)+(N2*0,6)=NO
 + assessment_id: 1 (number) - Identificador da avaliação
 + student_id: 1 (number) - Id do aluno
 + subject_id: 1 (number) - Disciplina relacionada a turma a qual o aluno realizou a avaliação
-+ owner_person_id: 1 (number) - ID da pessoa que registrou a ocorrência
 + created_at: `2016-04-01 10:21:20` (string)
 + updated_at: `2016-08-01 08:10:20` (string)
 
@@ -771,14 +774,11 @@ e a nota do aluno no 1º Bimestre será composta pela conta (N1*0,4)+(N2*0,6)=NO
 + assessment (Assessment)
 + student (Student)
 + subject (Subject)
-+ owner_person (Person)
 
 ## OccurenceFillable (object)
 
 + comment: fulano fez isso (string) - descrição sobre os fatos da occorencia
 + level_id: 1 (number) - Nivel da occorencia
-+ owner_person_id: 1 (number) - ID do usuario que esta criando a occorencia
-    + Default: ID do usuário logado.
 + about_person_id: 2 (number) - ID do usuario que esta recebendo a occorencia
 
 ## Occurence (object)
