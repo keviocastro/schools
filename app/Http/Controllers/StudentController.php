@@ -68,15 +68,20 @@ class StudentController extends Controller
         $schoolCalendar = SchoolCalendar::findOrFail($school_calendar_id);
         $student = Student::findOrFail($student_id);
 
-        $subject_avarage = $student
+        $result['averages'] = $student
             ->subjectAvaragePerYearPhase($schoolCalendar, true);
 
-        $result['average_by_phase'] = $subject_avarage;
-
-        $result['absences_by_phase'] = $student
+        $result['absences'] = $student
             ->totalAbsencesYearPerSubject($school_calendar_id)
             ->get();
 
+        $result['subjects'] = $student
+            ->subjectsYear($schoolCalendar->id)
+            ->get();
+
+        $result['occurences'] = $student->occurencesYear($schoolCalendar)
+            ->get();
+          
         return $result;
     }
 

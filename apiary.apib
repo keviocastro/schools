@@ -278,14 +278,7 @@ e relatórios como "Boletim anual do aluno" e "Histórico escolar".
 + Response 200 (application/json)
 
     + Attributes (object)
-        + subjects (array[Subject]) - `Disciplinas cursadas no ano`
-        + school_calendar_phases (array[SchoolCalendarPhase]) - `Fases avaliativas do ano letivo (Ex.: bimestres)`
-        + absences (array) - Faltas no ano letivo
-            + (object)
-                + school_calendar_phase_id: 1
-                + subject_id: 1 
-                + absences: 6
-        + average_by_phase (array) - Notas no ano letivo
+        + averages (array) - Médias por disciplina no ano letivo
             + (object)
                 + include (SchoolCalendarPhase)
                 + subject_average (array)
@@ -296,7 +289,13 @@ e relatórios como "Boletim anual do aluno" e "Histórico escolar".
                             + (object)
                                 + include (StudentGrade)
                                 + assessment (Assessment)
-        + occurences (array[Occurence])
+        + absences (array) - Faltas no ano letivo
+            + (object)
+                + school_calendar_phase_id: 1
+                + subject_id: 1 
+                + absences: 6
+        + subjects (array[Subject]) - `Disciplinas cursadas no ano`
+        + occurences (array[Occurence]) - `Ocorrências registradas sobre o aluno durante o ano letivo`
 
 
 ## Annual Student Summary [/students/{student_id}/annual-summary{?school_calendar_id,school_calendar_phase_id}]

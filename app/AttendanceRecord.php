@@ -44,4 +44,14 @@ class AttendanceRecord extends Model
     {
     	return $this->belongsTo('App\Lesson');
     }
+
+    /**
+     * Get a subject record
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function subject()
+    {
+        return $this->belongsTo('App\Subject');
+    }
 }

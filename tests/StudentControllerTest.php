@@ -83,18 +83,50 @@ class StudentControllerTest extends TestCase
      */
     public function testAnnualReport()
     {
-        // Artisan::call('migrate:refresh',[
-        //        '--seed' => true
-        //    ]);
+        Artisan::call('migrate:refresh',[
+               '--seed' => true
+           ]);
 
-        // Artisan::call('db:seed',[
-        //         '--class' => 'SchoolCalendar2016'
-        //     ]);
-
+        Artisan::call('db:seed',[
+                '--class' => 'SchoolCalendar2016'
+            ]);
+        
         $this->get('api/students/1/annual-report'.
             "?school_calendar_id=1",
             $this->getAutHeader())
-            ->assertResponseStatus(200);
+            ->assertResponseStatus(200)
+            ->seeJsonStructure([
+                'averages' => ['*' => 
+                    ['id', // Fase do ano
+                    'name', 
+                    'start', 
+                    'end', 
+                    'average_calculation', // Formula do calculo de média
+                    'subject_average' => ['*' =>[
+                        'name',  // Disciplina 
+                        'average_calculation', // Calculo da média
+                        'average',  // Média do aluno para disciplina no ano
+                        'student_grades' => ['*' => [ // Notas do aluno para disciplina
+                                'grade',
+                                'student_id',
+                                'assessment' => ['name'] // Dado
+                                ],
+                            ] 
+                        ]] 
+                    ]
+                ],
+                'absences' => ['*' => [ // Total de faltas do aluno no ano por 
+                                        // disciplina e fase
+                    'absences', 
+                    'school_calendar_phase_id',
+                    'subject_id',
+                    ] 
+
+                ],
+                // Lista de disciplinas cursadas no ano
+                'subjects' => ['*' => ['id', 'name']
+                ],
+                ]);
     }
 
 }

@@ -105,6 +105,36 @@ class Student extends Model
     }
 
     /**
+     * Ocorrências do aluno
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function occurences()
+    {
+        return $this->hasMany('App\Occurence', 'about_person_id');
+    }
+
+    /**
+     * Ocorrências do aluno em um ano letivo
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function occurencesYear(SchoolCalendar $schoolCalendar)
+    {
+        return $this->occurences()
+            ->where(DB::raw("DATE_FORMAT(occurences.created_at, '%Y-%m-%d')"),
+                '>=', 
+                $schoolCalendar->start)
+            ->where(DB::raw("DATE_FORMAT(occurences.created_at, '%Y-%m-%d')"),
+                '<=',
+                $schoolCalendar->end
+                );
+    }
+
+    /**
+     * @todo Remover parametro toArray e fazer override para o 
+     *       Eloquent\Collection fazer toArray recursivamente
+     * 
      * Médias das disciplinas cursadas por fase do ano
      * 
      * @param  SchoolCalendar   $schoolCalendar 
@@ -149,7 +179,7 @@ class Student extends Model
 
                 // Obtem a nota da disciplina referente
                 // a avaliação.
-                $grades_for_subject = collect();
+                $assessment_and_grade = collect();
                 $calculation = $formula; 
                 $result = null;
                 foreach ($formula_variables as $key => $variable) {
@@ -163,7 +193,8 @@ class Student extends Model
                         ->where('subject_id', $subject->id)
                         ->first();   
 
-                    $grades_for_subject->put($variable, $grade);
+                    $grade->load('assessment');
+                    $assessment_and_grade->push($toArray ? $grade->toArray() : $grade);
                     $calculation = str_replace('{'.$variable.'}', 
                         $grade->grade, $calculation);
                 }
@@ -174,10 +205,10 @@ class Student extends Model
                 $subject->average = round($result, 1);
 
                 if ($toArray) {
-                     $grades_for_subject = $grades_for_subject->toArray(); 
+                     $assessment_and_grade = $assessment_and_grade->toArray(); 
                 }
 
-                $subject->student_grades = $grades_for_subject;
+                $subject->student_grades = $assessment_and_grade;
 
                 return $subject;
 
@@ -446,7 +477,7 @@ class Student extends Model
     {
         return $this->attendanceRecords()
             ->addSelect(
-                DB::raw('COUNT(DISTINCT subject_id, school_calendar_phases.id) as absences'),
+                DB::raw('COUNT(school_calendar_phases.id) as absences'),
                 'school_calendar_phases.id as school_calendar_phase_id',
                 'subject_id'
                 )
@@ -454,26 +485,18 @@ class Student extends Model
                 'lessons.id', 
                 '=' ,
                 'attendance_records.lesson_id')
-            
-            ->join('school_classes', 
-                'school_classes.id', 
-                '=', 
-                'lessons.school_class_id')
-            
-            ->join('school_calendars', 
-                'school_calendars.id', 
-                '=', 
-                'school_classes.school_calendar_id')
 
-            ->join('school_calendar_phases',
-                'school_calendar_phases.school_calendar_id',
-                '=',
-                'school_calendars.id')
+            ->join('school_calendar_phases',function($join){
+                $join->on(DB::raw('DATE_FORMAT(lessons.start, "%Y-%m-%d")'), 
+                    '>=', 
+                    'school_calendar_phases.start');
 
+                $join->on(DB::raw('DATE_FORMAT(lessons.end, "%Y-%m-%d")'), 
+                    '<=', 
+                    'school_calendar_phases.end');
+            })
             ->where('presence', 0)
-            ->whereRaw('DATE_FORMAT(lessons.start, "%Y-%m-%d") >= school_calendar_phases.start')
-            ->whereRaw('DATE_FORMAT(lessons.end, "%Y-%m-%d") <= school_calendar_phases.end')
-            ->groupBy('subject_id', 'school_calendar_phases.id');
+            ->groupBy('subject_id', 'school_calendar_phase_id');
     }
 
 

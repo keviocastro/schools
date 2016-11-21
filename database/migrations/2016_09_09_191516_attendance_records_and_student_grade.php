@@ -1,3 +1,4 @@
+
 <?php
 
 use Illuminate\Database\Schema\Blueprint;
@@ -55,7 +56,7 @@ class AttendanceRecordsAndStudentGrade extends Migration
 
             // Um estudante não pode ter mais de uma nota para a mesma
             // disciplina na mesma avaliação
-            $table->unique('student_id', 'assessment_id', 'subject_id');
+            $table->unique(['student_id', 'assessment_id', 'subject_id']);
 
             $table->foreign('subject_id')
                 ->references('id')
