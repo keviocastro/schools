@@ -32,16 +32,14 @@ class StudentController extends Controller
     {
         $this->validationForListAction([
                 'school_calendar_id' => 'required|exists:school_calendars,id',
-                'school_calendar_phase_id' => 'exists:school_calendar_phases,id'
             ]);
 
-        $school_calendar_id = $request->input('school_calendar_id');
-        $school_calendar_phase_id = $request->input('school_calendar_phase_id', false);
+        $schoolCalendar = SchoolCalendar::
+            find($request->input('school_calendar_id'));
 
         $student = Student::findOrFail($student_id);
 
-        return $student->annualSummary($school_calendar_id, 
-            $school_calendar_phase_id);
+        return $student->annualSummary($schoolCalendar);
     }
 
     /**

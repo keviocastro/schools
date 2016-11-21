@@ -304,7 +304,6 @@ e relatórios como "Boletim anual do aluno" e "Histórico escolar".
 
 + Parameters
     + school_calendar_id (required, number)       - `ID do ano letivo`
-    + school_calendar_phase_id (required, number) - `ID da fase avaliativa do ano letivo (Ex.: Bimestre)`
 
 + Request 
     + Headers
@@ -314,20 +313,24 @@ e relatórios como "Boletim anual do aluno" e "Histórico escolar".
 + Response 200 (application/json)
 
     + Attributes (object)
-        + absences_year: 12 (number) - Total de faltas do aluno no ano letivo
-        + absences_year_phase: 4 (number) - Total de faltas do aluno na fase avaliativa do ano `(ex: bimestre)`
-        + best_average_year (object) - Melhor média do aluno no ano
-            + average: 9.5 (number) 
-            + subject (Subject)
-        + low_average_year (object) - Pior média do aluno no ano
-            + average: 4.2 (number) 
-            + subject (Subject) 
-        + best_average_year_phase (object) - Melhor média do aluno na fase do ano
-            + average: 10 (number) 
-            + subject (Subject)
-        + low_average_year_phase (object) - Pior média do aluno na fase do ano
-            + average: 2.5 (number) 
-            + subject (Subject) 
+        + absences: (object)
+            + total: 22 (number) - Total de faltas do aluno no ano letivo
+        + best_average (object) - Melhor média do aluno no ano
+            + include (Subject)
+            + average: 9.5 (number) - Média
+            + average_calculation: `(7.8 + 8.5)/2` (string) - Calculo da média
+            + student_grades (array) - Notas do aluno que compõem a média 
+                + (object)
+                    + include (StudentGrade)
+                    + assessment (Assessment) 
+        + low_average (object) - Pior média do aluno no ano
+            + include (Subject)
+            + average (number)
+            + average_calculation (string)
+            + student_grades (array) 
+                + (object)
+                    + include (StudentGrade)
+                    + assessment (Assessment) 
 
             
 # Group Lessons
@@ -849,7 +852,7 @@ e a nota do aluno no 1º Bimestre será composta pela conta (N1*0,4)+(N2*0,6)=NO
 
 + id: 1 (number) - Identificador único da cidade
 + name: Goiânia (string) - Nome da cidade
-+ state (State)
++ state_id (number)
 
 ## State (object)
 

@@ -182,27 +182,54 @@ class Student extends Model
                 $assessment_and_grade = collect();
                 $calculation = $formula; 
                 $result = null;
+                $all_variables_found = true;
+                $all_grades_found = true;
                 foreach ($formula_variables as $key => $variable) {
                     
+                    // Encontra a avaliação (assessment) correspondente
+                    // a váriavel da formula
                     $assessment = $phase->assessments
                         ->where('name', $variable)->first();
-                        // first() porque só existe um nota de uma disciplina
+                        // first() porque só existe um nota de uma disciplina (subject)
                         // para uma avaliação.
-                    
-                    $grade = $assessment->studentGrades
-                        ->where('subject_id', $subject->id)
-                        ->first();   
 
-                    $grade->load('assessment');
-                    $assessment_and_grade->push($toArray ? $grade->toArray() : $grade);
-                    $calculation = str_replace('{'.$variable.'}', 
-                        $grade->grade, $calculation);
+                    if ($assessment) {
+                        // Encontra a nota para avaliação na disciplina (subject)
+                        $grade = $assessment->studentGrades
+                            ->where('subject_id', $subject->id)
+                            ->first();   
+
+                        if ($grade) {
+
+                            $grade->load('assessment');
+                            $assessment_and_grade->push($toArray ? $grade->toArray() : $grade);
+                            $calculation = str_replace('{'.$variable.'}', 
+                                $grade->grade, $calculation);
+                        }else{
+                            $calculation = str_replace('{'.$variable.'}', 
+                                '{'.$variable.':notFoundGrade}', $calculation);
+                            $all_grades_found = false;
+                        }
+                    }else{
+                        $calculation = str_replace('{'.$variable.'}', 
+                                '{'.$variable.':notFoundAssessment}', $calculation);
+                        $all_variables_found = false;
+                    }
+
+
                 }
 
-                eval("\$result = $calculation;");
+                $subject->average_calculation = $calculation;
+                if ($all_variables_found === true && 
+                    $all_grades_found === true) {
 
-                $subject->average_calculation = $calculation; 
-                $subject->average = round($result, 1);
+                    eval("\$result = $calculation;");
+                    $subject->average = round($result, 1);
+                 }else{
+                    // Não foi possivel calcular porque não existe nota ainda
+                    // ou não foi possivél resolver a formula
+                    $subject->average = -1; 
+                 } 
 
                 if ($toArray) {
                      $assessment_and_grade = $assessment_and_grade->toArray(); 
@@ -239,52 +266,6 @@ class Student extends Model
     }
 
     /**
-     * Médias aritiméticas das notas do aluno de um ano 
-     * por disciplina (subject)
-     *
-     * @param integer $school_calendar_id         Opctional. Filtro
-     * @param integer $school_calendar_phase_id   Opctional. Filtro.
-     * 
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function studentGradesAverage(
-        $school_calendar_id=false,
-        $school_calendar_phase_id=false
-        ){
-
-        $query = $this->studentGrades()
-                ->select('student_grades.subject_id',
-                    DB::raw('round(avg(grade),1) average'))
-                ->groupBy('subject_id')
-                ->with('subject', 'assessment');
-        
-        if ($school_calendar_phase_id) {
-            $query
-            ->join('assessments', 
-                'assessments.id', 
-                '=',
-                'student_grades.assessment_id')
-                ->where('school_calendar_phase_id', 
-                            $school_calendar_phase_id);
-
-        }elseif($school_calendar_id) {
-            
-            $query->join('assessments', 
-                'assessments.id', 
-                '=',
-                'student_grades.assessment_id')
-                ->join('school_calendar_phases',
-                    'school_calendar_phases.id',
-                    '=',
-                    'assessments.school_calendar_phase_id')
-                ->where('school_calendar_id', $school_calendar_id);
-        }
-
-        return $query;
-
-    }
-
-    /**
      * Resumo anual de notas e faltas do aluno
      * 
      * @param  integer $school_calendar_id       
@@ -292,7 +273,6 @@ class Student extends Model
      * 
      * @return array [
      *         'absences_year' => 25,               // Faltas no ano
-     *         'absences_year_phase' => 4,           // Faltas nota do bimestre/fase
      *         'best_average_year' => [
      *              '9.7'                           // Melhor nota do ano
      *              'subject' => [
@@ -303,71 +283,32 @@ class Student extends Model
      *         'low_average_year' => [
      *             'average' => '5.2',              // Nota mais baixa do ano
      *             'subject' => [...] 
-     *         ],   
-     *         'best_average_year_phase' => [
-     *             'average' => '5.2',              // Melhor nota do bimestre/fase
-     *             'subject' => [...] 
-     *         ]
-     *         'low_average_year_phase' => [...]    // Pior nota do bimestre/fase
+     *         ]   
      * ]                            
      */
-    public function annualSummary($school_calendar_id, $school_calendar_phase_id=0)
+    public function annualSummary($schoolCalendar)
     {
-         $absences = $this->absencesYear($school_calendar_id)
+         $absences = $this->absencesYear($schoolCalendar->id)
             ->count();
 
         // Faltas no ano
-        $result['absences_year'] = $absences;
+        $result['absences'] = ['total' => $absences];
 
-        // Melhor nota no ano
-        $data = $this->studentGradesAverage($school_calendar_id)
-            ->orderBy('average', 'desc')
-            ->first();
+        // Obter todas as médias do ano
+        $averages = collect();
+        $averagesPerPhase = collect($this->subjectAvaragePerYearPhase($schoolCalendar,true)); 
+        
+        $averagesPerPhase->each(function($item, $key) use ($averages){
+            foreach ($item['subject_average'] as $key => $average) {
+                $averages->push($average);        
+            }
+        });
 
-        $result['best_average_year'] = [
-            'average' => $data ? $data->average : '',
-            'subject' => $data ? $data->subject->toArray() : ''
-        ];
+        $averages_ordered = $averages->sortByDesc('average');
 
-        // Nota mais baixa do ano
-        $data = $this->studentGradesAverage($school_calendar_id)
-            ->orderBy('average', 'asc')
-            ->first();
-        $result['low_average_year'] = [
-            'average' => $data ? $data->average : '',
-            'subject' => $data ? $data->subject->toArray() : '' 
-        ];
+        $result['best_average'] = $averages_ordered->first();
 
-        if ($school_calendar_phase_id) {
-
-            $absences = $this->absencesYearPhase($school_calendar_phase_id)
-                ->count();
-
-            $result['absences_year_phase'] = $absences;
-
-            $data = $this->studentGradesAverage($school_calendar_id,
-                $school_calendar_phase_id)
-                ->orderBy('average', 'desc')
-                ->first();
-
-            // Nota mais alta da fase do ano
-            $result['best_average_year_phase'] = [
-                'average' => $data ? $data->average : '',
-                'subject' => $data ? $data->subject->toArray() : ''
-            ];
-
-            // Nota mais baixa da fase do ano
-            $data = $this->studentGradesAverage($school_calendar_id,
-                $school_calendar_phase_id)
-                ->orderBy('average', 'asc')
-                ->first();
-            $result['low_average_year_phase'] = [
-                'average' => $data ? $data->average : '',
-                'subject' => $data ? $data->subject->toArray() : '' 
-            ];
-
-
-        }
+        $result['low_average'] = $averages_ordered->last();
 
         return $result;
     }

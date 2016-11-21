@@ -2,7 +2,9 @@
 
 namespace Tests;
 
+use App\SchoolCalendar;
 use App\SchoolClassStudent;
+use App\Student;
 use App\Subject;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -26,9 +28,7 @@ class StudentControllerTest extends TestCase
     }
 
     /**
-     * @todo  Remove seeJsonEquals e criar teste para o methodo Student::annualSummary
-     *        pois é ele que tem a responsabilidade de gerar a info certa.
-     *        Nos testes de controladores só são verificados as estruturas.
+     * @todo  Implementar teste unitário para para App\Student
      * 
      * @covers StudentController::annualSummary
      *
@@ -36,42 +36,43 @@ class StudentControllerTest extends TestCase
      */
     public function testAnnualSummary()
     {
-        // Precisa remover todos os dados da base,
-        // porque se tiver mais dados inseridos do que o Sedder SchoolCalendar2016
-        // as quantidades não ficarão corretas
-       Artisan::call('migrate:refresh',[
-               '--seed' => true
-           ]);
+
+        Artisan::call('migrate:refresh',[
+                '--seed' => true
+            ]);
 
         Artisan::call('db:seed',[
                 '--class' => 'SchoolCalendar2016'
             ]);
 
-        $subject = Subject::find(1);
-        $subject2 = Subject::find(2);
-       
-        $this->get("api/students/1/annual-summary".
-            "?school_calendar_id=1&school_calendar_phase_id=1",
+        // Pega o ultimo estudante que foi criado pelo seeder SchoolCalendar2016
+        $student = Student::
+            orderBy('id', 'desc')
+            ->first();
+
+         $schoolCalendar = SchoolCalendar::
+            orderBy('id', 'desc')
+            ->first();
+
+        $average_structure = [
+            'id', 'name', 'average_calculation', 'average',
+            'student_grades' => ['*' => [
+                    'id', 
+                    'grade', 
+                    'subject_id',
+                    'assessment' => ['name', 'id'],
+                ]
+
+            ]
+        ];
+
+        $this->get("api/students/$student->id/annual-summary".
+            "?school_calendar_id=$schoolCalendar->id",
             $this->getAutHeader())
-            ->seeJsonEquals([
-                "absences_year" => 15,
-                'absences_year_phase' => 4,
-                "best_average_year" => [
-                    'average' => 10,
-                    'subject' => $subject->toArray()
-                ],
-                "low_average_year" => [
-                    'average' => 0.2,
-                    'subject' => $subject2->toArray()
-                ],
-                "best_average_year_phase" => [
-                    'average' => 10,
-                    'subject' => $subject->toArray()
-                ],
-                "low_average_year_phase" => [
-                    'average' => 0.2,
-                    'subject' => $subject2->toArray()
-                ],
+            ->seeJsonStructure([
+                "absences" => ['total'],
+                "best_average" => $average_structure,
+                "low_average" => $average_structure
             ]);
         
     } 
@@ -84,8 +85,8 @@ class StudentControllerTest extends TestCase
     public function testAnnualReport()
     {
         Artisan::call('migrate:refresh',[
-               '--seed' => true
-           ]);
+                '--seed' => true
+            ]);
 
         Artisan::call('db:seed',[
                 '--class' => 'SchoolCalendar2016'

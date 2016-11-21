@@ -244,7 +244,7 @@ class SchoolCalendar2016 extends Seeder
          *      1 Semestre = (9.6 + 9.25)*0.4 = 7.54
          *      2 Semestre = (9.25 + 9.8)*0.6 = 11.43
          *      
-         *      ( 7.54 + 11.43 ) /2  = 9.48 
+         *      ( 7.54 + 11.43 ) /2  = 9.48
          *      
          *     2º disciplina criada é a menor média do ano = 0.2
          *
