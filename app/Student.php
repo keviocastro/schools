@@ -8,12 +8,17 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\DB;
 use Stringy\Stringy as S;
 
+/**
+ * Essa classe representa um aluno
+ * 
+ * @author Kévio Castro <keviocastro@gmail.com>
+ */
 class Student extends Model
 {
      use SoftDeletes;
 
     /**
-     * The attributes that should be mutated to dates.
+     * Atributos que serão convertidos para tipo de data.
      *
      * @var array
      */
@@ -21,25 +26,26 @@ class Student extends Model
     
     /**
      * 
-     * The attributes that should be hidden for arrays.
+     * Atributos que serão ocultos em arrays
      *
      * @var array
      */
     protected $hidden = ['deleted_at'];
 
     /**
-     * The attributes that are mass assignable.
+     * Atributos que podem ser atribuidos a entidade 
      *
      * @var array
      */
     protected $fillable = ['person_id'];
 
     /**
-     * Get the person record associated with the student.
+     * Registro de pessoa associado com o estudante
      * 
      * @Relation
      *
-     * @return App\Person
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @author Kévio Castro <keviocastro@gmail.com>
      */
     public function person()
     {
@@ -51,7 +57,8 @@ class Student extends Model
      *
      * @Relation
      *
-     * @return App\SchoolClass
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @author Kévio Castro <keviocastro@gmail.com>
      */
     public function schoolClass()
     {
@@ -59,9 +66,13 @@ class Student extends Model
     }
 
     /**
-     * Get the student responsible
+     * Responsáveis pelo estudante
      *
      * @Relation
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * 
+     * @author Kévio Castro <keviocastro@gmail.com>
      */
     public function responsibles()
     {
@@ -69,9 +80,13 @@ class Student extends Model
     }
 
     /**
-     * Obtem a lista de registros de chamadas do aluno
+     * Todos os registros de presenças do aluno
      *
      * @Relation
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     *
+     * @author Kévio Castro <keviocastro@gmail.com>
      */
     public function attendanceRecords()
     {
@@ -79,11 +94,13 @@ class Student extends Model
     }
 
     /**
-     * Notas do aluno
+     * Todas as notas do aluno
      *
      * @Relation
      * 
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     *
+     * @author Kévio Castro <keviocastro@gmail.com>
      */
     public function studentGrades()
     {
@@ -91,9 +108,11 @@ class Student extends Model
     }
 
     /**
-     * Notas do aluno contendo informações da avaliação
+     * Todas as notas do aluno contendo informações da avaliação
      * 
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     *
+     * @author Kévio Castro <keviocastro@gmail.com>
      */
     public function studentGradesWithAssessment()
     {
@@ -105,9 +124,11 @@ class Student extends Model
     }
 
     /**
-     * Ocorrências do aluno
+     * Todas as ocorrências do aluno
      * 
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     *
+     * @author Kévio Castro <keviocastro@gmail.com>
      */
     public function occurences()
     {
@@ -115,9 +136,11 @@ class Student extends Model
     }
 
     /**
-     * Ocorrências do aluno em um ano letivo
+     * Todas as ocorrências do aluno em um ano letivo
      * 
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * 
+     * @author Kévio Castro <keviocastro@gmail.com>
      */
     public function occurencesYear(SchoolCalendar $schoolCalendar)
     {
@@ -134,13 +157,19 @@ class Student extends Model
     /**
      * @todo Remover parametro toArray e fazer override para o 
      *       Eloquent\Collection fazer toArray recursivamente
+     *
      * 
-     * Médias das disciplinas cursadas por fase do ano
+     * Médias de todas as disciplinas cursadas em um ano (SchoolCalendar).
+     * As médias retornadas não agrupadas por fase do ano (SchoolCalendarPhase).
+     * As médias são calculadas a partir da formula definida na fase do ano (SchoolCalendarPhase). 
      * 
      * @param  SchoolCalendar   $schoolCalendar 
-     * @param  bool             $toArray          
+     * @param  bool             $toArray          Para definir o retorno no 
+     *                                            formato de array.
      * 
-     * @return \Illuminate\Database\Eloquent\Collection                         
+     * @return mixed \Illuminate\Database\Eloquent\Collection | array                         
+     * 
+     * @author Kévio Castro <keviocastro@gmail.com>
      */
     public function subjectAvaragePerYearPhase(
         SchoolCalendar $schoolCalendar,
@@ -266,6 +295,7 @@ class Student extends Model
     }
 
     /**
+     * 
      * Resumo anual de notas e faltas do aluno
      * 
      * @param  integer $school_calendar_id       
@@ -284,7 +314,9 @@ class Student extends Model
      *             'average' => '5.2',              // Nota mais baixa do ano
      *             'subject' => [...] 
      *         ]   
-     * ]                            
+     * ]  
+     *                           
+     * @author Kévio Castro <keviocastro@gmail.com>
      */
     public function annualSummary($schoolCalendar)
     {
@@ -314,11 +346,14 @@ class Student extends Model
     }
 
     /**
+     * 
      * Registros de chamada do aluno durante
      * um ano letivo especifico (SchoolCalendar)
      * 
      * @param  int $school_calendar_id
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * 
+     * @author Kévio Castro <keviocastro@gmail.com>
      */
     public function absencesYear($school_calendar_id)
     {
@@ -336,11 +371,14 @@ class Student extends Model
     }
 
     /**
+     * 
      * Registros de chamada do aluno durante
      * uma fase de ano letivo (SchoolCalendarPhase)
      * 
      * @param  int $school_calendar_id 
+     * 
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @author Kévio Castro <keviocastro@gmail.com>
      */
     public function absencesYearPhase($school_calendar_phase_id)
     {
@@ -374,6 +412,7 @@ class Student extends Model
     }
 
     /**
+     * 
      * Query para obter todas as disciplinas que o aluno estudou no ano
      * 
      * @param  integer $school_calendar_id 
@@ -384,7 +423,8 @@ class Student extends Model
     {
         // Turmas do aluno no ano letivo
         $classes_id = [];
-        $schoolClasses = $this->schoolClasses()
+       
+       $schoolClasses = $this->schoolClasses()
             ->select('school_classes.id')
             ->where('school_calendar_id', $school_calendar_id)
             ->get();
@@ -410,6 +450,7 @@ class Student extends Model
     }
 
     /**
+     * 
      * Total de faltas agrupado por disciplina e por fase do ano
      * 
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
@@ -424,7 +465,7 @@ class Student extends Model
                 )
             ->join('lessons', 
                 'lessons.id', 
-                '=' ,
+                 '=' ,
                 'attendance_records.lesson_id')
 
             ->join('school_calendar_phases',function($join){
@@ -442,13 +483,19 @@ class Student extends Model
 
 
     /**
+     * 
      * Resumo de ausência do aluno em um ano letivo,
      * de uma disciplina
      * 
      * @param  string $school_class_id  id da turma
      * @param  string $subject_id       id da disciplina
      * 
-     * @return array
+     * @return array [
+     *         'percentage_absences_reprove' => 23,
+     *         'total_lessons_year' => 180,
+     *         'total_absences_year' => 22
+     * ]
+     * @author Kévio Castro <keviocastro@gmail.com>
      */
     public function absenceSummaryYear($school_class_id, $subject_id)
     {
@@ -480,5 +527,3 @@ class Student extends Model
         return $this->belongsToMany('App\SchoolClass');
     }
 }
-
-
