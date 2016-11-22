@@ -2,10 +2,11 @@
 
 namespace Tests;
 
-use Kirkbater\Testing\SoftDeletes as SoftDeletes;
 use Auth0\SDK\Auth0AuthApi;
-use Illuminate\Foundation\Testing\TestCase as TestCaseLara;
 use Config;
+use Dotenv\Dotenv;
+use Illuminate\Foundation\Testing\TestCase as TestCaseLara;
+use Kirkbater\Testing\SoftDeletes as SoftDeletes;
 
 class TestCase extends TestCaseLara
 {
@@ -41,17 +42,20 @@ class TestCase extends TestCaseLara
     public function getAutHeader()
     {
         $token = Config::get('laravel-auth0.token_user_tester');
-        
+
         if (empty($token)) {
+            
             $tokens = $this->getTokenUserTester();
             $token = $tokens['id_token'];
-
             $path = base_path('.env');
+            
             file_put_contents($path, str_replace(
                 'AUTH0_TOKEN_USER_TESTER='.Config::get('laravel-auth0.token_user_tester'), 
                 'AUTH0_TOKEN_USER_TESTER='.$token, 
                 file_get_contents($path)
             ));
+
+            putenv('AUTH0_TOKEN_USER_TESTER='.$token);
         }
 
         return ['authorization' => "Bearer {$token}"];
