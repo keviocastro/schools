@@ -77,9 +77,6 @@ class StudentController extends Controller
             ->subjectsYear($schoolCalendar->id)
             ->get();
 
-        $result['occurences'] = $student->occurencesYear($schoolCalendar)
-            ->get();
-          
         return $result;
     }
 

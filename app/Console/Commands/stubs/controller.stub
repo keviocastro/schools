@@ -1,0 +1,84 @@
+<?php
+
+namespace DummyNamespace;
+
+use Illuminate\Http\Request;
+
+use DummyRootNamespaceHttp\Requests;
+use DummyRootNamespaceHttp\Controllers\Controller;
+use App\ModelClassName;
+
+class DummyClassController extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        $result = $this->apiHandler->parseMultiple(new ModelClassName);
+        
+        return $result->getBuilder()->paginate();
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        $this->validationForStoreAction($request, [
+                // '{attribute}' => '{validation}',
+            ]);
+        $modelVarName = ModelClassName::create($request->all());
+
+        return $this->response->created("/resource/{$modelVarName->id}", $modelVarName);
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        return ModelClassName::findOrFail($id);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        $this->validationForUpdateAction($request, [
+            // 'attribute' => 'rule',
+            ]);
+
+        $modelVarName = ModelClassName::findOrFail($id);
+        $modelVarName->update($request->all());
+
+        return $modelVarName;
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        $modelVarName = ModelClassName::findOrFail($id);
+        $modelVarName->delete();
+
+        return $this->response->noContent();
+    }
+}
