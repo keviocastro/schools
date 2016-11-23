@@ -1,4 +1,0 @@
-Regras de négocio:
-
-Um estudante não pode ter mais de uma nota para a mesma
-disciplina na mesma avaliação
