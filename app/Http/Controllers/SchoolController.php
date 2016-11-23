@@ -20,7 +20,7 @@ class SchoolController extends Controller
      */
     public function store(Request $request)
     {   
-    	$this->validationForStoreAction($request, ['name' => 'required|string']);
+    	$this->validationForStoreAction($request, ['name' => 'required|string'], '', true);
     	$school = School::create($request->all());
 
         return $this->response->created("/schools/{$school->id}", $school);

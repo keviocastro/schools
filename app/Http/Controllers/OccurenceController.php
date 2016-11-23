@@ -32,7 +32,7 @@ class OccurenceController extends Controller
             'level_id' => 'required|numeric|exists:levels,id',
             'comment' => 'required|string',
             'about_person_id' => 'required|numeric|exists:people,id',
-        ]);
+        ], '', true);
         
         $occurence = Occurence::create($request->all());
 

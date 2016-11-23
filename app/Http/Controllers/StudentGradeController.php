@@ -39,29 +39,45 @@ class StudentGradeController extends Controller
             'student_id' => 'required|numeric',
             'subject_id' => 'required|numeric',
             'assessment_id' => 'required|numeric',
-        ]);
+            ], '',true);
 
-        $schoolClassId = $request->input('school_class_id');
-        $studentId = $request->input('student_id');
+        $records = $this->makeMultipleInputData();
+        $StudentGrade = [];
+        $campo = $request->toArray();
+        $quantidae = count($campo);
+        for($cont = 0 ; $cont < $quantidae ; $cont++){
 
-        $schoolClass = SchoolClass::find($schoolClassId);
-        $assessment  = Assessment::find($request->input('assessment_id'));
-        // dd($schoolClassId );
+            if(!empty($request->toArray()[$cont]))
+                $lista = $campo[$cont];
+            else
+                $lista = $campo;
 
-        $calendar = $schoolClass->schoolCalendar->id;
-        $calendarPhase = $assessment->schoolCalendarPhase->schoolCalendar->id;
-        $StudentGrade = '';
-        $consulta = SchoolClassStudent::where('school_class_id', $schoolClassId)
-            ->where('student_id', $studentId)->get();
-        
-        if(!empty($consulta->toArray()) && $calendar == $calendarPhase)
-        {
-            $StudentGrade = StudentGrade::create($request->all());
+
+            $schoolClassId = $lista['school_class_id'];
+            $studentId = $lista['student_id'];
+
+            $schoolClass = SchoolClass::find($schoolClassId);
+            $assessment  = Assessment::find($lista['assessment_id']);
+
+            $calendar = $schoolClass->schoolCalendar->id;
+            $calendarPhase = $assessment->schoolCalendarPhase->schoolCalendar->id;
+            $consulta = SchoolClassStudent::where('school_class_id', $schoolClassId)
+                ->where('student_id', $studentId)->get();
+
+            if(!empty($consulta) && $calendar == $calendarPhase)
+            {
+                $StudentGrade[$cont] = StudentGrade::create($lista);
+            }
+            else
+                return response('Student is not in this class or student not in a same year phase of grade.', 422);
         }
-        else
-            return response('Student is not in this class or student not in a same year phase of grade.', 422);
-
-        return $this->response->created("/StudentGrade/{$StudentGrade->id}", $StudentGrade);
+        
+        if ($this->checkMultipleInputData()) {
+            return $this->response->created(null, ['student_grades' => $StudentGrade]);
+        }else{
+            $Student = $StudentGrade[0];
+            return $this->response->created('/StudentGrade/{$Student->id}', $Student);
+        }
     }
 
     /**

@@ -109,6 +109,39 @@ class StudentGradeControllerTest extends TestCase
         	$studantGrade,
         	$this->getAutHeader())
         	->assertResponseStatus(201);
+
+        //Cadastrar multiplos registros.
+        $studentGrade = factory(App\StudentGrade::class, 3)->make()->toArray();
+
+        $autHeader = $this->transformHeadersToServerVars($this->getAutHeader());
+
+        $response = $this->call('POST',
+            'api/student-grades',
+            $studentGrade,
+            [],
+            [],
+            $autHeader);
+
+        $responseData = collect(json_decode($response->getContent(), true)['student_grades']);
+
+
+        foreach ($studentGrade as $key => $grade) {
+            
+            $actual = $responseData->filter(function($item, $key) use ($grade){
+                return $item['grade'] == $grade['grade'] &&
+                    $item['student_id'] == $grade['student_id'] &&
+                    $item['subject_id'] == $grade['subject_id'] &&
+                    $item['assessment_id'] == $grade['assessment_id'] &&
+                    $item['school_class_id'] == $grade['school_class_id'];
+            });      
+
+            $actual = $actual->first();
+            unset($actual['id']);
+            $this->assertEquals($grade, $actual);
+            
+        }
+
+        $this->assertEquals(201, $response->getStatusCode());
         
     }
 

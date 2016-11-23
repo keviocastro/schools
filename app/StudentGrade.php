@@ -16,6 +16,12 @@ class StudentGrade extends Model
     protected $fillable = ['grade','student_id','subject_id','assessment_id','school_class_id'];
     
     /**
+     * Atributos que não serão exibidos em array
+     * @var array
+     */
+    protected $hidden = ['updated_at', 'created_at'];
+    
+    /**
      * @Relation
      * 
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
