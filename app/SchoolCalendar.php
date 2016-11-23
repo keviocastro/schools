@@ -34,6 +34,15 @@ class SchoolCalendar extends Model
     	'end'];
 
     /**
+     * Os atributos que serão convertidos para formato nativo
+     *
+     * @var array
+     */
+    protected $casts = [
+        'year' => 'integer',
+    ];
+
+    /**
      * Turma do ano letivo
      * 
      * @Relation

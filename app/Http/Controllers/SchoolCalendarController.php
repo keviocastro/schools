@@ -1,14 +1,13 @@
 <?php
 
-namespace DummyNamespace;
+namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use DummyRootNamespaceHttp\Requests;
-use DummyRootNamespaceHttp\Controllers\Controller;
-use App\ModelClassName;
+use App\Http\Requests;
+use App\SchoolCalendar;
 
-class DummyClass extends Controller
+class SchoolCalendarController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,8 +15,8 @@ class DummyClass extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        $result = $this->apiHandler->parseMultiple(new ModelClassName);
+    {   
+        $result = $this->apiHandler->parseMultiple(new SchoolCalendar);
         
         return $result->getBuilder()->paginate();
     }
@@ -33,9 +32,9 @@ class DummyClass extends Controller
         $this->validationForStoreAction($request, [
                 // '{attribute}' => '{validation}',
             ]);
-        $modelVarName = ModelClassName::create($request->all());
+        $schoolCalendarController = SchoolCalendar::create($request->all());
 
-        return $this->response->created("/resource/{$modelVarName->id}", $modelVarName);
+        return $this->response->created("/resource/{$schoolCalendarController->id}", $schoolCalendarController);
     }
 
     /**
@@ -46,7 +45,7 @@ class DummyClass extends Controller
      */
     public function show($id)
     {
-        return ModelClassName::findOrFail($id);
+        return SchoolCalendar::findOrFail($id);
     }
 
     /**
@@ -62,10 +61,10 @@ class DummyClass extends Controller
             // 'attribute' => 'rule',
             ]);
 
-        $modelVarName = ModelClassName::findOrFail($id);
-        $modelVarName->update($request->all());
+        $schoolCalendarController = SchoolCalendar::findOrFail($id);
+        $schoolCalendarController->update($request->all());
 
-        return $modelVarName;
+        return $schoolCalendarController;
     }
 
     /**
@@ -76,8 +75,8 @@ class DummyClass extends Controller
      */
     public function destroy($id)
     {
-        $modelVarName = ModelClassName::findOrFail($id);
-        $modelVarName->delete();
+        $schoolCalendarController = SchoolCalendar::findOrFail($id);
+        $schoolCalendarController->delete();
 
         return $this->response->noContent();
     }

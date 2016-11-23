@@ -19,8 +19,10 @@ $factory->define(App\SchoolCalendar::class, function() use ($factory, $faker) {
     
     return [
         'year' => $dateTime->format('Y'),
-        'start' => $dateTime->setDate($dateTime->format('Y'), rand(1,3), rand(1,28)),
-        'end' => $dateTime->setDate($dateTime->format('Y'), rand(11,12), rand(1,30)),
+        'start' => $dateTime->setDate($dateTime->format('Y'), 
+            rand(1,3), rand(1,28))->format('Y-m-d'),
+        'end' => $dateTime->setDate($dateTime->format('Y'), 
+            rand(11,12), rand(1,30))->format('Y-m-d'),
     ];
 });
 

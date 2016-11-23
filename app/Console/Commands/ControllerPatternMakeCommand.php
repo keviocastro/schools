@@ -6,21 +6,21 @@ use Illuminate\Console\GeneratorCommand;
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputOption;
 
-class MyControllerMakeCommand extends GeneratorCommand
+class ControllerPatternMakeCommand extends GeneratorCommand
 {
     /**
      * The console command name.
      *
      * @var string
      */
-    protected $name = 'make:mycontroller';
+    protected $name = 'make:controller:pattern';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Create a new controller class for this project';
+    protected $description = 'Create a new controller class for schools project';
 
     /**
      * The type of class being generated.
@@ -60,19 +60,13 @@ class MyControllerMakeCommand extends GeneratorCommand
      */
     protected function buildClass($name)
     {   
-        $name = $this->argument('name');
 
         $namespace = $this->getNamespace($name);
-        $namespace = empty($namespace) ? 
-            $this->getDefaultNamespace('App') : 
-            $namespace;
-
-        $class = str_replace("DummyNamespace", $namespace, parent::buildClass($name));
-
         $class = str_replace("use $namespace\Controller;\n", '', parent::buildClass($name));
         
+        $name = $this->argument('name');
 
-        $ModelClassName = ucfirst($name);
+        $ModelClassName = str_replace('Controller', '',ucfirst($name));
         $modelVarName = camel_case($name);
         $resourceName = str_plural(strtolower($name));
 

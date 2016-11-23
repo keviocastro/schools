@@ -1,0 +1,88 @@
+<?php
+
+use Illuminate\Foundation\Testing\WithoutMiddleware;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Tests\TestCase;
+
+class DummyClass extends TestCase
+{
+     /**
+     * @covers ControllerClassName::index
+     *
+     * @return void
+     */
+    public function testIndex()
+    {
+        $modelVarName = factory(App\ModelClassName::class)->create();
+        
+        $this->get('api/resourceName?_sort=-id',
+        	$this->getAutHeader())
+        	->assertResponseStatus(200)
+        	->seeJson($modelVarName->toArray());
+    }
+
+    /**
+     * @covers ControllerClassName::store
+     *
+     * @return void
+     */
+    public function testStore()
+    {
+    	$modelVarName = factory(App\ModelClassName::class)->make()->toArray();
+        
+        $this->post('api/resourceName',
+        	$modelVarName,
+        	$this->getAutHeader())
+        	->assertResponseStatus(201)
+        	->seeJson($modelVarName);
+    }
+
+    /**
+     * @covers ControllerClassName::show
+     *
+     * @return void
+     */
+    public function testShow()
+    {
+    	$modelVarName = factory(App\ModelClassName::class)->create()->toArray();
+        
+        $this->get("api/resourceName/{$modelVarName['id']}",
+        	$this->getAutHeader())
+        	->assertResponseStatus(200)
+        	->seeJson($modelVarName);
+    }
+
+    /**
+     * @covers ControllerClassName::update
+     *
+     * @return void
+     */
+    public function testUpdate()
+    {
+    	$modelVarName = factory(App\ModelClassName::class)->create();
+    	$modelVarName_changed = factory(App\ModelClassName::class)->make()->toArray();
+
+        $this->put("api/resourceName/{$modelVarName->id}",
+        	$modelVarName_changed,
+        	$this->getAutHeader())
+        	->assertResponseStatus(200)
+        	->seeJson($modelVarName_changed);
+    }
+
+    /**
+     * @covers ControllerClassName::destroy
+     * 
+     * @return void
+     */
+    public function testDestroy()
+    {
+        $modelVarName = factory(\App\ModelClassName::class)->create();
+
+        $this->delete("api/resourceName/{$modelVarName->id}",
+            [],
+            $this->getAutHeader())
+            ->assertResponseStatus(204)
+            ->seeIsSoftDeletedInDatabase('database_name', ['id' => $modelVarName->id]);
+    }
+}

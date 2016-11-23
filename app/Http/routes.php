@@ -18,6 +18,23 @@ $api->version('v1', function ($api) {
 			$api->put('schools/{school_id}', 'App\Http\Controllers\SchoolController@update');
 			$api->delete('schools/{school_id}', 'App\Http\Controllers\SchoolController@destroy');
 	    	
+			// SchoolCalendar
+			$api->get('school-calendars', 
+				'App\Http\Controllers\SchoolCalendarController@index');
+			
+			$api->get('school-calendars/{school_calendar_id}', 
+				'App\Http\Controllers\SchoolCalendarController@show');
+
+			$api->post('school-calendars', 
+				'App\Http\Controllers\SchoolCalendarController@store');
+			
+			$api->put('school-calendars/{school_calendar_id}', 
+				'App\Http\Controllers\SchoolCalendarController@update');
+			
+			$api->delete('school-calendars/{school_calendar_id}', 
+				'App\Http\Controllers\SchoolCalendarController@destroy');
+			
+
 	    	// People
 			$api->get('students', 'App\Http\Controllers\StudentController@index');
 
