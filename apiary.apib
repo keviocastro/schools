@@ -16,7 +16,7 @@ Onde "token id" é obtido durante a autenficação do usuário no microservice d
 auth0 através do dominio "logos.auth0.com".
 Veja ver mais detalhes de como realizar essa autentificação nesse link: https://auth0.com/docs 
 
-# Group Auth
+# Group Auth and Account
 
 ## Request access [/auth/request-access]
 
@@ -46,6 +46,38 @@ Professor Medeiros acessa seu aplicativo informando usuário e senha para se cad
                                 2 aprovada
             + created_at: `2016-08-15 20:26:39` (string) Data que a solicitação foi criada
             + updated_at: `2016-08-15 21:26:39` (string) Data da ultima alteração da solicitação
+
+
+
+## Account settings [/account-config]
+
+Configurações da contado do usuário logado.
+
+### View a account settings [GET]
+
++ Request
+    + Headers
+    
+            authorization: Bearer <token_id>
+
++ Response 200 (application/json)
+
+    + Attributes
+        + account_config (object)
+            
+            + percentage_absences_reprove (object) - `Percentual máximo de faltas que um aluno pode ter para não ser reprovado. Exemplo: Existem 200 aulas de Matématica no ano, e consideramos que percentage_absences_reprove == 15, então o aluno pode faltar no máximo 30 aulas (200*0,15).`
+                + value: 20 (number)
+
+            + grade_threshold_great (object) - `Se o aluno tiver média igual ou acima dessa nota, ele é considerado ótimo`
+                + value: 9 (number)
+            
+            + grade_threshold_good (object) - `Se o aluno tiver média igual ou acima dessa nota, e menor do que "grade_threshold_great", ele é considerado bom.`
+                + value:  6 (number)
+            
+            + passing_grade_threshold (object) - `Média mínima para o aluno ser aprovado em uma disciplina`
+                + value: 6 (number)
+
+
 
 
 # Group Schools
@@ -229,6 +261,100 @@ Professor Medeiros acessa seu aplicativo informando usuário e senha para se cad
 + Response 204
 
 
+
+
+## School Calendar Collection [/school-calendars{?_q,_sort,_with}]
+
+`School Calendar` é considerado nessa api como a definição do ano letivo,
+contendo fases fases avaliativas do ano (Ex.: bimestres), feriados, férias,
+inicio e fim do ano.
+
+### List School Calendars [GET]
+
++ Parameters
+    + _q (string, optional) - Fulltext search.
+    + _sort (string, optional) - Nome da coluna para ordenação. 
+    + _with (string, optional) - Nome da relação a ser incluída na resposta.
+        + Members 
+            + schoolClasses - Turmas do ano letivo
+            + schoolCalendarPhases - Fases avaliativas do ano letivo
+
++ Request (application/json)
+
+    + Headers
+            
+            authorization: Bearer <token_id>
+
++ Response 200 (application/json)
+
+    + Attributes 
+        + Include Paginator
+        + data (array) 
+            + (SchoolCalendar)
+    
+### Create a new school calendar [POST]
+
++ Request (application/json)
+    + Headers
+            
+            authorization: Bearer <token_id>
+            
+    + Attributes (SchoolCalendarFillable)
+            
++ Response 200 (application/json) 
+    
+    + Attributes 
+        + school_calendar (SchoolCalendar)
+            
+
+## School Calendar [/school-calendars/{school_calendar_id}{?_with}]
+
++ Parameters
+    - school_calendar_id (number) - ID of the school class
+
+### View a school calendar detail [GET]
+
++ Parameters
+    + _with (string, optional) - Nome da relação a ser incluída na resposta.
+        + Members 
+            + schoolClasses - Turmas do ano letivo
+            + schoolCalendarPhases - Fases avaliativas do ano letivo
+
++ Request 
+    + Headers
+
+            authorization: Bearer <token_id>
+
++ Response 200 (application/json)
+
+    + Attributes 
+        + school_class (SchoolClass)
+
+
+### Edit [PUT]
+
++ Request 
+    + Headers
+            
+            authorization: Bearer <token_id>
+            
+    + Attributes (SchoolCalendarFillable)
+            
++ Response 200 (application/json)
+    
+    + Attributes 
+        + school_calendar (SchoolCalendar)
+
+            
+### Delete [DELETE]
+
++ Response 204
+
+
+
+
+
+
 # Group People
 
 ## Students Collection [/students{?_q,_sort,_with}]
@@ -312,7 +438,7 @@ e relatórios como "Boletim anual do aluno" e "Histórico escolar".
 + Response 200 (application/json)
 
     + Attributes (object)
-        + absences: (object)
+        + absences (object)
             + total: 22 (number) - Total de faltas do aluno no ano letivo
         + best_average (object) - Melhor média do aluno no ano
             + include (Subject)
@@ -737,9 +863,14 @@ e a nota do aluno no 1º Bimestre será composta pela conta (N1*0,4)+(N2*0,6)=NO
 ## SchoolCalendar (object)
 
 + id: 1 (number) - Identificador único da fase avaliativa
++ include (SchoolCalendarFillable)
+
+## SchoolCalendarFillable (object)
+
 + year: 2014 (number) - Ano de referência
 + start: `2016-02-01` - Inicio do ano letivo
 + end: `2016-12-10` - Fim do ano letivo
+ 
 
 ## SchoolFillable (object)
 
