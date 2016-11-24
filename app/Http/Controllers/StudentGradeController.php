@@ -75,6 +75,7 @@ class StudentGradeController extends Controller
         if ($this->checkMultipleInputData()) {
             return $this->response->created(null, ['student_grades' => $studentGradesCreated]);
         }else{
+            
             $created = $studentGradesCreated->first();
             return $this->response->created('/student-grades/{$created->id}', 
                 $created);
