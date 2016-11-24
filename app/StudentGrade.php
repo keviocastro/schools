@@ -3,31 +3,37 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class StudentGrade extends Model
 {
-    /**
-     * 
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
-    protected $hidden = ['deleted_at'];
-
+    use SoftDeletes;
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected $fillable = [
-    	'assessment_id', 
-    	'student_id', 
-    	'subject_id',
-    	'grade'];
+    protected $fillable = ['grade','student_id','subject_id','assessment_id','school_class_id'];
+    
+    /**
+     * Atributos que não serão exibidos em array
+     * @var array
+     */
+    protected $hidden = ['updated_at', 'created_at', 'deleted_at'];
+    
+    /**
+     * @Relation
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function student()
+    {
+        return $this->belongsTo('App\Student', 'student_id');
+    }
 
     /**
-     * Disciplina da nota
-     *
+     * Avaliação da nota: Exmplo: 2º Nota do 1º Bimestre 
+     * 
      * @Relation
      * 
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -38,8 +44,8 @@ class StudentGrade extends Model
     }
 
     /**
-     * Avaliação da nota: Exmplo: 2º Nota do 1º Bimestre 
-     *
+     * Avaliação da nota do aluno
+     * 
      * @Relation
      * 
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -47,5 +53,17 @@ class StudentGrade extends Model
     public function assessment()
     {
         return $this->belongsTo('App\Assessment');
+    }
+
+    /**
+     * Turma em qual foi registrada a nota
+     * 
+     * @Relation
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function schoolClass()
+    {
+        return $this->belongsTo('App\SchoolClass');
     }
 }

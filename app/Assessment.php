@@ -42,4 +42,16 @@ class Assessment extends Model
     {
         return $this->hasMany('App\StudentGrade');
     }
+
+    /*
+     * Get a SchoolCalendarPhase
+     * 
+     * @Relation
+     * 
+     * @return Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function schoolCalendarPhase()
+    {
+        return $this->belongsTo('App\SchoolCalendarPhase');
+    }
 }

@@ -29,6 +29,7 @@ class SchoolCalendarPhase extends Model
     protected $dates = ['deleted_at'];
 
     /**
+<<<<<<< HEAD
      * Atributos que podem ser incluídos/alterados na base de dados
      *
      * @var array
@@ -79,5 +80,4 @@ class SchoolCalendarPhase extends Model
     {
         return $this->belongsTo('App\SchoolCalendar');
     }
-
 }

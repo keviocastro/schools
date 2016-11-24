@@ -22,13 +22,11 @@ class Occurence extends Migration
             $table->increments('id');
             $table->unsignedInteger('level_id')->nulllable();
             $table->string('comment');
-            $table->unsignedInteger('owner_person_id');
             $table->unsignedInteger('about_person_id')->nulllable();
             $table->softDeletes();
             $table->timestamps();
             
             $table->foreign('level_id')->references('id')->on('levels');
-            $table->foreign('owner_person_id')->references('id')->on('people');
             $table->foreign('about_person_id')->references('id')->on('people');
         });    
 

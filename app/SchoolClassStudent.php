@@ -48,7 +48,7 @@ class SchoolClassStudent extends Model
      * 
      * @Relation 
      * 
-     * @return App\Student
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function student()
     {
@@ -67,5 +67,4 @@ class SchoolClassStudent extends Model
     {
         return $this->belongsTo('App\SchoolClass');
     }
-
 }

@@ -1,0 +1,11 @@
+echo '# Startando: apache2,mysql'
+sudo service apache2 start
+sudo service mysql start
+echo '# Parando o apache2'
+sudo service apache2 stop
+echo '# Parando o mysql'
+sudo service mysql stop
+echo '# Subindo os dockers'
+docker-compose up -d
+echo '# Entrando no docker Web'
+docker exec -it schools_web_1 bash

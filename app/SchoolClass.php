@@ -40,6 +40,8 @@ class SchoolClass extends Model
      * Ano da turma 
      *
      * @Relation
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function grade()
     {
@@ -50,6 +52,8 @@ class SchoolClass extends Model
      * Turno da turma 
      *
      * @Relation
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function shift()
     {
@@ -61,7 +65,7 @@ class SchoolClass extends Model
      * 
      * @Relation
      * 
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany 
+     * @return \Illuminate\Database\Eloquent\Relations\hasMany
      */
     public function students()
     {
@@ -92,4 +96,5 @@ class SchoolClass extends Model
     {
         return $this->belongsToMany('App\Subject', 'school_class_subjects');
     }
+
 }

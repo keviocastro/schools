@@ -61,7 +61,7 @@ class Controller extends BaseController
         if ($accept_items_array) {
             $inputs = $this->makeMultipleInputData();
 
-            collect($inputs)->map(function($item, $key) use ($rules){
+            collect($inputs)->map(function($item, $key) use ($rules,$error_msg){
                 $validator = app('validator')->make($item, $rules);
                 if ($validator->fails()) {
                     throw new StoreResourceFailedException($error_msg, $validator->errors());

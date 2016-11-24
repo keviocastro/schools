@@ -38,7 +38,7 @@ class AttendanceRecord extends Model
      *
      * @Relation
      * 
-     * @return App\SchoolClass
+     * @return Illuminate\Database\Eloquent\Relations\belongsTo
      */
     public function lesson()
     {

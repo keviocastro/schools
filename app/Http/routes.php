@@ -78,6 +78,12 @@ $api->version('v1', function ($api) {
 			$api->get('occurences/{id}', 'App\Http\Controllers\OccurenceController@show');
 			$api->delete('occurences/{id}', 'App\Http\Controllers\OccurenceController@destroy');
 			$api->put('occurences/{id}', 'App\Http\Controllers\OccurenceController@update');
+
+			//StudantGrades
+			$api->get('student-grades', 'App\Http\Controllers\StudentGradeController@index');
+			$api->post('student-grades', 'App\Http\Controllers\StudentGradeController@store');
+			$api->get('student-grades/{id}', 'App\Http\Controllers\StudentGradeController@show');
+			$api->put('student-grades/{id}', 'App\Http\Controllers\StudentGradeController@update');
 		});
 	});
 

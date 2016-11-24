@@ -14,8 +14,6 @@ class OccurenceControllerTest extends TestCase
      */
     public function testIndex()
     {
-    	$ocurrence = factory(App\Occurence::class)->create();
-
     	$struture = [
 			  "total",
 			  "per_page",
@@ -30,18 +28,19 @@ class OccurenceControllerTest extends TestCase
 			      "id",
 			      "level_id",
 			      "comment",
-			      "owner_person_id",
-			      "about_person_id",
+                  "about_person_id",
+                  "about_person" => ['id','name'],
 			      "created_at",
 			      "updated_at",
 			      "level" => ['id','name']
 			    ]
 			  ]
 			];
-        $this->get('api/occurences?_with=level',
-        	$this->getAutHeader())
-        	->assertResponseStatus(200)
-        	->seeJsonStructure($struture);
+            
+        $this->get('api/occurences?with=level,aboutPerson',
+            $this->getAutHeader())
+            ->assertResponseStatus(200)
+            ->seeJsonStructure($struture);
     }
 
     /**
@@ -52,8 +51,6 @@ class OccurenceControllerTest extends TestCase
     public function testStore()
     {
     	$ocurrence = factory(App\Occurence::class)->make()->toArray();
-
-    	// dd($ocurrence);
 
         $this->post('api/occurences',
         	$ocurrence,

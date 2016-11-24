@@ -204,7 +204,7 @@ $factory->define(App\AttendanceRecord::class, function ($faker) use ($factory) {
             'student_id' => function(){
                 return factory(App\Student::class)->create()->id;
             },
-            'presence' => rand(0,1),
+            'presence' => rand(0,2),
         ];
 });
 
@@ -281,9 +281,6 @@ $factory->define(App\Occurence::class, function ($faker) use ($factory) {
             return factory(App\Level::class)->create()->id;
         },
         'comment' => $faker->sentence,
-        'owner_person_id' => function(){
-            return factory(App\Person::class)->create()->id;
-        },
         'about_person_id' => function(){
             return factory(App\Student::class)->create()->id;
         }
@@ -292,16 +289,27 @@ $factory->define(App\Occurence::class, function ($faker) use ($factory) {
 
 $factory->define(App\StudentGrade::class, function ($faker) use ($factory) {
     
+    $schoolClass = factory(App\SchoolClass::class)->create();
+    $student = factory(App\Student::class)->create();
+    factory(App\SchoolClassStudent::class)->create([
+            'student_id' => $student->id,
+            'school_class_id' => $schoolClass->id
+        ]);
+
+    $schoolCalendarPhase = factory(App\SchoolCalendarPhase::class)->create([
+            'school_calendar_id' => $schoolClass->school_calendar_id
+        ]);
+    $assessment = factory(App\Assessment::class)->create([
+            'school_calendar_phase_id' => $schoolCalendarPhase->id
+        ]);
+
     return [
-        'assessment_id' => function(){
-            return factory(App\Assessment::class)->create()->id;
-        },
-        'student_id' => function(){
-            return factory(App\Student::class)->create()->id;
-        },
+        'grade' => $faker->randomFloat(1,0,10),
+        'student_id' => $student->id,
         'subject_id' => function(){
             return factory(App\Subject::class)->create()->id;
         },
-        'grade' => $faker->randomFloat(1,0,10)
+        'assessment_id' => $assessment->id,
+        'school_class_id' => $schoolClass->id
     ];
 });

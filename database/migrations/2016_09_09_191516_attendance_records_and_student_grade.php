@@ -20,6 +20,7 @@ class AttendanceRecordsAndStudentGrade extends Migration
             $table->unsignedInteger('student_id');
             // 0 Faltou a aula
             // 1 Estava presente
+            // 2 Falta abonada
             $table->tinyInteger('presence');
             $table->timestamps();
             $table->softDeletes();
@@ -69,7 +70,6 @@ class AttendanceRecordsAndStudentGrade extends Migration
             $table->foreign('student_id')
                 ->references('id')
                 ->on('students');
-
         });
     }
 

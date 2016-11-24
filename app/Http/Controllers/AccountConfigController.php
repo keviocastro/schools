@@ -12,6 +12,6 @@ class AccountConfigController extends Controller
     public function show()
     {
     	$configs = AccountConfig::all();
-    	return $this->collection($configs, new AccountConfigTransformer);
+    	return $configs;
     }
 }
