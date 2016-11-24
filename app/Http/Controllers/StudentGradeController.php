@@ -43,42 +43,42 @@ class StudentGradeController extends Controller
             ], '',true);
 
         $records = $this->makeMultipleInputData();
-        $StudentGrade = [];
-        $campo = $request->toArray();
-        $quantidae = count($campo);
-        for($cont = 0 ; $cont < $quantidae ; $cont++){
 
-            if(!empty($request->toArray()[$cont]))
-                $lista = $campo[$cont];
-            else
-                $lista = $campo;
+        $studentGradesCreated = collect();
+        foreach ($records as $key => $grade) {
 
+            $studentInClass = SchoolClassStudent::
+                where('school_class_id', $grade['school_class_id'])
+                ->where('student_id', $grade['student_id'])
+                ->first();
 
-            $schoolClassId = $lista['school_class_id'];
-            $studentId = $lista['student_id'];
-
-            $schoolClass = SchoolClass::find($schoolClassId);
-            $assessment  = Assessment::find($lista['assessment_id']);
-
-            $calendar = $schoolClass->schoolCalendar->id;
-            $calendarPhase = $assessment->schoolCalendarPhase->schoolCalendar->id;
-            $consulta = SchoolClassStudent::where('school_class_id', $schoolClassId)
-                ->where('student_id', $studentId)->get();
-
-            if(!empty($consulta) && $calendar == $calendarPhase)
-            {
-                $StudentGrade[$cont] = StudentGrade::create($lista);
+            if (!$studentInClass) {
+                throw new ConflictHttpException(
+                    "The student is not in the school class ({$grade['school_class_id']})."
+                    );
             }
-            else
-                throw new ConflictHttpException('The student is not in the school class.');
-        }
-        
+
+            $schoolClass = SchoolClass::findOrFail($grade['school_class_id']);
+            $assessment = Assessment::findOrFail($grade['assessment_id']);
+
+            if ($schoolClass->school_calendar_id != 
+                $assessment->schoolCalendarPhase->school_calendar_id) {
+                
+                throw new ConflictHttpException(
+                    "Assessment does not belong to the same school year of the class."
+                    );
+            }
+
+            $studentGradesCreated->push(StudentGrade::create($grade));
+        }        
+
         if ($this->checkMultipleInputData()) {
-            return $this->response->created(null, ['student_grades' => $StudentGrade]);
+            return $this->response->created(null, ['student_grades' => $studentGradesCreated]);
         }else{
-            $Student = $StudentGrade[0];
-            return $this->response->created('/StudentGrade/{$Student->id}', $Student);
+            return $this->response->created('/student-grades/{$studentGradesCreated->first()->id}', 
+                $studentGradesCreated->first());
         }
+
     }
 
     /**
