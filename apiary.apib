@@ -11,7 +11,7 @@ Schools é uma api para manter informações sobre escolas e seus registros admi
 A autentificação de usuário para acesso aos recursos da api, deve ser feita atribuindo
 sempre o seguinte cabeçario na requisição:
 
-`authorization: Bearer token_id`
+`authorizavtion: Bearer token_id`
 
 Onde "token id" é obtido durante a autenficação do usuário no microservice de atentificação
 auth0 através do dominio "logos.auth0.com".
@@ -640,7 +640,7 @@ e a nota do aluno no 1º Bimestre será composta pela conta (N1*0,4)+(N2*0,6)=NO
 
 ## Student grades Collection [/student_grades{?limit,offset,q,sort,field,with}]
 
-### Create a new Student-Grades [POST]
+### Create a new Student Grades [POST]
 
 + Request (application/json)
     + Headers
@@ -654,7 +654,7 @@ e a nota do aluno no 1º Bimestre será composta pela conta (N1*0,4)+(N2*0,6)=NO
     + Attributes 
         + StudentGrade (StudentGrade)
         
-### List Student-Grades [GET]
+### List Student Grades [GET]
 
 + Parameters
     + q (string, optional) - Fulltext search.
@@ -680,12 +680,18 @@ e a nota do aluno no 1º Bimestre será composta pela conta (N1*0,4)+(N2*0,6)=NO
         + data (array)
             + (StudentGradeWithRelation)
 
-## Student Grades [/student-grades/{id}]
+## Student Grades [/student-grades/{id}{?with}]
 
-### View a Student-Grades detail [GET]
+### View a Student Grades detail [GET]
 
 + Parameters
     + id: 1 (number) - ID of the occurence
+    + with (string) - Nome da relação a ser incluída na resposta.
+        + Members
+            + student
+            + subject
+            + assessment
+            + schoolClass
 
 + Request 
     + Headers
@@ -700,7 +706,7 @@ e a nota do aluno no 1º Bimestre será composta pela conta (N1*0,4)+(N2*0,6)=NO
 ### Edit [PUT]
 
 + Parameters
-    + id: 1 (number) - ID of the Student-Grades
+    + id: 1 (number) - ID of the Student Grades
 
 + Request (application/json)
 
