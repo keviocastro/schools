@@ -19,7 +19,7 @@ class StudentGrade extends Model
      * Atributos que não serão exibidos em array
      * @var array
      */
-    protected $hidden = ['updated_at', 'created_at'];
+    protected $hidden = ['updated_at', 'created_at', 'deleted_at'];
     
     /**
      * @Relation

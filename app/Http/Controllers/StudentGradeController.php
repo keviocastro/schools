@@ -10,6 +10,7 @@ use App\Student;
 use App\StudentGrade;
 use Exception;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
 
 
 class StudentGradeController extends Controller
@@ -69,7 +70,7 @@ class StudentGradeController extends Controller
                 $StudentGrade[$cont] = StudentGrade::create($lista);
             }
             else
-                return response('Student is not in this class or student not in a same year phase of grade.', 422);
+                throw new ConflictHttpException('The student is not in the school class.');
         }
         
         if ($this->checkMultipleInputData()) {
@@ -114,12 +115,11 @@ class StudentGradeController extends Controller
 
         if($condicao)
         {
-            // var_dump("entrou aqui");
             $StudentGrade->update($request->all());
+        }else{
+            throw new ConflictHttpException('Only the grade can be changed.');
         }
-        else 
-            return response('Only the grade can be changed.', 422);
-        // dd($StudentGrade->toArray());
+
         return $StudentGrade;
     }
 }

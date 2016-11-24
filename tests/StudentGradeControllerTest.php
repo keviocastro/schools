@@ -14,8 +14,6 @@ class StudentGradeControllerTest extends TestCase
      */
     public function testIndex()
     {
-    	$studantGrade = factory(App\StudentGrade::class)->create();
-
     	$struture = [
 			  "total",
 			  "per_page",
@@ -83,30 +81,23 @@ class StudentGradeControllerTest extends TestCase
         			]
         		]);
 
-        // O aluno precisa estar na turma 
-    	$student = factory(App\Student::class)->create();
-    	$schoolClass = factory(App\SchoolClass::class)->create();
+        //O aluno precisa estar na turma que está sendo registrada a nota
+        $student = factory(App\Student::class)->create();
+        $schoolClass = factory(App\SchoolClass::class)->create();
 
-    	$studantGrade = factory(App\StudentGrade::class)->make([
-    			'student_id' => $student->id,
-    			'school_class_id' => $schoolClass->id
-    		])->toArray();
+        $studantGrade = factory(App\StudentGrade::class)->make([
+                'student_id' => $student->id,
+                'school_class_id' => $schoolClass->id
+            ])->toArray();
 
-    	$schoolClass = factory(App\SchoolClass::class)->create();
+        $schoolClass = factory(App\SchoolClass::class)->create();
         $studantGrade['school_class_id'] = $schoolClass->id;
 
-    	$this->post('api/student-grades',
-        	$studantGrade,
-        	$this->getAutHeader())
-        	->assertResponseStatus(422);
-
-        //a nota tem que estar relacionada a fase do ano atual do aluno
-    	$studantGrade = factory(App\StudentGrade::class)->make()->toArray();
-
-    	$this->post('api/student-grades',
-        	$studantGrade,
-        	$this->getAutHeader())
-        	->assertResponseStatus(201);
+        $this->post('api/student-grades',
+            $studantGrade,
+            $this->getAutHeader())
+            ->assertResponseStatus(409)
+            ->seeJson(['message' => 'The student is not in the school class.']);
 
         //Cadastrar multiplos registros.
         $studentGrade = factory(App\StudentGrade::class, 3)->make()->toArray();
@@ -150,12 +141,12 @@ class StudentGradeControllerTest extends TestCase
      */
     public function testShow()
     {
-        $studantGrades = factory(App\StudentGrade::class)->create();
+        $studantGrade = factory(App\StudentGrade::class)->create();
     	
-        $this->get("api/student-grades/{$studantGrades->id}",
+        $this->get("api/student-grades/{$studantGrade->id}",
         	$this->getAutHeader())
         	->assertResponseStatus(200)
-        	->seeJson($studantGrades->toArray());
+        	->seeJson($studantGrade->toArray());
     }
 
     /**
@@ -167,27 +158,27 @@ class StudentGradeControllerTest extends TestCase
      */
     public function testUpdate()
     {
-        $studantGrades = factory(App\StudentGrade::class)->create();
-        $studantGrade_changed = $studantGrades->toArray();
+        $studantGrade = factory(App\StudentGrade::class)->create();
+        $studantGrade_changed = $studantGrade->toArray();
         $studantGrade_changed['grade'] = '9.9';
 
-        $this->put("api/student-grades/{$studantGrades->id}",
+        $this->put("api/student-grades/{$studantGrade->id}",
             $studantGrade_changed,
             $this->getAutHeader())
-            ->assertResponseStatus(200);
-            // ->seeJson($studantGrade_changed);
+            ->assertResponseStatus(200)
+            ->seeJson($studantGrade_changed);
 
         //somente a nota pode ser alterada
-        
-        $studantGrades = factory(App\StudentGrade::class)->create();
+        $studantGrade = factory(App\StudentGrade::class)->create();
 
-        $studantGrade_changed = $studantGrades->toArray();
+        $studantGrade_changed = $studantGrade->toArray();
         $studantGrade_changed['student_id'] = 2;
         $studantGrade_changed['grade'] = 1.9;
 
-        $this->put("api/student-grades/{$studantGrades->id}",
+        $this->put("api/student-grades/{$studantGrade->id}",
             $studantGrade_changed,
             $this->getAutHeader())
-            ->assertResponseStatus(422);
+            ->assertResponseStatus(409)
+            ->seeJson(['message' => 'Only the grade can be changed.']);
     }
 }
