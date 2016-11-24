@@ -33,7 +33,7 @@ class SchoolClassController extends Controller
             'grade_id' => 'required|exists:grades,id',
             'shift_id' => 'required|exists:shifts,id',
             'identifier' => 'required|string',
-        ], '', true);
+        ]);
 
         $schoolClass = SchoolClass::create($request->all());
 

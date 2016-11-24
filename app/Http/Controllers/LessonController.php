@@ -37,7 +37,7 @@ class LessonController extends Controller
             'subject_id' => 'required|exists:subjects,id',
             'start' => 'required|date_format:Y-m-d H:i:s',
             'end' => 'required|date_format:Y-m-d H:i:s',
-        ], '', true);
+        ]);
         
         $lesson = Lesson::create($request->all());
 

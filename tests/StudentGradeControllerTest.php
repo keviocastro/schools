@@ -32,8 +32,6 @@ class StudentGradeControllerTest extends TestCase
 			      "student_id",
 			      "subject_id",
 			      "assessment_id",
-			      "created_at",
-			      "updated_at",
 			    ]
 			  ]
 			];
