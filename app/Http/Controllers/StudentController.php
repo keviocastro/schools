@@ -29,7 +29,7 @@ class StudentController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function annualSummary(Request $request, $student_id)
-    {
+    { 
         $this->validationForListAction([
                 'school_calendar_id' => 'required|exists:school_calendars,id',
             ]);

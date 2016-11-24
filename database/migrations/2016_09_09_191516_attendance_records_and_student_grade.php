@@ -52,6 +52,7 @@ class AttendanceRecordsAndStudentGrade extends Migration
             $table->unsignedInteger('student_id');
             $table->unsignedInteger('assessment_id');
             $table->unsignedInteger('subject_id');
+            $table->unsignedInteger('school_class_id');
             $table->timestamps();
             $table->softDeletes();
 
@@ -62,6 +63,10 @@ class AttendanceRecordsAndStudentGrade extends Migration
             $table->foreign('subject_id')
                 ->references('id')
                 ->on('subjects');
+
+            $table->foreign('school_class_id')
+                ->references('id')
+                ->on('school_classes');
 
             $table->foreign('assessment_id')
                 ->references('id')

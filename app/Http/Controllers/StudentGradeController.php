@@ -37,9 +37,9 @@ class StudentGradeController extends Controller
     {
         $this->validationForStoreAction($request, [
             'grade' => 'required|numeric|max:10|min:0',
-            'student_id' => 'required|numeric',
-            'subject_id' => 'required|numeric',
-            'assessment_id' => 'required|numeric',
+            'subject_id' => 'required|numeric|exists:subjects,id',
+            'assessment_id' => 'required|numeric|exists:assessments,id',
+            'school_class_id' => 'required|numeric|exists:school_classes,id'
             ], '',true);
 
         $records = $this->makeMultipleInputData();

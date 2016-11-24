@@ -467,7 +467,7 @@ class SchoolCalendar2016 extends Seeder
 
         $schoolClass->students->each(function($student, $key) 
             use ($schoolCalendarPhase, $subjects, &$studentGrades, 
-                $fixedDataSubjects, $faker){
+                $fixedDataSubjects, $faker, $schoolClass){
             
                 foreach ($schoolCalendarPhase->assessments as $key => $assessment) {
                     foreach ($subjects as $key => $subject) {
@@ -498,7 +498,8 @@ class SchoolCalendar2016 extends Seeder
                                 'assessment_id' => $assessment->id,
                                 'student_id' => $student->id,
                                 'subject_id' => $subject->id,
-                                'grade' => $grade
+                                'grade' => $grade,
+                                'school_class_id' => $schoolClass->id
                             ])->toArray();
 
                         array_push($studentGrades, $studentGrade);
