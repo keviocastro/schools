@@ -8,8 +8,10 @@ $api->version('v1', function ($api) {
 	$api->group(['middleware' => 'cors'], function ($api) {
 		$api->group(['middleware' => 'auth0.jwt'], function ($api) {
 	        
-	        // Auth
-			$api->post('auth/request-access', 'App\Http\Controllers\Auth\AuthController@requestAccess');
+	        // Auth and Account
+			$api->post('auth/request-access', 
+				'App\Http\Controllers\Auth\AuthController@requestAccess');
+			$api->get('account-config', 'App\Http\Controllers\AccountConfigController@show');
 			
 			// Schools
 			$api->get('schools', 'App\Http\Controllers\SchoolController@index');

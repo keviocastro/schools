@@ -21,5 +21,22 @@ class AccountConfigSeeder extends Seeder
                     'name' => 'percentage_absences_reprove',
                     'default' => '25'
                 ]);
+
+        AccountConfig::firstOrCreate([
+                    // Nota a qual o aluno é considerado como ótimo
+                    'name' => 'grade_threshold_great',
+                    'default' => '9'
+                ]);
+        AccountConfig::firstOrCreate([
+                    // Nota a qual o aluno é considerado como bom
+                    'name' => 'grade_threshold_good',
+                    'default' => '6'
+                ]);
+        AccountConfig::firstOrCreate([
+                    // Nota limite para aprovação de um aluno em uma
+                    // disciplina
+                    'name' => 'passing_grade_threshold',
+                    'default' => '6'
+                ]);
     }
 }

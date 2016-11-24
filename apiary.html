@@ -1014,8 +1014,7 @@ body .markdown-body
     page-break-after: avoid;
   }
 }
-</style><title>apiary</title></head><body><article class="markdown-body"><p>FORMAT: 1A<br />
-HOST: <a href="http://localhost/api">http://localhost/api</a></p>
+</style><title>apiary</title></head><body><article class="markdown-body"><p>HOST: <a href="http://localhost/api">http://localhost/api</a></p>
 <h1 id="schools-api"><a name="user-content-schools-api" href="#schools-api" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Schools API</h1>
 <p>Schools é uma api para manter informações sobre escolas e seus registros administrativos.</p>
 <h1 id="authentication"><a name="user-content-authentication" href="#authentication" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Authentication</h1>
@@ -1388,28 +1387,116 @@ Professor Medeiros acessa seu aplicativo informando usuário e senha para se cad
 <h1 id="group-students"><a name="user-content-group-students" href="#group-students" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Group Students</h1>
 <p>Ações relacionadas a informações dos alunos: cadastrais, indicadores de desempenho<br />
 e relatórios como &ldquo;Boletim anual do aluno&rdquo; e &ldquo;Histórico escolar&rdquo;.</p>
-<h2 id="annual-student-summary-studentsstudent_idannual-summary"><a name="user-content-annual-student-summary-studentsstudent_idannual-summary" href="#annual-student-summary-studentsstudent_idannual-summary" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Annual Student Summary [/students/{student_id}/annual-summary]</h2>
-<h3 id="view-a-annual-student-summary-get"><a name="user-content-view-a-annual-student-summary-get" href="#view-a-annual-student-summary-get" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>View a annual student summary [GET]</h3>
+<h2 id="annual-report-studentsstudent_idannual-reportschool_calendar_id"><a name="user-content-annual-report-studentsstudent_idannual-reportschool_calendar_id" href="#annual-report-studentsstudent_idannual-reportschool_calendar_id" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Annual Report [/students/{student_id}/annual-report{?school_calendar_id}]</h2>
+<h3 id="annual-report-get"><a name="user-content-annual-report-get" href="#annual-report-get" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Annual Report [GET]</h3>
 <ul>
+<li>
+<p>Parameters</p>
+<ul>
+<li>school_calendar_id (required, number) - ID do ano letivo</li>
+</ul>
+</li>
 <li>
 <p>Request </p>
 <ul>
-<li>
-<p>Headers</p>
-<pre><code>authorization: Bearer &lt;token_id&gt;
+<li>Headers<pre><code>authorization: Bearer {token_id}
 </code></pre>
+</li>
+</ul>
 </li>
 <li>
 <p>Response 200 (application/json)</p>
 <ul>
 <li>Attributes (object)<ul>
-<li>school_calendar_phase_absences: 4 (number)<br />
-    Total de faltas do aluno no bimestre/fase do ano atual</li>
-<li>school_calendar_absences: 12 (number)<br />
-    Total de faltas do aluno no ano letivo</li>
-<li>best_average_student_grade_phase (number)<br />
-    Melhor média do aluno no bimestre</li>
-<li>best_average_student_grade_phase</li>
+<li>averages (array) - Médias por disciplina no ano letivo<ul>
+<li>(object)<ul>
+<li>include (SchoolCalendarPhase)</li>
+<li>subject_average (array)<ul>
+<li>(object)<ul>
+<li>include (Subject)</li>
+<li>average: 7.2 - Média do aluno para a disciplina na fase do ano</li>
+<li>student_grades (array)<ul>
+<li>(object)<ul>
+<li>include (StudentGrade)</li>
+<li>assessment (Assessment)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>absences (array) - Faltas no ano letivo<ul>
+<li>(object)<ul>
+<li>school_calendar_phase_id: 1</li>
+<li>subject_id: 1 </li>
+<li>absences: 6</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>subjects (array[Subject]) - <code>Disciplinas cursadas no ano</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="annual-student-summary-studentsstudent_idannual-summaryschool_calendar_idschool_calendar_phase_id"><a name="user-content-annual-student-summary-studentsstudent_idannual-summaryschool_calendar_idschool_calendar_phase_id" href="#annual-student-summary-studentsstudent_idannual-summaryschool_calendar_idschool_calendar_phase_id" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Annual Student Summary [/students/{student_id}/annual-summary{?school_calendar_id,school_calendar_phase_id}]</h2>
+<h3 id="view-a-annual-student-summary-get"><a name="user-content-view-a-annual-student-summary-get" href="#view-a-annual-student-summary-get" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>View a annual student summary [GET]</h3>
+<ul>
+<li>
+<p>Parameters</p>
+<ul>
+<li>school_calendar_id (required, number)       - <code>ID do ano letivo</code></li>
+</ul>
+</li>
+<li>
+<p>Request </p>
+<ul>
+<li>Headers<pre><code>authorization: Bearer {token_id}
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p>Response 200 (application/json)</p>
+<ul>
+<li>Attributes (object)<ul>
+<li>absences: (object)<ul>
+<li>total: 22 (number) - Total de faltas do aluno no ano letivo</li>
+</ul>
+</li>
+<li>best_average (object) - Melhor média do aluno no ano<ul>
+<li>include (Subject)</li>
+<li>average: 9.5 (number) - Média</li>
+<li>average_calculation: <code>(7.8 + 8.5)/2</code> (string) - Calculo da média</li>
+<li>student_grades (array) - Notas do aluno que compõem a média <ul>
+<li>(object)<ul>
+<li>include (StudentGrade)</li>
+<li>assessment (Assessment) </li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>low_average (object) - Pior média do aluno no ano<ul>
+<li>include (Subject)</li>
+<li>average (number)</li>
+<li>average_calculation (string)</li>
+<li>student_grades (array) <ul>
+<li>(object)<ul>
+<li>include (StudentGrade)</li>
+<li>assessment (Assessment) </li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -1486,7 +1573,7 @@ e relatórios como &ldquo;Boletim anual do aluno&rdquo; e &ldquo;Histórico esco
 </ul>
 </li>
 </ul>
-<h2 id="lesson-lessonslesson_id_with"><a name="user-content-lesson-lessonslesson_id_with" href="#lesson-lessonslesson_id_with" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Lesson [/lessons/{lesson_id}{?_with}]</h2>
+<h2 id="lesson-lessonslesson_id_withattach"><a name="user-content-lesson-lessonslesson_id_withattach" href="#lesson-lessonslesson_id_withattach" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Lesson [/lessons/{lesson_id}{?_with,attach}]</h2>
 <ul>
 <li>Parameters<ul>
 <li>lesson_id: 1 (number) - ID of the lesson</li>
@@ -1704,8 +1791,9 @@ defindo vários objetos de atributo em um array.</p>
 <p>Response 201 (application/json) </p>
 <ul>
 <li>
-<p>Headers<br />
-        Location: /attendance_records/1</p>
+<p>Headers</p>
+<pre><code>Location: /attendance_records/1
+</code></pre>
 </li>
 <li>
 <p>Attributes </p>
@@ -1717,10 +1805,11 @@ defindo vários objetos de atributo em um array.</p>
 </li>
 <li>
 <p>Response 409 (application/json)</p>
-<p>{<br />
-    &ldquo;message&rdquo;: &ldquo;The record of the student (student.id = 1 ) to the lesson already exists.&rdquo;,<br />
-    &ldquo;status_code&rdquo;: 409<br />
-}</p>
+<pre><code>{
+    "message": "The record of the student (student.id = 1 ) to the lesson already exists.",
+    "status_code": 409
+}
+</code></pre>
 </li>
 </ul>
 <h2 id="attendance-record-attendance-recordsid_with"><a name="user-content-attendance-record-attendance-recordsid_with" href="#attendance-record-attendance-recordsid_with" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Attendance Record [/attendance-records/{id}{?_with}]</h2>
@@ -2127,7 +2216,7 @@ e a nota do aluno no 1º Bimestre será composta pela conta (N1<em>0,4)+(N2</em>
 <ul>
 <li>id: 1 (number) - Identificador único da cidade</li>
 <li>name: Goiânia (string) - Nome da cidade</li>
-<li>state (State)</li>
+<li>state_id (number)</li>
 </ul>
 <h2 id="state-object"><a name="user-content-state-object" href="#state-object" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>State (object)</h2>
 <ul>
@@ -2156,7 +2245,7 @@ e a nota do aluno no 1º Bimestre será composta pela conta (N1<em>0,4)+(N2</em>
 <li>grade: 7.5 (number) - Valor de resulta do aluno na avaliação</li>
 <li>assessment_id: 1 (number) - Identificador da avaliação</li>
 <li>student_id: 1 (number) - Id do aluno</li>
-<li>school_class_subject_id: 1 (number) - Disciplina relacionada a turma a qual o aluno realizou a avaliação</li>
+<li>subject_id: 1 (number) - Disciplina relacionada a turma a qual o aluno realizou a avaliação</li>
 </ul>
 <h2 id="paginator-object"><a name="user-content-paginator-object" href="#paginator-object" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Paginator (object)</h2>
 <ul>
@@ -2172,21 +2261,16 @@ e a nota do aluno no 1º Bimestre será composta pela conta (N1<em>0,4)+(N2</em>
 <h2 id="occurencefillable-object"><a name="user-content-occurencefillable-object" href="#occurencefillable-object" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>OccurenceFillable (object)</h2>
 <ul>
 <li>comment: fulano fez isso (string) - descrição sobre os fatos da occorencia</li>
-<li>level_id: 1 (number) - Nivel da occorencia</li>
-<li>owner_person_id: 1 (number) - ID do usuario que esta criando a occorencia<ul>
-<li>Default: ID do usuário logado.</li>
-</ul>
-</li>
+<li>level_id: 1 (number) - <code>Nivel da occorencia</code></li>
+<li>owner_person_id: 1 (number) - ID do usuario que esta criando a occorencia</li>
 <li>about_person_id: 2 (number) - ID do usuario que esta recebendo a occorencia</li>
 </ul>
 <h2 id="occurence-object"><a name="user-content-occurence-object" href="#occurence-object" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Occurence (object)</h2>
 <ul>
 <li>id: 1 (number) - ID da occorencia</li>
-<li>created_at: <code>2016-08-30 13:17:11</code> (string) - Data de criação</li>
-<li>updated_at: <code>2016-08-30 13:17:11</code> (string) - Data da ultima alteração</li>
-<li>level (Level) - Tabla de niveis da occorencia</li>
-<li>ower_person 1 (number) - Tabela person</li>
-<li>about_person 1 (number) - Tabela person</li>
+<li>level (Level) - Nível da ocorrência</li>
+<li>ower_person: 1 (number) - Pessoa que criou o registro</li>
+<li>about_person: 1 (number) - Pessoa a qual o registro se refere</li>
 <li>Include (OccurenceFillable) - object imputaveis</li>
 </ul>
 <h2 id="level"><a name="user-content-level" href="#level" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Level</h2>
