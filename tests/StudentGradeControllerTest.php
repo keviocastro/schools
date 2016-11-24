@@ -97,7 +97,8 @@ class StudentGradeControllerTest extends TestCase
             $studantGrade,
             $this->getAutHeader())
             ->assertResponseStatus(409)
-            ->seeJson(['message' => 'The student is not in the school class.']);
+            ->seeJson(['message' => 
+                "The student is not in the school class ({$studantGrade['school_class_id']})."]);
 
         //Cadastrar multiplos registros.
         $studentGrade = factory(App\StudentGrade::class, 3)->make()->toArray();
