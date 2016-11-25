@@ -16,6 +16,7 @@ class Kernel extends ConsoleKernel
         // Commands\Inspire::class,
         Commands\ControllerPatternMakeCommand::class,
         Commands\TestPatternMakeCommand::class,
+        Commands\TokenUserTestCommand::class,
     ];
 
     /**

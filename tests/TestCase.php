@@ -45,7 +45,7 @@ class TestCase extends TestCaseLara
 
         if (empty($token)) {
             
-            $tokens = $this->getTokenUserTester();
+            $tokens = self::getTokenUserTester();
             $token = $tokens['id_token'];
             $path = base_path('.env');
             
@@ -68,7 +68,7 @@ class TestCase extends TestCaseLara
      * 
      * @return array tokens
      */
-    public function getTokenUserTester()
+    public static function getTokenUserTester()
     {
         $auth0Api = new Auth0AuthApi(
             Config::get('laravel-auth0.domain'), 
