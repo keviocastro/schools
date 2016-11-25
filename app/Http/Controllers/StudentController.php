@@ -30,7 +30,7 @@ class StudentController extends Controller
      */
     public function show($id)
     {
-        return Student::findOrFail($id);
+        return $result = $this->apiHandler->parseSingle(New Student, $id)->getResult();
     }
 
     /**
