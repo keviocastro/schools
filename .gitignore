@@ -7,7 +7,7 @@ Homestead.json
 /.idea
 /.phpintel
 schools.sublime-workspace
-/docs
+
 
 # Elastic Beanstalk Files
 .elasticbeanstalk/*

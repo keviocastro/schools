@@ -30,7 +30,9 @@ class StudentController extends Controller
      */
     public function show($id)
     {
-        return $result = $this->apiHandler->parseSingle(New Student, $id)->getResult();
+        return $this->apiHandler
+            ->parseSingle(New Student, $id)
+            ->getResult();
     }
 
     /**

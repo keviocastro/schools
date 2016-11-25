@@ -48,7 +48,9 @@ class SchoolClassController extends Controller
      */
     public function show($id)
     {
-        return SchoolClass::findOrFail($id);
+        return $this->apiHandler
+            ->parseSingle(New SchoolClass, $id)
+            ->getResult();
     }
 
     /**

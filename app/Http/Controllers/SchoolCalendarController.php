@@ -7,12 +7,25 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\SchoolCalendar;
 
+/**
+ * `School Calendar` é considerado nessa api como a definição do ano letivo,
+ * contendo fases fases avaliativas do ano (Ex.: bimestres), feriados, férias,
+ * inicio e fim do ano.
+ *
+ * @Resource("SchoolCalendar", uri="/school-calendars")
+ *
+ */
 class SchoolCalendarController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * Mostar todos os calendarios escolares
+     * 
+     * @Get("/")
+     * @Versions({"v1"})
+     * 
+     * @Request(headers={"authorization": "Bearer <token_id>"}),
+     * @Response(200, body={"year": 2016, "start": "2016-01-22", "end": "2016-12-20"}),
+     * 
      */
     public function index()
     {   
@@ -45,7 +58,9 @@ class SchoolCalendarController extends Controller
      */
     public function show($id)
     {
-        return SchoolCalendar::findOrFail($id);
+        return $this->apiHandler
+            ->parseSingle(New SchoolCalendar, $id)
+            ->getResult();
     }
 
     /**

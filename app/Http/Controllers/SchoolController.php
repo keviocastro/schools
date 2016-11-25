@@ -43,13 +43,15 @@ class SchoolController extends Controller
      * Dados da escola
      * 
      * @param  Request $request 
-     * @param  int $school_id
+     * @param  int $id
      *  
      * @return \Illuminate\Http\Response           
      */
-    public function show(Request $request, $school_id)
+    public function show(Request $request, $id)
     {
-        return School::findOrFail($school_id);
+        return $this->apiHandler
+            ->parseSingle(New School, $id)
+            ->getResult();
     }
 
     /**

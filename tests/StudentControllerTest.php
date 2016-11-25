@@ -84,7 +84,7 @@ class StudentControllerTest extends TestCase
         
         $this->get("api/students/$student->id/annual-summary".
             "?school_calendar_id=$schoolCalendar->id",
-            $this->getAutHeader())->dump()
+            $this->getAutHeader())
             ->assertResponseStatus(200)
             // ->seeJsonStructure([
             //     "absences" => ['total'],
