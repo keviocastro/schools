@@ -1,8 +1,10 @@
 <?php
+namespace Http\Controllers;
 
-use Illuminate\Foundation\Testing\WithoutMiddleware;
+use App\Occurence;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Tests\TestCase;
 
 class OccurenceControllerTest extends TestCase
@@ -50,7 +52,7 @@ class OccurenceControllerTest extends TestCase
      */
     public function testStore()
     {
-    	$ocurrence = factory(App\Occurence::class)->make()->toArray();
+    	$ocurrence = factory(Occurence::class)->make()->toArray();
 
         $this->post('api/occurences',
         	$ocurrence,
@@ -67,7 +69,7 @@ class OccurenceControllerTest extends TestCase
      */
     public function testShow()
     {
-    	$occurence = factory(App\Occurence::class)->create();
+    	$occurence = factory(Occurence::class)->create();
     	
         $this->get("api/occurences/{$occurence->id}",
         	$this->getAutHeader())
@@ -82,7 +84,7 @@ class OccurenceControllerTest extends TestCase
      */
     public function testDestroy()
     {
-        $occurence = factory(\App\Occurence::class)->create();
+        $occurence = factory(Occurence::class)->create();
 
         $this->delete("api/occurences/{$occurence->id}",
             [],
@@ -98,8 +100,8 @@ class OccurenceControllerTest extends TestCase
      */
     public function testUpdate()
     {
-        $occurence = factory(App\Occurence::class)->create();
-        $occurence_changed = factory(App\Occurence::class)->make()->toArray();
+        $occurence = factory(Occurence::class)->create();
+        $occurence_changed = factory(Occurence::class)->make()->toArray();
 
         $this->put("api/occurences/{$occurence->id}",
             $occurence_changed,

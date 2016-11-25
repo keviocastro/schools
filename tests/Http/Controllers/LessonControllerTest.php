@@ -1,7 +1,14 @@
 <?php
+namespace Http\Controllers;
 
 use App\AccountConfig;
 use App\Lesson;
+use App\Occurence;
+use App\SchoolClass;
+use App\SchoolClassStudent;
+use App\Student;
+use App\StudentResponsible;
+use App\Subject;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -17,7 +24,7 @@ class LessonControllerTest extends TestCase
      */
     public function testIndex()
     {
-        $lesson = factory(\App\Lesson::class)->create();
+        $lesson = factory(Lesson::class)->create();
 
     	$this->get('api/lessons?_sort=-id',$this->getAutHeader())
     		->assertResponseStatus(200)
@@ -31,7 +38,7 @@ class LessonControllerTest extends TestCase
      */
     public function testStore()
     {
-    	$lesson = factory(App\Lesson::class)->make()->toArray();
+    	$lesson = factory(Lesson::class)->make()->toArray();
         
         $this->post('api/lessons',
         	$lesson,
@@ -47,7 +54,7 @@ class LessonControllerTest extends TestCase
      */
     public function testShow()
     {
-        $lesson = factory(App\Lesson::class)->create();
+        $lesson = factory(Lesson::class)->create();
 
         $this->get("api/lessons/$lesson->id",
             $this->getAutHeader())
@@ -81,30 +88,30 @@ class LessonControllerTest extends TestCase
         // Dados criados:
         // 2 estudantes, sendo o primeiro com 2 faltas 
         // e o segundo com 0 faltas
-        $schoolClass = factory(App\SchoolClass::class)->create();
-        $subject = factory(App\Subject::class)->create();
-        $lessons = factory(App\Lesson::class, 2)->create([
+        $schoolClass = factory(SchoolClass::class)->create();
+        $subject = factory(Subject::class)->create();
+        $lessons = factory(Lesson::class, 2)->create([
                 'school_class_id' => $schoolClass->id,
                 'subject_id' => $subject->id
             ]);
-        $students = factory(App\Student::class, 2)->create();
+        $students = factory(Student::class, 2)->create();
         $presence = 0;
         foreach ($students as $key => $stu) {
             
-            factory(App\SchoolClassStudent::class)->create([
+            factory(SchoolClassStudent::class)->create([
                     'student_id' => $stu->id,
                     'school_class_id' => $schoolClass->id
                 ]);
-            factory(App\StudentResponsible::class)->create([
+            factory(StudentResponsible::class)->create([
                     'student_id' => $stu->id
                 ]);
             
-            $students[$key]->last_occurences = factory(App\Occurence::class)->create([
+            $students[$key]->last_occurences = factory(Occurence::class)->create([
                     'about_person_id' => $stu->id
                 ])->toArray();
 
             foreach ($lessons as $lesson) {
-                $students[$key]->attendance_record = factory(App\AttendanceRecord::class)->create([
+                $students[$key]->attendance_record = factory(AttendanceRecord::class)->create([
                     'student_id' => $stu->id,
                     'lesson_id' => $lesson->id,
                     'presence' => $presence
@@ -148,8 +155,8 @@ class LessonControllerTest extends TestCase
      */
     public function testUpdate()
     {
-        $lesson = factory(App\Lesson::class)->create();
-        $lesson_changed = factory(App\Lesson::class)->make()->toArray();
+        $lesson = factory(Lesson::class)->create();
+        $lesson_changed = factory(Lesson::class)->make()->toArray();
         
         $this->put("api/lessons/{$lesson->id}",
             $lesson_changed,
@@ -165,7 +172,7 @@ class LessonControllerTest extends TestCase
      */
     public function testDestroy()
     {
-        $lesson = factory(\App\Lesson::class)->create();
+        $lesson = factory(Lesson::class)->create();
 
         $this->delete("api/lessons/{$lesson->id}",
             [],
@@ -201,7 +208,7 @@ class LessonControllerTest extends TestCase
         $i = 0;
         while ( $dateLesson->lte($end) ) {
             $result[$i]['day'] = $dateLesson->format('Y-m-d');
-            $lessons = factory(App\Lesson::class, 2)->create([
+            $lessons = factory(Lesson::class, 2)->create([
                     'start' => $dateLesson->format('Y-m-d H:i:s'),
                     'end' => $dateLesson->format('Y-m-d H:i:s'),
                 ]);

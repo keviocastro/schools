@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests;
+namespace Http\Controllers\Auth;
 
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -14,11 +14,14 @@ class AuthControllerTest extends TestCase
      *
      * @return void
      */
-    public function testRequestAccessSuccess()
+    public function testRequestAccess()
     {   
         $this->post('api/auth/request-access', 
             [],
             $this->getAutHeader())
-        	->assertResponseStatus(200);
+        	->assertResponseStatus(200)
+            ->seeJsonStructure(['request_access' => 
+                        ['id','status','status', 'user_id'], // 0 pendente
+                    ]);
     }
 }

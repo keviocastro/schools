@@ -361,8 +361,8 @@ class SchoolCalendar2016 extends Seeder
         		
                 array_push($lessons, [
 	        			'school_class_id' => $schoolClass->id,
-	        			'start' => $startLesson->format('Y-m-d'),
-	        			'end' => $endLesson->format('Y-m-d'),
+	        			'start' => $startLesson->format('Y-m-d H:i'),
+	        			'end' => $endLesson->format('Y-m-d H:i'),
                         'subject_id' => $subject->id,
                     ]);
             

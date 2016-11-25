@@ -1,7 +1,8 @@
 <?php
 
-namespace Tests;
+namespace Http\Controllers;
 
+use App\School;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
@@ -16,7 +17,7 @@ class SchoolControllerTest extends TestCase
      */
     public function testStore()
     {
-    	$school = factory(\App\School::class)->make()->toArray();
+    	$school = factory(School::class)->make()->toArray();
 
         $this->post('api/schools?_sort=-id', 
             $school,
@@ -44,7 +45,7 @@ class SchoolControllerTest extends TestCase
      */
     public function testShow()
     {
-        $school = factory(\App\School::class)->create();
+        $school = factory(School::class)->create();
 
         $this->get("api/schools/{$school->id}",
             $this->getAutHeader())
@@ -59,7 +60,7 @@ class SchoolControllerTest extends TestCase
      */
     public function testDestroy()
     {
-        $school = factory(\App\School::class)->create();
+        $school = factory(School::class)->create();
 
         $this->delete("api/schools/{$school->id}",
             [],
@@ -75,8 +76,8 @@ class SchoolControllerTest extends TestCase
      */
     public function testUpdate()
     {
-        $school = factory(\App\School::class)->create()->toArray();
-        $school_changed = factory(\App\School::class)->make()->toArray();
+        $school = factory(School::class)->create()->toArray();
+        $school_changed = factory(School::class)->make()->toArray();
         
         $this->put("api/schools/{$school['id']}",
             $school_changed,

@@ -1,8 +1,10 @@
 <?php
+namespace Http\Controllers;
 
-use Illuminate\Foundation\Testing\WithoutMiddleware;
+use App\SchoolCalendar;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Tests\TestCase;
 
 class SchoolCalendarControllerTest extends TestCase
@@ -14,7 +16,7 @@ class SchoolCalendarControllerTest extends TestCase
      */
     public function testIndex()
     {
-        $schoolCalendar = factory(App\SchoolCalendar::class)->create();
+        $schoolCalendar = factory(SchoolCalendar::class)->create();
         
         $this->get('api/school-calendars?_sort=-id',
         	$this->getAutHeader())
@@ -29,7 +31,7 @@ class SchoolCalendarControllerTest extends TestCase
      */
     public function testStore()
     {
-    	$schoolCalendar = factory(App\SchoolCalendar::class)->make()->toArray();
+    	$schoolCalendar = factory(SchoolCalendar::class)->make()->toArray();
         
         $this->post('api/school-calendars',
         	$schoolCalendar,
@@ -45,7 +47,7 @@ class SchoolCalendarControllerTest extends TestCase
      */
     public function testShow()
     {
-    	$schoolCalendar = factory(App\SchoolCalendar::class)->create()->toArray();
+    	$schoolCalendar = factory(SchoolCalendar::class)->create()->toArray();
         
         $this->get("api/school-calendars/{$schoolCalendar['id']}",
         	$this->getAutHeader())
@@ -60,8 +62,8 @@ class SchoolCalendarControllerTest extends TestCase
      */
     public function testUpdate()
     {
-    	$schoolCalendar = factory(App\SchoolCalendar::class)->create();
-    	$schoolCalendar_changed = factory(App\SchoolCalendar::class)->make()->toArray();
+    	$schoolCalendar = factory(SchoolCalendar::class)->create();
+    	$schoolCalendar_changed = factory(SchoolCalendar::class)->make()->toArray();
 
         $this->put("api/school-calendars/{$schoolCalendar->id}",
         	$schoolCalendar_changed,
@@ -77,7 +79,7 @@ class SchoolCalendarControllerTest extends TestCase
      */
     public function testDestroy()
     {
-        $schoolCalendar = factory(\App\SchoolCalendar::class)->create();
+        $schoolCalendar = factory(SchoolCalendar::class)->create();
 
         $this->delete("api/school-calendars/{$schoolCalendar->id}",
             [],

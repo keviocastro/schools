@@ -1,5 +1,7 @@
 <?php
+namespace Http\Controllers;
 
+use App\AttendanceRecord;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
@@ -14,7 +16,7 @@ class AttendanceRecordControllerTest extends TestCase
      */
     public function testIndex()
     {
-        $attendanceRecord = factory(App\AttendanceRecord::class)->create();
+        $attendanceRecord = factory(AttendanceRecord::class)->create();
         
         $this->get('api/attendance-records?_sort=-id',
         	$this->getAutHeader())
@@ -29,7 +31,7 @@ class AttendanceRecordControllerTest extends TestCase
      */
     public function testUpdate()
     {
-    	$attendanceRecord = factory(App\AttendanceRecord::class)->create([
+    	$attendanceRecord = factory(AttendanceRecord::class)->create([
                 'presence' => 1
             ]);
 
@@ -41,7 +43,7 @@ class AttendanceRecordControllerTest extends TestCase
 
 
         // Não é permitido alterar o estudante nem a aula.
-        $newAttendanceRecord = factory(App\AttendanceRecord::class)->create();
+        $newAttendanceRecord = factory(AttendanceRecord::class)->create();
         $this->put("api/attendance-records/{$attendanceRecord->id}",
             [
                 'student_id' => $newAttendanceRecord->student_id,
@@ -62,7 +64,7 @@ class AttendanceRecordControllerTest extends TestCase
      */
     public function testShow()
     {
-    	$attendanceRecord = factory(App\AttendanceRecord::class)->create()->toArray();
+    	$attendanceRecord = factory(AttendanceRecord::class)->create()->toArray();
         $this->get("api/attendance-records/{$attendanceRecord['id']}",
         	$this->getAutHeader())
         	->assertResponseStatus(200)
@@ -78,7 +80,7 @@ class AttendanceRecordControllerTest extends TestCase
      */
     public function testStore()
     {
-        $attendanceRecord = factory(App\AttendanceRecord::class)->make()->toArray();
+        $attendanceRecord = factory(AttendanceRecord::class)->make()->toArray();
         
         // Criando 1 registro
         $this->post('api/attendance-records',
@@ -87,7 +89,7 @@ class AttendanceRecordControllerTest extends TestCase
             ->assertResponseStatus(201)
             ->seeJson($attendanceRecord);
 
-        $attendanceRecords = factory(App\AttendanceRecord::class, 2)->make()->toArray();
+        $attendanceRecords = factory(AttendanceRecord::class, 2)->make()->toArray();
         
         // Criando multiplos registros
         $this->post('api/attendance-records',
@@ -98,7 +100,7 @@ class AttendanceRecordControllerTest extends TestCase
             ->seeJson($attendanceRecords[1]);
 
         // The record of the student to the lesson already exists.
-    	$attendanceRecord = factory(App\AttendanceRecord::class)->create();
+    	$attendanceRecord = factory(AttendanceRecord::class)->create();
         $this->post('api/attendance-records',
             [
                 'student_id' => $attendanceRecord->student_id, 
@@ -116,7 +118,7 @@ class AttendanceRecordControllerTest extends TestCase
      */
     public function testDestroy()
     {
-        $attendanceRecord = factory(\App\AttendanceRecord::class)->create();
+        $attendanceRecord = factory(AttendanceRecord::class)->create();
 
         $this->delete("api/attendance-records/{$attendanceRecord->id}",
             [],

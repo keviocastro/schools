@@ -1,5 +1,8 @@
 <?php
+namespace Http\Controllers;
 
+use App\SchoolCalendar;
+use App\SchoolClass;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
@@ -14,7 +17,7 @@ class SchoolClassControllerTest extends TestCase
      */
     public function testIndex()
     {
-    	$schoolClass = factory(App\SchoolClass::class)->create();
+    	$schoolClass = factory(SchoolClass::class)->create();
         
         $this->get('api/school-classes?_sort=-id',
         	$this->getAutHeader())
@@ -29,8 +32,8 @@ class SchoolClassControllerTest extends TestCase
      */
     public function testStore()
     {
-        $schoolCalendar = factory(App\SchoolCalendar::class)->create();
-    	$schoolClass = factory(App\SchoolClass::class)->make()->toArray();
+        $schoolCalendar = factory(SchoolCalendar::class)->create();
+    	$schoolClass = factory(SchoolClass::class)->make()->toArray();
         $schoolClass['school_calendar_id'] = $schoolCalendar->id;
         
         $this->post('api/school-classes',
@@ -47,7 +50,7 @@ class SchoolClassControllerTest extends TestCase
      */
     public function testShow()
     {
-    	$shcoolClass = factory(App\SchoolClass::class)->create()->toArray();
+    	$shcoolClass = factory(SchoolClass::class)->create()->toArray();
         $this->get("api/school-classes/{$shcoolClass['id']}?_with=students",
         	$this->getAutHeader())
         
@@ -62,8 +65,8 @@ class SchoolClassControllerTest extends TestCase
      */
     public function testUpdate()
     {
-    	$shcoolClass = factory(App\SchoolClass::class)->create();
-    	$shcoolClass_changed = factory(App\SchoolClass::class)->make()->toArray();
+    	$shcoolClass = factory(SchoolClass::class)->create();
+    	$shcoolClass_changed = factory(SchoolClass::class)->make()->toArray();
 
         $this->put("api/school-classes/{$shcoolClass->id}",
         	$shcoolClass_changed,
@@ -79,7 +82,7 @@ class SchoolClassControllerTest extends TestCase
      */
     public function testDestroy()
     {
-        $schoolClass = factory(\App\SchoolClass::class)->create();
+        $schoolClass = factory(SchoolClass::class)->create();
 
         $this->delete("api/school-classes/{$schoolClass->id}",
             [],

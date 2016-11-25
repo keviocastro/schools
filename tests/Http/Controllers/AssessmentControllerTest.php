@@ -1,5 +1,7 @@
 <?php
+namespace Http\Controllers;
 
+use App\Assessment;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
@@ -14,7 +16,7 @@ class AssessmentControllerTest extends TestCase
      */
     public function testIndex()
     {
-        $assessment = factory(App\Assessment::class)->create();
+        $assessment = factory(Assessment::class)->create();
         
         $this->get('api/assessments?_sort=-id',
         	$this->getAutHeader())

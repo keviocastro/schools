@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests;
+namespace Http\Controllers;
 
 use App\SchoolCalendar;
 use App\SchoolClassStudent;
@@ -21,7 +21,7 @@ class StudentControllerTest extends TestCase
      */
     public function testIndex()
     {
-    	$student = factory(\App\Student::class)->create();
+    	$student = factory(Student::class)->create();
 
     	$this->get('api/students',$this->getAutHeader())
     		->assertResponseStatus(200);
@@ -52,13 +52,13 @@ class StudentControllerTest extends TestCase
     public function testAnnualSummary()
     {
 
-        Artisan::call('migrate:refresh',[
-                '--seed' => true
-            ]);
+        // Artisan::call('migrate:refresh',[
+        //         '--seed' => true
+        //     ]);
 
-        Artisan::call('db:seed',[
-                '--class' => 'SchoolCalendar2016'
-            ]);
+        // Artisan::call('db:seed',[
+        //         '--class' => 'SchoolCalendar2016'
+        //     ]);
 
         // Pega o primeiro estudante que foi criado pelo seeder SchoolCalendar2016
         $student = Student::
@@ -86,12 +86,11 @@ class StudentControllerTest extends TestCase
             "?school_calendar_id=$schoolCalendar->id",
             $this->getAutHeader())
             ->assertResponseStatus(200)
-            // ->seeJsonStructure([
-            //     "absences" => ['total'],
-            //     "best_average" => $average_structure,
-            //     "low_average" => $average_structure
-            // ])
-            ;
+            ->seeJsonStructure([
+                "absences" => ['total'],
+                "best_average" => $average_structure,
+                "low_average" => $average_structure
+            ]);
         
     } 
 
@@ -102,13 +101,13 @@ class StudentControllerTest extends TestCase
      */
     public function testAnnualReport()
     {
-        Artisan::call('migrate:refresh',[
-                '--seed' => true
-            ]);
+        // Artisan::call('migrate:refresh',[
+        //         '--seed' => true
+        //     ]);
 
-        Artisan::call('db:seed',[
-                '--class' => 'SchoolCalendar2016'
-            ]);
+        // Artisan::call('db:seed',[
+        //         '--class' => 'SchoolCalendar2016'
+        //     ]);
         
         $this->get('api/students/1/annual-report'.
             "?school_calendar_id=1",

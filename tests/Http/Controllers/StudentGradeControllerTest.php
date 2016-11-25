@@ -1,8 +1,12 @@
 <?php
+namespace Http\Controllers;
 
-use Illuminate\Foundation\Testing\WithoutMiddleware;
+use App\SchoolClass;
+use App\Student;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Foundation\Testing\WithoutMiddleware;
+use StudentGrade;
 use Tests\TestCase;
 
 class StudentGradeControllerTest extends TestCase
@@ -47,7 +51,7 @@ class StudentGradeControllerTest extends TestCase
     public function testStore()
     {
 		// Success
-    	$studantGrade = factory(App\StudentGrade::class)->make()->toArray();
+    	$studantGrade = factory(StudentGrade::class)->make()->toArray();
 
         $this->post('api/student-grades',
         	$studantGrade,
@@ -82,15 +86,15 @@ class StudentGradeControllerTest extends TestCase
         		]);
 
         //O aluno precisa estar na turma que está sendo registrada a nota
-        $student = factory(App\Student::class)->create();
-        $schoolClass = factory(App\SchoolClass::class)->create();
+        $student = factory(Student::class)->create();
+        $schoolClass = factory(SchoolClass::class)->create();
 
-        $studantGrade = factory(App\StudentGrade::class)->make([
+        $studantGrade = factory(StudentGrades::class)->make([
                 'student_id' => $student->id,
                 'school_class_id' => $schoolClass->id
             ])->toArray();
 
-        $schoolClass = factory(App\SchoolClass::class)->create();
+        $schoolClass = factory(SchoolClass::class)->create();
         $studantGrade['school_class_id'] = $schoolClass->id;
 
         $this->post('api/student-grades',
@@ -101,7 +105,7 @@ class StudentGradeControllerTest extends TestCase
                 "The student is not in the school class ({$studantGrade['school_class_id']})."]);
 
         //Cadastrar multiplos registros.
-        $studentGrade = factory(App\StudentGrade::class, 3)->make()->toArray();
+        $studentGrade = factory(StudentGrade::class, 3)->make()->toArray();
 
         $autHeader = $this->transformHeadersToServerVars($this->getAutHeader());
 
@@ -142,7 +146,7 @@ class StudentGradeControllerTest extends TestCase
      */
     public function testShow()
     {
-        $studantGrade = factory(App\StudentGrade::class)->create();
+        $studantGrade = factory(StudentGrade::class)->create();
     	
         $this->get("api/student-grades/{$studantGrade->id}",
         	$this->getAutHeader())
@@ -159,7 +163,7 @@ class StudentGradeControllerTest extends TestCase
      */
     public function testUpdate()
     {
-        $studantGrade = factory(App\StudentGrade::class)->create();
+        $studantGrade = factory(StudentGrade::class)->create();
         $studantGrade_changed = $studantGrade->toArray();
         $studantGrade_changed['grade'] = '9.9';
 
@@ -170,7 +174,7 @@ class StudentGradeControllerTest extends TestCase
             ->seeJson($studantGrade_changed);
 
         //somente a nota pode ser alterada
-        $studantGrade = factory(App\StudentGrade::class)->create();
+        $studantGrade = factory(StudentGrade::class)->create();
 
         $studantGrade_changed = $studantGrade->toArray();
         $studantGrade_changed['student_id'] = 2;
