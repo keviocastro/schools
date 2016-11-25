@@ -101,6 +101,11 @@ class StudentControllerTest extends TestCase
      */
     public function testAnnualReport()
     {
+        // Comentado porque demora muito, e esse teste é executado
+        // depois do teste acima que executa os mesmos comandos.
+        // Se for testar individualmente, esse trecho deve ser
+        // descomentado
+        // 
         // Artisan::call('migrate:refresh',[
         //         '--seed' => true
         //     ]);

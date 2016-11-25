@@ -2,6 +2,7 @@
 namespace Http\Controllers;
 
 use App\AccountConfig;
+use App\AttendanceRecord;
 use App\Lesson;
 use App\Occurence;
 use App\SchoolClass;
@@ -13,6 +14,7 @@ use Carbon\Carbon;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
+use Illuminate\Support\Facades\DB;
 use Tests\TestCase;
 
 class LessonControllerTest extends TestCase

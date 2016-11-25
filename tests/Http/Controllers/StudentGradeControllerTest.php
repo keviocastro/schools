@@ -6,7 +6,7 @@ use App\Student;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
-use StudentGrade;
+use App\StudentGrade;
 use Tests\TestCase;
 
 class StudentGradeControllerTest extends TestCase
@@ -89,7 +89,7 @@ class StudentGradeControllerTest extends TestCase
         $student = factory(Student::class)->create();
         $schoolClass = factory(SchoolClass::class)->create();
 
-        $studantGrade = factory(StudentGrades::class)->make([
+        $studantGrade = factory(StudentGrade::class)->make([
                 'student_id' => $student->id,
                 'school_class_id' => $schoolClass->id
             ])->toArray();
