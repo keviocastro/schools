@@ -28,6 +28,21 @@ class StudentControllerTest extends TestCase
     }
 
     /**
+     * @covers StudentControllerTest::show
+     *
+     * @return void
+     */
+    public function testShow()
+    {
+        $student = factory(Student::class)->create()->toArray();
+        
+        $this->get("api/students/{$student['id']}",
+            $this->getAutHeader())
+            ->assertResponseStatus(200)
+            ->seeJson($student);
+    }
+
+    /**
      * @todo  Implementar teste unitário para para App\Student
      * 
      * @covers StudentController::annualSummary
@@ -45,13 +60,13 @@ class StudentControllerTest extends TestCase
                 '--class' => 'SchoolCalendar2016'
             ]);
 
-        // Pega o ultimo estudante que foi criado pelo seeder SchoolCalendar2016
+        // Pega o primeiro estudante que foi criado pelo seeder SchoolCalendar2016
         $student = Student::
-            orderBy('id', 'desc')
+            orderBy('id', 'asc')
             ->first();
 
          $schoolCalendar = SchoolCalendar::
-            orderBy('id', 'desc')
+            orderBy('id', 'asc')
             ->first();
 
         $average_structure = [
@@ -65,10 +80,11 @@ class StudentControllerTest extends TestCase
 
             ]
         ];
-
+        
+        
         $this->get("api/students/$student->id/annual-summary".
             "?school_calendar_id=$schoolCalendar->id",
-            $this->getAutHeader())
+            $this->getAutHeader())->dump()
             ->assertResponseStatus(200)
             // ->seeJsonStructure([
             //     "absences" => ['total'],

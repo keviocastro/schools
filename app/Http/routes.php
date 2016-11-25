@@ -39,6 +39,7 @@ $api->version('v1', function ($api) {
 
 	    	// People
 			$api->get('students', 'App\Http\Controllers\StudentController@index');
+			$api->get('students/{student_id}', 'App\Http\Controllers\StudentController@show');
 
 			// Students 
 			$api->get('students/{student_id}/annual-summary', 

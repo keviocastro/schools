@@ -23,6 +23,17 @@ class StudentController extends Controller
     }
 
     /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        return Student::findOrFail($id);
+    }
+
+    /**
      * Resumo anual do aluno, com notas e frequências
      * 
      * @param  Request $request 
