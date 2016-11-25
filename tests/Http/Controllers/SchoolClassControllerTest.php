@@ -3,6 +3,8 @@ namespace Http\Controllers;
 
 use App\SchoolCalendar;
 use App\SchoolClass;
+use App\SchoolClassStudent;
+use App\Student;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
@@ -50,12 +52,19 @@ class SchoolClassControllerTest extends TestCase
      */
     public function testShow()
     {
-    	$shcoolClass = factory(SchoolClass::class)->create()->toArray();
-        $this->get("api/school-classes/{$shcoolClass['id']}?_with=students",
+    	$schoolClass = factory(SchoolClass::class)->create()->toArray();
+        $students = factory(Student::class, 3)->create();
+        $students->each(function($item, $key) use ($schoolClass){
+            factory(SchoolClassStudent::class)->create([
+                    'student_id' => $item->id,
+                    'school_class_id' => $schoolClass['id']
+                ]);
+        });
+
+        $this->get("api/school-classes/{$schoolClass['id']}",
         	$this->getAutHeader())
-        
         	->assertResponseStatus(200)
-        	->seeJson($shcoolClass);
+        	->seeJson($schoolClass);
     }
 
     /**

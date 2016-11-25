@@ -52,13 +52,13 @@ class StudentControllerTest extends TestCase
     public function testAnnualSummary()
     {
 
-        // Artisan::call('migrate:refresh',[
-        //         '--seed' => true
-        //     ]);
+        Artisan::call('migrate:refresh',[
+                '--seed' => true
+            ]);
 
-        // Artisan::call('db:seed',[
-        //         '--class' => 'SchoolCalendar2016'
-        //     ]);
+        Artisan::call('db:seed',[
+                '--class' => 'SchoolCalendar2016'
+            ]);
 
         // Pega o primeiro estudante que foi criado pelo seeder SchoolCalendar2016
         $student = Student::

@@ -65,12 +65,11 @@ class SchoolClass extends Model
      * 
      * @Relation
      * 
-     * @return \Illuminate\Database\Eloquent\Relations\hasMany
+     * @return \Illuminate\Database\Eloquent\Relations\belongsToMany
      */
     public function students()
     {
-        return $this->hasMany('App\SchoolClassStudent')
-            ->with('student');
+        return $this->belongsToMany('App\Student')->with('person');
     }
 
     /**
