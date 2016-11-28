@@ -155,6 +155,86 @@ class Student extends Model
     }
 
     /**
+     * Médias anual das disciplinas cursadas pelo aluno em 
+     * um ano letivo. 
+     * 
+     * @param  string $schoolCalendar 
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function subjectAvaragePerYear(SchoolCalendar $schoolCalendar)
+    {
+        $formula = $schoolCalendar->average_calculation;
+        $formula_variables = [];
+        
+        // Extrair as variáveis da formula
+        while (  $phase_name = (string) S::create($formula)->between('{', '}') ) 
+        {
+            $formula_variables[] = $phase_name;
+            $formula = str_replace('{'.$phase_name.'}', '', $formula);
+        }
+
+        $averagesPerPhase = $this->subjectAvaragePerYearPhase($schoolCalendar);
+        $subjects = $this->subjectsYear($schoolCalendar->id)->get();
+
+        $foundVariables = true;
+        foreach ($subjects as $key => $subject) {
+            $calculation = $schoolCalendar->average_calculation;
+
+            foreach ($formula_variables as $key => $variable) {
+                
+                // Encontra a fase com mesmo nome da variável da formula
+                // Encontra a média da disciplina na fase
+                $phase = $averagesPerPhase
+                    ->where('name', $variable)
+                    ->first();
+                
+                // Substitui a nota da disciplina na fase pela
+                // variável da formula $schoolCalendar->average_calculation
+                if ($phase && $phase->has('subject_average') ) {
+                    $subject_grade = $phase['subject_average']
+                        ->where('id', $subject->id)
+                        ->first();
+                    
+                    if ($subject_grade && is_numeric($subject_grade->average) ) {
+                            $calculation = str_replace(
+                                '{'.$variable.'}', 
+                                $subject_grade->average, 
+                                $calculation);
+                    }else{
+                        // A diciplina não tem média para a fase do ano letivo
+                        $calculation = str_replace(
+                        '{'.$variable.'}', 
+                        '{'.$variable.':doesNotExist:AverageForYearPhase}', 
+                        $calculation);  
+                        $foundVariables = false; 
+                    }
+
+                }else{
+                    // A variável não corresponde ao nome de nenhuma fase
+                    // do ano letivo
+                    $calculation = str_replace(
+                        '{'.$variable.'}', 
+                        '{'.$variable.':notFound}', 
+                        $calculation);    
+                        $foundVariables = false;          
+                }
+                
+            }
+
+            $subject->average_calculation = $calculation;
+
+            if ($foundVariables) {
+                eval("\$result = $calculation;");
+                $subject->average = round($result, 1);
+            }else{
+                $subject->average = 'incomplete-calculation';
+            }
+        }
+
+        return  $subjects;
+    }
+
+    /**
      * @todo Remover parametro toArray e fazer override para o 
      *       Eloquent\Collection fazer toArray recursivamente
      *
@@ -178,7 +258,7 @@ class Student extends Model
         // Contém fases (schoolCalendarPhase), 
         // avaliações (assessments) da fase 
         // e notas do aluno (studentGrades)
-        // no ano letivo (shcoolCalendar)
+        // no ano letivo (schoolCalendar)
         $phases = $schoolCalendar->schoolCalendarPhases()
             ->with(['assessments.studentGrades' => function($query){
                 $query->where('student_id', $this->id);

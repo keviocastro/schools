@@ -6,6 +6,7 @@ services:
       - db
     volumes:
       - ".:/var/app/"
+      - "~/.bash_history:/root/.bash_history"
     ports:
       - "80:80"
     links:

@@ -31,7 +31,8 @@ class SchoolCalendar extends Model
     protected $fillable = [
     	'year', 
     	'start', 
-    	'end'];
+    	'end',
+        'average_calculation'];
 
     /**
      * Os atributos que serão convertidos para formato nativo

@@ -87,8 +87,7 @@ class StudentController extends Controller
             ->get();
 
         $result['subjects'] = $student
-            ->subjectsYear($schoolCalendar->id)
-            ->get();
+            ->subjectAvaragePerYear($schoolCalendar);
 
         return $result;
     }

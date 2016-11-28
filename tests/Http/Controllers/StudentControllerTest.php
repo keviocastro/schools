@@ -147,8 +147,12 @@ class StudentControllerTest extends TestCase
 
                 ],
                 // Lista de disciplinas cursadas no ano
-                'subjects' => ['*' => ['id', 'name']
-                ],
+                'subjects' => ['*' => [
+                    'id', 
+                    'name', 
+                    'average', 
+                    'average_calculation']
+                    ],
                 ]);
     }
 

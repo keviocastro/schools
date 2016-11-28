@@ -23,6 +23,7 @@ $factory->define(App\SchoolCalendar::class, function() use ($factory, $faker) {
             rand(1,3), rand(1,28))->format('Y-m-d'),
         'end' => $dateTime->setDate($dateTime->format('Y'), 
             rand(11,12), rand(1,30))->format('Y-m-d'),
+        'average_calculation' => '({1 Bim} + {2 Bim} + {3 Bim} + {4 Bim})/4'
     ];
 });
 

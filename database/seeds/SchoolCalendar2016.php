@@ -50,6 +50,8 @@ class SchoolCalendar2016 extends Seeder
             'year' => '2016',
             'start' => '2016-01-20',
             'end' => '2016-12-16',
+            'average_calculation' => 
+                '( ({1º Bimestre} + {2º Bimestre})*0.4 + ({3º Bimestre} + {4º Bimestre})*0.6 )/2'
         ]);
         $schoolCalendarPhase1 = factory(SchoolCalendarPhase::class)->create([
             'school_calendar_id' => $schoolCalendar->id,
