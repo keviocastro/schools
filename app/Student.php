@@ -347,7 +347,7 @@ class Student extends Model
                  }else{
                     // Não foi possivel calcular porque não existe nota ainda
                     // ou não foi possivél resolver a formula
-                    $subject->average = -1; 
+                    $subject->average = 'incomplete-calculation'; 
                  } 
 
                 if ($toArray) {
