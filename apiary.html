@@ -1,4 +1,5 @@
-<!DOCTYPE html><html><head><meta charset="utf-8"><style>body {
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="format" content="1A">
+<meta name="host" content="http://localhost/api"><style>body {
   width: 45em;
   border: 1px solid #ddd;
   outline: 1300px solid #fff;
@@ -1014,17 +1015,16 @@ body .markdown-body
     page-break-after: avoid;
   }
 }
-</style><title>apiary</title></head><body><article class="markdown-body"><p>HOST: <a href="http://localhost/api">http://localhost/api</a></p>
-<h1 id="schools-api"><a name="user-content-schools-api" href="#schools-api" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Schools API</h1>
+</style><title>apiary</title></head><body><article class="markdown-body"><h1 id="schools-api"><a name="user-content-schools-api" href="#schools-api" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Schools API</h1>
 <p>Schools é uma api para manter informações sobre escolas e seus registros administrativos.</p>
 <h1 id="authentication"><a name="user-content-authentication" href="#authentication" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Authentication</h1>
 <p>A autentificação de usuário para acesso aos recursos da api, deve ser feita atribuindo<br />
 sempre o seguinte cabeçario na requisição:</p>
-<p><code>authorization: Bearer token_id</code></p>
+<p><code>authorizavtion: Bearer token_id</code></p>
 <p>Onde &ldquo;token id&rdquo; é obtido durante a autenficação do usuário no microservice de atentificação<br />
 auth0 através do dominio &ldquo;logos.auth0.com&rdquo;.<br />
 Veja ver mais detalhes de como realizar essa autentificação nesse link: <a href="https://auth0.com/docs">https://auth0.com/docs</a> </p>
-<h1 id="group-auth"><a name="user-content-group-auth" href="#group-auth" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Group Auth</h1>
+<h1 id="group-auth-and-account"><a name="user-content-group-auth-and-account" href="#group-auth-and-account" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Group Auth and Account</h1>
 <h2 id="request-access-authrequest-access"><a name="user-content-request-access-authrequest-access" href="#request-access-authrequest-access" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Request access [/auth/request-access]</h2>
 <p><code>Request access</code> são solicitações de acesso que um usuário faz a uma conta.</p>
 <p>Exemplo: considerando que a Escola Luz do Saber tem uma conta na sua aplicação, e o Professor Medeiros <br />
@@ -1035,7 +1035,7 @@ Professor Medeiros acessa seu aplicativo informando usuário e senha para se cad
 <li>
 <p>Request</p>
 <ul>
-<li>Headers<pre><code>authorization: Bearer &lt;token_id&gt;
+<li>Headers<pre><code>authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ3ODQ1MjI3MSwiaWF0IjoxNDc1ODYwMjcxfQ.TyXdSxKWVaqGb9Y7uJh44Ybz807DLtUWNxw__K8JU7w
 </code></pre>
 </li>
 </ul>
@@ -1060,6 +1060,70 @@ Professor Medeiros acessa seu aplicativo informando usuário e senha para se cad
 </ul>
 </li>
 </ul>
+<h2 id="account-settings-collection-account-config"><a name="user-content-account-settings-collection-account-config" href="#account-settings-collection-account-config" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Account Settings Collection [/account-config]</h2>
+<p>Configurações da contado do usuário logado.</p>
+<h3 id="list-account-settings-get"><a name="user-content-list-account-settings-get" href="#list-account-settings-get" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>List account settings [GET]</h3>
+<ul>
+<li>
+<p>Request</p>
+<ul>
+<li>Headers<pre><code>authorization: Bearer &lt;token_id&gt;
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p>Response 200 (application/json)</p>
+<ul>
+<li>Attributes<ul>
+<li>
+<p>account_configs (array)</p>
+<ul>
+<li>
+<p>(object)</p>
+<ul>
+<li>id: 1 (number)</li>
+<li>name: percentage_absences_reprove (string) - <code>Percentual máximo de faltas que um aluno pode ter para não ser reprovado. Exemplo: Existem 200 aulas de Matématica no ano, e consideramos que percentage_absences_reprove == 15, então o aluno pode faltar no máximo 30 aulas (200*0,15).</code></li>
+<li>value: 20 (number)</li>
+<li>default: 25 (number)</li>
+</ul>
+</li>
+<li>
+<p>(object)</p>
+<ul>
+<li>id: 2 (number)</li>
+<li>name: grade_threshold_great (string) - <code>Se o aluno tiver média igual ou acima dessa nota, ele é considerado ótimo</code></li>
+<li>value: 9 (number)</li>
+<li>default: 9 (number)</li>
+</ul>
+</li>
+<li>
+<p>(object)</p>
+<ul>
+<li>id: 3 (number)</li>
+<li>name: grade_threshold_good (string) - <code>Se o aluno tiver média igual ou acima dessa nota, e menor do que "grade_threshold_great", ele é considerado bom.</code></li>
+<li>value:  6 (number)</li>
+<li>default: 6 (number)</li>
+</ul>
+</li>
+<li>
+<p>(object)</p>
+<ul>
+<li>id: 4 (number)</li>
+<li>name: passing_grade_threshold (string) - <code>Média mínima para o aluno ser aprovado em uma disciplina</code></li>
+<li>value: 6 (number)</li>
+<li>default: 6 (number)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="account-account-configsid"><a name="user-content-account-account-configsid" href="#account-account-configsid" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Account  [/account-configs/{id}]</h2>
+<h3 id="_1"><a name="user-content-_1" href="#_1" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a></h3>
 <h1 id="group-schools"><a name="user-content-group-schools" href="#group-schools" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Group Schools</h1>
 <p>&lsquo;Schools&rsquo; são as escolas associadas a uma conta.<br />
 &lsquo;School Class&rsquo; são as turmas de uma escola que existem em um determinado ano letivo/calendario escolar.</p>
@@ -1076,7 +1140,7 @@ Professor Medeiros acessa seu aplicativo informando usuário e senha para se cad
 <li>
 <p>Request</p>
 <ul>
-<li>Headers<pre><code>authorization: Bearer &lt;token_id&gt;
+<li>Headers<pre><code>authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ3ODQ1MjI3MSwiaWF0IjoxNDc1ODYwMjcxfQ.TyXdSxKWVaqGb9Y7uJh44Ybz807DLtUWNxw__K8JU7w
 </code></pre>
 </li>
 </ul>
@@ -1100,7 +1164,7 @@ Professor Medeiros acessa seu aplicativo informando usuário e senha para se cad
 <li>
 <p>Request </p>
 <ul>
-<li>Headers<pre><code>authorization: Bearer &lt;token_id&gt;
+<li>Headers<pre><code>authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ3ODQ1MjI3MSwiaWF0IjoxNDc1ODYwMjcxfQ.TyXdSxKWVaqGb9Y7uJh44Ybz807DLtUWNxw__K8JU7w
 </code></pre>
 </li>
 </ul>
@@ -1140,7 +1204,7 @@ Professor Medeiros acessa seu aplicativo informando usuário e senha para se cad
 <li>
 <p>Request </p>
 <ul>
-<li>Headers<pre><code>authorization: Bearer &lt;token_id&gt;
+<li>Headers<pre><code>authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ3ODQ1MjI3MSwiaWF0IjoxNDc1ODYwMjcxfQ.TyXdSxKWVaqGb9Y7uJh44Ybz807DLtUWNxw__K8JU7w
 </code></pre>
 </li>
 </ul>
@@ -1168,7 +1232,7 @@ Professor Medeiros acessa seu aplicativo informando usuário e senha para se cad
 <ul>
 <li>
 <p>Headers</p>
-<pre><code>authorization: Bearer &lt;token_id&gt;
+<pre><code>authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ3ODQ1MjI3MSwiaWF0IjoxNDc1ODYwMjcxfQ.TyXdSxKWVaqGb9Y7uJh44Ybz807DLtUWNxw__K8JU7w
 </code></pre>
 </li>
 <li>
@@ -1197,7 +1261,7 @@ Professor Medeiros acessa seu aplicativo informando usuário e senha para se cad
 <li>
 <p>Request (application/json)</p>
 <ul>
-<li>Headers<pre><code>authorization: Bearer &lt;token_id&gt;
+<li>Headers<pre><code>authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ3ODQ1MjI3MSwiaWF0IjoxNDc1ODYwMjcxfQ.TyXdSxKWVaqGb9Y7uJh44Ybz807DLtUWNxw__K8JU7w
 </code></pre>
 </li>
 </ul>
@@ -1216,8 +1280,11 @@ Professor Medeiros acessa seu aplicativo informando usuário e senha para se cad
 <li>_sort (string, optional) - Nome da coluna para ordenação. </li>
 <li>_with (string, optional) - Nome da relação a ser incluída na resposta.<ul>
 <li>Members <ul>
-<li>grade</li>
-<li>shift</li>
+<li>grade - Ano da turma</li>
+<li>shift - Turno</li>
+<li>students - Estudantes</li>
+<li>schoolCalendar - Ano letivo a qual a turma pertence</li>
+<li>subjects - Disciplinas ministradas na turma</li>
 </ul>
 </li>
 </ul>
@@ -1227,7 +1294,7 @@ Professor Medeiros acessa seu aplicativo informando usuário e senha para se cad
 <li>
 <p>Request (application/json)</p>
 <ul>
-<li>Headers<pre><code>authorization: Bearer &lt;token_id&gt;
+<li>Headers<pre><code>authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ3ODQ1MjI3MSwiaWF0IjoxNDc1ODYwMjcxfQ.TyXdSxKWVaqGb9Y7uJh44Ybz807DLtUWNxw__K8JU7w
 </code></pre>
 </li>
 </ul>
@@ -1253,7 +1320,7 @@ Professor Medeiros acessa seu aplicativo informando usuário e senha para se cad
 <ul>
 <li>
 <p>Headers</p>
-<pre><code>authorization: Bearer &lt;token_id&gt;
+<pre><code>authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ3ODQ1MjI3MSwiaWF0IjoxNDc1ODYwMjcxfQ.TyXdSxKWVaqGb9Y7uJh44Ybz807DLtUWNxw__K8JU7w
 </code></pre>
 </li>
 <li>
@@ -1296,7 +1363,7 @@ Professor Medeiros acessa seu aplicativo informando usuário e senha para se cad
 <li>
 <p>Request </p>
 <ul>
-<li>Headers<pre><code>authorization: Bearer &lt;token_id&gt;
+<li>Headers<pre><code>authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ3ODQ1MjI3MSwiaWF0IjoxNDc1ODYwMjcxfQ.TyXdSxKWVaqGb9Y7uJh44Ybz807DLtUWNxw__K8JU7w
 </code></pre>
 </li>
 </ul>
@@ -1318,7 +1385,7 @@ Professor Medeiros acessa seu aplicativo informando usuário e senha para se cad
 <ul>
 <li>
 <p>Headers</p>
-<pre><code>authorization: Bearer &lt;token_id&gt;
+<pre><code>authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ3ODQ1MjI3MSwiaWF0IjoxNDc1ODYwMjcxfQ.TyXdSxKWVaqGb9Y7uJh44Ybz807DLtUWNxw__K8JU7w
 </code></pre>
 </li>
 <li>
@@ -1337,6 +1404,150 @@ Professor Medeiros acessa seu aplicativo informando usuário e senha para se cad
 </li>
 </ul>
 <h3 id="delete-delete_1"><a name="user-content-delete-delete_1" href="#delete-delete_1" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Delete [DELETE]</h3>
+<ul>
+<li>Response 204</li>
+</ul>
+<h2 id="school-calendar-collection-school-calendars_q_sort_with"><a name="user-content-school-calendar-collection-school-calendars_q_sort_with" href="#school-calendar-collection-school-calendars_q_sort_with" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>School Calendar Collection [/school-calendars{?_q,_sort,_with}]</h2>
+<p><code>School Calendar</code> é considerado nessa api como a definição do ano letivo,<br />
+contendo fases fases avaliativas do ano (Ex.: bimestres), feriados, férias,<br />
+inicio e fim do ano.</p>
+<h3 id="list-school-calendars-get"><a name="user-content-list-school-calendars-get" href="#list-school-calendars-get" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>List School Calendars [GET]</h3>
+<ul>
+<li>
+<p>Parameters</p>
+<ul>
+<li>
+<p>_q (string, optional) - <code>Fulltext search. 
+    Existem mais parametros para filtragem de dados.
+    Veja as possibilidades 
+    [Filtering]#https://github.com/keviocastro/laravel-api-handler#filtering</code></p>
+</li>
+<li>
+<p>_sort (string, optional) - Nome da coluna para ordenação. </p>
+</li>
+<li>_with (string, optional) - Nome da relação a ser incluída na resposta.<ul>
+<li>Members <ul>
+<li>schoolClasses - Turmas do ano letivo</li>
+<li>schoolCalendarPhases - Fases avaliativas do ano letivo</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>Request (application/json)</p>
+<ul>
+<li>Headers<pre><code>authorization: Bearer &lt;token_id&gt;
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p>Response 200 (application/json)</p>
+<ul>
+<li>Attributes <ul>
+<li>Include Paginator</li>
+<li>data (array) <ul>
+<li>(SchoolCalendar)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="create-a-new-school-calendar-post"><a name="user-content-create-a-new-school-calendar-post" href="#create-a-new-school-calendar-post" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Create a new school calendar [POST]</h3>
+<ul>
+<li>
+<p>Request (application/json)</p>
+<ul>
+<li>
+<p>Headers</p>
+<pre><code>authorization: Bearer &lt;token_id&gt;
+</code></pre>
+</li>
+<li>
+<p>Attributes (SchoolCalendarFillable)</p>
+</li>
+</ul>
+</li>
+<li>
+<p>Response 200 (application/json) </p>
+<ul>
+<li>Attributes <ul>
+<li>school_calendar (SchoolCalendar)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="school-calendar-school-calendarsschool_calendar_id_with"><a name="user-content-school-calendar-school-calendarsschool_calendar_id_with" href="#school-calendar-school-calendarsschool_calendar_id_with" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>School Calendar [/school-calendars/{school_calendar_id}{?_with}]</h2>
+<ul>
+<li>Parameters<ul>
+<li>school_calendar_id (number) - ID of the school class</li>
+</ul>
+</li>
+</ul>
+<h3 id="view-a-school-calendar-detail-get"><a name="user-content-view-a-school-calendar-detail-get" href="#view-a-school-calendar-detail-get" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>View a school calendar detail [GET]</h3>
+<ul>
+<li>
+<p>Parameters</p>
+<ul>
+<li>_with (string, optional) - Nome da relação a ser incluída na resposta.<ul>
+<li>Members <ul>
+<li>schoolClasses - Turmas do ano letivo</li>
+<li>schoolCalendarPhases - Fases avaliativas do ano letivo</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>Request </p>
+<ul>
+<li>Headers<pre><code>authorization: Bearer &lt;token_id&gt;
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p>Response 200 (application/json)</p>
+<ul>
+<li>Attributes <ul>
+<li>school_class (SchoolClass)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="edit-put_2"><a name="user-content-edit-put_2" href="#edit-put_2" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Edit [PUT]</h3>
+<ul>
+<li>
+<p>Request </p>
+<ul>
+<li>
+<p>Headers</p>
+<pre><code>authorization: Bearer &lt;token_id&gt;
+</code></pre>
+</li>
+<li>
+<p>Attributes (SchoolCalendarFillable)</p>
+</li>
+</ul>
+</li>
+<li>
+<p>Response 200 (application/json)</p>
+<ul>
+<li>Attributes <ul>
+<li>school_calendar (SchoolCalendar)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="delete-delete_2"><a name="user-content-delete-delete_2" href="#delete-delete_2" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Delete [DELETE]</h3>
 <ul>
 <li>Response 204</li>
 </ul>
@@ -1365,7 +1576,7 @@ Professor Medeiros acessa seu aplicativo informando usuário e senha para se cad
 <li>
 <p>Request (application/json)</p>
 <ul>
-<li>Headers<pre><code>authorization: Bearer &lt;token_id&gt;
+<li>Headers<pre><code>authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ3ODQ1MjI3MSwiaWF0IjoxNDc1ODYwMjcxfQ.TyXdSxKWVaqGb9Y7uJh44Ybz807DLtUWNxw__K8JU7w
 </code></pre>
 </li>
 </ul>
@@ -1467,7 +1678,7 @@ e relatórios como &ldquo;Boletim anual do aluno&rdquo; e &ldquo;Histórico esco
 <p>Response 200 (application/json)</p>
 <ul>
 <li>Attributes (object)<ul>
-<li>absences: (object)<ul>
+<li>absences (object)<ul>
 <li>total: 22 (number) - Total de faltas do aluno no ano letivo</li>
 </ul>
 </li>
@@ -1529,7 +1740,7 @@ e relatórios como &ldquo;Boletim anual do aluno&rdquo; e &ldquo;Histórico esco
 <li>
 <p>Request </p>
 <ul>
-<li>Headers<pre><code>authorization: Bearer &lt;token_id&gt;
+<li>Headers<pre><code>authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ3ODQ1MjI3MSwiaWF0IjoxNDc1ODYwMjcxfQ.TyXdSxKWVaqGb9Y7uJh44Ybz807DLtUWNxw__K8JU7w
 </code></pre>
 </li>
 </ul>
@@ -1555,7 +1766,7 @@ e relatórios como &ldquo;Boletim anual do aluno&rdquo; e &ldquo;Histórico esco
 <ul>
 <li>
 <p>Headers</p>
-<pre><code>authorization: Bearer &lt;token_id&gt;
+<pre><code>authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ3ODQ1MjI3MSwiaWF0IjoxNDc1ODYwMjcxfQ.TyXdSxKWVaqGb9Y7uJh44Ybz807DLtUWNxw__K8JU7w
 </code></pre>
 </li>
 <li>
@@ -1621,7 +1832,7 @@ o ano.</p>
 <li>
 <p>Request </p>
 <ul>
-<li>Headers<pre><code>authorization: Bearer &lt;token_id&gt;
+<li>Headers<pre><code>authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ3ODQ1MjI3MSwiaWF0IjoxNDc1ODYwMjcxfQ.TyXdSxKWVaqGb9Y7uJh44Ybz807DLtUWNxw__K8JU7w
 </code></pre>
 </li>
 </ul>
@@ -1636,14 +1847,14 @@ o ano.</p>
 </ul>
 </li>
 </ul>
-<h3 id="edit-put_2"><a name="user-content-edit-put_2" href="#edit-put_2" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Edit [PUT]</h3>
+<h3 id="edit-put_3"><a name="user-content-edit-put_3" href="#edit-put_3" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Edit [PUT]</h3>
 <ul>
 <li>
 <p>Request </p>
 <ul>
 <li>
 <p>Headers</p>
-<pre><code>authorization: Bearer &lt;token_id&gt;
+<pre><code>authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ3ODQ1MjI3MSwiaWF0IjoxNDc1ODYwMjcxfQ.TyXdSxKWVaqGb9Y7uJh44Ybz807DLtUWNxw__K8JU7w
 </code></pre>
 </li>
 <li>
@@ -1661,7 +1872,7 @@ o ano.</p>
 </ul>
 </li>
 </ul>
-<h3 id="delete-delete_2"><a name="user-content-delete-delete_2" href="#delete-delete_2" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Delete [DELETE]</h3>
+<h3 id="delete-delete_3"><a name="user-content-delete-delete_3" href="#delete-delete_3" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Delete [DELETE]</h3>
 <ul>
 <li>Response 204</li>
 </ul>
@@ -1751,7 +1962,7 @@ se o aluno estava ou não presente durante a aula.</p>
 <li>
 <p>Request </p>
 <ul>
-<li>Headers<pre><code>authorization: Bearer &lt;token_id&gt;
+<li>Headers<pre><code>authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ3ODQ1MjI3MSwiaWF0IjoxNDc1ODYwMjcxfQ.TyXdSxKWVaqGb9Y7uJh44Ybz807DLtUWNxw__K8JU7w
 </code></pre>
 </li>
 </ul>
@@ -1771,15 +1982,16 @@ se o aluno estava ou não presente durante a aula.</p>
 </li>
 </ul>
 <h3 id="create-a-new-attendance-record-post"><a name="user-content-create-a-new-attendance-record-post" href="#create-a-new-attendance-record-post" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Create a new attendance record [POST]</h3>
-<p>Esta ação possibilita criar vários recursos em uma mesma requisição,<br />
-defindo vários objetos de atributo em um array.</p>
+<p>O registro de presença de um aluno em uma aula é único.<br />
+Se o registro de presença que já existe for solicitado, será<br />
+retornado o registro já existente com as informações atualizadas.</p>
 <ul>
 <li>
 <p>Request (application/json)</p>
 <ul>
 <li>
 <p>Headers</p>
-<pre><code>authorization: Bearer &lt;token_id&gt;
+<pre><code>authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ3ODQ1MjI3MSwiaWF0IjoxNDc1ODYwMjcxfQ.TyXdSxKWVaqGb9Y7uJh44Ybz807DLtUWNxw__K8JU7w
 </code></pre>
 </li>
 <li>
@@ -1842,7 +2054,7 @@ defindo vários objetos de atributo em um array.</p>
 <li>
 <p>Request </p>
 <ul>
-<li>Headers<pre><code>authorization: Bearer &lt;token_id&gt;
+<li>Headers<pre><code>authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ3ODQ1MjI3MSwiaWF0IjoxNDc1ODYwMjcxfQ.TyXdSxKWVaqGb9Y7uJh44Ybz807DLtUWNxw__K8JU7w
 </code></pre>
 </li>
 </ul>
@@ -1857,14 +2069,14 @@ defindo vários objetos de atributo em um array.</p>
 </ul>
 </li>
 </ul>
-<h3 id="edit-put_3"><a name="user-content-edit-put_3" href="#edit-put_3" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Edit [PUT]</h3>
+<h3 id="edit-put_4"><a name="user-content-edit-put_4" href="#edit-put_4" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Edit [PUT]</h3>
 <ul>
 <li>
 <p>Request </p>
 <ul>
 <li>
 <p>Headers</p>
-<pre><code>authorization: Bearer &lt;token_id&gt;
+<pre><code>authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ3ODQ1MjI3MSwiaWF0IjoxNDc1ODYwMjcxfQ.TyXdSxKWVaqGb9Y7uJh44Ybz807DLtUWNxw__K8JU7w
 </code></pre>
 </li>
 <li>
@@ -1908,7 +2120,7 @@ e a nota do aluno no 1º Bimestre será composta pela conta (N1<em>0,4)+(N2</em>
 <li>
 <p>Request </p>
 <ul>
-<li>Headers<pre><code>authorization: Bearer &lt;token_id&gt;
+<li>Headers<pre><code>authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ3ODQ1MjI3MSwiaWF0IjoxNDc1ODYwMjcxfQ.TyXdSxKWVaqGb9Y7uJh44Ybz807DLtUWNxw__K8JU7w
 </code></pre>
 </li>
 </ul>
@@ -1937,7 +2149,7 @@ e a nota do aluno no 1º Bimestre será composta pela conta (N1<em>0,4)+(N2</em>
 <ul>
 <li>
 <p>Headers</p>
-<pre><code>authorization: Bearer &lt;token_id&gt;
+<pre><code>authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ3ODQ1MjI3MSwiaWF0IjoxNDc1ODYwMjcxfQ.TyXdSxKWVaqGb9Y7uJh44Ybz807DLtUWNxw__K8JU7w
 </code></pre>
 </li>
 <li>
@@ -1964,7 +2176,6 @@ e a nota do aluno no 1º Bimestre será composta pela conta (N1<em>0,4)+(N2</em>
 <li>_sort (string, optional) - Nome da coluna para ordenação. </li>
 <li>_with (string) - Nome da relação a ser incluída na resposta.<ul>
 <li>Members<ul>
-<li>ownerPerson</li>
 <li>aboutPerson</li>
 <li>level</li>
 </ul>
@@ -1976,7 +2187,7 @@ e a nota do aluno no 1º Bimestre será composta pela conta (N1<em>0,4)+(N2</em>
 <li>
 <p>Request </p>
 <ul>
-<li>Headers<pre><code>authorization: Bearer &lt;token_id&gt;
+<li>Headers<pre><code>authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ3ODQ1MjI3MSwiaWF0IjoxNDc1ODYwMjcxfQ.TyXdSxKWVaqGb9Y7uJh44Ybz807DLtUWNxw__K8JU7w
 </code></pre>
 </li>
 </ul>
@@ -1987,7 +2198,7 @@ e a nota do aluno no 1º Bimestre será composta pela conta (N1<em>0,4)+(N2</em>
 <li>Attributes <ul>
 <li>Include Paginator</li>
 <li>data (array)<ul>
-<li>(Occurrence)</li>
+<li>(Occurence)</li>
 </ul>
 </li>
 </ul>
@@ -2007,7 +2218,7 @@ e a nota do aluno no 1º Bimestre será composta pela conta (N1<em>0,4)+(N2</em>
 <li>
 <p>Request </p>
 <ul>
-<li>Headers<pre><code>authorization: Bearer &lt;token_id&gt;
+<li>Headers<pre><code>authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ3ODQ1MjI3MSwiaWF0IjoxNDc1ODYwMjcxfQ.TyXdSxKWVaqGb9Y7uJh44Ybz807DLtUWNxw__K8JU7w
 </code></pre>
 </li>
 </ul>
@@ -2022,7 +2233,7 @@ e a nota do aluno no 1º Bimestre será composta pela conta (N1<em>0,4)+(N2</em>
 </ul>
 </li>
 </ul>
-<h3 id="edit-put_4"><a name="user-content-edit-put_4" href="#edit-put_4" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Edit [PUT]</h3>
+<h3 id="edit-put_5"><a name="user-content-edit-put_5" href="#edit-put_5" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Edit [PUT]</h3>
 <ul>
 <li>
 <p>Parameters</p>
@@ -2035,7 +2246,7 @@ e a nota do aluno no 1º Bimestre será composta pela conta (N1<em>0,4)+(N2</em>
 <ul>
 <li>
 <p>Headers</p>
-<pre><code>authorization: Bearer &lt;token_id&gt;
+<pre><code>authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ3ODQ1MjI3MSwiaWF0IjoxNDc1ODYwMjcxfQ.TyXdSxKWVaqGb9Y7uJh44Ybz807DLtUWNxw__K8JU7w
 </code></pre>
 </li>
 <li>
@@ -2053,12 +2264,12 @@ e a nota do aluno no 1º Bimestre será composta pela conta (N1<em>0,4)+(N2</em>
 </ul>
 </li>
 </ul>
-<h3 id="delete-delete_3"><a name="user-content-delete-delete_3" href="#delete-delete_3" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Delete [DELETE]</h3>
+<h3 id="delete-delete_4"><a name="user-content-delete-delete_4" href="#delete-delete_4" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Delete [DELETE]</h3>
 <ul>
 <li>
 <p>Request (application/json)</p>
 <ul>
-<li>Headers<pre><code>authorization: Bearer &lt;token_id&gt;
+<li>Headers<pre><code>authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ3ODQ1MjI3MSwiaWF0IjoxNDc1ODYwMjcxfQ.TyXdSxKWVaqGb9Y7uJh44Ybz807DLtUWNxw__K8JU7w
 </code></pre>
 </li>
 </ul>
@@ -2067,16 +2278,204 @@ e a nota do aluno no 1º Bimestre será composta pela conta (N1<em>0,4)+(N2</em>
 <p>Response 204</p>
 </li>
 </ul>
-<h1 id="data-structures"><a name="user-content-data-structures" href="#data-structures" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Data structures</h1>
-<h2 id="occurrence-object"><a name="user-content-occurrence-object" href="#occurrence-object" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Occurrence (object)</h2>
+<h1 id="group-student-grades"><a name="user-content-group-student-grades" href="#group-student-grades" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Group Student Grades</h1>
+<p><code>Student Grades</code> São registo de notas de cada aluno em suas diciplinas nos periodos e turmas pertencentes a ele.</p>
+<h2 id="student-grades-collection-student_gradeslimitoffsetqsortfieldwith"><a name="user-content-student-grades-collection-student_gradeslimitoffsetqsortfieldwith" href="#student-grades-collection-student_gradeslimitoffsetqsortfieldwith" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Student grades Collection [/student_grades{?limit,offset,q,sort,field,with}]</h2>
+<h3 id="create-a-new-student-grades-post"><a name="user-content-create-a-new-student-grades-post" href="#create-a-new-student-grades-post" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Create a new Student Grades [POST]</h3>
 <ul>
-<li>id: 1 (number) - Identificador única de uma ocorrência</li>
-<li>comment: O aluno brigou em sala de aula (string) - Descrição da ocorrência</li>
-<li>owner_person_id: 1 (number) - ID da pessoa que registrou a ocorrência</li>
-<li>about_person_id: 1 (number) - ID da pessoa alvo da ocorrência </li>
-<li>level_id: 1 (number) - ID do nível de ocorrência (leve/medio/grave)</li>
-<li>created_at: <code>2016-04-01 10:21:20</code> (string)</li>
-<li>updated_at: <code>2016-08-01 08:10:20</code> (string)</li>
+<li>
+<p>Request (application/json)</p>
+<ul>
+<li>
+<p>Headers</p>
+<pre><code>authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ3ODQ1MjI3MSwiaWF0IjoxNDc1ODYwMjcxfQ.TyXdSxKWVaqGb9Y7uJh44Ybz807DLtUWNxw__K8JU7w
+</code></pre>
+</li>
+<li>
+<p>Attributes (StudentGradeFillable)</p>
+</li>
+</ul>
+</li>
+<li>
+<p>Response 201 (application/json) </p>
+<ul>
+<li>Attributes <ul>
+<li>StudentGrade (StudentGrade)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="list-student-grades-get"><a name="user-content-list-student-grades-get" href="#list-student-grades-get" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>List Student Grades [GET]</h3>
+<ul>
+<li>
+<p>Parameters</p>
+<ul>
+<li>q (string, optional) - Fulltext search.</li>
+<li>sort (string, optional) - Nome da coluna para ordenação. </li>
+<li>limit (number, optional) - Limite por página.</li>
+<li>field (string, optional) - Nome da coluna e valor para filtrar resultados.</li>
+<li>with (string) - Nome da relação a ser incluída na resposta.<ul>
+<li>Members<ul>
+<li>student</li>
+<li>subject</li>
+<li>assessment</li>
+<li>schoolClass</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>Request </p>
+<ul>
+<li>Headers<pre><code>authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ3ODQ1MjI3MSwiaWF0IjoxNDc1ODYwMjcxfQ.TyXdSxKWVaqGb9Y7uJh44Ybz807DLtUWNxw__K8JU7w
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p>Response 200 (application/json)</p>
+<ul>
+<li>Attributes <ul>
+<li>Include Paginator</li>
+<li>data (array)<ul>
+<li>(StudentGradeWithRelation)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="student-grades-student-gradesidwith"><a name="user-content-student-grades-student-gradesidwith" href="#student-grades-student-gradesidwith" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Student Grades [/student-grades/{id}{?with}]</h2>
+<h3 id="view-a-student-grades-detail-get"><a name="user-content-view-a-student-grades-detail-get" href="#view-a-student-grades-detail-get" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>View a Student Grades detail [GET]</h3>
+<ul>
+<li>
+<p>Parameters</p>
+<ul>
+<li>id: 1 (number) - ID of the occurence</li>
+<li>with (string) - Nome da relação a ser incluída na resposta.<ul>
+<li>Members<ul>
+<li>student</li>
+<li>subject</li>
+<li>assessment</li>
+<li>schoolClass</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>Request </p>
+<ul>
+<li>Headers<pre><code>authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ3ODQ1MjI3MSwiaWF0IjoxNDc1ODYwMjcxfQ.TyXdSxKWVaqGb9Y7uJh44Ybz807DLtUWNxw__K8JU7w
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p>Response 200 (application/json)</p>
+<ul>
+<li>Attributes <ul>
+<li>StudentGradeWithRelation (StudentGradeWithRelation)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="edit-put_6"><a name="user-content-edit-put_6" href="#edit-put_6" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Edit [PUT]</h3>
+<ul>
+<li>
+<p>Parameters</p>
+<ul>
+<li>id: 1 (number) - ID of the Student Grades</li>
+</ul>
+</li>
+<li>
+<p>Request (application/json)</p>
+<ul>
+<li>
+<p>Headers</p>
+<pre><code>authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ3ODQ1MjI3MSwiaWF0IjoxNDc1ODYwMjcxfQ.TyXdSxKWVaqGb9Y7uJh44Ybz807DLtUWNxw__K8JU7w
+</code></pre>
+</li>
+<li>
+<p>Attributes (StudentGradeFillable)</p>
+</li>
+</ul>
+</li>
+<li>
+<p>Response 200 (application/json)</p>
+<ul>
+<li>Attributes <ul>
+<li>StudentGrade (StudentGrade)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="data-structure"><a name="user-content-data-structure" href="#data-structure" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Data structure</h1>
+<h2 id="students"><a name="user-content-students" href="#students" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Students</h2>
+<ul>
+<li>id: 1 (number) - Identificador único do registro de nota do aluno</li>
+<li>Include (StudentsFillable) - object imputaveis</li>
+<li>subjects (array)<ul>
+<li>(Subject)</li>
+</ul>
+</li>
+<li>schoolCalendarPhase (array)<ul>
+<li>(SchoolCalendarPhase)</li>
+</ul>
+</li>
+<li>StudentGrade (array)<ul>
+<li>(StudentGrade)</li>
+</ul>
+</li>
+</ul>
+<h2 id="studentsfillable"><a name="user-content-studentsfillable" href="#studentsfillable" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>StudentsFillable</h2>
+<ul>
+<li>person_id: 11 (number) - Identificador único do registro de people</li>
+<li>school_class_id: 22 (number) - indentificador de uma turma</li>
+</ul>
+<h2 id="studentgradefillable"><a name="user-content-studentgradefillable" href="#studentgradefillable" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>StudentGradeFillable</h2>
+<ul>
+<li>grade: 7.5 (number) - Valor de resulta do aluno na avaliação</li>
+</ul>
+<h2 id="studentgrade"><a name="user-content-studentgrade" href="#studentgrade" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>StudentGrade</h2>
+<ul>
+<li>id: 1 (number) - Identificador único do registro de nota do aluno</li>
+<li>Include (StudentGradeFillable) - object imputaveis</li>
+<li>assessment_id: 1 (number) - Identificador da avaliação</li>
+<li>student_id: 1 (number) - Id do aluno</li>
+<li>subject_id: 1 (number) - Disciplina relacionada a turma a qual o aluno realizou a avaliação</li>
+</ul>
+<h2 id="studentgradewithrelation"><a name="user-content-studentgradewithrelation" href="#studentgradewithrelation" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>StudentGradeWithRelation</h2>
+<ul>
+<li>Include (StudentGrade)</li>
+<li>assessment (Assessment)</li>
+<li>student (Student)</li>
+<li>subject (Subject)</li>
+</ul>
+<h2 id="occurencefillable-object"><a name="user-content-occurencefillable-object" href="#occurencefillable-object" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>OccurenceFillable (object)</h2>
+<ul>
+<li>comment: fulano fez isso (string) - descrição sobre os fatos da occorencia</li>
+<li>level_id: 1 (number) - Nivel da occorencia</li>
+<li>about_person_id: 2 (number) - ID do usuario que esta recebendo a occorencia</li>
+</ul>
+<h2 id="occurence-object"><a name="user-content-occurence-object" href="#occurence-object" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Occurence (object)</h2>
+<ul>
+<li>id: 1 (number) - ID da occorencia</li>
+<li>Include (OccurenceFillable)</li>
+<li>created_at: <code>2016-08-30 13:17:11</code> (string) - Data de criação</li>
+<li>updated_at: <code>2016-08-30 13:17:11</code> (string) - Data da ultima alteração</li>
+</ul>
+<h2 id="level"><a name="user-content-level" href="#level" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Level</h2>
+<ul>
+<li>id: 1 (number)</li>
+<li>name: Grave (string)</li>
 </ul>
 <h2 id="assessment-object"><a name="user-content-assessment-object" href="#assessment-object" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Assessment (object)</h2>
 <ul>
@@ -2095,6 +2494,10 @@ e a nota do aluno no 1º Bimestre será composta pela conta (N1<em>0,4)+(N2</em>
 <h2 id="schoolcalendar-object"><a name="user-content-schoolcalendar-object" href="#schoolcalendar-object" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>SchoolCalendar (object)</h2>
 <ul>
 <li>id: 1 (number) - Identificador único da fase avaliativa</li>
+<li>include (SchoolCalendarFillable)</li>
+</ul>
+<h2 id="schoolcalendarfillable-object"><a name="user-content-schoolcalendarfillable-object" href="#schoolcalendarfillable-object" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>SchoolCalendarFillable (object)</h2>
+<ul>
 <li>year: 2014 (number) - Ano de referência</li>
 <li>start: <code>2016-02-01</code> - Inicio do ano letivo</li>
 <li>end: <code>2016-12-10</code> - Fim do ano letivo</li>
@@ -2147,12 +2550,12 @@ e a nota do aluno no 1º Bimestre será composta pela conta (N1<em>0,4)+(N2</em>
 <li>id: 1 (number) - Identificador único da disciplina.</li>
 <li>name: Matématica  (string) - Nome da disciplina. Ex.: Matématica, Português, Fisica.</li>
 </ul>
-<h1 id="lessonbase-object"><a name="user-content-lessonbase-object" href="#lessonbase-object" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>LessonBase (object)</h1>
+<h2 id="lessonbase-object"><a name="user-content-lessonbase-object" href="#lessonbase-object" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>LessonBase (object)</h2>
 <ul>
 <li>start: <code>2016-08-30 13:17:11</code> (string) - Data e horário de inicio da aula.</li>
 <li>end: <code>2016-08-30 13:17:11</code> (string) - Data e horário de termino da aula.</li>
 </ul>
-<h1 id="lessonfillable-object"><a name="user-content-lessonfillable-object" href="#lessonfillable-object" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>LessonFillable (object)</h1>
+<h2 id="lessonfillable-object"><a name="user-content-lessonfillable-object" href="#lessonfillable-object" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>LessonFillable (object)</h2>
 <ul>
 <li>school_class_id: 1 (number) - Identificador único da turma.</li>
 <li>subject_id: 1 (number) - Identificador único da disciplina (Matématica, física, &hellip;).</li>
@@ -2180,7 +2583,7 @@ e a nota do aluno no 1º Bimestre será composta pela conta (N1<em>0,4)+(N2</em>
 <li>(object)<ul>
 <li>Include (Student)</li>
 <li>attendance_record (AttendanceRecord)</li>
-<li>last_occurences (array[Occurrence])</li>
+<li>last_occurences (array[Occurence])</li>
 <li>absence_summary (object)<ul>
 <li>percentage_absences_reprove: 25 - Percentual máximo de faltas as aulas para não ser reprovado</li>
 <li>total_lessons_year: 200 - total de aulas programadas no ano da mesma disciplina</li>
@@ -2230,7 +2633,8 @@ e a nota do aluno no 1º Bimestre será composta pela conta (N1<em>0,4)+(N2</em>
 <li>student_id: 1 (number) - Identificador único do aluno</li>
 <li>presence: 1 (number) - Presença do aluno na aula<br />
                          0 Faltou a aula<br />
-                         1 Estava presente</li>
+                         1 Estava presente<br />
+                         2 Falta abonada</li>
 </ul>
 <h2 id="attendancerecord-object"><a name="user-content-attendancerecord-object" href="#attendancerecord-object" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>AttendanceRecord (object)</h2>
 <ul>
@@ -2238,14 +2642,6 @@ e a nota do aluno no 1º Bimestre será composta pela conta (N1<em>0,4)+(N2</em>
 <li>Include AttendanceRecordFillable</li>
 <li>created_at: <code>2016-08-30 13:17:11</code> (string) - Data de criação</li>
 <li>updated_at: <code>2016-08-30 13:17:11</code> (string) - Data da ultima alteração</li>
-</ul>
-<h2 id="studentgrade"><a name="user-content-studentgrade" href="#studentgrade" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>StudentGrade</h2>
-<ul>
-<li>id: 1 (number) - Identificador único do registro de nota do aluno</li>
-<li>grade: 7.5 (number) - Valor de resulta do aluno na avaliação</li>
-<li>assessment_id: 1 (number) - Identificador da avaliação</li>
-<li>student_id: 1 (number) - Id do aluno</li>
-<li>subject_id: 1 (number) - Disciplina relacionada a turma a qual o aluno realizou a avaliação</li>
 </ul>
 <h2 id="paginator-object"><a name="user-content-paginator-object" href="#paginator-object" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Paginator (object)</h2>
 <ul>
@@ -2257,24 +2653,4 @@ e a nota do aluno no 1º Bimestre será composta pela conta (N1<em>0,4)+(N2</em>
 <li>prev_page_url: null (string, nullable) - Url para resultados da página anterior</li>
 <li>from: 1 (number) - Número inicial de resultados de paginação da página atual</li>
 <li>to: 15 (number) - Número final de resultados de paginação da página atual</li>
-</ul>
-<h2 id="occurencefillable-object"><a name="user-content-occurencefillable-object" href="#occurencefillable-object" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>OccurenceFillable (object)</h2>
-<ul>
-<li>comment: fulano fez isso (string) - descrição sobre os fatos da occorencia</li>
-<li>level_id: 1 (number) - <code>Nivel da occorencia</code></li>
-<li>owner_person_id: 1 (number) - ID do usuario que esta criando a occorencia</li>
-<li>about_person_id: 2 (number) - ID do usuario que esta recebendo a occorencia</li>
-</ul>
-<h2 id="occurence-object"><a name="user-content-occurence-object" href="#occurence-object" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Occurence (object)</h2>
-<ul>
-<li>id: 1 (number) - ID da occorencia</li>
-<li>level (Level) - Nível da ocorrência</li>
-<li>ower_person: 1 (number) - Pessoa que criou o registro</li>
-<li>about_person: 1 (number) - Pessoa a qual o registro se refere</li>
-<li>Include (OccurenceFillable) - object imputaveis</li>
-</ul>
-<h2 id="level"><a name="user-content-level" href="#level" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Level</h2>
-<ul>
-<li>id: 1 (number)</li>
-<li>name: Grave (string)</li>
 </ul></article></body></html>

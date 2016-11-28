@@ -49,11 +49,11 @@ Professor Medeiros acessa seu aplicativo informando usuário e senha para se cad
 
 
 
-## Account settings [/account-config]
+## Account Settings Collection [/account-config]
 
 Configurações da contado do usuário logado.
 
-### View a account settings [GET]
+### List account settings [GET]
 
 + Request
     + Headers
@@ -63,20 +63,54 @@ Configurações da contado do usuário logado.
 + Response 200 (application/json)
 
     + Attributes
-        + account_config (object)
-            
-            + percentage_absences_reprove (object) - `Percentual máximo de faltas que um aluno pode ter para não ser reprovado. Exemplo: Existem 200 aulas de Matématica no ano, e consideramos que percentage_absences_reprove == 15, então o aluno pode faltar no máximo 30 aulas (200*0,15).`
+        + account_configs (array)
+            + (object)
+                + id: 1 (number)
+                + name: percentage_absences_reprove (string) - `Percentual máximo de faltas que um aluno pode ter para não ser reprovado. Exemplo: Existem 200 aulas de Matématica no ano, e consideramos que percentage_absences_reprove == 15, então o aluno pode faltar no máximo 30 aulas (200*0,15).`
                 + value: 20 (number)
+                + `default`: 25 (number)
 
-            + grade_threshold_great (object) - `Se o aluno tiver média igual ou acima dessa nota, ele é considerado ótimo`
+            + (object)
+                + id: 2 (number)
+                + name: grade_threshold_great (string) - `Se o aluno tiver média igual ou acima dessa nota, ele é considerado ótimo`
                 + value: 9 (number)
+                + `default`: 9 (number)
             
-            + grade_threshold_good (object) - `Se o aluno tiver média igual ou acima dessa nota, e menor do que "grade_threshold_great", ele é considerado bom.`
+            + (object)
+                + id: 3 (number)
+                + name: grade_threshold_good (string) - `Se o aluno tiver média igual ou acima dessa nota, e menor do que "grade_threshold_great", ele é considerado bom.`
                 + value:  6 (number)
+                + `default`: 6 (number)
             
-            + passing_grade_threshold (object) - `Média mínima para o aluno ser aprovado em uma disciplina`
+            + (object)
+                + id: 4 (number)
+                + name: passing_grade_threshold (string) - `Média mínima para o aluno ser aprovado em uma disciplina`
                 + value: 6 (number)
+                + `default`: 6 (number)
 
+## Account Settings [/account-configs/{id}]
+
+### Edit [PUT]
+
++ Parameters
+    + id: 1 (number, required) - ID of the account settings
+
++ Request (application/json)
+
+    + Headers
+            
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ3ODQ1MjI3MSwiaWF0IjoxNDc1ODYwMjcxfQ.TyXdSxKWVaqGb9Y7uJh44Ybz807DLtUWNxw__K8JU7w
+            
+    + Attributes 
+        + value (number, string)
+            
++ Response 200 (application/json)
+    
+    + Attributes (object) 
+        + id: 1 (number)
+        + name: percentage_absences_reprove (string) - `Percentual máximo de faltas que um aluno pode ter para não ser reprovado. Exemplo: Existem 200 aulas de Matématica no ano, e consideramos que percentage_absences_reprove == 15, então o aluno pode faltar no máximo 30 aulas (200*0,15).`
+        + value: 20 (number)
+        + `default`: 25 (number)
 
 
 

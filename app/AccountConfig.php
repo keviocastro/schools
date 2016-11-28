@@ -15,6 +15,10 @@ class AccountConfig extends Model
         'name', 'value', 'default'
     ];
 
+    protected $hidden = [
+        'created_at', 'updated_at'
+    ];
+
     /**
      * Percentual máximo de faltas que um aluno 
      * pode ter para não ser reprovado por falta.

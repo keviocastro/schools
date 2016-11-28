@@ -9,9 +9,32 @@ use Illuminate\Http\Request;
 
 class AccountConfigController extends Controller
 {
-    public function show()
+	/**
+     * Exibir uma lista das configurações
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
     {
-    	$configs = AccountConfig::all();
-    	return $configs;
+    	return AccountConfig::all();
+    }
+
+    /**
+     * Atualiza os dados da configuração.
+     *
+     * @param  Request $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        $this->validationForUpdateAction($request, [
+        	'value' => 'required|numeric'
+        	]);
+
+        $config = AccountConfig::findOrFail($id);
+        $config->update($request->only('value'));
+
+        return $config;
     }
 }
