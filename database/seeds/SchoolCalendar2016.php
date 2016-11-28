@@ -60,16 +60,16 @@ class SchoolCalendar2016 extends Seeder
             'end' => '2016-04-15',
             'average_calculation' => '({Nota 1.1} + {Nota 1.2})/2'
         ]);
-        $assessments = [
-            [
+
+        $assessments[] = factory(App\Assessment::class)->make([
                 'school_calendar_phase_id' => $schoolCalendarPhase1->id,
                 'name' => 'Nota 1.1', 
-            ],
-            [
+            ])->toArray();
+        $assessments[] = factory(App\Assessment::class)->make([
                 'school_calendar_phase_id' => $schoolCalendarPhase1->id,
                 'name' => 'Nota 1.2', 
-            ]
-        ];
+            ])->toArray(); 
+            
         Assessment::insert($assessments);
 
         $schoolCalendarPhase2 = factory(SchoolCalendarPhase::class)->create([
@@ -79,15 +79,16 @@ class SchoolCalendar2016 extends Seeder
             'end' => '2016-06-30',
             'average_calculation' => '({Nota 2.1} + {Nota 2.2})/2'
         ]);
+
         $assessments = [
-            [
+            factory(Assessment::class)->make([
                 'school_calendar_phase_id' => $schoolCalendarPhase2->id,
                 'name' => 'Nota 2.1', 
-            ],
-            [
+            ])->toArray(),
+            factory(Assessment::class)->make([
                 'school_calendar_phase_id' => $schoolCalendarPhase2->id,
                 'name' => 'Nota 2.2', 
-            ]
+            ])->toArray()
         ];
         Assessment::insert($assessments);
 
@@ -99,14 +100,14 @@ class SchoolCalendar2016 extends Seeder
             'average_calculation' => '({Nota 3.1} + {Nota 3.2})/2'
         ]);
         $assessments = [
-            [
+            factory(Assessment::class)->make([
                 'school_calendar_phase_id' => $schoolCalendarPhase3->id,
                 'name' => 'Nota 3.1', 
-            ],
-            [
+            ])->toArray(),
+            factory(Assessment::class)->make([
                 'school_calendar_phase_id' => $schoolCalendarPhase3->id,
                 'name' => 'Nota 3.2', 
-            ]
+            ])->toArray()
         ];
         Assessment::insert($assessments);
 
@@ -118,14 +119,14 @@ class SchoolCalendar2016 extends Seeder
             'average_calculation' => '({Nota 4.1} + {Nota 4.2})/2'
         ]);
         $assessments = [
-            [
+            factory(App\Assessment::class)->make([
                 'school_calendar_phase_id' => $schoolCalendarPhase4->id,
                 'name' => 'Nota 4.1', 
-            ],
-            [
+            ])->toArray(),
+            factory(App\Assessment::class)->make([
                 'school_calendar_phase_id' => $schoolCalendarPhase4->id,
                 'name' => 'Nota 4.2', 
-            ]
+            ])->toArray()
         ];
         Assessment::insert($assessments);
 

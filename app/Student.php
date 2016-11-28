@@ -187,10 +187,20 @@ class Student extends Model
                 $phase = $averagesPerPhase
                     ->where('name', $variable)
                     ->first();
+
+                if (empty($phase)) {
+                    // A variável não corresponde ao nome de nenhuma fase
+                    // do ano letivo
+                    $calculation = str_replace(
+                        '{'.$variable.'}', 
+                        '{'.$variable.':notFound}', 
+                        $calculation);    
+                        $foundVariables = false; 
+                }
                 
                 // Substitui a nota da disciplina na fase pela
                 // variável da formula $schoolCalendar->average_calculation
-                if ($phase && $phase->has('subject_average') ) {
+                if ($phase->has('subject_average') ) {
                     $subject_grade = $phase['subject_average']
                         ->where('id', $subject->id)
                         ->first();

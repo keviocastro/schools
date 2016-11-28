@@ -1,4 +1,4 @@
-FORMAT: 1A
+fFORMAT: 1A
 HOST: http://localhost/api
 
 # Schools API
@@ -461,7 +461,8 @@ e relatórios como "Boletim anual do aluno" e "Histórico escolar".
                 + school_calendar_phase_id: 1
                 + subject_id: 1 
                 + absences: 6
-        + subjects (array[Subject]) - `Disciplinas cursadas no ano`
+        + subjects (array) - `Disciplinas cursadas no ano`
+            + include (Subject)
 
 
 ## Annual Student Summary [/students/{student_id}/annual-summary{?school_calendar_id,school_calendar_phase_id}]
