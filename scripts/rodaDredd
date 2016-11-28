@@ -1,0 +1,2 @@
+aglio -i gist.apib -o apiary.apib
+dredd

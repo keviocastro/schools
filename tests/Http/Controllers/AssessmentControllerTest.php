@@ -17,7 +17,7 @@ class AssessmentControllerTest extends TestCase
     public function testIndex()
     {
         $assessment = factory(Assessment::class)->create();
-        
+      
         $this->get('api/assessments?_sort=-id',
         	$this->getAutHeader())
         	->assertResponseStatus(200)

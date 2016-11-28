@@ -1,0 +1,10 @@
+# Authentication
+
+A autentificação de usuário para acesso aos recursos da api, deve ser feita atribuindo
+sempre o seguinte cabeçario na requisição:
+
+`authorizavtion: Bearer token_id`
+
+Onde "token id" é obtido durante a autenficação do usuário no microservice de atentificação
+auth0 através do dominio "logos.auth0.com".
+Veja ver mais detalhes de como realizar essa autentificação nesse link: https://auth0.com/docs 

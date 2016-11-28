@@ -37,7 +37,7 @@ class Lesson extends Model
      *
      * @var array
      */
-    protected $hidden = ['deleted_at'];
+    protected $hidden = ['deleted_at','updated_at','created_at'];
 
 
     /**

@@ -15,14 +15,14 @@ class School extends Model
      *
      * @var array
      */
-    protected $hidden = ['deleted_at'];
+    protected $hidden = ['deleted_at','updated_at'];
     
     /**
      * The attributes that should be mutated to dates.
      *
      * @var array
      */
-    protected $dates = ['deleted_at'];
+    protected $dates = ['deleted_at','updated_at'];
 
     /**
      * The attributes that are mass assignable.

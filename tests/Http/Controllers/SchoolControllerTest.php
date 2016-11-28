@@ -19,7 +19,7 @@ class SchoolControllerTest extends TestCase
     {
     	$school = factory(School::class)->make()->toArray();
 
-        $this->post('api/schools?_sort=-id', 
+        $this->post('api/schools', 
             $school,
             $this->getAutHeader())
         	->assertResponseStatus(201)
@@ -33,7 +33,7 @@ class SchoolControllerTest extends TestCase
      */
     public function testIndex()
     {
-        $this->get('api/schools',
+        $this->get('api/schools?_q=&_sort',
             $this->getAutHeader())
             ->assertResponseStatus(200);
     }
