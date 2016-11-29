@@ -45,8 +45,7 @@
         + lesson (Lesson)
 
 
-## Lesson [/lessons/{lesson_id}{?_with
-,attach}]
+## Lesson [/lessons/{lesson_id}{?_with,attach}]
 
 + Parameters
     - lesson_id: 1 (number) - ID of the lesson
@@ -54,8 +53,7 @@
 ### View a lesson detail [GET]
 
 + Parameters
-    + _with
- (string, optional) Nome da relação a ser incluida na resposta.
+    + _with (string, optional) Nome da relação a ser incluida na resposta.
         + Members
             + attendanceRecords
             + schoolClass
@@ -87,8 +85,18 @@
 + Response 200 (application/json)
 
     + Attributes 
-        + lesson (LessonDetail)
-
+        + lesson 
+            + Include (Lesson)
+            + students (array)
+                + (object)
+                    + Include (Student)
+                    + attendance_record (AttendanceRecord)
+                    + last_occurences (array[Occurence])
+                    + absence_summary (object)
+                        + percentage_absences_reprove: 25 - Percentual máximo de faltas as aulas para não ser           reprovado       
+                        + total_lessons_year: 200 - total de aulas programadas no ano da mesma disciplina           
+                        + total_absences_year: 22 - total de faltas que o aluno tem no ano da mesma disciplina
+            
 ### Edit [PUT]
 
 + Request 

@@ -2,24 +2,16 @@
 
 ## StudentGradeFillable
 
-+ grade: 7.5 (number) - Valor de resulta do aluno na avaliação
++ grade: 7.5 (number) - Nota do aluno na avaliação.
++ student_id: 1 (number) - ID do aluno.
++ subject_id: 1 (number) - ID da disciplina relacionada a turma a qual o aluno realizou a avaliação.
++ assessment_id: 1 (number) - ID da avaliação.
++ school_class_id: 1 (number) - ID da turma onde a prova foi aplicada.
 
 ## StudentGrade
 
-+ id: 1 (number) - Identificador único do registro de nota do aluno
-+ Include (StudentGradeFillable) - object imputaveis
-+ assessment_id: 1 (number) - Identificador da avaliação
-+ student_id: 1 (number) - Id do aluno
-+ subject_id: 1 (number) - Disciplina relacionada a turma a qual o aluno realizou a avaliação
-+ school_class_id: 1 (number) - Turma a qual a nota foi vinculada.
-
-## StudentGrade_with
-Relation
-
-+ Include (StudentGrade)
-+ assessment (Assessment)
-+ student (Student)
-+ subject (Subject)
++ id: 1 (number) - Identificador único da nota do aluno.
++ Include (StudentGradeFillable)
 
 ## OccurenceFillable (object)
 
@@ -29,7 +21,7 @@ Relation
 
 ## Occurence (object)
 
-+ id: 1 (number) - ID da occorencia
++ id: 1 (number) - Identificador único da ocorrência.
 + Include (OccurenceFillable)
 
 ## Level 
@@ -39,21 +31,21 @@ Relation
 
 ## Assessment (object)
 
-+ id: 1 (number) - Identificador único da avaliação/nota
-+ name: Nota N1 - Descrição da avaliação/nota
-+ schoolCalendarPhase (SchoolCalendarPhase)
++ id: 1 (number) - Identificador único da avaliação
++ name: Nota N1 - Descrição da avaliação
++ school_calendar_phase_id: 1 (number) - ID da fase que a avaliação será registrada.
 
 ## SchoolCalendarPhase
 
-+ id: 1 (number) - Identificador único da fase avaliativa
-+ name: 1º Bimestre (string)
++ id: 1 (number) - Identificador único da fase avaliativa do ano.
++ name: `1º Bimestre` (string)
 + start: `2016-02-01` (string) - Data inicial do período avaliativo
 + end: `2016-04-01` (string) - Ultimo dia do período avaliativo
-+ schoolCalendar (SchoolCalendar)
++ school_calendar_id: 1 - ID do ano letivo a qual esta fase está relacionada.
 
 ## SchoolCalendar (object)
 
-+ id: 1 (number) - Identificador único da fase avaliativa
++ id: 1 (number) - Identificador único do ano letivo.
 + include (SchoolCalendarFillable)
 
 ## SchoolCalendarFillable (object)
@@ -61,7 +53,7 @@ Relation
 + year: 2014 (number) - Ano de referência
 + start: `2016-02-01` - Inicio do ano letivo
 + end: `2016-12-10` - Fim do ano letivo
- 
++ average_formula: `( ({1º Bimestre} + {2º Bimestre})*0.4 + ({3º Bimestre} + {4º Bimestre})*0.6 )/2` - `Fórmula utilizada para calcular médias do aluno no ano` 
 
 ## SchoolFillable (object)
 
@@ -77,23 +69,23 @@ Relation
 
 ## SchoolClassFillable (SchoolClass)
 
-+ grade_id: 1 (number) - Id do ano estudantíl.
-+ shift_id: 1 (number) - Id do turno.
-+ school_calendar_id: 1 (number) - Ano letivo em que a turma existe.
-+ school_id: 1 (number) - Id da escola relacionada.
++ grade_id: 1 (number) - ID do ano estudantíl.
++ shift_id: 1 (number) - ID do turno.
++ school_calendar_id: 1 (number) - ID do Ano letivo em que a turma existe.
++ school_id: 1 (number) - ID da escola relacionada.
 
 ## SchoolClass (SchoolClassBase)
 
 + id: 1 (number) - Identificador único da turma.
 + grade_id: 1 (number) - Ano estudantíl (Jardim I/1º Ano/...) da turma.
 + shift_id: 1 (number) - Turno (vespertino/matutino/...) da turma.
-+ school_calendar_id: 1 (number) - id do ano letivo
++ school_calendar_id: 1 (number) - ID do ano letivo
 
 ## SchoolClassSubject
 
 + id: 1 (number) - Identificador único da disciplina em uma turma.
-+ school_class_id - Identificador da turma
-+ subject_id - Identificador da disciplina
++ school_class_id - ID da turma
++ subject_id - ID da disciplina
 
 ## Grade (object)
 
@@ -103,7 +95,7 @@ Relation
 ## Shift (object)
 
 + id: 1 (number) - Identificador único do turno.
-+ name: Matutino (string) - Nome do turno. Exmplo: Vespertino, matutino, noturno.
++ name: Matutino (string) - Nome do turno. Exemplo: Vespertino, matutino, noturno.
 
 
 ## Subject (object)
@@ -111,42 +103,23 @@ Relation
 + id: 1 (number) - Identificador único da disciplina.
 + name: Matématica  (string) - Nome da disciplina. Ex.: Matématica, Português, Fisica.
 
-## LessonBase (object)
-
-+ start: `2016-08-30 13:17:11` (string) - Data e horário de inicio da aula.
-+ end: `2016-08-30 13:17:11` (string) - Data e horário de termino da aula.
-
 ## LessonFillable (object)
 
-+ school_class_id: 1 (number) - Identificador único da turma.
-+ subject_id: 1 (number) - Identificador único da disciplina (Matématica, física, ...).
-+ Include LessonBase
-
-## Teacher (object)
-
-+ id: 1 (number) - Identificador único do professor
-+ Include (Person)
++ school_class_id: 1 (number) - `Identificador único da turma.`
++ subject_id: 1 (number) - `Identificador único da disciplina (Matématica, física, ...).`
++ start: `2016-08-30 13:17:11` (string) - `Data e horário de inicio da aula.`
++ end: `2016-08-30 13:17:11` (string) - `Data e horário de termino da aula.`
++ teacher_id: 1 (number) - `ID do professor.`
 
 ## Lesson (object)
 
-+ id: 1 (number) - Identificador único  da aula.
-+ teacher_id: 1 (number) - Id do professor
-+ Include (LessonBase)
-+ school_class_id: 1 (number) - Id da turma
-+ subject_id: 1 (number) - Id da disciplina
++ id: 1 (number) - `Identificador único  da aula.`
++ include (LessonFillable)
 
-## LessonDetail (object)
+## Teacher (object)
 
-+ Include Lesson
-+ students (array)
-    + (object)
-        + Include (Student)
-        + attendance_record (AttendanceRecord)
-        + last_occurences (array[Occurence])
-        + absence_summary (object)
-            + percentage_absences_reprove: 25 - Percentual máximo de faltas as aulas para não ser reprovado
-            + total_lessons_year: 200 - total de aulas programadas no ano da mesma disciplina
-            + total_absences_year: 22 - total de faltas que o aluno tem no ano da mesma disciplina
++ id: 1 (number) - `Identificador único do professor.`
++ person_id: 1 (number) - `ID das informações básicas de pessoa do professor (nome, sobrenome, etc.)`
 
 ## Person (object)
 
@@ -162,8 +135,8 @@ Relation
 
 ## Student (object)
 
-+ id: 1 (number) - Identificador único do estudante
-+ person_id: 1 (number) - Identificador do estudante
++ id: 1 (number) - Identificador único do estudante.
++ person_id: 1 (number) - ID das informações básicas de pessoa do aluno (nome, sobrenome, etc.).
 
 ## AttendanceRecordFillable (object)
 
@@ -178,7 +151,6 @@ Relation
 
 + id: 1 (number) - Identificador único do registro de presença
 + Include AttendanceRecordFillable
-
 
 ## Paginator (object)
 

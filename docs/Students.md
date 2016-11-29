@@ -27,22 +27,25 @@ e relatórios como "Boletim anual do aluno" e "Histórico escolar".
                         + average: 7.2 - Média do aluno para a disciplina na fase do ano
                         + student_grades (array)
                             + (object)
-                                + include (StudentGrade)
+                                + student_grade (StudentGrade)
                                 + assessment (Assessment)
         + absences (array) - Faltas no ano letivo
             + (object)
                 + school_calendar_phase_id: 1
                 + subject_id: 1 
                 + absences: 6
-        + subjects (array[Subject]) - `Disciplinas cursadas no ano`
+        + subjects (array) - `Disciplinas cursadas no ano`
+            + include (Subject)
+            + average: 8.2 - `Nota média da disciplina no ano`
+            + average_calculation: `((9.6 + 9.3)*0.4 + (9.3 + 9.8)*0.6)/2` - `Calculo de média da disciplina`
 
 
-## Annual Student Summary [/students/{student_id}/annual-summary{?school_calendar_id,school_calendar_phase_id}]
+## Annual Student Summary [/students/{student_id}/annual-summary{?school_calendar_id}]
 
 ### View a annual student summary [GET]
 
 + Parameters
-    + school_calendar_id: 1 (number) - `ID do ano letivo`
+    + school_calendar_id: 1 (number, required) - `ID do ano letivo`
 
 + Request 
     + Headers

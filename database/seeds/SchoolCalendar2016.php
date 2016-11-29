@@ -50,7 +50,7 @@ class SchoolCalendar2016 extends Seeder
             'year' => '2016',
             'start' => '2016-01-20',
             'end' => '2016-12-16',
-            'average_calculation' => 
+            'average_formula' => 
                 '( ({1º Bimestre} + {2º Bimestre})*0.4 + ({3º Bimestre} + {4º Bimestre})*0.6 )/2'
         ]);
         $schoolCalendarPhase1 = factory(SchoolCalendarPhase::class)->create([
@@ -58,7 +58,7 @@ class SchoolCalendar2016 extends Seeder
             'name' => '1º Bimestre',
             'start' => '2016-01-16',
             'end' => '2016-04-15',
-            'average_calculation' => '({Nota 1.1} + {Nota 1.2})/2'
+            'average_formula' => '({Nota 1.1} + {Nota 1.2})/2'
         ]);
 
         $assessments[] = factory(App\Assessment::class)->make([
@@ -77,7 +77,7 @@ class SchoolCalendar2016 extends Seeder
             'name' => '2º Bimestre',
             'start' => '2016-04-16',
             'end' => '2016-06-30',
-            'average_calculation' => '({Nota 2.1} + {Nota 2.2})/2'
+            'average_formula' => '({Nota 2.1} + {Nota 2.2})/2'
         ]);
 
         $assessments = [
@@ -97,7 +97,7 @@ class SchoolCalendar2016 extends Seeder
             'name' => '3º Bimestre',
             'start' => '2016-08-01',
             'end' => '2016-09-30',
-            'average_calculation' => '({Nota 3.1} + {Nota 3.2})/2'
+            'average_formula' => '({Nota 3.1} + {Nota 3.2})/2'
         ]);
         $assessments = [
             factory(Assessment::class)->make([
@@ -116,7 +116,7 @@ class SchoolCalendar2016 extends Seeder
             'name' => '4º Bimestre',
             'start' => '2016-10-01',
             'end' => '2016-12-16',
-            'average_calculation' => '({Nota 4.1} + {Nota 4.2})/2'
+            'average_formula' => '({Nota 4.1} + {Nota 4.2})/2'
         ]);
         $assessments = [
             factory(App\Assessment::class)->make([
@@ -237,8 +237,8 @@ class SchoolCalendar2016 extends Seeder
          *      Nota 4.2 = 9.6
          *      
          *      Média = (10+9.2)/2 = 9.6 +      // 1 Bimestre. 
-         *              (8.5+10)/2 = 9.25 +     // 2 Bim.
-         *              (9.5+9.0)/2 = 9.25 +    // 3 Bim.
+         *              (8.5+10)/2 = 9.3 +     // 2 Bim.
+         *              (9.5+9.0)/2 = 9.3 +    // 3 Bim.
          *              (10+9.6)/2 = 9.8        // 4 Bim.
          *              
          *      A média anual é calculada por: 

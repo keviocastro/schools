@@ -65,19 +65,30 @@ Configurações da contado do usuário logado.
 + Response 200 (application/json)
 
     + Attributes
-        + account_config (object)
-            
-            + percentage_absences_reprove (object) - `Percentual máximo de faltas que um aluno pode ter para não ser reprovado. Exemplo: Existem 200 aulas de Matématica no ano, e consideramos que percentage_absences_reprove == 15, então o aluno pode faltar no máximo 30 aulas (200*0,15).`
+        + account_config (array)
+            + (object)
+                + id: 1 (number)
+                + name: percentage_absences_reprove (string) - `Percentual máximo de faltas que um aluno pode ter para não ser reprovado. Exemplo: Existem 200 aulas de Matématica no ano, e consideramos que percentage_absences_reprove == 15, então o aluno pode faltar no máximo 30 aulas (200*0,15).`
                 + value: 20 (number)
+                + `default`: 25 (number)
 
-            + grade_threshold_great (object) - `Se o aluno tiver média igual ou acima dessa nota, ele é considerado ótimo`
+            + (object)
+                + id: 2 (number)
+                + name: grade_threshold_great (string) - `Se o aluno tiver média igual ou acima dessa nota, ele é considerado ótimo`
                 + value: 9 (number)
+                + `default`: 9 (number)
             
-            + grade_threshold_good (object) - `Se o aluno tiver média igual ou acima dessa nota, e menor do que "grade_threshold_great", ele é considerado bom.`
+            + (object)
+                + id: 3 (number)
+                + name: grade_threshold_good (string) - `Se o aluno tiver média igual ou acima dessa nota, e menor do que "grade_threshold_great", ele é considerado bom.`
                 + value:  6 (number)
+                + `default`: 6 (number)
             
-            + passing_grade_threshold (object) - `Média mínima para o aluno ser aprovado em uma disciplina`
+            + (object)
+                + id: 4 (number)
+                + name: passing_grade_threshold (string) - `Média mínima para o aluno ser aprovado em uma disciplina`
                 + value: 6 (number)
+                + `default`: 6 (number)
 
 
 # Group Schools
@@ -421,22 +432,25 @@ e relatórios como "Boletim anual do aluno" e "Histórico escolar".
                         + average: 7.2 - Média do aluno para a disciplina na fase do ano
                         + student_grades (array)
                             + (object)
-                                + include (StudentGrade)
+                                + student_grade (StudentGrade)
                                 + assessment (Assessment)
         + absences (array) - Faltas no ano letivo
             + (object)
                 + school_calendar_phase_id: 1
                 + subject_id: 1 
                 + absences: 6
-        + subjects (array[Subject]) - `Disciplinas cursadas no ano`
+        + subjects (array) - `Disciplinas cursadas no ano`
+            + include (Subject)
+            + average: 8.2 - `Nota média da disciplina no ano`
+            + average_calculation: `((9.6 + 9.3)*0.4 + (9.3 + 9.8)*0.6)/2` - `Calculo de média da disciplina`
 
 
-## Annual Student Summary [/students/{student_id}/annual-summary{?school_calendar_id,school_calendar_phase_id}]
+## Annual Student Summary [/students/{student_id}/annual-summary{?school_calendar_id}]
 
 ### View a annual student summary [GET]
 
 + Parameters
-    + school_calendar_id: 1 (number) - `ID do ano letivo`
+    + school_calendar_id: 1 (number, required) - `ID do ano letivo`
 
 + Request 
     + Headers
@@ -513,8 +527,7 @@ e relatórios como "Boletim anual do aluno" e "Histórico escolar".
         + lesson (Lesson)
 
 
-## Lesson [/lessons/{lesson_id}{?_with
-,attach}]
+## Lesson [/lessons/{lesson_id}{?_with,attach}]
 
 + Parameters
     - lesson_id: 1 (number) - ID of the lesson
@@ -522,8 +535,7 @@ e relatórios como "Boletim anual do aluno" e "Histórico escolar".
 ### View a lesson detail [GET]
 
 + Parameters
-    + _with
- (string, optional) Nome da relação a ser incluida na resposta.
+    + _with (string, optional) Nome da relação a ser incluida na resposta.
         + Members
             + attendanceRecords
             + schoolClass
@@ -555,8 +567,18 @@ e relatórios como "Boletim anual do aluno" e "Histórico escolar".
 + Response 200 (application/json)
 
     + Attributes 
-        + lesson (LessonDetail)
-
+        + lesson 
+            + Include (Lesson)
+            + students (array)
+                + (object)
+                    + Include (Student)
+                    + attendance_record (AttendanceRecord)
+                    + last_occurences (array[Occurence])
+                    + absence_summary (object)
+                        + percentage_absences_reprove: 25 - Percentual máximo de faltas as aulas para não ser           reprovado       
+                        + total_lessons_year: 200 - total de aulas programadas no ano da mesma disciplina           
+                        + total_absences_year: 22 - total de faltas que o aluno tem no ano da mesma disciplina
+            
 ### Edit [PUT]
 
 + Request 
@@ -951,24 +973,16 @@ Relation)
 
 ## StudentGradeFillable
 
-+ grade: 7.5 (number) - Valor de resulta do aluno na avaliação
++ grade: 7.5 (number) - Nota do aluno na avaliação.
++ student_id: 1 (number) - ID do aluno.
++ subject_id: 1 (number) - ID da disciplina relacionada a turma a qual o aluno realizou a avaliação.
++ assessment_id: 1 (number) - ID da avaliação.
++ school_class_id: 1 (number) - ID da turma onde a prova foi aplicada.
 
 ## StudentGrade
 
-+ id: 1 (number) - Identificador único do registro de nota do aluno
-+ Include (StudentGradeFillable) - object imputaveis
-+ assessment_id: 1 (number) - Identificador da avaliação
-+ student_id: 1 (number) - Id do aluno
-+ subject_id: 1 (number) - Disciplina relacionada a turma a qual o aluno realizou a avaliação
-+ school_class_id: 1 (number) - Turma a qual a nota foi vinculada.
-
-## StudentGrade_with
-Relation
-
-+ Include (StudentGrade)
-+ assessment (Assessment)
-+ student (Student)
-+ subject (Subject)
++ id: 1 (number) - Identificador único da nota do aluno.
++ Include (StudentGradeFillable)
 
 ## OccurenceFillable (object)
 
@@ -978,7 +992,7 @@ Relation
 
 ## Occurence (object)
 
-+ id: 1 (number) - ID da occorencia
++ id: 1 (number) - Identificador único da ocorrência.
 + Include (OccurenceFillable)
 
 ## Level 
@@ -988,21 +1002,21 @@ Relation
 
 ## Assessment (object)
 
-+ id: 1 (number) - Identificador único da avaliação/nota
-+ name: Nota N1 - Descrição da avaliação/nota
-+ schoolCalendarPhase (SchoolCalendarPhase)
++ id: 1 (number) - Identificador único da avaliação
++ name: Nota N1 - Descrição da avaliação
++ school_calendar_phase_id: 1 (number) - ID da fase que a avaliação será registrada.
 
 ## SchoolCalendarPhase
 
-+ id: 1 (number) - Identificador único da fase avaliativa
-+ name: 1º Bimestre (string)
++ id: 1 (number) - Identificador único da fase avaliativa do ano.
++ name: `1º Bimestre` (string)
 + start: `2016-02-01` (string) - Data inicial do período avaliativo
 + end: `2016-04-01` (string) - Ultimo dia do período avaliativo
-+ schoolCalendar (SchoolCalendar)
++ school_calendar_id: 1 - ID do ano letivo a qual esta fase está relacionada.
 
 ## SchoolCalendar (object)
 
-+ id: 1 (number) - Identificador único da fase avaliativa
++ id: 1 (number) - Identificador único do ano letivo.
 + include (SchoolCalendarFillable)
 
 ## SchoolCalendarFillable (object)
@@ -1010,7 +1024,7 @@ Relation
 + year: 2014 (number) - Ano de referência
 + start: `2016-02-01` - Inicio do ano letivo
 + end: `2016-12-10` - Fim do ano letivo
- 
++ average_formula: `( ({1º Bimestre} + {2º Bimestre})*0.4 + ({3º Bimestre} + {4º Bimestre})*0.6 )/2` - `Fórmula utilizada para calcular médias do aluno no ano` 
 
 ## SchoolFillable (object)
 
@@ -1026,23 +1040,23 @@ Relation
 
 ## SchoolClassFillable (SchoolClass)
 
-+ grade_id: 1 (number) - Id do ano estudantíl.
-+ shift_id: 1 (number) - Id do turno.
-+ school_calendar_id: 1 (number) - Ano letivo em que a turma existe.
-+ school_id: 1 (number) - Id da escola relacionada.
++ grade_id: 1 (number) - ID do ano estudantíl.
++ shift_id: 1 (number) - ID do turno.
++ school_calendar_id: 1 (number) - ID do Ano letivo em que a turma existe.
++ school_id: 1 (number) - ID da escola relacionada.
 
 ## SchoolClass (SchoolClassBase)
 
 + id: 1 (number) - Identificador único da turma.
 + grade_id: 1 (number) - Ano estudantíl (Jardim I/1º Ano/...) da turma.
 + shift_id: 1 (number) - Turno (vespertino/matutino/...) da turma.
-+ school_calendar_id: 1 (number) - id do ano letivo
++ school_calendar_id: 1 (number) - ID do ano letivo
 
 ## SchoolClassSubject
 
 + id: 1 (number) - Identificador único da disciplina em uma turma.
-+ school_class_id - Identificador da turma
-+ subject_id - Identificador da disciplina
++ school_class_id - ID da turma
++ subject_id - ID da disciplina
 
 ## Grade (object)
 
@@ -1052,7 +1066,7 @@ Relation
 ## Shift (object)
 
 + id: 1 (number) - Identificador único do turno.
-+ name: Matutino (string) - Nome do turno. Exmplo: Vespertino, matutino, noturno.
++ name: Matutino (string) - Nome do turno. Exemplo: Vespertino, matutino, noturno.
 
 
 ## Subject (object)
@@ -1060,42 +1074,23 @@ Relation
 + id: 1 (number) - Identificador único da disciplina.
 + name: Matématica  (string) - Nome da disciplina. Ex.: Matématica, Português, Fisica.
 
-## LessonBase (object)
-
-+ start: `2016-08-30 13:17:11` (string) - Data e horário de inicio da aula.
-+ end: `2016-08-30 13:17:11` (string) - Data e horário de termino da aula.
-
 ## LessonFillable (object)
 
-+ school_class_id: 1 (number) - Identificador único da turma.
-+ subject_id: 1 (number) - Identificador único da disciplina (Matématica, física, ...).
-+ Include LessonBase
-
-## Teacher (object)
-
-+ id: 1 (number) - Identificador único do professor
-+ Include (Person)
++ school_class_id: 1 (number) - `Identificador único da turma.`
++ subject_id: 1 (number) - `Identificador único da disciplina (Matématica, física, ...).`
++ start: `2016-08-30 13:17:11` (string) - `Data e horário de inicio da aula.`
++ end: `2016-08-30 13:17:11` (string) - `Data e horário de termino da aula.`
++ teacher_id: 1 (number) - `ID do professor.`
 
 ## Lesson (object)
 
-+ id: 1 (number) - Identificador único  da aula.
-+ teacher_id: 1 (number) - Id do professor
-+ Include (LessonBase)
-+ school_class_id: 1 (number) - Id da turma
-+ subject_id: 1 (number) - Id da disciplina
++ id: 1 (number) - `Identificador único  da aula.`
++ include (LessonFillable)
 
-## LessonDetail (object)
+## Teacher (object)
 
-+ Include Lesson
-+ students (array)
-    + (object)
-        + Include (Student)
-        + attendance_record (AttendanceRecord)
-        + last_occurences (array[Occurence])
-        + absence_summary (object)
-            + percentage_absences_reprove: 25 - Percentual máximo de faltas as aulas para não ser reprovado
-            + total_lessons_year: 200 - total de aulas programadas no ano da mesma disciplina
-            + total_absences_year: 22 - total de faltas que o aluno tem no ano da mesma disciplina
++ id: 1 (number) - `Identificador único do professor.`
++ person_id: 1 (number) - `ID das informações básicas de pessoa do professor (nome, sobrenome, etc.)`
 
 ## Person (object)
 
@@ -1111,8 +1106,8 @@ Relation
 
 ## Student (object)
 
-+ id: 1 (number) - Identificador único do estudante
-+ person_id: 1 (number) - Identificador do estudante
++ id: 1 (number) - Identificador único do estudante.
++ person_id: 1 (number) - ID das informações básicas de pessoa do aluno (nome, sobrenome, etc.).
 
 ## AttendanceRecordFillable (object)
 
@@ -1127,7 +1122,6 @@ Relation
 
 + id: 1 (number) - Identificador único do registro de presença
 + Include AttendanceRecordFillable
-
 
 ## Paginator (object)
 

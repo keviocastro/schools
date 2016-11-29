@@ -32,7 +32,7 @@ class SchoolCalendar extends Model
     	'year', 
     	'start', 
     	'end',
-        'average_calculation'];
+        'average_formula'];
 
     /**
      * Os atributos que serão convertidos para formato nativo

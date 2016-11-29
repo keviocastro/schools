@@ -21,7 +21,7 @@ class ShcoolsLessonsClasses extends Migration
             // Calculo de média de notas no ano
             // Exemplo: 
             // ( 1 Bimestre * 0,4 + 2 Bimestre * 0,6 ) / 2 = Média do aluno em uma disciplina no ano
-            $table->string('average_calculation'); 
+            $table->string('average_formula'); 
             $table->timestamps();
             $table->softDeletes();
 
@@ -37,7 +37,7 @@ class ShcoolsLessonsClasses extends Migration
             // Calculo de média de notas na fase do ano
             // Exmplo:
             // (NOTA 1 + NOTA 2)/2  = Nota do aluno no bimestre em uma disciplina
-            $table->string('average_calculation');
+            $table->string('average_formula');
             $table->timestamps();
             $table->softDeletes();
 

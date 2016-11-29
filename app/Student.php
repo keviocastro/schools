@@ -163,7 +163,7 @@ class Student extends Model
      */
     public function subjectAvaragePerYear(SchoolCalendar $schoolCalendar)
     {
-        $formula = $schoolCalendar->average_calculation;
+        $formula = $schoolCalendar->average_formula;
         $formula_variables = [];
         
         // Extrair as variáveis da formula
@@ -178,7 +178,7 @@ class Student extends Model
 
         $foundVariables = true;
         foreach ($subjects as $key => $subject) {
-            $calculation = $schoolCalendar->average_calculation;
+            $calculation = $schoolCalendar->average_formula;
 
             foreach ($formula_variables as $key => $variable) {
                 
@@ -232,6 +232,7 @@ class Student extends Model
             }
 
             $subject->average_calculation = $calculation;
+            $subject->average_formula = $schoolCalendar->average_formula;
 
             if ($foundVariables) {
                 eval("\$result = $calculation;");
@@ -279,7 +280,7 @@ class Student extends Model
 
             $phase->subject_average = $this->subjectsYear($schoolCalendar->id)->get();
 
-            $formula = $phase->average_calculation;
+            $formula = $phase->average_formula;
             $formula_variables = [];
             
             // Extrair as variáveis da formula
@@ -291,7 +292,7 @@ class Student extends Model
 
             // Substituir as variáveis da formula por nota 
             // de cada disciplina
-            $formula = $phase->average_calculation;
+            $formula = $phase->average_formula;
             $phase->subject_average->each(function($subject, $key) 
                 use ($phase, $formula_variables, $formula, $toArray){
 
@@ -339,6 +340,7 @@ class Student extends Model
                 }
 
                 $subject->average_calculation = $calculation;
+                $subject->average_formula = $phase->average_formula;
                 if ($all_variables_found === true && 
                     $all_grades_found === true) {
 

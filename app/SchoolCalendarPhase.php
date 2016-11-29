@@ -39,7 +39,7 @@ class SchoolCalendarPhase extends Model
         'name', 
         'start',
         'end',
-        'average_calculation'];
+        'average_formula'];
 
     /**
      * Avaliações da fase do ano letivo
