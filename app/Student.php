@@ -159,11 +159,11 @@ class Student extends Model
     }
 
     /**
-     * Médias anual das disciplinas cursadas pelo aluno em 
+     * Média anual das disciplinas cursadas pelo aluno em 
      * um ano letivo. 
      * 
      * @param  string $schoolCalendar 
-     * @return \Illuminate\Database\Eloquent\Collection
+     * @return \Illuminate\Database\Eloquent\Collection 
      */
     public function subjectAvaragePerYear(SchoolCalendar $schoolCalendar)
     {
@@ -219,7 +219,7 @@ class Student extends Model
                                 $calculation);
                             
                             $subject->school_calendar_phases->push([
-                                    'school_calendar_phase_id' => $phase['id'],
+                                    'id' => $phase['id'],
                                     'average' => $subject_grade->average,
                                     'average_formula' => $subject_grade->average_formula,
                                     'average_calculation' => $subject_grade->average_calculation,
@@ -560,7 +560,19 @@ class Student extends Model
      * 
      * Total de faltas agrupado por disciplina e por fase do ano
      * 
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return \Illuminate\Database\Eloquent\Collection
+     *
+     * @example  [
+     *               [
+     *                   absences => 4,
+     *                   school_calendar_id => 1,
+     *                   subject_id => 1,
+     *               ],[
+     *                   absences => 2,
+     *                   school_calendar_id => 1,
+     *                   subject_id => 2,
+     *               ]
+     *       ]
      */
     public function totalAbsencesYearPerSubject($school_calendar_id)
     {
@@ -585,9 +597,9 @@ class Student extends Model
                     'school_calendar_phases.end');
             })
             ->where('presence', 0)
-            ->groupBy('subject_id', 'school_calendar_phase_id');
+            ->groupBy('subject_id', 'school_calendar_phase_id')
+            ->get();
     }
-
 
     /**
      * 

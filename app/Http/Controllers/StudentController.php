@@ -79,12 +79,33 @@ class StudentController extends Controller
         $schoolCalendar = SchoolCalendar::findOrFail($school_calendar_id);
         $student = Student::findOrFail($student_id);
 
-        $result['averages'] = $student
+        $result = $student
             ->subjectAvaragePerYear($schoolCalendar);
 
-        $result['absences'] = $student
-            ->totalAbsencesYearPerSubject($school_calendar_id)
-            ->get();
+        $absences = $student
+            ->totalAbsencesYearPerSubject($school_calendar_id);
+
+        // Inclui quantidade de faltas do aluno por ano
+        $result->each(function($subject, $key) 
+            use ($absences){
+            
+            $subject->school_calendar_phases->transform(function($phase, $key) 
+                use ($absences, $subject){
+                
+                // Encontra a quantidade de faltas para disciplina em uma fase do ano
+                $absences_phase = $absences->filter(function($item, $key) 
+                    use ($phase, $subject){
+
+                    return $item->school_calendar_phase_id == $phase['id'] && 
+                        $item->subject_id == $subject->id;
+                })->first();
+
+                $phase['absences'] = empty($absences_phase->absences) ? 0 : 
+                    $absences_phase->absences;
+
+                return $phase;
+            });
+        });
 
         return $result;
     }

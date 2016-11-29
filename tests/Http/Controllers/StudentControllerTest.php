@@ -116,46 +116,36 @@ class StudentControllerTest extends TestCase
         
         $this->get('api/students/1/annual-report'.
             "?school_calendar_id=1",
-            $this->getAutHeader())->dump()
+            $this->getAutHeader())
             ->assertResponseStatus(200)
             ->seeJsonStructure([
-                'averages' => ['*' => 
-                    ['id', // Fase do ano
-                    'name', 
-                    'start', 
-                    'end', 
-                    'average_calculation',  // Cálculo da média
-                    'average_formula', // Formula do calculo de média
-                    'subject_average' => ['*' =>[
-                        'name',  // Disciplina 
-                        'average_calculation', // Calculo da média
-                        'average',  // Média do aluno para disciplina no ano
-                        'student_grades' => ['*' => [ // Notas do aluno para disciplina
-                                'grade',
-                                'student_id',
-                                'assessment' => ['name']
-                                ],
-                            ] 
-                        ]] 
+                'subjects' => // Disciplinas
+                    ['*' => 
+                        [
+                            'id',  
+                            'name',
+                            'average_calculation',  // Calculo da média do aluno no ano para disciplina.
+                            'average_formula', // Formula utilizada para calcular a média.
+                            'average_year', // Ḿédia anual do aluno para disciplina.
+                            'school_calendar_phases' => ['*' => // Notas por fase do ano, da disciplina.
+                                [
+                                    'id', 
+                                    'average', // Média do aluno na fase do ano.
+                                    'average_formula', // Formula do calculo de média.
+                                    'average_calculation', // Cálculo da média.
+                                    'student_grades' => ['*' => // Notas que compêm a média do aluno
+                                                                // na fase do ano.
+                                        [
+                                            'id', 
+                                            'grade',
+                                            'assessment_id'
+                                        ]
+                                    ]
+                                ]
+                            ], 
+                        ] 
                     ]
-                ],
-                'absences' => ['*' => [ // Total de faltas do aluno no ano por 
-                                        // disciplina e fase
-                    'absences', 
-                    'school_calendar_phase_id',
-                    'subject_id',
-                    ] 
-
-                ],
-                // Lista de disciplinas cursadas no ano
-                'subjects' => ['*' => [
-                    'id', 
-                    'name', 
-                    'average', 
-                    'average_calculation',
-                    'average_formula']
-                    ],
-                ]);
+            ]);
     }
 
 }
