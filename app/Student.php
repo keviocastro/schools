@@ -402,6 +402,74 @@ class Student extends Model
     }
 
     /**
+     * Ausências/faltas e médias do aluno durante o ano letivo, 
+     * agrupado por disciplina.
+     * 
+     * @return \Illuminate\Database\Eloquent\Collection
+     *
+     * @example [ 
+     *             [
+     *                  "id": 1,
+     *                  "name": "Matématica",
+     *                  "average_calculation": "((9.6 + 9.3)*0.4 + (9.3 + 9.8)*0.6)/2",
+     *                  "average_formula": "( ({1º Bimestre} + ... )/n"
+     *                  "average_year": 8.2,
+     *                  "absences": 10,
+     *                  "school_calendar_phases" => [
+     *                       "id": 1,
+     *                       "average": 7.2,
+     *                       "average_calculation": "(6.5 + 5.7)/2",
+     *                       "average_f ormula": "({Nota 1.1} + {Nota 1.2})/2",
+     *                       "absences": 2,
+     *                       "student_grades" => [
+     *                             "id": 1,
+     *                             "grade": 7.5,
+     *                             "student_id": 1,
+     *                             "subject_id": 1,
+     *                             "assessment_id": 1,
+     *                             "school_class_id": 1
+     *                       ],
+     *                       [....]
+     *                  ],
+     *                  [...]
+     *             ]
+     * ]
+     */
+    public function averagesAndAbsencesInTheYear(SchoolCalendar $schoolCalendar)
+    {
+        $subjects = $this->subjectAvaragePerYear($schoolCalendar);
+        $absences = $this->totalAbsencesYearPerSubject($schoolCalendar);
+
+         // Inclui quantidade de faltas do aluno por fase do ano
+        $subjects->each(function($subject, $key) 
+            use ($absences){
+            
+            $subject->absences = 0; // Total de faltas no ano para disciplina
+            $subject->school_calendar_phases->transform(function($phase, $key) 
+                use ($absences, $subject){
+                
+                // Encontra a quantidade de faltas para disciplina em uma fase do ano
+                $absences_phase = $absences->filter(function($item, $key) 
+                    use ($phase, $subject){
+
+                    return $item->school_calendar_phase_id == $phase['id'] && 
+                        $item->subject_id == $subject->id;
+                })->first();
+
+                $phase['absences'] = empty($absences_phase->absences) ? 0 :
+                    $absences_phase->absences;
+
+                $subject->absences += $phase['absences']; 
+
+                return $phase;
+            });
+
+        });
+
+        return $subjects;
+    }
+
+    /**
      * 
      * Resumo anual de notas e faltas do aluno
      * 
@@ -574,7 +642,7 @@ class Student extends Model
      *               ]
      *       ]
      */
-    public function totalAbsencesYearPerSubject($school_calendar_id)
+    public function totalAbsencesYearPerSubject(SchoolCalendar $schoolCalendar)
     {
         return $this->attendanceRecords()
             ->addSelect(
@@ -597,6 +665,7 @@ class Student extends Model
                     'school_calendar_phases.end');
             })
             ->where('presence', 0)
+            ->where('school_calendar_phases.school_calendar_id', $schoolCalendar->id)
             ->groupBy('subject_id', 'school_calendar_phase_id')
             ->get();
     }
