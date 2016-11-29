@@ -19,7 +19,10 @@ class SchoolCalendarPhase extends Model
      *
      * @var array
      */
-    protected $hidden = ['deleted_at'];
+    protected $hidden = [
+        'deleted_at',
+        'created_at',
+        'updated_at'];
     
     /**
      * Atributos que devem ser modificados para data
@@ -29,7 +32,6 @@ class SchoolCalendarPhase extends Model
     protected $dates = ['deleted_at'];
 
     /**
-<<<<<<< HEAD
      * Atributos que podem ser incluídos/alterados na base de dados
      *
      * @var array

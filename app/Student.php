@@ -30,7 +30,11 @@ class Student extends Model
      *
      * @var array
      */
-    protected $hidden = ['deleted_at'];
+    protected $hidden = [
+        'deleted_at', 
+        'created_at',
+        'updated_at'
+    ];
 
     /**
      * Atributos que podem ser atribuidos a entidade 
@@ -179,6 +183,7 @@ class Student extends Model
         $foundVariables = true;
         foreach ($subjects as $key => $subject) {
             $calculation = $schoolCalendar->average_formula;
+            $subject->school_calendar_phases = collect();
 
             foreach ($formula_variables as $key => $variable) {
                 
@@ -195,21 +200,31 @@ class Student extends Model
                         '{'.$variable.'}', 
                         '{'.$variable.':notFound}', 
                         $calculation);    
-                        $foundVariables = false; 
+                        $foundVariables = false;
+
+                    continue; 
                 }
                 
                 // Substitui a nota da disciplina na fase pela
-                // variável da formula $schoolCalendar->average_calculation
+                // variável da formula $schoolCalendar->average_formula
                 if ($phase->has('subject_average') ) {
                     $subject_grade = $phase['subject_average']
                         ->where('id', $subject->id)
                         ->first();
-                    
+
                     if ($subject_grade && is_numeric($subject_grade->average) ) {
                             $calculation = str_replace(
                                 '{'.$variable.'}', 
                                 $subject_grade->average, 
                                 $calculation);
+                            
+                            $subject->school_calendar_phases->push([
+                                    'school_calendar_phase_id' => $phase['id'],
+                                    'average' => $subject_grade->average,
+                                    'average_formula' => $subject_grade->average_formula,
+                                    'average_calculation' => $subject_grade->average_calculation,
+                                    'student_grades' => $subject_grade['student_grades'] 
+                                ]);
                     }else{
                         // A diciplina não tem média para a fase do ano letivo
                         $calculation = str_replace(
@@ -236,9 +251,9 @@ class Student extends Model
 
             if ($foundVariables) {
                 eval("\$result = $calculation;");
-                $subject->average = round($result, 1);
+                $subject->average_year = round($result, 1);
             }else{
-                $subject->average = 'incomplete-calculation';
+                $subject->average_year = 'incomplete-calculation';
             }
         }
 

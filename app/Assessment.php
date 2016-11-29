@@ -15,7 +15,11 @@ class Assessment extends Model
      *
      * @var array
      */
-    protected $hidden = ['deleted_at'];
+    protected $hidden = [
+        'deleted_at',
+        'created_at',
+        'updated_at'
+        ];
     
     /**
      * The attributes that should be mutated to dates.
@@ -29,7 +33,10 @@ class Assessment extends Model
      *
      * @var array
      */
-    protected $fillable = [];
+    protected $fillable = [
+        'school_calendar_phase_id',
+        'name'
+    ];
 
     /**
      * Notas da avaliação

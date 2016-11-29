@@ -14,7 +14,10 @@ class SchoolCalendar extends Model
      *
      * @var array
      */
-    protected $hidden = ['deleted_at'];
+    protected $hidden = [
+        'deleted_at',
+        'created_at',
+        'updated_at'];
     
     /**
      * The attributes that should be mutated to dates.

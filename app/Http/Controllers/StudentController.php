@@ -80,14 +80,11 @@ class StudentController extends Controller
         $student = Student::findOrFail($student_id);
 
         $result['averages'] = $student
-            ->subjectAvaragePerYearPhase($schoolCalendar, true);
+            ->subjectAvaragePerYear($schoolCalendar);
 
         $result['absences'] = $student
             ->totalAbsencesYearPerSubject($school_calendar_id)
             ->get();
-
-        $result['subjects'] = $student
-            ->subjectAvaragePerYear($schoolCalendar);
 
         return $result;
     }

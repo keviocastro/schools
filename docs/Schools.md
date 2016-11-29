@@ -138,8 +138,7 @@
         + school_class (SchoolClass)
             
 
-## School Class [/school-classes/{school_class_id}{?_with
-}]
+## School Class [/school-classes/{school_class_id}{?_with}]
 
 + Parameters
     - school_class_id: 1 (number) - ID of the school class

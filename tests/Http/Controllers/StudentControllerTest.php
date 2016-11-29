@@ -116,7 +116,7 @@ class StudentControllerTest extends TestCase
         
         $this->get('api/students/1/annual-report'.
             "?school_calendar_id=1",
-            $this->getAutHeader())
+            $this->getAutHeader())->dump()
             ->assertResponseStatus(200)
             ->seeJsonStructure([
                 'averages' => ['*' => 
@@ -124,7 +124,8 @@ class StudentControllerTest extends TestCase
                     'name', 
                     'start', 
                     'end', 
-                    'average_calculation', // Formula do calculo de média
+                    'average_calculation',  // Cálculo da média
+                    'average_formula', // Formula do calculo de média
                     'subject_average' => ['*' =>[
                         'name',  // Disciplina 
                         'average_calculation', // Calculo da média
@@ -132,7 +133,7 @@ class StudentControllerTest extends TestCase
                         'student_grades' => ['*' => [ // Notas do aluno para disciplina
                                 'grade',
                                 'student_id',
-                                'assessment' => ['name'] // Dado
+                                'assessment' => ['name']
                                 ],
                             ] 
                         ]] 
@@ -151,7 +152,8 @@ class StudentControllerTest extends TestCase
                     'id', 
                     'name', 
                     'average', 
-                    'average_calculation']
+                    'average_calculation',
+                    'average_formula']
                     ],
                 ]);
     }
