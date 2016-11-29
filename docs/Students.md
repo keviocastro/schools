@@ -18,26 +18,23 @@ e relatórios como "Boletim anual do aluno" e "Histórico escolar".
 + Response 200 (application/json)
 
     + Attributes (object)
-        + averages (array) - Médias por disciplina no ano letivo
+        + subjects (array) - Médias por disciplina no ano letivo
             + (object)
-                + include (SchoolCalendarPhase)
-                + subject_average (array)
+                + include (Subject)
+                + average_calculation: `((9.6 + 9.3)*0.4 + (9.3 + 9.8)*0.6)/2` (string) - `Calculo de média da disciplina`
+                + average_formula: `( ({1º Bimestre} + {2º Bimestre})*0.4 + ({3º Bimestre} + {4º Bimestre})*0.6 )/2` (string) - `Formula utilizada para calcular a média anual da disciplina`
+                + average_year: 8.2 (number) - `Média do aluno para disciplina no ano letivo`
+                + absences: 10 (number) - `Total de faltas do aluno para disciplina no ano letivo`
+                + school_calendar_phases (array)
                     + (object)
-                        + include (Subject)
-                        + average: 7.2 - Média do aluno para a disciplina na fase do ano
-                        + student_grades (array)
+                        + id: 1 (number) - `ID da fase do ano`
+                        + average: 7.2 (number) - `Média do aluno no para disciplina na fase do ano`
+                        + average_calculation: `(6.5 + 5.7)/2` (string) - `Calculo da média da disciplina na fase do ano` 
+                        + average_f ormula: `({Nota 1.1} + {Nota 1.2})/2` (string) - `Formula utilizada para  calcular a média da disciplina na fase do ano`    
+                        + absences: 2 (number) - `Total de faltas do aluno para disciplina na fase do ano`
+                        + student_grades (array[object])
                             + (object)
-                                + student_grade (StudentGrade)
-                                + assessment (Assessment)
-        + absences (array) - Faltas no ano letivo
-            + (object)
-                + school_calendar_phase_id: 1
-                + subject_id: 1 
-                + absences: 6
-        + subjects (array) - `Disciplinas cursadas no ano`
-            + include (Subject)
-            + average: 8.2 - `Nota média da disciplina no ano`
-            + average_calculation: `((9.6 + 9.3)*0.4 + (9.3 + 9.8)*0.6)/2` - `Calculo de média da disciplina`
+                                + include (StudentGrade)
 
 
 ## Annual Student Summary [/students/{student_id}/annual-summary{?school_calendar_id}]
