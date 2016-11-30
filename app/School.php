@@ -34,4 +34,15 @@ class School extends Model
      */
     protected $fillable = ['name'];
 
+
+    /**
+     * @Relation
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function schoolClasses()
+    {
+        return $this->hasMany('App\SchoolClass');
+    }
+
 }

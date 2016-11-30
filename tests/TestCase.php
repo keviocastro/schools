@@ -34,6 +34,33 @@ class TestCase extends TestCaseLara
     }
 
     /**
+     * Obtem a resposta de $uri
+     * Se o conteúdo da resposta for json, o resultado é
+     * retornado decodificado em array
+     * 
+     * @param  string $httpMethod      
+     * @param  string $uri         
+     * @param  array  $parameters  
+     * @return mixed               
+     */
+    public function getResponseContent($httpMethod, $uri, $parameters=[])
+    {
+        $autHeader = $this->transformHeadersToServerVars($this->getAutHeader());
+
+        $response = $this->call($httpMethod,
+            $uri,
+            $parameters,
+            [],
+            [],
+            $autHeader);
+
+        $content = $response->getContent();
+        $json_response = json_decode($content, true);
+
+        return $json_response ? $json_response : $content; 
+    }
+
+    /**
      * Obtem id_token de autentificação auth0 para 
      * testes de autentificação 
      * 

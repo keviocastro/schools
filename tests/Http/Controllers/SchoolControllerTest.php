@@ -3,6 +3,7 @@
 namespace Http\Controllers;
 
 use App\School;
+use App\SchoolClass;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
@@ -27,15 +28,46 @@ class SchoolControllerTest extends TestCase
     }
 
     /**
+     * @todo  As estruturas de retorno devem ser
+     * testadas somente com a doc?
+     * 
      * @covers SchoolController::index
      * 
      * @return void
      */
     public function testIndex()
     {
-        $this->get('api/schools?_q=&_sort',
+        // Se a estrutura de retorno está correta
+        // e se está retornado as relações
+        $school = factory(School::class)->create();
+        $attributes = array_keys($school->attributesToArray());
+        
+        $this->get('api/schools',
             $this->getAutHeader())
-            ->assertResponseStatus(200);
+            ->assertResponseStatus(200)
+            ->seeJsonStructure([
+                'total',
+                'per_page',
+                'current_page',
+                'last_page',
+                'prev_page_url',
+                'next_page_url',
+                'from',
+                'to',
+                'data' => ['*' => $attributes]
+            ]);
+
+        // Se fullsearch está funcionado
+        // Verifica se o primeiro retornado é o mesmo
+        // que foi pesquisado
+        $name = 'School sunshine '.str_random(5);
+        $school = factory(School::class)->create([
+                'name' => $name
+            ])->toArray();
+
+        $result = $this->getResponseContent('GET', 
+            "api/schools?_q=$name");
+        $this->assertEquals($school['id'], $result['data'][0]['id']);
     }
 
     /**

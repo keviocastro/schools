@@ -11,6 +11,7 @@ use Illuminate\Foundation\Auth\Access\AuthorizesResources;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
+use Illuminate\Support\Facades\Input;
 use Marcelgwerder\ApiHandler\ApiHandler;
 
 class Controller extends BaseController
@@ -40,7 +41,38 @@ class Controller extends BaseController
     }
 
     /**
-     * Validation for store action 
+     * Retorna um objeto de resultado padrão para api de multiplos resultados. 
+     *
+     * @param  mixed            $queryBuilder          Some kind of query builder instance
+     * @param  array            $fullTextSearchColumns Columns to search in fulltext search
+     * @param  array|boolean    $queryParams           A list of query parameter
+     * @return Result
+     */
+    public function parseMultiple($queryBuilder, $fullTextSearchColumns = array(), $queryParams = false)
+    {
+        if ($queryParams === false) {
+            $queryParams = Input::get();
+        }
+
+        // Se não remover apiHandler utiliza como filter.
+        if (!empty($queryParams['_page'])) {
+            unset($queryParams['_page']);
+        }
+
+        $result = $this->apiHandler->parseMultiple($queryBuilder, 
+            $fullTextSearchColumns, $queryParams);
+        
+        $result = $result->getBuilder()->paginate($perPage = null, 
+            $columns = ['*'], 
+            $pageName = '_page', 
+            $page = null);        
+
+        return $result;
+    }
+
+
+    /**
+     * Validation for store action queryParams
      * 
      * @param  Illuminate\Http\Request $request   
      * @param  array  $rules     See https://laravel.com/docs/5.3/validation

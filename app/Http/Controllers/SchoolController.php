@@ -34,9 +34,7 @@ class SchoolController extends Controller
      */
     public function index(Request $request)
     {
-        $result = $this->apiHandler->parseMultiple(new School);
-        
-        return $result->getBuilder()->paginate();
+        return $this->parseMultiple(new School,['name']);
     }
 
     /**

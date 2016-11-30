@@ -43,10 +43,10 @@ class SchoolCalendarController extends Controller
     public function store(Request $request)
     {
         $this->validationForStoreAction($request, [
-                'year' => '{validation}', 
-                'start' => '{validation}', 
-                'end' => '{validation}', 
-                'average_formula' => '{validation}', 
+                'year' => 'required|date_format:Y', 
+                'start' => 'required|date_format:Y-m-d', 
+                'end' => 'required|date_format:Y-m-d', 
+                'average_formula' => 'string', 
             ]);
         $schoolCalendarController = SchoolCalendar::create($request->all());
 
