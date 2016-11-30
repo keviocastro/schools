@@ -79,7 +79,7 @@ class StudentController extends Controller
         $schoolCalendar = SchoolCalendar::findOrFail($school_calendar_id);
         $student = Student::findOrFail($student_id);
 
-        $result['averages_and_absences'] = $student->averagesAndAbsencesInTheYear($schoolCalendar);
+        $result['report_by_absences'] = $student->averagesAndAbsencesInTheYear($schoolCalendar);
 
         return $result;
     }

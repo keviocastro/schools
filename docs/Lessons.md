@@ -8,6 +8,8 @@
 ### List lessons [GET]
 
 + Parameters
+    + _fields (string, optional)
+        + include (Lesson)
     + q (string, optional) - Fulltext search
     + sort (string, optional) - Nome da coluna para ordenação. 
     + _with

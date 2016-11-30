@@ -112,33 +112,33 @@ class StudentControllerTest extends TestCase
             $this->getAutHeader())
             ->assertResponseStatus(200)
             ->seeJsonStructure([
-                'averages_and_absences' => // Informações por disciplina no ano letivo
+                'report_by_subjects' => // Informações por disciplina no ano letivo
                              // faltas, notas e médias
-                    ['*' => 
-                        [
-                            'id',  
-                            'name',
-                            'average_calculation',  // Calculo da média do aluno no ano para disciplina.
-                            'average_formula', // Formula utilizada para calcular a média.
-                            'average_year', // Ḿédia anual do aluno para disciplina.
-                            'school_calendar_phases' => ['*' => // Notas por fase do ano, da disciplina.
-                                [
-                                    'id', 
-                                    'average', // Média do aluno na fase do ano.
-                                    'average_formula', // Formula do calculo de média.
-                                    'average_calculation', // Cálculo da média.
-                                    'student_grades' => ['*' => // Notas que compêm a média do aluno
-                                                                // na fase do ano.
-                                        [
-                                            'id', 
-                                            'grade',
-                                            'assessment_id'
-                                        ]
+                ['*' => 
+                    [
+                        'id',  
+                        'name',
+                        'average_calculation',  // Calculo da média do aluno no ano para disciplina.
+                        'average_formula', // Formula utilizada para calcular a média.
+                        'average_year', // Ḿédia anual do aluno para disciplina.
+                        'school_calendar_phases' => ['*' => // Notas por fase do ano, da disciplina.
+                            [
+                                'id', 
+                                'average', // Média do aluno na fase do ano.
+                                'average_formula', // Formula do calculo de média.
+                                'average_calculation', // Cálculo da média.
+                                'student_grades' => ['*' => // Notas que compêm a média do aluno
+                                                            // na fase do ano.
+                                    [
+                                        'id', 
+                                        'grade',
+                                        'assessment_id'
                                     ]
                                 ]
-                            ], 
-                        ] 
-                    ]
+                            ]
+                        ], 
+                    ] 
+                ]
             ]);
     }
 

@@ -35,7 +35,7 @@
 + name: Nota N1 - Descrição da avaliação
 + school_calendar_phase_id: 1 (number) - ID da fase que a avaliação será registrada.
 
-## SchoolCalendarPhase
+## SchoolCalendarPhase (object)
 
 + id: 1 (number) - Identificador único da fase avaliativa do ano.
 + name: `1º Bimestre` (string)

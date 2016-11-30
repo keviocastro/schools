@@ -33,7 +33,7 @@ Professor Medeiros acessa seu aplicativo informando usuário e senha para se cad
 + Request
     + Headers
     
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
+            authorization: <!-- include(Token.md)  -->
     
     
 + Response 200 (application/json)
@@ -51,11 +51,11 @@ Professor Medeiros acessa seu aplicativo informando usuário e senha para se cad
 
 
 
-## Account settings [/account-configs]
+## Account Settings Collection [/account-configs]
 
 Configurações da contado do usuário logado.
 
-### View a account settings [GET]
+### List account settings [GET]
 
 + Request
     + Headers
@@ -65,7 +65,7 @@ Configurações da contado do usuário logado.
 + Response 200 (application/json)
 
     + Attributes
-        + account_config (array)
+        + account_configs (array)
             + (object)
                 + id: 1 (number)
                 + name: percentage_absences_reprove (string) - `Percentual máximo de faltas que um aluno pode ter para não ser reprovado. Exemplo: Existem 200 aulas de Matématica no ano, e consideramos que percentage_absences_reprove == 15, então o aluno pode faltar no máximo 30 aulas (200*0,15).`
@@ -294,8 +294,8 @@ inicio e fim do ano.
     + sort (string, optional) - Nome da coluna para ordenação. 
     + _with (string, optional) - Nome da relação a ser incluída na resposta.
         + Members 
-            + schoolClasses - Turmas do ano letivo
-            + schoolCalendarPhases - Fases avaliativas do ano letivo
+            + schoolClasses - Turmas do ano letivo.
+            + phases - Fases avaliativas do ano letivo. Recurso (SchoolCalendarPhase)
 
 + Request (application/json)
 
@@ -422,7 +422,7 @@ e relatórios como "Boletim anual do aluno" e "Histórico escolar".
 + Response 200 (application/json)
 
     + Attributes (object)
-        + averages_and_absences (array) - Médias e faltas por disciplina no ano letivo
+        + report_by_subjects (array) - Médias e faltas por disciplina no ano letivo
             + (object)
                 + include (Subject)
                 + average_calculation: `((9.6 + 9.3)*0.4 + (9.3 + 9.8)*0.6)/2` (string) - `Calculo de média da disciplina`
@@ -439,6 +439,8 @@ e relatórios como "Boletim anual do aluno" e "Histórico escolar".
                         + student_grades (array[object])
                             + (object)
                                 + include (StudentGrade)
+        + school_calendar_phases (array) - Fases avaliativas do ano letivo
+            + (SchoolCalendarPhase)
 
 
 ## Annual Student Summary [/students/{student_id}/annual-summary{?school_calendar_id}]
@@ -486,6 +488,8 @@ e relatórios como "Boletim anual do aluno" e "Histórico escolar".
 ### List lessons [GET]
 
 + Parameters
+    + _fields (string, optional)
+        + include (Lesson)
     + q (string, optional) - Fulltext search
     + sort (string, optional) - Nome da coluna para ordenação. 
     + _with
@@ -1002,7 +1006,7 @@ Relation)
 + name: Nota N1 - Descrição da avaliação
 + school_calendar_phase_id: 1 (number) - ID da fase que a avaliação será registrada.
 
-## SchoolCalendarPhase
+## SchoolCalendarPhase (object)
 
 + id: 1 (number) - Identificador único da fase avaliativa do ano.
 + name: `1º Bimestre` (string)
