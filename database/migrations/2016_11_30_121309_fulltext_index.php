@@ -22,7 +22,7 @@ class FulltextIndex extends Migration
      */
     public function down()
     {
-        Schema::drop('schools', function($table){
+        Schema::table('schools', function($table){
             $table->dropIndex('search');
         });
     }
