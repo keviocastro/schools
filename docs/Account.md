@@ -13,7 +13,7 @@ Professor Medeiros acessa seu aplicativo informando usuário e senha para se cad
 + Request
     + Headers
     
-            authorization: <!-- include(Token.md) -->
+            authorization: <!-- include(Token.md)  -->
     
     
 + Response 200 (application/json)
@@ -31,11 +31,11 @@ Professor Medeiros acessa seu aplicativo informando usuário e senha para se cad
 
 
 
-## Account settings [/account-configs]
+## Account Settings Collection [/account-configs]
 
 Configurações da contado do usuário logado.
 
-### View a account settings [GET]
+### List account settings [GET]
 
 + Request
     + Headers
@@ -45,7 +45,7 @@ Configurações da contado do usuário logado.
 + Response 200 (application/json)
 
     + Attributes
-        + account_config (array)
+        + account_configs (array)
             + (object)
                 + id: 1 (number)
                 + name: percentage_absences_reprove (string) - `Percentual máximo de faltas que um aluno pode ter para não ser reprovado. Exemplo: Existem 200 aulas de Matématica no ano, e consideramos que percentage_absences_reprove == 15, então o aluno pode faltar no máximo 30 aulas (200*0,15).`

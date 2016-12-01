@@ -20,13 +20,13 @@ class StudentTest extends TestCase
      */
     public function testSubjectAvaragePerYear()
     {
-    	// Artisan::call('migrate:refresh',[
-     //            '--seed' => true
-     //        ]);
+    	Artisan::call('migrate:refresh',[
+                '--seed' => true
+            ]);
 
-     //    Artisan::call('db:seed',[
-     //            '--class' => 'SchoolCalendar2016'
-     //        ]);
+        Artisan::call('db:seed',[
+                '--class' => 'SchoolCalendar2016'
+            ]);
 
     	// Criados pelo seeder SchoolCalendar2016
         $student = Student::find(1);
@@ -36,25 +36,11 @@ class StudentTest extends TestCase
         $averages = $student->subjectAvaragePerYear($schoolCalendar);
         $result = $averages->where('id', $subject->id)->first();
         $expected = array_merge($subject->toArray(), [
-        		'average' => 9.5,
+        		'average_year' => 9.5,
         		'average_calculation' => 
-        			'( (9.6 + 9.3)*0.4 + (9.3 + 9.8)*0.6 )/2'
-        	]);
-
-        $this->assertEquals(
-        	$expected,
-        	$result->toArray()
-        );
-
-        // Não encontra variaveis
-        $schoolCalendar->average_calculation = '( ({1º Bimest} + {2º Mestre})*0.4 + ({3º Bimestre} + {4º Bimestre})*0.6 )/2';
-
-        $result = $averages->where('id', $subject->id)->first();
-        $expected = array_merge($subject->toArray(), [
-        		'average' => 9.5,
-        		'average_calculation' => 
-        			'( (9.6 + 9.3)*0.4 + (9.3 + 9.8)*0.6 )/2'
-        	]);
+        			'( (9.6 + 9.3)*0.4 + (9.3 + 9.8)*0.6 )/2',
+                'average_formula' => '( ({1º Bimestre} + {2º Bimestre})*0.4 + ({3º Bimestre} + {4º Bimestre})*0.6 )/2'
+            ]);
 
         $this->assertEquals(
         	$expected,

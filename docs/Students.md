@@ -18,7 +18,7 @@ e relatórios como "Boletim anual do aluno" e "Histórico escolar".
 + Response 200 (application/json)
 
     + Attributes (object)
-        + averages_and_absences (array) - Médias e faltas por disciplina no ano letivo
+        + report_by_subjects (array) - Médias e faltas por disciplina no ano letivo
             + (object)
                 + include (Subject)
                 + average_calculation: `((9.6 + 9.3)*0.4 + (9.3 + 9.8)*0.6)/2` (string) - `Calculo de média da disciplina`
@@ -35,6 +35,8 @@ e relatórios como "Boletim anual do aluno" e "Histórico escolar".
                         + student_grades (array[object])
                             + (object)
                                 + include (StudentGrade)
+        + school_calendar_phases (array) - Fases avaliativas do ano letivo
+            + (SchoolCalendarPhase)
 
 
 ## Annual Student Summary [/students/{student_id}/annual-summary{?school_calendar_id}]

@@ -201,8 +201,8 @@ inicio e fim do ano.
     + sort (string, optional) - Nome da coluna para ordenação. 
     + _with (string, optional) - Nome da relação a ser incluída na resposta.
         + Members 
-            + schoolClasses - Turmas do ano letivo
-            + schoolCalendarPhases - Fases avaliativas do ano letivo
+            + schoolClasses - Turmas do ano letivo.
+            + phases - Fases avaliativas do ano letivo. Recurso (SchoolCalendarPhase)
 
 + Request (application/json)
 

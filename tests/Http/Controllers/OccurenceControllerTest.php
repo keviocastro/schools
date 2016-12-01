@@ -32,8 +32,6 @@ class OccurenceControllerTest extends TestCase
 			      "comment",
                   "about_person_id",
                   "about_person" => ['id','name'],
-			      "created_at",
-			      "updated_at",
 			      "level" => ['id','name']
 			    ]
 			  ]
