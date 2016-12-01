@@ -15,6 +15,7 @@ class FulltextIndex extends Migration
         DB::statement('ALTER TABLE schools ADD FULLTEXT INDEX search(name)');
         DB::statement('ALTER TABLE school_classes ADD FULLTEXT INDEX search(identifier)');
         DB::statement('ALTER TABLE assessments ADD FULLTEXT INDEX search(name)');
+        DB::statement('ALTER TABLE occurences ADD FULLTEXT INDEX search(comment)');
     }
 
     /**
@@ -31,6 +32,9 @@ class FulltextIndex extends Migration
             $table->dropIndex('search');
         });
         Schema::table('assessments', function($table){
+            $table->dropIndex('search');
+        });
+        Schema::table('occurences', function($table){
             $table->dropIndex('search');
         });
     }

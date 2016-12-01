@@ -10,34 +10,71 @@ use Tests\TestCase;
 class OccurenceControllerTest extends TestCase
 {
     /**
-     * OccurenceControllerTest::index
+     * OccurenceController::index
      *
      * @return void
      */
     public function testIndex()
     {
-    	$struture = [
-			  "total",
-			  "per_page",
-			  "current_page",
-			  "last_page",
-			  "next_page_url",
-			  "prev_page_url",
-			  "from",
-			  "to",
-			  "data" => [
-			    [
-			      "id",
-			      "level_id",
-			      "comment",
+        $struture = [
+              "total",
+              "per_page",
+              "current_page",
+              "last_page",
+              "next_page_url",
+              "prev_page_url",
+              "from",
+              "to",
+              "data" => [
+                [
+                  "id",
+                  "level_id",
+                  "comment",
                   "about_person_id",
                   "about_person" => ['id','name'],
-			      "level" => ['id','name']
-			    ]
-			  ]
-			];
+                  "level" => ['id','name']
+                ]
+              ]
+            ];
             
         $this->get('api/occurences?_with=level,aboutPerson',
+            $this->getAutHeader())
+            ->assertResponseStatus(200)
+            ->seeJsonStructure($struture);
+    }
+    /**
+     * OccurenceController::index
+     *
+     * @return void
+     */
+    public function testIndexParamQ()
+    {
+        $comment = 'Apos o recreio, saiu da sala correndo';
+        $schoolClass = factory(Occurence::class)->create([
+                'comment' => $comment
+            ])->toArray();
+
+        $struture = [
+              "total",
+              "per_page",
+              "current_page",
+              "last_page",
+              "next_page_url",
+              "prev_page_url",
+              "from",
+              "to",
+              "data" => [
+                [
+                  "id",
+                  "level_id",
+                  "comment",
+                  "about_person_id",
+                  "_score"
+                ]
+              ]
+            ];
+        $word = explode(' ', $comment, 4)[2];
+        $this->get("api/occurences?_q=$word",
             $this->getAutHeader())
             ->assertResponseStatus(200)
             ->seeJsonStructure($struture);

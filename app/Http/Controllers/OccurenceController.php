@@ -15,9 +15,9 @@ class OccurenceController extends Controller
      */
     public function index()
     {
-        $result = $this->apiHandler->parseMultiple(new Occurence);
+        $result = $this->parseMultiple(new Occurence,['comment']);
         
-        return $result->getBuilder()->paginate();
+        return $result;
     }
 
     /**
