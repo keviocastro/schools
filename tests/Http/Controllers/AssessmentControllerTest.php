@@ -22,5 +22,20 @@ class AssessmentControllerTest extends TestCase
         	$this->getAutHeader())
         	->assertResponseStatus(200)
         	->seeJson($assessment->toArray());
+
+        //Testando a chave de busca _q
+        // Verifica se o primeiro retornado é o mesmo
+        // que foi pesquisado
+        $name = 'Nota_23 abc';
+        $assessment = factory(Assessment::class)->create([
+                'name' => $name
+            ])->toArray();
+
+        $result = $this->getResponseContent('GET', 
+            "api/assessments?_q=$name");
+        // var_dump($assessment['id']);
+        dump($result);
+        dd('fim');
+        $this->assertEquals($assessment['id'], $result['data'][0]['id']);
     }
 }

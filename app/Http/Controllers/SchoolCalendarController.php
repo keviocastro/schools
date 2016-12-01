@@ -28,10 +28,8 @@ class SchoolCalendarController extends Controller
      * 
      */
     public function index()
-    {   
-        $result = $this->apiHandler->parseMultiple(new SchoolCalendar);
-        
-        return $result->getBuilder()->paginate();
+    {
+        return $this->parseMultiple(new SchoolCalendar);
     }
 
     /**

@@ -13,6 +13,8 @@ class FulltextIndex extends Migration
     public function up()
     {
         DB::statement('ALTER TABLE schools ADD FULLTEXT INDEX search(name)');
+        DB::statement('ALTER TABLE school_classes ADD FULLTEXT INDEX search(identifier)');
+        DB::statement('ALTER TABLE assessments ADD FULLTEXT INDEX search(name)');
     }
 
     /**
@@ -22,7 +24,13 @@ class FulltextIndex extends Migration
      */
     public function down()
     {
-        Schema::drop('schools', function($table){
+        Schema::table('schools', function($table){
+            $table->dropIndex('search');
+        });
+        Schema::table('school_classes', function($table){
+            $table->dropIndex('search');
+        });
+        Schema::table('assessments', function($table){
             $table->dropIndex('search');
         });
     }

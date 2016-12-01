@@ -25,6 +25,19 @@ class SchoolClassControllerTest extends TestCase
         	$this->getAutHeader())
         	->assertResponseStatus(200)
         	->seeJson($schoolClass->toArray());
+
+        //Testando a chave de busca _q
+        // Verifica se o primeiro retornado é o mesmo
+        // que foi pesquisado
+        $identifier = 'fff';
+        $schoolClass = factory(SchoolClass::class)->create([
+                'identifier' => $identifier
+            ])->toArray();
+
+        $result = $this->getResponseContent('GET', 
+            "api/school-classes?_q=$identifier");
+
+        $this->assertEquals($schoolClass['id'], $result['data'][0]['id']);
     }
 
     /**

@@ -15,8 +15,6 @@ class AssessmentController extends Controller
      */
     public function index()
     {
-        $result = $this->apiHandler->parseMultiple(new Assessment);
-        
-        return $result->getBuilder()->paginate();
+        return $this->parseMultiple(new Assessment,['name']);
     }
 }
