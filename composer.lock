@@ -2797,12 +2797,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/vlucas/phpdotenv.git",
-                "reference": "3cc116adbe4b11be5ec557bf1d24dc5e3a21d18c"
+                "reference": "e5a077e823e5ea0b3714b78cd260738cd583aeeb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/vlucas/phpdotenv/zipball/3cc116adbe4b11be5ec557bf1d24dc5e3a21d18c",
-                "reference": "3cc116adbe4b11be5ec557bf1d24dc5e3a21d18c",
+                "url": "https://api.github.com/repos/vlucas/phpdotenv/zipball/e5a077e823e5ea0b3714b78cd260738cd583aeeb",
+                "reference": "e5a077e823e5ea0b3714b78cd260738cd583aeeb",
                 "shasum": ""
             },
             "require": {
@@ -2839,7 +2839,7 @@
                 "env",
                 "environment"
             ],
-            "time": "2016-09-01 10:05:43"
+            "time": "2016-11-28 23:08:37"
         },
         {
             "name": "webmozart/assert",
@@ -2953,12 +2953,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/fzaninotto/Faker.git",
-                "reference": "70572abb2ee34c79a566dc13d016f89011f8365e"
+                "reference": "9722bbea1029082af5f518665c04980efe585590"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/70572abb2ee34c79a566dc13d016f89011f8365e",
-                "reference": "70572abb2ee34c79a566dc13d016f89011f8365e",
+                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/9722bbea1029082af5f518665c04980efe585590",
+                "reference": "9722bbea1029082af5f518665c04980efe585590",
                 "shasum": ""
             },
             "require": {
@@ -2995,7 +2995,7 @@
                 "faker",
                 "fixtures"
             ],
-            "time": "2016-11-09 08:42:27"
+            "time": "2016-11-29 13:46:42"
         },
         {
             "name": "hamcrest/hamcrest-php",
@@ -3425,12 +3425,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "0f80c773e7de1a7a4801ab386e9def441524471f"
+                "reference": "2e6b07aad4158d7425f2415a1583fa3461e67867"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/0f80c773e7de1a7a4801ab386e9def441524471f",
-                "reference": "0f80c773e7de1a7a4801ab386e9def441524471f",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/2e6b07aad4158d7425f2415a1583fa3461e67867",
+                "reference": "2e6b07aad4158d7425f2415a1583fa3461e67867",
                 "shasum": ""
             },
             "require": {
@@ -3489,7 +3489,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2016-11-25 13:19:07"
+            "time": "2016-12-01 09:20:48"
         },
         {
             "name": "phpunit/phpunit-mock-objects",
@@ -3833,16 +3833,16 @@
         },
         {
             "name": "sebastian/recursion-context",
-            "version": "dev-master",
+            "version": "1.0.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/recursion-context.git",
-                "reference": "2c3ba150cbec723aa057506e73a8d33bdb286c9a"
+                "reference": "b19cc3298482a335a95f3016d2f8a6950f0fbcd7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/recursion-context/zipball/2c3ba150cbec723aa057506e73a8d33bdb286c9a",
-                "reference": "2c3ba150cbec723aa057506e73a8d33bdb286c9a",
+                "url": "https://api.github.com/repos/sebastianbergmann/recursion-context/zipball/b19cc3298482a335a95f3016d2f8a6950f0fbcd7",
+                "reference": "b19cc3298482a335a95f3016d2f8a6950f0fbcd7",
                 "shasum": ""
             },
             "require": {
@@ -3854,7 +3854,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.0.x-dev"
+                    "dev-master": "1.0.x-dev"
                 }
             },
             "autoload": {
@@ -3882,7 +3882,7 @@
             ],
             "description": "Provides functionality to recursively process PHP variables",
             "homepage": "http://www.github.com/sebastianbergmann/recursion-context",
-            "time": "2016-11-19 07:33:16"
+            "time": "2016-10-03 07:41:43"
         },
         {
             "name": "sebastian/version",
