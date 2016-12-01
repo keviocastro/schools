@@ -25,6 +25,17 @@ class SchoolClassControllerTest extends TestCase
         	$this->getAutHeader())
         	->assertResponseStatus(200)
         	->seeJson($schoolClass->toArray());
+    }
+
+    /**
+     * @covers SchoolClassController::index
+     *
+     * Teste do parametro _q = Full text search
+     * 
+     * @return void
+     */
+    public function testIndexParamQ()
+    {
 
         //Testando a chave de busca _q
         // Verifica se o primeiro retornado é o mesmo
@@ -34,10 +45,32 @@ class SchoolClassControllerTest extends TestCase
                 'identifier' => $identifier
             ])->toArray();
 
-        $result = $this->getResponseContent('GET', 
-            "api/school-classes?_q=$identifier");
+        $struture = [
+              "total",
+              "per_page",
+              "current_page",
+              "last_page",
+              "next_page_url",
+              "prev_page_url",
+              "from",
+              "to",
+              "data" => [
+                [
+                    "id",
+                    "identifier",
+                    "shift_id",
+                    "grade_id",
+                    "school_id",
+                    "school_calendar_id",
+                    "_score"
+                ]
+              ]
+            ];
 
-        $this->assertEquals($schoolClass['id'], $result['data'][0]['id']);
+        $this->get("api/school-classes?_q=$identifier",
+            $this->getAutHeader())
+            ->assertResponseStatus(200)
+            ->seeJsonStructure($struture);
     }
 
     /**

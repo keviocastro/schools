@@ -16,7 +16,8 @@ class SchoolClassController extends Controller
      */
     public function index()
     {
-        return $this->parseMultiple(new SchoolClass,['identifier']);
+        $result = $this->parseMultiple(new SchoolClass,['identifier']);
+        return $result;
     }
 
     /**

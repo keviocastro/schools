@@ -15,6 +15,7 @@ class AssessmentController extends Controller
      */
     public function index()
     {
-        return $this->parseMultiple(new Assessment,['name']);
+    	$result = $this->parseMultiple(new Assessment,['name']);
+        return $result;
     }
 }

@@ -14,7 +14,7 @@ class AssessmentControllerTest extends TestCase
      *
      * @return void
      */
-    public function testIndex()
+    public function testIndexSuccess()
     {
         $assessment = factory(Assessment::class)->create();
       
@@ -22,20 +22,46 @@ class AssessmentControllerTest extends TestCase
         	$this->getAutHeader())
         	->assertResponseStatus(200)
         	->seeJson($assessment->toArray());
+    }
 
+    /**
+     * @covers AssessmentController::index
+     *
+     * Teste do parametro _q = Full text search
+     * 
+     * @return void
+     */
+    public function testIndexParamQ()
+    {
         //Testando a chave de busca _q
         // Verifica se o primeiro retornado é o mesmo
         // que foi pesquisado
-        $name = 'Nota_23 abc';
+        $name = 'Nota 2';
         $assessment = factory(Assessment::class)->create([
                 'name' => $name
             ])->toArray();
 
-        $result = $this->getResponseContent('GET', 
-            "api/assessments?_q=$name");
-        // var_dump($assessment['id']);
-        dump($result);
-        dd('fim');
-        $this->assertEquals($assessment['id'], $result['data'][0]['id']);
+        $struture = [
+              "total",
+              "per_page",
+              "current_page",
+              "last_page",
+              "next_page_url",
+              "prev_page_url",
+              "from",
+              "to",
+              "data" => [
+                [
+                    "id",
+                    "school_calendar_phase_id",
+                    "name",
+                    "_score"
+                ]
+              ]
+            ];
+        $this->get("api/assessments?_q=$name",
+            $this->getAutHeader())
+            ->assertResponseStatus(200)
+            ->seeJsonStructure($struture);
     }
 }
