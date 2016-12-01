@@ -3,16 +3,14 @@
 `Attendance Records` são os registros de presenças dos alunos em uma aula, definindo
 se o aluno estava ou não presente durante a aula.
 
-## Attendance records Collection [/attendance-records{?q,sort,_with
-}]
+## Attendance records Collection [/attendance-records{?_q,_sort,_with}]
 
 ### List attendance records [GET]
 
 + Parameters
-    + q (string, optional) - Fulltext search
-    + sort (string, optional) - Nome da coluna para ordenação. 
-    + _with
- (string) - Nome da relação a ser incluída na resposta
+    + _q (string, optional) - Fulltext search
+    + _sort (string, optional) - Nome da coluna para ordenação. 
+    + _with (string) - Nome da relação a ser incluída na resposta
         + Members
             + lesson
             + lesson.schoolClass
@@ -65,8 +63,7 @@ retornado o registro já existente com as informações atualizadas.
         }
 
 
-## Attendance Record [/attendance-records/{id}{?_with
-}]
+## Attendance Record [/attendance-records/{id}{?_with}]
 
 + Parameters
     + id: 1 (number) - ID of the attendance record

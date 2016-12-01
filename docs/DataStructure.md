@@ -1,5 +1,14 @@
 # Data structure
 
+## SubjectFillable
+
++ name: Matématica  (string) - Nome da disciplina. Ex.: Matématica, Português, Fisica.
+
+## Subject
+
++ id: 1 (number) - Identificador único da disciplina.
++ Include (SubjectFillable)
+
 ## StudentGradeFillable
 
 + grade: 7.5 (number) - Nota do aluno na avaliação.
@@ -96,12 +105,6 @@
 
 + id: 1 (number) - Identificador único do turno.
 + name: Matutino (string) - Nome do turno. Exemplo: Vespertino, matutino, noturno.
-
-
-## Subject (object)
-
-+ id: 1 (number) - Identificador único da disciplina.
-+ name: Matématica  (string) - Nome da disciplina. Ex.: Matématica, Português, Fisica.
 
 ## LessonFillable (object)
 

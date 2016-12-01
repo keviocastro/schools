@@ -1,34 +1,36 @@
-# Group Student Grades
+# Group Occurrence 
 
-`Student Grades` São registo de notas de cada aluno em suas diciplinas nos periodos e turmas pertencentes a ele.
+`Occurrence` são registros de ocorrências registrar por professor em relação aos alunos.
 
-## Student grades Collection [/student_grades{?_q,_sort,_field,_with}]
+## Occurrence Collection [/occurences{?_q,_sort,_with}]
 
-### Create a new Student Grades [POST]
+### Create a new Occorence [POST]
 
 + Request (application/json)
     + Headers
             
             authorization: <!-- include(Token.md) -->
     
-    + Attributes (StudentGradeFillable)
+    + Attributes (OccurenceFillable)
 
 + Response 201 (application/json) 
     
     + Attributes 
-        + StudentGrade (StudentGrade)
+        + occurence (Occurence)
         
-### List Student Grades [GET]
+    
+
+### List occurences [GET]
 
 + Parameters
     + _q (string, optional) - Fulltext search.
+        + Members
+            +comment
     + _sort (string, optional) - Nome da coluna para ordenação. 
     + _with (string) - Nome da relação a ser incluída na resposta.
         + Members
-            + student
-            + subject
-            + assessment
-            + schoolClass
+            + aboutPerson
+            + level
 
 + Request 
     + Headers
@@ -40,20 +42,14 @@
     + Attributes 
         + Include Paginator
         + data (array)
-            + (StudentGrade)
+            + (Occurence)
 
-## Student Grades [/student-grades/{id}{?_with}]
+## Occurence [/occurences/{id}]
 
-### View a Student Grades detail [GET]
+### View a occurence detail [GET]
 
 + Parameters
     + id: 1 (number) - ID of the occurence
-    + _with (string) - Nome da relação a ser incluída na resposta.
-        + Members
-            + student
-            + subject
-            + assessment
-            + schoolClass
 
 + Request 
     + Headers
@@ -63,12 +59,12 @@
 + Response 200 (application/json)
     
     + Attributes 
-        + StudentGrade (StudentGrade)
+        + Occurence (Occurence)
 
 ### Edit [PUT]
 
 + Parameters
-    + id: 1 (number) - ID of the Student Grades
+    + id: 1 (number) - ID of the occurence
 
 + Request (application/json)
 
@@ -76,9 +72,22 @@
             
             authorization: <!-- include(Token.md) -->
             
-    + Attributes (StudentGradeFillable)
+    + Attributes (OccurenceFillable)
             
 + Response 200 (application/json)
     
     + Attributes 
-        + StudentGrade (StudentGrade)
+        + Occurence (Occurence)
+
+### Delete [DELETE]
+
++ Parameters
+    + id: 1 (number) - ID of the occurence
+    
++ Request (application/json)
+    + Headers
+    
+            authorization: <!-- include(Token.md) -->
+    
+
++ Response 204
