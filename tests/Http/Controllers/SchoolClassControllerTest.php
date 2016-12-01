@@ -28,6 +28,52 @@ class SchoolClassControllerTest extends TestCase
     }
 
     /**
+     * @covers SchoolClassController::index
+     *
+     * Teste do parametro _q = Full text search
+     * 
+     * @return void
+     */
+    public function testIndexParamQ()
+    {
+
+        //Testando a chave de busca _q
+        // Verifica se o primeiro retornado é o mesmo
+        // que foi pesquisado
+        $identifier = 'fff';
+        $schoolClass = factory(SchoolClass::class)->create([
+                'identifier' => $identifier
+            ])->toArray();
+
+        $struture = [
+              "total",
+              "per_page",
+              "current_page",
+              "last_page",
+              "next_page_url",
+              "prev_page_url",
+              "from",
+              "to",
+              "data" => [
+                [
+                    "id",
+                    "identifier",
+                    "shift_id",
+                    "grade_id",
+                    "school_id",
+                    "school_calendar_id",
+                    "_score"
+                ]
+              ]
+            ];
+
+        $this->get("api/school-classes?_q=$identifier",
+            $this->getAutHeader())
+            ->assertResponseStatus(200)
+            ->seeJsonStructure($struture);
+    }
+
+    /**
      * @covers SchoolClassController::store
      *
      * @return void

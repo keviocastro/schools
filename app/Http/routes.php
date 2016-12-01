@@ -86,6 +86,13 @@ $api->version('v1', function ($api) {
 			$api->post('student-grades', 'App\Http\Controllers\StudentGradeController@store');
 			$api->get('student-grades/{id}', 'App\Http\Controllers\StudentGradeController@show');
 			$api->put('student-grades/{id}', 'App\Http\Controllers\StudentGradeController@update');
+
+			//Subjects
+			$api->get('subjects', 'App\Http\Controllers\SubjectController@index');
+			$api->post('subjects', 'App\Http\Controllers\SubjectController@store');
+			$api->get('subjects/{id}', 'App\Http\Controllers\SubjectController@show');
+			$api->put('subjects/{id}', 'App\Http\Controllers\SubjectController@update');
+			$api->delete('subjects/{id}', 'App\Http\Controllers\SubjectController@destroy');
 		});
 	});
 

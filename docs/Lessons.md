@@ -2,18 +2,16 @@
 
 `Lessons` são as aulas programadas para as turmas de uma escola.
 
-## Lessons Collection [/lessons{?q,sort,_with
-}]
+## Lessons Collection [/lessons{?_q,_sort,_with}]
 
 ### List lessons [GET]
 
 + Parameters
     + _fields (string, optional)
         + include (Lesson)
-    + q (string, optional) - Fulltext search
-    + sort (string, optional) - Nome da coluna para ordenação. 
-    + _with
- (string, optional) Nome da relação a ser incluida da resposta.
+    + _q (string, optional) - Fulltext search
+    + _sort (string, optional) - Nome da coluna para ordenação. 
+    + _with (string, optional) Nome da relação a ser incluida da resposta.
         + Members
             + schoolClass
             + schoolClass.grade
@@ -49,12 +47,10 @@
 
 ## Lesson [/lessons/{lesson_id}{?_with,attach}]
 
-+ Parameters
-    - lesson_id: 1 (number) - ID of the lesson
-
 ### View a lesson detail [GET]
 
 + Parameters
+    + lesson_id: 1 (number) - ID of the lesson
     + _with (string, optional) Nome da relação a ser incluida na resposta.
         + Members
             + attendanceRecords
@@ -101,6 +97,9 @@
             
 ### Edit [PUT]
 
++ Parameters
+    + lesson_id: 1 (number) - ID of the lesson
+
 + Request 
     + Headers
             
@@ -116,17 +115,23 @@
 
 ### Delete [DELETE]
 
++ Parameters
+    + lesson_id: 1 (number) - ID of the lesson
+
++ Request (application/json)
+    + Headers
+    
+            authorization: <!-- include(Token.md) -->
+
 + Response 204
 
 
-## Lessons per day [/lessons/per-day{?_with
-,q,sort,start,end}]
+## Lessons per day [/lessons/per-day{?_with,_q,_sort,start,end}]
 
 ### List Lessons per day [GET]
 
 + Parameters
-    + _with
- (string, optional) Nome da relação a ser incluida da resposta.
+    + _with (string, optional) Nome da relação a ser incluida da resposta.
         + Members
             + schoolClass
             + schoolClass.grade

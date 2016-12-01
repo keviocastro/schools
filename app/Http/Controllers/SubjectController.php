@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests;
-use App\Occurence;
 use Illuminate\Http\Request;
 
-class OccurenceController extends Controller
+use App\Http\Requests;
+use App\Subject;
+
+class SubjectController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,7 +16,7 @@ class OccurenceController extends Controller
      */
     public function index()
     {
-        $result = $this->parseMultiple(new Occurence,['comment']);
+        $result = $this->parseMultiple(new Subject,['name']);
         
         return $result;
     }
@@ -29,14 +30,11 @@ class OccurenceController extends Controller
     public function store(Request $request)
     {
         $this->validationForStoreAction($request, [
-            'level_id' => 'required|numeric|exists:levels,id',
-            'comment' => 'required|string',
-            'about_person_id' => 'required|numeric|exists:people,id',
-        ], '', true);
-        
-        $occurence = Occurence::create($request->all());
+                // '{attribute}' => '{validation}',
+            ]);
+        $subject = Subject::create($request->all());
 
-        return $this->response->created("/occurence/{$occurence->id}", $occurence);
+        return $this->response->created("/resource/{$subject->id}", $subject);
     }
 
     /**
@@ -47,8 +45,7 @@ class OccurenceController extends Controller
      */
     public function show($id)
     {
-        $result = $this->apiHandler->parseSingle(new Occurence,$id);
-        return $result->getResult();
+        return Subject::findOrFail($id);
     }
 
     /**
@@ -61,15 +58,13 @@ class OccurenceController extends Controller
     public function update(Request $request, $id)
     {
         $this->validationForUpdateAction($request, [
-            'level_id' => 'required|numeric|exists:levels,id',
-            'comment' => 'required|string',
-            'about_person_id' => 'required|numeric|exists:people,id',
-        ]);
+            // 'attribute' => 'rule',
+            ]);
 
-        $occurence = Occurence::findOrFail($id);
-        $occurence->update($request->all());
+        $subject = Subject::findOrFail($id);
+        $subject->update($request->all());
 
-        return $occurence;
+        return $subject;
     }
 
     /**
@@ -80,8 +75,8 @@ class OccurenceController extends Controller
      */
     public function destroy($id)
     {
-        $occurence = Occurence::findOrFail($id);
-        $occurence->delete();
+        $subject = Subject::findOrFail($id);
+        $subject->delete();
 
         return $this->response->noContent();
     }

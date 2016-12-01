@@ -1,9 +1,8 @@
-# Group Occurrence 
+# Group Subjects 
 
-`Occurrence` são registros de ocorrências registrar por professor em relação aos alunos.
+`Subjects` São regristro das disciplinas .
 
-## Occurrence Collection [/occurences{?q,sort,__with
-}]
+## Subjects Collection [/subjects{?_q,_sort,_with}]
 
 ### Create a new Occorence [POST]
 
@@ -12,25 +11,21 @@
             
             authorization: <!-- include(Token.md) -->
     
-    + Attributes (OccurenceFillable)
+    + Attributes (SubjectFillable)
 
 + Response 201 (application/json) 
     
     + Attributes 
-        + occurence (Occurence)
+        + Subject (Subject)
         
-    
-
-### List occurences [GET]
+### List Subjects [GET]
 
 + Parameters
-    + q (string, optional) - Fulltext search.
-    + sort (string, optional) - Nome da coluna para ordenação. 
-    + __with
- (string) - Nome da relação a ser incluída na resposta.
+    + _q (string, optional) - Fulltext search.
         + Members
-            + aboutPerson
-            + level
+            +name
+    + _sort (string, optional) - Nome da coluna para ordenação.
+    + _with (string) - Não possui relacao.
 
 + Request 
     + Headers
@@ -42,14 +37,14 @@
     + Attributes 
         + Include Paginator
         + data (array)
-            + (Occurence)
+            + (Subject)
 
-## Occurence [/occurences/{id}]
+## Subject [/subjects/{id}]
 
-### View a occurence detail [GET]
+### View a Subject detail [GET]
 
 + Parameters
-    + id: 1 (number) - ID of the occurence
+    + id: 1 (number) - ID of the Subject
 
 + Request 
     + Headers
@@ -59,12 +54,12 @@
 + Response 200 (application/json)
     
     + Attributes 
-        + Occurence (Occurence)
+        + Subject (Subject)
 
 ### Edit [PUT]
 
 + Parameters
-    + id: 1 (number) - ID of the occurence
+    + id: 1 (number) - ID of the Subject
 
 + Request (application/json)
 
@@ -72,14 +67,17 @@
             
             authorization: <!-- include(Token.md) -->
             
-    + Attributes (OccurenceFillable)
+    + Attributes (SubjectFillable)
             
 + Response 200 (application/json)
     
     + Attributes 
-        + Occurence (Occurence)
+        + Subject (Subject)
 
 ### Delete [DELETE]
+
++ Parameters
+    + id: 1 (number) - ID of the Subject
 
 + Request (application/json)
     + Headers
