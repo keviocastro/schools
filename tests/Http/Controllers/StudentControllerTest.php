@@ -70,13 +70,7 @@ class StudentControllerTest extends TestCase
     {
         // O student = 1 e schoolCalendar = 1 
         // são gerados pelo seeder SchoolCalendar2016
-        // Artisan::call('migrate:refresh',[
-        //     '--seed' => true
-        // ]);
-
-        // Artisan::call('db:seed',[
-        //         '--class' => 'SchoolCalendar2016'
-        // ]);
+        $this->keepSeederSchoolCalendar2016();
 
         $this->get("api/students/1/annual-summary".
             "?school_calendar_id=1",
@@ -99,13 +93,7 @@ class StudentControllerTest extends TestCase
     {
         // O student = 1 e schoolCalendar = 1 
         // são gerados pelo seeder SchoolCalendar2016
-        // Artisan::call('migrate:refresh',[
-        //     '--seed' => true
-        // ]);
-
-        // Artisan::call('db:seed',[
-        //         '--class' => 'SchoolCalendar2016'
-        // ]);
+        $this->keepSeederSchoolCalendar2016();
         
         $this->get('api/students/1/annual-report'.
             "?school_calendar_id=1",

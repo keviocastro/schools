@@ -7,6 +7,8 @@ use Config;
 use Dotenv\Dotenv;
 use Illuminate\Foundation\Testing\TestCase as TestCaseLara;
 use Kirkbater\Testing\SoftDeletes as SoftDeletes;
+use Symfony\Component\Process\Exception\ProcessFailedException;
+use Symfony\Component\Process\Process;
 
 class TestCase extends TestCaseLara
 {
@@ -31,6 +33,74 @@ class TestCase extends TestCaseLara
         $app->make(\Illuminate\Contracts\Console\Kernel::class)->bootstrap();
 
         return $app;
+    }
+
+    /**
+     * A base de dados é restaurada somente com os dados do seeder SchoolCalendar2016.
+     * 
+     * Esse metodo existe porque executar o seeder todas vezes que for executado
+     * um teste que precise dele leva muito tempo.
+     * 
+     * @return void
+     */
+    public function keepSeederSchoolCalendar2016()
+    {
+        $connections = Config::get('database.connections');
+        
+        $base = $connections['mysql']['database'];
+        $user = $connections['mysql']['username'];
+        $pass = $connections['mysql']['password'];
+        $host = $connections['mysql']['host'];
+        $dir = database_path()."/seeds";
+        $hash = md5_file($dir."/SchoolCalendar2016.php");
+        $name = "dump_SchoolCalendar2016_{$hash}.sql";
+        $nameFile = $dir."/dump_SchoolCalendar2016_{$hash}.sql";
+
+        // Se já existir o arquivo é porque o seeder não modificou,
+        // então não precisa criar um novo dump.
+        if (!file_exists($nameFile)) {
+            
+            Artisan::call('migrate:refresh',[
+                '--seed' => true
+            ]);
+
+            Artisan::call('db:seed',[
+                '--class' => 'SchoolCalendar2016'
+            ]);
+
+            // Remove os arquivos de dump desatualizado.
+            $files = collect(scandir($dir));
+            $oldFiles = $files->filter(function($nameFile, $key) use ($name){
+                return strpos($nameFile, 'dump_school_calendar_2016_') !== false &&
+                    $name != $onlyFileName;
+            });
+            foreach ($oldFiles as $fileName) {
+                unlink($dir."/$fileName");
+            }
+
+            // Gera um novo dump
+            $process = new Process(
+                "mysqldump -u{$user} -h{$host} -p{$pass} {$base} > $nameFile"
+            );
+
+            $process->run();
+            if (!$process->isSuccessful()) {
+                throw new ProcessFailedException($process);
+            }
+
+        }
+
+        // Drop database and restore dump
+        $process = new Process(
+            "mysql -u{$user} -h{$host} -p{$pass} -e 'DROP DATABASE {$base};' && ".
+            "mysql -u{$user} -h{$host} -p{$pass} -e 'CREATE DATABASE {$base};' &&".
+            "mysql -u{$user} -h{$host} -p{$pass} {$base} < $nameFile"
+        );
+
+        $process->run();
+        if (!$process->isSuccessful()) {
+            throw new ProcessFailedException($process);
+        }
     }
 
     /**

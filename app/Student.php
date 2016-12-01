@@ -161,11 +161,14 @@ class Student extends Model
     /**
      * Média anual das disciplinas cursadas pelo aluno em 
      * um ano letivo. 
+     * Utiliza sempre a precisão de 1 casa decimal.
      * 
      * @param  string $schoolCalendar 
+     * @param  string $toArray
+     *  
      * @return \Illuminate\Database\Eloquent\Collection 
      */
-    public function subjectAvaragePerYear(SchoolCalendar $schoolCalendar)
+    public function subjectAvaragePerYear(SchoolCalendar $schoolCalendar, $toArray=false)
     {
         $formula = $schoolCalendar->average_formula;
         $formula_variables = [];
@@ -215,7 +218,7 @@ class Student extends Model
                     if ($subject_grade && is_numeric($subject_grade->average) ) {
                             $calculation = str_replace(
                                 '{'.$variable.'}', 
-                                $subject_grade->average, 
+                                round($subject_grade->average, 1), 
                                 $calculation);
                             
                             $subject->school_calendar_phases->push([
@@ -255,6 +258,19 @@ class Student extends Model
             }else{
                 $subject->average_year = 'incomplete-calculation';
             }
+
+            if ($toArray) {
+                $subject->school_calendar_phases->transform(function($item, $key){
+                    $item['student_grades'] = $item['student_grades']->toArray();
+                    return $item; 
+                });
+                $subject->school_calendar_phases = $subject->school_calendar_phases->toArray();
+                
+            }
+        }
+
+        if ($toArray) {
+            $subjects = $subjects->toArray();
         }
 
         return  $subjects;
