@@ -7,10 +7,13 @@ se o aluno estava ou não presente durante a aula.
 
 ### List attendance records [GET]
 
+<!-- include(ParameterFilter.md) -->
+
+
 + Parameters
-    + _q (string, optional) - Fulltext search
-    + _sort (string, optional) - Nome da coluna para ordenação. 
-    + _with (string) - Nome da relação a ser incluída na resposta
+    + _q (string, optional) - Pesquisa por palavra-chave, a correspondência e incluida conjunto de resultados.
+    + _sort (string, optional) - Ordena a coluna desejada, de forma acendente ou descendente.
+    + _with (string, optional) - Obtem informações do recurso relacionado.
         + Members
             + lesson
             + lesson.schoolClass
@@ -63,17 +66,15 @@ retornado o registro já existente com as informações atualizadas.
         }
 
 
-## Attendance Record [/attendance-records/{id}{?_with}]
+## Attendance Record [/attendance-records/{attendance_record_id}{?_with}]
 
 + Parameters
-    + id: 1 (number) - ID of the attendance record
+    + attendance_record_id: 1 (number) - ID of the attendance record
     
-
 ### View a attendance record detail [GET]
 
 + Parameters
-    + _with
- (string) - Include related models
+    + _with (string, optional) - Obtem informações do recurso relacionado.
         + Members
             + lesson
             + lesson.schoolClass
@@ -95,6 +96,9 @@ retornado o registro já existente com as informações atualizadas.
 
 ### Edit [PUT]
 
++ Parameters
+    + attendance_record_id: 1 (number) - ID of the attendance record
+    
 + Request 
     + Headers
             

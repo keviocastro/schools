@@ -3,15 +3,19 @@
 'Schools' são as escolas associadas a uma conta.
 'School Class' são as turmas de uma escola que existem em um determinado ano letivo/calendario escolar.
 
-## Schools Collection [/schools{?_q,_sort}]
+## Schools Collection [/schools{?_q,_sort,_with}]
 
 ### List Schools [GET]
+<!-- include(ParameterFilter.md) -->
 
 + Parameters
-    + _q (string, optional) - Fulltext search.
+    + _q (string, optional) - Pesquisa por palavra-chave, a correspondência e incluida conjunto de resultados.
         + Members
             +name
-    + _sort (string, optional) - Nome da coluna para ordenação acendente.
+    + _sort (string, optional) - Ordena a coluna desejada, de forma acendente ou descendente.
+    + _with (string, optional) - Obtem informações do recurso relacionado.
+        + Members
+            + schoolClasses
         
 + Request
     + Headers
@@ -27,45 +31,43 @@
 
 ### Create a New School [POST]
 
-+ Request 
++ Request (application/json)
     + Headers
             
             authorization: <!-- include(Token.md) -->
 
-+ Request (application/json)
-
     + Attributes (SchoolFillable)
-
+    
 + Response 201 (application/json)
 
-    + Headers
-
-            Location: /schools/1
-
     + Attributes 
-        + school (School)
+        + School (School)
+
             
-## School [/schools/{school_id}]
+## School [/schools/{school_id}{?_with}]
 
 ### View a school detail [GET]
 
 + Parameters
-    + school_id: 1 (number) - ID of the School
+    + school_id: 1 (number) - Identificador único da escola
+    + _with (string, optional) - Obtem informações do recurso relacionado.
+        + Members
+            + schoolClass
 
 + Request 
     + Headers
-            
+
             authorization: <!-- include(Token.md) -->
 
-+ Response  200 (application/json)
-
++ Response 200 (application/json)
+    
     + Attributes 
-        + school (School)
+        + School (School)
         
 ### Edit [PUT]
 
 + Parameters
-    + school_id: 1 (number) - ID of the School
+    + school_id: 1 (number) - Identificador único da escola
 
 + Request (application/json)
 
@@ -78,14 +80,14 @@
 + Response 200 (application/json)
     
     + Attributes 
-        + school (School)
+        + School (School)
 
 
 ### Delete [DELETE]
 
 + Parameters
-    + school_id: 1 (number) - ID of the School
-
+    + school_id: 1 (number) - Identificador único da escola
+    
 + Request (application/json)
 
     + Headers
@@ -95,19 +97,22 @@
 + Response 204
 
 
-## School Classes Collection [/school-classes{?q,sort,_with}]
-
+## School Classes Collection [/school-classes{?_q,_sort,_with}]
 ### List School Classes [GET]
 
+<!-- include(ParameterFilter.md) -->
+
 + Parameters
-    + _q (string, optional) - Fulltext search.
+    + _q (string, optional) - Pesquisa por palavra-chave, a correspondência e incluida conjunto de resultados.
         + Members
             +identifier
-    + _sort (string, optional) - Nome da coluna para ordenação. 
-    + _with (string, optional) - Nome da relação a ser incluída na resposta.
+    + _sort (string, optional) - Ordena a coluna desejada, de forma acendente ou descendente.
+    + _with (string, optional) - Obtem informações do recurso relacionado.
         + Members 
-            + grade
-            + shift
+            + shift - Turno.
+            + students - Aluno.
+            + schoolCalendar - Ano letivo.
+            + subjects - Avaliação.
 
 + Request (application/json)
 
@@ -145,10 +150,12 @@
 ### View a school class detail [GET]
 
 + Parameters
-    + _with (string, optional) - Nome da relação a ser incluída na resposta.
+    + _with (string, optional) - Obtem informações do recurso relacionado.
         + Members 
-            + grade
-            + shift
+            + shift - Turno.
+            + students - Aluno.
+            + schoolCalendar - Ano letivo.
+            + subjects - Avaliação.
 
 + Request 
     + Headers
@@ -194,7 +201,7 @@
 
 
 
-## School Calendar Collection [/school-calendars{?q,sort,_with}]
+## School Calendar Collection [/school-calendars{?_q,_sort,_with}]
 
 `School Calendar` é considerado nessa api como a definição do ano letivo,
 contendo fases fases avaliativas do ano (Ex.: bimestres), feriados, férias,
@@ -202,14 +209,12 @@ inicio e fim do ano.
 
 ### List School Calendars [GET]
 
-+ Parameters
-    + _q (string, optional) - `Fulltext search. 
-        <!-- Existem mais parametros para filtragem de dados. -->
-        <!-- Veja as possibilidades  -->
-        <!-- [Filtering]#https://github.com/keviocastro/laravel-api-handler#filtering` -->
+<!-- include(ParameterFilter.md) -->
 
-    + _sort (string, optional) - Nome da coluna para ordenação. 
-    + _with (string, optional) - Nome da relação a ser incluída na resposta.
++ Parameters
+    + _q (string, optional) - Pesquisa por palavra-chave, a correspondência e incluida conjunto de resultados.
+    + _sort (string, optional) - Ordena a coluna desejada, de forma acendente ou descendente.
+    + _with (string, optional) - Obtem informações do recurso relacionado.
         + Members 
             + schoolClasses - Turmas do ano letivo.
             + phases - Fases avaliativas do ano letivo. Recurso (SchoolCalendarPhase)
@@ -248,10 +253,10 @@ inicio e fim do ano.
 
 + Parameters
     + school_calendar_id: 1 (number) - ID of the school class
-    + _with (string, optional) - Nome da relação a ser incluída na resposta.
+    + _with (string, optional) - Obtem informações do recurso relacionado.
         + Members 
-            + schoolClasses - Turmas do ano letivo
-            + schoolCalendarPhases - Fases avaliativas do ano letivo
+            + schoolClasses - Turmas do ano letivo.
+            + phases - Fases avaliativas do ano letivo. Recurso (SchoolCalendarPhase)
 
 + Request 
     + Headers

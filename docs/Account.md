@@ -37,6 +37,9 @@ Configurações da contado do usuário logado.
 
 ### List account settings [GET]
 
+<!-- include(ParameterFilter.md) -->
+
+
 + Request
     + Headers
     

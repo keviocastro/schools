@@ -9,12 +9,15 @@ e a nota do aluno no 1º Bimestre será composta pela conta (N1*0,4)+(N2*0,6)=NO
 
 ### List assessments [GET]
 
+<!-- include(ParameterFilter.md) -->
+
+
 + Parameters
-    + _q (string, optional) - Fulltext search.
+    + _q (string, optional) - Pesquisa por palavra-chave, a correspondência e incluida conjunto de resultados.
         + Members
             +name
-    + _sort (string, optional) - Nome da coluna para ordenação. 
-    + _with (string) - Nome da relação a ser incluída na resposta.
+    + _sort (string, optional) - Ordena a coluna desejada, de forma acendente ou descendente.
+    + _with (string, optional) - Obtem informações do recurso relacionado.
         + Members
             + schoolCalendarPhase
             + schoolCalendarPhase.schoolCalendar

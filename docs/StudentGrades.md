@@ -20,10 +20,12 @@
         
 ### List Student Grades [GET]
 
+<!-- include(ParameterFilter.md) -->
+
 + Parameters
-    + _q (string, optional) - Fulltext search.
-    + _sort (string, optional) - Nome da coluna para ordenação. 
-    + _with (string) - Nome da relação a ser incluída na resposta.
+    + _q (string, optional) - Pesquisa por palavra-chave, a correspondência e incluida conjunto de resultados.
+    + _sort (string, optional) - Ordena a coluna desejada, de forma acendente ou descendente.
+    + _with (string, optional) - Obtem informações do recurso relacionado.
         + Members
             + student
             + subject
@@ -42,13 +44,13 @@
         + data (array)
             + (StudentGrade)
 
-## Student Grades [/student-grades/{id}{?_with}]
+## Student Grades [/student-grades/{student_grades_id}{?_with}]
 
 ### View a Student Grades detail [GET]
 
 + Parameters
-    + id: 1 (number) - ID of the occurence
-    + _with (string) - Nome da relação a ser incluída na resposta.
+    + student_grades_id: 1 (number) - ID of the occurence
+    + _with (string, optional) - Obtem informações do recurso relacionado.
         + Members
             + student
             + subject
@@ -68,7 +70,7 @@
 ### Edit [PUT]
 
 + Parameters
-    + id: 1 (number) - ID of the Student Grades
+    + student_grades_id: 1 (number) - ID of the Student Grades
 
 + Request (application/json)
 

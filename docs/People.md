@@ -4,10 +4,12 @@
 
 ### List students [GET]
 
+<!-- include(ParameterFilter.md) -->
+
 + Parameters
-    + _q (string, optional) - Fulltext search
-    + _sort (string, optional) - Nome da coluna para ordenação. 
-    + _with (string, optional) - Nome da relação a ser incluida na resposta
+    + _q (string, optional) - Pesquisa por palavra-chave, a correspondência e incluida conjunto de resultados.
+    + _sort (string, optional) - Ordena a coluna desejada, de forma acendente ou descendente.
+    + _with (string, optional) - Obtem informações do recurso relacionado.
         + Members
             + studentResponsible
             + person

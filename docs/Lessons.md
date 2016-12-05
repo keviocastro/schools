@@ -6,12 +6,13 @@
 
 ### List lessons [GET]
 
+<!-- include(ParameterFilter.md) -->
+
+
 + Parameters
-    + _fields (string, optional)
-        + include (Lesson)
-    + _q (string, optional) - Fulltext search
-    + _sort (string, optional) - Nome da coluna para ordenação. 
-    + _with (string, optional) Nome da relação a ser incluida da resposta.
+    + _q (string, optional) - Pesquisa por palavra-chave, a correspondência e incluida conjunto de resultados.
+    + _sort (string, optional) - Ordena a coluna desejada, de forma acendente ou descendente.
+    + _with (string, optional) - Obtem informações do recurso relacionado.
         + Members
             + schoolClass
             + schoolClass.grade
@@ -130,7 +131,14 @@
 
 ### List Lessons per day [GET]
 
+<!-- include(ParameterFilter.md) -->
+
+
 + Parameters
+    + start (string, optional) Data inicial 
+        + Default: NOW()
+    + end (string, optional) Data final
+        + Default: NOW() + 15 days 
     + _with (string, optional) Nome da relação a ser incluida da resposta.
         + Members
             + schoolClass
@@ -140,11 +148,7 @@
             + schoolClass.students.studentResponsible
             + schoolClass.students.attendanceRecords
             + subject
-    + start (string, optional) Data inicial 
-        + Default: NOW()
-    + end (string, optional) Data final
-        + Default: NOW() + 15 days 
-    + q (string, optional) - Fulltext search
+    + _q (string, optional) - Fulltext search
 
 + Request 
     + Headers
