@@ -163,6 +163,8 @@ return [
         Barryvdh\Cors\ServiceProvider::class,
 
         Marcelgwerder\ApiHandler\ApiHandlerServiceProvider::class,
+
+        App\Providers\HelperServiceProvider::class,  
     ],
 
     /*

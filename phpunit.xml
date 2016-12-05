@@ -29,8 +29,9 @@
         <env name="CACHE_DRIVER" value="array"/>
         <env name="SESSION_DRIVER" value="array"/>
         <env name="QUEUE_DRIVER" value="sync"/>
+        <env name="DB_HOST" value="172.21.0.2"/>
     </php>
     <logging>
-        <log type="coverage-clover" target="clover.xml"/>
+        <log type="coverage-clover" target="storage/logs/clover.xml"/>
     </logging>
 </phpunit>

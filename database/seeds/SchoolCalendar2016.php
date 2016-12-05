@@ -27,7 +27,7 @@ class SchoolCalendar2016 extends Seeder
      * @return void
      */
     public function run()
-    {
+    {   
         self::create();
     }
 
@@ -164,7 +164,9 @@ class SchoolCalendar2016 extends Seeder
         // Cria aulas para 5 disciplinas
         $subjects = [];
 
-        $subject = factory(Subject::class)->create();
+        $subject = factory(Subject::class)->create([
+                'name' => 'Matématica'
+            ]);
         $subjectFixedData = $subject;
         array_push($subjects, $subject);
         self::createLessonsBetweenTwoDates(
@@ -225,8 +227,8 @@ class SchoolCalendar2016 extends Seeder
 
         /**
          * NOTAS:
-         * 
-         *     1º disciplina criada tem as notas:
+         *     
+         *     1º disciplina criada, com nome Matématica, tem as notas: 
          *      Nota 1.1 = 10
          *      Nota 1.2 = 9.2 
          *      Nota 2.1 = 8.5 

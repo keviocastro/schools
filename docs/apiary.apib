@@ -7,16 +7,106 @@ HOST: http://localhost/api
 
 Schools é uma api para manter informações sobre escolas e seus registros administrativos.
 
+
+
 # Authentication
 
 A autentificação de usuário para acesso aos recursos da api, deve ser feita atribuindo
 sempre o seguinte cabeçario na requisição:
 
-`authorizavtion: Bearer token_id`
+`authorization: Bearer token_id`
 
 Onde "token id" é obtido durante a autenficação do usuário no microservice de atentificação
 auth0 através do dominio "logos.auth0.com".
 Veja ver mais detalhes de como realizar essa autentificação nesse link: https://auth0.com/docs 
+
+# Parametros de filtros em listagem
+
+Cada parâmetro de consulta, exceto as funções pré-definidas _with, _sort e _q, é interpretado como um filtro.
+
+Exemplo: Listar todas as escola que começam com nome: Vieira.
+
+<pre><code>/api/schools?name-lk=Vieira*</code></pre>
+
+No exemplo acima o parametro name recebe o nome vieira que e o nome da escola, é com prefixo -lk sendo este igual a like do sql.
+
+Todos os filtros podem ser combinados com um operador AND.
+
+<pre><code>/api/schools?name-lk=Vieira*&created_at-min=2016-12-01 12:55:02</code></pre>
+
+O exemplo acima resultaria na seguinte SQL:
+
+<pre><code>Where `schools` LIKE "Vieira%" AND `created_at` >= "2016-12-01 12:55:02"</code></pre>
+
+É também possível usar vários valores para um filtro. Vários valores estão separados por um tubo |. Vários valores são combinados com OR a não ser quando há um -not como sufixo, então eles são combinados com AND. Por exemplo, todos os livros com o ID de 5 ou 6:
+
+<pre><code>/api/schools?id=5|6</code></pre>
+
+Ou todos os livros, exceto aqueles com ID 5 ou 6:
+
+<pre><code>/api/schools?id-not=5|6</code></pre>
+
+O mesmo pode ser conseguido usando o -in como sufixo:
+
+<pre><code>/api/schools?id-in=5,6</code></pre>
+
+Respectivamente, o not-insufixo:
+
+<pre><code>/api/schools?id-not-in=5,6</code></pre>
+
+<table><thead>
+	<tr>
+		<th>Suffix</th>
+		<th>Operator</th>
+		<th>Meaning</th>
+	</tr>
+</thead><tbody>
+<tr>
+	<td>-lk</td>
+	<td>LIKE</td>
+	<td>O mesmo que o operador <code>LIKE</code> do SQL</td>
+</tr>
+<tr>
+	<td>-not-lk</td>
+	<td>NOT LIKE</td>
+	<td>O mesmo que o operador <code>NOT LIKE</code> do SQL</td>
+</tr>
+<tr>
+	<td>-in</td>
+	<td>IN</td>
+	<td>O mesmo que o operador <code>IN</code> do SQL</td>
+</tr>
+<tr>
+	<td>-not-in</td>
+	<td>NOT IN</td>
+	<td>O mesmo que o operador <code>NOT IN</code> do SQL</td>
+</tr>
+<tr>
+	<td>-min</td>
+	<td>&gt;=</td>
+	<td>Maior ou igual a</td>
+</tr>
+<tr>
+	<td>-max</td>
+	<td>&lt;=</td>
+	<td>Menor ou igual a</td>
+</tr>
+<tr>
+	<td>-st</td>
+	<td>&lt;</td>
+	<td>Menor que</td>
+</tr>
+<tr>
+	<td>-gt</td>
+	<td>&gt;</td>
+	<td>Maior que</td>
+</tr>
+<tr>
+	<td>-not</td>
+	<td>!=</td>
+	<td>Diferente</td>
+</tr>
+</tbody></table>
 
 # Group Auth and Account
 
@@ -57,6 +147,9 @@ Configurações da contado do usuário logado.
 
 ### List account settings [GET]
 
+Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="output.html#header-parametros-de-filtros-em-listagem">sessão</a> como definir os parametros da requisição.
+
+
 + Request
     + Headers
     
@@ -96,13 +189,19 @@ Configurações da contado do usuário logado.
 'Schools' são as escolas associadas a uma conta.
 'School Class' são as turmas de uma escola que existem em um determinado ano letivo/calendario escolar.
 
-## Schools Collection [/schools{?q,sort}]
+## Schools Collection [/schools{?_q,_sort,_with}]
 
 ### List Schools [GET]
+Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="output.html#header-parametros-de-filtros-em-listagem">sessão</a> como definir os parametros da requisição.
 
 + Parameters
-    + q (string, optional) - Fulltext search.
-    + sort (string, optional) - Nome da coluna para ordenação acendente.
+    + _q (string, optional) - Pesquisa por palavra-chave, a correspondência e incluida conjunto de resultados.
+        + Members
+            +name
+    + _sort (string, optional) - Ordena a coluna desejada, de forma acendente ou descendente.
+    + _with (string, optional) - Obtem informações do recurso relacionado.
+        + Members
+            + schoolClasses
         
 + Request
     + Headers
@@ -118,46 +217,43 @@ Configurações da contado do usuário logado.
 
 ### Create a New School [POST]
 
-+ Request 
++ Request (application/json)
     + Headers
             
             authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
 
-+ Request (application/json)
-
     + Attributes (SchoolFillable)
-
+    
 + Response 201 (application/json)
 
-    + Headers
-
-            Location: /schools/1
-
     + Attributes 
-        + school (School)
+        + School (School)
+
             
-## School [/schools/{school_id}]
+## School [/schools/{school_id}{?_with}]
 
 ### View a school detail [GET]
 
 + Parameters
-    + school_id: 1 (number) - ID of the School
+    + school_id: 1 (number) - Identificador único da escola
+    + _with (string, optional) - Obtem informações do recurso relacionado.
+        + Members
+            + schoolClass
 
 + Request 
     + Headers
-            
+
             authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
 
-+ Response  200 (application/json)
-
++ Response 200 (application/json)
+    
     + Attributes 
-        + school (School)
+        + School (School)
         
-
 ### Edit [PUT]
 
 + Parameters
-    + school_id: 1 (number) - ID of the School
+    + school_id: 1 (number) - Identificador único da escola
 
 + Request (application/json)
 
@@ -170,14 +266,14 @@ Configurações da contado do usuário logado.
 + Response 200 (application/json)
     
     + Attributes 
-        + school (School)
+        + School (School)
 
 
 ### Delete [DELETE]
 
 + Parameters
-    + school_id: 1 (number) - ID of the School
-
+    + school_id: 1 (number) - Identificador único da escola
+    
 + Request (application/json)
 
     + Headers
@@ -187,21 +283,22 @@ Configurações da contado do usuário logado.
 + Response 204
 
 
-
-
-
-
-## School Classes Collection [/school-classes{?q,sort,_with}]
-
+## School Classes Collection [/school-classes{?_q,_sort,_with}]
 ### List School Classes [GET]
 
+Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="output.html#header-parametros-de-filtros-em-listagem">sessão</a> como definir os parametros da requisição.
+
 + Parameters
-    + q (string, optional) - Fulltext search.
-    + sort (string, optional) - Nome da coluna para ordenação. 
-    + _with (string, optional) - Nome da relação a ser incluída na resposta.
+    + _q (string, optional) - Pesquisa por palavra-chave, a correspondência e incluida conjunto de resultados.
+        + Members
+            +identifier
+    + _sort (string, optional) - Ordena a coluna desejada, de forma acendente ou descendente.
+    + _with (string, optional) - Obtem informações do recurso relacionado.
         + Members 
-            + grade
-            + shift
+            + shift - Turno.
+            + students - Aluno.
+            + schoolCalendar - Ano letivo.
+            + subjects - Avaliação.
 
 + Request (application/json)
 
@@ -239,11 +336,12 @@ Configurações da contado do usuário logado.
 ### View a school class detail [GET]
 
 + Parameters
-    + _with
- (string, optional) - Nome da relação a ser incluída na resposta.
+    + _with (string, optional) - Obtem informações do recurso relacionado.
         + Members 
-            + grade
-            + shift
+            + shift - Turno.
+            + students - Aluno.
+            + schoolCalendar - Ano letivo.
+            + subjects - Avaliação.
 
 + Request 
     + Headers
@@ -257,6 +355,9 @@ Configurações da contado do usuário logado.
 
 
 ### Edit [PUT]
+
++ Parameters
+    + school_class_id: 1 (number) - ID of the School
 
 + Request 
     + Headers
@@ -273,11 +374,20 @@ Configurações da contado do usuário logado.
             
 ### Delete [DELETE]
 
++ Parameters
+    + school_class_id: 1 (number) - ID of the School
+
++ Request (application/json)
+
+    + Headers
+            
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
+
 + Response 204
 
 
 
-## School Calendar Collection [/school-calendars{?q,sort,_with}]
+## School Calendar Collection [/school-calendars{?_q,_sort,_with}]
 
 `School Calendar` é considerado nessa api como a definição do ano letivo,
 contendo fases fases avaliativas do ano (Ex.: bimestres), feriados, férias,
@@ -285,14 +395,12 @@ inicio e fim do ano.
 
 ### List School Calendars [GET]
 
-+ Parameters
-    + q (string, optional) - `Fulltext search. 
-        <!-- Existem mais parametros para filtragem de dados. -->
-        <!-- Veja as possibilidades  -->
-        <!-- [Filtering]#https://github.com/keviocastro/laravel-api-handler#filtering` -->
+Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="output.html#header-parametros-de-filtros-em-listagem">sessão</a> como definir os parametros da requisição.
 
-    + sort (string, optional) - Nome da coluna para ordenação. 
-    + _with (string, optional) - Nome da relação a ser incluída na resposta.
++ Parameters
+    + _q (string, optional) - Pesquisa por palavra-chave, a correspondência e incluida conjunto de resultados.
+    + _sort (string, optional) - Ordena a coluna desejada, de forma acendente ou descendente.
+    + _with (string, optional) - Obtem informações do recurso relacionado.
         + Members 
             + schoolClasses - Turmas do ano letivo.
             + phases - Fases avaliativas do ano letivo. Recurso (SchoolCalendarPhase)
@@ -325,19 +433,16 @@ inicio e fim do ano.
         + school_calendar (SchoolCalendar)
             
 
-## School Calendar [/school-calendars/{school_calendar_id}{?_with
-}]
-
-+ Parameters
-    - school_calendar_id: 1 (number) - ID of the school class
+## School Calendar [/school-calendars/{school_calendar_id}{?_with}]
 
 ### View a school calendar detail [GET]
 
 + Parameters
-    + _with (string, optional) - Nome da relação a ser incluída na resposta.
+    + school_calendar_id: 1 (number) - ID of the school class
+    + _with (string, optional) - Obtem informações do recurso relacionado.
         + Members 
-            + schoolClasses - Turmas do ano letivo
-            + schoolCalendarPhases - Fases avaliativas do ano letivo
+            + schoolClasses - Turmas do ano letivo.
+            + phases - Fases avaliativas do ano letivo. Recurso (SchoolCalendarPhase)
 
 + Request 
     + Headers
@@ -351,6 +456,9 @@ inicio e fim do ano.
 
 
 ### Edit [PUT]
+
++ Parameters
+    + school_calendar_id: 1 (number) - ID of the school class
 
 + Request 
     + Headers
@@ -366,22 +474,31 @@ inicio e fim do ano.
 
 ### Delete [DELETE]
 
++ Parameters
+    + school_calendar_id: 1 (number) - ID of the School
+
++ Request (application/json)
+
+    + Headers
+            
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
+
 + Response 204
 
 
 
 # Group People
 
-## Students Collection [/students{?q,sort,_with
-}]
+## Students Collection [/students{?_q,_sort,_with}]
 
 ### List students [GET]
 
+Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="output.html#header-parametros-de-filtros-em-listagem">sessão</a> como definir os parametros da requisição.
+
 + Parameters
-    + q (string, optional) - Fulltext search
-    + sort (string, optional) - Nome da coluna para ordenação. 
-    + _with
- (string, optional) - Nome da relação a ser incluida na resposta
+    + _q (string, optional) - Pesquisa por palavra-chave, a correspondência e incluida conjunto de resultados.
+    + _sort (string, optional) - Ordena a coluna desejada, de forma acendente ou descendente.
+    + _with (string, optional) - Obtem informações do recurso relacionado.
         + Members
             + studentResponsible
             + person
@@ -482,18 +599,17 @@ e relatórios como "Boletim anual do aluno" e "Histórico escolar".
 
 `Lessons` são as aulas programadas para as turmas de uma escola.
 
-## Lessons Collection [/lessons{?q,sort,_with
-}]
+## Lessons Collection [/lessons{?_q,_sort,_with}]
 
 ### List lessons [GET]
 
+Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="output.html#header-parametros-de-filtros-em-listagem">sessão</a> como definir os parametros da requisição.
+
+
 + Parameters
-    + _fields (string, optional)
-        + include (Lesson)
-    + q (string, optional) - Fulltext search
-    + sort (string, optional) - Nome da coluna para ordenação. 
-    + _with
- (string, optional) Nome da relação a ser incluida da resposta.
+    + _q (string, optional) - Pesquisa por palavra-chave, a correspondência e incluida conjunto de resultados.
+    + _sort (string, optional) - Ordena a coluna desejada, de forma acendente ou descendente.
+    + _with (string, optional) - Obtem informações do recurso relacionado.
         + Members
             + schoolClass
             + schoolClass.grade
@@ -529,12 +645,10 @@ e relatórios como "Boletim anual do aluno" e "Histórico escolar".
 
 ## Lesson [/lessons/{lesson_id}{?_with,attach}]
 
-+ Parameters
-    - lesson_id: 1 (number) - ID of the lesson
-
 ### View a lesson detail [GET]
 
 + Parameters
+    + lesson_id: 1 (number) - ID of the lesson
     + _with (string, optional) Nome da relação a ser incluida na resposta.
         + Members
             + attendanceRecords
@@ -581,6 +695,9 @@ e relatórios como "Boletim anual do aluno" e "Histórico escolar".
             
 ### Edit [PUT]
 
++ Parameters
+    + lesson_id: 1 (number) - ID of the lesson
+
 + Request 
     + Headers
             
@@ -596,17 +713,30 @@ e relatórios como "Boletim anual do aluno" e "Histórico escolar".
 
 ### Delete [DELETE]
 
++ Parameters
+    + lesson_id: 1 (number) - ID of the lesson
+
++ Request (application/json)
+    + Headers
+    
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
+
 + Response 204
 
 
-## Lessons per day [/lessons/per-day{?_with
-,q,sort,start,end}]
+## Lessons per day [/lessons/per-day{?_with,_q,_sort,start,end}]
 
 ### List Lessons per day [GET]
 
+Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="output.html#header-parametros-de-filtros-em-listagem">sessão</a> como definir os parametros da requisição.
+
+
 + Parameters
-    + _with
- (string, optional) Nome da relação a ser incluida da resposta.
+    + start (string, optional) Data inicial 
+        + Default: NOW()
+    + end (string, optional) Data final
+        + Default: NOW() + 15 days 
+    + _with (string, optional) Nome da relação a ser incluida da resposta.
         + Members
             + schoolClass
             + schoolClass.grade
@@ -615,11 +745,7 @@ e relatórios como "Boletim anual do aluno" e "Histórico escolar".
             + schoolClass.students.studentResponsible
             + schoolClass.students.attendanceRecords
             + subject
-    + start (string, optional) Data inicial 
-        + Default: NOW()
-    + end (string, optional) Data final
-        + Default: NOW() + 15 days 
-    + q (string, optional) - Fulltext search
+    + _q (string, optional) - Fulltext search
 
 + Request 
     + Headers
@@ -643,16 +769,17 @@ e relatórios como "Boletim anual do aluno" e "Histórico escolar".
 `Attendance Records` são os registros de presenças dos alunos em uma aula, definindo
 se o aluno estava ou não presente durante a aula.
 
-## Attendance records Collection [/attendance-records{?q,sort,_with
-}]
+## Attendance records Collection [/attendance-records{?_q,_sort,_with}]
 
 ### List attendance records [GET]
 
+Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="output.html#header-parametros-de-filtros-em-listagem">sessão</a> como definir os parametros da requisição.
+
+
 + Parameters
-    + q (string, optional) - Fulltext search
-    + sort (string, optional) - Nome da coluna para ordenação. 
-    + _with
- (string) - Nome da relação a ser incluída na resposta
+    + _q (string, optional) - Pesquisa por palavra-chave, a correspondência e incluida conjunto de resultados.
+    + _sort (string, optional) - Ordena a coluna desejada, de forma acendente ou descendente.
+    + _with (string, optional) - Obtem informações do recurso relacionado.
         + Members
             + lesson
             + lesson.schoolClass
@@ -705,18 +832,15 @@ retornado o registro já existente com as informações atualizadas.
         }
 
 
-## Attendance Record [/attendance-records/{id}{?_with
-}]
+## Attendance Record [/attendance-records/{attendance_record_id}{?_with}]
 
 + Parameters
-    + id: 1 (number) - ID of the attendance record
+    + attendance_record_id: 1 (number) - ID of the attendance record
     
-
 ### View a attendance record detail [GET]
 
 + Parameters
-    + _with
- (string) - Include related models
+    + _with (string, optional) - Obtem informações do recurso relacionado.
         + Members
             + lesson
             + lesson.schoolClass
@@ -738,6 +862,9 @@ retornado o registro já existente com as informações atualizadas.
 
 ### Edit [PUT]
 
++ Parameters
+    + attendance_record_id: 1 (number) - ID of the attendance record
+    
 + Request 
     + Headers
             
@@ -758,16 +885,19 @@ aos seus alunos durante uma fase do ano.
 Exemplo: No 1º Bimestre o professor precisa avaliar seus alunos com duas provas (N1 e N2),
 e a nota do aluno no 1º Bimestre será composta pela conta (N1*0,4)+(N2*0,6)=NOTA_DO_BIMESTRE.
 
-## Assessments Collection [/assessments{?q,sort,_with
-}]
+## Assessments Collection [/assessments{?_q,_sort,_with}]
 
 ### List assessments [GET]
 
+Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="output.html#header-parametros-de-filtros-em-listagem">sessão</a> como definir os parametros da requisição.
+
+
 + Parameters
-    + q (string, optional) - Fulltext search.
-    + sort (string, optional) - Nome da coluna para ordenação. 
-    + _with
- (string) - Nome da relação a ser incluída na resposta.
+    + _q (string, optional) - Pesquisa por palavra-chave, a correspondência e incluida conjunto de resultados.
+        + Members
+            +name
+    + _sort (string, optional) - Ordena a coluna desejada, de forma acendente ou descendente.
+    + _with (string, optional) - Obtem informações do recurso relacionado.
         + Members
             + schoolCalendarPhase
             + schoolCalendarPhase.schoolCalendar
@@ -789,8 +919,7 @@ e a nota do aluno no 1º Bimestre será composta pela conta (N1*0,4)+(N2*0,6)=NO
 
 `Occurrence` são registros de ocorrências registrar por professor em relação aos alunos.
 
-## Occurrence Collection [/occurences{?q,sort,__with
-}]
+## Occurrence Collection [/occurences{?_q,_sort,_with}]
 
 ### Create a new Occorence [POST]
 
@@ -810,11 +939,14 @@ e a nota do aluno no 1º Bimestre será composta pela conta (N1*0,4)+(N2*0,6)=NO
 
 ### List occurences [GET]
 
+Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="output.html#header-parametros-de-filtros-em-listagem">sessão</a> como definir os parametros da requisição.
+
 + Parameters
-    + q (string, optional) - Fulltext search.
-    + sort (string, optional) - Nome da coluna para ordenação. 
-    + __with
- (string) - Nome da relação a ser incluída na resposta.
+    + _q (string, optional) - Pesquisa por palavra-chave, a correspondência e incluida conjunto de resultados.
+        + Members
+            +comment
+    + _sort (string, optional) - Ordena a coluna desejada, de forma acendente ou descendente.
+    + _with (string, optional) - Obtem informações do recurso relacionado.
         + Members
             + aboutPerson
             + level
@@ -828,15 +960,18 @@ e a nota do aluno no 1º Bimestre será composta pela conta (N1*0,4)+(N2*0,6)=NO
 
     + Attributes 
         + Include Paginator
-        + data (array)
-            + (Occurence)
+        + data ([Occurence])
 
-## Occurence [/occurences/{id}]
+## Occurence [/occurences/{occurence_id}{?_with}]
 
 ### View a occurence detail [GET]
 
 + Parameters
-    + id: 1 (number) - ID of the occurence
+    + occurence_id: 1 (number) - Identificador único da Occorencia
+    + _with (string, optional) - Obtem informações do recurso relacionado.
+        + Members
+            + aboutPerson
+            + level
 
 + Request 
     + Headers
@@ -851,7 +986,7 @@ e a nota do aluno no 1º Bimestre será composta pela conta (N1*0,4)+(N2*0,6)=NO
 ### Edit [PUT]
 
 + Parameters
-    + id: 1 (number) - ID of the occurence
+    + occurence_id: 1 (number) - Identificador único da Occorencia
 
 + Request (application/json)
 
@@ -868,6 +1003,9 @@ e a nota do aluno no 1º Bimestre será composta pela conta (N1*0,4)+(N2*0,6)=NO
 
 ### Delete [DELETE]
 
++ Parameters
+    + occurence_id: 1 (number) - Identificador único da Occorencia
+    
 + Request (application/json)
     + Headers
     
@@ -880,8 +1018,7 @@ e a nota do aluno no 1º Bimestre será composta pela conta (N1*0,4)+(N2*0,6)=NO
 
 `Student Grades` São registo de notas de cada aluno em suas diciplinas nos periodos e turmas pertencentes a ele.
 
-## Student grades Collection [/student_grades{?limit,offset,q,sort,field,_with
-}]
+## Student grades Collection [/student_grades{?_q,_sort,_field,_with}]
 
 ### Create a new Student Grades [POST]
 
@@ -899,11 +1036,12 @@ e a nota do aluno no 1º Bimestre será composta pela conta (N1*0,4)+(N2*0,6)=NO
         
 ### List Student Grades [GET]
 
+Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="output.html#header-parametros-de-filtros-em-listagem">sessão</a> como definir os parametros da requisição.
+
 + Parameters
-    + q (string, optional) - Fulltext search.
-    + sort (string, optional) - Nome da coluna para ordenação. 
-    + _with
- (string) - Nome da relação a ser incluída na resposta.
+    + _q (string, optional) - Pesquisa por palavra-chave, a correspondência e incluida conjunto de resultados.
+    + _sort (string, optional) - Ordena a coluna desejada, de forma acendente ou descendente.
+    + _with (string, optional) - Obtem informações do recurso relacionado.
         + Members
             + student
             + subject
@@ -920,18 +1058,15 @@ e a nota do aluno no 1º Bimestre será composta pela conta (N1*0,4)+(N2*0,6)=NO
     + Attributes 
         + Include Paginator
         + data (array)
-            + (StudentGrade_with
-Relation)
+            + (StudentGrade)
 
-## Student Grades [/student-grades/{id}{?_with
-}]
+## Student Grades [/student-grades/{student_grades_id}{?_with}]
 
 ### View a Student Grades detail [GET]
 
 + Parameters
-    + id: 1 (number) - ID of the occurence
-    + _with
- (string) - Nome da relação a ser incluída na resposta.
+    + student_grades_id: 1 (number) - ID of the occurence
+    + _with (string, optional) - Obtem informações do recurso relacionado.
         + Members
             + student
             + subject
@@ -946,14 +1081,12 @@ Relation)
 + Response 200 (application/json)
     
     + Attributes 
-        + StudentGrade_with
-Relation (StudentGrade_with
-Relation)
+        + StudentGrade (StudentGrade)
 
 ### Edit [PUT]
 
 + Parameters
-    + id: 1 (number) - ID of the Student Grades
+    + student_grades_id: 1 (number) - ID of the Student Grades
 
 + Request (application/json)
 
@@ -969,7 +1102,107 @@ Relation)
         + StudentGrade (StudentGrade)
 
 
+# Group Subjects 
+
+`Subjects` São regristro das disciplinas .
+
+## Subjects Collection [/subjects{?_q,_sort,_with}]
+
+### Create a new Occorence [POST]
+
++ Request (application/json)
+    + Headers
+            
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
+    
+    + Attributes (SubjectFillable)
+
++ Response 201 (application/json) 
+    
+    + Attributes 
+        + Subject (Subject)
+        
+### List Subjects [GET]
+
+Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="output.html#header-parametros-de-filtros-em-listagem">sessão</a> como definir os parametros da requisição.
+
+
++ Parameters
+    + _q (string, optional) - Pesquisa por palavra-chave, a correspondência e incluida conjunto de resultados.
+        + Members
+            +name
+    + _sort (string, optional) - Ordena a coluna desejada, de forma acendente ou descendente.
+
++ Request 
+    + Headers
+            
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
+    
++ Response 200 (application/json)
+
+    + Attributes 
+        + Include Paginator
+        + data (array)
+            + (Subject)
+
+## Subject [/subjects/{subject_id}]
+
+### View a Subject detail [GET]
+
++ Parameters
+    + subject_id: 1 (number) - ID of the Subject
+
++ Request 
+    + Headers
+            
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
+    
++ Response 200 (application/json)
+    
+    + Attributes 
+        + Subject (Subject)
+
+### Edit [PUT]
+
++ Parameters
+    + subject_id: 1 (number) - ID of the Subject
+
++ Request (application/json)
+
+    + Headers
+            
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
+            
+    + Attributes (SubjectFillable)
+            
++ Response 200 (application/json)
+    
+    + Attributes 
+        + Subject (Subject)
+
+### Delete [DELETE]
+
++ Parameters
+    + subject_id: 1 (number) - ID of the Subject
+
++ Request (application/json)
+    + Headers
+    
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
+    
+
++ Response 204
+
 # Data structure
+
+## SubjectFillable
+
++ name: Matématica  (string) - Nome da disciplina. Ex.: Matématica, Português, Fisica.
+
+## Subject
+
++ id: 1 (number) - Identificador único da disciplina.
++ Include (SubjectFillable)
 
 ## StudentGradeFillable
 
@@ -1030,49 +1263,34 @@ Relation)
 
 + name: Escola luz do saber (string) - Nome da escola
 
-## School (SchoolFillable)
+## School (object)
 
 + id: 1 (number) - Identificador único da escola
++ include (SchoolFillable)
 
-## SchoolClassBase (object)
+## SchoolClassFillable (object)
 
 + identifier: A (string) - Abreviação/identificação da turma. Exmplo: B, para segunda turma do 1º ano (de 1 Ano B).
-
-## SchoolClassFillable (SchoolClass)
-
 + grade_id: 1 (number) - ID do ano estudantíl.
 + shift_id: 1 (number) - ID do turno.
 + school_calendar_id: 1 (number) - ID do Ano letivo em que a turma existe.
 + school_id: 1 (number) - ID da escola relacionada.
 
-## SchoolClass (SchoolClassBase)
+## SchoolClass (object)
 
 + id: 1 (number) - Identificador único da turma.
-+ grade_id: 1 (number) - Ano estudantíl (Jardim I/1º Ano/...) da turma.
-+ shift_id: 1 (number) - Turno (vespertino/matutino/...) da turma.
-+ school_calendar_id: 1 (number) - ID do ano letivo
++ include (SchoolClassFillable)
 
-## SchoolClassSubject
+## SchoolClassSubject (object)
 
 + id: 1 (number) - Identificador único da disciplina em uma turma.
 + school_class_id - ID da turma
 + subject_id - ID da disciplina
 
-## Grade (object)
-
-+ id: 1 (number) - Identificador único de um ano estudantíl. 
-+ name: 3 Ano (string) - Nome do ano estudantíl. Exemplos: 2 Ano, 3 Ano, Jardim I, Jardim II.
-
 ## Shift (object)
 
 + id: 1 (number) - Identificador único do turno.
 + name: Matutino (string) - Nome do turno. Exemplo: Vespertino, matutino, noturno.
-
-
-## Subject (object)
-
-+ id: 1 (number) - Identificador único da disciplina.
-+ name: Matématica  (string) - Nome da disciplina. Ex.: Matématica, Português, Fisica.
 
 ## LessonFillable (object)
 
@@ -1114,14 +1332,14 @@ Relation)
 + lesson_id: 1 (number) - Identificador único da aula relacionada
 + student_id: 1 (number) - Identificador único do aluno
 + presence: 1 (number) - Presença do aluno na aula
-                         0 Faltou a aula
-                         1 Estava presente
-                         2 Falta abonada
+	         0 Faltou a aula
+	         1 Estava presente
+	         2 Falta abonada
 
 ## AttendanceRecord (object)
 
 + id: 1 (number) - Identificador único do registro de presença
-+ Include AttendanceRecordFillable
++ Include (AttendanceRecordFillable)
 
 ## Paginator (object)
 

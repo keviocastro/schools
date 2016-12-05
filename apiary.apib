@@ -22,32 +22,37 @@ Veja ver mais detalhes de como realizar essa autentificação nesse link: https:
 
 # Parametros de filtros em listagem
 
-Cada parâmetro de consulta, exceto as funções pré-definidas _fields, _with, _sort, _limit, _offset, _config e _q, é interpretado como um filtro. Certifique-se de remover parâmetros adicionais não tem significado para a filtragem antes de passá-los para parseMultiple.
+Cada parâmetro de consulta, exceto as funções pré-definidas _with, _sort e _q, é interpretado como um filtro.
 
-<pre>[URI] /api/books?title=The Lord of the Rings</pre>
+Exemplo: Listar todas as escola que começam com nome: Vieira.
 
-Todos os filtros são combinados com um operador AND.
+<pre><code>/api/schools?name-lk=Vieira*</code></pre>
 
-<pre>[URI] /api/books?title-lk=The Lord*&created_at-min=2014-03-14 12:55:02</pre>
+No exemplo acima o parametro name recebe o nome vieira que e o nome da escola, é com prefixo -lk sendo este igual a like do sql.
 
-O exemplo acima resultaria na SQL seguinte onde:
+Todos os filtros podem ser combinados com um operador AND.
 
-ONDE ` título ` COMO " O Senhor% " E ` created_at ` > = "2014/03/14 00:55:02"
+<pre><code>/api/schools?name-lk=Vieira*&created_at-min=2016-12-01 12:55:02</code></pre>
+
+O exemplo acima resultaria na seguinte SQL:
+
+<pre><code>Where `schools` LIKE "Vieira%" AND `created_at` >= "2016-12-01 12:55:02"</code></pre>
+
 É também possível usar vários valores para um filtro. Vários valores estão separados por um tubo |. Vários valores são combinados com OR a não ser quando há um -not como sufixo, então eles são combinados com AND. Por exemplo, todos os livros com o ID de 5 ou 6:
 
-<pre>/api/books?id=5|6</pre>
+<pre><code>/api/schools?id=5|6</code></pre>
 
 Ou todos os livros, exceto aqueles com ID 5 ou 6:
 
-<pre>/api/books?id-not=5|6</pre>
+<pre><code>/api/schools?id-not=5|6</code></pre>
 
 O mesmo pode ser conseguido usando o -in como sufixo:
 
-<pre>/api/books?id-in=5,6</pre>
+<pre><code>/api/schools?id-in=5,6</code></pre>
 
 Respectivamente, o not-insufixo:
 
-<pre>/api/books?id-not-in=5,6</pre>
+<pre><code>/api/schools?id-not-in=5,6</code></pre>
 
 <table><thead>
 	<tr>
@@ -59,47 +64,47 @@ Respectivamente, o not-insufixo:
 <tr>
 	<td>-lk</td>
 	<td>LIKE</td>
-	<td>Same as the SQL <code>LIKE</code> operator</td>
+	<td>O mesmo que o operador <code>LIKE</code> do SQL</td>
 </tr>
 <tr>
 	<td>-not-lk</td>
 	<td>NOT LIKE</td>
-	<td>Same as the SQL <code>NOT LIKE</code> operator</td>
+	<td>O mesmo que o operador <code>NOT LIKE</code> do SQL</td>
 </tr>
 <tr>
 	<td>-in</td>
 	<td>IN</td>
-	<td>Same as the SQL <code>IN</code> operator</td>
+	<td>O mesmo que o operador <code>IN</code> do SQL</td>
 </tr>
 <tr>
 	<td>-not-in</td>
 	<td>NOT IN</td>
-	<td>Same as the SQL <code>NOT IN</code> operator</td>
+	<td>O mesmo que o operador <code>NOT IN</code> do SQL</td>
 </tr>
 <tr>
 	<td>-min</td>
 	<td>&gt;=</td>
-	<td>Greater than or equal to</td>
+	<td>Maior ou igual a</td>
 </tr>
 <tr>
 	<td>-max</td>
 	<td>&lt;=</td>
-	<td>Smaller than or equal to</td>
+	<td>Menor ou igual a</td>
 </tr>
 <tr>
 	<td>-st</td>
 	<td>&lt;</td>
-	<td>Smaller than</td>
+	<td>Menor que</td>
 </tr>
 <tr>
 	<td>-gt</td>
 	<td>&gt;</td>
-	<td>Greater than</td>
+	<td>Maior que</td>
 </tr>
 <tr>
 	<td>-not</td>
 	<td>!=</td>
-	<td>Not equal to</td>
+	<td>Diferente</td>
 </tr>
 </tbody></table>
 
@@ -141,6 +146,9 @@ Professor Medeiros acessa seu aplicativo informando usuário e senha para se cad
 Configurações da contado do usuário logado.
 
 ### List account settings [GET]
+
+Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="output.html#header-parametros-de-filtros-em-listagem">sessão</a> como definir os parametros da requisição.
+
 
 + Request
     + Headers
@@ -184,6 +192,7 @@ Configurações da contado do usuário logado.
 ## Schools Collection [/schools{?_q,_sort,_with}]
 
 ### List Schools [GET]
+Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="output.html#header-parametros-de-filtros-em-listagem">sessão</a> como definir os parametros da requisição.
 
 + Parameters
     + _q (string, optional) - Pesquisa por palavra-chave, a correspondência e incluida conjunto de resultados.
@@ -208,46 +217,43 @@ Configurações da contado do usuário logado.
 
 ### Create a New School [POST]
 
-+ Request 
++ Request (application/json)
     + Headers
             
             authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
 
-+ Request (application/json)
-
     + Attributes (SchoolFillable)
-
+    
 + Response 201 (application/json)
 
-    + Headers
+    + Attributes 
+        + School (School)
 
-            Location: /schools/1
-
-    + Attributes (School)
             
-## School [/schools/{school_id}]
+## School [/schools/{school_id}{?_with}]
 
 ### View a school detail [GET]
 
 + Parameters
-    + school_id: 1 (number) - ID of the School
+    + school_id: 1 (number) - Identificador único da escola
     + _with (string, optional) - Obtem informações do recurso relacionado.
         + Members
-            + schoolClasses
+            + schoolClass
 
 + Request 
     + Headers
-            
+
             authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
 
-+ Response  200 (application/json)
-
-    + Attributes (School)
++ Response 200 (application/json)
+    
+    + Attributes 
+        + School (School)
         
 ### Edit [PUT]
 
 + Parameters
-    + school_id: 1 (number) - ID of the School
+    + school_id: 1 (number) - Identificador único da escola
 
 + Request (application/json)
 
@@ -259,14 +265,15 @@ Configurações da contado do usuário logado.
             
 + Response 200 (application/json)
     
-    + Attributes (School)
+    + Attributes 
+        + School (School)
 
 
 ### Delete [DELETE]
 
 + Parameters
-    + school_id: 1 (number) - ID of the School
-
+    + school_id: 1 (number) - Identificador único da escola
+    
 + Request (application/json)
 
     + Headers
@@ -276,12 +283,12 @@ Configurações da contado do usuário logado.
 + Response 204
 
 
-## School Classes Collection [/school-classes{?_q,_sort,_with,id,identifier,grade_id,shift_id,school_calendar_id,school_id}]
+## School Classes Collection [/school-classes{?_q,_sort,_with}]
 ### List School Classes [GET]
 
-Os parametros com filter podem ser uzados com sulfixos.
+Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="output.html#header-parametros-de-filtros-em-listagem">sessão</a> como definir os parametros da requisição.
+
 + Parameters
-    + (Occurence)
     + _q (string, optional) - Pesquisa por palavra-chave, a correspondência e incluida conjunto de resultados.
         + Members
             +identifier
@@ -388,12 +395,10 @@ inicio e fim do ano.
 
 ### List School Calendars [GET]
 
+Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="output.html#header-parametros-de-filtros-em-listagem">sessão</a> como definir os parametros da requisição.
+
 + Parameters
     + _q (string, optional) - Pesquisa por palavra-chave, a correspondência e incluida conjunto de resultados.
-        <!-- Existem mais parametros para filtragem de dados. -->
-        <!-- Veja as possibilidades  -->
-        <!-- [Filtering]#https://github.com/keviocastro/laravel-api-handler#filtering` -->
-
     + _sort (string, optional) - Ordena a coluna desejada, de forma acendente ou descendente.
     + _with (string, optional) - Obtem informações do recurso relacionado.
         + Members 
@@ -487,6 +492,8 @@ inicio e fim do ano.
 ## Students Collection [/students{?_q,_sort,_with}]
 
 ### List students [GET]
+
+Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="output.html#header-parametros-de-filtros-em-listagem">sessão</a> como definir os parametros da requisição.
 
 + Parameters
     + _q (string, optional) - Pesquisa por palavra-chave, a correspondência e incluida conjunto de resultados.
@@ -596,9 +603,10 @@ e relatórios como "Boletim anual do aluno" e "Histórico escolar".
 
 ### List lessons [GET]
 
+Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="output.html#header-parametros-de-filtros-em-listagem">sessão</a> como definir os parametros da requisição.
+
+
 + Parameters
-    + _fields (string, optional)
-        + include (Lesson)
     + _q (string, optional) - Pesquisa por palavra-chave, a correspondência e incluida conjunto de resultados.
     + _sort (string, optional) - Ordena a coluna desejada, de forma acendente ou descendente.
     + _with (string, optional) - Obtem informações do recurso relacionado.
@@ -720,6 +728,9 @@ e relatórios como "Boletim anual do aluno" e "Histórico escolar".
 
 ### List Lessons per day [GET]
 
+Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="output.html#header-parametros-de-filtros-em-listagem">sessão</a> como definir os parametros da requisição.
+
+
 + Parameters
     + start (string, optional) Data inicial 
         + Default: NOW()
@@ -761,6 +772,9 @@ se o aluno estava ou não presente durante a aula.
 ## Attendance records Collection [/attendance-records{?_q,_sort,_with}]
 
 ### List attendance records [GET]
+
+Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="output.html#header-parametros-de-filtros-em-listagem">sessão</a> como definir os parametros da requisição.
+
 
 + Parameters
     + _q (string, optional) - Pesquisa por palavra-chave, a correspondência e incluida conjunto de resultados.
@@ -818,12 +832,11 @@ retornado o registro já existente com as informações atualizadas.
         }
 
 
-## Attendance Record [/attendance-records/{id}{?_with}]
+## Attendance Record [/attendance-records/{attendance_record_id}{?_with}]
 
 + Parameters
-    + id: 1 (number) - ID of the attendance record
+    + attendance_record_id: 1 (number) - ID of the attendance record
     
-
 ### View a attendance record detail [GET]
 
 + Parameters
@@ -849,6 +862,9 @@ retornado o registro já existente com as informações atualizadas.
 
 ### Edit [PUT]
 
++ Parameters
+    + attendance_record_id: 1 (number) - ID of the attendance record
+    
 + Request 
     + Headers
             
@@ -872,6 +888,9 @@ e a nota do aluno no 1º Bimestre será composta pela conta (N1*0,4)+(N2*0,6)=NO
 ## Assessments Collection [/assessments{?_q,_sort,_with}]
 
 ### List assessments [GET]
+
+Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="output.html#header-parametros-de-filtros-em-listagem">sessão</a> como definir os parametros da requisição.
+
 
 + Parameters
     + _q (string, optional) - Pesquisa por palavra-chave, a correspondência e incluida conjunto de resultados.
@@ -920,6 +939,8 @@ e a nota do aluno no 1º Bimestre será composta pela conta (N1*0,4)+(N2*0,6)=NO
 
 ### List occurences [GET]
 
+Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="output.html#header-parametros-de-filtros-em-listagem">sessão</a> como definir os parametros da requisição.
+
 + Parameters
     + _q (string, optional) - Pesquisa por palavra-chave, a correspondência e incluida conjunto de resultados.
         + Members
@@ -939,15 +960,14 @@ e a nota do aluno no 1º Bimestre será composta pela conta (N1*0,4)+(N2*0,6)=NO
 
     + Attributes 
         + Include Paginator
-        + data (array)
-            + (Occurence)
+        + data ([Occurence])
 
-## Occurence [/occurences/{id}]
+## Occurence [/occurences/{occurence_id}{?_with}]
 
 ### View a occurence detail [GET]
 
 + Parameters
-    + id: 1 (number, optional) - ID of the occurence
+    + occurence_id: 1 (number) - Identificador único da Occorencia
     + _with (string, optional) - Obtem informações do recurso relacionado.
         + Members
             + aboutPerson
@@ -966,7 +986,7 @@ e a nota do aluno no 1º Bimestre será composta pela conta (N1*0,4)+(N2*0,6)=NO
 ### Edit [PUT]
 
 + Parameters
-    + id: 1 (number) - ID of the occurence
+    + occurence_id: 1 (number) - Identificador único da Occorencia
 
 + Request (application/json)
 
@@ -984,7 +1004,7 @@ e a nota do aluno no 1º Bimestre será composta pela conta (N1*0,4)+(N2*0,6)=NO
 ### Delete [DELETE]
 
 + Parameters
-    + id: 1 (number) - ID of the occurence
+    + occurence_id: 1 (number) - Identificador único da Occorencia
     
 + Request (application/json)
     + Headers
@@ -1016,6 +1036,8 @@ e a nota do aluno no 1º Bimestre será composta pela conta (N1*0,4)+(N2*0,6)=NO
         
 ### List Student Grades [GET]
 
+Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="output.html#header-parametros-de-filtros-em-listagem">sessão</a> como definir os parametros da requisição.
+
 + Parameters
     + _q (string, optional) - Pesquisa por palavra-chave, a correspondência e incluida conjunto de resultados.
     + _sort (string, optional) - Ordena a coluna desejada, de forma acendente ou descendente.
@@ -1038,12 +1060,12 @@ e a nota do aluno no 1º Bimestre será composta pela conta (N1*0,4)+(N2*0,6)=NO
         + data (array)
             + (StudentGrade)
 
-## Student Grades [/student-grades/{id}{?_with}]
+## Student Grades [/student-grades/{student_grades_id}{?_with}]
 
 ### View a Student Grades detail [GET]
 
 + Parameters
-    + id: 1 (number) - ID of the occurence
+    + student_grades_id: 1 (number) - ID of the occurence
     + _with (string, optional) - Obtem informações do recurso relacionado.
         + Members
             + student
@@ -1064,7 +1086,7 @@ e a nota do aluno no 1º Bimestre será composta pela conta (N1*0,4)+(N2*0,6)=NO
 ### Edit [PUT]
 
 + Parameters
-    + id: 1 (number) - ID of the Student Grades
+    + student_grades_id: 1 (number) - ID of the Student Grades
 
 + Request (application/json)
 
@@ -1102,6 +1124,9 @@ e a nota do aluno no 1º Bimestre será composta pela conta (N1*0,4)+(N2*0,6)=NO
         
 ### List Subjects [GET]
 
+Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="output.html#header-parametros-de-filtros-em-listagem">sessão</a> como definir os parametros da requisição.
+
+
 + Parameters
     + _q (string, optional) - Pesquisa por palavra-chave, a correspondência e incluida conjunto de resultados.
         + Members
@@ -1120,12 +1145,12 @@ e a nota do aluno no 1º Bimestre será composta pela conta (N1*0,4)+(N2*0,6)=NO
         + data (array)
             + (Subject)
 
-## Subject [/subjects/{id}]
+## Subject [/subjects/{subject_id}]
 
 ### View a Subject detail [GET]
 
 + Parameters
-    + id: 1 (number) - ID of the Subject
+    + subject_id: 1 (number) - ID of the Subject
 
 + Request 
     + Headers
@@ -1140,7 +1165,7 @@ e a nota do aluno no 1º Bimestre será composta pela conta (N1*0,4)+(N2*0,6)=NO
 ### Edit [PUT]
 
 + Parameters
-    + id: 1 (number) - ID of the Subject
+    + subject_id: 1 (number) - ID of the Subject
 
 + Request (application/json)
 
@@ -1158,7 +1183,7 @@ e a nota do aluno no 1º Bimestre será composta pela conta (N1*0,4)+(N2*0,6)=NO
 ### Delete [DELETE]
 
 + Parameters
-    + id: 1 (number) - ID of the Subject
+    + subject_id: 1 (number) - ID of the Subject
 
 + Request (application/json)
     + Headers
