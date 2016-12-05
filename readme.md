@@ -43,11 +43,19 @@ https://help.apiary.io/tools/automated-testing/testing-local/ Ferramenta de test
 https://apiblueprint.org/ Syntax da documentação
 http://martinfowler.com/bliki/TestDrivenDevelopment.html Um artido do mestre falando sobre TDD.
 
+## Debug
+
+Primeiramente, você precisa definir qual o ip do seu computador (ou host onde a IDE está em execução), no arquivo docker-compose-override.yml na sessão "XDEBUG_CONFIG: remote_host=192.168.0.19".
+
+Depois você precisa configurar sua IDE com o mapeamento de caminhos do seu computador e do container (servidor web) desse projeto. Nesse repositório existem 2 arquivos de IDEs, PhpStorm (no diretorio oculto .idea) e sublime text (no arquivo https://github.com/keviocastro/schools/blob/master/schools.sublime-project). Se você estiver utilizando alguma dessas IDEs, basta abrir seu projeto com esses arquivos, e seu ambiente para debug estará configurado.
+
+No Sublime Text você precisa instalar o plugin: https://github.com/martomo/SublimeTextXdebug.
+
 ## Solucionando problemas de instalação
 
 - ERROR: In file './docker-compose.yml' service 'version' doesn't have any configuration options. All top level keys in your docker-compose.yml must map to a dictionary of configuration options.
 
-Esse erro ocorre porque a versão do docker-compose que está instalado é inferior  a v1.6.
+Esse erro porque a versão do docker-compose que está instalado é inferior  a v1.6.
 Execute os comandos para atualizar:
 
 ```sh
