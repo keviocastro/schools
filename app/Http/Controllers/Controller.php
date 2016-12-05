@@ -54,9 +54,18 @@ class Controller extends BaseController
             $queryParams = Input::get();
         }
 
+
         // Se não remover apiHandler utiliza como filter.
-        if (!empty($queryParams['_page'])) {
-            unset($queryParams['_page']);
+        $notAFilter = [
+            '_page', 
+            'XDEBUG_SESSION_START', 
+            'XDEBUG_SESSION_STOP'
+        ];
+
+        foreach ($notAFilter as $value) {
+            if (!empty($queryParams[$value])) {
+                unset($queryParams[$value]);
+            }
         }
 
         $result = $this->apiHandler->parseMultiple($queryBuilder, 

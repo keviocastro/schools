@@ -1,0 +1,7 @@
+version: '2'
+services:
+  web:
+    build: .
+    environment:
+      XDEBUG_CONFIG: remote_host=192.168.0.19
+

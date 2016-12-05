@@ -31,18 +31,18 @@ class SchoolControllerTest extends TestCase
      * @todo  As estruturas de retorno devem ser
      * testadas somente com a doc?
      * 
-     * @covers SchoolController::index
+     * @covers App\Http\Controllers\SchoolController::index
      * 
      * @return void
      */
     public function testIndex()
-    {
+    {   
         // Se a estrutura de retorno está correta
         // e se está retornado as relações
-        $school = factory(School::class)->create();
+        $schtool = factory(School::class)->create();
         $attributes = array_keys($school->attributesToArray());
         
-        $this->get('api/schools',
+        $this->get('api/schools?XDEBUG_SESSION_START=sublime.xdebug',
             $this->getAutHeader())
             ->assertResponseStatus(200)
             ->seeJsonStructure([

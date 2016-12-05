@@ -7,5 +7,14 @@
 		{
 			"path": "/home/kevio/www/docker-images/docker-laravel"
 		}
-	]
+	],
+	"settings": {
+		"xdebug": {
+			"url": "http://localhost",
+			"close_on_stop": true,
+			"path_mapping": {
+                "/var/app" : "/home/kevio/www/schools"
+            },
+		}
+	}
 }
