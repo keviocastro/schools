@@ -18,29 +18,28 @@ class StudentGradeControllerTest extends TestCase
      */
     public function testIndex()
     {
-    	$struture = [
-			  "total",
-			  "per_page",
-			  "current_page",
-			  "last_page",
-			  "next_page_url",
-			  "prev_page_url",
-			  "from",
-			  "to",
-			  "data" => [
-			    [
-			      "id",
-			      "grade",
-			      "student_id",
-			      "subject_id",
-			      "assessment_id",
-			    ]
-			  ]
+        $studentGrades = factory(StudentGrade::class, 3)->create();
+        $ids = $studentGrades->implode('id', '|');
+        $studentGrades->load('student', 'subject', 'assessment', 'schoolClass');
+    	
+        $result = [
+			  "total" => 3,
+			  "per_page" => 15,
+			  "current_page" => 1,
+			  "last_page" => 1,
+			  "next_page_url" => null,
+			  "prev_page_url" => null,
+			  "from" => 1,
+			  "to" => 3,
+			  "data" => $studentGrades->toArray()
 			];
-        $this->get('api/student-grades?_with=student,subject,assessment,schoolClass',
+
+        $this->get('api/student-grades?'.
+            '_with=student,subject,assessment,schoolClass'.
+            "&id=$ids",
         	$this->getAutHeader())
         	->assertResponseStatus(200)
-        	->seeJsonStructure($struture);
+        	->seeJsonEquals($result);
     }
 
     /**

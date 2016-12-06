@@ -1048,12 +1048,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "c32d91c64504dd2baf40e8ba025ad348da4607a1"
+                "reference": "66b42379183f24c74ad4c8549a826c820b97f79d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/c32d91c64504dd2baf40e8ba025ad348da4607a1",
-                "reference": "c32d91c64504dd2baf40e8ba025ad348da4607a1",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/66b42379183f24c74ad4c8549a826c820b97f79d",
+                "reference": "66b42379183f24c74ad4c8549a826c820b97f79d",
                 "shasum": ""
             },
             "require": {
@@ -1170,7 +1170,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2016-09-28 15:50:15"
+            "time": "2016-12-03 18:52:25"
         },
         {
             "name": "league/flysystem",
@@ -1376,12 +1376,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Seldaek/monolog.git",
-                "reference": "bad29cb8d18ab0315e6c477751418a82c850d558"
+                "reference": "fdd6780ffd2f1aa1d7af7d6c69f186bf17d35cd4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/bad29cb8d18ab0315e6c477751418a82c850d558",
-                "reference": "bad29cb8d18ab0315e6c477751418a82c850d558",
+                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/fdd6780ffd2f1aa1d7af7d6c69f186bf17d35cd4",
+                "reference": "fdd6780ffd2f1aa1d7af7d6c69f186bf17d35cd4",
                 "shasum": ""
             },
             "require": {
@@ -1446,7 +1446,7 @@
                 "logging",
                 "psr-3"
             ],
-            "time": "2016-11-26 00:15:39"
+            "time": "2016-12-04 18:12:24"
         },
         {
             "name": "mtdowling/cron-expression",
@@ -2953,12 +2953,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/fzaninotto/Faker.git",
-                "reference": "9722bbea1029082af5f518665c04980efe585590"
+                "reference": "71c5ccec1b04649c26b7fa510b1cc6b811cb3fb9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/9722bbea1029082af5f518665c04980efe585590",
-                "reference": "9722bbea1029082af5f518665c04980efe585590",
+                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/71c5ccec1b04649c26b7fa510b1cc6b811cb3fb9",
+                "reference": "71c5ccec1b04649c26b7fa510b1cc6b811cb3fb9",
                 "shasum": ""
             },
             "require": {
@@ -2995,7 +2995,7 @@
                 "faker",
                 "fixtures"
             ],
-            "time": "2016-11-29 13:46:42"
+            "time": "2016-12-02 14:05:09"
         },
         {
             "name": "hamcrest/hamcrest-php",
@@ -3425,12 +3425,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "2e6b07aad4158d7425f2415a1583fa3461e67867"
+                "reference": "c15d6af276559ce51648ad2e77f42a1704b5d02a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/2e6b07aad4158d7425f2415a1583fa3461e67867",
-                "reference": "2e6b07aad4158d7425f2415a1583fa3461e67867",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/c15d6af276559ce51648ad2e77f42a1704b5d02a",
+                "reference": "c15d6af276559ce51648ad2e77f42a1704b5d02a",
                 "shasum": ""
             },
             "require": {
@@ -3489,7 +3489,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2016-12-01 09:20:48"
+            "time": "2016-12-03 14:08:46"
         },
         {
             "name": "phpunit/phpunit-mock-objects",

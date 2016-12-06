@@ -117,18 +117,6 @@ class TestCase extends TestCaseLara
     }
 
     /**
-     * Define a base de dados de teste como padrão.
-     * Essa base contém somente os valores do seeder SchoolCalendar2016
-     * 
-     * @return void
-     */
-    public function selectDatabaseTest()
-    {   
-        $this->restoreDatabaseTest();
-        Config::set('database.default', 'mysql_testing');
-    }
-
-    /**
      * Cria uma base de dados adicionando um prefixo test_ com somente os dados 
      * do seeder SchoolCalendar2016.
      * 
@@ -142,7 +130,7 @@ class TestCase extends TestCaseLara
      * 
      * @return void
      */
-    private function restoreDatabaseTest()
+    public function selectDatabaseTest()
     {
         $connections = Config::get('database.connections');
         
@@ -201,13 +189,17 @@ class TestCase extends TestCaseLara
             "mysql -u{$user} -h{$host} -p{$pass} -e 'CREATE DATABASE IF NOT EXISTS {$base};'"
         );
 
+        $process->run();
+        if (!$process->isSuccessful()) {
+            throw new ProcessFailedException($process);
+        }
+
+        Config::set('database.default', 'mysql_testing');
+        
         // Se não existir registros na base dados, restaura o dump.
         // Se existir é porque a base de teste está já esta populada e não precisa ser modificada.
         if (!Schema::hasTable('students') || !(Student::count() > 0) ) {
-            // Restore dump
             $process = new Process(
-                // "mysql -u{$user} -h{$host} -p{$pass} -e 'DROP DATABASE IF EXISTS test_{$base};' && ".
-                // "mysql -u{$user} -h{$host} -p{$pass} -e 'CREATE DATABASE test_{$base};' &&".
                 "mysql -u{$user} -h{$host} -p{$pass} {$base} < $nameFile"
             );
 

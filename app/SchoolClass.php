@@ -91,4 +91,16 @@ class SchoolClass extends Model
         return $this->belongsToMany('App\Subject', 'school_class_subjects');
     }
 
+    /**
+     * Nível escolar da turma (Ex.: 1º Ano, 2º Ano)
+     *
+     * @Relation
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function grade()
+    {
+       return $this->belongsTo('App\Grade');
+    }
+
 }
