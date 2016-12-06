@@ -46,6 +46,7 @@ class SchoolCalendar2016 extends Seeder
     {
         // Calendario escolar com 4 bimesres
         // 3 notas por bimestre para compor a nota do bimestre.
+        
         $schoolCalendar = factory(SchoolCalendar::class)->create([
             'year' => '2016',
             'start' => '2016-01-20',

@@ -12,6 +12,7 @@ use Kirkbater\Testing\SoftDeletes as SoftDeletes;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
 use Tests\selectDatabaseTest;
+use Illuminate\Support\Facades\Artisan;
 
 class TestCase extends TestCaseLara
 {
