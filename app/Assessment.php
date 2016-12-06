@@ -5,6 +5,9 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+/**
+ * Avaliações de uma fase do ano letivo
+ */
 class Assessment extends Model
 {
 	 use SoftDeletes;

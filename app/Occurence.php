@@ -5,6 +5,9 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+/**
+ * Registro de ocorrência acontecida com um aluno/professor
+ */
 class Occurence extends Model
 {
     use SoftDeletes;

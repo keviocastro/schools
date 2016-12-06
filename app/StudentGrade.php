@@ -5,6 +5,13 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+/**
+ * Notas dos alunos de uma avaliação em uma fase do ano letivo
+ *
+ * avaliação = Assessment
+ * fase do ano letivo = SchoolCalendarPhase
+ * 
+ */
 class StudentGrade extends Model
 {
     use SoftDeletes;

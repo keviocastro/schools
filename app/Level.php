@@ -4,6 +4,9 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * Níveis de registro: médio, grave, etc. 
+ */
 class Level extends Model
 {
     /**

@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * Phase avaliativa do ano escolar
+ * Fases avaliativas de um ano letivo (bimestres, semestres, etc.)
  */
 class SchoolCalendarPhase extends Model
 {

@@ -5,6 +5,9 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+/**
+ * Calendários escolares/anos letivos
+ */
 class SchoolCalendar extends Model
 {
 	 use SoftDeletes;

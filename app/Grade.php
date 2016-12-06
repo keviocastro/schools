@@ -6,9 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * Escolas
+ * Ano estudantil (Jardim I, 1º Ano, etc.)
  */
-class School extends Model
+class Grade extends Model
 {
 	 use SoftDeletes;
 
@@ -20,15 +20,16 @@ class School extends Model
      */
     protected $hidden = [
         'deleted_at',
-        'updated_at', 
-        'created_at'];
+        'created_at',
+        'updated_at'
+        ];
     
     /**
      * The attributes that should be mutated to dates.
      *
      * @var array
      */
-    protected $dates = ['deleted_at','updated_at'];
+    protected $dates = ['deleted_at'];
 
     /**
      * The attributes that are mass assignable.
@@ -36,16 +37,4 @@ class School extends Model
      * @var array
      */
     protected $fillable = ['name'];
-
-
-    /**
-     * @Relation
-     * 
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function schoolClasses()
-    {
-        return $this->hasMany('App\SchoolClass');
-    }
-
 }

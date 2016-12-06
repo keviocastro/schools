@@ -4,6 +4,9 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * Responsáveis pelo estudante
+ */
 class StudentResponsible extends Model
 {
     /**

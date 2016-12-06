@@ -5,6 +5,9 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+/**
+ * Registros de presença
+ */
 class AttendanceRecord extends Model
 {
 	 use SoftDeletes;

@@ -5,6 +5,11 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+/**
+ * Informações básica de pessoas
+ * 
+ * Table: people
+ */
 class Person extends Model
 {
      use SoftDeletes;

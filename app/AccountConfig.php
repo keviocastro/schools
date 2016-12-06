@@ -4,6 +4,11 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * Configurações de uma conta 
+ * (Ex.: Quantidade máxima de % de faltas para um aluno 
+ *       não ser aprovado em um disciplina)
+ */
 class AccountConfig extends Model
 {
     /**

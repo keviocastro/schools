@@ -5,6 +5,9 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+/**
+ * Turno da turma (matutino, vespertino, noturno)
+ */
 class Shift extends Model
 {
 	 use SoftDeletes;
