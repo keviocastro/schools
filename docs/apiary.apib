@@ -1,4 +1,3 @@
-
 FORMAT: 1A
 
 HOST: http://localhost/api
@@ -104,7 +103,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 ## Schools Collection [/schools{?_q,_sort,_with}]
 
 ### List Schools [GET]
-Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="output.html#header-parametros-de-filtros-em-listagem">sessão</a> como definir os parametros da requisição.
+<!--Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="output.html#header-parametros-de-filtros-em-listagem">sessão</a> como definir os parametros da requisição.-->
 
 + Parameters
     + _q (string, optional) - Pesquisa por palavra-chave, a correspondência e incluida conjunto de resultados.
@@ -1243,10 +1242,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 
 + lesson_id: 1 (number) - Identificador único da aula relacionada
 + student_id: 1 (number) - Identificador único do aluno
-+ presence: 1 (number) - Presença do aluno na aula
-	         0 Faltou a aula
-	         1 Estava presente
-	         2 Falta abonada
++ presence: 1 (number) - `0=Faltou a aula. 1=presente. 2=Falta abonada.`
 
 ## AttendanceRecord (object)
 
