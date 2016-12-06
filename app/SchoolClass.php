@@ -41,18 +41,6 @@ class SchoolClass extends Model
         'school_id'];
 
     /**
-     * Ano da turma 
-     *
-     * @Relation
-     * 
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function grade()
-    {
-    	return $this->belongsTo('App\Grade');
-    }
-
-    /**
      * Turno da turma 
      *
      * @Relation

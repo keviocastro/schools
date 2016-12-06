@@ -1,20 +1,112 @@
-fFORMAT: 1A
+
+FORMAT: 1A
+
 HOST: http://localhost/api
 
 # Schools API
 
 Schools é uma api para manter informações sobre escolas e seus registros administrativos.
 
+
+
 # Authentication
 
 A autentificação de usuário para acesso aos recursos da api, deve ser feita atribuindo
 sempre o seguinte cabeçario na requisição:
 
-`authorizavtion: Bearer token_id`
+`authorization: Bearer token_id`
 
 Onde "token id" é obtido durante a autenficação do usuário no microservice de atentificação
 auth0 através do dominio "logos.auth0.com".
 Veja ver mais detalhes de como realizar essa autentificação nesse link: https://auth0.com/docs 
+
+# Parametros de filtros em listagem
+
+Cada parâmetro de consulta, exceto as funções pré-definidas _with, _sort e _q, é interpretado como um filtro.
+
+Exemplo: Listar todas as escola que começam com nome: Vieira.
+
+<pre><code>/api/schools?name-lk=Vieira*</code></pre>
+
+No exemplo acima o parametro name recebe o nome vieira que e o nome da escola, é com prefixo -lk sendo este igual a like do sql.
+
+Todos os filtros podem ser combinados com um operador AND.
+
+<pre><code>/api/schools?name-lk=Vieira*&created_at-min=2016-12-01 12:55:02</code></pre>
+
+O exemplo acima resultaria na seguinte SQL:
+
+<pre><code>Where `schools` LIKE "Vieira%" AND `created_at` >= "2016-12-01 12:55:02"</code></pre>
+
+É também possível usar vários valores para um filtro. Vários valores estão separados por um tubo |. Vários valores são combinados com OR a não ser quando há um -not como sufixo, então eles são combinados com AND. Por exemplo, todos os livros com o ID de 5 ou 6:
+
+<pre><code>/api/schools?id=5|6</code></pre>
+
+Ou todos os livros, exceto aqueles com ID 5 ou 6:
+
+<pre><code>/api/schools?id-not=5|6</code></pre>
+
+O mesmo pode ser conseguido usando o -in como sufixo:
+
+<pre><code>/api/schools?id-in=5,6</code></pre>
+
+Respectivamente, o not-insufixo:
+
+<pre><code>/api/schools?id-not-in=5,6</code></pre>
+
+<table><thead>
+	<tr>
+		<th>Suffix</th>
+		<th>Operator</th>
+		<th>Meaning</th>
+	</tr>
+</thead><tbody>
+<tr>
+	<td>-lk</td>
+	<td>LIKE</td>
+	<td>O mesmo que o operador <code>LIKE</code> do SQL</td>
+</tr>
+<tr>
+	<td>-not-lk</td>
+	<td>NOT LIKE</td>
+	<td>O mesmo que o operador <code>NOT LIKE</code> do SQL</td>
+</tr>
+<tr>
+	<td>-in</td>
+	<td>IN</td>
+	<td>O mesmo que o operador <code>IN</code> do SQL</td>
+</tr>
+<tr>
+	<td>-not-in</td>
+	<td>NOT IN</td>
+	<td>O mesmo que o operador <code>NOT IN</code> do SQL</td>
+</tr>
+<tr>
+	<td>-min</td>
+	<td>&gt;=</td>
+	<td>Maior ou igual a</td>
+</tr>
+<tr>
+	<td>-max</td>
+	<td>&lt;=</td>
+	<td>Menor ou igual a</td>
+</tr>
+<tr>
+	<td>-st</td>
+	<td>&lt;</td>
+	<td>Menor que</td>
+</tr>
+<tr>
+	<td>-gt</td>
+	<td>&gt;</td>
+	<td>Maior que</td>
+</tr>
+<tr>
+	<td>-not</td>
+	<td>!=</td>
+	<td>Diferente</td>
+</tr>
+</tbody></table>
 
 # Group Auth and Account
 
@@ -31,7 +123,7 @@ Professor Medeiros acessa seu aplicativo informando usuário e senha para se cad
 + Request
     + Headers
     
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ3ODQ1MjI3MSwiaWF0IjoxNDc1ODYwMjcxfQ.TyXdSxKWVaqGb9Y7uJh44Ybz807DLtUWNxw__K8JU7w
+            authorization: <!-- include(Token.md)  -->
     
     
 + Response 200 (application/json)
@@ -49,16 +141,19 @@ Professor Medeiros acessa seu aplicativo informando usuário e senha para se cad
 
 
 
-## Account Settings Collection [/account-config]
+## Account Settings Collection [/account-configs]
 
 Configurações da contado do usuário logado.
 
 ### List account settings [GET]
 
+Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="output.html#header-parametros-de-filtros-em-listagem">sessão</a> como definir os parametros da requisição.
+
+
 + Request
     + Headers
     
-            authorization: Bearer <token_id>
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
 
 + Response 200 (application/json)
 
@@ -88,49 +183,30 @@ Configurações da contado do usuário logado.
                 + value: 6 (number)
                 + `default`: 6 (number)
 
-## Account Settings [/account-configs/{id}]
-
-### Edit [PUT]
-
-+ Parameters
-    + id: 1 (number, required) - ID of the account settings
-
-+ Request (application/json)
-
-    + Headers
-            
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ3ODQ1MjI3MSwiaWF0IjoxNDc1ODYwMjcxfQ.TyXdSxKWVaqGb9Y7uJh44Ybz807DLtUWNxw__K8JU7w
-            
-    + Attributes 
-        + value (number, string)
-            
-+ Response 200 (application/json)
-    
-    + Attributes (object) 
-        + id: 1 (number)
-        + name: percentage_absences_reprove (string) - `Percentual máximo de faltas que um aluno pode ter para não ser reprovado. Exemplo: Existem 200 aulas de Matématica no ano, e consideramos que percentage_absences_reprove == 15, então o aluno pode faltar no máximo 30 aulas (200*0,15).`
-        + value: 20 (number)
-        + `default`: 25 (number)
-
-
 
 # Group Schools
 
 'Schools' são as escolas associadas a uma conta.
 'School Class' são as turmas de uma escola que existem em um determinado ano letivo/calendario escolar.
 
-## Schools Collection [/schools{?_q,_sort}]
+## Schools Collection [/schools{?_q,_sort,_with}]
 
 ### List Schools [GET]
+Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="output.html#header-parametros-de-filtros-em-listagem">sessão</a> como definir os parametros da requisição.
 
 + Parameters
-    + _q (string, optional) - Fulltext search.
-    + _sort (string, optional) - Nome da coluna para ordenação acendente.
+    + _q (string, optional) - Pesquisa por palavra-chave, a correspondência e incluida conjunto de resultados.
+        + Members
+            +name
+    + _sort (string, optional) - Ordena a coluna desejada, de forma acendente ou descendente.
+    + _with (string, optional) - Obtem informações do recurso relacionado.
+        + Members
+            + schoolClasses
         
 + Request
     + Headers
             
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ3ODQ1MjI3MSwiaWF0IjoxNDc1ODYwMjcxfQ.TyXdSxKWVaqGb9Y7uJh44Ybz807DLtUWNxw__K8JU7w
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
 
 + Response 200 (application/json)
 
@@ -141,96 +217,94 @@ Configurações da contado do usuário logado.
 
 ### Create a New School [POST]
 
-+ Request 
++ Request (application/json)
     + Headers
             
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ3ODQ1MjI3MSwiaWF0IjoxNDc1ODYwMjcxfQ.TyXdSxKWVaqGb9Y7uJh44Ybz807DLtUWNxw__K8JU7w
-
-+ Request (application/json)
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
 
     + Attributes (SchoolFillable)
-
+    
 + Response 201 (application/json)
 
-    + Headers
-
-            Location: /schools/1
-
     + Attributes 
-        + school (School)
+        + School (School)
+
             
-## School [/schools/{school_id}]
+## School [/schools/{school_id}{?_with}]
 
 ### View a school detail [GET]
 
 + Parameters
-    + school_id: 10 (number) - ID of the School
+    + school_id: 1 (number) - Identificador único da escola
+    + _with (string, optional) - Obtem informações do recurso relacionado.
+        + Members
+            + schoolClass
 
 + Request 
     + Headers
-            
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ3ODQ1MjI3MSwiaWF0IjoxNDc1ODYwMjcxfQ.TyXdSxKWVaqGb9Y7uJh44Ybz807DLtUWNxw__K8JU7w
 
-+ Response  200 (application/json)
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
 
++ Response 200 (application/json)
+    
     + Attributes 
-        + school (School)
+        + School (School)
         
-
 ### Edit [PUT]
 
 + Parameters
-    + school_id: 1 (number) - ID of the School
+    + school_id: 1 (number) - Identificador único da escola
 
 + Request (application/json)
 
     + Headers
             
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ3ODQ1MjI3MSwiaWF0IjoxNDc1ODYwMjcxfQ.TyXdSxKWVaqGb9Y7uJh44Ybz807DLtUWNxw__K8JU7w
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
             
     + Attributes (SchoolFillable)
             
 + Response 200 (application/json)
     
     + Attributes 
-        + school (School)
+        + School (School)
 
 
 ### Delete [DELETE]
 
 + Parameters
-    + school_id: 1 (number) - ID of the School
-
+    + school_id: 1 (number) - Identificador único da escola
+    
 + Request (application/json)
 
     + Headers
             
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ3ODQ1MjI3MSwiaWF0IjoxNDc1ODYwMjcxfQ.TyXdSxKWVaqGb9Y7uJh44Ybz807DLtUWNxw__K8JU7w
-
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
 
 + Response 204
 
 
 ## School Classes Collection [/school-classes{?_q,_sort,_with}]
-
 ### List School Classes [GET]
 
+Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="output.html#header-parametros-de-filtros-em-listagem">sessão</a> como definir os parametros da requisição.
+
 + Parameters
-    + _q (string, optional) - Fulltext search.
-    + _sort (string, optional) - Nome da coluna para ordenação. 
-    + _with (string, optional) - Nome da relação a ser incluída na resposta.
+    + _q (string, optional) - Pesquisa por palavra-chave, a correspondência e incluida conjunto de resultados.
+        + Members
+            +identifier
+    + _sort (string, optional) - Ordena a coluna desejada, de forma acendente ou descendente.
+    + _with (string, optional) - Obtem informações do recurso relacionado.
         + Members 
-            + grade - Ano da turma
-            + shift - Turno
-            + students - Estudantes
-            + schoolCalendar - Ano letivo a qual a turma pertence
-            + subjects - Disciplinas ministradas na turma
+            + shift - Turno.
+            + students - Aluno.
+            + schoolCalendar - Ano letivo.
+            + subjects - Avaliação.
 
 + Request (application/json)
 
     + Headers
             
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ3ODQ1MjI3MSwiaWF0IjoxNDc1ODYwMjcxfQ.TyXdSxKWVaqGb9Y7uJh44Ybz807DLtUWNxw__K8JU7w
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
 
 + Response 200 (application/json)
 
@@ -244,7 +318,7 @@ Configurações da contado do usuário logado.
 + Request (application/json)
     + Headers
             
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ3ODQ1MjI3MSwiaWF0IjoxNDc1ODYwMjcxfQ.TyXdSxKWVaqGb9Y7uJh44Ybz807DLtUWNxw__K8JU7w
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
             
     + Attributes (SchoolClassFillable)
             
@@ -257,20 +331,22 @@ Configurações da contado do usuário logado.
 ## School Class [/school-classes/{school_class_id}{?_with}]
 
 + Parameters
-    - school_class_id (number) - ID of the school class
+    - school_class_id: 1 (number) - ID of the school class
 
 ### View a school class detail [GET]
 
 + Parameters
-    + _with (string, optional) - Nome da relação a ser incluída na resposta.
+    + _with (string, optional) - Obtem informações do recurso relacionado.
         + Members 
-            + grade
-            + shift
+            + shift - Turno.
+            + students - Aluno.
+            + schoolCalendar - Ano letivo.
+            + subjects - Avaliação.
 
 + Request 
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ3ODQ1MjI3MSwiaWF0IjoxNDc1ODYwMjcxfQ.TyXdSxKWVaqGb9Y7uJh44Ybz807DLtUWNxw__K8JU7w
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
 
 + Response 200 (application/json)
 
@@ -280,10 +356,13 @@ Configurações da contado do usuário logado.
 
 ### Edit [PUT]
 
++ Parameters
+    + school_class_id: 1 (number) - ID of the School
+
 + Request 
     + Headers
             
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ3ODQ1MjI3MSwiaWF0IjoxNDc1ODYwMjcxfQ.TyXdSxKWVaqGb9Y7uJh44Ybz807DLtUWNxw__K8JU7w
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
             
     + Attributes (SchoolClassFillable)
             
@@ -295,8 +374,16 @@ Configurações da contado do usuário logado.
             
 ### Delete [DELETE]
 
-+ Response 204
++ Parameters
+    + school_class_id: 1 (number) - ID of the School
 
++ Request (application/json)
+
+    + Headers
+            
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
+
++ Response 204
 
 
 
@@ -308,23 +395,21 @@ inicio e fim do ano.
 
 ### List School Calendars [GET]
 
-+ Parameters
-    + _q (string, optional) - `Fulltext search. 
-        Existem mais parametros para filtragem de dados.
-        Veja as possibilidades 
-        [Filtering]#https://github.com/keviocastro/laravel-api-handler#filtering`
+Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="output.html#header-parametros-de-filtros-em-listagem">sessão</a> como definir os parametros da requisição.
 
-    + _sort (string, optional) - Nome da coluna para ordenação. 
-    + _with (string, optional) - Nome da relação a ser incluída na resposta.
++ Parameters
+    + _q (string, optional) - Pesquisa por palavra-chave, a correspondência e incluida conjunto de resultados.
+    + _sort (string, optional) - Ordena a coluna desejada, de forma acendente ou descendente.
+    + _with (string, optional) - Obtem informações do recurso relacionado.
         + Members 
-            + schoolClasses - Turmas do ano letivo
-            + schoolCalendarPhases - Fases avaliativas do ano letivo
+            + schoolClasses - Turmas do ano letivo.
+            + phases - Fases avaliativas do ano letivo. Recurso (SchoolCalendarPhase)
 
 + Request (application/json)
 
     + Headers
             
-            authorization: Bearer <token_id>
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
 
 + Response 200 (application/json)
 
@@ -338,7 +423,7 @@ inicio e fim do ano.
 + Request (application/json)
     + Headers
             
-            authorization: Bearer <token_id>
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
             
     + Attributes (SchoolCalendarFillable)
             
@@ -350,21 +435,19 @@ inicio e fim do ano.
 
 ## School Calendar [/school-calendars/{school_calendar_id}{?_with}]
 
-+ Parameters
-    - school_calendar_id (number) - ID of the school class
-
 ### View a school calendar detail [GET]
 
 + Parameters
-    + _with (string, optional) - Nome da relação a ser incluída na resposta.
+    + school_calendar_id: 1 (number) - ID of the school class
+    + _with (string, optional) - Obtem informações do recurso relacionado.
         + Members 
-            + schoolClasses - Turmas do ano letivo
-            + schoolCalendarPhases - Fases avaliativas do ano letivo
+            + schoolClasses - Turmas do ano letivo.
+            + phases - Fases avaliativas do ano letivo. Recurso (SchoolCalendarPhase)
 
 + Request 
     + Headers
 
-            authorization: Bearer <token_id>
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
 
 + Response 200 (application/json)
 
@@ -374,10 +457,13 @@ inicio e fim do ano.
 
 ### Edit [PUT]
 
++ Parameters
+    + school_calendar_id: 1 (number) - ID of the school class
+
 + Request 
     + Headers
             
-            authorization: Bearer <token_id>
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
             
     + Attributes (SchoolCalendarFillable)
             
@@ -386,13 +472,18 @@ inicio e fim do ano.
     + Attributes 
         + school_calendar (SchoolCalendar)
 
-            
 ### Delete [DELETE]
 
++ Parameters
+    + school_calendar_id: 1 (number) - ID of the School
+
++ Request (application/json)
+
+    + Headers
+            
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
+
 + Response 204
-
-
-
 
 
 
@@ -402,10 +493,12 @@ inicio e fim do ano.
 
 ### List students [GET]
 
+Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="output.html#header-parametros-de-filtros-em-listagem">sessão</a> como definir os parametros da requisição.
+
 + Parameters
-    + _q (string, optional) - Fulltext search
-    + _sort (string, optional) - Nome da coluna para ordenação. 
-    + _with (string, optional) - Nome da relação a ser incluida na resposta
+    + _q (string, optional) - Pesquisa por palavra-chave, a correspondência e incluida conjunto de resultados.
+    + _sort (string, optional) - Ordena a coluna desejada, de forma acendente ou descendente.
+    + _with (string, optional) - Obtem informações do recurso relacionado.
         + Members
             + studentResponsible
             + person
@@ -416,7 +509,7 @@ inicio e fim do ano.
 + Request (application/json)
     + Headers
             
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ3ODQ1MjI3MSwiaWF0IjoxNDc1ODYwMjcxfQ.TyXdSxKWVaqGb9Y7uJh44Ybz807DLtUWNxw__K8JU7w
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
 
 + Response 200 (application/json)
 
@@ -424,6 +517,7 @@ inicio e fim do ano.
         + Include Paginator 
         + data (array)
             + (Student)
+
 
 # Group Students
 
@@ -435,47 +529,48 @@ e relatórios como "Boletim anual do aluno" e "Histórico escolar".
 ### Annual Report [GET]
 
 + Parameters
-    + school_calendar_id (required, number) - ID do ano letivo
+    + school_calendar_id: 1 (required, number) - ID do ano letivo
 
 + Request 
     + Headers
     
-            authorization: Bearer {token_id}
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
             
 + Response 200 (application/json)
 
     + Attributes (object)
-        + averages (array) - Médias por disciplina no ano letivo
+        + report_by_subjects (array) - Médias e faltas por disciplina no ano letivo
             + (object)
-                + include (SchoolCalendarPhase)
-                + subject_average (array)
+                + include (Subject)
+                + average_calculation: `((9.6 + 9.3)*0.4 + (9.3 + 9.8)*0.6)/2` (string) - `Calculo de média da disciplina`
+                + average_formula: `( ({1º Bimestre} + {2º Bimestre})*0.4 + ({3º Bimestre} + {4º Bimestre})*0.6 )/2` (string) - `Formula utilizada para calcular a média anual da disciplina`
+                + average_year: 8.2 (number) - `Média do aluno para disciplina no ano letivo`
+                + absences: 10 (number) - `Total de faltas do aluno para disciplina no ano letivo`
+                + school_calendar_phases (array)
                     + (object)
-                        + include (Subject)
-                        + average: 7.2 - Média do aluno para a disciplina na fase do ano
-                        + student_grades (array)
+                        + id: 1 (number) - `ID da fase do ano`
+                        + average: 7.2 (number) - `Média do aluno no para disciplina na fase do ano`
+                        + average_calculation: `(6.5 + 5.7)/2` (string) - `Calculo da média da disciplina na fase do ano` 
+                        + average_f ormula: `({Nota 1.1} + {Nota 1.2})/2` (string) - `Formula utilizada para  calcular a média da disciplina na fase do ano`    
+                        + absences: 2 (number) - `Total de faltas do aluno para disciplina na fase do ano`
+                        + student_grades (array[object])
                             + (object)
                                 + include (StudentGrade)
-                                + assessment (Assessment)
-        + absences (array) - Faltas no ano letivo
-            + (object)
-                + school_calendar_phase_id: 1
-                + subject_id: 1 
-                + absences: 6
-        + subjects (array) - `Disciplinas cursadas no ano`
-            + include (Subject)
+        + school_calendar_phases (array) - Fases avaliativas do ano letivo
+            + (SchoolCalendarPhase)
 
 
-## Annual Student Summary [/students/{student_id}/annual-summary{?school_calendar_id,school_calendar_phase_id}]
+## Annual Student Summary [/students/{student_id}/annual-summary{?school_calendar_id}]
 
 ### View a annual student summary [GET]
 
 + Parameters
-    + school_calendar_id (required, number)       - `ID do ano letivo`
+    + school_calendar_id: 1 (number, required) - `ID do ano letivo`
 
 + Request 
     + Headers
     
-            authorization: Bearer {token_id}
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
             
 + Response 200 (application/json)
 
@@ -499,7 +594,7 @@ e relatórios como "Boletim anual do aluno" e "Histórico escolar".
                     + include (StudentGrade)
                     + assessment (Assessment) 
 
-            
+
 # Group Lessons
 
 `Lessons` são as aulas programadas para as turmas de uma escola.
@@ -508,10 +603,13 @@ e relatórios como "Boletim anual do aluno" e "Histórico escolar".
 
 ### List lessons [GET]
 
+Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="output.html#header-parametros-de-filtros-em-listagem">sessão</a> como definir os parametros da requisição.
+
+
 + Parameters
-    + _q (string, optional) - Fulltext search
-    + _sort (string, optional) - Nome da coluna para ordenação. 
-    + _with (string, optional) Nome da relação a ser incluida da resposta.
+    + _q (string, optional) - Pesquisa por palavra-chave, a correspondência e incluida conjunto de resultados.
+    + _sort (string, optional) - Ordena a coluna desejada, de forma acendente ou descendente.
+    + _with (string, optional) - Obtem informações do recurso relacionado.
         + Members
             + schoolClass
             + schoolClass.grade
@@ -521,7 +619,7 @@ e relatórios como "Boletim anual do aluno" e "Histórico escolar".
 + Request 
     + Headers
             
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ3ODQ1MjI3MSwiaWF0IjoxNDc1ODYwMjcxfQ.TyXdSxKWVaqGb9Y7uJh44Ybz807DLtUWNxw__K8JU7w
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
 
 + Response 200 (application/json)
 
@@ -535,7 +633,7 @@ e relatórios como "Boletim anual do aluno" e "Histórico escolar".
 + Request (application/json)
     + Headers
             
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ3ODQ1MjI3MSwiaWF0IjoxNDc1ODYwMjcxfQ.TyXdSxKWVaqGb9Y7uJh44Ybz807DLtUWNxw__K8JU7w
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
             
     + Attributes (LessonFillable)
             
@@ -547,12 +645,10 @@ e relatórios como "Boletim anual do aluno" e "Histórico escolar".
 
 ## Lesson [/lessons/{lesson_id}{?_with,attach}]
 
-+ Parameters
-    - lesson_id: 1 (number) - ID of the lesson
-
 ### View a lesson detail [GET]
 
 + Parameters
+    + lesson_id: 1 (number) - ID of the lesson
     + _with (string, optional) Nome da relação a ser incluida na resposta.
         + Members
             + attendanceRecords
@@ -580,19 +676,32 @@ e relatórios como "Boletim anual do aluno" e "Histórico escolar".
 + Request 
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ3ODQ1MjI3MSwiaWF0IjoxNDc1ODYwMjcxfQ.TyXdSxKWVaqGb9Y7uJh44Ybz807DLtUWNxw__K8JU7w
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
 
 + Response 200 (application/json)
 
     + Attributes 
-        + lesson (LessonDetail)
-
+        + lesson 
+            + Include (Lesson)
+            + students (array)
+                + (object)
+                    + Include (Student)
+                    + attendance_record (AttendanceRecord)
+                    + last_occurences (array[Occurence])
+                    + absence_summary (object)
+                        + percentage_absences_reprove: 25 - Percentual máximo de faltas as aulas para não ser           reprovado       
+                        + total_lessons_year: 200 - total de aulas programadas no ano da mesma disciplina           
+                        + total_absences_year: 22 - total de faltas que o aluno tem no ano da mesma disciplina
+            
 ### Edit [PUT]
+
++ Parameters
+    + lesson_id: 1 (number) - ID of the lesson
 
 + Request 
     + Headers
             
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ3ODQ1MjI3MSwiaWF0IjoxNDc1ODYwMjcxfQ.TyXdSxKWVaqGb9Y7uJh44Ybz807DLtUWNxw__K8JU7w
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
             
     + Attributes (LessonFillable)
             
@@ -604,6 +713,14 @@ e relatórios como "Boletim anual do aluno" e "Histórico escolar".
 
 ### Delete [DELETE]
 
++ Parameters
+    + lesson_id: 1 (number) - ID of the lesson
+
++ Request (application/json)
+    + Headers
+    
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
+
 + Response 204
 
 
@@ -611,7 +728,14 @@ e relatórios como "Boletim anual do aluno" e "Histórico escolar".
 
 ### List Lessons per day [GET]
 
+Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="output.html#header-parametros-de-filtros-em-listagem">sessão</a> como definir os parametros da requisição.
+
+
 + Parameters
+    + start (string, optional) Data inicial 
+        + Default: NOW()
+    + end (string, optional) Data final
+        + Default: NOW() + 15 days 
     + _with (string, optional) Nome da relação a ser incluida da resposta.
         + Members
             + schoolClass
@@ -621,16 +745,12 @@ e relatórios como "Boletim anual do aluno" e "Histórico escolar".
             + schoolClass.students.studentResponsible
             + schoolClass.students.attendanceRecords
             + subject
-    + start (string, optional) Data inicial 
-        + Default: NOW()
-    + end (string, optional) Data final
-        + Default: NOW() + 15 days 
     + _q (string, optional) - Fulltext search
 
 + Request 
     + Headers
             
-            authorization: Bearer <token id>
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
 
 + Response 200 (application/json)
 
@@ -643,6 +763,7 @@ e relatórios como "Boletim anual do aluno" e "Histórico escolar".
                 + lessons (array[Lesson])
 
 
+
 # Group Attendance Records
 
 `Attendance Records` são os registros de presenças dos alunos em uma aula, definindo
@@ -652,10 +773,13 @@ se o aluno estava ou não presente durante a aula.
 
 ### List attendance records [GET]
 
+Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="output.html#header-parametros-de-filtros-em-listagem">sessão</a> como definir os parametros da requisição.
+
+
 + Parameters
-    + _q (string, optional) - Fulltext search
-    + _sort (string, optional) - Nome da coluna para ordenação. 
-    + _with (string) - Nome da relação a ser incluída na resposta
+    + _q (string, optional) - Pesquisa por palavra-chave, a correspondência e incluida conjunto de resultados.
+    + _sort (string, optional) - Ordena a coluna desejada, de forma acendente ou descendente.
+    + _with (string, optional) - Obtem informações do recurso relacionado.
         + Members
             + lesson
             + lesson.schoolClass
@@ -668,7 +792,7 @@ se o aluno estava ou não presente durante a aula.
 + Request 
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ3ODQ1MjI3MSwiaWF0IjoxNDc1ODYwMjcxfQ.TyXdSxKWVaqGb9Y7uJh44Ybz807DLtUWNxw__K8JU7w
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
 
 + Response 200 (application/json)
 
@@ -687,7 +811,7 @@ retornado o registro já existente com as informações atualizadas.
 + Request (application/json)
     + Headers
             
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ3ODQ1MjI3MSwiaWF0IjoxNDc1ODYwMjcxfQ.TyXdSxKWVaqGb9Y7uJh44Ybz807DLtUWNxw__K8JU7w
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
             
     + Attributes (AttendanceRecordFillable)
             
@@ -708,16 +832,15 @@ retornado o registro já existente com as informações atualizadas.
         }
 
 
-## Attendance Record [/attendance-records/{id}{?_with}]
+## Attendance Record [/attendance-records/{attendance_record_id}{?_with}]
 
 + Parameters
-    + id (number) - ID of the attendance record
+    + attendance_record_id: 1 (number) - ID of the attendance record
     
-
 ### View a attendance record detail [GET]
 
 + Parameters
-    + _with (string) - Include related models
+    + _with (string, optional) - Obtem informações do recurso relacionado.
         + Members
             + lesson
             + lesson.schoolClass
@@ -730,7 +853,7 @@ retornado o registro já existente com as informações atualizadas.
 + Request 
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ3ODQ1MjI3MSwiaWF0IjoxNDc1ODYwMjcxfQ.TyXdSxKWVaqGb9Y7uJh44Ybz807DLtUWNxw__K8JU7w
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
 
 + Response 200 (application/json)
 
@@ -739,10 +862,13 @@ retornado o registro já existente com as informações atualizadas.
 
 ### Edit [PUT]
 
++ Parameters
+    + attendance_record_id: 1 (number) - ID of the attendance record
+    
 + Request 
     + Headers
             
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ3ODQ1MjI3MSwiaWF0IjoxNDc1ODYwMjcxfQ.TyXdSxKWVaqGb9Y7uJh44Ybz807DLtUWNxw__K8JU7w
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
             
     + Attributes (AttendanceRecordFillable)
             
@@ -750,8 +876,6 @@ retornado o registro já existente com as informações atualizadas.
     
     + Attributes 
         + attendance_record (AttendanceRecord)
-
-
 
 
 # Group Assessments
@@ -765,10 +889,15 @@ e a nota do aluno no 1º Bimestre será composta pela conta (N1*0,4)+(N2*0,6)=NO
 
 ### List assessments [GET]
 
+Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="output.html#header-parametros-de-filtros-em-listagem">sessão</a> como definir os parametros da requisição.
+
+
 + Parameters
-    + _q (string, optional) - Fulltext search.
-    + _sort (string, optional) - Nome da coluna para ordenação. 
-    + _with (string) - Nome da relação a ser incluída na resposta.
+    + _q (string, optional) - Pesquisa por palavra-chave, a correspondência e incluida conjunto de resultados.
+        + Members
+            +name
+    + _sort (string, optional) - Ordena a coluna desejada, de forma acendente ou descendente.
+    + _with (string, optional) - Obtem informações do recurso relacionado.
         + Members
             + schoolCalendarPhase
             + schoolCalendarPhase.schoolCalendar
@@ -776,7 +905,7 @@ e a nota do aluno no 1º Bimestre será composta pela conta (N1*0,4)+(N2*0,6)=NO
 + Request 
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ3ODQ1MjI3MSwiaWF0IjoxNDc1ODYwMjcxfQ.TyXdSxKWVaqGb9Y7uJh44Ybz807DLtUWNxw__K8JU7w
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
 
 + Response 200 (application/json)
 
@@ -784,6 +913,7 @@ e a nota do aluno no 1º Bimestre será composta pela conta (N1*0,4)+(N2*0,6)=NO
         + Include Paginator
         + data (array)
             + (Assessment)
+
 
 # Group Occurrence 
 
@@ -796,7 +926,7 @@ e a nota do aluno no 1º Bimestre será composta pela conta (N1*0,4)+(N2*0,6)=NO
 + Request (application/json)
     + Headers
             
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ3ODQ1MjI3MSwiaWF0IjoxNDc1ODYwMjcxfQ.TyXdSxKWVaqGb9Y7uJh44Ybz807DLtUWNxw__K8JU7w
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
     
     + Attributes (OccurenceFillable)
 
@@ -809,10 +939,14 @@ e a nota do aluno no 1º Bimestre será composta pela conta (N1*0,4)+(N2*0,6)=NO
 
 ### List occurences [GET]
 
+Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="output.html#header-parametros-de-filtros-em-listagem">sessão</a> como definir os parametros da requisição.
+
 + Parameters
-    + _q (string, optional) - Fulltext search.
-    + _sort (string, optional) - Nome da coluna para ordenação. 
-    + _with (string) - Nome da relação a ser incluída na resposta.
+    + _q (string, optional) - Pesquisa por palavra-chave, a correspondência e incluida conjunto de resultados.
+        + Members
+            +comment
+    + _sort (string, optional) - Ordena a coluna desejada, de forma acendente ou descendente.
+    + _with (string, optional) - Obtem informações do recurso relacionado.
         + Members
             + aboutPerson
             + level
@@ -820,26 +954,29 @@ e a nota do aluno no 1º Bimestre será composta pela conta (N1*0,4)+(N2*0,6)=NO
 + Request 
     + Headers
             
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ3ODQ1MjI3MSwiaWF0IjoxNDc1ODYwMjcxfQ.TyXdSxKWVaqGb9Y7uJh44Ybz807DLtUWNxw__K8JU7w
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
     
 + Response 200 (application/json)
 
     + Attributes 
         + Include Paginator
-        + data (array)
-            + (Occurence)
+        + data ([Occurence])
 
-## Occurence [/occurences/{id}]
+## Occurence [/occurences/{occurence_id}{?_with}]
 
 ### View a occurence detail [GET]
 
 + Parameters
-    + id: 1 (number) - ID of the occurence
+    + occurence_id: 1 (number) - Identificador único da Occorencia
+    + _with (string, optional) - Obtem informações do recurso relacionado.
+        + Members
+            + aboutPerson
+            + level
 
 + Request 
     + Headers
             
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ3ODQ1MjI3MSwiaWF0IjoxNDc1ODYwMjcxfQ.TyXdSxKWVaqGb9Y7uJh44Ybz807DLtUWNxw__K8JU7w
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
     
 + Response 200 (application/json)
     
@@ -849,13 +986,13 @@ e a nota do aluno no 1º Bimestre será composta pela conta (N1*0,4)+(N2*0,6)=NO
 ### Edit [PUT]
 
 + Parameters
-    + id: 1 (number) - ID of the occurence
+    + occurence_id: 1 (number) - Identificador único da Occorencia
 
 + Request (application/json)
 
     + Headers
             
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ3ODQ1MjI3MSwiaWF0IjoxNDc1ODYwMjcxfQ.TyXdSxKWVaqGb9Y7uJh44Ybz807DLtUWNxw__K8JU7w
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
             
     + Attributes (OccurenceFillable)
             
@@ -866,10 +1003,13 @@ e a nota do aluno no 1º Bimestre será composta pela conta (N1*0,4)+(N2*0,6)=NO
 
 ### Delete [DELETE]
 
++ Parameters
+    + occurence_id: 1 (number) - Identificador único da Occorencia
+    
 + Request (application/json)
     + Headers
     
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ3ODQ1MjI3MSwiaWF0IjoxNDc1ODYwMjcxfQ.TyXdSxKWVaqGb9Y7uJh44Ybz807DLtUWNxw__K8JU7w
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
     
 
 + Response 204
@@ -878,14 +1018,14 @@ e a nota do aluno no 1º Bimestre será composta pela conta (N1*0,4)+(N2*0,6)=NO
 
 `Student Grades` São registo de notas de cada aluno em suas diciplinas nos periodos e turmas pertencentes a ele.
 
-## Student grades Collection [/student_grades{?limit,offset,q,sort,field,with}]
+## Student grades Collection [/student_grades{?_q,_sort,_field,_with}]
 
 ### Create a new Student Grades [POST]
 
 + Request (application/json)
     + Headers
             
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ3ODQ1MjI3MSwiaWF0IjoxNDc1ODYwMjcxfQ.TyXdSxKWVaqGb9Y7uJh44Ybz807DLtUWNxw__K8JU7w
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
     
     + Attributes (StudentGradeFillable)
 
@@ -896,12 +1036,12 @@ e a nota do aluno no 1º Bimestre será composta pela conta (N1*0,4)+(N2*0,6)=NO
         
 ### List Student Grades [GET]
 
+Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="output.html#header-parametros-de-filtros-em-listagem">sessão</a> como definir os parametros da requisição.
+
 + Parameters
-    + q (string, optional) - Fulltext search.
-    + sort (string, optional) - Nome da coluna para ordenação. 
-    + limit (number, optional) - Limite por página.
-    + field (string, optional) - Nome da coluna e valor para filtrar resultados.
-    + with (string) - Nome da relação a ser incluída na resposta.
+    + _q (string, optional) - Pesquisa por palavra-chave, a correspondência e incluida conjunto de resultados.
+    + _sort (string, optional) - Ordena a coluna desejada, de forma acendente ou descendente.
+    + _with (string, optional) - Obtem informações do recurso relacionado.
         + Members
             + student
             + subject
@@ -911,22 +1051,22 @@ e a nota do aluno no 1º Bimestre será composta pela conta (N1*0,4)+(N2*0,6)=NO
 + Request 
     + Headers
             
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ3ODQ1MjI3MSwiaWF0IjoxNDc1ODYwMjcxfQ.TyXdSxKWVaqGb9Y7uJh44Ybz807DLtUWNxw__K8JU7w
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
     
 + Response 200 (application/json)
 
     + Attributes 
         + Include Paginator
         + data (array)
-            + (StudentGradeWithRelation)
+            + (StudentGrade)
 
-## Student Grades [/student-grades/{id}{?with}]
+## Student Grades [/student-grades/{student_grades_id}{?_with}]
 
 ### View a Student Grades detail [GET]
 
 + Parameters
-    + id: 1 (number) - ID of the occurence
-    + with (string) - Nome da relação a ser incluída na resposta.
+    + student_grades_id: 1 (number) - ID of the occurence
+    + _with (string, optional) - Obtem informações do recurso relacionado.
         + Members
             + student
             + subject
@@ -936,23 +1076,23 @@ e a nota do aluno no 1º Bimestre será composta pela conta (N1*0,4)+(N2*0,6)=NO
 + Request 
     + Headers
             
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ3ODQ1MjI3MSwiaWF0IjoxNDc1ODYwMjcxfQ.TyXdSxKWVaqGb9Y7uJh44Ybz807DLtUWNxw__K8JU7w
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
     
 + Response 200 (application/json)
     
     + Attributes 
-        + StudentGradeWithRelation (StudentGradeWithRelation)
+        + StudentGrade (StudentGrade)
 
 ### Edit [PUT]
 
 + Parameters
-    + id: 1 (number) - ID of the Student Grades
+    + student_grades_id: 1 (number) - ID of the Student Grades
 
 + Request (application/json)
 
     + Headers
             
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ3ODQ1MjI3MSwiaWF0IjoxNDc1ODYwMjcxfQ.TyXdSxKWVaqGb9Y7uJh44Ybz807DLtUWNxw__K8JU7w
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
             
     + Attributes (StudentGradeFillable)
             
@@ -962,42 +1102,120 @@ e a nota do aluno no 1º Bimestre será composta pela conta (N1*0,4)+(N2*0,6)=NO
         + StudentGrade (StudentGrade)
 
 
+# Group Subjects 
+
+`Subjects` São regristro das disciplinas .
+
+## Subjects Collection [/subjects{?_q,_sort,_with}]
+
+### Create a new Occorence [POST]
+
++ Request (application/json)
+    + Headers
+            
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
+    
+    + Attributes (SubjectFillable)
+
++ Response 201 (application/json) 
+    
+    + Attributes 
+        + Subject (Subject)
+        
+### List Subjects [GET]
+
+Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="output.html#header-parametros-de-filtros-em-listagem">sessão</a> como definir os parametros da requisição.
+
+
++ Parameters
+    + _q (string, optional) - Pesquisa por palavra-chave, a correspondência e incluida conjunto de resultados.
+        + Members
+            +name
+    + _sort (string, optional) - Ordena a coluna desejada, de forma acendente ou descendente.
+
++ Request 
+    + Headers
+            
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
+    
++ Response 200 (application/json)
+
+    + Attributes 
+        + Include Paginator
+        + data (array)
+            + (Subject)
+
+## Subject [/subjects/{subject_id}]
+
+### View a Subject detail [GET]
+
++ Parameters
+    + subject_id: 1 (number) - ID of the Subject
+
++ Request 
+    + Headers
+            
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
+    
++ Response 200 (application/json)
+    
+    + Attributes 
+        + Subject (Subject)
+
+### Edit [PUT]
+
++ Parameters
+    + subject_id: 1 (number) - ID of the Subject
+
++ Request (application/json)
+
+    + Headers
+            
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
+            
+    + Attributes (SubjectFillable)
+            
++ Response 200 (application/json)
+    
+    + Attributes 
+        + Subject (Subject)
+
+### Delete [DELETE]
+
++ Parameters
+    + subject_id: 1 (number) - ID of the Subject
+
++ Request (application/json)
+    + Headers
+    
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
+    
+
++ Response 204
+
 # Data structure
 
-## Students
+## SubjectFillable
 
-+ id: 1 (number) - Identificador único do registro de nota do aluno
-+ Include (StudentsFillable) - object imputaveis
-+ subjects (array)
-    + (Subject)
-+ schoolCalendarPhase (array)
-    + (SchoolCalendarPhase)
-+ StudentGrade (array)
-    + (StudentGrade)
++ name: Matématica  (string) - Nome da disciplina. Ex.: Matématica, Português, Fisica.
 
-## StudentsFillable
+## Subject
 
-+ person_id: 11 (number) - Identificador único do registro de people
-+ school_class_id: 22 (number) - indentificador de uma turma
++ id: 1 (number) - Identificador único da disciplina.
++ Include (SubjectFillable)
 
 ## StudentGradeFillable
 
-+ grade: 7.5 (number) - Valor de resulta do aluno na avaliação
++ grade: 7.5 (number) - Nota do aluno na avaliação.
++ student_id: 1 (number) - ID do aluno.
++ subject_id: 1 (number) - ID da disciplina relacionada a turma a qual o aluno realizou a avaliação.
++ assessment_id: 1 (number) - ID da avaliação.
++ school_class_id: 1 (number) - ID da turma onde a prova foi aplicada.
 
 ## StudentGrade
 
-+ id: 1 (number) - Identificador único do registro de nota do aluno
-+ Include (StudentGradeFillable) - object imputaveis
-+ assessment_id: 1 (number) - Identificador da avaliação
-+ student_id: 1 (number) - Id do aluno
-+ subject_id: 1 (number) - Disciplina relacionada a turma a qual o aluno realizou a avaliação
-
-## StudentGradeWithRelation
-
-+ Include (StudentGrade)
-+ assessment (Assessment)
-+ student (Student)
-+ subject (Subject)
++ id: 1 (number) - Identificador único da nota do aluno.
++ Include (StudentGradeFillable)
 
 ## OccurenceFillable (object)
 
@@ -1007,10 +1225,8 @@ e a nota do aluno no 1º Bimestre será composta pela conta (N1*0,4)+(N2*0,6)=NO
 
 ## Occurence (object)
 
-+ id: 1 (number) - ID da occorencia
++ id: 1 (number) - Identificador único da ocorrência.
 + Include (OccurenceFillable)
-+ created_at: `2016-08-30 13:17:11` (string) - Data de criação
-+ updated_at: `2016-08-30 13:17:11` (string) - Data da ultima alteração
 
 ## Level 
 
@@ -1019,21 +1235,21 @@ e a nota do aluno no 1º Bimestre será composta pela conta (N1*0,4)+(N2*0,6)=NO
 
 ## Assessment (object)
 
-+ id: 1 (number) - Identificador único da avaliação/nota
-+ name: Nota N1 - Descrição da avaliação/nota
-+ schoolCalendarPhase (SchoolCalendarPhase)
++ id: 1 (number) - Identificador único da avaliação
++ name: Nota N1 - Descrição da avaliação
++ school_calendar_phase_id: 1 (number) - ID da fase que a avaliação será registrada.
 
-## SchoolCalendarPhase
+## SchoolCalendarPhase (object)
 
-+ id: 1 (number) - Identificador único da fase avaliativa
-+ name: 1º Bimestre (string)
++ id: 1 (number) - Identificador único da fase avaliativa do ano.
++ name: `1º Bimestre` (string)
 + start: `2016-02-01` (string) - Data inicial do período avaliativo
 + end: `2016-04-01` (string) - Ultimo dia do período avaliativo
-+ schoolCalendar (SchoolCalendar)
++ school_calendar_id: 1 - ID do ano letivo a qual esta fase está relacionada.
 
 ## SchoolCalendar (object)
 
-+ id: 1 (number) - Identificador único da fase avaliativa
++ id: 1 (number) - Identificador único do ano letivo.
 + include (SchoolCalendarFillable)
 
 ## SchoolCalendarFillable (object)
@@ -1041,95 +1257,58 @@ e a nota do aluno no 1º Bimestre será composta pela conta (N1*0,4)+(N2*0,6)=NO
 + year: 2014 (number) - Ano de referência
 + start: `2016-02-01` - Inicio do ano letivo
 + end: `2016-12-10` - Fim do ano letivo
- 
++ average_formula: `( ({1º Bimestre} + {2º Bimestre})*0.4 + ({3º Bimestre} + {4º Bimestre})*0.6 )/2` - `Fórmula utilizada para calcular médias do aluno no ano` 
 
 ## SchoolFillable (object)
 
 + name: Escola luz do saber (string) - Nome da escola
 
-## School (SchoolFillable)
+## School (object)
 
 + id: 1 (number) - Identificador único da escola
-+ updated_at: `2016-08-30 13:17:11` (string) - Data da ultima alteração da escola
-+ created_at: `2016-08-30 13:17:11` (string) - Data de cadastro
++ include (SchoolFillable)
 
-## SchoolClassBase (object)
+## SchoolClassFillable (object)
 
 + identifier: A (string) - Abreviação/identificação da turma. Exmplo: B, para segunda turma do 1º ano (de 1 Ano B).
++ grade_id: 1 (number) - ID do ano estudantíl.
++ shift_id: 1 (number) - ID do turno.
++ school_calendar_id: 1 (number) - ID do Ano letivo em que a turma existe.
++ school_id: 1 (number) - ID da escola relacionada.
 
-## SchoolClassFillable (SchoolClass)
-
-+ grade_id: 1 (number) - Id do ano estudantíl.
-+ shift_id: 1 (number) - Id do turno.
-+ school_calendar_id: 1 (number) - Ano letivo em que a turma existe. 
-
-## SchoolClass (SchoolClassBase)
+## SchoolClass (object)
 
 + id: 1 (number) - Identificador único da turma.
-+ grade (Grade) - Ano estudantíl (Jardim I/1º Ano/...) da turma.
-+ shift (Shift) - Turno (vespertino/matutino/...) da turma.
-+ schoolCalendar (SchoolCalendar)
++ include (SchoolClassFillable)
 
-## SchoolClassSubject
+## SchoolClassSubject (object)
 
 + id: 1 (number) - Identificador único da disciplina em uma turma.
-+ school_class_id - Identificador da turma
-+ subject_id - Identificador da disciplina
-
-## Grade (object)
-
-+ id: 1 (number) - Identificador único de um ano estudantíl. 
-+ name: 3 Ano (string) - Nome do ano estudantíl. Exemplos: 2 Ano, 3 Ano, Jardim I, Jardim II.
++ school_class_id - ID da turma
++ subject_id - ID da disciplina
 
 ## Shift (object)
 
 + id: 1 (number) - Identificador único do turno.
-+ name: Matutino (string) - Nome do turno. Exmplo: Vespertino, matutino, noturno.
-
-
-## Subject (object)
-
-+ id: 1 (number) - Identificador único da disciplina.
-+ name: Matématica  (string) - Nome da disciplina. Ex.: Matématica, Português, Fisica.
-
-## LessonBase (object)
-
-+ start: `2016-08-30 13:17:11` (string) - Data e horário de inicio da aula.
-+ end: `2016-08-30 13:17:11` (string) - Data e horário de termino da aula.
++ name: Matutino (string) - Nome do turno. Exemplo: Vespertino, matutino, noturno.
 
 ## LessonFillable (object)
 
-+ school_class_id: 1 (number) - Identificador único da turma.
-+ subject_id: 1 (number) - Identificador único da disciplina (Matématica, física, ...).
-+ Include LessonBase
-
-## Teacher (object)
-
-+ id: 1 (number) - Identificador único do professor
-+ Include (Person)
++ school_class_id: 1 (number) - `Identificador único da turma.`
++ subject_id: 1 (number) - `Identificador único da disciplina (Matématica, física, ...).`
++ start: `2016-08-30 13:17:11` (string) - `Data e horário de inicio da aula.`
++ end: `2016-08-30 13:17:11` (string) - `Data e horário de termino da aula.`
++ teacher_id: 1 (number) - `ID do professor.`
 
 ## Lesson (object)
 
-+ id: 1 (number) - Identificador único  da aula.
-+ created_at: `2016-08-30 13:17:11` (string) - Data de criação
-+ updated_at: `2016-08-30 13:17:11` (string) - Data da ultima alteração
-+ teacher (Teacher)
-+ Include (LessonBase)
-+ school_class (SchoolClass)
-+ subject (Subject)
++ id: 1 (number) - `Identificador único  da aula.`
++ include (LessonFillable)
 
-## LessonDetail (object)
+## Teacher (object)
 
-+ Include Lesson
-+ students (array)
-    + (object)
-        + Include (Student)
-        + attendance_record (AttendanceRecord)
-        + last_occurences (array[Occurence])
-        + absence_summary (object)
-            + percentage_absences_reprove: 25 - Percentual máximo de faltas as aulas para não ser reprovado
-            + total_lessons_year: 200 - total de aulas programadas no ano da mesma disciplina
-            + total_absences_year: 22 - total de faltas que o aluno tem no ano da mesma disciplina
++ id: 1 (number) - `Identificador único do professor.`
++ person_id: 1 (number) - `ID das informações básicas de pessoa do professor (nome, sobrenome, etc.)`
 
 ## Person (object)
 
@@ -1139,44 +1318,28 @@ e a nota do aluno no 1º Bimestre será composta pela conta (N1*0,4)+(N2*0,6)=NO
 + birthday: `2001-04-21` (string) - Data de aniversário
 + piture: `https://randomuser.me/api/portraits/lego/6.jpg` (string) - Foto
 + gender: male (string)
-+ `place_of_birth` (City) - Cidade de nascimento
-+ more: Mais detalhes sobre a pessoa (string)
++ place_of_birth: Santa Alenssandra (string) - Cidade de nascimento
++ more: descricao (string) - Mais detalhes sobre a pessoa
++ phone: `(62) 8385-5421` (string) - numero de telefone da pessoa
 
 ## Student (object)
 
-+ Include Person
-+ class (SchoolClass)
-+ responsible (array)
-    + (Person)
-
-## City (object)
-
-+ id: 1 (number) - Identificador único da cidade
-+ name: Goiânia (string) - Nome da cidade
-+ state_id (number)
-
-## State (object)
-
-+ id: 1 (number) - Identificador único do estado
-+ name: Goiás (string) - Nome
-+ federated_unit: GO (string) - Código de unidade federativa
++ id: 1 (number) - Identificador único do estudante.
++ person_id: 1 (number) - ID das informações básicas de pessoa do aluno (nome, sobrenome, etc.).
 
 ## AttendanceRecordFillable (object)
 
 + lesson_id: 1 (number) - Identificador único da aula relacionada
 + student_id: 1 (number) - Identificador único do aluno
 + presence: 1 (number) - Presença do aluno na aula
-                         0 Faltou a aula
-                         1 Estava presente
-                         2 Falta abonada
+	         0 Faltou a aula
+	         1 Estava presente
+	         2 Falta abonada
 
 ## AttendanceRecord (object)
 
 + id: 1 (number) - Identificador único do registro de presença
-+ Include AttendanceRecordFillable
-+ created_at: `2016-08-30 13:17:11` (string) - Data de criação
-+ updated_at: `2016-08-30 13:17:11` (string) - Data da ultima alteração
-
++ Include (AttendanceRecordFillable)
 
 ## Paginator (object)
 

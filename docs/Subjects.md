@@ -20,12 +20,14 @@
         
 ### List Subjects [GET]
 
+<!-- include(ParameterFilter.md) -->
+
+
 + Parameters
-    + _q (string, optional) - Fulltext search.
+    + _q (string, optional) - Pesquisa por palavra-chave, a correspondência e incluida conjunto de resultados.
         + Members
             +name
-    + _sort (string, optional) - Nome da coluna para ordenação.
-    + _with (string) - Não possui relacao.
+    + _sort (string, optional) - Ordena a coluna desejada, de forma acendente ou descendente.
 
 + Request 
     + Headers
@@ -39,12 +41,12 @@
         + data (array)
             + (Subject)
 
-## Subject [/subjects/{id}]
+## Subject [/subjects/{subject_id}]
 
 ### View a Subject detail [GET]
 
 + Parameters
-    + id: 1 (number) - ID of the Subject
+    + subject_id: 1 (number) - ID of the Subject
 
 + Request 
     + Headers
@@ -59,7 +61,7 @@
 ### Edit [PUT]
 
 + Parameters
-    + id: 1 (number) - ID of the Subject
+    + subject_id: 1 (number) - ID of the Subject
 
 + Request (application/json)
 
@@ -77,7 +79,7 @@
 ### Delete [DELETE]
 
 + Parameters
-    + id: 1 (number) - ID of the Subject
+    + subject_id: 1 (number) - ID of the Subject
 
 + Request (application/json)
     + Headers

@@ -68,38 +68,29 @@
 
 + name: Escola luz do saber (string) - Nome da escola
 
-## School (SchoolFillable)
+## School (object)
 
 + id: 1 (number) - Identificador único da escola
++ include (SchoolFillable)
 
-## SchoolClassBase (object)
+## SchoolClassFillable (object)
 
 + identifier: A (string) - Abreviação/identificação da turma. Exmplo: B, para segunda turma do 1º ano (de 1 Ano B).
-
-## SchoolClassFillable (SchoolClass)
-
 + grade_id: 1 (number) - ID do ano estudantíl.
 + shift_id: 1 (number) - ID do turno.
 + school_calendar_id: 1 (number) - ID do Ano letivo em que a turma existe.
 + school_id: 1 (number) - ID da escola relacionada.
 
-## SchoolClass (SchoolClassBase)
+## SchoolClass (object)
 
 + id: 1 (number) - Identificador único da turma.
-+ grade_id: 1 (number) - Ano estudantíl (Jardim I/1º Ano/...) da turma.
-+ shift_id: 1 (number) - Turno (vespertino/matutino/...) da turma.
-+ school_calendar_id: 1 (number) - ID do ano letivo
++ include (SchoolClassFillable)
 
-## SchoolClassSubject
+## SchoolClassSubject (object)
 
 + id: 1 (number) - Identificador único da disciplina em uma turma.
 + school_class_id - ID da turma
 + subject_id - ID da disciplina
-
-## Grade (object)
-
-+ id: 1 (number) - Identificador único de um ano estudantíl. 
-+ name: 3 Ano (string) - Nome do ano estudantíl. Exemplos: 2 Ano, 3 Ano, Jardim I, Jardim II.
 
 ## Shift (object)
 
@@ -146,14 +137,14 @@
 + lesson_id: 1 (number) - Identificador único da aula relacionada
 + student_id: 1 (number) - Identificador único do aluno
 + presence: 1 (number) - Presença do aluno na aula
-                         0 Faltou a aula
-                         1 Estava presente
-                         2 Falta abonada
+	         0 Faltou a aula
+	         1 Estava presente
+	         2 Falta abonada
 
 ## AttendanceRecord (object)
 
 + id: 1 (number) - Identificador único do registro de presença
-+ Include AttendanceRecordFillable
++ Include (AttendanceRecordFillable)
 
 ## Paginator (object)
 

@@ -22,12 +22,14 @@
 
 ### List occurences [GET]
 
+<!-- include(ParameterFilter.md) -->
+
 + Parameters
-    + _q (string, optional) - Fulltext search.
+    + _q (string, optional) - Pesquisa por palavra-chave, a correspondência e incluida conjunto de resultados.
         + Members
             +comment
-    + _sort (string, optional) - Nome da coluna para ordenação. 
-    + _with (string) - Nome da relação a ser incluída na resposta.
+    + _sort (string, optional) - Ordena a coluna desejada, de forma acendente ou descendente.
+    + _with (string, optional) - Obtem informações do recurso relacionado.
         + Members
             + aboutPerson
             + level
@@ -41,15 +43,18 @@
 
     + Attributes 
         + Include Paginator
-        + data (array)
-            + (Occurence)
+        + data ([Occurence])
 
-## Occurence [/occurences/{id}]
+## Occurence [/occurences/{occurence_id}{?_with}]
 
 ### View a occurence detail [GET]
 
 + Parameters
-    + id: 1 (number) - ID of the occurence
+    + occurence_id: 1 (number) - Identificador único da Occorencia
+    + _with (string, optional) - Obtem informações do recurso relacionado.
+        + Members
+            + aboutPerson
+            + level
 
 + Request 
     + Headers
@@ -64,7 +69,7 @@
 ### Edit [PUT]
 
 + Parameters
-    + id: 1 (number) - ID of the occurence
+    + occurence_id: 1 (number) - Identificador único da Occorencia
 
 + Request (application/json)
 
@@ -82,7 +87,7 @@
 ### Delete [DELETE]
 
 + Parameters
-    + id: 1 (number) - ID of the occurence
+    + occurence_id: 1 (number) - Identificador único da Occorencia
     
 + Request (application/json)
     + Headers
