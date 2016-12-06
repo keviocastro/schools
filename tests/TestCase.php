@@ -2,13 +2,16 @@
 
 namespace Tests;
 
+use App\Student;
 use Auth0\SDK\Auth0AuthApi;
 use Config;
 use Dotenv\Dotenv;
 use Illuminate\Foundation\Testing\TestCase as TestCaseLara;
+use Illuminate\Support\Facades\Schema;
 use Kirkbater\Testing\SoftDeletes as SoftDeletes;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
+use Tests\selectDatabaseTest;
 
 class TestCase extends TestCaseLara
 {
@@ -33,74 +36,6 @@ class TestCase extends TestCaseLara
         $app->make(\Illuminate\Contracts\Console\Kernel::class)->bootstrap();
 
         return $app;
-    }
-
-    /**
-     * A base de dados é restaurada somente com os dados do seeder SchoolCalendar2016.
-     * 
-     * Esse metodo existe porque executar o seeder todas vezes que for executado
-     * um teste que precise dele leva muito tempo.
-     * 
-     * @return void
-     */
-    public function keepSeederSchoolCalendar2016()
-    {
-        $connections = Config::get('database.connections');
-        
-        $base = $connections['mysql']['database'];
-        $user = $connections['mysql']['username'];
-        $pass = $connections['mysql']['password'];
-        $host = $connections['mysql']['host'];
-        $dir = database_path()."/seeds";
-        $hash = md5_file($dir."/SchoolCalendar2016.php");
-        $name = "dump_SchoolCalendar2016_{$hash}.sql";
-        $nameFile = $dir."/dump_SchoolCalendar2016_{$hash}.sql";
-
-        // Se já existir o arquivo é porque o seeder não modificou,
-        // então não precisa criar um novo dump.
-        if (!file_exists($nameFile)) {
-            
-            Artisan::call('migrate:refresh',[
-                '--seed' => true
-            ]);
-
-            Artisan::call('db:seed',[
-                '--class' => 'SchoolCalendar2016'
-            ]);
-
-            // Remove os arquivos de dump desatualizado.
-            $files = collect(scandir($dir));
-            $oldFiles = $files->filter(function($nameFile, $key) use ($name){
-                return strpos($nameFile, 'dump_school_calendar_2016_') !== false &&
-                    $name != $onlyFileName;
-            });
-            foreach ($oldFiles as $fileName) {
-                unlink($dir."/$fileName");
-            }
-
-            // Gera um novo dump
-            $process = new Process(
-                "mysqldump -u{$user} -h{$host} -p{$pass} {$base} > $nameFile"
-            );
-
-            $process->run();
-            if (!$process->isSuccessful()) {
-                throw new ProcessFailedException($process);
-            }
-
-        }
-
-        // Drop database and restore dump
-        $process = new Process(
-            "mysql -u{$user} -h{$host} -p{$pass} -e 'DROP DATABASE {$base};' && ".
-            "mysql -u{$user} -h{$host} -p{$pass} -e 'CREATE DATABASE {$base};' &&".
-            "mysql -u{$user} -h{$host} -p{$pass} {$base} < $nameFile"
-        );
-
-        $process->run();
-        if (!$process->isSuccessful()) {
-            throw new ProcessFailedException($process);
-        }
     }
 
     /**
@@ -179,5 +114,108 @@ class TestCase extends TestCaseLara
             'Username-Password-Authentication');
         
         return $tokens;
+    }
+
+    /**
+     * Define a base de dados de teste como padrão.
+     * Essa base contém somente os valores do seeder SchoolCalendar2016
+     * 
+     * @return void
+     */
+    public function selectDatabaseTest()
+    {   
+        $this->restoreDatabaseTest();
+        Config::set('database.default', 'mysql_testing');
+    }
+
+    /**
+     * Cria uma base de dados adicionando um prefixo test_ com somente os dados 
+     * do seeder SchoolCalendar2016.
+     * 
+     * Esse metodo existe porque executar o seeder todas vezes que for executado
+     * um teste que precise dele leva muito tempo.
+     *
+     * Esse metodo vai gerar um novo arquivo em
+     * database/seeds/dump_SchoolCalendar2016_{hash}.sql. 
+     * Esse arquivo deve ser sempre mantido em revisão para 
+     * melhor desempenho dos testes. 
+     * 
+     * @return void
+     */
+    private function restoreDatabaseTest()
+    {
+        $connections = Config::get('database.connections');
+        
+        $base = $connections['mysql']['database'];
+        $user = $connections['mysql']['username'];
+        $pass = $connections['mysql']['password'];
+        $host = $connections['mysql']['host'];
+
+        $dir = database_path()."/seeds";
+        $hash = md5_file($dir."/SchoolCalendar2016.php");
+        $name = "dump_SchoolCalendar2016_{$hash}.sql";
+        $nameFile = $dir."/dump_SchoolCalendar2016_{$hash}.sql";
+
+        // Se já existir o arquivo é porque o seeder não modificou,
+        // então não precisa criar um novo dump.
+        if (!file_exists($nameFile)) {
+            
+            Artisan::call('migrate:refresh',[
+                '--seed' => true
+            ]);
+
+            Artisan::call('db:seed',[
+                '--class' => 'SchoolCalendar2016'
+            ]);
+
+            // Remove os arquivos de dump desatualizados.
+            $files = collect(scandir($dir));
+            $oldFiles = $files->filter(function($nameFile, $key) use ($name){
+                return strpos($nameFile, 'dump_school_calendar_2016_') !== false &&
+                    $name != $onlyFileName;
+            });
+            foreach ($oldFiles as $fileName) {
+                unlink($dir."/$fileName");
+            }
+
+            // Gera um novo dump
+            // Esse novo arquivo deve ser adicionado em seu commit 
+            // sempre que for alterado
+            $process = new Process(
+                "mysqldump -u{$user} -h{$host} -p{$pass} {$base} > $nameFile"
+            );
+
+            $process->run();
+            if (!$process->isSuccessful()) {
+                throw new ProcessFailedException($process);
+            }
+
+        }
+
+        $base = $connections['mysql_testing']['database'];
+        $user = $connections['mysql_testing']['username'];
+        $pass = $connections['mysql_testing']['password'];
+        $host = $connections['mysql_testing']['host'];
+
+        $process = new Process(
+            "mysql -u{$user} -h{$host} -p{$pass} -e 'CREATE DATABASE IF NOT EXISTS {$base};'"
+        );
+
+        // Se não existir registros na base dados, restaura o dump.
+        // Se existir é porque a base de teste está já esta populada e não precisa ser modificada.
+        if (!Schema::hasTable('students') || !(Student::count() > 0) ) {
+            // Restore dump
+            $process = new Process(
+                // "mysql -u{$user} -h{$host} -p{$pass} -e 'DROP DATABASE IF EXISTS test_{$base};' && ".
+                // "mysql -u{$user} -h{$host} -p{$pass} -e 'CREATE DATABASE test_{$base};' &&".
+                "mysql -u{$user} -h{$host} -p{$pass} {$base} < $nameFile"
+            );
+
+            $process->run();
+            if (!$process->isSuccessful()) {
+                throw new ProcessFailedException($process);
+            }
+        }
+
     }
 }

@@ -12,7 +12,7 @@ use Tests\TestCase;
 class StudentGradeControllerTest extends TestCase
 {
     /*
-     * StudentGradeControllerTest::index
+     * @covers App\Http\Controllers\StudentGradeController::index
      *
      * @return void
      */
@@ -44,7 +44,7 @@ class StudentGradeControllerTest extends TestCase
     }
 
     /**
-     * StudentGradeControllerTest::store
+     * @covers App\Http\Controllers\StudentGradeController::store
      *
      * @return void
      */
@@ -140,7 +140,7 @@ class StudentGradeControllerTest extends TestCase
     }
 
     /**
-     * StudentGradeControllerTest::show
+     * @covers App\Http\Controllers\StudentGradeController::show
      *
      * @return void
      */
@@ -157,7 +157,7 @@ class StudentGradeControllerTest extends TestCase
     /**
      * @todo A nota somente podera ser edita caso nao esteja concluída a fase do ano pelo professor  
      * 
-     * StudentGradeControllerTest::update
+     * @covers App\Http\Controllers\StudentGradeController::update
      *
      * @return void
      */

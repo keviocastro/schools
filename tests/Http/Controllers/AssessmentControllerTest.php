@@ -1,5 +1,5 @@
 <?php
-namespace Http\Controllers;
+namespace Tests\Http\Controllers;
 
 use App\Assessment;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
@@ -10,7 +10,7 @@ use Tests\TestCase;
 class AssessmentControllerTest extends TestCase
 {
     /**
-     * @covers AssessmentController::index
+     * @covers App\Http\Controllers\AssessmentController::index
      *
      * @return void
      */
@@ -25,7 +25,7 @@ class AssessmentControllerTest extends TestCase
     }
 
     /**
-     * @covers AssessmentController::index
+     * @covers App\Http\Controllers\AssessmentController::index
      *
      * Teste do parametro _q = Full text search
      * 

@@ -1,5 +1,5 @@
 <?php
-namespace Http\Controllers;
+namespace Tests\Http\Controllers;
 
 use App\SchoolCalendar;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
@@ -10,7 +10,7 @@ use Tests\TestCase;
 class SchoolCalendarControllerTest extends TestCase
 {
      /**
-     * @covers SchoolCalendarControllerTest::index
+     * @covers App\Http\Controllers\SchoolCalendarController::index
      *
      * @return void
      */
@@ -25,7 +25,7 @@ class SchoolCalendarControllerTest extends TestCase
     }
 
     /**
-     * @covers SchoolCalendarControllerTest::store
+     * @covers App\Http\Controllers\SchoolCalendarController::store
      *
      * @return void
      */
@@ -41,7 +41,7 @@ class SchoolCalendarControllerTest extends TestCase
     }
 
     /**
-     * @covers SchoolCalendarControllerTest::show
+     * @covers App\Http\Controllers\SchoolCalendarController::show
      *
      * @return void
      */
@@ -56,7 +56,7 @@ class SchoolCalendarControllerTest extends TestCase
     }
 
     /**
-     * @covers SchoolCalendarControllerTest::update
+     * @covers App\Http\Controllers\SchoolCalendarController::update
      *
      * @return void
      */
@@ -73,7 +73,7 @@ class SchoolCalendarControllerTest extends TestCase
     }
 
     /**
-     * @covers SchoolCalendarControllerTest::destroy
+     * @covers App\Http\Controllers\SchoolCalendarController::destroy
      * 
      * @return void
      */

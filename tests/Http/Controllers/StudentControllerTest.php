@@ -32,7 +32,7 @@ class StudentControllerTest extends TestCase
     }
 
     /**
-     * @covers StudentControllerTest::index
+     * @covers App\Http\Controllers\StudentController::index
      *
      * @return void
      */
@@ -45,7 +45,7 @@ class StudentControllerTest extends TestCase
     }
 
     /**
-     * @covers StudentControllerTest::show
+     * @covers App\Http\Controllers\StudentController::show
      *
      * @return void
      */
@@ -62,7 +62,7 @@ class StudentControllerTest extends TestCase
     /**
      * @todo  Implementar teste unitário para para App\Student
      * 
-     * @covers StudentController::annualSummary
+     * @covers App\Http\Controllers\StudentController::annualSummary
      *
      * @return void
      */
@@ -70,7 +70,7 @@ class StudentControllerTest extends TestCase
     {
         // O student = 1 e schoolCalendar = 1 
         // são gerados pelo seeder SchoolCalendar2016
-        $this->keepSeederSchoolCalendar2016();
+        $this->selectDatabaseTest();
 
         $this->get("api/students/1/annual-summary".
             "?school_calendar_id=1",
@@ -85,7 +85,7 @@ class StudentControllerTest extends TestCase
     } 
 
     /**
-     * @covers StudentControllerTest::annualReport
+     * @covers App\Http\Controllers\StudentController::annualReport
      * 
      * @return void
      */
@@ -93,7 +93,7 @@ class StudentControllerTest extends TestCase
     {
         // O student = 1 e schoolCalendar = 1 
         // são gerados pelo seeder SchoolCalendar2016
-        $this->keepSeederSchoolCalendar2016();
+        $this->selectDatabaseTest();
         
         $this->get('api/students/1/annual-report'.
             "?school_calendar_id=1",

@@ -1,5 +1,5 @@
 <?php
-namespace Http\Controllers;
+namespace Tests\Http\Controllers;
 
 use App\AccountConfig;
 use App\AttendanceRecord;
@@ -20,7 +20,7 @@ use Tests\TestCase;
 class LessonControllerTest extends TestCase
 {
     /**
-     * @covers LessonController::index
+     * @covers App\Http\Controllers\LessonController::index
      *
      * @return void
      */
@@ -34,7 +34,7 @@ class LessonControllerTest extends TestCase
     }
 
     /**
-     * @covers LessonController::store
+     * @covers App\Http\Controllers\LessonController::store
      *
      * @return void
      */
@@ -50,7 +50,7 @@ class LessonControllerTest extends TestCase
     }
 
     /**
-     * @covers LessonController::show
+     * @covers App\Http\Controllers\LessonController::show
      *
      * @return void
      */
@@ -81,7 +81,7 @@ class LessonControllerTest extends TestCase
      *
      * attach=absenceSummary = Resumo total de faltas do aluno durante o ano
      *
-     * @covers LessonController::show
+     * @covers App\Http\Controllers\LessonController::show
      *
      * @return void
      */
@@ -151,7 +151,7 @@ class LessonControllerTest extends TestCase
             ->assertResponseStatus(200);
     }
     /**
-     * @covers LessonController::update
+     * @covers App\Http\Controllers\LessonController::update
      *
      * @return void
      */
@@ -168,7 +168,7 @@ class LessonControllerTest extends TestCase
     }
 
     /**
-     * @covers LessonController::destroy
+     * @covers App\Http\Controllers\LessonController::destroy
      * 
      * @return void
      */
@@ -184,7 +184,7 @@ class LessonControllerTest extends TestCase
     }
 
     /**
-     * @covers LessonController::listPerDay
+     * @covers App\Http\Controllers\LessonController::listPerDay
      * 
      * @return void
      */

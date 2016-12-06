@@ -1,6 +1,6 @@
 <?php
 
-namespace Http\Controllers\Auth;
+namespace Tests\Http\Controllers\Auth;
 
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;

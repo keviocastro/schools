@@ -1,5 +1,5 @@
 <?php
-namespace Http\Controllers;
+namespace Tests\Http\Controllers;
 
 use App\SchoolCalendar;
 use App\SchoolClass;
@@ -13,7 +13,7 @@ use Tests\TestCase;
 class SchoolClassControllerTest extends TestCase
 {
     /**
-     * @covers SchoolClassController::index
+     * @covers App\Http\Controllers\SchoolClassController::index
      *
      * @return void
      */
@@ -28,7 +28,7 @@ class SchoolClassControllerTest extends TestCase
     }
 
     /**
-     * @covers SchoolClassController::index
+     * @covers App\Http\Controllers\SchoolClassController::index
      *
      * Teste do parametro _q = Full text search
      * 
@@ -74,7 +74,7 @@ class SchoolClassControllerTest extends TestCase
     }
 
     /**
-     * @covers SchoolClassController::store
+     * @covers App\Http\Controllers\SchoolClassController::store
      *
      * @return void
      */
@@ -92,7 +92,7 @@ class SchoolClassControllerTest extends TestCase
     }
 
     /**
-     * @covers SchoolClassController::show
+     * @covers App\Http\Controllers\SchoolClassController::show
      *
      * @return void
      */
@@ -114,7 +114,7 @@ class SchoolClassControllerTest extends TestCase
     }
 
     /**
-     * @covers SchoolClassController::update
+     * @covers App\Http\Controllers\SchoolClassController::update
      *
      * @return void
      */
@@ -131,7 +131,7 @@ class SchoolClassControllerTest extends TestCase
     }
 
     /**
-     * @covers SchoolClassController::destroy
+     * @covers App\Http\Controllers\SchoolClassController::destroy
      * 
      * @return void
      */

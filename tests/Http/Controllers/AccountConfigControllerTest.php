@@ -1,6 +1,6 @@
 <?php
 
-namespace Http\Controllers;
+namespace Tests\Http\Controllers;
 
 use App\AccountConfig;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
@@ -23,7 +23,7 @@ class AccountConfigControllerTest extends TestCase
     }
 
     /**
-     * AccountConfigController::show
+     * App\Http\Controllers\AccountConfigController::show
      *
      * @return void
      */

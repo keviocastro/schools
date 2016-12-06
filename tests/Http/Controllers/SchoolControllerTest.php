@@ -12,7 +12,7 @@ use Tests\TestCase;
 class SchoolControllerTest extends TestCase
 {
     /**
-     * @covers SchoolController::store
+     * @covers App\Http\Controllers\SchoolController::store
      *
      * @return void
      */
@@ -39,7 +39,7 @@ class SchoolControllerTest extends TestCase
     {   
         // Se a estrutura de retorno está correta
         // e se está retornado as relações
-        $schtool = factory(School::class)->create();
+        $school = factory(School::class)->create();
         $attributes = array_keys($school->attributesToArray());
         
         $this->get('api/schools?XDEBUG_SESSION_START=sublime.xdebug',
@@ -71,7 +71,7 @@ class SchoolControllerTest extends TestCase
     }
 
     /**
-     * @covers SchoolController::show
+     * @covers App\Http\Controllers\SchoolController::show
      * 
      * @return void
      */
@@ -86,7 +86,7 @@ class SchoolControllerTest extends TestCase
     }
 
     /**
-     * @covers SchoolController::destroy
+     * @covers App\Http\Controllers\SchoolController::destroy
      * 
      * @return void
      */
@@ -102,7 +102,7 @@ class SchoolControllerTest extends TestCase
     }
 
     /**
-     * @covers SchoolController::update
+     * @covers App\Http\Controllers\SchoolController::update
      * 
      * @return void
      */

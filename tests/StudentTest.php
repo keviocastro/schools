@@ -1,8 +1,8 @@
 <?php
-
 namespace Tests;
 
 use App\SchoolCalendar;
+use Config;
 use App\SchoolCalendarPhase;
 use App\Student;
 use App\Subject;
@@ -15,14 +15,14 @@ use Tests\TestCase;
 class StudentTest extends TestCase
 {
     /**
-     * @covers App\SchoolCalendar::subjectAvaragePerYear
+     * @covers App\Student::subjectAvaragePerYear
      *
      * @return void
      */
     public function testSubjectAvaragePerYear()
     {
-    	 
-       $this->keepSeederSchoolCalendar2016();
+      // Para utilizar a base de dados que tem somente dados do seeder SchoolCalendar2016
+       $this->selectDatabaseTest();
 
     	 // Criados pelo seeder SchoolCalendar2016
         $student = Student::find(1);
@@ -48,23 +48,18 @@ class StudentTest extends TestCase
         $this->assertEquals(
             collect($expected)->except('school_calendar_phases'), 
             collect($result)->except('school_calendar_phases')
-        );  
+        );
     }
 
     /**
-     * @covers Student::subjectAvaragePerYearPhase
+     * @covers App\Student::subjectAvaragePerYearPhase
      * 
      * @param string void
      */
     public function testSubjectAvaragePerYearPhase()
     {
-        Artisan::call('migrate:refresh',[
-                '--seed' => true
-            ]);
-
-        Artisan::call('db:seed',[
-                '--class' => 'SchoolCalendar2016'
-            ]);
+      // Para utilizar a base de dados que tem somente dados do seeder SchoolCalendar2016
+      self::selectDatabaseTest();
 
         // Criados pelo seeder SchoolCalendar2016
         $student = Student::find(1);

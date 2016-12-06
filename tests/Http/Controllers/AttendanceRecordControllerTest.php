@@ -1,5 +1,5 @@
 <?php
-namespace Http\Controllers;
+namespace Tests\Http\Controllers;
 
 use App\AttendanceRecord;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
@@ -10,7 +10,7 @@ use Tests\TestCase;
 class AttendanceRecordControllerTest extends TestCase
 {
     /**
-     * @covers AttendanceRecordController::index
+     * @covers App\Http\Controllers\AttendanceRecordController::index
      *
      * @return void
      */
@@ -25,7 +25,7 @@ class AttendanceRecordControllerTest extends TestCase
     }
 
     /**
-     * @covers AttendanceRecordController::update
+     * @covers App\Http\Controllers\AttendanceRecordController::update
      *
      * @return void
      */
@@ -58,7 +58,7 @@ class AttendanceRecordControllerTest extends TestCase
     }
 
     /**
-     * @covers AttendanceRecordController::show
+     * @covers App\Http\Controllers\AttendanceRecordController::show
      *
      * @return void
      */
@@ -74,7 +74,7 @@ class AttendanceRecordControllerTest extends TestCase
     /**
      * Deve permitir registrar um array de registros.
      * 
-     * @covers AttendanceRecordController::store
+     * @covers App\Http\Controllers\AttendanceRecordController::store
      *
      * @return void
      */
@@ -112,7 +112,7 @@ class AttendanceRecordControllerTest extends TestCase
     }
 
     /**
-     * @covers AttendanceRecordController::destroy
+     * @covers App\Http\Controllers\AttendanceRecordController::destroy
      * 
      * @return void
      */

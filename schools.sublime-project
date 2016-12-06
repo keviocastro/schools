@@ -15,6 +15,9 @@
 			"path_mapping": {
                 "/var/app" : "/home/kevio/www/schools"
             },
+            "super_globals": false,
+            "max_depth": 5,
+            "disable_layout": true
 		}
 	}
 }

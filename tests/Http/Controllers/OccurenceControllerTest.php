@@ -1,5 +1,5 @@
 <?php
-namespace Http\Controllers;
+namespace Tests\Http\Controllers;
 
 use App\Occurence;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
@@ -10,7 +10,7 @@ use Tests\TestCase;
 class OccurenceControllerTest extends TestCase
 {
     /**
-     * OccurenceController::index
+     * @covers App\Http\Controllers\OccurenceController::index
      *
      * @return void
      */
@@ -43,7 +43,7 @@ class OccurenceControllerTest extends TestCase
             ->seeJsonStructure($struture);
     }
     /**
-     * OccurenceController::index
+     * @covers App\Http\Controllers\OccurenceController::index
      *
      * @return void
      */
@@ -81,7 +81,7 @@ class OccurenceControllerTest extends TestCase
     }
 
     /**
-     * OccurenceControllerTest::store
+     * @covers App\Http\Controllers\OccurenceController::store
      *
      * @return void
      */
@@ -98,7 +98,7 @@ class OccurenceControllerTest extends TestCase
 
 
     /**
-     * OccurenceControllerTest::show
+     * @covers App\Http\Controllers\OccurenceController::show
      *
      * @return void
      */
@@ -113,7 +113,7 @@ class OccurenceControllerTest extends TestCase
     }
 
     /**
-     * OccurenceControllerTest::destroy
+     * @covers App\Http\Controllers\OccurenceController::destroy
      *
      * @return void
      */
@@ -129,7 +129,7 @@ class OccurenceControllerTest extends TestCase
     }
 
     /**
-     * OccurenceControllerTest::update
+     * @covers App\Http\Controllers\OccurenceController::update
      *
      * @return void
      */

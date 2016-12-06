@@ -2,11 +2,19 @@
 
 namespace Tests;
 
+use Config;
+use Illuminate\Support\Facades\Artisan;
 use PHPUnit_Framework_BaseTestListener;
 use PHPUnit_Framework_TestSuite;
+use Symfony\Component\Process\Exception\ProcessFailedException;
+use Symfony\Component\Process\Process;
 
 class TestListener extends PHPUnit_Framework_BaseTestListener
 {
+    public function startTestSuite(PHPUnit_Framework_TestSuite $suite)
+    {
+    }
+
     public function endTestSuite(PHPUnit_Framework_TestSuite $suite)
     {
     }

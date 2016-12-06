@@ -1,20 +1,23 @@
 <?php
 
-use Illuminate\Foundation\Testing\WithoutMiddleware;
+namespace Tests\Http\Controllers;
+
+use App\Subject;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Tests\TestCase;
 
 class SubjectControllerTest extends TestCase
 {
      /**
-     * @covers SubjectController::index
+     * @covers App\Http\Controllers\SubjectController::index
      *
      * @return void
      */
     public function testIndex()
     {
-        $subject = factory(App\Subject::class)->create();
+        $subject = factory(Subject::class)->create();
         
         $this->get('api/subjects?_sort=-id',
         	$this->getAutHeader())
@@ -23,14 +26,14 @@ class SubjectControllerTest extends TestCase
     }
 
     /**
-     * SubjectController::index
+     * @covers App\Http\Controllers\SubjectController::index
      *
      * @return void
      */
     public function testIndexParamQ()
     {
         $name = 'Matematica1';
-        $subject = factory(App\Subject::class)->create([
+        $subject = factory(Subject::class)->create([
                 'name' => $name
             ])->toArray();
 
@@ -59,13 +62,13 @@ class SubjectControllerTest extends TestCase
     }
 
     /**
-     * @covers SubjectController::store
+     * @covers App\Http\Controllers\SubjectController::store
      *
      * @return void
      */
     public function testStore()
     {
-    	$subject = factory(App\Subject::class)->make()->toArray();
+    	$subject = factory(Subject::class)->make()->toArray();
         
         $this->post('api/subjects',
         	$subject,
@@ -75,13 +78,13 @@ class SubjectControllerTest extends TestCase
     }
 
     /**
-     * @covers SubjectController::show
+     * @covers App\Http\Controllers\SubjectController::show
      *
      * @return void
      */
     public function testShow()
     {
-    	$subject = factory(App\Subject::class)->create()->toArray();
+    	$subject = factory(Subject::class)->create()->toArray();
         
         $this->get("api/subjects/{$subject['id']}",
         	$this->getAutHeader())
@@ -90,14 +93,14 @@ class SubjectControllerTest extends TestCase
     }
 
     /**
-     * @covers SubjectController::update
+     * @covers App\Http\Controllers\SubjectController::update
      *
      * @return void
      */
     public function testUpdate()
     {
-    	$subject = factory(App\Subject::class)->create();
-    	$subject_changed = factory(App\Subject::class)->make()->toArray();
+    	$subject = factory(Subject::class)->create();
+    	$subject_changed = factory(Subject::class)->make()->toArray();
 
         $this->put("api/subjects/{$subject->id}",
         	$subject_changed,
@@ -107,13 +110,13 @@ class SubjectControllerTest extends TestCase
     }
 
     /**
-     * @covers SubjectController::destroy
+     * @covers App\Http\Controllers\SubjectController::destroy
      * 
      * @return void
      */
     public function testDestroy()
     {
-        $subject = factory(\App\Subject::class)->create();
+        $subject = factory(Subject::class)->create();
 
         $this->delete("api/subjects/{$subject->id}",
             [],
