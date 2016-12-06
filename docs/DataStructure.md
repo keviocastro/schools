@@ -136,10 +136,7 @@
 
 + lesson_id: 1 (number) - Identificador único da aula relacionada
 + student_id: 1 (number) - Identificador único do aluno
-+ presence: 1 (number) - Presença do aluno na aula
-	         0 Faltou a aula
-	         1 Estava presente
-	         2 Falta abonada
++ presence: 1 (number) - `0=Faltou a aula.1=Presente.2=Falta abonada.
 
 ## AttendanceRecord (object)
 
