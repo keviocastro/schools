@@ -39,6 +39,49 @@ class SchoolCalendar2016 extends Seeder
      * Responsaveis pelos alunos
      * Registros de notas durante o ano
      * Registros de falta durante o ano
+     *
+     *
+     *  Aulas: 240 aulas criadas para cada disciplina.
+     *         Todos os dias, exceto sabado e domingo
+     *  
+     *  NOTAS:
+     *      
+     *      1º disciplina criada, com nome Matématica, tem as notas: 
+     *       Nota 1.1 = 10
+     *       Nota 1.2 = 9.2 
+     *       Nota 2.1 = 8.5
+     *       Nota 2.2 = 10
+     *       Nota 3.1 = 9.5
+     *       Nota 3.2 = 9.0
+     *       Nota 4.1 = 10
+     *       Nota 4.2 = 9.6
+     *       
+     *       Média = (10+9.2)/2 = 9.6 +      // 1 Bimestre. 
+     *               (8.5+10)/2 = 9.3 +     // 2 Bim.
+     *               (9.5+9.0)/2 = 9.3 +    // 3 Bim.
+     *               (10+9.6)/2 = 9.8        // 4 Bim.
+     *               
+     *       A média anual é calculada por: 
+     *       ( (1 Bim + 2 Bim) * 0.4 + (3 Bim + 4 Bim) * 0.6 ) / 2 = MÉDIA NO ANO
+     *       
+     *       1 Semestre = (9.6 + 9.25)*0.4 = 7.54
+     *       2 Semestre = (9.25 + 9.8)*0.6 = 11.43
+     *       
+     *       ( 7.54 + 11.43 ) /2  = 9.48
+     *       
+     *      2º disciplina criada é a menor média do ano = 0.2
+     *  
+     *  FALTAS:
+     *  
+     * Pra o 1º aluno criado:
+     * 
+     *    1º Bimestre = 4
+     *    2º Bimestre = 3
+     *    3º Bimestre = 6
+     *    4º Bimestre = 2
+     *    Total no ano: 15
+     *     
+     *
      * 
      * @return array
      */
@@ -225,47 +268,6 @@ class SchoolCalendar2016 extends Seeder
         }
 
         SchoolClassSubject::insert($schoolClassSubjects);
-
-        /**
-         * NOTAS:
-         *     
-         *     1º disciplina criada, com nome Matématica, tem as notas: 
-         *      Nota 1.1 = 10
-         *      Nota 1.2 = 9.2 
-         *      Nota 2.1 = 8.5 
-         *      Nota 2.2 = 10
-         *      Nota 3.1 = 9.5
-         *      Nota 3.2 = 9.0
-         *      Nota 4.1 = 10
-         *      Nota 4.2 = 9.6
-         *      
-         *      Média = (10+9.2)/2 = 9.6 +      // 1 Bimestre. 
-         *              (8.5+10)/2 = 9.3 +     // 2 Bim.
-         *              (9.5+9.0)/2 = 9.3 +    // 3 Bim.
-         *              (10+9.6)/2 = 9.8        // 4 Bim.
-         *              
-         *      A média anual é calculada por: 
-         *      ( (1 Bim + 2 Bim) * 0.4 + (3 Bim + 4 Bim) * 0.6 ) / 2 = MÉDIA NO ANO
-         *      
-         *      1 Semestre = (9.6 + 9.25)*0.4 = 7.54
-         *      2 Semestre = (9.25 + 9.8)*0.6 = 11.43
-         *      
-         *      ( 7.54 + 11.43 ) /2  = 9.48
-         *      
-         *     2º disciplina criada é a menor média do ano = 0.2
-         *
-         * FALTAS:
-         *
-         *  Pra o 1º aluno criado:
-         *  
-         *     1º Bimestre = 4
-         *     2º Bimestre = 3
-         *     3º Bimestre = 6
-         *     4º Bimestre = 2
-         *      
-         */
-
-        
 
         // 1º Bimeste
         $assessments = $schoolCalendarPhase1->assessments()

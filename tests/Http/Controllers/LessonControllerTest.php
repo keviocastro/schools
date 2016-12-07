@@ -87,68 +87,42 @@ class LessonControllerTest extends TestCase
      */
     public function testShowParamAttach()
     {
-        // Dados criados:
-        // 2 estudantes, sendo o primeiro com 2 faltas 
-        // e o segundo com 0 faltas
-        $schoolClass = factory(SchoolClass::class)->create();
-        $subject = factory(Subject::class)->create();
-        $lessons = factory(Lesson::class, 2)->create([
-                'school_class_id' => $schoolClass->id,
-                'subject_id' => $subject->id
-            ]);
-        $students = factory(Student::class, 2)->create();
-        $presence = 0;
-        foreach ($students as $key => $stu) {
-            
-            factory(SchoolClassStudent::class)->create([
-                    'student_id' => $stu->id,
-                    'school_class_id' => $schoolClass->id
-                ]);
-            factory(StudentResponsible::class)->create([
-                    'student_id' => $stu->id
-                ]);
-            
-            $students[$key]->last_occurences = factory(Occurence::class)->create([
-                    'about_person_id' => $stu->id
-                ])->toArray();
+        // A Lesson e os dados de falta do estudante são
+        // são gerados pelo seeder SchoolCalendar2016 
+        $this->selectDatabaseTest();
 
-            foreach ($lessons as $lesson) {
-                $students[$key]->attendance_record = factory(AttendanceRecord::class)->create([
-                    'student_id' => $stu->id,
-                    'lesson_id' => $lesson->id,
-                    'presence' => $presence
-                ])->toArray();
-            }
-            $presence = 1;
-        }
-
-        $students[0]['absence_summary'] = [
-                'percentage_absences_reprove' => AccountConfig::getPercentageAbsencesReprove(),
-                'total_lessons_year' =>  Lesson::totalLessonsInYear($schoolClass->id, $subject->id),
-                'total_absences_year' => 2,
-            ];
-
-        $students[1]['absence_summary'] = [
-                'percentage_absences_reprove' => AccountConfig::getPercentageAbsencesReprove(),
-                'total_lessons_year' =>  Lesson::totalLessonsInYear($schoolClass->id, $subject->id),
-                'total_absences_year' => 0,
-            ];
-
-        $students->load('person');
-        $studentsOrdered = collect($students->toArray())->sortBy(function($student, $key){
-            return  $student['person']['name'];
-        });
-
-
-        $lesson = $lessons[0]->load('schoolClass')->toArray();
-        $lesson['students'] = $studentsOrdered->all();
-        
-        $this->get("api/lessons/{$lesson['id']}".
-            "?attach=students,students.attendanceRecord,".
+        $response = $this->getResponseContent("GET",
+            "api/lessons/1?attach=students.attendanceRecord,".
             "students.last_occurences,".
-            "students.absenceSummary",
-            $this->getAutHeader())
-            ->assertResponseStatus(200);
+            "students.absenceSummary");
+
+        // Test param students.absenceSummary
+        $student = collect($response['lesson']['students'])->where('id', 1)
+            ->first();
+        $this->assertEquals([
+                'percentage_absences_reprove' => 25,
+                'total_lessons_year' => 240,
+                'total_absences_year' => 15
+            ],
+            $student['absence_summary']);
+
+        // Test param students.last_occurences
+        $ocurrences = Student::find(1)
+            ->occurences()
+            ->orderBy('updated_at')
+            ->take(2)
+            ->get()
+            ->toArray();
+
+        $this->assertEquals($ocurrences, $student['last_occurences']);
+
+        $this->assertEquals([
+                'lesson_id' => 1,
+                'student_id' => 1,
+                'presence' => 0, // 0 que foi definido pelo seer
+            ],
+            collect($student['attendance_record'])->except('id')->toArray() 
+        );
     }
     /**
      * @covers App\Http\Controllers\LessonController::update
