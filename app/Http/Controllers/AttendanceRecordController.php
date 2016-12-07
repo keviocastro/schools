@@ -18,9 +18,7 @@ class AttendanceRecordController extends Controller
      */
     public function index()
     {
-        $result = $this->apiHandler->parseMultiple(new AttendanceRecord);
-        
-        return $result->getBuilder()->paginate();
+        return $this->parseMultiple(new AttendanceRecord);        
     }
 
     /**

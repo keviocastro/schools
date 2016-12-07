@@ -19,9 +19,7 @@ class LessonController extends Controller
      */
     public function index()
     {
-        $result = $this->apiHandler->parseMultiple(new Lesson);
-        
-        return $result->getBuilder()->paginate();
+        return $this->parseMultiple(new Lesson);
     }
 
     /**
@@ -165,6 +163,7 @@ class LessonController extends Controller
                 DB::raw("($queryDaysBetweenDates) as dates"),
                 'day', '=', DB::raw('DATE_FORMAT(lessons.start, "%Y-%m-%d")'));
 
+        // apiHandler->parseMultiple para possibilitar utilizar o parametro _with da requisição
         $result = $this->apiHandler->parseMultiple($query, [], $request->except('start', 'end'));
         $data = $result->getResult()->toArray();
 

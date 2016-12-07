@@ -22,9 +22,7 @@ class StudentGradeController extends Controller
      */
     public function index()
     {
-        $result = $this->apiHandler->parseMultiple(new StudentGrade);
-        
-        return $result->getBuilder()->paginate();
+        return $this->parseMultiple(new StudentGrade);        
     }
 
     /**

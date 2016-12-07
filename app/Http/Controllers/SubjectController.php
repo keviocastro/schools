@@ -16,9 +16,7 @@ class SubjectController extends Controller
      */
     public function index()
     {
-        $result = $this->parseMultiple(new Subject,['name']);
-        
-        return $result;
+        return $this->parseMultiple(new Subject,['name']);        
     }
 
     /**
