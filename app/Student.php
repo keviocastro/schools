@@ -707,7 +707,8 @@ class Student extends Model
             ->join('lessons', 'lessons.id', '=', 'attendance_records.lesson_id')
             ->join('school_classes', 'school_classes.id', '=', 'lessons.school_class_id')
             ->where('lessons.school_class_id', $school_class_id)
-            ->where('lessons.subject_id', $subject_id   )
+            ->where('lessons.subject_id', $subject_id )
+            ->where('attendance_records.presence', 0)
             ->count();
 
         return [
