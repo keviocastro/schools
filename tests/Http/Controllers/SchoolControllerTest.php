@@ -43,7 +43,7 @@ class SchoolControllerTest extends TestCase
         $attributes = array_keys($school->attributesToArray());
         
         $this->get('api/schools?_with=schoolClasses',
-            $this->getAutHeader())->dump()
+            $this->getAutHeader())
             ->assertResponseStatus(200)
             ->seeJsonStructure([
                 'total',

@@ -35,7 +35,7 @@ class School extends Model
      *
      * @var array
      */
-    protected $fillable = ['name'];
+    protected $fillable = ['name', 'contacts'];
 
     /**
      * The attributes that should be casted to native types.
