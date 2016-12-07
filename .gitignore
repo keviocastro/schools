@@ -8,6 +8,7 @@ Homestead.json
 schools.sublime-workspace
 docker-compose.override.yml
 clover.xml
+phpunit.xml
 
 
 # Elastic Beanstalk Files

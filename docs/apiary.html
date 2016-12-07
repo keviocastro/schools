@@ -1,0 +1,2831 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><style>body {
+  width: 45em;
+  border: 1px solid #ddd;
+  outline: 1300px solid #fff;
+  margin: 16px auto;
+}
+
+body .markdown-body
+{
+  padding: 30px;
+}
+
+@font-face {
+  font-family: fontawesome-mini;
+  src: url(data:font/woff;charset=utf-8;base64,d09GRgABAAAAAAzUABAAAAAAFNgAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAABGRlRNAAABbAAAABwAAAAcZMzaOEdERUYAAAGIAAAAHQAAACAAOQAET1MvMgAAAagAAAA+AAAAYHqhde9jbWFwAAAB6AAAAFIAAAFa4azkLWN2dCAAAAI8AAAAKAAAACgFgwioZnBnbQAAAmQAAAGxAAACZVO0L6dnYXNwAAAEGAAAAAgAAAAIAAAAEGdseWYAAAQgAAAFDgAACMz7eroHaGVhZAAACTAAAAAwAAAANgWEOEloaGVhAAAJYAAAAB0AAAAkDGEGa2htdHgAAAmAAAAAEwAAADBEgAAQbG9jYQAACZQAAAAaAAAAGgsICJBtYXhwAAAJsAAAACAAAAAgASgBD25hbWUAAAnQAAACZwAABOD4no+3cG9zdAAADDgAAABsAAAAmF+yXM9wcmVwAAAMpAAAAC4AAAAusPIrFAAAAAEAAAAAyYlvMQAAAADLVHQgAAAAAM/u9uZ4nGNgZGBg4ANiCQYQYGJgBEJuIGYB8xgABMMAPgAAAHicY2Bm42OcwMDKwMLSw2LMwMDQBqGZihmiwHycoKCyqJjB4YPDh4NsDP+BfNb3DIuAFCOSEgUGRgAKDgt4AAB4nGNgYGBmgGAZBkYGEAgB8hjBfBYGCyDNxcDBwMTA9MHhQ9SHrA8H//9nYACyQyFs/sP86/kX8HtB9UIBIxsDXICRCUgwMaACRoZhDwA3fxKSAAAAAAHyAHABJQB/AIEAdAFGAOsBIwC/ALgAxACGAGYAugBNACcA/wCIeJxdUbtOW0EQ3Q0PA4HE2CA52hSzmZDGe6EFCcTVjWJkO4XlCGk3cpGLcQEfQIFEDdqvGaChpEibBiEXSHxCPiESM2uIojQ7O7NzzpkzS8qRqnfpa89T5ySQwt0GzTb9Tki1swD3pOvrjYy0gwdabGb0ynX7/gsGm9GUO2oA5T1vKQ8ZTTuBWrSn/tH8Cob7/B/zOxi0NNP01DoJ6SEE5ptxS4PvGc26yw/6gtXhYjAwpJim4i4/plL+tzTnasuwtZHRvIMzEfnJNEBTa20Emv7UIdXzcRRLkMumsTaYmLL+JBPBhcl0VVO1zPjawV2ys+hggyrNgQfYw1Z5DB4ODyYU0rckyiwNEfZiq8QIEZMcCjnl3Mn+pED5SBLGvElKO+OGtQbGkdfAoDZPs/88m01tbx3C+FkcwXe/GUs6+MiG2hgRYjtiKYAJREJGVfmGGs+9LAbkUvvPQJSA5fGPf50ItO7YRDyXtXUOMVYIen7b3PLLirtWuc6LQndvqmqo0inN+17OvscDnh4Lw0FjwZvP+/5Kgfo8LK40aA4EQ3o3ev+iteqIq7wXPrIn07+xWgAAAAABAAH//wAPeJyFlctvG1UUh+/12DPN1B7P3JnYjj2Ox4/MuDHxJH5N3UdaEUQLqBIkfQQioJWQ6AMEQkIqsPGCPwA1otuWSmTBhjtps2ADWbJg3EpIXbGouqSbCraJw7kzNo2dRN1cnXN1ZvT7zuuiMEI7ncizyA0URofRBJpCdbQuIFShYY+GZRrxMDVtih5TwQPHtXDFFSIKoWIbuREBjLH27Ny4MsbVx+uOJThavebgVrNRLAiYx06rXsvhxLgWx9xpfHdrs/ekc2Pl2cpPCVEITQpwbj8VQhfXSq2m+Wxqaq2D73Kne5e3NjHqQNj3CRYlJlgUl/jRNP+2Gs2pNYRQiOnmUaQDqm30KqKiTTWPWjboxnTWpvgxjXo0KrtZXAHt7hwIz0YVcj88JnKlJKi3NPAwLyDwZudSmJSMMJFDYaOkaol6XtESx3Gt1VTytdZJ3DCLeaVhVnCBH1fycHTxFXwPX+l2e3d6H/TufGGmMTLTnbSJUdo00zuBswMO/nl3YLeL/wnu9/limCuD3vC54h5NBVz6Li414AI8Vx3iiosKcQXUbrvhFFiYb++HN4DaF4XzFW0fIN4XDWJ3a3XQoq9V8WiyRmdsatV9xUcHims1JloH0YUa090G3Tro3mC6c01f+YwCPquINr1PTaCP6rVTOOmf0GE2dBc7zWIhji3/5MchSuBHgDbU99RMWt3YUNMZMJmx92YP6NsHx/5/M1yvInpnkIOM3Z8fA3JQ2lW1RFC1KaBPDFXNAHYYvGy73aYZZZ3HifbeuiVZCpwA3oQBs0wGPYJbJfg60xrKEbKiNtTe1adwrpBRwlAuQ3q3VRaX0QmQ9a49BTSCuF1MLfQ6+tinOubRBZuWPNoMevGMT+V41KitO1is3D/tpMcq1JHZqDHGs8DoYGDkxJgKjHROeTCmhZvzPm9pod+ltKm4PN7Dyvvldlpsg8D+4AUJZ3F/JBstZz7cbFRxsaAGV6yX/dkcycWf8eS3QlQea+YLjdm3yrOnrhFpUyKVvFE4lpv4bO3Svx/6F/4xmiDu/RT5iI++lko18mY1oX+5UGKR6kmVjM/Zb76yfHtxy+h/SyQ0lLdpdKy/lWB6szatetQJ8nZ80A2Qt6ift6gJeavU3BO4gtxs/KCtNPVibCtYCWY3SIlSBPKXZALXiIR9oZeJ1AuMyxLpHIy/yO7vSiSE+kZvk0ihJ30HgHfzZtEMmvV58x6dtqns0XTAW7Vdm4HJ04OCp/crOO7rd9SGxQAE/mVA9xRN+kVSMRFF6S9JFGUtthkjBA5tFCWc2l4V43Ex9GmUP3SI37Jjmir9KqlaDJ4S4JB3vuM/jzyH1+8MuoZ+QGzfnvPoJb96cZlWjMcKLfgDwB7E634JTY+asjsPzS5CiVnEWY+KsrsIN5rn3mAPjqmQBxGjcGKB9f9ZxY3mYC2L85CJ2FXIxKKyHk+dg0FHbuEc7D5NzWUX32WxFcWNGRAbvwSx0RmIXVDuYySafluQBmzA/ssqJAMLnli+WIC90Gw4lm85wcp0qjArEDPJJV/sSx4P9ungTpgMw5gVC1XO4uULq0s3v1rqLi0vX/z65vlH50f8T/RHmSPTk5xxWBWOluMT6WiOy+tdvWxlV/XQb3o3c6Ssr+r6I708GsX9/nzp1tKFh0s3v7m4vAy/Hnb/KMOvc1wump6Il48K6mGDy02X9Yd65pa+nQIjk76lWxCkG8NBCP0HQS9IpAAAeJxjYGRgYGBhcCrq214Qz2/zlUGenQEEzr/77oug/zewFbB+AHI5GJhAogBwKQ0qeJxjYGRgYH3/P46BgZ0BBNgKGBgZUAEPAE/7At0AAAB4nGNngAB2IGYjhBsYBAAIYADVAAAAAAAAAAAAAFwAyAEeAaACCgKmAx4DggRmAAAAAQAAAAwAagAEAAAAAAACAAEAAgAWAAABAAChAAAAAHiclZI7bxQxFIWPd/JkUYQChEhIyAVKgdBMskm1QkKrRETpQiLRUczueB/K7HhlOxttg8LvoKPgP9DxFxANDR0tHRWi4NjrPIBEgh1p/dm+vufcawNYFWsQmP6e4jSyQB2fI9cwj++RE9wTjyPP4LYoI89iWbyLPIe6+Bh5Hs9rryMv4GbtW+RF3EhuRa7jbrIbeQkPkjdUETOLnL0Kip4FVvAhco1RXyMnSPEz8gzWxE7kWTwUp5HnsCLeR57HW/El8gJWa58iL+JO7UfkOh4l9yMv4UnyEtvQGGECgwF66MNBooF1bGCL1ELB/TYU+ZBRlvsKQ44Se6jQ4a7hef+fh72Crv25kp+8lNWGmeKoOI5jJLb1aGIGvb6TjfWNLdkqdFvJw4l1amjlXtXRZqRN7lSRylZZyhBqpVFWmTEXgWfUrpi/hZOQXdOd4rKuXOtEWT3k5IArPRzTUU5tHKjecZkTpnVbNOnt6jzN8240GD4xtikvZW56043rPMg/dS+dlOceXoR+WPbJ55Dsekq1lJpnypsMUsYOdCW30o103Ytu/lvh+5RWFLfBjm9/N8hJntPhvx92rnoE/kyHdGasGy754kw36vsVf/lFeBi+0COu+cfgQr42G3CRpeLoZ53gmfe3X6rcKt5oVxnptHR9JS8ehVUd5wvvahN2uqxOOpMXapibI5k7Zwbt4xBSaTfoKBufhAnO/uqNcfK8OTs0OQ6l7JIqFjDhYj5WcjevCnI/1DDiI8j4ndWb/5YzDZWh79yomWXeXj7Nnw70/2TIeFPTrlSh89k1ObOSRVZWZfgF0r/zJQB4nG2JUQuCQBCEd07TTg36fb2IyBaLd3vWaUh/vmSJnvpgmG8YcmS8X3Shf3R7QA4OBUocUKHGER5NNbOOEvwc1txnuWkTRb/aPjimJ5vXabI+3VfOiyS15UWvyezM2xiGOPyuMohOH8O8JiO4Af+FsAGNAEuwCFBYsQEBjlmxRgYrWCGwEFlLsBRSWCGwgFkdsAYrXFhZsBQrAAA=) format('woff');
+}
+
+@font-face {
+  font-family: octicons-anchor;
+  src: url(data:font/woff;charset=utf-8;base64,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) format('woff');
+}
+
+.markdown-body {
+  font-family: sans-serif;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  color: #333333;
+  overflow: hidden;
+  font-family: "Helvetica Neue", Helvetica, "Segoe UI", Arial, freesans, sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  word-wrap: break-word;
+}
+
+.markdown-body a {
+  background: transparent;
+}
+
+.markdown-body a:active,
+.markdown-body a:hover {
+  outline: 0;
+}
+
+.markdown-body b,
+.markdown-body strong {
+  font-weight: bold;
+}
+
+.markdown-body mark {
+  background: #ff0;
+  color: #000;
+  font-style: italic;
+  font-weight: bold;
+}
+
+.markdown-body sub,
+.markdown-body sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+.markdown-body sup {
+  top: -0.5em;
+}
+.markdown-body sub {
+  bottom: -0.25em;
+}
+
+.markdown-body h1 {
+  font-size: 2em;
+  margin: 0.67em 0;
+}
+
+.markdown-body img {
+  border: 0;
+}
+
+.markdown-body hr {
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
+  height: 0;
+}
+
+.markdown-body pre {
+  overflow: auto;
+}
+
+.markdown-body code,
+.markdown-body kbd,
+.markdown-body pre,
+.markdown-body samp {
+  font-family: monospace, monospace;
+  font-size: 1em;
+}
+
+.markdown-body input {
+  color: inherit;
+  font: inherit;
+  margin: 0;
+}
+
+.markdown-body html input[disabled] {
+  cursor: default;
+}
+
+.markdown-body input {
+  line-height: normal;
+}
+
+.markdown-body input[type="checkbox"] {
+  box-sizing: border-box;
+  padding: 0;
+}
+
+.markdown-body table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+.markdown-body td,
+.markdown-body th {
+  padding: 0;
+}
+
+.markdown-body .codehilitetable {
+  border: 0;
+  border-spacing: 0;
+}
+
+.markdown-body .codehilitetable tr {
+  border: 0;
+}
+
+.markdown-body .codehilitetable pre,
+.markdown-body .codehilitetable div.codehilite {
+  margin: 0;
+}
+
+.markdown-body .linenos,
+.markdown-body .code,
+.markdown-body .codehilitetable td {
+  border: 0;
+  padding: 0;
+}
+
+.markdown-body td:not(.linenos) .linenodiv {
+  padding: 0 !important;
+}
+
+.markdown-body .code {
+  width: 100%;
+}
+
+.markdown-body .linenos div pre,
+.markdown-body .linenodiv pre,
+.markdown-body .linenodiv {
+  border: 0;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+  -webkit-border-top-left-radius: 3px;
+  -webkit-border-bottom-left-radius: 3px;
+  -moz-border-radius-topleft: 3px;
+  -moz-border-radius-bottomleft: 3px;
+  border-top-left-radius: 3px;
+  border-bottom-left-radius: 3px;
+}
+
+.markdown-body .code div pre,
+.markdown-body .code div {
+  border: 0;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+  -webkit-border-top-right-radius: 3px;
+  -webkit-border-bottom-right-radius: 3px;
+  -moz-border-radius-topright: 3px;
+  -moz-border-radius-bottomright: 3px;
+  border-top-right-radius: 3px;
+  border-bottom-right-radius: 3px;
+}
+
+.markdown-body * {
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+.markdown-body input {
+  font: 13px Helvetica, arial, freesans, clean, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol";
+  line-height: 1.4;
+}
+
+.markdown-body a {
+  color: #4183c4;
+  text-decoration: none;
+}
+
+.markdown-body a:hover,
+.markdown-body a:focus,
+.markdown-body a:active {
+  text-decoration: underline;
+}
+
+.markdown-body hr {
+  height: 0;
+  margin: 15px 0;
+  overflow: hidden;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid #ddd;
+}
+
+.markdown-body hr:before,
+.markdown-body hr:after {
+  display: table;
+  content: " ";
+}
+
+.markdown-body hr:after {
+  clear: both;
+}
+
+.markdown-body h1,
+.markdown-body h2,
+.markdown-body h3,
+.markdown-body h4,
+.markdown-body h5,
+.markdown-body h6 {
+  margin-top: 15px;
+  margin-bottom: 15px;
+  line-height: 1.1;
+}
+
+.markdown-body h1 {
+  font-size: 30px;
+}
+
+.markdown-body h2 {
+  font-size: 21px;
+}
+
+.markdown-body h3 {
+  font-size: 16px;
+}
+
+.markdown-body h4 {
+  font-size: 14px;
+}
+
+.markdown-body h5 {
+  font-size: 12px;
+}
+
+.markdown-body h6 {
+  font-size: 11px;
+}
+
+.markdown-body blockquote {
+  margin: 0;
+}
+
+.markdown-body ul,
+.markdown-body ol {
+  padding: 0;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.markdown-body ol ol,
+.markdown-body ul ol {
+  list-style-type: lower-roman;
+}
+
+.markdown-body ul ul ol,
+.markdown-body ul ol ol,
+.markdown-body ol ul ol,
+.markdown-body ol ol ol {
+  list-style-type: lower-alpha;
+}
+
+.markdown-body dd {
+  margin-left: 0;
+}
+
+.markdown-body code,
+.markdown-body pre,
+.markdown-body samp {
+  font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
+  font-size: 12px;
+}
+
+.markdown-body pre {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.markdown-body kbd {
+  background-color: #e7e7e7;
+  background-image: -moz-linear-gradient(#fefefe, #e7e7e7);
+  background-image: -webkit-linear-gradient(#fefefe, #e7e7e7);
+  background-image: linear-gradient(#fefefe, #e7e7e7);
+  background-repeat: repeat-x;
+  border-radius: 2px;
+  border: 1px solid #cfcfcf;
+  color: #000;
+  padding: 3px 5px;
+  line-height: 10px;
+  font: 11px Consolas, "Liberation Mono", Menlo, Courier, monospace;
+  display: inline-block;
+}
+
+.markdown-body>*:first-child {
+  margin-top: 0 !important;
+}
+
+.markdown-body>*:last-child {
+  margin-bottom: 0 !important;
+}
+
+.markdown-body .headeranchor-link {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  display: block;
+  padding-right: 6px;
+  padding-left: 30px;
+  margin-left: -30px;
+}
+
+.markdown-body .headeranchor-link:focus {
+  outline: none;
+}
+
+.markdown-body h1,
+.markdown-body h2,
+.markdown-body h3,
+.markdown-body h4,
+.markdown-body h5,
+.markdown-body h6 {
+  position: relative;
+  margin-top: 1em;
+  margin-bottom: 16px;
+  font-weight: bold;
+  line-height: 1.4;
+}
+
+.markdown-body h1 .headeranchor,
+.markdown-body h2 .headeranchor,
+.markdown-body h3 .headeranchor,
+.markdown-body h4 .headeranchor,
+.markdown-body h5 .headeranchor,
+.markdown-body h6 .headeranchor {
+  display: none;
+  color: #000;
+  vertical-align: middle;
+}
+
+.markdown-body h1:hover .headeranchor-link,
+.markdown-body h2:hover .headeranchor-link,
+.markdown-body h3:hover .headeranchor-link,
+.markdown-body h4:hover .headeranchor-link,
+.markdown-body h5:hover .headeranchor-link,
+.markdown-body h6:hover .headeranchor-link {
+  height: 1em;
+  padding-left: 8px;
+  margin-left: -30px;
+  line-height: 1;
+  text-decoration: none;
+}
+
+.markdown-body h1:hover .headeranchor-link .headeranchor,
+.markdown-body h2:hover .headeranchor-link .headeranchor,
+.markdown-body h3:hover .headeranchor-link .headeranchor,
+.markdown-body h4:hover .headeranchor-link .headeranchor,
+.markdown-body h5:hover .headeranchor-link .headeranchor,
+.markdown-body h6:hover .headeranchor-link .headeranchor {
+  display: inline-block;
+}
+
+.markdown-body h1 {
+  padding-bottom: 0.3em;
+  font-size: 2.25em;
+  line-height: 1.2;
+  border-bottom: 1px solid #eee;
+}
+
+.markdown-body h2 {
+  padding-bottom: 0.3em;
+  font-size: 1.75em;
+  line-height: 1.225;
+  border-bottom: 1px solid #eee;
+}
+
+.markdown-body h3 {
+  font-size: 1.5em;
+  line-height: 1.43;
+}
+
+.markdown-body h4 {
+  font-size: 1.25em;
+}
+
+.markdown-body h5 {
+  font-size: 1em;
+}
+
+.markdown-body h6 {
+  font-size: 1em;
+  color: #777;
+}
+
+.markdown-body p,
+.markdown-body blockquote,
+.markdown-body ul,
+.markdown-body ol,
+.markdown-body dl,
+.markdown-body table,
+.markdown-body pre,
+.markdown-body .admonition {
+  margin-top: 0;
+  margin-bottom: 16px;
+}
+
+.markdown-body hr {
+  height: 4px;
+  padding: 0;
+  margin: 16px 0;
+  background-color: #e7e7e7;
+  border: 0 none;
+}
+
+.markdown-body ul,
+.markdown-body ol {
+  padding-left: 2em;
+}
+
+.markdown-body ul ul,
+.markdown-body ul ol,
+.markdown-body ol ol,
+.markdown-body ol ul {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.markdown-body li>p {
+  margin-top: 16px;
+}
+
+.markdown-body dl {
+  padding: 0;
+}
+
+.markdown-body dl dt {
+  padding: 0;
+  margin-top: 16px;
+  font-size: 1em;
+  font-style: italic;
+  font-weight: bold;
+}
+
+.markdown-body dl dd {
+  padding: 0 16px;
+  margin-bottom: 16px;
+}
+
+.markdown-body blockquote {
+  padding: 0 15px;
+  color: #777;
+  border-left: 4px solid #ddd;
+}
+
+.markdown-body blockquote>:first-child {
+  margin-top: 0;
+}
+
+.markdown-body blockquote>:last-child {
+  margin-bottom: 0;
+}
+
+.markdown-body table {
+  display: block;
+  width: 100%;
+  overflow: auto;
+  word-break: normal;
+  word-break: keep-all;
+}
+
+.markdown-body table th {
+  font-weight: bold;
+}
+
+.markdown-body table th,
+.markdown-body table td {
+  padding: 6px 13px;
+  border: 1px solid #ddd;
+}
+
+.markdown-body table tr {
+  background-color: #fff;
+  border-top: 1px solid #ccc;
+}
+
+.markdown-body table tr:nth-child(2n) {
+  background-color: #f8f8f8;
+}
+
+.markdown-body img {
+  max-width: 100%;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+.markdown-body code,
+.markdown-body samp {
+  padding: 0;
+  padding-top: 0.2em;
+  padding-bottom: 0.2em;
+  margin: 0;
+  font-size: 85%;
+  background-color: rgba(0,0,0,0.04);
+  border-radius: 3px;
+}
+
+.markdown-body code:before,
+.markdown-body code:after {
+  letter-spacing: -0.2em;
+  content: "\00a0";
+}
+
+.markdown-body pre>code {
+  padding: 0;
+  margin: 0;
+  font-size: 100%;
+  word-break: normal;
+  white-space: pre;
+  background: transparent;
+  border: 0;
+}
+
+.markdown-body .codehilite {
+  margin-bottom: 16px;
+}
+
+.markdown-body .codehilite pre,
+.markdown-body pre {
+  padding: 16px;
+  overflow: auto;
+  font-size: 85%;
+  line-height: 1.45;
+  background-color: #f7f7f7;
+  border-radius: 3px;
+}
+
+.markdown-body .codehilite pre {
+  margin-bottom: 0;
+  word-break: normal;
+}
+
+.markdown-body pre {
+  word-wrap: normal;
+}
+
+.markdown-body pre code {
+  display: inline;
+  max-width: initial;
+  padding: 0;
+  margin: 0;
+  overflow: initial;
+  line-height: inherit;
+  word-wrap: normal;
+  background-color: transparent;
+  border: 0;
+}
+
+.markdown-body pre code:before,
+.markdown-body pre code:after {
+  content: normal;
+}
+
+/* Admonition */
+.markdown-body .admonition {
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  position: relative;
+  border-radius: 3px;
+  border: 1px solid #e0e0e0;
+  border-left: 6px solid #333;
+  padding: 10px 10px 10px 30px;
+}
+
+.markdown-body .admonition table {
+  color: #333;
+}
+
+.markdown-body .admonition p {
+  padding: 0;
+}
+
+.markdown-body .admonition-title {
+  font-weight: bold;
+  margin: 0;
+}
+
+.markdown-body .admonition>.admonition-title {
+  color: #333;
+}
+
+.markdown-body .attention>.admonition-title {
+  color: #a6d796;
+}
+
+.markdown-body .caution>.admonition-title {
+  color: #d7a796;
+}
+
+.markdown-body .hint>.admonition-title {
+  color: #96c6d7;
+}
+
+.markdown-body .danger>.admonition-title {
+  color: #c25f77;
+}
+
+.markdown-body .question>.admonition-title {
+  color: #96a6d7;
+}
+
+.markdown-body .note>.admonition-title {
+  color: #d7c896;
+}
+
+.markdown-body .admonition:before,
+.markdown-body .attention:before,
+.markdown-body .caution:before,
+.markdown-body .hint:before,
+.markdown-body .danger:before,
+.markdown-body .question:before,
+.markdown-body .note:before {
+  font: normal normal 16px fontawesome-mini;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  line-height: 1.5;
+  color: #333;
+  position: absolute;
+  left: 0;
+  top: 0;
+  padding-top: 10px;
+  padding-left: 10px;
+}
+
+.markdown-body .admonition:before {
+  content: "\f056\00a0";
+  color: 333;
+}
+
+.markdown-body .attention:before {
+  content: "\f058\00a0";
+  color: #a6d796;
+}
+
+.markdown-body .caution:before {
+  content: "\f06a\00a0";
+  color: #d7a796;
+}
+
+.markdown-body .hint:before {
+  content: "\f05a\00a0";
+  color: #96c6d7;
+}
+
+.markdown-body .danger:before {
+  content: "\f057\00a0";
+  color: #c25f77;
+}
+
+.markdown-body .question:before {
+  content: "\f059\00a0";
+  color: #96a6d7;
+}
+
+.markdown-body .note:before {
+  content: "\f040\00a0";
+  color: #d7c896;
+}
+
+.markdown-body .admonition::after {
+  content: normal;
+}
+
+.markdown-body .attention {
+  border-left: 6px solid #a6d796;
+}
+
+.markdown-body .caution {
+  border-left: 6px solid #d7a796;
+}
+
+.markdown-body .hint {
+  border-left: 6px solid #96c6d7;
+}
+
+.markdown-body .danger {
+  border-left: 6px solid #c25f77;
+}
+
+.markdown-body .question {
+  border-left: 6px solid #96a6d7;
+}
+
+.markdown-body .note {
+  border-left: 6px solid #d7c896;
+}
+
+.markdown-body .admonition>*:first-child {
+  margin-top: 0 !important;
+}
+
+.markdown-body .admonition>*:last-child {
+  margin-bottom: 0 !important;
+}
+
+/* progress bar*/
+.markdown-body .progress {
+  display: block;
+  width: 300px;
+  margin: 10px 0;
+  height: 24px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  background-color: #ededed;
+  position: relative;
+  box-shadow: inset -1px 1px 3px rgba(0, 0, 0, .1);
+}
+
+.markdown-body .progress-label {
+  position: absolute;
+  text-align: center;
+  font-weight: bold;
+  width: 100%; margin: 0;
+  line-height: 24px;
+  color: #333;
+  text-shadow: 1px 1px 0 #fefefe, -1px -1px 0 #fefefe, -1px 1px 0 #fefefe, 1px -1px 0 #fefefe, 0 1px 0 #fefefe, 0 -1px 0 #fefefe, 1px 0 0 #fefefe, -1px 0 0 #fefefe, 1px 1px 2px #000;
+  -webkit-font-smoothing: antialiased !important;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.markdown-body .progress-bar {
+  height: 24px;
+  float: left;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  background-color: #96c6d7;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .5), inset 0 -1px 0 rgba(0, 0, 0, .1);
+  background-size: 30px 30px;
+  background-image: -webkit-linear-gradient(
+    135deg, rgba(255, 255, 255, .4) 27%,
+    transparent 27%,
+    transparent 52%, rgba(255, 255, 255, .4) 52%,
+    rgba(255, 255, 255, .4) 77%,
+    transparent 77%, transparent
+  );
+  background-image: -moz-linear-gradient(
+    135deg,
+    rgba(255, 255, 255, .4) 27%, transparent 27%,
+    transparent 52%, rgba(255, 255, 255, .4) 52%,
+    rgba(255, 255, 255, .4) 77%, transparent 77%,
+    transparent
+  );
+  background-image: -ms-linear-gradient(
+    135deg,
+    rgba(255, 255, 255, .4) 27%, transparent 27%,
+    transparent 52%, rgba(255, 255, 255, .4) 52%,
+    rgba(255, 255, 255, .4) 77%, transparent 77%,
+    transparent
+  );
+  background-image: -o-linear-gradient(
+    135deg,
+    rgba(255, 255, 255, .4) 27%, transparent 27%,
+    transparent 52%, rgba(255, 255, 255, .4) 52%,
+    rgba(255, 255, 255, .4) 77%, transparent 77%,
+    transparent
+  );
+  background-image: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, .4) 27%, transparent 27%,
+    transparent 52%, rgba(255, 255, 255, .4) 52%,
+    rgba(255, 255, 255, .4) 77%, transparent 77%,
+    transparent
+  );
+}
+
+.markdown-body .progress-100plus .progress-bar {
+  background-color: #a6d796;
+}
+
+.markdown-body .progress-80plus .progress-bar {
+  background-color: #c6d796;
+}
+
+.markdown-body .progress-60plus .progress-bar {
+  background-color: #d7c896;
+}
+
+.markdown-body .progress-40plus .progress-bar {
+  background-color: #d7a796;
+}
+
+.markdown-body .progress-20plus .progress-bar {
+  background-color: #d796a6;
+}
+
+.markdown-body .progress-0plus .progress-bar {
+  background-color: #c25f77;
+}
+
+.markdown-body .candystripe-animate .progress-bar{
+  -webkit-animation: animate-stripes 3s linear infinite;
+  -moz-animation: animate-stripes 3s linear infinite;
+  animation: animate-stripes 3s linear infinite;
+}
+
+@-webkit-keyframes animate-stripes {
+  0% {
+    background-position: 0 0;
+  }
+
+  100% {
+    background-position: 60px 0;
+  }
+}
+
+@-moz-keyframes animate-stripes {
+  0% {
+    background-position: 0 0;
+  }
+
+  100% {
+    background-position: 60px 0;
+  }
+}
+
+@keyframes animate-stripes {
+  0% {
+    background-position: 0 0;
+  }
+
+  100% {
+    background-position: 60px 0;
+  }
+}
+
+.markdown-body .gloss .progress-bar {
+  box-shadow:
+    inset 0 4px 12px rgba(255, 255, 255, .7),
+    inset 0 -12px 0 rgba(0, 0, 0, .05);
+}
+
+/* Multimarkdown Critic Blocks */
+.markdown-body .critic_mark {
+  background: #ff0;
+}
+
+.markdown-body .critic_delete {
+  color: #c82829;
+  text-decoration: line-through;
+}
+
+.markdown-body .critic_insert {
+  color: #718c00 ;
+  text-decoration: underline;
+}
+
+.markdown-body .critic_comment {
+  color: #8e908c;
+  font-style: italic;
+}
+
+.markdown-body .headeranchor {
+  font: normal normal 16px octicons-anchor;
+  line-height: 1;
+  display: inline-block;
+  text-decoration: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.headeranchor:before {
+  content: '\f05c';
+}
+
+.markdown-body .task-list-item {
+  list-style-type: none;
+}
+
+.markdown-body .task-list-item+.task-list-item {
+  margin-top: 3px;
+}
+
+.markdown-body .task-list-item input {
+  margin: 0 4px 0.25em -20px;
+  vertical-align: middle;
+}
+
+/* Media */
+@media only screen and (min-width: 480px) {
+  .markdown-body {
+    font-size:14px;
+  }
+}
+
+@media only screen and (min-width: 768px) {
+  .markdown-body {
+    font-size:16px;
+  }
+}
+
+@media print {
+  .markdown-body * {
+    background: transparent !important;
+    color: black !important;
+    filter:none !important;
+    -ms-filter: none !important;
+  }
+
+  .markdown-body {
+    font-size:12pt;
+    max-width:100%;
+    outline:none;
+    border: 0;
+  }
+
+  .markdown-body a,
+  .markdown-body a:visited {
+    text-decoration: underline;
+  }
+
+  .markdown-body .headeranchor-link {
+    display: none;
+  }
+
+  .markdown-body a[href]:after {
+    content: " (" attr(href) ")";
+  }
+
+  .markdown-body abbr[title]:after {
+    content: " (" attr(title) ")";
+  }
+
+  .markdown-body .ir a:after,
+  .markdown-body a[href^="javascript:"]:after,
+  .markdown-body a[href^="#"]:after {
+    content: "";
+  }
+
+  .markdown-body pre {
+    white-space: pre;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+
+  .markdown-body pre,
+  .markdown-body blockquote {
+    border: 1px solid #999;
+    padding-right: 1em;
+    page-break-inside: avoid;
+  }
+
+  .markdown-body .progress,
+  .markdown-body .progress-bar {
+    -moz-box-shadow: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+  }
+
+  .markdown-body .progress {
+    border: 1px solid #ddd;
+  }
+
+  .markdown-body .progress-bar {
+    height: 22px;
+    border-right: 1px solid #ddd;
+  }
+
+  .markdown-body tr,
+  .markdown-body img {
+    page-break-inside: avoid;
+  }
+
+  .markdown-body img {
+    max-width: 100% !important;
+  }
+
+  .markdown-body p,
+  .markdown-body h2,
+  .markdown-body h3 {
+    orphans: 3;
+    widows: 3;
+  }
+
+  .markdown-body h2,
+  .markdown-body h3 {
+    page-break-after: avoid;
+  }
+}
+</style><title>apiary</title></head><body><article class="markdown-body"><p>HOST: <a href="http://localhost/api">http://localhost/api</a></p>
+<h1 id="schools-api"><a name="user-content-schools-api" href="#schools-api" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Schools API</h1>
+<p>Schools é uma api para manter informações sobre escolas e seus registros administrativos.</p>
+<h1 id="authentication"><a name="user-content-authentication" href="#authentication" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Authentication</h1>
+<p>A autentificação de usuário para acesso aos recursos da api, deve ser feita atribuindo<br />
+sempre o seguinte cabeçario na requisição:</p>
+<p><code>authorization: Bearer token_id</code></p>
+<p>Onde &ldquo;token id&rdquo; é obtido durante a autenficação do usuário no microservice de atentificação<br />
+auth0 através do dominio &ldquo;logos.auth0.com&rdquo;.<br />
+Veja ver mais detalhes de como realizar essa autentificação nesse link: <a href="https://auth0.com/docs">https://auth0.com/docs</a> </p>
+<h1 id="group-auth-and-account"><a name="user-content-group-auth-and-account" href="#group-auth-and-account" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Group Auth and Account</h1>
+<h2 id="request-access-authrequest-access"><a name="user-content-request-access-authrequest-access" href="#request-access-authrequest-access" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Request access [/auth/request-access]</h2>
+<p><code>Request access</code> são solicitações de acesso que um usuário faz a uma conta.</p>
+<p>Exemplo: considerando que a Escola Luz do Saber tem uma conta na sua aplicação, e o Professor Medeiros <br />
+vai começar a utilizar o aplicativo para registrar presenças e notas dos alunos. Então o <br />
+Professor Medeiros acessa seu aplicativo informando usuário e senha para se cadastrar. Com isso o cadastro do Professor Medeiros fica pendente até que um usuário da Escola Luz do Saber com permissão para liberação confirme seu cadastro. </p>
+<h3 id="create-a-request-access-post"><a name="user-content-create-a-request-access-post" href="#create-a-request-access-post" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Create a request access [POST]</h3>
+<ul>
+<li>
+<p>Request</p>
+<ul>
+<li>Headers<pre><code>authorization: &lt;!-- include(Token.md)  --&gt;
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p>Response 200 (application/json)</p>
+<ul>
+<li>Attributes<ul>
+<li>request_access (object) <ul>
+<li>id: 1 (number) - Identificador único da solicitação</li>
+<li>user_id: auth0|57c0840deae095471aba4093 (string) - id do usuário no microservice de autentificação auth0.</li>
+<li>status: 0 (number) - Situação da solicitação. <br />
+                    0 pendente<br />
+                    1 negada<br />
+                    2 aprovada</li>
+<li>created_at: <code>2016-08-15 20:26:39</code> (string) Data que a solicitação foi criada</li>
+<li>updated_at: <code>2016-08-15 21:26:39</code> (string) Data da ultima alteração da solicitação</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="account-settings-collection-account-configs"><a name="user-content-account-settings-collection-account-configs" href="#account-settings-collection-account-configs" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Account Settings Collection [/account-configs]</h2>
+<p>Configurações da contado do usuário logado.</p>
+<h3 id="list-account-settings-get"><a name="user-content-list-account-settings-get" href="#list-account-settings-get" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>List account settings [GET]</h3>
+<p>Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="output.html#header-parametros-de-filtros-em-listagem">sessão</a> como definir os parametros da requisição.</p>
+<ul>
+<li>
+<p>Request</p>
+<ul>
+<li>Headers<pre><code>authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p>Response 200 (application/json)</p>
+<ul>
+<li>Attributes<ul>
+<li>
+<p>account_configs (array)</p>
+<ul>
+<li>
+<p>(object)</p>
+<ul>
+<li>id: 1 (number)</li>
+<li>name: percentage_absences_reprove (string) - <code>Percentual máximo de faltas que um aluno pode ter para não ser reprovado. Exemplo: Existem 200 aulas de Matématica no ano, e consideramos que percentage_absences_reprove == 15, então o aluno pode faltar no máximo 30 aulas (200*0,15).</code></li>
+<li>value: 20 (number)</li>
+<li><code>default</code>: 25 (number)</li>
+</ul>
+</li>
+<li>
+<p>(object)</p>
+<ul>
+<li>id: 2 (number)</li>
+<li>name: grade_threshold_great (string) - <code>Se o aluno tiver média igual ou acima dessa nota, ele é considerado ótimo</code></li>
+<li>value: 9 (number)</li>
+<li><code>default</code>: 9 (number)</li>
+</ul>
+</li>
+<li>
+<p>(object)</p>
+<ul>
+<li>id: 3 (number)</li>
+<li>name: grade_threshold_good (string) - <code>Se o aluno tiver média igual ou acima dessa nota, e menor do que "grade_threshold_great", ele é considerado bom.</code></li>
+<li>value:  6 (number)</li>
+<li><code>default</code>: 6 (number)</li>
+</ul>
+</li>
+<li>
+<p>(object)</p>
+<ul>
+<li>id: 4 (number)</li>
+<li>name: passing_grade_threshold (string) - <code>Média mínima para o aluno ser aprovado em uma disciplina</code></li>
+<li>value: 6 (number)</li>
+<li><code>default</code>: 6 (number)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="group-schools"><a name="user-content-group-schools" href="#group-schools" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Group Schools</h1>
+<p>&lsquo;Schools&rsquo; são as escolas associadas a uma conta.<br />
+&lsquo;School Class&rsquo; são as turmas de uma escola que existem em um determinado ano letivo/calendario escolar.</p>
+<h2 id="schools-collection-schools_q_sort_with"><a name="user-content-schools-collection-schools_q_sort_with" href="#schools-collection-schools_q_sort_with" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Schools Collection [/schools{?_q,_sort,_with}]</h2>
+<h3 id="list-schools-get"><a name="user-content-list-schools-get" href="#list-schools-get" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>List Schools [GET]</h3>
+<!--Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="output.html#header-parametros-de-filtros-em-listagem">sessão</a> como definir os parametros da requisição.-->
+
+<ul>
+<li>
+<p>Parameters</p>
+<ul>
+<li>_q (string, optional) - Pesquisa por palavra-chave, a correspondência e incluida conjunto de resultados.<ul>
+<li>Members<br />
+    +name</li>
+</ul>
+</li>
+<li>_sort (string, optional) - Ordena a coluna desejada, de forma acendente ou descendente.</li>
+<li>_with (string, optional) - Obtem informações do recurso relacionado.<ul>
+<li>Members<ul>
+<li>schoolClasses</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>Request</p>
+<ul>
+<li>Headers<pre><code>authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p>Response 200 (application/json)</p>
+<ul>
+<li>Attributes <ul>
+<li>Include (Paginator)</li>
+<li>data (array)<ul>
+<li>(School)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="create-a-new-school-post"><a name="user-content-create-a-new-school-post" href="#create-a-new-school-post" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Create a New School [POST]</h3>
+<ul>
+<li>
+<p>Request (application/json)</p>
+<ul>
+<li>
+<p>Headers</p>
+<pre><code>authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
+</code></pre>
+</li>
+<li>
+<p>Attributes (SchoolFillable)</p>
+</li>
+</ul>
+</li>
+<li>
+<p>Response 201 (application/json)</p>
+<ul>
+<li>Attributes <ul>
+<li>School (School)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="school-schoolsschool_id_with"><a name="user-content-school-schoolsschool_id_with" href="#school-schoolsschool_id_with" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>School [/schools/{school_id}{?_with}]</h2>
+<h3 id="view-a-school-detail-get"><a name="user-content-view-a-school-detail-get" href="#view-a-school-detail-get" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>View a school detail [GET]</h3>
+<ul>
+<li>
+<p>Parameters</p>
+<ul>
+<li>school_id: 1 (number) - Identificador único da escola</li>
+<li>_with (string, optional) - Obtem informações do recurso relacionado.<ul>
+<li>Members<ul>
+<li>schoolClass</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>Request </p>
+<ul>
+<li>Headers<pre><code>authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p>Response 200 (application/json)</p>
+<ul>
+<li>Attributes <ul>
+<li>School (School)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="edit-put"><a name="user-content-edit-put" href="#edit-put" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Edit [PUT]</h3>
+<ul>
+<li>
+<p>Parameters</p>
+<ul>
+<li>school_id: 1 (number) - Identificador único da escola</li>
+</ul>
+</li>
+<li>
+<p>Request (application/json)</p>
+<ul>
+<li>
+<p>Headers</p>
+<pre><code>authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
+</code></pre>
+</li>
+<li>
+<p>Attributes (SchoolFillable)</p>
+</li>
+</ul>
+</li>
+<li>
+<p>Response 200 (application/json)</p>
+<ul>
+<li>Attributes <ul>
+<li>School (School)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="delete-delete"><a name="user-content-delete-delete" href="#delete-delete" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Delete [DELETE]</h3>
+<ul>
+<li>
+<p>Parameters</p>
+<ul>
+<li>school_id: 1 (number) - Identificador único da escola</li>
+</ul>
+</li>
+<li>
+<p>Request (application/json)</p>
+<ul>
+<li>Headers<pre><code>authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p>Response 204</p>
+</li>
+</ul>
+<h2 id="school-classes-collection-school-classes_q_sort_with"><a name="user-content-school-classes-collection-school-classes_q_sort_with" href="#school-classes-collection-school-classes_q_sort_with" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>School Classes Collection [/school-classes{?_q,_sort,_with}]</h2>
+<h3 id="list-school-classes-get"><a name="user-content-list-school-classes-get" href="#list-school-classes-get" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>List School Classes [GET]</h3>
+<p>Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="output.html#header-parametros-de-filtros-em-listagem">sessão</a> como definir os parametros da requisição.</p>
+<ul>
+<li>
+<p>Parameters</p>
+<ul>
+<li>_q (string, optional) - Pesquisa por palavra-chave, a correspondência e incluida conjunto de resultados.<ul>
+<li>Members<br />
+    +identifier</li>
+</ul>
+</li>
+<li>_sort (string, optional) - Ordena a coluna desejada, de forma acendente ou descendente.</li>
+<li>_with (string, optional) - Obtem informações do recurso relacionado.<ul>
+<li>Members <ul>
+<li>shift - Turno.</li>
+<li>students - Aluno.</li>
+<li>schoolCalendar - Ano letivo.</li>
+<li>subjects - Avaliação.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>Request (application/json)</p>
+<ul>
+<li>Headers<pre><code>authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p>Response 200 (application/json)</p>
+<ul>
+<li>Attributes <ul>
+<li>Include Paginator</li>
+<li>data (array) <ul>
+<li>(SchoolClass)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="create-a-new-school-class-post"><a name="user-content-create-a-new-school-class-post" href="#create-a-new-school-class-post" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Create a new school class [POST]</h3>
+<ul>
+<li>
+<p>Request (application/json)</p>
+<ul>
+<li>
+<p>Headers</p>
+<pre><code>authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
+</code></pre>
+</li>
+<li>
+<p>Attributes (SchoolClassFillable)</p>
+</li>
+</ul>
+</li>
+<li>
+<p>Response 200 (application/json) </p>
+<ul>
+<li>Attributes <ul>
+<li>school_class (SchoolClass)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="school-class-school-classesschool_class_id_with"><a name="user-content-school-class-school-classesschool_class_id_with" href="#school-class-school-classesschool_class_id_with" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>School Class [/school-classes/{school_class_id}{?_with}]</h2>
+<ul>
+<li>Parameters<ul>
+<li>school_class_id: 1 (number) - ID of the school class</li>
+</ul>
+</li>
+</ul>
+<h3 id="view-a-school-class-detail-get"><a name="user-content-view-a-school-class-detail-get" href="#view-a-school-class-detail-get" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>View a school class detail [GET]</h3>
+<ul>
+<li>
+<p>Parameters</p>
+<ul>
+<li>_with (string, optional) - Obtem informações do recurso relacionado.<ul>
+<li>Members <ul>
+<li>shift - Turno.</li>
+<li>students - Aluno.</li>
+<li>schoolCalendar - Ano letivo.</li>
+<li>subjects - Avaliação.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>Request </p>
+<ul>
+<li>Headers<pre><code>authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p>Response 200 (application/json)</p>
+<ul>
+<li>Attributes <ul>
+<li>school_class (SchoolClass)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="edit-put_1"><a name="user-content-edit-put_1" href="#edit-put_1" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Edit [PUT]</h3>
+<ul>
+<li>
+<p>Parameters</p>
+<ul>
+<li>school_class_id: 1 (number) - ID of the School</li>
+</ul>
+</li>
+<li>
+<p>Request </p>
+<ul>
+<li>
+<p>Headers</p>
+<pre><code>authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
+</code></pre>
+</li>
+<li>
+<p>Attributes (SchoolClassFillable)</p>
+</li>
+</ul>
+</li>
+<li>
+<p>Response 200 (application/json)</p>
+<ul>
+<li>Attributes <ul>
+<li>school_class (SchoolClass)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="delete-delete_1"><a name="user-content-delete-delete_1" href="#delete-delete_1" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Delete [DELETE]</h3>
+<ul>
+<li>
+<p>Parameters</p>
+<ul>
+<li>school_class_id: 1 (number) - ID of the School</li>
+</ul>
+</li>
+<li>
+<p>Request (application/json)</p>
+<ul>
+<li>Headers<pre><code>authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p>Response 204</p>
+</li>
+</ul>
+<h2 id="school-calendar-collection-school-calendars_q_sort_with"><a name="user-content-school-calendar-collection-school-calendars_q_sort_with" href="#school-calendar-collection-school-calendars_q_sort_with" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>School Calendar Collection [/school-calendars{?_q,_sort,_with}]</h2>
+<p><code>School Calendar</code> é considerado nessa api como a definição do ano letivo,<br />
+contendo fases fases avaliativas do ano (Ex.: bimestres), feriados, férias,<br />
+inicio e fim do ano.</p>
+<h3 id="list-school-calendars-get"><a name="user-content-list-school-calendars-get" href="#list-school-calendars-get" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>List School Calendars [GET]</h3>
+<p>Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="output.html#header-parametros-de-filtros-em-listagem">sessão</a> como definir os parametros da requisição.</p>
+<ul>
+<li>
+<p>Parameters</p>
+<ul>
+<li>_q (string, optional) - Pesquisa por palavra-chave, a correspondência e incluida conjunto de resultados.</li>
+<li>_sort (string, optional) - Ordena a coluna desejada, de forma acendente ou descendente.</li>
+<li>_with (string, optional) - Obtem informações do recurso relacionado.<ul>
+<li>Members <ul>
+<li>schoolClasses - Turmas do ano letivo.</li>
+<li>phases - Fases avaliativas do ano letivo. Recurso (SchoolCalendarPhase)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>Request (application/json)</p>
+<ul>
+<li>Headers<pre><code>authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p>Response 200 (application/json)</p>
+<ul>
+<li>Attributes <ul>
+<li>Include Paginator</li>
+<li>data (array) <ul>
+<li>(SchoolCalendar)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="create-a-new-school-calendar-post"><a name="user-content-create-a-new-school-calendar-post" href="#create-a-new-school-calendar-post" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Create a new school calendar [POST]</h3>
+<ul>
+<li>
+<p>Request (application/json)</p>
+<ul>
+<li>
+<p>Headers</p>
+<pre><code>authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
+</code></pre>
+</li>
+<li>
+<p>Attributes (SchoolCalendarFillable)</p>
+</li>
+</ul>
+</li>
+<li>
+<p>Response 200 (application/json) </p>
+<ul>
+<li>Attributes <ul>
+<li>school_calendar (SchoolCalendar)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="school-calendar-school-calendarsschool_calendar_id_with"><a name="user-content-school-calendar-school-calendarsschool_calendar_id_with" href="#school-calendar-school-calendarsschool_calendar_id_with" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>School Calendar [/school-calendars/{school_calendar_id}{?_with}]</h2>
+<h3 id="view-a-school-calendar-detail-get"><a name="user-content-view-a-school-calendar-detail-get" href="#view-a-school-calendar-detail-get" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>View a school calendar detail [GET]</h3>
+<ul>
+<li>
+<p>Parameters</p>
+<ul>
+<li>school_calendar_id: 1 (number) - ID of the school class</li>
+<li>_with (string, optional) - Obtem informações do recurso relacionado.<ul>
+<li>Members <ul>
+<li>schoolClasses - Turmas do ano letivo.</li>
+<li>phases - Fases avaliativas do ano letivo. Recurso (SchoolCalendarPhase)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>Request </p>
+<ul>
+<li>Headers<pre><code>authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p>Response 200 (application/json)</p>
+<ul>
+<li>Attributes <ul>
+<li>school_class (SchoolClass)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="edit-put_2"><a name="user-content-edit-put_2" href="#edit-put_2" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Edit [PUT]</h3>
+<ul>
+<li>
+<p>Parameters</p>
+<ul>
+<li>school_calendar_id: 1 (number) - ID of the school class</li>
+</ul>
+</li>
+<li>
+<p>Request </p>
+<ul>
+<li>
+<p>Headers</p>
+<pre><code>authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
+</code></pre>
+</li>
+<li>
+<p>Attributes (SchoolCalendarFillable)</p>
+</li>
+</ul>
+</li>
+<li>
+<p>Response 200 (application/json)</p>
+<ul>
+<li>Attributes <ul>
+<li>school_calendar (SchoolCalendar)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="delete-delete_2"><a name="user-content-delete-delete_2" href="#delete-delete_2" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Delete [DELETE]</h3>
+<ul>
+<li>
+<p>Parameters</p>
+<ul>
+<li>school_calendar_id: 1 (number) - ID of the School</li>
+</ul>
+</li>
+<li>
+<p>Request (application/json)</p>
+<ul>
+<li>Headers<pre><code>authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p>Response 204</p>
+</li>
+</ul>
+<h1 id="group-people"><a name="user-content-group-people" href="#group-people" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Group People</h1>
+<h2 id="students-collection-students_q_sort_with"><a name="user-content-students-collection-students_q_sort_with" href="#students-collection-students_q_sort_with" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Students Collection [/students{?_q,_sort,_with}]</h2>
+<h3 id="list-students-get"><a name="user-content-list-students-get" href="#list-students-get" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>List students [GET]</h3>
+<p>Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="output.html#header-parametros-de-filtros-em-listagem">sessão</a> como definir os parametros da requisição.</p>
+<ul>
+<li>
+<p>Parameters</p>
+<ul>
+<li>_q (string, optional) - Pesquisa por palavra-chave, a correspondência e incluida conjunto de resultados.</li>
+<li>_sort (string, optional) - Ordena a coluna desejada, de forma acendente ou descendente.</li>
+<li>_with (string, optional) - Obtem informações do recurso relacionado.<ul>
+<li>Members<ul>
+<li>studentResponsible</li>
+<li>person</li>
+<li>schoolClass</li>
+<li>schoolClass.grade</li>
+<li>schoolClass.shift</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>Request (application/json)</p>
+<ul>
+<li>Headers<pre><code>authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p>Response 200 (application/json)</p>
+<ul>
+<li>Attributes <ul>
+<li>Include Paginator </li>
+<li>data (array)<ul>
+<li>(Student)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="group-students"><a name="user-content-group-students" href="#group-students" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Group Students</h1>
+<p>Ações relacionadas a informações dos alunos: cadastrais, indicadores de desempenho<br />
+e relatórios como &ldquo;Boletim anual do aluno&rdquo; e &ldquo;Histórico escolar&rdquo;.</p>
+<h2 id="annual-report-studentsstudent_idannual-reportschool_calendar_id"><a name="user-content-annual-report-studentsstudent_idannual-reportschool_calendar_id" href="#annual-report-studentsstudent_idannual-reportschool_calendar_id" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Annual Report [/students/{student_id}/annual-report{?school_calendar_id}]</h2>
+<h3 id="annual-report-get"><a name="user-content-annual-report-get" href="#annual-report-get" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Annual Report [GET]</h3>
+<ul>
+<li>
+<p>Parameters</p>
+<ul>
+<li>school_calendar_id: 1 (required, number) - ID do ano letivo</li>
+</ul>
+</li>
+<li>
+<p>Request </p>
+<ul>
+<li>Headers<pre><code>authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p>Response 200 (application/json)</p>
+<ul>
+<li>Attributes (object)<ul>
+<li>report_by_subjects (array) - Médias e faltas por disciplina no ano letivo<ul>
+<li>(object)<ul>
+<li>include (Subject)</li>
+<li>average_calculation: <code>((9.6 + 9.3)*0.4 + (9.3 + 9.8)*0.6)/2</code> (string) - <code>Calculo de média da disciplina</code></li>
+<li>average_formula: <code>( ({1º Bimestre} + {2º Bimestre})*0.4 + ({3º Bimestre} + {4º Bimestre})*0.6 )/2</code> (string) - <code>Formula utilizada para calcular a média anual da disciplina</code></li>
+<li>average_year: 8.2 (number) - <code>Média do aluno para disciplina no ano letivo</code></li>
+<li>absences: 10 (number) - <code>Total de faltas do aluno para disciplina no ano letivo</code></li>
+<li>school_calendar_phases (array)<ul>
+<li>(object)<ul>
+<li>id: 1 (number) - <code>ID da fase do ano</code></li>
+<li>average: 7.2 (number) - <code>Média do aluno no para disciplina na fase do ano</code></li>
+<li>average_calculation: <code>(6.5 + 5.7)/2</code> (string) - <code>Calculo da média da disciplina na fase do ano</code> </li>
+<li>average_f ormula: <code>({Nota 1.1} + {Nota 1.2})/2</code> (string) - <code>Formula utilizada para  calcular a média da disciplina na fase do ano</code>    </li>
+<li>absences: 2 (number) - <code>Total de faltas do aluno para disciplina na fase do ano</code></li>
+<li>student_grades (array[object])<ul>
+<li>(object)<ul>
+<li>include (StudentGrade)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>school_calendar_phases (array) - Fases avaliativas do ano letivo<ul>
+<li>(SchoolCalendarPhase)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="annual-student-summary-studentsstudent_idannual-summaryschool_calendar_id"><a name="user-content-annual-student-summary-studentsstudent_idannual-summaryschool_calendar_id" href="#annual-student-summary-studentsstudent_idannual-summaryschool_calendar_id" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Annual Student Summary [/students/{student_id}/annual-summary{?school_calendar_id}]</h2>
+<h3 id="view-a-annual-student-summary-get"><a name="user-content-view-a-annual-student-summary-get" href="#view-a-annual-student-summary-get" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>View a annual student summary [GET]</h3>
+<ul>
+<li>
+<p>Parameters</p>
+<ul>
+<li>school_calendar_id: 1 (number, required) - <code>ID do ano letivo</code></li>
+</ul>
+</li>
+<li>
+<p>Request </p>
+<ul>
+<li>Headers<pre><code>authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p>Response 200 (application/json)</p>
+<ul>
+<li>Attributes (object)<ul>
+<li>absences (object)<ul>
+<li>total: 22 (number) - Total de faltas do aluno no ano letivo</li>
+</ul>
+</li>
+<li>best_average (object) - Melhor média do aluno no ano<ul>
+<li>include (Subject)</li>
+<li>average: 9.5 (number) - Média</li>
+<li>average_calculation: <code>(7.8 + 8.5)/2</code> (string) - Calculo da média</li>
+<li>student_grades (array) - Notas do aluno que compõem a média <ul>
+<li>(object)<ul>
+<li>include (StudentGrade)</li>
+<li>assessment (Assessment) </li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>low_average (object) - Pior média do aluno no ano<ul>
+<li>include (Subject)</li>
+<li>average (number)</li>
+<li>average_calculation (string)</li>
+<li>student_grades (array) <ul>
+<li>(object)<ul>
+<li>include (StudentGrade)</li>
+<li>assessment (Assessment) </li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="group-lessons"><a name="user-content-group-lessons" href="#group-lessons" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Group Lessons</h1>
+<p><code>Lessons</code> são as aulas programadas para as turmas de uma escola.</p>
+<h2 id="lessons-collection-lessons_q_sort_with"><a name="user-content-lessons-collection-lessons_q_sort_with" href="#lessons-collection-lessons_q_sort_with" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Lessons Collection [/lessons{?_q,_sort,_with}]</h2>
+<h3 id="list-lessons-get"><a name="user-content-list-lessons-get" href="#list-lessons-get" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>List lessons [GET]</h3>
+<p>Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="output.html#header-parametros-de-filtros-em-listagem">sessão</a> como definir os parametros da requisição.</p>
+<ul>
+<li>
+<p>Parameters</p>
+<ul>
+<li>_q (string, optional) - Pesquisa por palavra-chave, a correspondência e incluida conjunto de resultados.</li>
+<li>_sort (string, optional) - Ordena a coluna desejada, de forma acendente ou descendente.</li>
+<li>_with (string, optional) - Obtem informações do recurso relacionado.<ul>
+<li>Members<ul>
+<li>schoolClass</li>
+<li>schoolClass.grade</li>
+<li>schoolClass.shift</li>
+<li>subject</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>Request </p>
+<ul>
+<li>Headers<pre><code>authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p>Response 200 (application/json)</p>
+<ul>
+<li>Attributes <ul>
+<li>Include Paginator</li>
+<li>data (array)<ul>
+<li>(Lesson)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="create-a-new-lesson-post"><a name="user-content-create-a-new-lesson-post" href="#create-a-new-lesson-post" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Create a new lesson [POST]</h3>
+<ul>
+<li>
+<p>Request (application/json)</p>
+<ul>
+<li>
+<p>Headers</p>
+<pre><code>authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
+</code></pre>
+</li>
+<li>
+<p>Attributes (LessonFillable)</p>
+</li>
+</ul>
+</li>
+<li>
+<p>Response 200 (application/json) </p>
+<ul>
+<li>Attributes <ul>
+<li>lesson (Lesson)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="lesson-lessonslesson_id_withattach"><a name="user-content-lesson-lessonslesson_id_withattach" href="#lesson-lessonslesson_id_withattach" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Lesson [/lessons/{lesson_id}{?_with,attach}]</h2>
+<h3 id="view-a-lesson-detail-get"><a name="user-content-view-a-lesson-detail-get" href="#view-a-lesson-detail-get" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>View a lesson detail [GET]</h3>
+<ul>
+<li>
+<p>Parameters</p>
+<ul>
+<li>lesson_id: 1 (number) - ID of the lesson</li>
+<li>_with (string, optional) Nome da relação a ser incluida na resposta.<ul>
+<li>Members<ul>
+<li>attendanceRecords</li>
+<li>schoolClass</li>
+<li>schoolClass.grade</li>
+<li>schoolClass.students</li>
+<li>schoolClass.shift</li>
+<li>schoolClass.students.responsibles</li>
+<li>schoolClass.students.attendanceRecords</li>
+<li>schoolClass.students.person</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>attach (string, optional) </p>
+<p>Anexa mais informações da aula na responsta. <br />
+students.last_occurences são as ultimas 2 ocorrencias do aluno. <br />
+students.attendanceRecord é o registro de chamada da aula para o aluno. <br />
+students.absenceSummary é um resumo de faltas do aluno, durante todo<br />
+o ano.</p>
+<ul>
+<li>Members<ul>
+<li>students</li>
+<li>students.attendanceRecord</li>
+<li>students.last_occurences</li>
+<li>students.absenceSummary</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>Request </p>
+<ul>
+<li>Headers<pre><code>authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p>Response 200 (application/json)</p>
+<ul>
+<li>Attributes <ul>
+<li>lesson <ul>
+<li>Include (Lesson)</li>
+<li>students (array)<ul>
+<li>(object)<ul>
+<li>Include (Student)</li>
+<li>attendance_record (AttendanceRecord)</li>
+<li>last_occurences (array[Occurence])</li>
+<li>absence_summary (object)<ul>
+<li>percentage_absences_reprove: 25 - Percentual máximo de faltas as aulas para não ser           reprovado       </li>
+<li>total_lessons_year: 200 - total de aulas programadas no ano da mesma disciplina           </li>
+<li>total_absences_year: 22 - total de faltas que o aluno tem no ano da mesma disciplina</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="edit-put_3"><a name="user-content-edit-put_3" href="#edit-put_3" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Edit [PUT]</h3>
+<ul>
+<li>
+<p>Parameters</p>
+<ul>
+<li>lesson_id: 1 (number) - ID of the lesson</li>
+</ul>
+</li>
+<li>
+<p>Request </p>
+<ul>
+<li>
+<p>Headers</p>
+<pre><code>authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
+</code></pre>
+</li>
+<li>
+<p>Attributes (LessonFillable)</p>
+</li>
+</ul>
+</li>
+<li>
+<p>Response 200 (application/json)</p>
+<ul>
+<li>Attributes <ul>
+<li>lesson (Lesson)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="delete-delete_3"><a name="user-content-delete-delete_3" href="#delete-delete_3" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Delete [DELETE]</h3>
+<ul>
+<li>
+<p>Parameters</p>
+<ul>
+<li>lesson_id: 1 (number) - ID of the lesson</li>
+</ul>
+</li>
+<li>
+<p>Request (application/json)</p>
+<ul>
+<li>Headers<pre><code>authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p>Response 204</p>
+</li>
+</ul>
+<h2 id="lessons-per-day-lessonsper-day_with_q_sortstartend"><a name="user-content-lessons-per-day-lessonsper-day_with_q_sortstartend" href="#lessons-per-day-lessonsper-day_with_q_sortstartend" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Lessons per day [/lessons/per-day{?_with,_q,_sort,start,end}]</h2>
+<h3 id="list-lessons-per-day-get"><a name="user-content-list-lessons-per-day-get" href="#list-lessons-per-day-get" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>List Lessons per day [GET]</h3>
+<p>Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="output.html#header-parametros-de-filtros-em-listagem">sessão</a> como definir os parametros da requisição.</p>
+<ul>
+<li>
+<p>Parameters</p>
+<ul>
+<li>start (string, optional) Data inicial <ul>
+<li>Default: NOW()</li>
+</ul>
+</li>
+<li>end (string, optional) Data final<ul>
+<li>Default: NOW() + 15 days </li>
+</ul>
+</li>
+<li>_with (string, optional) Nome da relação a ser incluida da resposta.<ul>
+<li>Members<ul>
+<li>schoolClass</li>
+<li>schoolClass.grade</li>
+<li>schoolClass.shift</li>
+<li>schoolClass.students</li>
+<li>schoolClass.students.studentResponsible</li>
+<li>schoolClass.students.attendanceRecords</li>
+<li>subject</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>_q (string, optional) - Fulltext search</li>
+</ul>
+</li>
+<li>
+<p>Request </p>
+<ul>
+<li>Headers<pre><code>authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p>Response 200 (application/json)</p>
+<ul>
+<li>Attributes <ul>
+<li>start: &lsquo;2016-10-01&rsquo; (string)</li>
+<li>end: &lsquo;2016-10-15&rsquo; (string)</li>
+<li>data (array)<ul>
+<li>(object)<ul>
+<li>day: <code>2016-10-01</code> (string)</li>
+<li>lessons (array[Lesson])</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="group-attendance-records"><a name="user-content-group-attendance-records" href="#group-attendance-records" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Group Attendance Records</h1>
+<p><code>Attendance Records</code> são os registros de presenças dos alunos em uma aula, definindo<br />
+se o aluno estava ou não presente durante a aula.</p>
+<h2 id="attendance-records-collection-attendance-records_q_sort_with"><a name="user-content-attendance-records-collection-attendance-records_q_sort_with" href="#attendance-records-collection-attendance-records_q_sort_with" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Attendance records Collection [/attendance-records{?_q,_sort,_with}]</h2>
+<h3 id="list-attendance-records-get"><a name="user-content-list-attendance-records-get" href="#list-attendance-records-get" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>List attendance records [GET]</h3>
+<p>Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="output.html#header-parametros-de-filtros-em-listagem">sessão</a> como definir os parametros da requisição.</p>
+<ul>
+<li>
+<p>Parameters</p>
+<ul>
+<li>_q (string, optional) - Pesquisa por palavra-chave, a correspondência e incluida conjunto de resultados.</li>
+<li>_sort (string, optional) - Ordena a coluna desejada, de forma acendente ou descendente.</li>
+<li>_with (string, optional) - Obtem informações do recurso relacionado.<ul>
+<li>Members<ul>
+<li>lesson</li>
+<li>lesson.schoolClass</li>
+<li>lesson.schoolClass.grade</li>
+<li>lesson.schoolClass.shift</li>
+<li>lesson.subject</li>
+<li>student.person</li>
+<li>student.schoolClass</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>Request </p>
+<ul>
+<li>Headers<pre><code>authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p>Response 200 (application/json)</p>
+<ul>
+<li>Attributes <ul>
+<li>Include Paginator</li>
+<li>data (array)<ul>
+<li>(AttendanceRecord)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="create-a-new-attendance-record-post"><a name="user-content-create-a-new-attendance-record-post" href="#create-a-new-attendance-record-post" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Create a new attendance record [POST]</h3>
+<p>O registro de presença de um aluno em uma aula é único.<br />
+Se o registro de presença que já existe for solicitado, será<br />
+retornado o registro já existente com as informações atualizadas.</p>
+<ul>
+<li>
+<p>Request (application/json)</p>
+<ul>
+<li>
+<p>Headers</p>
+<pre><code>authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
+</code></pre>
+</li>
+<li>
+<p>Attributes (AttendanceRecordFillable)</p>
+</li>
+</ul>
+</li>
+<li>
+<p>Response 201 (application/json) </p>
+<ul>
+<li>
+<p>Headers</p>
+<pre><code>Location: /attendance_records/1
+</code></pre>
+</li>
+<li>
+<p>Attributes </p>
+<ul>
+<li>attendance_record (AttendanceRecord)</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>Response 409 (application/json)</p>
+<pre><code>{
+    "message": "The record of the student (student.id = 1 ) to the lesson already exists.",
+    "status_code": 409
+}
+</code></pre>
+</li>
+</ul>
+<h2 id="attendance-record-attendance-recordsattendance_record_id_with"><a name="user-content-attendance-record-attendance-recordsattendance_record_id_with" href="#attendance-record-attendance-recordsattendance_record_id_with" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Attendance Record [/attendance-records/{attendance_record_id}{?_with}]</h2>
+<ul>
+<li>Parameters<ul>
+<li>attendance_record_id: 1 (number) - ID of the attendance record</li>
+</ul>
+</li>
+</ul>
+<h3 id="view-a-attendance-record-detail-get"><a name="user-content-view-a-attendance-record-detail-get" href="#view-a-attendance-record-detail-get" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>View a attendance record detail [GET]</h3>
+<ul>
+<li>
+<p>Parameters</p>
+<ul>
+<li>_with (string, optional) - Obtem informações do recurso relacionado.<ul>
+<li>Members<ul>
+<li>lesson</li>
+<li>lesson.schoolClass</li>
+<li>lesson.schoolClass.grade</li>
+<li>lesson.schoolClass.shift</li>
+<li>lesson.subject</li>
+<li>student.person</li>
+<li>student.schoolClass</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>Request </p>
+<ul>
+<li>Headers<pre><code>authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p>Response 200 (application/json)</p>
+<ul>
+<li>Attributes <ul>
+<li>attendance_record (AttendanceRecord)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="edit-put_4"><a name="user-content-edit-put_4" href="#edit-put_4" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Edit [PUT]</h3>
+<ul>
+<li>
+<p>Parameters</p>
+<ul>
+<li>attendance_record_id: 1 (number) - ID of the attendance record</li>
+</ul>
+</li>
+<li>
+<p>Request </p>
+<ul>
+<li>
+<p>Headers</p>
+<pre><code>authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
+</code></pre>
+</li>
+<li>
+<p>Attributes (AttendanceRecordFillable)</p>
+</li>
+</ul>
+</li>
+<li>
+<p>Response 200 (application/json)</p>
+<ul>
+<li>Attributes <ul>
+<li>attendance_record (AttendanceRecord)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="group-assessments"><a name="user-content-group-assessments" href="#group-assessments" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Group Assessments</h1>
+<p><code>Assessments</code> são as definições das avaliações que um professor precisar aplicar<br />
+aos seus alunos durante uma fase do ano.<br />
+Exemplo: No 1º Bimestre o professor precisa avaliar seus alunos com duas provas (N1 e N2),<br />
+e a nota do aluno no 1º Bimestre será composta pela conta (N1<em>0,4)+(N2</em>0,6)=NOTA_DO_BIMESTRE.</p>
+<h2 id="assessments-collection-assessments_q_sort_with"><a name="user-content-assessments-collection-assessments_q_sort_with" href="#assessments-collection-assessments_q_sort_with" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Assessments Collection [/assessments{?_q,_sort,_with}]</h2>
+<h3 id="list-assessments-get"><a name="user-content-list-assessments-get" href="#list-assessments-get" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>List assessments [GET]</h3>
+<p>Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="output.html#header-parametros-de-filtros-em-listagem">sessão</a> como definir os parametros da requisição.</p>
+<ul>
+<li>
+<p>Parameters</p>
+<ul>
+<li>_q (string, optional) - Pesquisa por palavra-chave, a correspondência e incluida conjunto de resultados.<ul>
+<li>Members<br />
+    +name</li>
+</ul>
+</li>
+<li>_sort (string, optional) - Ordena a coluna desejada, de forma acendente ou descendente.</li>
+<li>_with (string, optional) - Obtem informações do recurso relacionado.<ul>
+<li>Members<ul>
+<li>schoolCalendarPhase</li>
+<li>schoolCalendarPhase.schoolCalendar</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>Request </p>
+<ul>
+<li>Headers<pre><code>authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p>Response 200 (application/json)</p>
+<ul>
+<li>Attributes <ul>
+<li>Include Paginator</li>
+<li>data (array)<ul>
+<li>(Assessment)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="group-occurrence"><a name="user-content-group-occurrence" href="#group-occurrence" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Group Occurrence</h1>
+<p><code>Occurrence</code> são registros de ocorrências registrar por professor em relação aos alunos.</p>
+<h2 id="occurrence-collection-occurences_q_sort_with"><a name="user-content-occurrence-collection-occurences_q_sort_with" href="#occurrence-collection-occurences_q_sort_with" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Occurrence Collection [/occurences{?_q,_sort,_with}]</h2>
+<h3 id="create-a-new-occorence-post"><a name="user-content-create-a-new-occorence-post" href="#create-a-new-occorence-post" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Create a new Occorence [POST]</h3>
+<ul>
+<li>
+<p>Request (application/json)</p>
+<ul>
+<li>
+<p>Headers</p>
+<pre><code>authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
+</code></pre>
+</li>
+<li>
+<p>Attributes (OccurenceFillable)</p>
+</li>
+</ul>
+</li>
+<li>
+<p>Response 201 (application/json) </p>
+<ul>
+<li>Attributes <ul>
+<li>occurence (Occurence)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="list-occurences-get"><a name="user-content-list-occurences-get" href="#list-occurences-get" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>List occurences [GET]</h3>
+<p>Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="output.html#header-parametros-de-filtros-em-listagem">sessão</a> como definir os parametros da requisição.</p>
+<ul>
+<li>
+<p>Parameters</p>
+<ul>
+<li>_q (string, optional) - Pesquisa por palavra-chave, a correspondência e incluida conjunto de resultados.<ul>
+<li>Members<br />
+    +comment</li>
+</ul>
+</li>
+<li>_sort (string, optional) - Ordena a coluna desejada, de forma acendente ou descendente.</li>
+<li>_with (string, optional) - Obtem informações do recurso relacionado.<ul>
+<li>Members<ul>
+<li>aboutPerson</li>
+<li>level</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>Request </p>
+<ul>
+<li>Headers<pre><code>authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p>Response 200 (application/json)</p>
+<ul>
+<li>Attributes <ul>
+<li>Include Paginator</li>
+<li>data ([Occurence])</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="occurence-occurencesoccurence_id_with"><a name="user-content-occurence-occurencesoccurence_id_with" href="#occurence-occurencesoccurence_id_with" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Occurence [/occurences/{occurence_id}{?_with}]</h2>
+<h3 id="view-a-occurence-detail-get"><a name="user-content-view-a-occurence-detail-get" href="#view-a-occurence-detail-get" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>View a occurence detail [GET]</h3>
+<ul>
+<li>
+<p>Parameters</p>
+<ul>
+<li>occurence_id: 1 (number) - Identificador único da Occorencia</li>
+<li>_with (string, optional) - Obtem informações do recurso relacionado.<ul>
+<li>Members<ul>
+<li>aboutPerson</li>
+<li>level</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>Request </p>
+<ul>
+<li>Headers<pre><code>authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p>Response 200 (application/json)</p>
+<ul>
+<li>Attributes <ul>
+<li>Occurence (Occurence)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="edit-put_5"><a name="user-content-edit-put_5" href="#edit-put_5" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Edit [PUT]</h3>
+<ul>
+<li>
+<p>Parameters</p>
+<ul>
+<li>occurence_id: 1 (number) - Identificador único da Occorencia</li>
+</ul>
+</li>
+<li>
+<p>Request (application/json)</p>
+<ul>
+<li>
+<p>Headers</p>
+<pre><code>authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
+</code></pre>
+</li>
+<li>
+<p>Attributes (OccurenceFillable)</p>
+</li>
+</ul>
+</li>
+<li>
+<p>Response 200 (application/json)</p>
+<ul>
+<li>Attributes <ul>
+<li>Occurence (Occurence)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="delete-delete_4"><a name="user-content-delete-delete_4" href="#delete-delete_4" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Delete [DELETE]</h3>
+<ul>
+<li>
+<p>Parameters</p>
+<ul>
+<li>occurence_id: 1 (number) - Identificador único da Occorencia</li>
+</ul>
+</li>
+<li>
+<p>Request (application/json)</p>
+<ul>
+<li>Headers<pre><code>authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p>Response 204</p>
+</li>
+</ul>
+<h1 id="group-student-grades"><a name="user-content-group-student-grades" href="#group-student-grades" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Group Student Grades</h1>
+<p><code>Student Grades</code> São registo de notas de cada aluno em suas diciplinas nos periodos e turmas pertencentes a ele.</p>
+<h2 id="student-grades-collection-student_grades_q_sort_field_with"><a name="user-content-student-grades-collection-student_grades_q_sort_field_with" href="#student-grades-collection-student_grades_q_sort_field_with" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Student grades Collection [/student_grades{?_q,_sort,_field,_with}]</h2>
+<h3 id="create-a-new-student-grades-post"><a name="user-content-create-a-new-student-grades-post" href="#create-a-new-student-grades-post" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Create a new Student Grades [POST]</h3>
+<ul>
+<li>
+<p>Request (application/json)</p>
+<ul>
+<li>
+<p>Headers</p>
+<pre><code>authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
+</code></pre>
+</li>
+<li>
+<p>Attributes (StudentGradeFillable)</p>
+</li>
+</ul>
+</li>
+<li>
+<p>Response 201 (application/json) </p>
+<ul>
+<li>Attributes <ul>
+<li>StudentGrade (StudentGrade)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="list-student-grades-get"><a name="user-content-list-student-grades-get" href="#list-student-grades-get" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>List Student Grades [GET]</h3>
+<p>Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="output.html#header-parametros-de-filtros-em-listagem">sessão</a> como definir os parametros da requisição.</p>
+<ul>
+<li>
+<p>Parameters</p>
+<ul>
+<li>_q (string, optional) - Pesquisa por palavra-chave, a correspondência e incluida conjunto de resultados.</li>
+<li>_sort (string, optional) - Ordena a coluna desejada, de forma acendente ou descendente.</li>
+<li>_with (string, optional) - Obtem informações do recurso relacionado.<ul>
+<li>Members<ul>
+<li>student</li>
+<li>subject</li>
+<li>assessment</li>
+<li>schoolClass</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>Request </p>
+<ul>
+<li>Headers<pre><code>authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p>Response 200 (application/json)</p>
+<ul>
+<li>Attributes <ul>
+<li>Include Paginator</li>
+<li>data (array)<ul>
+<li>(StudentGrade)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="student-grades-student-gradesstudent_grades_id_with"><a name="user-content-student-grades-student-gradesstudent_grades_id_with" href="#student-grades-student-gradesstudent_grades_id_with" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Student Grades [/student-grades/{student_grades_id}{?_with}]</h2>
+<h3 id="view-a-student-grades-detail-get"><a name="user-content-view-a-student-grades-detail-get" href="#view-a-student-grades-detail-get" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>View a Student Grades detail [GET]</h3>
+<ul>
+<li>
+<p>Parameters</p>
+<ul>
+<li>student_grades_id: 1 (number) - ID of the occurence</li>
+<li>_with (string, optional) - Obtem informações do recurso relacionado.<ul>
+<li>Members<ul>
+<li>student</li>
+<li>subject</li>
+<li>assessment</li>
+<li>schoolClass</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>Request </p>
+<ul>
+<li>Headers<pre><code>authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p>Response 200 (application/json)</p>
+<ul>
+<li>Attributes <ul>
+<li>StudentGrade (StudentGrade)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="edit-put_6"><a name="user-content-edit-put_6" href="#edit-put_6" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Edit [PUT]</h3>
+<ul>
+<li>
+<p>Parameters</p>
+<ul>
+<li>student_grades_id: 1 (number) - ID of the Student Grades</li>
+</ul>
+</li>
+<li>
+<p>Request (application/json)</p>
+<ul>
+<li>
+<p>Headers</p>
+<pre><code>authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
+</code></pre>
+</li>
+<li>
+<p>Attributes (StudentGradeFillable)</p>
+</li>
+</ul>
+</li>
+<li>
+<p>Response 200 (application/json)</p>
+<ul>
+<li>Attributes <ul>
+<li>StudentGrade (StudentGrade)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="group-subjects"><a name="user-content-group-subjects" href="#group-subjects" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Group Subjects</h1>
+<p><code>Subjects</code> São regristro das disciplinas .</p>
+<h2 id="subjects-collection-subjects_q_sort_with"><a name="user-content-subjects-collection-subjects_q_sort_with" href="#subjects-collection-subjects_q_sort_with" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Subjects Collection [/subjects{?_q,_sort,_with}]</h2>
+<h3 id="create-a-new-occorence-post_1"><a name="user-content-create-a-new-occorence-post_1" href="#create-a-new-occorence-post_1" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Create a new Occorence [POST]</h3>
+<ul>
+<li>
+<p>Request (application/json)</p>
+<ul>
+<li>
+<p>Headers</p>
+<pre><code>authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
+</code></pre>
+</li>
+<li>
+<p>Attributes (SubjectFillable)</p>
+</li>
+</ul>
+</li>
+<li>
+<p>Response 201 (application/json) </p>
+<ul>
+<li>Attributes <ul>
+<li>Subject (Subject)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="list-subjects-get"><a name="user-content-list-subjects-get" href="#list-subjects-get" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>List Subjects [GET]</h3>
+<p>Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="output.html#header-parametros-de-filtros-em-listagem">sessão</a> como definir os parametros da requisição.</p>
+<ul>
+<li>
+<p>Parameters</p>
+<ul>
+<li>_q (string, optional) - Pesquisa por palavra-chave, a correspondência e incluida conjunto de resultados.<ul>
+<li>Members<br />
+    +name</li>
+</ul>
+</li>
+<li>_sort (string, optional) - Ordena a coluna desejada, de forma acendente ou descendente.</li>
+</ul>
+</li>
+<li>
+<p>Request </p>
+<ul>
+<li>Headers<pre><code>authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p>Response 200 (application/json)</p>
+<ul>
+<li>Attributes <ul>
+<li>Include Paginator</li>
+<li>data (array)<ul>
+<li>(Subject)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="subject-subjectssubject_id"><a name="user-content-subject-subjectssubject_id" href="#subject-subjectssubject_id" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Subject [/subjects/{subject_id}]</h2>
+<h3 id="view-a-subject-detail-get"><a name="user-content-view-a-subject-detail-get" href="#view-a-subject-detail-get" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>View a Subject detail [GET]</h3>
+<ul>
+<li>
+<p>Parameters</p>
+<ul>
+<li>subject_id: 1 (number) - ID of the Subject</li>
+</ul>
+</li>
+<li>
+<p>Request </p>
+<ul>
+<li>Headers<pre><code>authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p>Response 200 (application/json)</p>
+<ul>
+<li>Attributes <ul>
+<li>Subject (Subject)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="edit-put_7"><a name="user-content-edit-put_7" href="#edit-put_7" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Edit [PUT]</h3>
+<ul>
+<li>
+<p>Parameters</p>
+<ul>
+<li>subject_id: 1 (number) - ID of the Subject</li>
+</ul>
+</li>
+<li>
+<p>Request (application/json)</p>
+<ul>
+<li>
+<p>Headers</p>
+<pre><code>authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
+</code></pre>
+</li>
+<li>
+<p>Attributes (SubjectFillable)</p>
+</li>
+</ul>
+</li>
+<li>
+<p>Response 200 (application/json)</p>
+<ul>
+<li>Attributes <ul>
+<li>Subject (Subject)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="delete-delete_5"><a name="user-content-delete-delete_5" href="#delete-delete_5" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Delete [DELETE]</h3>
+<ul>
+<li>
+<p>Parameters</p>
+<ul>
+<li>subject_id: 1 (number) - ID of the Subject</li>
+</ul>
+</li>
+<li>
+<p>Request (application/json)</p>
+<ul>
+<li>Headers<pre><code>authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p>Response 204</p>
+</li>
+</ul>
+<h1 id="data-structure"><a name="user-content-data-structure" href="#data-structure" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Data structure</h1>
+<h2 id="subjectfillable"><a name="user-content-subjectfillable" href="#subjectfillable" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>SubjectFillable</h2>
+<ul>
+<li>name: Matématica  (string) - Nome da disciplina. Ex.: Matématica, Português, Fisica.</li>
+</ul>
+<h2 id="subject"><a name="user-content-subject" href="#subject" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Subject</h2>
+<ul>
+<li>id: 1 (number) - Identificador único da disciplina.</li>
+<li>Include (SubjectFillable)</li>
+</ul>
+<h2 id="studentgradefillable"><a name="user-content-studentgradefillable" href="#studentgradefillable" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>StudentGradeFillable</h2>
+<ul>
+<li>grade: 7.5 (number) - Nota do aluno na avaliação.</li>
+<li>student_id: 1 (number) - ID do aluno.</li>
+<li>subject_id: 1 (number) - ID da disciplina relacionada a turma a qual o aluno realizou a avaliação.</li>
+<li>assessment_id: 1 (number) - ID da avaliação.</li>
+<li>school_class_id: 1 (number) - ID da turma onde a prova foi aplicada.</li>
+</ul>
+<h2 id="studentgrade"><a name="user-content-studentgrade" href="#studentgrade" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>StudentGrade</h2>
+<ul>
+<li>id: 1 (number) - Identificador único da nota do aluno.</li>
+<li>Include (StudentGradeFillable)</li>
+</ul>
+<h2 id="occurencefillable-object"><a name="user-content-occurencefillable-object" href="#occurencefillable-object" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>OccurenceFillable (object)</h2>
+<ul>
+<li>comment: fulano fez isso (string) - descrição sobre os fatos da occorencia</li>
+<li>level_id: 1 (number) - Nivel da occorencia</li>
+<li>about_person_id: 2 (number) - ID do usuario que esta recebendo a occorencia</li>
+</ul>
+<h2 id="occurence-object"><a name="user-content-occurence-object" href="#occurence-object" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Occurence (object)</h2>
+<ul>
+<li>id: 1 (number) - Identificador único da ocorrência.</li>
+<li>Include (OccurenceFillable)</li>
+</ul>
+<h2 id="level"><a name="user-content-level" href="#level" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Level</h2>
+<ul>
+<li>id: 1 (number)</li>
+<li>name: Grave (string)</li>
+</ul>
+<h2 id="assessment-object"><a name="user-content-assessment-object" href="#assessment-object" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Assessment (object)</h2>
+<ul>
+<li>id: 1 (number) - Identificador único da avaliação</li>
+<li>name: Nota N1 - Descrição da avaliação</li>
+<li>school_calendar_phase_id: 1 (number) - ID da fase que a avaliação será registrada.</li>
+</ul>
+<h2 id="schoolcalendarphase-object"><a name="user-content-schoolcalendarphase-object" href="#schoolcalendarphase-object" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>SchoolCalendarPhase (object)</h2>
+<ul>
+<li>id: 1 (number) - Identificador único da fase avaliativa do ano.</li>
+<li>name: <code>1º Bimestre</code> (string)</li>
+<li>start: <code>2016-02-01</code> (string) - Data inicial do período avaliativo</li>
+<li>end: <code>2016-04-01</code> (string) - Ultimo dia do período avaliativo</li>
+<li>school_calendar_id: 1 - ID do ano letivo a qual esta fase está relacionada.</li>
+</ul>
+<h2 id="schoolcalendar-object"><a name="user-content-schoolcalendar-object" href="#schoolcalendar-object" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>SchoolCalendar (object)</h2>
+<ul>
+<li>id: 1 (number) - Identificador único do ano letivo.</li>
+<li>include (SchoolCalendarFillable)</li>
+</ul>
+<h2 id="schoolcalendarfillable-object"><a name="user-content-schoolcalendarfillable-object" href="#schoolcalendarfillable-object" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>SchoolCalendarFillable (object)</h2>
+<ul>
+<li>year: 2014 (number) - Ano de referência</li>
+<li>start: <code>2016-02-01</code> - Inicio do ano letivo</li>
+<li>end: <code>2016-12-10</code> - Fim do ano letivo</li>
+<li>average_formula: <code>( ({1º Bimestre} + {2º Bimestre})*0.4 + ({3º Bimestre} + {4º Bimestre})*0.6 )/2</code> - <code>Fórmula utilizada para calcular médias do aluno no ano</code> </li>
+</ul>
+<h2 id="schoolfillable-object"><a name="user-content-schoolfillable-object" href="#schoolfillable-object" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>SchoolFillable (object)</h2>
+<ul>
+<li>name: Escola luz do saber (string) - Nome da escola</li>
+</ul>
+<h2 id="school-object"><a name="user-content-school-object" href="#school-object" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>School (object)</h2>
+<ul>
+<li>id: 1 (number) - Identificador único da escola</li>
+<li>include (SchoolFillable)</li>
+</ul>
+<h2 id="schoolclassfillable-object"><a name="user-content-schoolclassfillable-object" href="#schoolclassfillable-object" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>SchoolClassFillable (object)</h2>
+<ul>
+<li>identifier: A (string) - Abreviação/identificação da turma. Exmplo: B, para segunda turma do 1º ano (de 1 Ano B).</li>
+<li>grade_id: 1 (number) - ID do ano estudantíl.</li>
+<li>shift_id: 1 (number) - ID do turno.</li>
+<li>school_calendar_id: 1 (number) - ID do Ano letivo em que a turma existe.</li>
+<li>school_id: 1 (number) - ID da escola relacionada.</li>
+</ul>
+<h2 id="schoolclass-object"><a name="user-content-schoolclass-object" href="#schoolclass-object" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>SchoolClass (object)</h2>
+<ul>
+<li>id: 1 (number) - Identificador único da turma.</li>
+<li>include (SchoolClassFillable)</li>
+</ul>
+<h2 id="schoolclasssubject-object"><a name="user-content-schoolclasssubject-object" href="#schoolclasssubject-object" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>SchoolClassSubject (object)</h2>
+<ul>
+<li>id: 1 (number) - Identificador único da disciplina em uma turma.</li>
+<li>school_class_id - ID da turma</li>
+<li>subject_id - ID da disciplina</li>
+</ul>
+<h2 id="shift-object"><a name="user-content-shift-object" href="#shift-object" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Shift (object)</h2>
+<ul>
+<li>id: 1 (number) - Identificador único do turno.</li>
+<li>name: Matutino (string) - Nome do turno. Exemplo: Vespertino, matutino, noturno.</li>
+</ul>
+<h2 id="lessonfillable-object"><a name="user-content-lessonfillable-object" href="#lessonfillable-object" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>LessonFillable (object)</h2>
+<ul>
+<li>school_class_id: 1 (number) - <code>Identificador único da turma.</code></li>
+<li>subject_id: 1 (number) - <code>Identificador único da disciplina (Matématica, física, ...).</code></li>
+<li>start: <code>2016-08-30 13:17:11</code> (string) - <code>Data e horário de inicio da aula.</code></li>
+<li>end: <code>2016-08-30 13:17:11</code> (string) - <code>Data e horário de termino da aula.</code></li>
+<li>teacher_id: 1 (number) - <code>ID do professor.</code></li>
+</ul>
+<h2 id="lesson-object"><a name="user-content-lesson-object" href="#lesson-object" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Lesson (object)</h2>
+<ul>
+<li>id: 1 (number) - <code>Identificador único  da aula.</code></li>
+<li>include (LessonFillable)</li>
+</ul>
+<h2 id="teacher-object"><a name="user-content-teacher-object" href="#teacher-object" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Teacher (object)</h2>
+<ul>
+<li>id: 1 (number) - <code>Identificador único do professor.</code></li>
+<li>person_id: 1 (number) - <code>ID das informações básicas de pessoa do professor (nome, sobrenome, etc.)</code></li>
+</ul>
+<h2 id="person-object"><a name="user-content-person-object" href="#person-object" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Person (object)</h2>
+<ul>
+<li>id: 1 (number) - Identificador único da pessoa</li>
+<li>name: Caio Fernando Chaves (string) - Nome</li>
+<li>age: 15 (number) - Idade</li>
+<li>birthday: <code>2001-04-21</code> (string) - Data de aniversário</li>
+<li>piture: <code>https://randomuser.me/api/portraits/lego/6.jpg</code> (string) - Foto</li>
+<li>gender: male (string)</li>
+<li>place_of_birth: Santa Alenssandra (string) - Cidade de nascimento</li>
+<li>more: descricao (string) - Mais detalhes sobre a pessoa</li>
+<li>phone: <code>(62) 8385-5421</code> (string) - numero de telefone da pessoa</li>
+</ul>
+<h2 id="student-object"><a name="user-content-student-object" href="#student-object" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Student (object)</h2>
+<ul>
+<li>id: 1 (number) - Identificador único do estudante.</li>
+<li>person_id: 1 (number) - ID das informações básicas de pessoa do aluno (nome, sobrenome, etc.).</li>
+</ul>
+<h2 id="attendancerecordfillable-object"><a name="user-content-attendancerecordfillable-object" href="#attendancerecordfillable-object" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>AttendanceRecordFillable (object)</h2>
+<ul>
+<li>lesson_id: 1 (number) - Identificador único da aula relacionada</li>
+<li>student_id: 1 (number) - Identificador único do aluno</li>
+<li>presence: 1 (number) - <code>0=Faltou a aula. 1=presente. 2=Falta abonada.</code></li>
+</ul>
+<h2 id="attendancerecord-object"><a name="user-content-attendancerecord-object" href="#attendancerecord-object" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>AttendanceRecord (object)</h2>
+<ul>
+<li>id: 1 (number) - Identificador único do registro de presença</li>
+<li>Include (AttendanceRecordFillable)</li>
+</ul>
+<h2 id="paginator-object"><a name="user-content-paginator-object" href="#paginator-object" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Paginator (object)</h2>
+<ul>
+<li>total: 25 (number) - Total de resultados encontrados</li>
+<li>per_page: 15 (number) - Quantidade de resultados por página</li>
+<li>current_page: 1 (number) - Página atual</li>
+<li>last_page: 2 (number) - Ultima página</li>
+<li>next_page_url: <code>http://localhost/api/&lt;resource&gt;?page=2</code> (string, nullable) - Url para resultados da proxima página</li>
+<li>prev_page_url: null (string, nullable) - Url para resultados da página anterior</li>
+<li>from: 1 (number) - Número inicial de resultados de paginação da página atual</li>
+<li>to: 15 (number) - Número final de resultados de paginação da página atual</li>
+</ul></article></body></html>

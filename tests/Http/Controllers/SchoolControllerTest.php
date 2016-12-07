@@ -42,8 +42,8 @@ class SchoolControllerTest extends TestCase
         $school = factory(School::class)->create();
         $attributes = array_keys($school->attributesToArray());
         
-        $this->get('api/schools?XDEBUG_SESSION_START=sublime.xdebug',
-            $this->getAutHeader())
+        $this->get('api/schools?_with=schoolClasses',
+            $this->getAutHeader())->dump()
             ->assertResponseStatus(200)
             ->seeJsonStructure([
                 'total',

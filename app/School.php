@@ -37,6 +37,15 @@ class School extends Model
      */
     protected $fillable = ['name'];
 
+    /**
+     * The attributes that should be casted to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'contacts' => 'array',
+    ];
+
 
     /**
      * @Relation

@@ -30,6 +30,18 @@ $factory->define(App\SchoolCalendar::class, function() use ($factory, $faker) {
 $factory->define(App\School::class, function () use ($factory, $faker) {
     return [
         'name' => $faker->company.' school',
+        'contacts' => [
+            [
+                "name" => "Central de atendimento ao aluno", 
+                "phone" => $faker->phoneNumber,
+                "email" => $faker->email
+            ],
+            [
+                "name" => "Diretoria", 
+                "phone" => $faker->phoneNumber,
+                "email" => $faker->email
+            ]
+        ]
     ];
 });
 

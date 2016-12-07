@@ -49,6 +49,7 @@ class ShcoolsLessonsClasses extends Migration
         Schema::create('schools', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
+            $table->json('contacts');
             $table->timestamps();
             $table->softDeletes();
         });
