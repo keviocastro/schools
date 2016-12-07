@@ -19,9 +19,8 @@ class Occurence extends Model
      * @var array
      */
     protected $hidden = [
-        'deleted_at',
-        'created_at',
-        'updated_at'];
+        'deleted_at'
+        ];
     
     /**
      * The attributes that are mass assignable.
