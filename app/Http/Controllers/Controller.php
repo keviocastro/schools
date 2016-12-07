@@ -56,10 +56,15 @@ class Controller extends BaseController
 
 
         // Se não remover apiHandler utiliza como filter.
+        // _limit e _offset foram removidos porque é utilizado
+        // o parametro _per_page para realizar a paginação.
         $notAFilter = [
             '_page', 
+            '_per_page', 
             'XDEBUG_SESSION_START', 
-            'XDEBUG_SESSION_STOP'
+            'XDEBUG_SESSION_STOP',
+            '_limit',
+            '_offset'
         ];
 
         foreach ($notAFilter as $value) {
@@ -71,7 +76,8 @@ class Controller extends BaseController
         $result = $this->apiHandler->parseMultiple($queryBuilder, 
             $fullTextSearchColumns, $queryParams);
         
-        $result = $result->getBuilder()->paginate($perPage = null, 
+        $result = $result->getBuilder()->paginate(
+            Input::get('_per_page', null), 
             $columns = ['*'], 
             $pageName = '_page', 
             $page = null);        
