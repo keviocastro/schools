@@ -5,6 +5,7 @@ RUN apt-get update && apt-get install -y \
  	mysql-client \
     vim \
  	nmap \
+    git \
     --no-install-recommends && rm -r /var/lib/apt/lists/*
 
 RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
@@ -39,3 +40,11 @@ RUN echo "zend_extension=$(find /usr/local/lib/php/extensions/ -name xdebug.so)"
     # && echo "xdebug.profiler_enable_trigger=1"      >> /usr/local/etc/php/conf.d/xdebug.ini \
     # && echo "xdebug.idekey=sublime.xdebug"          >> /usr/local/etc/php/conf.d/xdebug.ini \
     && echo "xdebug.remote_log=/var/log/xdebug_remote.log" >> /usr/local/etc/php/conf.d/xdebug.ini
+
+
+COPY docker/entrypoint.sh /usr/local/bin/docker-dev-entrypoint
+RUN chmod +x /usr/local/bin/docker-dev-entrypoint
+
+# Entrypoint resets command
+# ENTRYPOINT ["docker-dev-entrypoint"]
+CMD ["docker-dev-entrypoint"]
