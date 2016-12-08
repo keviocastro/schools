@@ -1,7 +1,3 @@
-reporter: apiary
-custom:
-  apiaryApiKey: 98c840cbe5332f553fa1992042c44167
-  apiaryApiName: schoolsapi
 dry-run: null
 hookfiles: null
 language: nodejs
@@ -9,8 +5,12 @@ sandbox: false
 server: null
 server-wait: 3
 init: false
+custom:
+  apiaryApiKey: 98c840cbe5332f553fa1992042c44167
+  apiaryApiName: schols
 names: false
 only: []
+reporter: apiary
 output: []
 header: []
 sorted: false

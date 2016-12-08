@@ -1,4 +1,5 @@
 
+FORMAT: 1A
 
 HOST: http://localhost/api
 
@@ -19,6 +20,52 @@ Onde "token id" é obtido durante a autenficação do usuário no microservice d
 auth0 através do dominio "logos.auth0.com".
 Veja ver mais detalhes de como realizar essa autentificação nesse link: https://auth0.com/docs 
 
+# Parametros de filtros em listagem
+
+Cada parâmetro de consulta, exceto as funções pré-definidas _with, _sort e _q, é interpretado como um filtro.
+
+Exemplo: Listar todas as escola que começam com nome: Vieira.
+
+<pre><code>/api/schools?name-lk=Vieira*</code></pre>
+
+No exemplo acima o parametro name recebe o nome vieira que e o nome da escola, é com prefixo -lk sendo este igual a like do sql.
+
+Todos os filtros podem ser combinados com um operador AND.
+
+<pre><code>/api/schools?name-lk=Vieira*&created_at-min=2016-12-01 12:55:02</code></pre>
+
+O exemplo acima resultaria na seguinte SQL:
+
+<pre><code>Where `schools` LIKE "Vieira%" AND `created_at` >= "2016-12-01 12:55:02"</code></pre>
+
+É também possível usar vários valores para um filtro. Vários valores estão separados por um tubo |. Vários valores são combinados com OR a não ser quando há um -not como sufixo, então eles são combinados com AND. Por exemplo, todos os livros com o ID de 5 ou 6:
+
+<pre><code>/api/schools?id=5|6</code></pre>
+
+Ou todos os livros, exceto aqueles com ID 5 ou 6:
+
+<pre><code>/api/schools?id-not=5|6</code></pre>
+
+O mesmo pode ser conseguido usando o -in como sufixo:
+
+<pre><code>/api/schools?id-in=5,6</code></pre>
+
+Respectivamente, o not-insufixo:
+
+<pre><code>/api/schools?id-not-in=5,6</code></pre>
+
+| Suffix        | Operator  | Meaning                               |
+|:--------------|-----------|---------------------------------------|
+| `-lk`         | LIKE      | O mesmo que o operador LIKE do SQL    |
+| `-not-lk`     | NOT LIKE  | O mesmo que o operador NOT LIKE do SQL|
+| `-in`         | IN        | O mesmo que o operador IN do SQL      |
+| `-not-in`     | NOT IN    | O mesmo que o operador NOT IN do SQL  |
+| `-min`        | >=        | Maior ou igual a                      |
+| `-max`        | <=        | Menor ou igual a                      |
+| `-st`         | <         | Menor que                             |     
+| `-gt`         | >         | Maior que                             |
+| `-not`        | !=        | Diferente                             |
+
 # Group Auth and Account
 
 ## Request access [/auth/request-access]
@@ -31,10 +78,10 @@ Professor Medeiros acessa seu aplicativo informando usuário e senha para se cad
 
 ### Create a request access [POST]
 
-+ Request
++ Request (application/json)
     + Headers
-    
-            authorization: <!-- include(Token.md)  -->
+
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4MzgwNzA2MywiaWF0IjoxNDgxMjE1MDYzfQ.1YO1iTYVRU9NDeJBnqYUQYPk0PVHcCPxSaRtiw1v5Wg
     
     
 + Response 200 (application/json)
@@ -64,7 +111,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 + Request
     + Headers
     
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4MzgwNzA2MywiaWF0IjoxNDgxMjE1MDYzfQ.1YO1iTYVRU9NDeJBnqYUQYPk0PVHcCPxSaRtiw1v5Wg
 
 + Response 200 (application/json)
 
@@ -103,7 +150,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 ## Schools Collection [/schools{?_q,_sort,_with}]
 
 ### List Schools [GET]
-<!--Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="output.html#header-parametros-de-filtros-em-listagem">sessão</a> como definir os parametros da requisição.-->
+Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="output.html#header-parametros-de-filtros-em-listagem">sessão</a> como definir os parametros da requisição.
 
 + Parameters
     + _q (string, optional) - Pesquisa por palavra-chave, a correspondência e incluida conjunto de resultados.
@@ -117,7 +164,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 + Request
     + Headers
             
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4MzgwNzA2MywiaWF0IjoxNDgxMjE1MDYzfQ.1YO1iTYVRU9NDeJBnqYUQYPk0PVHcCPxSaRtiw1v5Wg
 
 + Response 200 (application/json)
 
@@ -131,7 +178,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 + Request (application/json)
     + Headers
             
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4MzgwNzA2MywiaWF0IjoxNDgxMjE1MDYzfQ.1YO1iTYVRU9NDeJBnqYUQYPk0PVHcCPxSaRtiw1v5Wg
 
     + Attributes (SchoolFillable)
     
@@ -149,12 +196,12 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
     + school_id: 1 (number) - Identificador único da escola
     + _with (string, optional) - Obtem informações do recurso relacionado.
         + Members
-            + schoolClass
+            + schoolClasses
 
 + Request 
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4MzgwNzA2MywiaWF0IjoxNDgxMjE1MDYzfQ.1YO1iTYVRU9NDeJBnqYUQYPk0PVHcCPxSaRtiw1v5Wg
 
 + Response 200 (application/json)
     
@@ -170,7 +217,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 
     + Headers
             
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4MzgwNzA2MywiaWF0IjoxNDgxMjE1MDYzfQ.1YO1iTYVRU9NDeJBnqYUQYPk0PVHcCPxSaRtiw1v5Wg
             
     + Attributes (SchoolFillable)
             
@@ -189,7 +236,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 
     + Headers
             
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4MzgwNzA2MywiaWF0IjoxNDgxMjE1MDYzfQ.1YO1iTYVRU9NDeJBnqYUQYPk0PVHcCPxSaRtiw1v5Wg
 
 + Response 204
 
@@ -215,7 +262,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 
     + Headers
             
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4MzgwNzA2MywiaWF0IjoxNDgxMjE1MDYzfQ.1YO1iTYVRU9NDeJBnqYUQYPk0PVHcCPxSaRtiw1v5Wg
 
 + Response 200 (application/json)
 
@@ -229,7 +276,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 + Request (application/json)
     + Headers
             
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4MzgwNzA2MywiaWF0IjoxNDgxMjE1MDYzfQ.1YO1iTYVRU9NDeJBnqYUQYPk0PVHcCPxSaRtiw1v5Wg
             
     + Attributes (SchoolClassFillable)
             
@@ -257,7 +304,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 + Request 
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4MzgwNzA2MywiaWF0IjoxNDgxMjE1MDYzfQ.1YO1iTYVRU9NDeJBnqYUQYPk0PVHcCPxSaRtiw1v5Wg
 
 + Response 200 (application/json)
 
@@ -273,7 +320,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 + Request 
     + Headers
             
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4MzgwNzA2MywiaWF0IjoxNDgxMjE1MDYzfQ.1YO1iTYVRU9NDeJBnqYUQYPk0PVHcCPxSaRtiw1v5Wg
             
     + Attributes (SchoolClassFillable)
             
@@ -292,7 +339,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 
     + Headers
             
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4MzgwNzA2MywiaWF0IjoxNDgxMjE1MDYzfQ.1YO1iTYVRU9NDeJBnqYUQYPk0PVHcCPxSaRtiw1v5Wg
 
 + Response 204
 
@@ -320,7 +367,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 
     + Headers
             
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4MzgwNzA2MywiaWF0IjoxNDgxMjE1MDYzfQ.1YO1iTYVRU9NDeJBnqYUQYPk0PVHcCPxSaRtiw1v5Wg
 
 + Response 200 (application/json)
 
@@ -334,7 +381,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 + Request (application/json)
     + Headers
             
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4MzgwNzA2MywiaWF0IjoxNDgxMjE1MDYzfQ.1YO1iTYVRU9NDeJBnqYUQYPk0PVHcCPxSaRtiw1v5Wg
             
     + Attributes (SchoolCalendarFillable)
             
@@ -358,7 +405,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 + Request 
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4MzgwNzA2MywiaWF0IjoxNDgxMjE1MDYzfQ.1YO1iTYVRU9NDeJBnqYUQYPk0PVHcCPxSaRtiw1v5Wg
 
 + Response 200 (application/json)
 
@@ -374,7 +421,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 + Request 
     + Headers
             
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4MzgwNzA2MywiaWF0IjoxNDgxMjE1MDYzfQ.1YO1iTYVRU9NDeJBnqYUQYPk0PVHcCPxSaRtiw1v5Wg
             
     + Attributes (SchoolCalendarFillable)
             
@@ -392,7 +439,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 
     + Headers
             
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4MzgwNzA2MywiaWF0IjoxNDgxMjE1MDYzfQ.1YO1iTYVRU9NDeJBnqYUQYPk0PVHcCPxSaRtiw1v5Wg
 
 + Response 204
 
@@ -411,7 +458,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
     + _sort (string, optional) - Ordena a coluna desejada, de forma acendente ou descendente.
     + _with (string, optional) - Obtem informações do recurso relacionado.
         + Members
-            + studentResponsible
+            + responsibles
             + person
             + schoolClass
             + schoolClass.grade
@@ -420,7 +467,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 + Request (application/json)
     + Headers
             
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4MzgwNzA2MywiaWF0IjoxNDgxMjE1MDYzfQ.1YO1iTYVRU9NDeJBnqYUQYPk0PVHcCPxSaRtiw1v5Wg
 
 + Response 200 (application/json)
 
@@ -437,7 +484,7 @@ e relatórios como "Boletim anual do aluno" e "Histórico escolar".
 
 ## Annual Report [/students/{student_id}/annual-report{?school_calendar_id}]
 
-### Annual Report [GET]
+### View a Annual Student Report [GET]
 
 + Parameters
     + school_calendar_id: 1 (required, number) - ID do ano letivo
@@ -445,7 +492,7 @@ e relatórios como "Boletim anual do aluno" e "Histórico escolar".
 + Request 
     + Headers
     
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4MzgwNzA2MywiaWF0IjoxNDgxMjE1MDYzfQ.1YO1iTYVRU9NDeJBnqYUQYPk0PVHcCPxSaRtiw1v5Wg
             
 + Response 200 (application/json)
 
@@ -481,7 +528,7 @@ e relatórios como "Boletim anual do aluno" e "Histórico escolar".
 + Request 
     + Headers
     
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4MzgwNzA2MywiaWF0IjoxNDgxMjE1MDYzfQ.1YO1iTYVRU9NDeJBnqYUQYPk0PVHcCPxSaRtiw1v5Wg
             
 + Response 200 (application/json)
 
@@ -530,7 +577,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 + Request 
     + Headers
             
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4MzgwNzA2MywiaWF0IjoxNDgxMjE1MDYzfQ.1YO1iTYVRU9NDeJBnqYUQYPk0PVHcCPxSaRtiw1v5Wg
 
 + Response 200 (application/json)
 
@@ -544,7 +591,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 + Request (application/json)
     + Headers
             
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4MzgwNzA2MywiaWF0IjoxNDgxMjE1MDYzfQ.1YO1iTYVRU9NDeJBnqYUQYPk0PVHcCPxSaRtiw1v5Wg
             
     + Attributes (LessonFillable)
             
@@ -587,7 +634,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 + Request 
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4MzgwNzA2MywiaWF0IjoxNDgxMjE1MDYzfQ.1YO1iTYVRU9NDeJBnqYUQYPk0PVHcCPxSaRtiw1v5Wg
 
 + Response 200 (application/json)
 
@@ -612,7 +659,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 + Request 
     + Headers
             
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4MzgwNzA2MywiaWF0IjoxNDgxMjE1MDYzfQ.1YO1iTYVRU9NDeJBnqYUQYPk0PVHcCPxSaRtiw1v5Wg
             
     + Attributes (LessonFillable)
             
@@ -630,7 +677,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 + Request (application/json)
     + Headers
     
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4MzgwNzA2MywiaWF0IjoxNDgxMjE1MDYzfQ.1YO1iTYVRU9NDeJBnqYUQYPk0PVHcCPxSaRtiw1v5Wg
 
 + Response 204
 
@@ -661,7 +708,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 + Request 
     + Headers
             
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4MzgwNzA2MywiaWF0IjoxNDgxMjE1MDYzfQ.1YO1iTYVRU9NDeJBnqYUQYPk0PVHcCPxSaRtiw1v5Wg
 
 + Response 200 (application/json)
 
@@ -703,7 +750,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 + Request 
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4MzgwNzA2MywiaWF0IjoxNDgxMjE1MDYzfQ.1YO1iTYVRU9NDeJBnqYUQYPk0PVHcCPxSaRtiw1v5Wg
 
 + Response 200 (application/json)
 
@@ -722,7 +769,7 @@ retornado o registro já existente com as informações atualizadas.
 + Request (application/json)
     + Headers
             
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4MzgwNzA2MywiaWF0IjoxNDgxMjE1MDYzfQ.1YO1iTYVRU9NDeJBnqYUQYPk0PVHcCPxSaRtiw1v5Wg
             
     + Attributes (AttendanceRecordFillable)
             
@@ -764,7 +811,7 @@ retornado o registro já existente com as informações atualizadas.
 + Request 
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4MzgwNzA2MywiaWF0IjoxNDgxMjE1MDYzfQ.1YO1iTYVRU9NDeJBnqYUQYPk0PVHcCPxSaRtiw1v5Wg
 
 + Response 200 (application/json)
 
@@ -779,7 +826,7 @@ retornado o registro já existente com as informações atualizadas.
 + Request 
     + Headers
             
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4MzgwNzA2MywiaWF0IjoxNDgxMjE1MDYzfQ.1YO1iTYVRU9NDeJBnqYUQYPk0PVHcCPxSaRtiw1v5Wg
             
     + Attributes (AttendanceRecordFillable)
             
@@ -810,13 +857,13 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
     + _sort (string, optional) - Ordena a coluna desejada, de forma acendente ou descendente.
     + _with (string, optional) - Obtem informações do recurso relacionado.
         + Members
+            + studentGrades
             + schoolCalendarPhase
-            + schoolCalendarPhase.schoolCalendar
 
 + Request 
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4MzgwNzA2MywiaWF0IjoxNDgxMjE1MDYzfQ.1YO1iTYVRU9NDeJBnqYUQYPk0PVHcCPxSaRtiw1v5Wg
 
 + Response 200 (application/json)
 
@@ -837,7 +884,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 + Request (application/json)
     + Headers
             
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4MzgwNzA2MywiaWF0IjoxNDgxMjE1MDYzfQ.1YO1iTYVRU9NDeJBnqYUQYPk0PVHcCPxSaRtiw1v5Wg
     
     + Attributes (OccurenceFillable)
 
@@ -865,13 +912,14 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 + Request 
     + Headers
             
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4MzgwNzA2MywiaWF0IjoxNDgxMjE1MDYzfQ.1YO1iTYVRU9NDeJBnqYUQYPk0PVHcCPxSaRtiw1v5Wg
     
 + Response 200 (application/json)
 
     + Attributes 
         + Include Paginator
-        + data ([Occurence])
+        + data (array)
+            + (Occurence)
 
 ## Occurence [/occurences/{occurence_id}{?_with}]
 
@@ -887,7 +935,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 + Request 
     + Headers
             
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4MzgwNzA2MywiaWF0IjoxNDgxMjE1MDYzfQ.1YO1iTYVRU9NDeJBnqYUQYPk0PVHcCPxSaRtiw1v5Wg
     
 + Response 200 (application/json)
     
@@ -903,7 +951,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 
     + Headers
             
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4MzgwNzA2MywiaWF0IjoxNDgxMjE1MDYzfQ.1YO1iTYVRU9NDeJBnqYUQYPk0PVHcCPxSaRtiw1v5Wg
             
     + Attributes (OccurenceFillable)
             
@@ -920,7 +968,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 + Request (application/json)
     + Headers
     
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4MzgwNzA2MywiaWF0IjoxNDgxMjE1MDYzfQ.1YO1iTYVRU9NDeJBnqYUQYPk0PVHcCPxSaRtiw1v5Wg
     
 
 + Response 204
@@ -936,7 +984,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 + Request (application/json)
     + Headers
             
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4MzgwNzA2MywiaWF0IjoxNDgxMjE1MDYzfQ.1YO1iTYVRU9NDeJBnqYUQYPk0PVHcCPxSaRtiw1v5Wg
     
     + Attributes (StudentGradeFillable)
 
@@ -962,7 +1010,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 + Request 
     + Headers
             
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4MzgwNzA2MywiaWF0IjoxNDgxMjE1MDYzfQ.1YO1iTYVRU9NDeJBnqYUQYPk0PVHcCPxSaRtiw1v5Wg
     
 + Response 200 (application/json)
 
@@ -987,7 +1035,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 + Request 
     + Headers
             
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4MzgwNzA2MywiaWF0IjoxNDgxMjE1MDYzfQ.1YO1iTYVRU9NDeJBnqYUQYPk0PVHcCPxSaRtiw1v5Wg
     
 + Response 200 (application/json)
     
@@ -1003,7 +1051,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 
     + Headers
             
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4MzgwNzA2MywiaWF0IjoxNDgxMjE1MDYzfQ.1YO1iTYVRU9NDeJBnqYUQYPk0PVHcCPxSaRtiw1v5Wg
             
     + Attributes (StudentGradeFillable)
             
@@ -1024,7 +1072,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 + Request (application/json)
     + Headers
             
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4MzgwNzA2MywiaWF0IjoxNDgxMjE1MDYzfQ.1YO1iTYVRU9NDeJBnqYUQYPk0PVHcCPxSaRtiw1v5Wg
     
     + Attributes (SubjectFillable)
 
@@ -1047,7 +1095,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 + Request 
     + Headers
             
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4MzgwNzA2MywiaWF0IjoxNDgxMjE1MDYzfQ.1YO1iTYVRU9NDeJBnqYUQYPk0PVHcCPxSaRtiw1v5Wg
     
 + Response 200 (application/json)
 
@@ -1066,7 +1114,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 + Request 
     + Headers
             
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4MzgwNzA2MywiaWF0IjoxNDgxMjE1MDYzfQ.1YO1iTYVRU9NDeJBnqYUQYPk0PVHcCPxSaRtiw1v5Wg
     
 + Response 200 (application/json)
     
@@ -1082,7 +1130,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 
     + Headers
             
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4MzgwNzA2MywiaWF0IjoxNDgxMjE1MDYzfQ.1YO1iTYVRU9NDeJBnqYUQYPk0PVHcCPxSaRtiw1v5Wg
             
     + Attributes (SubjectFillable)
             
@@ -1099,7 +1147,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 + Request (application/json)
     + Headers
     
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Mjk1MjM4OCwiaWF0IjoxNDgwMzYwMzg4fQ.Py2CowQfuD3RrS5cqje6mDfNzIAXPTFx1j8zp950gSY
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4MzgwNzA2MywiaWF0IjoxNDgxMjE1MDYzfQ.1YO1iTYVRU9NDeJBnqYUQYPk0PVHcCPxSaRtiw1v5Wg
     
 
 + Response 204
@@ -1172,7 +1220,19 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 
 ## SchoolFillable (object)
 
-+ name: Escola luz do saber (string) - Nome da escola
++ name: Escola luz do saber (string) - Nome da escola.
++ contacts: `[
+        {
+          "name": "Central de atendimento ao aluno",
+          "email": "ybittencourt@faria.net",
+          "phone": "(13) 3237-7629"
+        },
+        {
+          "name": "Diretoria",
+          "email": "romero.adriana@terra.com.br",
+          "phone": "(41) 7319-6566"
+        }
+      ]` (string) - Json com informações de contatos da escola.
 
 ## School (object)
 
@@ -1242,7 +1302,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 
 + lesson_id: 1 (number) - Identificador único da aula relacionada
 + student_id: 1 (number) - Identificador único do aluno
-+ presence: 1 (number) - `0=Faltou a aula. 1=presente. 2=Falta abonada.`
++ presence: 1 (number) - `0=Faltou a aula.1=Presente.2=Falta abonada.
 
 ## AttendanceRecord (object)
 

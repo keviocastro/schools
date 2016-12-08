@@ -32,56 +32,14 @@ Respectivamente, o not-insufixo:
 
 <pre><code>/api/schools?id-not-in=5,6</code></pre>
 
-<table><thead>
-	<tr>
-		<th>Suffix</th>
-		<th>Operator</th>
-		<th>Meaning</th>
-	</tr>
-</thead><tbody>
-<tr>
-	<td>-lk</td>
-	<td>LIKE</td>
-	<td>O mesmo que o operador <code>LIKE</code> do SQL</td>
-</tr>
-<tr>
-	<td>-not-lk</td>
-	<td>NOT LIKE</td>
-	<td>O mesmo que o operador <code>NOT LIKE</code> do SQL</td>
-</tr>
-<tr>
-	<td>-in</td>
-	<td>IN</td>
-	<td>O mesmo que o operador <code>IN</code> do SQL</td>
-</tr>
-<tr>
-	<td>-not-in</td>
-	<td>NOT IN</td>
-	<td>O mesmo que o operador <code>NOT IN</code> do SQL</td>
-</tr>
-<tr>
-	<td>-min</td>
-	<td>&gt;=</td>
-	<td>Maior ou igual a</td>
-</tr>
-<tr>
-	<td>-max</td>
-	<td>&lt;=</td>
-	<td>Menor ou igual a</td>
-</tr>
-<tr>
-	<td>-st</td>
-	<td>&lt;</td>
-	<td>Menor que</td>
-</tr>
-<tr>
-	<td>-gt</td>
-	<td>&gt;</td>
-	<td>Maior que</td>
-</tr>
-<tr>
-	<td>-not</td>
-	<td>!=</td>
-	<td>Diferente</td>
-</tr>
-</tbody></table>
+| Suffix        | Operator  | Meaning                               |
+|:--------------|-----------|---------------------------------------|
+| `-lk`         | LIKE      | O mesmo que o operador LIKE do SQL    |
+| `-not-lk`     | NOT LIKE  | O mesmo que o operador NOT LIKE do SQL|
+| `-in`         | IN        | O mesmo que o operador IN do SQL      |
+| `-not-in`     | NOT IN    | O mesmo que o operador NOT IN do SQL  |
+| `-min`        | >=        | Maior ou igual a                      |
+| `-max`        | <=        | Menor ou igual a                      |
+| `-st`         | <         | Menor que                             |     
+| `-gt`         | >         | Maior que                             |
+| `-not`        | !=        | Diferente                             |
