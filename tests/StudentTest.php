@@ -49,6 +49,25 @@ class StudentTest extends TestCase
             collect($expected)->except('school_calendar_phases'), 
             collect($result)->except('school_calendar_phases')
         );
+
+        // Teste com 2º estudante que 
+        // contém notas não registradas 
+        // no segundo e terceiro bimestre
+        $student = Student::find(2);
+        $averages = $student->subjectAvaragePerYear($schoolCalendar,true);
+        $result = collect($averages)->where('id', $subject->id)->first();
+        
+        $expected = array_merge($subject->toArray(), [
+                'average_year' => 'incomplete-calculation', // Informações do ano
+                'average_calculation' => 
+                    '( (8.4 + {2º Bimestre:doesNotExist:AverageForYearPhase})*0.4 + ({3º Bimestre:doesNotExist:AverageForYearPhase} + 8.9)*0.6 )/2',
+                'average_formula' => 
+                    '( ({1º Bimestre} + {2º Bimestre})*0.4 + ({3º Bimestre} + {4º Bimestre})*0.6 )/2'
+            ]);
+        $this->assertEquals(
+            collect($expected)->except('school_calendar_phases'), 
+            collect($result)->except('school_calendar_phases')
+        );
     }
 
     /**
@@ -132,7 +151,6 @@ class StudentTest extends TestCase
             collect($expected), 
             collect($result)
         ); 
-
 
     }
 

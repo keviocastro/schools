@@ -213,21 +213,15 @@ class Student extends Model
                 if ($phase->has('subject_average') ) {
                     $subject_grade = $phase['subject_average']
                         ->where('id', $subject->id)
-                        ->first();
+                        ->first()
+                        ->toArray();
 
-                    if ($subject_grade && is_numeric($subject_grade->average) ) {
+                    if ($subject_grade && is_numeric($subject_grade['average']) ) {
                             $calculation = str_replace(
                                 '{'.$variable.'}', 
-                                round($subject_grade->average, 1), 
+                                round($subject_grade['average'], 1), 
                                 $calculation);
                             
-                            $subject->school_calendar_phases->push([
-                                    'id' => $phase['id'],
-                                    'average' => $subject_grade->average,
-                                    'average_formula' => $subject_grade->average_formula,
-                                    'average_calculation' => $subject_grade->average_calculation,
-                                    'student_grades' => $subject_grade['student_grades'] 
-                                ]);
                     }else{
                         // A diciplina não tem média para a fase do ano letivo
                         $calculation = str_replace(
@@ -236,6 +230,15 @@ class Student extends Model
                         $calculation);  
                         $foundVariables = false; 
                     }
+
+                    $subject->school_calendar_phases->push([
+                            'id' => $phase['id'],
+                            'name' => $phase['name'],
+                            'average' => $subject_grade['average'],
+                            'average_formula' => $subject_grade['average_formula'],
+                            'average_calculation' => $subject_grade['average_calculation'],
+                            'student_grades' => $subject_grade['student_grades'] 
+                        ]);
 
                 }else{
                     // A variável não corresponde ao nome de nenhuma fase
