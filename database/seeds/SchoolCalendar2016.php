@@ -32,6 +32,8 @@ class SchoolCalendar2016 extends Seeder
     }
 
     /**
+     * @todo Refactor because this method is a monster
+     * 
      * Cria um calendario para 2016
      * Com uma turma
      * Aulas durante todo o ano para essa turma
@@ -46,14 +48,16 @@ class SchoolCalendar2016 extends Seeder
      *  
      *  NOTAS:
      *      
-     *      1º disciplina criada, com nome Matématica, tem as notas: 
-     *       Nota 1.1 = 10
+     *       Para o primeiro aluno criado (id = 1), e
+     *       1º disciplina criada (id = 1), com nome Matématica, tem as notas: 
+     *       
+     *       Nota 1.1 = 10 
      *       Nota 1.2 = 9.2 
      *       Nota 2.1 = 8.5
-     *       Nota 2.2 = 10
+     *       Nota 2.2 = 10 
      *       Nota 3.1 = 9.5
      *       Nota 3.2 = 9.0
-     *       Nota 4.1 = 10
+     *       Nota 4.1 = 10 
      *       Nota 4.2 = 9.6
      *       
      *       Média = (10+9.2)/2 = 9.6 +      // 1 Bimestre. 
@@ -73,15 +77,26 @@ class SchoolCalendar2016 extends Seeder
      *  
      *  FALTAS:
      *  
-     * Pra o 1º aluno criado:
+     * Para o 1º aluno criado (id = 1):
      * 
      *    1º Bimestre = 4
      *    2º Bimestre = 3
      *    3º Bimestre = 6
      *    4º Bimestre = 2
      *    Total no ano: 15
-     *     
      *
+     *
+     * Pra o 2º aluno criado (id = 2), e 1º disciplina criada (id = 1), 
+     * com nome Matématica, tem as notas:
+     *     
+     *     Nota 1.1 = 7.2 
+     *     Nota 1.2 = 9.6
+     *     Nota 2.1 = 2.4
+     *     Nota 2.2 = 8.5 
+     *     Nota 3.1 =           (sem nota)
+     *     Nota 3.2 =           (sem nota)
+     *     Nota 4.1 = 9.2        
+     *     Nota 4.2 = 8.6       
      * 
      * @return array
      */
@@ -200,6 +215,7 @@ class SchoolCalendar2016 extends Seeder
         // Estudante que terão dados de faltas e notas
         // pré-definidos para ser utilizados em testes 
         $studentFixedData = $students[0];
+        $studentFixedData2 = $students[1];
 
 
         $start = Carbon::createFromFormat('Y-m-d', $schoolCalendarPhase1->start);
@@ -274,6 +290,7 @@ class SchoolCalendar2016 extends Seeder
             ->orderBy('id')->get();
         
         $fixedDataSubjects = [
+                // 1º Aluno
                 [
                     'subject_id' =>  $subjectFixedData->id,
                     'grade' => 10,
@@ -290,7 +307,20 @@ class SchoolCalendar2016 extends Seeder
                     'subject_id' => $subjectFixedData2->id,
                     'grade' => 0.2,
                     'student_id' => $studentFixedData->id,
-                ]
+                ],
+                // 2º Aluno
+                [
+                    'subject_id' =>  $subjectFixedData->id,
+                    'grade' => 7.2,
+                    'student_id' => $studentFixedData2->id,
+                    'assessment_id' => $assessments[0]->id
+                ],
+                [
+                    'subject_id' => $subjectFixedData->id,
+                    'grade' => 9.6,
+                    'student_id' => $studentFixedData2->id,
+                    'assessment_id' => $assessments[1]->id
+                ],
             ];
         self::createAttendanceRecords($schoolCalendarPhase1, 4, $studentFixedData->id);
         self::createStudentGrades($schoolCalendarPhase1, 
@@ -299,11 +329,19 @@ class SchoolCalendar2016 extends Seeder
         // 2º Bimestre
         $assessments = $schoolCalendarPhase2->assessments()
             ->orderBy('id')->get();
+        // 1º Aluno 
         $fixedDataSubjects[0]['assessment_id'] = $assessments[0]->id;
         $fixedDataSubjects[0]['grade'] = 8.5;
 
         $fixedDataSubjects[1]['assessment_id'] = $assessments[1]->id;
         $fixedDataSubjects[1]['grade'] = 10;
+        // 2º Aluno 
+        $fixedDataSubjects[3]['assessment_id'] = $assessments[0]->id;
+        $fixedDataSubjects[3]['grade'] = 2.4;
+
+        $fixedDataSubjects[4]['assessment_id'] = $assessments[1]->id;
+        $fixedDataSubjects[4]['grade'] = 8.5;
+        
 
         self::createAttendanceRecords($schoolCalendarPhase2, 3, $studentFixedData->id);
         $assessments_phase_2 = $schoolCalendarPhase2->assessments;
@@ -313,11 +351,18 @@ class SchoolCalendar2016 extends Seeder
         // 3º Bimestre
         $assessments = $schoolCalendarPhase3->assessments()
             ->orderBy('id')->get();
+        // 1º Aluno
         $fixedDataSubjects[0]['assessment_id'] = $assessments[0]->id;
         $fixedDataSubjects[0]['grade'] = 9.5;
 
         $fixedDataSubjects[1]['assessment_id'] = $assessments[1]->id;
         $fixedDataSubjects[1]['grade'] = 9.0;
+        // 2º Aluno 
+        $fixedDataSubjects[3]['assessment_id'] = $assessments[0]->id;
+        $fixedDataSubjects[3]['grade'] = 'do-not-create';
+
+        $fixedDataSubjects[4]['assessment_id'] = $assessments[1]->id;
+        $fixedDataSubjects[4]['grade'] = 'do-not-create';
         
         self::createAttendanceRecords($schoolCalendarPhase3, 6, $studentFixedData->id);
         self::createStudentGrades($schoolCalendarPhase3, $schoolClass, 
@@ -326,11 +371,19 @@ class SchoolCalendar2016 extends Seeder
         // 4º Bimestre
         $assessments = $schoolCalendarPhase4->assessments()
             ->orderBy('id')->get();
+        //1º Aluno
         $fixedDataSubjects[0]['assessment_id'] = $assessments[0]->id;
         $fixedDataSubjects[0]['grade'] = 10;
 
         $fixedDataSubjects[1]['assessment_id'] = $assessments[1]->id;
         $fixedDataSubjects[1]['grade'] = 9.6;
+        // 2º Aluno 
+        $fixedDataSubjects[3]['assessment_id'] = $assessments[0]->id;
+        $fixedDataSubjects[3]['grade'] = 9.2;
+
+        $fixedDataSubjects[4]['assessment_id'] = $assessments[1]->id;
+        $fixedDataSubjects[4]['grade'] = 8.6;
+
         self::createAttendanceRecords($schoolCalendarPhase4, 2, $studentFixedData->id);
         $assessments_phase_4 = $schoolCalendarPhase4->assessments;
         self::createStudentGrades($schoolCalendarPhase4, $schoolClass, 
@@ -500,17 +553,20 @@ class SchoolCalendar2016 extends Seeder
                             }
                         }
 
+
                         $grade = $grade ? $grade : $faker->randomFloat(1,0,10);
 
-                        $studentGrade = factory(App\StudentGrade::class)->make([
-                                'assessment_id' => $assessment->id,
-                                'student_id' => $student->id,
-                                'subject_id' => $subject->id,
-                                'grade' => $grade,
-                                'school_class_id' => $schoolClass->id
-                            ])->toArray();
+                        if ($grade != 'do-not-create') {
+                            $studentGrade = factory(App\StudentGrade::class)->make([
+                                    'assessment_id' => $assessment->id,
+                                    'student_id' => $student->id,
+                                    'subject_id' => $subject->id,
+                                    'grade' => $grade,
+                                    'school_class_id' => $schoolClass->id
+                                ])->toArray();
 
-                        array_push($studentGrades, $studentGrade);
+                            array_push($studentGrades, $studentGrade);
+                        }
                     }
                 }
         });

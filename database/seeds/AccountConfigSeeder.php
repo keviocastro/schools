@@ -30,7 +30,7 @@ class AccountConfigSeeder extends Seeder
         AccountConfig::firstOrCreate([
                     // Nota a qual o aluno é considerado como bom
                     'name' => 'grade_threshold_good',
-                    'default' => '6'
+                    'default' => '7'
                 ]);
         AccountConfig::firstOrCreate([
                     // Nota limite para aprovação de um aluno em uma

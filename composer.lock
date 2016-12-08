@@ -2953,12 +2953,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/fzaninotto/Faker.git",
-                "reference": "71c5ccec1b04649c26b7fa510b1cc6b811cb3fb9"
+                "reference": "fc733e76f4edc2dfe166e5f699e3af876125f080"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/71c5ccec1b04649c26b7fa510b1cc6b811cb3fb9",
-                "reference": "71c5ccec1b04649c26b7fa510b1cc6b811cb3fb9",
+                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/fc733e76f4edc2dfe166e5f699e3af876125f080",
+                "reference": "fc733e76f4edc2dfe166e5f699e3af876125f080",
                 "shasum": ""
             },
             "require": {
@@ -2995,7 +2995,7 @@
                 "faker",
                 "fixtures"
             ],
-            "time": "2016-12-02 14:05:09"
+            "time": "2016-12-08 15:00:06"
         },
         {
             "name": "hamcrest/hamcrest-php",
@@ -4034,12 +4034,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/yaml.git",
-                "reference": "b009b78abb48cff1010c51d2a2283141239a9be6"
+                "reference": "7ad84777f7e3e88450049dd5b5ae08e4fd1023d0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/yaml/zipball/b009b78abb48cff1010c51d2a2283141239a9be6",
-                "reference": "b009b78abb48cff1010c51d2a2283141239a9be6",
+                "url": "https://api.github.com/repos/symfony/yaml/zipball/7ad84777f7e3e88450049dd5b5ae08e4fd1023d0",
+                "reference": "7ad84777f7e3e88450049dd5b5ae08e4fd1023d0",
                 "shasum": ""
             },
             "require": {
@@ -4081,7 +4081,7 @@
             ],
             "description": "Symfony Yaml Component",
             "homepage": "https://symfony.com",
-            "time": "2016-11-19 20:35:20"
+            "time": "2016-12-08 15:31:48"
         }
     ],
     "aliases": [],
