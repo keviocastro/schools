@@ -91,7 +91,7 @@ class SchoolCalendar2016 extends Seeder
      *     
      *     Nota 1.1 = 7.2 
      *     Nota 1.2 = 9.6
-     *     Nota 2.1 = 2.4
+     *     Nota 2.1 =           (sem nota)
      *     Nota 2.2 = 8.5 
      *     Nota 3.1 =           (sem nota)
      *     Nota 3.2 =           (sem nota)
@@ -337,7 +337,7 @@ class SchoolCalendar2016 extends Seeder
         $fixedDataSubjects[1]['grade'] = 10;
         // 2º Aluno 
         $fixedDataSubjects[3]['assessment_id'] = $assessments[0]->id;
-        $fixedDataSubjects[3]['grade'] = 2.4;
+        $fixedDataSubjects[3]['grade'] = 'do-not-create';
 
         $fixedDataSubjects[4]['assessment_id'] = $assessments[1]->id;
         $fixedDataSubjects[4]['grade'] = 8.5;
