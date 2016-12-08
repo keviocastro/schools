@@ -46,5 +46,5 @@ COPY docker/entrypoint.sh /usr/local/bin/docker-dev-entrypoint
 RUN chmod +x /usr/local/bin/docker-dev-entrypoint
 
 # Entrypoint resets command
-# ENTRYPOINT ["docker-dev-entrypoint"]
-CMD ["docker-dev-entrypoint"]
+ENTRYPOINT ["docker-dev-entrypoint"]
+CMD ["docker-entrypoint"]
