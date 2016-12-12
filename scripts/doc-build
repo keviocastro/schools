@@ -1,3 +1,3 @@
-aglio -i gist.apib -o apiary.apib
-aglio --theme-full-width -i gist.apib -o docs.html
+aglio -i gist.md -o apiary.apib
+aglio --theme-full-width -i gist.md -o docs.html
 google-chrome docs.html

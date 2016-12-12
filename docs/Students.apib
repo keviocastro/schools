@@ -72,3 +72,53 @@ e relatórios como "Boletim anual do aluno" e "Histórico escolar".
                 + (object)
                     + include (StudentGrade)
                     + assessment (Assessment) 
+
+## Students Collection [/students{?_q,_sort,_with}]
+
+### List students [GET]
+
+<!-- include(ParameterFilter.md) -->
+
++ Parameters
+    + _q (string, optional) - Pesquisa por palavra-chave, a correspondência e incluida conjunto de resultados.
+    + _sort (string, optional) - Ordena a coluna desejada, de forma acendente ou descendente.
+    + _with (string, optional) - Obtem informações do recurso relacionado.
+        + Members
+            + person - Informações básicas do aluno (nome, telefone, ...).
+            + responsibles - Responsáveis pelo estudante.
+            + schoolClasses - Turmas que o aluno estudou.
+
++ Request (application/json)
+    + Headers
+            
+            authorization: <!-- include(Token.md) -->
+
++ Response 200 (application/json)
+
+    + Attributes 
+        + Include Paginator 
+        + data (array)
+            + (Student)
+
+## Student [/students/{id}{?_with}]
+
+### View a Student Detail [GET]
+
++ Parameters
+    + id: 1 (required, number) - ID do estudante.
+    + _with (string, optional) - Obtem informações do recurso relacionado.
+        + Members
+            + person - Informações básicas do aluno (nome, telefone, ...).
+            + responsibles - Responsáveis pelo estudante.
+            + schoolClasses - Turmas que o aluno estudou.
+
++ Request 
+    + Headers
+    
+            authorization: <!-- include(Token.md) -->
+
++ Response 200 (application/json)
+
+    + Attributes (object)
+        + include (Student)
+        + include (Person)

@@ -96,7 +96,12 @@ class SchoolCalendar2016 extends Seeder
      *     Nota 3.1 =           (sem nota)
      *     Nota 3.2 =           (sem nota)
      *     Nota 4.1 = 9.2        
-     *     Nota 4.2 = 8.6       
+     *     Nota 4.2 = 8.6
+     *
+     *     1º Bimestre (7.2+9.6)/2 = 8.4
+     *     2º Bimestre (SemNota+8.5) = sem média do bimestre
+     *     3º Bimestre (SemNota+SemNota) = sem média do bimestre
+     *     4º Bimestre (9.2+8.6)/2 = 8.9
      * 
      * @return array
      */

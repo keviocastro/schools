@@ -57,19 +57,6 @@ class Student extends Model
     }
 
     /**
-     * Get the school class record associated with the student.
-     *
-     * @Relation
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     * @author Kévio Castro <keviocastro@gmail.com>
-     */
-    public function schoolClass()
-    {
-        return $this->belongsTo('App\SchoolClass');
-    }
-
-    /**
      * Responsáveis pelo estudante
      *
      * @Relation

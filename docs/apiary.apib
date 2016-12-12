@@ -447,35 +447,6 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 
 # Group People
 
-## Students Collection [/students{?_q,_sort,_with}]
-
-### List students [GET]
-
-Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="output.html#header-parametros-de-filtros-em-listagem">sessão</a> como definir os parametros da requisição.
-
-+ Parameters
-    + _q (string, optional) - Pesquisa por palavra-chave, a correspondência e incluida conjunto de resultados.
-    + _sort (string, optional) - Ordena a coluna desejada, de forma acendente ou descendente.
-    + _with (string, optional) - Obtem informações do recurso relacionado.
-        + Members
-            + responsibles
-            + person
-            + schoolClass
-            + schoolClass.grade
-            + schoolClass.shift
-
-+ Request (application/json)
-    + Headers
-            
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4MzgwNzA2MywiaWF0IjoxNDgxMjE1MDYzfQ.1YO1iTYVRU9NDeJBnqYUQYPk0PVHcCPxSaRtiw1v5Wg
-
-+ Response 200 (application/json)
-
-    + Attributes 
-        + Include Paginator 
-        + data (array)
-            + (Student)
-
 
 # Group Students
 
@@ -552,6 +523,55 @@ e relatórios como "Boletim anual do aluno" e "Histórico escolar".
                     + include (StudentGrade)
                     + assessment (Assessment) 
 
+## Students Collection [/students{?_q,_sort,_with}]
+
+### List students [GET]
+
+Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="output.html#header-parametros-de-filtros-em-listagem">sessão</a> como definir os parametros da requisição.
+
++ Parameters
+    + _q (string, optional) - Pesquisa por palavra-chave, a correspondência e incluida conjunto de resultados.
+    + _sort (string, optional) - Ordena a coluna desejada, de forma acendente ou descendente.
+    + _with (string, optional) - Obtem informações do recurso relacionado.
+        + Members
+            + person - Informações básicas do aluno (nome, telefone, ...).
+            + responsibles - Responsáveis pelo estudante.
+            + schoolClasses - Turmas que o aluno estudou.
+
++ Request (application/json)
+    + Headers
+            
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4MzgwNzA2MywiaWF0IjoxNDgxMjE1MDYzfQ.1YO1iTYVRU9NDeJBnqYUQYPk0PVHcCPxSaRtiw1v5Wg
+
++ Response 200 (application/json)
+
+    + Attributes 
+        + Include Paginator 
+        + data (array)
+            + (Student)
+
+## Student [/students/{id}{?_with}]
+
+### View a Student Detail [GET]
+
++ Parameters
+    + id: 1 (required, number) - ID do estudante.
+    + _with (string, optional) - Obtem informações do recurso relacionado.
+        + Members
+            + person - Informações básicas do aluno (nome, telefone, ...).
+            + responsibles - Responsáveis pelo estudante.
+            + schoolClasses - Turmas que o aluno estudou.
+
++ Request 
+    + Headers
+    
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4MzgwNzA2MywiaWF0IjoxNDgxMjE1MDYzfQ.1YO1iTYVRU9NDeJBnqYUQYPk0PVHcCPxSaRtiw1v5Wg
+
++ Response 200 (application/json)
+
+    + Attributes (object)
+        + include (Student)
+        + include (Person)
 
 # Group Lessons
 
