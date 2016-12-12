@@ -7,6 +7,7 @@ use App\Http\Transformers\StudentGradeTransformer;
 use App\SchoolCalendar;
 use App\Student;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Input;
 
 class StudentController extends Controller
 {
@@ -28,8 +29,10 @@ class StudentController extends Controller
      */
     public function show($id)
     {
+        $queryParams = Input::get();
+
         return $this->apiHandler
-            ->parseSingle(New Student, $id)
+            ->parseSingle(New Student, $id, array_merge(['_with' => 'person']))
             ->getResult();
     }
 

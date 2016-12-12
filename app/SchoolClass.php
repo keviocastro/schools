@@ -103,4 +103,16 @@ class SchoolClass extends Model
        return $this->belongsTo('App\Grade');
     }
 
+    /**
+     * Escola que a turma pertence
+     *
+     * @Relation
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function school()
+    {
+        return $this->belongsTo('App\School');
+    }
+
 }
