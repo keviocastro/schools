@@ -16,33 +16,27 @@ class OccurenceControllerTest extends TestCase
      */
     public function testIndex()
     {
-        $struture = [
-              "total",
-              "per_page",
-              "current_page",
-              "last_page",
-              "next_page_url",
-              "prev_page_url",
-              "from",
-              "to",
-              "data" => [ '*' =>
-                [
-                  "id",
-                  "level_id",
-                  "comment",
-                  "about_person_id",
-                  'created_at',
-                  'updated_at',
-                  "about_person" => ['id','name'],
-                  "level" => ['id','name']
-                ]
-              ]
+        $ocurrences = factory(Occurence::class, 3)->create();
+        $ids = $ocurrences->implode('id', '|');
+        $ocurrences->load('level', 'aboutPerson');
+
+        $json = [
+              "total" => 3,
+              "per_page" => 15,
+              "current_page" => 1,
+              "last_page" => 1,
+              "next_page_url" => null,
+              "prev_page_url" => null,
+              "from" => 1,
+              "to" => 3,
+              "data" => $ocurrences->toArray()
             ];
             
-        $this->get('api/occurences?_with=level,aboutPerson',
+        $this->get('api/occurences?_with=level,aboutPerson'.
+          "&id=$ids",
             $this->getAutHeader())
             ->assertResponseStatus(200)
-            ->seeJsonStructure($struture);
+            ->seeJsonEquals($json);
     }
     /**
      * @covers App\Http\Controllers\OccurenceController::index
