@@ -25,7 +25,7 @@ class OccurenceControllerTest extends TestCase
               "prev_page_url",
               "from",
               "to",
-              "data" => [
+              "data" => [ '*' =>
                 [
                   "id",
                   "level_id",
