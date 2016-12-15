@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Behat">
+    <behat_settings>
+      <BehatSettings behat_path="$PROJECT_DIR$" />
+    </behat_settings>
+  </component>
+  <component name="PhpProjectServersManager">
+    <servers>
+      <server host="http://localhost" id="fbffb8e9-e38d-436b-9504-5f0d2324cd0f" name="local" use_path_mappings="true">
+        <path_mappings>
+          <mapping local-root="$PROJECT_DIR$" remote-root="/var/app" />
+        </path_mappings>
+      </server>
+    </servers>
+  </component>
+</project>
