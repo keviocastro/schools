@@ -6,18 +6,24 @@
 		},
 		{
 			"path": "/home/kevio/www/docker-images/docker-laravel"
+		},
+		{
+			"path": "/home/kevio/www/daily-ui"
 		}
 	],
-	"settings": {
-		"xdebug": {
-			"url": "http://localhost",
+	"settings":
+	{
+		"xdebug":
+		{
 			"close_on_stop": true,
-			"path_mapping": {
-                "/var/app" : "/home/kevio/www/schools"
-            },
-            "super_globals": false,
-            "max_depth": 5,
-            "disable_layout": true
+			"disable_layout": true,
+			"max_depth": 5,
+			"path_mapping":
+			{
+				"/var/app": "/home/kevio/www/schools"
+			},
+			"super_globals": false,
+			"url": "http://localhost"
 		}
 	}
 }

@@ -8,8 +8,6 @@
 
 <!-- include(Schools.apib) -->
 
-<!-- include(People.apib) -->
-
 <!-- include(Students.apib) -->
 
 <!-- include(Lessons.apib) -->
