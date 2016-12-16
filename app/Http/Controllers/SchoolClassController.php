@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests;
+use App\Http\Transformers\AnnualReportTransformer;
 use App\SchoolClass;
+use App\Subject;
 use Illuminate\Http\Request;
 
 class SchoolClassController extends Controller
@@ -85,5 +87,30 @@ class SchoolClassController extends Controller
         $schoolClass->delete();
 
         return $this->response->noContent();
+    }
+
+    /**
+     * Relatório annual da turma, com notas e faltas dos alunos
+     * 
+     * @param  Request $request 
+     * @param  int     $id      
+     * 
+     * @return \Illuminate\Http\Response          
+     */
+    public function annualReport(Request $request, $school_class_id, $subject_id)
+    {
+        $schoolClass = SchoolClass::findOrFail($school_class_id);
+        $subject = Subject::findOrFail($subject_id);
+
+        $students = $schoolClass->students;
+        $students->transform(function($student, $key)
+            use ($schoolClass, $subject){
+            
+            $student->annual_report = $student
+                ->averagesAndAbsencesInTheYear($schoolClass->schoolCalendar, $subject);
+            return $student;
+        });
+
+        return $this->collection($students, new AnnualReportTransformer);
     }
 }

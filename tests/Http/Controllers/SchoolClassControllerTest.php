@@ -145,4 +145,58 @@ class SchoolClassControllerTest extends TestCase
             ->assertResponseStatus(204)
             ->seeIsSoftDeletedInDatabase('school_classes', ['id' => $schoolClass->id]);
     }
+
+    /**
+     * @todo Resolver questão da validação de estrutura do array ['student_grades']
+     * 
+     * @covers App\Http\Controllers\SchoolClassController::annualReport
+     * 
+     * @return void
+     */
+    public function testAnnualReport()
+    {
+        $this->selectDatabaseTest();
+
+        $this->get("api/school-classes/1/annual-report-by-subject/1",
+            $this->getAutHeader())->dump()
+            ->assertResponseStatus(200)
+            ->seeJsonStructure([
+                'data' => ['*' => 
+                        ['student' => 
+                            [
+                            'id', 
+                            'person' => []
+                            ]
+                        ],
+                        ['school_calendar_report' => 
+                            [
+                            'average', 
+                            'average_calculation', 
+                            'average_formula', 
+                            'absences', 
+                            ]
+                        ],
+                        ['phases_report' => 
+                            ['*'=> 
+                                [
+                                'school_calendar_phase_id', 
+                                'average', 
+                                'average_calculation',
+                                'average_formula',
+                                'absences',
+                                'student_grades' => 
+                                    ['*' => 
+                                        [   //  Comentado porque quando o aluno não tem nota gera erro.
+                                            //  Criar um assert para tratar isso.
+                                            // 'grade',
+                                            // 'assessment_id'
+                                        ]
+                                    ]
+                                ]
+                            ]
+                        ]
+                    ]
+                ]);
+    }
+
 }

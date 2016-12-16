@@ -3,6 +3,7 @@
 namespace App;
 
 use App\SchoolCalendar;
+use App\Subject;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\DB;
@@ -152,11 +153,15 @@ class Student extends Model
      * 
      * @param  string $schoolCalendar 
      * @param  string $toArray
+     * @param  Subject $filterBySubject         
      *  
      * @return \Illuminate\Database\Eloquent\Collection 
      */
-    public function subjectAvaragePerYear(SchoolCalendar $schoolCalendar, $toArray=false)
-    {
+    public function subjectAvaragePerYear(SchoolCalendar $schoolCalendar, 
+            $toArray=false, 
+            Subject $filterBySubject=null
+        ){
+
         $formula = $schoolCalendar->average_formula;
         $formula_variables = [];
         
@@ -168,7 +173,12 @@ class Student extends Model
         }
 
         $averagesPerPhase = $this->subjectAvaragePerYearPhase($schoolCalendar);
-        $subjects = $this->subjectsYear($schoolCalendar->id)->get();
+        $querySubjects = $this->subjectsYear($schoolCalendar->id);
+        if ($filterBySubject) {
+            $querySubjects->where('subjects.id', $filterBySubject->id);
+        }
+
+        $subjects = $querySubjects->get();
 
         $foundVariables = true;
         foreach ($subjects as $key => $subject) {
@@ -278,6 +288,7 @@ class Student extends Model
      * @param  SchoolCalendar   $schoolCalendar 
      * @param  bool             $toArray          Para definir o retorno no 
      *                                            formato de array.
+     * @param  Subject          $filterBySubject                                          
      * 
      * @return mixed \Illuminate\Database\Eloquent\Collection | array                         
      * 
@@ -285,7 +296,8 @@ class Student extends Model
      */
     public function subjectAvaragePerYearPhase(
         SchoolCalendar $schoolCalendar,
-        $toArray=false)
+        $toArray=false,
+        Subject $filterBySubject=null)
     {
         // Contém fases (schoolCalendarPhase), 
         // avaliações (assessments) da fase 
@@ -297,9 +309,16 @@ class Student extends Model
             }])->get();
 
 
-        $phases->each(function($phase, $key) use ($schoolCalendar, $toArray) {
+        $phases->each(function($phase, $key) 
+            use ($schoolCalendar, $toArray, $filterBySubject) {
 
-            $phase->subject_average = $this->subjectsYear($schoolCalendar->id)->get();
+            $querySubjects = $this->subjectsYear($schoolCalendar->id);
+            if ($filterBySubject) {
+                $querySubjects
+                    ->where('subject.id', $filterBySubject->id);
+            }
+
+            $phase->subject_average = $querySubjects->get();
 
             $formula = $phase->average_formula;
             $formula_variables = [];
@@ -441,9 +460,11 @@ class Student extends Model
      *             ]
      * ]
      */
-    public function averagesAndAbsencesInTheYear(SchoolCalendar $schoolCalendar)
-    {
-        $subjects = $this->subjectAvaragePerYear($schoolCalendar);
+    public function averagesAndAbsencesInTheYear(
+        SchoolCalendar $schoolCalendar,
+        Subject $filterBySubject=null)
+    {  
+        $subjects = $this->subjectAvaragePerYear($schoolCalendar, false, $filterBySubject);
         $absences = $this->totalAbsencesYearPerSubject($schoolCalendar);
 
          // Inclui quantidade de faltas do aluno por fase do ano

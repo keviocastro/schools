@@ -17,7 +17,7 @@
 		{
 			"close_on_stop": true,
 			"disable_layout": true,
-			"max_depth": 5,
+			"max_depth": 2,
 			"path_mapping":
 			{
 				"/var/app": "/home/kevio/www/schools"

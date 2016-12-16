@@ -1,15 +1,32 @@
 # Data structure
 
-## SubjectFillable
+## SubjectAnnualReport (object)
+
++ Include (Subject)
++ average_calculation: `((9.6 + 9.3)*0.4 + (9.3 + 9.8)*0.6)/2` (string) - `Calculo de média da disciplina`
++ average_formula: `( ({1º Bimestre} + {2º Bimestre})*0.4 + ({3º Bimestre} + {4º Bimestre})*0.6 )/2` (string)  - `Formula utilizada para calcular a média anual da disciplina`
++ average_year: 8.2 (number) - `Média do aluno para disciplina no ano letivo`
++ absences: 10 (number) - `Total de faltas do aluno para disciplina no ano letivo`
++ school_calendar_phases (array[object])
+  + Include (SchoolCalendarPhase)
+  + average: 7.2 (number) - `Média do aluno no para disciplina na fase do ano`
+  + average_calculation: `(6.5 + 5.7)/2` (string) - `Calculo da média da disciplina na fase do ano` 
+  + average_formula: `({Nota 1.1} + {Nota 1.2})/2` (string) - `Formula utilizada para  calcular a média da disciplina na fase do ano`    
+  + absences: 2 (number) - `Total de faltas do aluno para disciplina na fase do ano`
+  + student_grades (array[object])
+    + Include (StudentGrade)
+
+
+## SubjectFillable (object)
 
 + name: Matématica  (string) - Nome da disciplina. Ex.: Matématica, Português, Fisica.
 
-## Subject
+## Subject (object)
 
 + id: 1 (number) - Identificador único da disciplina.
 + Include (SubjectFillable)
 
-## StudentGradeFillable
+## StudentGradeFillable (object)
 
 + grade: 7.5 (number) - Nota do aluno na avaliação.
 + student_id: 1 (number) - ID do aluno.
@@ -17,7 +34,7 @@
 + assessment_id: 1 (number) - ID da avaliação.
 + school_class_id: 1 (number) - ID da turma onde a prova foi aplicada.
 
-## StudentGrade
+## StudentGrade (object)
 
 + id: 1 (number) - Identificador único da nota do aluno.
 + Include (StudentGradeFillable)
@@ -33,7 +50,7 @@
 + id: 1 (number) - Identificador único da ocorrência.
 + Include (OccurenceFillable)
 
-## Level 
+## Level (object)
 
 + id: 1 (number)
 + name: Grave (string)
@@ -55,7 +72,7 @@
 ## SchoolCalendar (object)
 
 + id: 1 (number) - Identificador único do ano letivo.
-+ include (SchoolCalendarFillable)
++ Include (SchoolCalendarFillable)
 
 ## SchoolCalendarFillable (object)
 
@@ -83,7 +100,7 @@
 ## School (object)
 
 + id: 1 (number) - Identificador único da escola
-+ include (SchoolFillable)
++ Include (SchoolFillable)
 
 ## SchoolClassFillable (object)
 
@@ -96,7 +113,7 @@
 ## SchoolClass (object)
 
 + id: 1 (number) - Identificador único da turma.
-+ include (SchoolClassFillable)
++ Include (SchoolClassFillable)
 
 ## SchoolClassSubject (object)
 
@@ -120,7 +137,7 @@
 ## Lesson (object)
 
 + id: 1 (number) - `Identificador único  da aula.`
-+ include (LessonFillable)
++ Include (LessonFillable)
 
 ## Teacher (object)
 
