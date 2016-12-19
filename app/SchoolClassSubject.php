@@ -2,8 +2,6 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
-
 /**
  * Disciplinas existentes para um turma
  */
@@ -20,7 +18,9 @@ class SchoolClassSubject extends Model
     protected $hidden = [
         'deleted_at',
         'created_at',
-        'updated_at'
+        'updated_at',
+        'deleted_by',
+        'updated_by'
         ];
     
     /**

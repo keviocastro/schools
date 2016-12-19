@@ -2,10 +2,17 @@
 namespace App;
 
 
-use App\Observers\OwnerResorceObsever;
-use Illuminate\Database\Eloquent\Model;
+use App\Observers\OwnerResourceObsever;
+use Illuminate\Database\Eloquent\Model as EloquentModel;
 
-class OwnerResorceModel extends Model
+class Model extends EloquentModel
 {
+    public static function boot()
+    {	
+    	$class = get_called_class();
+    	$class::observe(OwnerResourceObsever::class);
+
+    	parent::boot();
+    }
 
 }

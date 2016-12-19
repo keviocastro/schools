@@ -67,6 +67,15 @@ class TestCase extends TestCaseLara
     }
 
     /**
+     * Obtem o id do usuário utilizado nos testes unistários
+     *
+     * @return string
+     */
+    public function getLoggedInUserId(){
+        return Config::get('laravel-auth0.token_id_tester');
+    }
+
+    /**
      * Obtem id_token de autentificação auth0 para 
      * testes de autentificação 
      * 

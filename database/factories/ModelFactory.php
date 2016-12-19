@@ -12,7 +12,6 @@
 */
 
 $faker = Faker\Factory::create('pt_BR');
-
 $factory->define(App\SchoolCalendar::class, function() use ($factory, $faker) {
     
     $dateTime = $faker->dateTimeThisDecade;
@@ -23,7 +22,8 @@ $factory->define(App\SchoolCalendar::class, function() use ($factory, $faker) {
             rand(1,3), rand(1,28))->format('Y-m-d'),
         'end' => $dateTime->setDate($dateTime->format('Y'), 
             rand(11,12), rand(1,30))->format('Y-m-d'),
-        'average_formula' => '({1 Bim} + {2 Bim} + {3 Bim} + {4 Bim})/4'
+        'average_formula' => '({1 Bim} + {2 Bim} + {3 Bim} + {4 Bim})/4',
+        'created_by' => 'auth0|57c0840deae095471aba4093'
     ];
 });
 
@@ -41,7 +41,8 @@ $factory->define(App\School::class, function () use ($factory, $faker) {
                 "phone" => $faker->phoneNumber,
                 "email" => $faker->email
             ]
-        ]
+        ],
+        'created_by' => 'auth0|57c0840deae095471aba4093'
     ];
 });
 
@@ -60,7 +61,8 @@ $factory->define(App\SchoolClass::class, function () use ($factory, $faker) {
         },
         'school_calendar_id' => function(){
             return factory(App\SchoolCalendar::class)->create()->id;
-        }
+        },
+        'created_by' => 'auth0|57c0840deae095471aba4093'
     ];
 });
 
@@ -102,6 +104,7 @@ $factory->define(App\Subject::class, function () use ($factory, $faker) {
             'Nutrição',
             'Zoologia',
             ]),
+        'created_by' => 'auth0|57c0840deae095471aba4093'
     ];
 });
 
@@ -123,6 +126,7 @@ $factory->define(App\Grade::class, function () use ($factory, $faker) {
         		'2º Ano',
         		'3º Ano',
         	]),
+        'created_by' => 'auth0|57c0840deae095471aba4093'
     ];
 });
 
@@ -141,6 +145,7 @@ $factory->define(App\Person::class, function () use ($factory, $faker) {
     	'more' => $faker->text(),
         'avatarUrl' => $avatarUrl,
         'phone' => $faker->phoneNumber,
+        'created_by' => 'auth0|57c0840deae095471aba4093'
     	];
 });
 
@@ -149,7 +154,8 @@ $factory->define(App\Student::class, function ($faker) use ($factory) {
     return [
 	    	'person_id' => function(){
 	    		return 	factory(App\Person::class)->create()->id;
-	    	}
+	    	},
+            'created_by' => 'auth0|57c0840deae095471aba4093'
     	];
 });
 
@@ -161,7 +167,8 @@ $factory->define(App\StudentResponsible::class, function ($faker) use ($factory)
             },
             'person_id' => function(){
                 return factory(App\Person::class)->create()->id;
-            }
+            },
+            'created_by' => 'auth0|57c0840deae095471aba4093'
         ];
 });
 
@@ -178,6 +185,7 @@ $factory->define(App\Lesson::class, function ($faker) use ($factory) {
             },
             'start' => $start->format('Y-m-d H:i:s'),
             'end' => $start->modify('+ 30 minutes')->format('Y-m-d H:i:s'),
+            'created_by' => 'auth0|57c0840deae095471aba4093'
         ];
 });
 
@@ -193,6 +201,7 @@ $factory->define(App\Lesson::class, function ($faker) use ($factory) {
             },
             'start' => $start->format('Y-m-d H:i:s'),
             'end' => $start->modify('+ 30 minutes')->format('Y-m-d H:i:s'),
+            'created_by' => 'auth0|57c0840deae095471aba4093'
         ];
 }, 'Next15Days');
 
@@ -204,7 +213,8 @@ $factory->define(App\SchoolClassStudent::class, function ($faker) use ($factory)
             },
             'student_id' => function(){
                 return factory(App\Student::class)->create()->id;
-            }
+            },
+            'created_by' => 'auth0|57c0840deae095471aba4093'
         ];
 });
 
@@ -218,6 +228,7 @@ $factory->define(App\AttendanceRecord::class, function ($faker) use ($factory) {
                 return factory(App\Student::class)->create()->id;
             },
             'presence' => rand(0,2),
+            'created_by' => 'auth0|57c0840deae095471aba4093'
         ];
 });
 
@@ -250,7 +261,8 @@ $factory->define(App\SchoolCalendarPhase::class, function ($faker, $attributes) 
                 ]),
             'start' => $startDate,
             'end' => $endDate,
-            'average_formula' => 'arithmetical'
+            'average_formula' => 'arithmetical',
+            'created_by' => 'auth0|57c0840deae095471aba4093'
         ];
 });
 
@@ -276,14 +288,16 @@ $factory->define(App\Assessment::class, function ($faker) use ($factory) {
                     'N1.1',
                     'N2.1',
                     'N3.1',
-                ])
+                ]),
+            'created_by' => 'auth0|57c0840deae095471aba4093'
         ];
 });
 
 $factory->define(App\Level::class, function ($faker) use ($factory) {
     
     return [
-        'name' => $faker->randomElement(['leve', 'medio', 'grave'])
+        'name' => $faker->randomElement(['leve', 'medio', 'grave']),
+        'created_by' => 'auth0|57c0840deae095471aba4093'
     ];
 });
 
@@ -296,7 +310,8 @@ $factory->define(App\Occurence::class, function ($faker) use ($factory) {
         'comment' => $faker->sentence,
         'about_person_id' => function(){
             return factory(App\Student::class)->create()->id;
-        }
+        },
+        'created_by' => 'auth0|57c0840deae095471aba4093'
     ];
 });
 
@@ -323,6 +338,7 @@ $factory->define(App\StudentGrade::class, function ($faker) use ($factory) {
             return factory(App\Subject::class)->create()->id;
         },
         'assessment_id' => $assessment->id,
-        'school_class_id' => $schoolClass->id
+        'school_class_id' => $schoolClass->id,
+        'created_by' => 'auth0|57c0840deae095471aba4093'
     ];
 });

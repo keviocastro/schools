@@ -2,7 +2,6 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
@@ -27,7 +26,11 @@ class SchoolClassStudent extends Model
      *
      * @var array
      */
-    protected $hidden = ['deleted_at'];
+    protected $hidden = [
+        'deleted_at',
+        'deleted_by',
+        'updated_by'
+    ];
     
     /**
      * Atributos que serão convertidos para data

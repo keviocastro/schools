@@ -3,7 +3,6 @@
 namespace App;
 
 use App\SchoolCalendar;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\DB;
 use Stringy\Stringy as S;
@@ -33,7 +32,9 @@ class Student extends Model
     protected $hidden = [
         'deleted_at', 
         'created_at',
-        'updated_at'
+        'updated_at',
+        'deleted_by',
+        'updated_by'
     ];
 
     /**

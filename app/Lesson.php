@@ -2,7 +2,6 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
@@ -37,7 +36,12 @@ class Lesson extends Model
      *
      * @var array
      */
-    protected $hidden = ['deleted_at','updated_at','created_at'];
+    protected $hidden = ['deleted_at',
+        'updated_at',
+        'created_at',
+        'deleted_by',
+        'updated_by'
+    ];
 
 
     /**
