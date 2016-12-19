@@ -158,7 +158,7 @@ class SchoolClassControllerTest extends TestCase
         $this->selectDatabaseTest();
 
         $this->get("api/school-classes/1/annual-report-by-subject/1",
-            $this->getAutHeader())->dump()
+            $this->getAutHeader())
             ->assertResponseStatus(200)
             ->seeJsonStructure([
                 'data' => ['*' => 
