@@ -4,11 +4,7 @@
     <bookmark url="file://$PROJECT_DIR$/database/factories/ModelFactory.php" line="25" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="da28da94-dcaf-4a46-a930-eae111544a34" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/School.php" afterPath="$PROJECT_DIR$/app/School.php" />
-    </list>
+    <list default="true" id="da28da94-dcaf-4a46-a930-eae111544a34" name="Default" comment="" />
     <ignored path="schools.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path=".idea/dataSources.local.xml" />
@@ -491,12 +487,12 @@
       <workItem from="1481828732239" duration="1347000" />
       <workItem from="1482143784250" duration="4820000" />
       <workItem from="1482149381708" duration="1676000" />
-      <workItem from="1482152395297" duration="68000" />
+      <workItem from="1482152395297" duration="171000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="27524000" />
+    <option name="totallyTimeSpent" value="27627000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="26" width="1920" height="1054" extended-state="6" />
