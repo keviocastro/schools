@@ -21,8 +21,8 @@ class School extends Model
         'deleted_at',
         'updated_at',
         'created_at',
-        'created_by',
-        'deleted_by'
+        'deleted_by',
+        'updated_by'
     ];
     
     /**
