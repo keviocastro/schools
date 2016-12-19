@@ -7,6 +7,9 @@ use Illuminate\Database\Eloquent\Model as EloquentModel;
 
 class Model extends EloquentModel
 {
+    /**
+     * Class abistrato do modelo (monitora os eventos)
+     */
     public static function boot()
     {	
     	$class = get_called_class();
