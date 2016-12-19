@@ -9,6 +9,8 @@ return array(
     'email_user_tester' => env('AUTH0_EMAIL_USER_TESTER', 'tester@logoseducacao.com.br'),
     'pass_user_tester' => env('AUTH0_PASS_USER_TESTER', 'ga+6pH'),
     'token_user_tester' => env('AUTH0_TOKEN_USER_TESTER'),
+    'token_id_tester' => env('AUTH0_ID_USER_TESTER'),
+
 
     /*
     |--------------------------------------------------------------------------

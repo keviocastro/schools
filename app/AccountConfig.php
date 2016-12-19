@@ -2,8 +2,6 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
-
 /**
  * Configurações de uma conta 
  * (Ex.: Quantidade máxima de % de faltas para um aluno 
@@ -21,7 +19,10 @@ class AccountConfig extends Model
     ];
 
     protected $hidden = [
-        'created_at', 'updated_at'
+        'created_at',
+        'updated_at',
+        'deleted_by',
+        'updated_by'
     ];
 
     /**

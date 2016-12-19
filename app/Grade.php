@@ -2,7 +2,6 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
@@ -21,7 +20,9 @@ class Grade extends Model
     protected $hidden = [
         'deleted_at',
         'created_at',
-        'updated_at'
+        'updated_at',
+        'deleted_by',
+        'updated_by'
         ];
     
     /**

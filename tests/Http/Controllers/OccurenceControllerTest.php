@@ -31,7 +31,7 @@ class OccurenceControllerTest extends TestCase
               "to" => 3,
               "data" => $ocurrences->toArray()
             ];
-            
+
         $this->get('api/occurences?_with=level,aboutPerson'.
           "&id=$ids",
             $this->getAutHeader())
@@ -84,6 +84,7 @@ class OccurenceControllerTest extends TestCase
     public function testStore()
     {
     	$ocurrence = factory(Occurence::class)->make()->toArray();
+        $ocurrence['created_by'] = $this->getLoggedInUserId();
 
         $this->post('api/occurences',
         	$ocurrence,
