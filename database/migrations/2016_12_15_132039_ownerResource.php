@@ -5,6 +5,29 @@ use Illuminate\Database\Migrations\Migration;
 
 class OwnerResource extends Migration
 {
+    private $tables = [
+        'request_accesses',
+        'school_calendars',
+        'school_calendar_phases',
+        'schools',
+        'shifts',
+        'subjects',
+        'school_classes',
+        'school_class_subjects',
+        'lessons',
+        'people',
+        'students',
+        'student_responsibles',
+        'school_class_student',
+        'attendance_records',
+        'assessments',
+        'student_grades',
+        'occurences',
+        'levels',
+        'account_configs',
+        'grades',
+    ];
+
     /**
      * Run the migrations.
      *
@@ -12,111 +35,14 @@ class OwnerResource extends Migration
      */
     public function up()
     {
-        Schema::table('request_accesses', function ($table) {
-            $table->string('created_by');
-            $table->string('updated_by')->nullable();
-            $table->string('deleted_by')->nullable();
-        });
+        foreach ($this->tables as $tableName) {
+            Schema::table($tableName, function ($table) {
+                $table->string('created_by')->nullable();
+                $table->string('updated_by')->nullable();
+                $table->string('deleted_by')->nullable();
+            });
+        }
 
-        Schema::table('school_calendars', function ($table) {
-            $table->string('created_by');
-            $table->string('updated_by')->nullable();
-            $table->string('deleted_by')->nullable();
-        });
-        Schema::table('school_calendar_phases', function ($table) {
-            $table->string('created_by');
-            $table->string('updated_by')->nullable();
-            $table->string('deleted_by')->nullable();
-        });
-        Schema::table('schools', function ($table) {
-            $table->string('created_by');
-            $table->string('updated_by')->nullable();
-            $table->string('deleted_by')->nullable();
-        });
-        Schema::table('shifts', function ($table) {
-            $table->string('created_by');
-            $table->string('updated_by')->nullable();
-            $table->string('deleted_by')->nullable();
-        });
-        Schema::table('subjects', function ($table) {
-            $table->string('created_by');
-            $table->string('updated_by')->nullable();
-            $table->string('deleted_by')->nullable();
-        });
-        Schema::table('school_classes', function ($table) {
-            $table->string('created_by');
-            $table->string('updated_by')->nullable();
-            $table->string('deleted_by')->nullable();
-        });
-        Schema::table('school_class_subjects', function ($table) {
-            $table->string('created_by');
-            $table->string('updated_by')->nullable();
-            $table->string('deleted_by')->nullable();
-        });
-        Schema::table('lessons', function ($table) {
-            $table->string('created_by');
-            $table->string('updated_by')->nullable();
-            $table->string('deleted_by')->nullable();
-        });
-
-        Schema::table('people', function ($table) {
-            $table->string('created_by');
-            $table->string('updated_by')->nullable();
-            $table->string('deleted_by')->nullable();
-        });
-        Schema::table('students', function ($table) {
-            $table->string('created_by');
-            $table->string('updated_by')->nullable();
-            $table->string('deleted_by')->nullable();
-        });
-        Schema::table('student_responsibles', function ($table) {
-            $table->string('created_by');
-            $table->string('updated_by')->nullable();
-            $table->string('deleted_by')->nullable();
-        });
-        Schema::table('school_class_student', function ($table) {
-            $table->string('created_by');
-            $table->string('updated_by')->nullable();
-            $table->string('deleted_by')->nullable();
-        });
-        Schema::table('attendance_records', function ($table) {
-            $table->string('created_by');
-            $table->string('updated_by')->nullable();
-            $table->string('deleted_by')->nullable();
-        });
-        Schema::table('assessments', function ($table) {
-            $table->string('created_by');
-            $table->string('updated_by')->nullable();
-            $table->string('deleted_by')->nullable();
-        });
-        Schema::table('student_grades', function ($table) {
-            $table->string('created_by');
-            $table->string('updated_by')->nullable();
-            $table->string('deleted_by')->nullable();
-        });
-
-        Schema::table('occurences', function ($table) {
-            $table->string('created_by');
-            $table->string('updated_by')->nullable();
-            $table->string('deleted_by')->nullable();
-        });
-        Schema::table('levels', function ($table) {
-            $table->string('created_by');
-            $table->string('updated_by')->nullable();
-            $table->string('deleted_by')->nullable();
-        });
-
-        Schema::table('account_configs', function ($table) {
-            $table->string('created_by');
-            $table->string('updated_by')->nullable();
-            $table->string('deleted_by')->nullable();
-        });
-
-        Schema::table('grades', function ($table) {
-            $table->string('created_by');
-            $table->string('updated_by')->nullable();
-            $table->string('deleted_by')->nullable();
-        });
     }
 
     /**
@@ -126,70 +52,10 @@ class OwnerResource extends Migration
      */
     public function down()
     {
-        Schema::table('request_accesses', function ($table) {
-            $table->dropColumn(['created_by','updated_by','deleted_by']);
-        });
-
-        Schema::table('school_calendars', function ($table) {
-            $table->dropColumn(['created_by','updated_by','deleted_by']);
-        });
-        Schema::table('school_calendar_phases', function ($table) {
-            $table->dropColumn(['created_by','updated_by','deleted_by']);
-        });
-        Schema::table('schools', function ($table) {
-            $table->dropColumn(['created_by','updated_by','deleted_by']);
-        });
-        Schema::table('shifts', function ($table) {
-            $table->dropColumn(['created_by','updated_by','deleted_by']);
-        });
-        Schema::table('subjects', function ($table) {
-            $table->dropColumn(['created_by','updated_by','deleted_by']);
-        });
-        Schema::table('school_classes', function ($table) {
-            $table->dropColumn(['created_by','updated_by','deleted_by']);
-        });
-        Schema::table('school_class_subjects', function ($table) {
-            $table->dropColumn(['created_by','updated_by','deleted_by']);
-        });
-        Schema::table('lessons', function ($table) {
-            $table->dropColumn(['created_by','updated_by','deleted_by']);
-        });
-
-        Schema::table('people', function ($table) {
-            $table->dropColumn(['created_by','updated_by','deleted_by']);
-        });
-        Schema::table('students', function ($table) {
-            $table->dropColumn(['created_by','updated_by','deleted_by']);
-        });
-        Schema::table('student_responsibles', function ($table) {
-            $table->dropColumn(['created_by','updated_by','deleted_by']);
-        });
-        Schema::table('school_class_student', function ($table) {
-            $table->dropColumn(['created_by','updated_by','deleted_by']);
-        });
-        Schema::table('attendance_records', function ($table) {
-            $table->dropColumn(['created_by','updated_by','deleted_by']);
-        });
-        Schema::table('assessments', function ($table) {
-            $table->dropColumn(['created_by','updated_by','deleted_by']);
-        });
-        Schema::table('student_grades', function ($table) {
-            $table->dropColumn(['created_by','updated_by','deleted_by']);
-        });
-
-        Schema::table('occurences', function ($table) {
-            $table->dropColumn(['created_by','updated_by','deleted_by']);
-        });
-        Schema::table('levels', function ($table) {
-            $table->dropColumn(['created_by','updated_by','deleted_by']);
-        });
-
-        Schema::table('account_configs', function ($table) {
-            $table->dropColumn(['created_by','updated_by','deleted_by']);
-        });
-
-        Schema::table('grades', function ($table) {
-            $table->dropColumn(['created_by','updated_by','deleted_by']);
-        });
+        foreach ($this->tables as $tableName) {
+            Schema::table($tableName, function ($table) {
+                $table->dropColumn(['created_by','updated_by','deleted_by']);
+            });
+        }
     }
 }
