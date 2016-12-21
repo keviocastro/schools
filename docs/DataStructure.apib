@@ -15,6 +15,7 @@
   + absences: 2 (number) - `Total de faltas do aluno para disciplina na fase do ano`
   + student_grades (array[object])
     + Include (StudentGrade)
++ created_by: auth0|57c0840deae095471aba4093  (string) - Token do usuario logado no sistema.
 
 
 ## SubjectFillable (object)
@@ -25,6 +26,7 @@
 
 + id: 1 (number) - Identificador único da disciplina.
 + Include (SubjectFillable)
++ created_by: auth0|57c0840deae095471aba4093  (string) - Token do usuario logado no sistema.
 
 ## StudentGradeFillable (object)
 
@@ -38,6 +40,7 @@
 
 + id: 1 (number) - Identificador único da nota do aluno.
 + Include (StudentGradeFillable)
++ created_by: auth0|57c0840deae095471aba4093  (string) - Token do usuario logado no sistema.
 
 ## OccurenceFillable (object)
 
@@ -49,17 +52,20 @@
 
 + id: 1 (number) - Identificador único da ocorrência.
 + Include (OccurenceFillable)
++ created_by: auth0|57c0840deae095471aba4093  (string) - Token do usuario logado no sistema.
 
 ## Level (object)
 
 + id: 1 (number)
 + name: Grave (string)
++ created_by: auth0|57c0840deae095471aba4093  (string) - Token do usuario logado no sistema.
 
 ## Assessment (object)
 
 + id: 1 (number) - Identificador único da avaliação
 + name: Nota N1 - Descrição da avaliação
 + school_calendar_phase_id: 1 (number) - ID da fase que a avaliação será registrada.
++ created_by: auth0|57c0840deae095471aba4093  (string) - Token do usuario logado no sistema.
 
 ## SchoolCalendarPhase (object)
 
@@ -68,11 +74,13 @@
 + start: `2016-02-01` (string) - Data inicial do período avaliativo
 + end: `2016-04-01` (string) - Ultimo dia do período avaliativo
 + school_calendar_id: 1 - ID do ano letivo a qual esta fase está relacionada.
++ created_by: auth0|57c0840deae095471aba4093  (string) - Token do usuario logado no sistema.
 
 ## SchoolCalendar (object)
 
 + id: 1 (number) - Identificador único do ano letivo.
 + Include (SchoolCalendarFillable)
++ created_by: auth0|57c0840deae095471aba4093  (string) - Token do usuario logado no sistema.
 
 ## SchoolCalendarFillable (object)
 
@@ -101,6 +109,7 @@
 
 + id: 1 (number) - Identificador único da escola
 + Include (SchoolFillable)
++ created_by: auth0|57c0840deae095471aba4093  (string) - Token do usuario logado no sistema.
 
 ## SchoolClassFillable (object)
 
@@ -114,17 +123,20 @@
 
 + id: 1 (number) - Identificador único da turma.
 + Include (SchoolClassFillable)
++ created_by: auth0|57c0840deae095471aba4093  (string) - Token do usuario logado no sistema.
 
 ## SchoolClassSubject (object)
 
 + id: 1 (number) - Identificador único da disciplina em uma turma.
 + school_class_id - ID da turma
 + subject_id - ID da disciplina
++ created_by: auth0|57c0840deae095471aba4093  (string) - Token do usuario logado no sistema.
 
 ## Shift (object)
 
 + id: 1 (number) - Identificador único do turno.
 + name: Matutino (string) - Nome do turno. Exemplo: Vespertino, matutino, noturno.
++ created_by: auth0|57c0840deae095471aba4093  (string) - Token do usuario logado no sistema.
 
 ## LessonFillable (object)
 
@@ -138,11 +150,13 @@
 
 + id: 1 (number) - `Identificador único  da aula.`
 + Include (LessonFillable)
++ created_by: auth0|57c0840deae095471aba4093  (string) - Token do usuario logado no sistema.
 
 ## Teacher (object)
 
 + id: 1 (number) - `Identificador único do professor.`
 + person_id: 1 (number) - `ID das informações básicas de pessoa do professor (nome, sobrenome, etc.)`
++ created_by: auth0|57c0840deae095471aba4093  (string) - Token do usuario logado no sistema.
 
 ## Person (object)
 
@@ -155,11 +169,13 @@
 + place_of_birth: Santa Alenssandra (string) - Cidade de nascimento
 + more: descricao (string) - Mais detalhes sobre a pessoa
 + phone: `(62) 8385-5421` (string) - numero de telefone da pessoa
++ created_by: auth0|57c0840deae095471aba4093  (string) - Token do usuario logado no sistema.
 
 ## Student (object)
 
 + id: 1 (number) - Identificador único do estudante.
 + person_id: 1 (number) - ID das informações básicas de pessoa do aluno (nome, sobrenome, etc.).
++ created_by: auth0|57c0840deae095471aba4093  (string) - Token do usuario logado no sistema.
 
 ## AttendanceRecordFillable (object)
 
@@ -171,6 +187,7 @@
 
 + id: 1 (number) - Identificador único do registro de presença
 + Include (AttendanceRecordFillable)
++ created_by: auth0|57c0840deae095471aba4093  (string) - Token do usuario logado no sistema.
 
 ## Paginator (object)
 

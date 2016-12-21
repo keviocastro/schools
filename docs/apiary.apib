@@ -356,6 +356,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 
     + Attributes
         + students (array[object])
+            + Include
             + Include (Student)
             + school_calendar_report (object) - Relatório do aluno durante o calendário escolar
                 + average: 9.2 (number) - Média do aluno no ano
@@ -648,8 +649,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
         Anexa mais informações da aula na responsta. 
         students.last_occurences são as ultimas 2 ocorrencias do aluno. 
         students.attendanceRecord é o registro de chamada da aula para o aluno. 
-        students.absenceSummary é um resumo de faltas do aluno, durante todo
-        o ano.
+        students.absenceSummary é um resumo de faltas do aluno, durante o ano.
 
         + Members
             + students
@@ -1195,6 +1195,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
   + absences: 2 (number) - `Total de faltas do aluno para disciplina na fase do ano`
   + student_grades (array[object])
     + Include (StudentGrade)
++ created_by: auth0|57c0840deae095471aba4093  (string) - Token do usuario logado no sistema.
 
 
 ## SubjectFillable (object)
@@ -1205,6 +1206,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 
 + id: 1 (number) - Identificador único da disciplina.
 + Include (SubjectFillable)
++ created_by: auth0|57c0840deae095471aba4093  (string) - Token do usuario logado no sistema.
 
 ## StudentGradeFillable (object)
 
@@ -1218,6 +1220,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 
 + id: 1 (number) - Identificador único da nota do aluno.
 + Include (StudentGradeFillable)
++ created_by: auth0|57c0840deae095471aba4093  (string) - Token do usuario logado no sistema.
 
 ## OccurenceFillable (object)
 
@@ -1229,17 +1232,20 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 
 + id: 1 (number) - Identificador único da ocorrência.
 + Include (OccurenceFillable)
++ created_by: auth0|57c0840deae095471aba4093  (string) - Token do usuario logado no sistema.
 
 ## Level (object)
 
 + id: 1 (number)
 + name: Grave (string)
++ created_by: auth0|57c0840deae095471aba4093  (string) - Token do usuario logado no sistema.
 
 ## Assessment (object)
 
 + id: 1 (number) - Identificador único da avaliação
 + name: Nota N1 - Descrição da avaliação
 + school_calendar_phase_id: 1 (number) - ID da fase que a avaliação será registrada.
++ created_by: auth0|57c0840deae095471aba4093  (string) - Token do usuario logado no sistema.
 
 ## SchoolCalendarPhase (object)
 
@@ -1248,11 +1254,13 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 + start: `2016-02-01` (string) - Data inicial do período avaliativo
 + end: `2016-04-01` (string) - Ultimo dia do período avaliativo
 + school_calendar_id: 1 - ID do ano letivo a qual esta fase está relacionada.
++ created_by: auth0|57c0840deae095471aba4093  (string) - Token do usuario logado no sistema.
 
 ## SchoolCalendar (object)
 
 + id: 1 (number) - Identificador único do ano letivo.
 + Include (SchoolCalendarFillable)
++ created_by: auth0|57c0840deae095471aba4093  (string) - Token do usuario logado no sistema.
 
 ## SchoolCalendarFillable (object)
 
@@ -1281,6 +1289,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 
 + id: 1 (number) - Identificador único da escola
 + Include (SchoolFillable)
++ created_by: auth0|57c0840deae095471aba4093  (string) - Token do usuario logado no sistema.
 
 ## SchoolClassFillable (object)
 
@@ -1294,17 +1303,20 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 
 + id: 1 (number) - Identificador único da turma.
 + Include (SchoolClassFillable)
++ created_by: auth0|57c0840deae095471aba4093  (string) - Token do usuario logado no sistema.
 
 ## SchoolClassSubject (object)
 
 + id: 1 (number) - Identificador único da disciplina em uma turma.
 + school_class_id - ID da turma
 + subject_id - ID da disciplina
++ created_by: auth0|57c0840deae095471aba4093  (string) - Token do usuario logado no sistema.
 
 ## Shift (object)
 
 + id: 1 (number) - Identificador único do turno.
 + name: Matutino (string) - Nome do turno. Exemplo: Vespertino, matutino, noturno.
++ created_by: auth0|57c0840deae095471aba4093  (string) - Token do usuario logado no sistema.
 
 ## LessonFillable (object)
 
@@ -1318,11 +1330,13 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 
 + id: 1 (number) - `Identificador único  da aula.`
 + Include (LessonFillable)
++ created_by: auth0|57c0840deae095471aba4093  (string) - Token do usuario logado no sistema.
 
 ## Teacher (object)
 
 + id: 1 (number) - `Identificador único do professor.`
 + person_id: 1 (number) - `ID das informações básicas de pessoa do professor (nome, sobrenome, etc.)`
++ created_by: auth0|57c0840deae095471aba4093  (string) - Token do usuario logado no sistema.
 
 ## Person (object)
 
@@ -1335,11 +1349,13 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 + place_of_birth: Santa Alenssandra (string) - Cidade de nascimento
 + more: descricao (string) - Mais detalhes sobre a pessoa
 + phone: `(62) 8385-5421` (string) - numero de telefone da pessoa
++ created_by: auth0|57c0840deae095471aba4093  (string) - Token do usuario logado no sistema.
 
 ## Student (object)
 
 + id: 1 (number) - Identificador único do estudante.
 + person_id: 1 (number) - ID das informações básicas de pessoa do aluno (nome, sobrenome, etc.).
++ created_by: auth0|57c0840deae095471aba4093  (string) - Token do usuario logado no sistema.
 
 ## AttendanceRecordFillable (object)
 
@@ -1351,6 +1367,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 
 + id: 1 (number) - Identificador único do registro de presença
 + Include (AttendanceRecordFillable)
++ created_by: auth0|57c0840deae095471aba4093  (string) - Token do usuario logado no sistema.
 
 ## Paginator (object)
 
@@ -1362,3 +1379,4 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 + prev_page_url: null (string, nullable) - Url para resultados da página anterior
 + from: 1 (number) - Número inicial de resultados de paginação da página atual
 + to: 15 (number) - Número final de resultados de paginação da página atual
+
