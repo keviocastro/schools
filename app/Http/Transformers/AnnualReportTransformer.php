@@ -33,6 +33,7 @@ class AnnualReportTransformer extends Fractal\TransformerAbstract
 			foreach ($phase['student_grades'] as $studentGrade) {
 				array_push($grades, [
 						'grade' => $studentGrade['grade'],
+						'id' => $studentGrade['id'],
 						'assessment_id' => $studentGrade['assessment_id']
 					]);
 			}
