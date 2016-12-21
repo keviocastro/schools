@@ -27,6 +27,7 @@ class AccountConfig extends Model
     protected $hidden = [
         'created_at',
         'updated_at',
+        'created_by',
         'deleted_by',
         'updated_by'
     ];

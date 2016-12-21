@@ -86,11 +86,11 @@ class AttendanceRecordController extends Controller
     public function update(Request $request, $id)
     {
         $this->validationForUpdateAction($request, [
-            'presence' => 'integer|in:0,1',
+            'presence' => 'integer|in:0,1,2',
             ]);
 
         $attendanceRecord = AttendanceRecord::findOrFail($id);
-        $attendanceRecord->update($request->only('presence'));
+        $attendanceRecord->update($request->only('presence', 'absence_dismissal'));
 
         return $attendanceRecord;
     }

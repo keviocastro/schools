@@ -58,6 +58,28 @@ class AttendanceRecordControllerTest extends TestCase
     }
 
     /**
+     * Abonar falta do aluno
+     *
+     * @covers App\Http\Controllers\AttendanceRecordController::store
+     *
+     * @return void
+     */
+    public function testUpdateAbsenceDismissal()
+    {
+        $attendanceRecord = factory(AttendanceRecord::class)->create([
+            'presence' => 0,
+        ])->toArray();
+        $attendanceRecord['presence'] = 2;
+        $attendanceRecord['absence_dismissal'] = 'O aluno apresentou atestado médico.';
+
+        $this->put("api/attendance-records/{$attendanceRecord['id']}",
+            $attendanceRecord,
+            $this->getAutHeader())
+            ->assertResponseStatus(200)
+            ->seeJsonEquals(['attendance_record' => $attendanceRecord]);
+    }
+
+    /**
      * @covers App\Http\Controllers\AttendanceRecordController::show
      *
      * @return void
@@ -103,8 +125,8 @@ class AttendanceRecordControllerTest extends TestCase
     	$attendanceRecord = factory(AttendanceRecord::class)->create();
         $this->post('api/attendance-records',
             [
-                'student_id' => $attendanceRecord->student_id, 
-                'lesson_id' => $attendanceRecord->lesson_id, 
+                'student_id' => $attendanceRecord->student_id,
+                'lesson_id' => $attendanceRecord->lesson_id,
                 'presence' => 1,
             ],
             $this->getAutHeader())

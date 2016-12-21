@@ -28,6 +28,7 @@ class SchoolClassStudent extends Model
      */
     protected $hidden = [
         'deleted_at',
+        'created_by',
         'deleted_by',
         'updated_by'
     ];

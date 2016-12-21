@@ -355,23 +355,24 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 + Response 200 (application/json)
 
     + Attributes
-        + students (array[object])
-            + Include
-            + Include (Student)
-            + school_calendar_report (object) - Relatório do aluno durante o calendário escolar
-                + average: 9.2 (number) - Média do aluno no ano
-                + average_calculation: `((4.6 + 1.2)*0.4 + (9 + 3.1)*0.6)/2` (string) - Formula da média do aluno
-                + average_formula: `(({1º Bimestre}+...+ {4º Bimestre})*0.6)/2"` (string) - Calculo da média
-                + absences: 22 (number) - Total de faltas no calendario escolar
-            + phases_report (object)  - Relatório do aluno durante as fases do calendário escolar
-                + school_calendar_phase_id - ID da fase do calendário escolar
-                + average (number) - Média
-                + average_calculation (string) - Calculo da média
-                + average_formula (string) - Formula utilizada no calculo
-                + absences (number) - Total de faltas na fase
-                + student_grades (array[object]) - Notas do aluno que compõem a média da fase
-                    + grade (number) - Nota
-                    + assessment_id (number) - ID da avaliação
+
+        + students (array)
+            + (object)
+                + Include (Student)
+                + school_calendar_report (object) - Relatório do aluno durante o calendário escolar
+                    + average: 9.2 (number) - Média do aluno no ano
+                    + average_calculation: `((4.6 + 1.2)*0.4 + (9 + 3.1)*0.6)/2` (string) - Formula da média do aluno
+                    + average_formula: `(({1º Bimestre}+...+ {4º Bimestre})*0.6)/2"` (string) - Calculo da média
+                    + absences: 22 (number) - Total de faltas no calendario escolar
+                + phases_report (object)  - Relatório do aluno durante as fases do calendário escolar
+                    + school_calendar_phase_id - ID da fase do calendário escolar
+                    + average (number) - Média
+                    + average_calculation (string) - Calculo da média
+                    + average_formula (string) - Formula utilizada no calculo
+                    + absences (number) - Total de faltas na fase
+                    + student_grades (array[object]) - Notas do aluno que compõem a média da fase
+                        + grade (number) - Nota
+                        + assessment_id (number) - ID da avaliação
 
 
 ## School Calendar Collection [/school-calendars{?_q,_sort,_with}]
@@ -1180,6 +1181,8 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 
 # Data structure
 
+##
+
 ## SubjectAnnualReport (object)
 
 + Include (Subject)
@@ -1187,15 +1190,15 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 + average_formula: `( ({1º Bimestre} + {2º Bimestre})*0.4 + ({3º Bimestre} + {4º Bimestre})*0.6 )/2` (string)  - `Formula utilizada para calcular a média anual da disciplina`
 + average_year: 8.2 (number) - `Média do aluno para disciplina no ano letivo`
 + absences: 10 (number) - `Total de faltas do aluno para disciplina no ano letivo`
-+ school_calendar_phases (array[object])
-  + Include (SchoolCalendarPhase)
-  + average: 7.2 (number) - `Média do aluno no para disciplina na fase do ano`
-  + average_calculation: `(6.5 + 5.7)/2` (string) - `Calculo da média da disciplina na fase do ano` 
-  + average_formula: `({Nota 1.1} + {Nota 1.2})/2` (string) - `Formula utilizada para  calcular a média da disciplina na fase do ano`    
-  + absences: 2 (number) - `Total de faltas do aluno para disciplina na fase do ano`
-  + student_grades (array[object])
-    + Include (StudentGrade)
-+ created_by: auth0|57c0840deae095471aba4093  (string) - Token do usuario logado no sistema.
++ school_calendar_phases (array)
+    +  (object)
+        + Include (SchoolCalendarPhase)
+        + average: 7.2 (number) - `Média do aluno no para disciplina na fase do ano`
+        + average_calculation: `(6.5 + 5.7)/2` (string) - `Calculo da média da disciplina na fase do ano`
+        + average_formula: `({Nota 1.1} + {Nota 1.2})/2` (string) - `Formula utilizada para  calcular a média da disciplina na fase do ano`
+        + absences: 2 (number) - `Total de faltas do aluno para disciplina na fase do ano`
+        + student_grades (array)
+            + (StudentGrade)
 
 
 ## SubjectFillable (object)
@@ -1206,7 +1209,6 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 
 + id: 1 (number) - Identificador único da disciplina.
 + Include (SubjectFillable)
-+ created_by: auth0|57c0840deae095471aba4093  (string) - Token do usuario logado no sistema.
 
 ## StudentGradeFillable (object)
 
@@ -1220,7 +1222,6 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 
 + id: 1 (number) - Identificador único da nota do aluno.
 + Include (StudentGradeFillable)
-+ created_by: auth0|57c0840deae095471aba4093  (string) - Token do usuario logado no sistema.
 
 ## OccurenceFillable (object)
 
@@ -1232,20 +1233,17 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 
 + id: 1 (number) - Identificador único da ocorrência.
 + Include (OccurenceFillable)
-+ created_by: auth0|57c0840deae095471aba4093  (string) - Token do usuario logado no sistema.
 
 ## Level (object)
 
 + id: 1 (number)
 + name: Grave (string)
-+ created_by: auth0|57c0840deae095471aba4093  (string) - Token do usuario logado no sistema.
 
 ## Assessment (object)
 
 + id: 1 (number) - Identificador único da avaliação
 + name: Nota N1 - Descrição da avaliação
 + school_calendar_phase_id: 1 (number) - ID da fase que a avaliação será registrada.
-+ created_by: auth0|57c0840deae095471aba4093  (string) - Token do usuario logado no sistema.
 
 ## SchoolCalendarPhase (object)
 
@@ -1254,13 +1252,11 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 + start: `2016-02-01` (string) - Data inicial do período avaliativo
 + end: `2016-04-01` (string) - Ultimo dia do período avaliativo
 + school_calendar_id: 1 - ID do ano letivo a qual esta fase está relacionada.
-+ created_by: auth0|57c0840deae095471aba4093  (string) - Token do usuario logado no sistema.
 
 ## SchoolCalendar (object)
 
 + id: 1 (number) - Identificador único do ano letivo.
 + Include (SchoolCalendarFillable)
-+ created_by: auth0|57c0840deae095471aba4093  (string) - Token do usuario logado no sistema.
 
 ## SchoolCalendarFillable (object)
 
@@ -1289,7 +1285,6 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 
 + id: 1 (number) - Identificador único da escola
 + Include (SchoolFillable)
-+ created_by: auth0|57c0840deae095471aba4093  (string) - Token do usuario logado no sistema.
 
 ## SchoolClassFillable (object)
 
@@ -1303,20 +1298,17 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 
 + id: 1 (number) - Identificador único da turma.
 + Include (SchoolClassFillable)
-+ created_by: auth0|57c0840deae095471aba4093  (string) - Token do usuario logado no sistema.
 
 ## SchoolClassSubject (object)
 
 + id: 1 (number) - Identificador único da disciplina em uma turma.
 + school_class_id - ID da turma
 + subject_id - ID da disciplina
-+ created_by: auth0|57c0840deae095471aba4093  (string) - Token do usuario logado no sistema.
 
 ## Shift (object)
 
 + id: 1 (number) - Identificador único do turno.
 + name: Matutino (string) - Nome do turno. Exemplo: Vespertino, matutino, noturno.
-+ created_by: auth0|57c0840deae095471aba4093  (string) - Token do usuario logado no sistema.
 
 ## LessonFillable (object)
 
@@ -1330,13 +1322,11 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 
 + id: 1 (number) - `Identificador único  da aula.`
 + Include (LessonFillable)
-+ created_by: auth0|57c0840deae095471aba4093  (string) - Token do usuario logado no sistema.
 
 ## Teacher (object)
 
 + id: 1 (number) - `Identificador único do professor.`
 + person_id: 1 (number) - `ID das informações básicas de pessoa do professor (nome, sobrenome, etc.)`
-+ created_by: auth0|57c0840deae095471aba4093  (string) - Token do usuario logado no sistema.
 
 ## Person (object)
 
@@ -1349,25 +1339,23 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 + place_of_birth: Santa Alenssandra (string) - Cidade de nascimento
 + more: descricao (string) - Mais detalhes sobre a pessoa
 + phone: `(62) 8385-5421` (string) - numero de telefone da pessoa
-+ created_by: auth0|57c0840deae095471aba4093  (string) - Token do usuario logado no sistema.
 
 ## Student (object)
 
 + id: 1 (number) - Identificador único do estudante.
 + person_id: 1 (number) - ID das informações básicas de pessoa do aluno (nome, sobrenome, etc.).
-+ created_by: auth0|57c0840deae095471aba4093  (string) - Token do usuario logado no sistema.
 
 ## AttendanceRecordFillable (object)
 
 + lesson_id: 1 (number) - Identificador único da aula relacionada
 + student_id: 1 (number) - Identificador único do aluno
-+ presence: 1 (number) - `0=Faltou a aula.1=Presente.2=Falta abonada.
++ presence: 2 (number) - `0=Faltou a aula.1=Presente.2=Falta abonada.
++ absence_dismissal: `Ricardo apresentou atestado medico` (string) - `Justificativa da falta (caso presence igual a 2)`
 
 ## AttendanceRecord (object)
 
 + id: 1 (number) - Identificador único do registro de presença
 + Include (AttendanceRecordFillable)
-+ created_by: auth0|57c0840deae095471aba4093  (string) - Token do usuario logado no sistema.
 
 ## Paginator (object)
 

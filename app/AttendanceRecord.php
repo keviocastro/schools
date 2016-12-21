@@ -21,6 +21,7 @@ class AttendanceRecord extends Model
         'deleted_at',
         'created_at',
         'updated_at',
+        'created_by',
         'deleted_by',
         'updated_by'
         ];
@@ -38,7 +39,7 @@ class AttendanceRecord extends Model
      * @var array
      */
     protected $fillable = [
-        'lesson_id', 'student_id', 'presence'
+        'lesson_id', 'student_id', 'presence', 'absence_dismissal'
     ];
 
     /**

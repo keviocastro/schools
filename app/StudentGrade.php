@@ -29,6 +29,7 @@ class StudentGrade extends Model
         'updated_at',
         'created_at',
         'deleted_at',
+        'created_by',
         'deleted_by',
         'updated_by'
     ];

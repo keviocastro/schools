@@ -211,22 +211,24 @@
 + Response 200 (application/json)
 
     + Attributes
-        + students (array[object])
-            + Include (Student)
-            + school_calendar_report (object) - Relatório do aluno durante o calendário escolar
-                + average: 9.2 (number) - Média do aluno no ano
-                + average_calculation: `((4.6 + 1.2)*0.4 + (9 + 3.1)*0.6)/2` (string) - Formula da média do aluno
-                + average_formula: `(({1º Bimestre}+...+ {4º Bimestre})*0.6)/2"` (string) - Calculo da média
-                + absences: 22 (number) - Total de faltas no calendario escolar
-            + phases_report (object)  - Relatório do aluno durante as fases do calendário escolar
-                + school_calendar_phase_id - ID da fase do calendário escolar
-                + average (number) - Média
-                + average_calculation (string) - Calculo da média
-                + average_formula (string) - Formula utilizada no calculo
-                + absences (number) - Total de faltas na fase
-                + student_grades (array[object]) - Notas do aluno que compõem a média da fase
-                    + grade (number) - Nota
-                    + assessment_id (number) - ID da avaliação
+
+        + students (array)
+            + (object)
+                + Include (Student)
+                + school_calendar_report (object) - Relatório do aluno durante o calendário escolar
+                    + average: 9.2 (number) - Média do aluno no ano
+                    + average_calculation: `((4.6 + 1.2)*0.4 + (9 + 3.1)*0.6)/2` (string) - Formula da média do aluno
+                    + average_formula: `(({1º Bimestre}+...+ {4º Bimestre})*0.6)/2"` (string) - Calculo da média
+                    + absences: 22 (number) - Total de faltas no calendario escolar
+                + phases_report (object)  - Relatório do aluno durante as fases do calendário escolar
+                    + school_calendar_phase_id - ID da fase do calendário escolar
+                    + average (number) - Média
+                    + average_calculation (string) - Calculo da média
+                    + average_formula (string) - Formula utilizada no calculo
+                    + absences (number) - Total de faltas na fase
+                    + student_grades (array[object]) - Notas do aluno que compõem a média da fase
+                        + grade (number) - Nota
+                        + assessment_id (number) - ID da avaliação
 
 
 ## School Calendar Collection [/school-calendars{?_q,_sort,_with}]

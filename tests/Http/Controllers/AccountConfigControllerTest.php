@@ -35,7 +35,7 @@ class AccountConfigControllerTest extends TestCase
         ->seeJsonStructure([
             'account_configs' => [
                 '*' => [
-                    'id', 'name', 'value', 'default', 'created_by'
+                    'id', 'name', 'value', 'default'
                 ]
             ]]);
 
@@ -64,8 +64,7 @@ class AccountConfigControllerTest extends TestCase
                     'id' => $config->id, 
                     'name' => 'percentage_absences_reprove', 
                     'value' => 30,
-                    'default' => "25",
-                    'created_by' => ''
+                    'default' => "25"
             ]]);
 
     }

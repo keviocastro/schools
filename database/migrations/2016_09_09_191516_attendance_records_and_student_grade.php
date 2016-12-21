@@ -22,6 +22,7 @@ class AttendanceRecordsAndStudentGrade extends Migration
             // 1 Estava presente
             // 2 Falta abonada
             $table->tinyInteger('presence');
+            $table->string('absence_dismissal');
             $table->timestamps();
             $table->softDeletes();
 
