@@ -1,0 +1,48 @@
+# Group Students
+
+Ações relacionadas a informações dos professores associados a conta.
+
+## Teachers Collection [/teachers{?_q,_sort,_with}]
+
+### List teachers [GET]
+
+<!-- include(ParameterFilter.md) -->
+
++ Parameters
+    + _q (string, optional) - Pesquisa por palavra-chave, a correspondência e incluida conjunto de resultados.
+    + _sort (string, optional) - Ordena a coluna desejada, de forma acendente ou descendente.
+    + _with (string, optional) - Obtem informações do recurso relacionado.
+        + Members
+            + person - Informações básicas do professor (nome, telefone, ...).
+
++ Request (application/json)
+    + Headers
+            
+            authorization: <!-- include(Token.md) -->
+
++ Response 200 (application/json)
+
+    + Attributes
+        + Include Paginator 
+        + data (array)
+            + (Teacher)
+
+## Teacher [/teachers/{id}{?_with}]
+
+### View a Teacher Detail [GET]
+
++ Parameters
+    + id: 1 (required, number) - ID do professor.
+    + _with (string, optional) - Obtem informações do recurso relacionado.
+        + Members
+            + person - Informações básicas do aluno (nome, telefone, ...).
+
++ Request 
+    + Headers
+    
+            authorization: <!-- include(Token.md) -->
+
++ Response 200 (application/json)
+
+    + Attributes (object)
+        + include (Teacher)

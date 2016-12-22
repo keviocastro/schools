@@ -41,7 +41,8 @@ class Lesson extends Model
         'created_at',
         'created_by',
         'deleted_by',
-        'updated_by'
+        'updated_by',
+        'teacher_id'
     ];
 
 
