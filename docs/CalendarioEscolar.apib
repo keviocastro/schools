@@ -1,0 +1,132 @@
+# Group Calendários escolares
+
+`Calendário escolar` (definido nesta API como SchoolCalendar) é considerado como a definição do ano letivo,
+contendo fases fases avaliativas do ano (Ex.: bimestres), feriados, férias,
+inicio e fim do ano.
+
+## Coleção de calendarios escolares [/school-calendars{?_q,_sort,_with}]
+
+### Listar calendarios escolares [GET]
+
+<!-- include(ParameterFilter.md) -->
+
++ Parameters
+    + _q (string, optional) - Pesquisa por palavra-chave, a correspondência e incluida conjunto de resultados.
+    + _sort (string, optional) - Ordena a coluna desejada, de forma acendente ou descendente.
+    + _with (string, optional) - Obtem informações do recurso relacionado.
+        + Members
+            + schoolClasses - Turmas do ano letivo.
+            + phases - Fases avaliativas do ano letivo. Recurso (SchoolCalendarPhase)
+
++ Request (application/json)
+
+    + Headers
+
+            authorization: <!-- include(Token.md) -->
+
++ Response 200 (application/json)
+
+    + Attributes
+        + Include Paginator
+        + data (array)
+            + (SchoolCalendar)
+
+### Criar calendário escolar [POST]
+
++ Request (application/json)
+    + Headers
+
+            authorization: <!-- include(Token.md) -->
+
+    + Attributes (SchoolCalendarFillable)
+
++ Response 200 (application/json)
+
+    + Attributes
+        + school_calendar (SchoolCalendar)
+
+## Calendário escolar [/school-calendars/{school_calendar_id}{?_with}]
+
+### Detalhes do calendário escolar [GET]
+
++ Parameters
+    + school_calendar_id: 1 (number) - ID of the school class
+    + _with (string, optional) - Obtem informações do recurso relacionado.
+        + Members
+            + schoolClasses - Turmas do ano letivo.
+            + phases - Fases avaliativas do ano letivo. Recurso (SchoolCalendarPhase)
+
++ Request
+    + Headers
+
+            authorization: <!-- include(Token.md) -->
+
++ Response 200 (application/json)
+
+    + Attributes
+        + school_calendar (SchoolCalendar)
+
+### Alterar calendário [PUT]
+
++ Parameters
+    + school_calendar_id: 1 (number) - ID of the school class
+
++ Request
+    + Headers
+
+            authorization: <!-- include(Token.md) -->
+
+    + Attributes (SchoolCalendarFillable)
+
++ Response 200 (application/json)
+
+    + Attributes
+        + school_calendar (SchoolCalendar)
+
+### Excluir calendário [DELETE]
+
++ Parameters
+    + school_calendar_id: 1 (number) - ID of the School
+
++ Request (application/json)
+
+    + Headers
+
+            authorization: <!-- include(Token.md) -->
+
++ Response 204
+
+## Coleção de avaliacoes [/assessments{?_q,_sort,_with}]
+
+`Assessments` são as definições das avaliações que um professor precisar aplicar
+aos seus alunos durante uma fase do ano.
+Exemplo: No 1º Bimestre o professor precisa avaliar seus alunos com duas provas (N1 e N2),
+e a nota do aluno no 1º Bimestre será composta pela conta (N1*0,4)+(N2*0,6)=NOTA_DO_BIMESTRE.
+
+### Listar avaliações [GET]
+
+<!-- include(ParameterFilter.md) -->
+
+
++ Parameters
+    + _q (string, optional) - Pesquisa por palavra-chave, a correspondência e incluida conjunto de resultados.
+        + Members
+            +name
+    + _sort (string, optional) - Ordena a coluna desejada, de forma acendente ou descendente.
+    + _with (string, optional) - Obtem informações do recurso relacionado.
+        + Members
+            + studentGrades
+            + schoolCalendarPhase
+
++ Request
+    + Headers
+
+            authorization: <!-- include(Token.md) -->
+
++ Response 200 (application/json)
+
+    + Attributes
+        + Include Paginator
+        + data (array)
+            + (Assessment)
+

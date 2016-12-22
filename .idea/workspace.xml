@@ -5,38 +5,33 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="da28da94-dcaf-4a46-a930-eae111544a34" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/docs/CalendarioEscolar.apib" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/docs/Configuracoes.apib" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/docs/ControleAcesso.apib" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/docs/EscolaTurma.apib" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/docs/Estudantes.apib" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/Account.apib" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/Account.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/Assessments.apib" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/AttendanceRecords.apib" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/DataStructure.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/Occurrences.apib" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/Schools.apib" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/StudentGrades.apib" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/Students.apib" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/Subjects.apib" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/apiary.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/index.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/postmanCollection.json" afterPath="" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/docs/Lessons.apib" afterPath="$PROJECT_DIR$/docs/Aula.apib" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/AccountConfig.php" afterPath="$PROJECT_DIR$/app/AccountConfig.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Assessment.php" afterPath="$PROJECT_DIR$/app/Assessment.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/AttendanceRecord.php" afterPath="$PROJECT_DIR$/app/AttendanceRecord.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Grade.php" afterPath="$PROJECT_DIR$/app/Grade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/AttendanceRecordController.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/AttendanceRecordController.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Lesson.php" afterPath="$PROJECT_DIR$/app/Lesson.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Level.php" afterPath="$PROJECT_DIR$/app/Level.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Occurence.php" afterPath="$PROJECT_DIR$/app/Occurence.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Person.php" afterPath="$PROJECT_DIR$/app/Person.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/RequestAccess.php" afterPath="$PROJECT_DIR$/app/RequestAccess.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/School.php" afterPath="$PROJECT_DIR$/app/School.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/SchoolCalendar.php" afterPath="$PROJECT_DIR$/app/SchoolCalendar.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/SchoolCalendarPhase.php" afterPath="$PROJECT_DIR$/app/SchoolCalendarPhase.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/SchoolClass.php" afterPath="$PROJECT_DIR$/app/SchoolClass.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/SchoolClassStudent.php" afterPath="$PROJECT_DIR$/app/SchoolClassStudent.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/SchoolClassSubject.php" afterPath="$PROJECT_DIR$/app/SchoolClassSubject.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Shift.php" afterPath="$PROJECT_DIR$/app/Shift.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Student.php" afterPath="$PROJECT_DIR$/app/Student.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/StudentGrade.php" afterPath="$PROJECT_DIR$/app/StudentGrade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/StudentResponsible.php" afterPath="$PROJECT_DIR$/app/StudentResponsible.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Subject.php" afterPath="$PROJECT_DIR$/app/Subject.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/database/factories/ModelFactory.php" afterPath="$PROJECT_DIR$/database/factories/ModelFactory.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/database/migrations/2016_09_09_191516_attendance_records_and_student_grade.php" afterPath="$PROJECT_DIR$/database/migrations/2016_09_09_191516_attendance_records_and_student_grade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/database/migrations/2016_12_15_132039_ownerResource.php" afterPath="$PROJECT_DIR$/database/migrations/2016_12_15_132039_ownerResource.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/Authentication.apib" afterPath="$PROJECT_DIR$/docs/Authentication.apib" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/DataStructure.apib" afterPath="$PROJECT_DIR$/docs/DataStructure.apib" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/Schools.apib" afterPath="$PROJECT_DIR$/docs/Schools.apib" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/DefinitionOfApi.apib" afterPath="$PROJECT_DIR$/docs/DefinitionOfApi.apib" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/Parametros.md" afterPath="$PROJECT_DIR$/docs/Parametros.md" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/apiary.apib" afterPath="$PROJECT_DIR$/docs/apiary.apib" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/docs.html" afterPath="$PROJECT_DIR$/docs/docs.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/Http/Controllers/AccountConfigControllerTest.php" afterPath="$PROJECT_DIR$/tests/Http/Controllers/AccountConfigControllerTest.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/Http/Controllers/AttendanceRecordControllerTest.php" afterPath="$PROJECT_DIR$/tests/Http/Controllers/AttendanceRecordControllerTest.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/Http/Controllers/OccurenceControllerTest.php" afterPath="$PROJECT_DIR$/tests/Http/Controllers/OccurenceControllerTest.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/gist.md" afterPath="$PROJECT_DIR$/docs/gist.md" />
     </list>
     <ignored path="schools.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -60,21 +55,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="DataStructure.apib" pinned="false" current-in-tab="true">
+      <file leaf-file-name="DataStructure.apib" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/docs/DataStructure.apib">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="285">
-              <caret line="19" column="12" lean-forward="false" selection-start-line="19" selection-start-column="12" selection-end-line="19" selection-end-column="12" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Schools.apib" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/docs/Schools.apib">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="294">
-              <caret line="219" column="61" lean-forward="false" selection-start-line="219" selection-start-column="61" selection-end-line="219" selection-end-column="61" />
+            <state relative-caret-position="330">
+              <caret line="22" column="86" lean-forward="true" selection-start-line="22" selection-start-column="86" selection-end-line="22" selection-end-column="86" />
               <folding />
             </state>
           </provider>
@@ -83,8 +68,91 @@
       <file leaf-file-name="apiary.apib" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/docs/apiary.apib">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="294">
-              <caret line="1192" column="4" lean-forward="false" selection-start-line="1193" selection-start-column="4" selection-end-line="1193" selection-end-column="33" />
+            <state relative-caret-position="241">
+              <caret line="1152" column="48" lean-forward="false" selection-start-line="1152" selection-start-column="48" selection-end-line="1152" selection-end-column="48" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Parametros.md" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/docs/Parametros.md">
+          <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+            <state split_layout="SPLIT">
+              <first_editor relative-caret-position="180">
+                <caret line="12" column="64" lean-forward="false" selection-start-line="12" selection-start-column="64" selection-end-line="12" selection-end-column="64" />
+                <folding />
+              </first_editor>
+              <second_editor />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="EscolaTurma.apib" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/docs/EscolaTurma.apib">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-2642">
+              <caret line="6" column="31" lean-forward="false" selection-start-line="6" selection-start-column="24" selection-end-line="6" selection-end-column="31" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SchoolClass.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/SchoolClass.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-653">
+              <caret line="23" column="21" lean-forward="false" selection-start-line="23" selection-start-column="21" selection-end-line="23" selection-end-column="21" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Estudantes.apib" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/docs/Estudantes.apib">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="5925">
+              <caret line="395" column="0" lean-forward="false" selection-start-line="395" selection-start-column="0" selection-end-line="395" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Configuracoes.apib" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/docs/Configuracoes.apib">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="735">
+              <caret line="123" column="48" lean-forward="true" selection-start-line="123" selection-start-column="48" selection-end-line="123" selection-end-column="48" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SchoolCalendar.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/SchoolCalendar.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-68">
+              <caret line="22" column="21" lean-forward="true" selection-start-line="22" selection-start-column="21" selection-end-line="22" selection-end-column="21" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Aula.apib" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/docs/Aula.apib">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="12" lean-forward="false" selection-start-line="0" selection-start-column="12" selection-end-line="0" selection-end-column="12" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="CalendarioEscolar.apib" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/docs/CalendarioEscolar.apib">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-1094">
+              <caret line="20" column="28" lean-forward="false" selection-start-line="20" selection-start-column="28" selection-end-line="20" selection-end-column="28" />
               <folding />
             </state>
           </provider>
@@ -94,23 +162,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>delete(</find>
-      <find>4º</find>
-      <find>assessments</find>
-      <find>bootstrap.php</find>
-      <find>con</find>
-      <find>dump</find>
-      <find>'created_by' =&gt; 'auth0|57c0840deae095471aba4093'</find>
-      <find>$table-&gt;string('created_by')-&gt;nullable();</find>
-      <find>destroy</find>
-      <find>+ Include (Student)</find>
-      <find>average: 9.2</find>
-      <find>report</find>
-      <find>school_calendar_report</find>
-      <find>Include(SystemControl)</find>
-      <find>Attend</find>
-      <find>occu</find>
-      <find>sent</find>
       <find>attend</find>
       <find>'created_by'</find>
       <find>created</find>
@@ -121,6 +172,26 @@
       <find>Student</find>
       <find>SchoolCalendarPhase</find>
       <find>Include (SchoolCalendarPhase)</find>
+      <find>id: 1 (number)</find>
+      <find>+ name: Escola luz do saber (string)</find>
+      <find>average_formula</find>
+      <find>+ Parameters</find>
+      <find>number</find>
+      <find>SubjectAnnualReport</find>
+      <find>GRADE</find>
+      <find>Ver</find>
+      <find>Ver d</find>
+      <find>#</find>
+      <find>contacts</find>
+      <find>8042</find>
+      <find>schoolClasses</find>
+      <find>school</find>
+      <find>SchoolClass</find>
+      <find>Rezende e Faro e Associados school</find>
+      <find>School</find>
+      <find>subjects</find>
+      <find>Diretoria</find>
+      <find>Central de atendimento ao aluno</find>
     </findStrings>
     <replaceStrings>
       <replace>'created_by' =&gt; config('laravel-auth0.token_id_tester')</replace>
@@ -129,6 +200,7 @@
       <replace>created_by</replace>
       <replace>created_by: auth0|57c0840deae095471aba4093  (string) - Token do usuario logado no sistema.</replace>
       <replace>//'created_by'</replace>
+      <replace>D</replace>
     </replaceStrings>
     <dirStrings>
       <dir>$PROJECT_DIR$/tests/Http/Controllers</dir>
@@ -147,18 +219,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/app/Obsever/OwnerResorceObsever.php" />
-        <option value="$PROJECT_DIR$/app/Obsevers/OwnerResorceObsever.php" />
-        <option value="$PROJECT_DIR$/app/OwnerResorce.php" />
-        <option value="$PROJECT_DIR$/app/OwnerResorceModel.php" />
-        <option value="$PROJECT_DIR$/vendor/laravel/framework/src/Illuminate/Support/Facades/Event.php" />
-        <option value="$PROJECT_DIR$/app/Providers/AppServiceProvider.php" />
-        <option value="$PROJECT_DIR$/app/Observers/OwnerResorceObsever.php" />
-        <option value="$PROJECT_DIR$/tests/ModelTest.php" />
-        <option value="$PROJECT_DIR$/tests/TestCase.php" />
-        <option value="$PROJECT_DIR$/config/laravel-auth0.php" />
-        <option value="$PROJECT_DIR$/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Model.php" />
-        <option value="$PROJECT_DIR$/database/migrations/2016_10_06_210542_occurence.php" />
         <option value="$PROJECT_DIR$/docker/entrypoint.sh" />
         <option value="$PROJECT_DIR$/.env" />
         <option value="$PROJECT_DIR$/.env.example" />
@@ -167,7 +227,6 @@
         <option value="$PROJECT_DIR$/database/migrations/2016_12_15_132039_ownerResorce.php" />
         <option value="$PROJECT_DIR$/app/Observers/OwnerResourceObsever.php" />
         <option value="$PROJECT_DIR$/app/Model.php" />
-        <option value="$PROJECT_DIR$/docs/Lessons.apib" />
         <option value="$PROJECT_DIR$/database/migrations/2016_09_09_191516_attendance_records_and_student_grade.php" />
         <option value="$PROJECT_DIR$/database/migrations/2016_12_15_132039_ownerResource.php" />
         <option value="$PROJECT_DIR$/app/AccountConfig.php" />
@@ -195,8 +254,21 @@
         <option value="$PROJECT_DIR$/tests/Http/Controllers/OccurenceControllerTest.php" />
         <option value="$PROJECT_DIR$/tests/Http/Controllers/AttendanceRecordControllerTest.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/AttendanceRecordController.php" />
-        <option value="$PROJECT_DIR$/docs/apiary.apib" />
+        <option value="$PROJECT_DIR$/docs/docs.html" />
+        <option value="$PROJECT_DIR$/apiary.apib" />
+        <option value="$PROJECT_DIR$/docs/DefinitionOfApi.apib" />
+        <option value="$PROJECT_DIR$/docs/Authentication.apib" />
+        <option value="$PROJECT_DIR$/docs/Parametros.md" />
+        <option value="$PROJECT_DIR$/docs/Account.apib" />
         <option value="$PROJECT_DIR$/docs/Schools.apib" />
+        <option value="$PROJECT_DIR$/docs/Students.apib" />
+        <option value="$PROJECT_DIR$/docs/Lessons.apib" />
+        <option value="$PROJECT_DIR$/docs/apiary.apib" />
+        <option value="$PROJECT_DIR$/docs/Assessments.apib" />
+        <option value="$PROJECT_DIR$/docs/Aulas.apib" />
+        <option value="$PROJECT_DIR$/docs/gist.md" />
+        <option value="$PROJECT_DIR$/docs/EscolaTurma.apib" />
+        <option value="$PROJECT_DIR$/docs/Configuracoes.apib" />
         <option value="$PROJECT_DIR$/docs/DataStructure.apib" />
       </list>
     </option>
@@ -520,8 +592,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
-      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -550,6 +620,8 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
+      <pane id="Scratches" />
       <pane id="PackagesPane" />
     </panes>
   </component>
@@ -563,6 +635,9 @@
     <property name="aspect.path.notification.shown" value="true" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/docs" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/app" />
     </key>
@@ -675,49 +750,52 @@
       <workItem from="1482335085836" duration="22000" />
       <workItem from="1482335173159" duration="11719000" />
       <workItem from="1482347117515" duration="308000" />
-      <workItem from="1482347448489" duration="1126000" />
+      <workItem from="1482347448489" duration="1284000" />
+      <workItem from="1482401004063" duration="4618000" />
+      <workItem from="1482406356656" duration="9417000" />
+      <workItem from="1482421902486" duration="2474000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="48047000" />
+    <option name="totallyTimeSpent" value="64714000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="26" width="1920" height="1054" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32911393" sideWeight="0.50208336" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="npm" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Gulp" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="true" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.22291666" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Docker" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32911393" sideWeight="0.49791667" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32911393" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Docker" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32911393" sideWeight="0.49791667" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32911393" sideWeight="0.50208336" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25316456" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="npm" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Nl-Palette" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Properties" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Properties" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="SvgViewer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -745,139 +823,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/database/migrations/2016_11_30_121309_fulltext_index.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="315">
-          <caret line="22" column="30" lean-forward="true" selection-start-line="22" selection-start-column="30" selection-end-line="22" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Observers/OwnerResourceObsever.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="17" column="5" lean-forward="true" selection-start-line="17" selection-start-column="5" selection-end-line="17" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/docs/Subjects.apib">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-821">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/docs/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-15">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/docs/Assessments.apib">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/docs/Authentication.apib">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/config/auth.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1115">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.env">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="14" column="52" lean-forward="true" selection-start-line="14" selection-start-column="22" selection-end-line="14" selection-end-column="52" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/config/laravel-auth0.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="11" column="50" lean-forward="false" selection-start-line="11" selection-start-column="30" selection-end-line="11" selection-end-column="50" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tests/Http/Controllers/AssessmentControllerTest.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/docs/docs.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-15">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/docs/Lessons.apib">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="364">
-          <caret line="104" column="12" lean-forward="true" selection-start-line="104" selection-start-column="12" selection-end-line="104" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/docs/Occurrences.apib">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="544">
-          <caret line="88" column="0" lean-forward="true" selection-start-line="88" selection-start-column="0" selection-end-line="88" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/database/seeds/FakeDataForTestSeeder.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="285">
-          <caret line="19" column="52" lean-forward="true" selection-start-line="19" selection-start-column="52" selection-end-line="19" selection-end-column="52" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/database/migrations/2016_10_06_210542_occurence.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="315">
-          <caret line="22" column="61" lean-forward="true" selection-start-line="22" selection-start-column="61" selection-end-line="23" selection-end-column="38" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/database/migrations/2016_09_09_191516_attendance_records_and_student_grade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="24" column="45" lean-forward="false" selection-start-line="24" selection-start-column="45" selection-end-line="24" selection-end-column="45" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/database/migrations/2016_12_15_132039_ownerResource.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="475">
-          <caret line="54" column="0" lean-forward="false" selection-start-line="54" selection-start-column="2" selection-end-line="58" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vendor/fzaninotto/faker/src/Faker/Factory.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="182">
-          <caret line="16" column="45" lean-forward="false" selection-start-line="16" selection-start-column="44" selection-end-line="16" selection-end-column="45" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/docs/AttendanceRecords.apib">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="5" column="53" lean-forward="true" selection-start-line="5" selection-start-column="34" selection-end-line="5" selection-end-column="53" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/AccountConfig.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="420">
@@ -941,13 +886,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/School.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="345">
-          <caret line="23" column="21" lean-forward="false" selection-start-line="23" selection-start-column="21" selection-end-line="23" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/StudentResponsible.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="285">
@@ -976,13 +914,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Shift.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="345">
-          <caret line="23" column="21" lean-forward="false" selection-start-line="23" selection-start-column="21" selection-end-line="23" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/SchoolClassSubject.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="233">
@@ -997,24 +928,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/SchoolClass.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="344">
-          <caret line="23" column="21" lean-forward="false" selection-start-line="23" selection-start-column="21" selection-end-line="23" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/SchoolCalendarPhase.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="360">
           <caret line="24" column="21" lean-forward="false" selection-start-line="24" selection-start-column="21" selection-end-line="24" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/SchoolCalendar.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="330">
-          <caret line="22" column="21" lean-forward="true" selection-start-line="22" selection-start-column="21" selection-end-line="22" selection-end-column="21" />
         </state>
       </provider>
     </entry>
@@ -1082,26 +999,167 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/docs/apiary.apib">
+    <entry file="file://$PROJECT_DIR$/docs/docs.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="294">
-          <caret line="1192" column="4" lean-forward="false" selection-start-line="1193" selection-start-column="4" selection-end-line="1193" selection-end-column="33" />
+        <state relative-caret-position="-15">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/docs/Schools.apib">
+    <entry file="file://$PROJECT_DIR$/docs/DataStructure.html" />
+    <entry file="file://$PROJECT_DIR$/docs/AttendanceRecords.apib" />
+    <entry file="file://$PROJECT_DIR$/docs/Occurrences.apib" />
+    <entry file="file://$PROJECT_DIR$/app/Shift.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="294">
-          <caret line="219" column="61" lean-forward="false" selection-start-line="219" selection-start-column="61" selection-end-line="219" selection-end-column="61" />
+        <state relative-caret-position="615">
+          <caret line="41" column="1" lean-forward="true" selection-start-line="41" selection-start-column="1" selection-end-line="41" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docs/Subjects.apib" />
+    <entry file="file://$PROJECT_DIR$/apiary.apib">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="886">
+          <caret line="1171" column="0" lean-forward="false" selection-start-line="1171" selection-start-column="0" selection-end-line="1171" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docs/DefinitionOfApi.apib">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="7" column="0" lean-forward="true" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docs/Account.html" />
+    <entry file="file://$PROJECT_DIR$/docs/apiary.html" />
+    <entry file="file://$PROJECT_DIR$/docs/Authentication.apib">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="11" column="0" lean-forward="false" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docs/StudentGrades.apib" />
+    <entry file="file://$PROJECT_DIR$/docs/ParameterFilter.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="0">
+            <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docs/gist.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="FIRST">
+          <first_editor relative-caret-position="150">
+            <caret line="10" column="17" lean-forward="false" selection-start-line="10" selection-start-column="17" selection-end-line="10" selection-end-column="17" />
+            <folding />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docs/ControleAcesso.apib">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="495">
+          <caret line="33" column="0" lean-forward="true" selection-start-line="33" selection-start-column="0" selection-end-line="33" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/SchoolClass.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-653">
+          <caret line="23" column="21" lean-forward="false" selection-start-line="23" selection-start-column="21" selection-end-line="23" selection-end-column="21" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/School.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="202">
+          <caret line="23" column="21" lean-forward="false" selection-start-line="23" selection-start-column="21" selection-end-line="23" selection-end-column="21" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/SchoolCalendar.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-68">
+          <caret line="22" column="21" lean-forward="true" selection-start-line="22" selection-start-column="21" selection-end-line="22" selection-end-column="21" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docs/Aula.apib">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="12" lean-forward="false" selection-start-line="0" selection-start-column="12" selection-end-line="0" selection-end-column="12" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docs/CalendarioEscolar.apib">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1094">
+          <caret line="20" column="28" lean-forward="false" selection-start-line="20" selection-start-column="28" selection-end-line="20" selection-end-column="28" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docs/Estudantes.apib">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="5925">
+          <caret line="395" column="0" lean-forward="false" selection-start-line="395" selection-start-column="0" selection-end-line="395" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docs/Configuracoes.apib">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="735">
+          <caret line="123" column="48" lean-forward="true" selection-start-line="123" selection-start-column="48" selection-end-line="123" selection-end-column="48" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/docs/DataStructure.apib">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="285">
-          <caret line="19" column="12" lean-forward="false" selection-start-line="19" selection-start-column="12" selection-end-line="19" selection-end-column="12" />
+        <state relative-caret-position="330">
+          <caret line="22" column="86" lean-forward="true" selection-start-line="22" selection-start-column="86" selection-end-line="22" selection-end-column="86" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docs/apiary.apib">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="241">
+          <caret line="1152" column="48" lean-forward="false" selection-start-line="1152" selection-start-column="48" selection-end-line="1152" selection-end-column="48" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docs/Parametros.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="180">
+            <caret line="12" column="64" lean-forward="false" selection-start-line="12" selection-start-column="64" selection-end-line="12" selection-end-column="64" />
+            <folding />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docs/EscolaTurma.apib">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2642">
+          <caret line="6" column="31" lean-forward="false" selection-start-line="6" selection-start-column="24" selection-end-line="6" selection-end-column="31" />
           <folding />
         </state>
       </provider>

@@ -1,0 +1,235 @@
+# Group Escolas e turmas
+
+'Escolas' (definido como School nesta API) são quaisquer entidades educacional associadas a uma conta.
+        Exemplo: escola, CMDEIS (Centros Municipais de Educação Infantil), universidades.
+'Turmas' (definido como SchoolClass) são as turmas de uma escola que existem em um determinado ano calendário escolar (definido como SchoolCalendar).
+
+## Coleção de escolas [/schools{?_q,_sort,_with}]
+
+### Listar escolas [GET]
+<!-- include(ParameterFilter.md) -->
+
++ Parameters
+    + _q (string, optional) - Pesquisa por palavra-chave, a correspondência e incluida conjunto de resultados.
+        + Members
+            +name
+    + _sort (string, optional) - Ordena a coluna desejada, de forma acendente ou descendente.
+    + _with (string, optional) - Obtem informações do recurso relacionado.
+        + Members
+            + schoolClasses
+
++ Request
+    + Headers
+
+            authorization: <!-- include(Token.md) -->
+
++ Response 200 (application/json)
+
+    + Attributes
+        + Include (Paginator)
+        + data (array)
+            + (School)
+
+### Criar escola [POST]
+
++ Request (application/json)
+    + Headers
+
+            authorization: <!-- include(Token.md) -->
+
+    + Attributes (SchoolFillable)
+
++ Response 201 (application/json)
+
+    + Attributes
+        + School (School)
+
+## Escola [/schools/{school_id}{?_with}]
+
+### Detalhes da escola [GET]
+
++ Parameters
+    + school_id: 1 (number) - Identificador único da escola
+    + _with (string, optional) - Obtem informações do recurso relacionado.
+        + Members
+            + schoolClasses
+
++ Request
+    + Headers
+
+            authorization: <!-- include(Token.md) -->
+
++ Response 200 (application/json)
+
+    + Attributes
+        + school (School)
+
+
+### Alterar escola [PUT]
+
++ Parameters
+    + school_id: 1 (number) - Identificador único da escola
+
++ Request (application/json)
+
+    + Headers
+
+            authorization: <!-- include(Token.md) -->
+
+    + Attributes (SchoolFillable)
+
++ Response 200 (application/json)
+
+    + Attributes
+        + School (School)
+
+### Excluir escola [DELETE]
+
++ Parameters
+    + school_id: 1 (number) - Identificador único da escola
+
++ Request (application/json)
+
+    + Headers
+
+            authorization: <!-- include(Token.md) -->
+
++ Response 204
+
+## Coleção de turmas [/school-classes{?_q,_sort,_with}]
+
+### Listar turmas [GET]
+
+<!-- include(ParameterFilter.md) -->
+
++ Parameters
+    + _q (string, optional) - Pesquisa por palavra-chave, a correspondência e incluida conjunto de resultados.
+        + Members
+            +identifier
+    + _sort (string, optional) - Ordena a coluna desejada, de forma acendente ou descendente.
+    + _with (string, optional) - Obtem informações do recurso relacionado.
+        + Members
+            + shift - Turno.
+            + students - Aluno.
+            + schoolCalendar - Ano letivo.
+            + subjects - Avaliação.
+
++ Request (application/json)
+
+    + Headers
+
+            authorization: <!-- include(Token.md) -->
+
++ Response 200 (application/json)
+
+    + Attributes
+        + Include Paginator
+        + data (array)
+            + (SchoolClass)
+
+### Criar turma [POST]
+
++ Request (application/json)
+    + Headers
+
+            authorization: <!-- include(Token.md) -->
+
+    + Attributes (SchoolClassFillable)
+
++ Response 200 (application/json)
+
+    + Attributes
+        + school_class (SchoolClass)
+
+## Turma [/school-classes/{school_class_id}{?_with}]
+
++ Parameters
+    - school_class_id: 1 (number) - ID of the school class
+
+### Detalhes da turma [GET]
+
++ Parameters
+    + _with (string, optional) - Obtem informações do recurso relacionado.
+        + Members
+            + shift - Turno.
+            + students - Aluno.
+            + schoolCalendar - Ano letivo.
+            + subjects - Avaliação.
+
++ Request
+    + Headers
+
+            authorization: <!-- include(Token.md) -->
+
++ Response 200 (application/json)
+
+    + Attributes
+        + school_class (SchoolClass)
+
+### Alterar turma [PUT]
+
++ Parameters
+    + school_class_id: 1 (number) - ID of the School
+
++ Request
+    + Headers
+
+            authorization: <!-- include(Token.md) -->
+
+    + Attributes (SchoolClassFillable)
+
++ Response 200 (application/json)
+
+    + Attributes
+        + school_class (SchoolClass)
+
+### Excluir turma [DELETE]
+
++ Parameters
+    + school_class_id: 1 (number) - ID of the School
+
++ Request (application/json)
+
+    + Headers
+
+            authorization: <!-- include(Token.md) -->
+
++ Response 204
+
+## Relatório anual da turma por disciplina [/school-classes/{school_class_id}/annual-report-by/{subject_id}]
+
+### Detalhes do relatório [GET]
+
++ Request
+    + Headers
+
+            authorization: <!-- include(Token.md) -->
+
++ Response 200 (application/json)
+
+    + Attributes
+
+        + students (array)
+            + (object)
+                + Include (Student)
+                + school_calendar_report (object) - Relatório do aluno durante o calendário escolar para disciplina (subject_id)
+                    + average: 9.2 (number) - Média do aluno no ano
+                    + average_calculation: `((4.6 + 1.2)*0.4 + (9 + 3.1)*0.6)/2` (string) - Formula da média do aluno no ano
+                    + average_formula: `(({1º Bimestre}+...+ {4º Bimestre})*0.6)/2"` (string) - Calculo da média do aluno no ano
+                    + absences: 22 (number) - Total de faltas do aluno na disciplina em todo o calendário escolar
+                + phases_report (object)  - Relatório do aluno durante as fases do calendário escolar
+                    + school_calendar_phase_id - ID da fase do calendário escolar
+                    + average: 7.9 (number) - Média do aluno na fase para a disciplina
+                    + average_calculation: `({8.3} + {7.4})/2` (string) - Calculo da média
+                    + average_formula: `({Nota 1} + {Nota 2})/2` (string) - Formula utilizada no calculo
+                    + absences: 4 (number) - Total de faltas na fase
+                    + student_grades (array) - Notas do aluno que compõem a média da fase
+                        + (object)
+                            + id: 1 (number) - ID do registro de nota do aluno na avaliação
+                            + grade: 8.3 (number) - Nota do aluno na avaliação (assessment_id)
+                            + assessment_id: 1 (number) - ID da avaliação da fase
+                        + (object)
+                            + id: 2 (number)
+                            + grade: 7.4 (number)
+                            + assessment_id: 2 (number)
+

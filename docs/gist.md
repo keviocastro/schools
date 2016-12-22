@@ -4,22 +4,16 @@
 
 <!-- include(Parametros.md) -->
 
-<!-- include(Account.apib) -->
+<!-- include(CalendarioEscolar.apib) -->
 
-<!-- include(Schools.apib) -->
+<!-- include(EscolaTurma.apib) -->
 
-<!-- include(Students.apib) -->
+<!-- include(Aula.apib) -->
 
-<!-- include(Lessons.apib) -->
+<!-- include(Estudantes.apib) -->
 
-<!-- include(AttendanceRecords.apib) -->
+<!-- include(Configuracoes.apib) -->
 
-<!-- include(Assessments.apib) -->
-
-<!-- include(Occurrences.apib) -->
-
-<!-- include(StudentGrades.apib) -->
-
-<!-- include(Subjects.apib) -->
+<!-- include(ControleAcesso.apib) -->
 
 <!-- include(DataStructure.apib) -->

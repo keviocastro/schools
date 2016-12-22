@@ -1,7 +1,5 @@
 # Data structure
 
-##
-
 ## SubjectAnnualReport (object)
 
 + Include (Subject)
@@ -55,13 +53,13 @@
 
 ## Level (object)
 
-+ id: 1 (number)
++ id: 1 (number) - Identificador único de level
 + name: Grave (string)
 
 ## Assessment (object)
 
 + id: 1 (number) - Identificador único da avaliação
-+ name: Nota N1 - Descrição da avaliação
++ name: Nota N1 (string)- Descrição da avaliação
 + school_calendar_phase_id: 1 (number) - ID da fase que a avaliação será registrada.
 
 ## SchoolCalendarPhase (object)
@@ -70,7 +68,7 @@
 + name: `1º Bimestre` (string)
 + start: `2016-02-01` (string) - Data inicial do período avaliativo
 + end: `2016-04-01` (string) - Ultimo dia do período avaliativo
-+ school_calendar_id: 1 - ID do ano letivo a qual esta fase está relacionada.
++ school_calendar_id: 1 (number)- ID do ano letivo a qual esta fase está relacionada.
 
 ## SchoolCalendar (object)
 
@@ -82,27 +80,16 @@
 + year: 2014 (number) - Ano de referência
 + start: `2016-02-01` - Inicio do ano letivo
 + end: `2016-12-10` - Fim do ano letivo
-+ average_formula: `( ({1º Bimestre} + {2º Bimestre})*0.4 + ({3º Bimestre} + {4º Bimestre})*0.6 )/2` - `Fórmula utilizada para calcular médias do aluno no ano` 
++ average_formula: `( ({1º Bimestre} + {2º Bimestre})*0.4 + ({3º Bimestre} + {4º Bimestre})*0.6 )/2`  - `Fórmula utilizada para calcular médias do aluno no ano`
 
 ## SchoolFillable (object)
 
 + name: Escola luz do saber (string) - Nome da escola.
-+ contacts: `[
-        {
-          "name": "Central de atendimento ao aluno",
-          "email": "ybittencourt@faria.net",
-          "phone": "(13) 3237-7629"
-        },
-        {
-          "name": "Diretoria",
-          "email": "romero.adriana@terra.com.br",
-          "phone": "(41) 7319-6566"
-        }
-      ]` (string) - Json com informações de contatos da escola.
++ contacts (string) - Json com informações de contatos da escola.
 
 ## School (object)
 
-+ id: 1 (number) - Identificador único da escola
++ id: 1 (number) - Identificador único da escola.
 + Include (SchoolFillable)
 
 ## SchoolClassFillable (object)

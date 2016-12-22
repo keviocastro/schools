@@ -1,0 +1,395 @@
+# Group Estudantes
+
+Ações relacionadas a informações dos alunos: cadastrais, indicadores de desempenho
+e relatórios como "Boletim anual do aluno" e "Histórico escolar", registro de notas e presenças.
+
+## Relatório anual [/students/{student_id}/annual-report{?school_calendar_id}]
+
+### Ver relatório anual do aluno [GET]
+
++ Parameters
+    + school_calendar_id: 1 (required, number) - ID do ano letivo
+
++ Request
+    + Headers
+
+            authorization: <!-- include(Token.md) -->
+
++ Response 200 (application/json)
+
+    + Attributes (object)
+        + report_by_subjects (array[SubjectAnnualReport]) - Médias e faltas por disciplina no ano letivo
+
+## Resumo anual do aluno [/students/{student_id}/annual-summary{?school_calendar_id}]
+
+### Ver resumo anual do aluno [GET]
+
++ Parameters
+    + school_calendar_id: 1 (number, required) - `ID do ano letivo`
+
++ Request
+    + Headers
+
+            authorization: <!-- include(Token.md) -->
+
++ Response 200 (application/json)
+
+    + Attributes (object)
+        + absences (object)
+            + total: 22 (number) - Total de faltas do aluno no ano letivo
+        + best_average (object) - Melhor média do aluno no ano
+            + include (Subject)
+            + average: 9.5 (number) - Média
+            + average_calculation: `(7.8 + 8.5)/2` (string) - Calculo da média
+            + student_grades (array) - Notas do aluno que compõem a média
+                + (object)
+                    + include (StudentGrade)
+                    + assessment (Assessment)
+        + low_average (object) - Pior média do aluno no ano
+            + include (Subject)
+            + average: 9.5 (number)
+            + average_calculation: `(7.8 + 8.5)/2` (string)
+            + student_grades (array)
+                + (object)
+                    + include (StudentGrade)
+                    + assessment (Assessment)
+
+## Coleção de estudantes [/students{?_q,_sort,_with}]
+
+### Listar estudantes [GET]
+
+<!-- include(ParameterFilter.md) -->
+
++ Parameters
+    + _q (string, optional) - Pesquisa por palavra-chave, a correspondência e incluida conjunto de resultados.
+    + _sort (string, optional) - Ordena a coluna desejada, de forma acendente ou descendente.
+    + _with (string, optional) - Obtem informações do recurso relacionado.
+        + Members
+            + person - Informações básicas do aluno (nome, telefone, ...).
+            + responsibles - Responsáveis pelo estudante.
+            + schoolClasses - Turmas que o aluno estudou.
+
++ Request (application/json)
+    + Headers
+
+            authorization: <!-- include(Token.md) -->
+
++ Response 200 (application/json)
+
+    + Attributes
+        + Include Paginator
+        + data (array)
+            + (Student)
+
+## Estudante [/students/{id}{?_with}]
+
+### Detalhes do estudante [GET]
+
++ Parameters
+    + id: 1 (required, number) - ID do estudante.
+    + _with (string, optional) - Obtem informações do recurso relacionado.
+        + Members
+            + person - Informações básicas do aluno (nome, telefone, ...).
+            + responsibles - Responsáveis pelo estudante.
+            + schoolClasses - Turmas que o aluno estudou.
+
++ Request
+    + Headers
+
+            authorization: <!-- include(Token.md) -->
+
++ Response 200 (application/json)
+
+    + Attributes (object)
+        + student (Student)
+
+## Coleção de registro de presença [/attendance-records{?_q,_sort,_with}]
+
+`Attendance Records` são os registros de presenças dos alunos em uma aula, definindo
+se o aluno estava ou não presente durante a aula.
+
+### Listar registro de presença [GET]
+
+<!-- include(ParameterFilter.md) -->
+
+
++ Parameters
+    + _q (string, optional) - Pesquisa por palavra-chave, a correspondência e incluida conjunto de resultados.
+    + _sort (string, optional) - Ordena a coluna desejada, de forma acendente ou descendente.
+    + _with (string, optional) - Obtem informações do recurso relacionado.
+        + Members
+            + lesson
+            + lesson.schoolClass
+            + lesson.schoolClass.grade
+            + lesson.schoolClass.shift
+            + lesson.subject
+            + student.person
+            + student.schoolClass
+
++ Request
+    + Headers
+
+            authorization: <!-- include(Token.md) -->
+
++ Response 200 (application/json)
+
+    + Attributes
+        + Include Paginator
+        + data (array)
+            + (AttendanceRecord)
+
+### Criar registro de presença [POST]
+
+O registro de presença de um aluno em uma aula é único.
+Se o registro de presença que já existe for solicitado, será
+retornado o registro já existente com as informações atualizadas.
+
++ Request (application/json)
+    + Headers
+
+            authorization: <!-- include(Token.md) -->
+
+    + Attributes (AttendanceRecordFillable)
+
++ Response 201 (application/json)
+
+    + Headers
+
+            Location: /attendance_records/1
+
+    + Attributes
+        + attendance_record (AttendanceRecord)
+
++ Response 409 (application/json)
+
+        {
+            "message": "The record of the student (student.id = 1 ) to the lesson already exists.",
+            "status_code": 409
+        }
+
+## Registro de presença [/attendance-records/{attendance_record_id}{?_with}]
+
++ Parameters
+    + attendance_record_id: 1 (number) - ID of the attendance record
+
+### View a attendance record detail [GET]
+
++ Parameters
+    + _with (string, optional) - Obtem informações do recurso relacionado.
+        + Members
+            + lesson
+            + lesson.schoolClass
+            + lesson.schoolClass.grade
+            + lesson.schoolClass.shift
+            + lesson.subject
+            + student.person
+            + student.schoolClass
+
++ Request
+    + Headers
+
+            authorization: <!-- include(Token.md) -->
+
++ Response 200 (application/json)
+
+    + Attributes
+        + attendance_record (AttendanceRecord)
+
+### Alterar registro de presença [PUT]
+
++ Parameters
+    + attendance_record_id: 1 (number) - ID of the attendance record
+
++ Request
+    + Headers
+
+            authorization: <!-- include(Token.md) -->
+
+    + Attributes (AttendanceRecordFillable)
+
++ Response 200 (application/json)
+
+    + Attributes
+        + attendance_record (AttendanceRecord)
+
+## Coleção de notas [/student_grades{?_q,_sort,_field,_with}]
+
+`Student Grades` São registo de notas de cada aluno em suas diciplinas nos periodos e turmas pertencentes a ele.
+
+### Crair nota [POST]
+
++ Request (application/json)
+    + Headers
+
+            authorization: <!-- include(Token.md) -->
+
+    + Attributes (StudentGradeFillable)
+
++ Response 201 (application/json)
+
+    + Attributes
+        + StudentGrade (StudentGrade)
+
+### List Student Grades [GET]
+
+<!-- include(ParameterFilter.md) -->
+
++ Parameters
+    + _q (string, optional) - Pesquisa por palavra-chave, a correspondência e incluida conjunto de resultados.
+    + _sort (string, optional) - Ordena a coluna desejada, de forma acendente ou descendente.
+    + _with (string, optional) - Obtem informações do recurso relacionado.
+        + Members
+            + student
+            + subject
+            + assessment
+            + schoolClass
+
++ Request
+    + Headers
+
+            authorization: <!-- include(Token.md) -->
+
++ Response 200 (application/json)
+
+    + Attributes
+        + Include Paginator
+        + data (array)
+            + (StudentGrade)
+
+## Nota [/student-grades/{student_grades_id}{?_with}]
+
+### Detalhes da nota [GET]
+
++ Parameters
+    + student_grades_id: 1 (number) - ID of the occurence
+    + _with (string, optional) - Obtem informações do recurso relacionado.
+        + Members
+            + student
+            + subject
+            + assessment
+            + schoolClass
+
++ Request
+    + Headers
+
+            authorization: <!-- include(Token.md) -->
+
++ Response 200 (application/json)
+
+    + Attributes
+        + StudentGrade (StudentGrade)
+
+### Alterar nota [PUT]
+
++ Parameters
+    + student_grades_id: 1 (number) - ID of the Student Grades
+
++ Request (application/json)
+
+    + Headers
+
+            authorization: <!-- include(Token.md) -->
+
+    + Attributes (StudentGradeFillable)
+
++ Response 200 (application/json)
+
+    + Attributes
+        + StudentGrade (StudentGrade)
+
+## Coleção de ocorrências [/occurences{?_q,_sort,_with}]
+
+`Occurrence` são registros de ocorrências registrar por professor em relação aos alunos.
+
+### Criar ocorrência [POST]
+
++ Request (application/json)
+    + Headers
+
+            authorization: <!-- include(Token.md) -->
+
+    + Attributes (OccurenceFillable)
+
++ Response 201 (application/json)
+
+    + Attributes
+        + occurence (Occurence)
+
+### Listar ocorrências [GET]
+
+<!-- include(ParameterFilter.md) -->
+
++ Parameters
+    + _q (string, optional) - Pesquisa por palavra-chave, a correspondência e incluida conjunto de resultados.
+        + Members
+            +comment
+    + _sort (string, optional) - Ordena a coluna desejada, de forma acendente ou descendente.
+    + _with (string, optional) - Obtem informações do recurso relacionado.
+        + Members
+            + aboutPerson
+            + level
+
++ Request
+    + Headers
+
+            authorization: <!-- include(Token.md) -->
+
++ Response 200 (application/json)
+
+    + Attributes
+        + Include Paginator
+        + data (array)
+            + (Occurence)
+
+## Ocorrência [/occurences/{occurence_id}{?_with}]
+
+### Detalhes da ocorrência [GET]
+
++ Parameters
+    + occurence_id: 1 (number) - Identificador único da Occorencia
+    + _with (string, optional) - Obtem informações do recurso relacionado.
+        + Members
+            + aboutPerson
+            + level
+
++ Request
+    + Headers
+
+            authorization: <!-- include(Token.md) -->
+
++ Response 200 (application/json)
+
+    + Attributes
+        + Occurence (Occurence)
+
+### Alterar ocorrência [PUT]
+
++ Parameters
+    + occurence_id: 1 (number) - Identificador único da Occorencia
+
++ Request (application/json)
+
+    + Headers
+
+            authorization: <!-- include(Token.md) -->
+
+    + Attributes (OccurenceFillable)
+
++ Response 200 (application/json)
+
+    + Attributes
+        + Occurence (Occurence)
+
+### Excluir ocorrência [DELETE]
+
++ Parameters
+    + occurence_id: 1 (number) - Identificador único da Occorencia
+
++ Request (application/json)
+    + Headers
+
+            authorization: <!-- include(Token.md) -->
+
+
++ Response 204
+

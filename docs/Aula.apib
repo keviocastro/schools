@@ -1,10 +1,10 @@
-# Group Lessons
+# Group Aula
 
 `Lessons` são as aulas programadas para as turmas de uma escola.
 
 ## Lessons Collection [/lessons{?_q,_sort,_with}]
 
-### List lessons [GET]
+### Listar aulas [GET]
 
 <!-- include(ParameterFilter.md) -->
 
@@ -19,36 +19,36 @@
             + schoolClass.shift
             + subject
 
-+ Request 
++ Request
     + Headers
-            
+
             authorization: <!-- include(Token.md) -->
 
 + Response 200 (application/json)
 
-    + Attributes 
+    + Attributes
         + Include Paginator
         + data (array)
             + (Lesson)
 
-### Create a new lesson [POST]
+### Criar aula [POST]
 
 + Request (application/json)
     + Headers
-            
+
             authorization: <!-- include(Token.md) -->
-            
+
     + Attributes (LessonFillable)
-            
-+ Response 200 (application/json) 
-    
-    + Attributes 
+
++ Response 200 (application/json)
+
+    + Attributes
         + lesson (Lesson)
 
 
 ## Lesson [/lessons/{lesson_id}{?_with,attach}]
 
-### View a lesson detail [GET]
+### Detalhes da aula [GET]
 
 + Parameters
     + lesson_id: 1 (number) - ID of the lesson
@@ -62,11 +62,11 @@
             + schoolClass.students.responsibles
             + schoolClass.students.attendanceRecords
             + schoolClass.students.person
-    + attach (string, optional) 
-        
-        Anexa mais informações da aula na responsta. 
-        students.last_occurences são as ultimas 2 ocorrencias do aluno. 
-        students.attendanceRecord é o registro de chamada da aula para o aluno. 
+    + attach (string, optional)
+
+        Anexa mais informações da aula na responsta.
+        students.last_occurences são as ultimas 2 ocorrencias do aluno.
+        students.attendanceRecord é o registro de chamada da aula para o aluno.
         students.absenceSummary é um resumo de faltas do aluno, durante o ano.
 
         + Members
@@ -75,15 +75,15 @@
             + students.last_occurences
             + students.absenceSummary
 
-+ Request 
++ Request
     + Headers
 
             authorization: <!-- include(Token.md) -->
 
 + Response 200 (application/json)
 
-    + Attributes 
-        + lesson 
+    + Attributes
+        + lesson
             + Include (Lesson)
             + students (array)
                 + (object)
@@ -91,53 +91,53 @@
                     + attendance_record (AttendanceRecord)
                     + last_occurences (array[Occurence])
                     + absence_summary (object)
-                        + percentage_absences_reprove: 25 - Percentual máximo de faltas as aulas para não ser           reprovado       
-                        + total_lessons_year: 200 - total de aulas programadas no ano da mesma disciplina           
+                        + percentage_absences_reprove: 25 - Percentual máximo de faltas as aulas para não ser           reprovado
+                        + total_lessons_year: 200 - total de aulas programadas no ano da mesma disciplina
                         + total_absences_year: 22 - total de faltas que o aluno tem no ano da mesma disciplina
-            
-### Edit [PUT]
+
+### Alterar aula [PUT]
 
 + Parameters
     + lesson_id: 1 (number) - ID of the lesson
 
-+ Request 
++ Request
     + Headers
-            
+
             authorization: <!-- include(Token.md) -->
-            
+
     + Attributes (LessonFillable)
-            
+
 + Response 200 (application/json)
-    
-    + Attributes 
+
+    + Attributes
         + lesson (Lesson)
 
 
-### Delete [DELETE]
+### Excluir aula [DELETE]
 
 + Parameters
     + lesson_id: 1 (number) - ID of the lesson
 
 + Request (application/json)
     + Headers
-    
+
             authorization: <!-- include(Token.md) -->
 
 + Response 204
 
 
-## Lessons per day [/lessons/per-day{?_with,_q,_sort,start,end}]
+## Aulas por dia [/lessons/per-day{?_with,_q,_sort,start,end}]
 
-### List Lessons per day [GET]
+### Listar aulas por dia [GET]
 
 <!-- include(ParameterFilter.md) -->
 
 
 + Parameters
-    + start (string, optional) Data inicial 
+    + start (string, optional) Data inicial
         + Default: NOW()
     + end (string, optional) Data final
-        + Default: NOW() + 15 days 
+        + Default: NOW() + 15 days
     + _with (string, optional) Nome da relação a ser incluida da resposta.
         + Members
             + schoolClass
@@ -149,18 +149,17 @@
             + subject
     + _q (string, optional) - Fulltext search
 
-+ Request 
++ Request
     + Headers
-            
+
             authorization: <!-- include(Token.md) -->
 
 + Response 200 (application/json)
 
-    + Attributes 
+    + Attributes
         + start: '2016-10-01' (string)
         + end: '2016-10-15' (string)
         + data (array)
             + (object)
                 + day: `2016-10-01` (string)
                 + lessons (array[Lesson])
-
