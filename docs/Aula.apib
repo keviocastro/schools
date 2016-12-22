@@ -1,8 +1,8 @@
 # Group Aula
 
-`Lessons` são as aulas programadas para as turmas de uma escola.
+## Coleção de aulas [/lessons{?_q,_sort,_with}]
 
-## Lessons Collection [/lessons{?_q,_sort,_with}]
+`Lessons` são as aulas programadas para as turmas de uma escola.
 
 ### Listar aulas [GET]
 
@@ -163,3 +163,24 @@
             + (object)
                 + day: `2016-10-01` (string)
                 + lessons (array[Lesson])
+
+## Coleção do plano de aulas [/lessons{?_q,_sort,_with}]
+
+`Class plan` são registro dos templantes e dos valores dos planos de aula.
+
+### Listar Planos de aulas [GET]
+
+### Criar plano de aulas
+
+### Detalhes do plano de aulas
+
+### Alterar plano de aulas
+
+### Ecluir plano de aulas
+
+acount config
+    templete do plano de aula:
+        [
+            {nome: conteudo, tipo: texto, obrigatorio: true},
+            {nome: metodologia, tipo: textolongo, obrigatorio: false}
+        ]
