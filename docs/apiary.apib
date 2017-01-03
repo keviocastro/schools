@@ -445,9 +445,9 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 
 # Group Aula
 
-`Lessons` são as aulas programadas para as turmas de uma escola.
+## Coleção de aulas [/lessons{?_q,_sort,_with}]
 
-## Lessons Collection [/lessons{?_q,_sort,_with}]
+`Lessons` são as aulas programadas para as turmas de uma escola.
 
 ### Listar aulas [GET]
 
@@ -577,7 +577,6 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 
 Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="output.html#header-parametros-de-filtros-em-listagem">sessão</a> como definir os parametros da requisição.
 
-
 + Parameters
     + start (string, optional) Data inicial
         + Default: NOW()
@@ -609,6 +608,63 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
                 + day: `2016-10-01` (string)
                 + lessons (array[Lesson])
 
+## Coleção do plano de aulas [/lesson-plans{?_q,_sort,_with}]
+
+`Lesson plan` são registro dos valores e templantes dos planos de aulas.
+
+### Listar Planos de aulas [GET]
+
+Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="output.html#header-parametros-de-filtros-em-listagem">sessão</a> como definir os parametros da requisição.
+
++ Parameters
+    + _q (string, optional) - Pesquisa por palavra-chave, a correspondência e incluida conjunto de resultados.
+    + _sort (string, optional) - Ordena a coluna desejada, de forma acendente ou descendente.
+    + _with (string, optional) - Obtem informações do recurso relacionado.
+        + Members
+            + LessonPlanTemplate
+
++ Request
+    + Headers
+
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4MzgwNzA2MywiaWF0IjoxNDgxMjE1MDYzfQ.1YO1iTYVRU9NDeJBnqYUQYPk0PVHcCPxSaRtiw1v5Wg
+
++ Response 200 (application/json)
+
+    + Attributes
+        + Include Paginator
+        + data (array)
+            + (LessonPlan)
+
+
+## Coleção de modelos para planos de aula [/lesson-plan-models]
+
+### Listar modelos de plano de aula [GET]
+
++ Request
+    + Headers
+
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4MzgwNzA2MywiaWF0IjoxNDgxMjE1MDYzfQ.1YO1iTYVRU9NDeJBnqYUQYPk0PVHcCPxSaRtiw1v5Wg
+
++ Response 200 (application/json)
+
+    + Attributes
+        + Include Paginator
+        + data (array)
+            + (LessonPlanTemplate)
+
+### Criar modelo de plano de aula [POST]
+
++ Request (application/json)
+    + Headers
+
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4MzgwNzA2MywiaWF0IjoxNDgxMjE1MDYzfQ.1YO1iTYVRU9NDeJBnqYUQYPk0PVHcCPxSaRtiw1v5Wg
+
+    + Attributes (LessonPlanTemplate)
+
++ Response 200 (application/json)
+
+    + Attributes
+        + lesson_plan_template (LessonPlanTemplate)
 
 # Group Estudantes
 
@@ -1178,6 +1234,35 @@ Com isso o cadastro do Professor Medeiros fica pendente até que um usuário da 
 
 # Data structure
 
+## LessonPlanTemplate
++ model: `[{"name":"expectativa-aprendizagem","required":"true"},{"name":"material-didatiro","required":"true"}]` (string) - Json com estutura de campos do modelo
+
+## LessonPlan
+
++ id
++ dates
++ plan (array)
+    + (object)
+        + name: `Objetivo` (string)
+        + type: 'text' (string)
+        + required: true (boolean)
+        + value: 'Resolver operações utilizando números decimais obedecendo regras.'
+    + (object)
+        + name: `Conteúdo` (string)
+        + type: 'text' (string)
+        + required: true (boolean)
+        + value: 'Operações com números ordinais.'
+    + (object)
+        + name: `Metodologia` (string)
+        + type: 'long-text' (string)
+        + required: true (boolean)
+        + value: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
+    + (object)
+        + name: `Material ditatico` (string)
+        + type: 'text' (string)
+        + required: true (boolean)
+        + value: 'Livro didático, Jogo de tabuleiro.'
+
 ## SubjectAnnualReport (object)
 
 + Include (Subject)
@@ -1305,6 +1390,7 @@ Com isso o cadastro do Professor Medeiros fica pendente até que um usuário da 
 ## Lesson (object)
 
 + id: 1 (number) - `Identificador único  da aula.`
++ lesson_plan_id - `Identificador do plano de aula.`
 + Include (LessonFillable)
 
 ## Teacher (object)

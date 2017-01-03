@@ -132,7 +132,6 @@
 
 <!-- include(ParameterFilter.md) -->
 
-
 + Parameters
     + start (string, optional) Data inicial
         + Default: NOW()
@@ -164,23 +163,59 @@
                 + day: `2016-10-01` (string)
                 + lessons (array[Lesson])
 
-## Coleção do plano de aulas [/lessons{?_q,_sort,_with}]
+## Coleção do plano de aulas [/lesson-plans{?_q,_sort,_with}]
 
-`Class plan` são registro dos templantes e dos valores dos planos de aula.
+`Lesson plan` são registro dos valores e templantes dos planos de aulas.
 
 ### Listar Planos de aulas [GET]
 
-### Criar plano de aulas
+<!-- include(ParameterFilter.md) -->
 
-### Detalhes do plano de aulas
++ Parameters
+    + _q (string, optional) - Pesquisa por palavra-chave, a correspondência e incluida conjunto de resultados.
+    + _sort (string, optional) - Ordena a coluna desejada, de forma acendente ou descendente.
+    + _with (string, optional) - Obtem informações do recurso relacionado.
+        + Members
+            + LessonPlanTemplate
 
-### Alterar plano de aulas
++ Request
 
-### Ecluir plano de aulas
+            authorization: <!-- include(Token.md) -->
 
-acount config
-    templete do plano de aula:
-        [
-            {nome: conteudo, tipo: texto, obrigatorio: true},
-            {nome: metodologia, tipo: textolongo, obrigatorio: false}
-        ]
++ Response 200 (application/json)
+
+    + Attributes
+        + Include Paginator
+        + data (array)
+            + (LessonPlan)
+
+
+## Coleção de modelos para planos de aula [/lesson-plan-models]
+
+### Listar modelos de plano de aula [GET]
+
++ Request
+    + Headers
+
+            authorization: <!-- include(Token.md) -->
+
++ Response 200 (application/json)
+
+    + Attributes
+        + Include Paginator
+        + data (array)
+            + (LessonPlanTemplate)
+
+### Criar modelo de plano de aula [POST]
+
++ Request (application/json)
+    + Headers
+
+            authorization: <!-- include(Token.md) -->
+
+    + Attributes (LessonPlanTemplate)
+
++ Response 200 (application/json)
+
+    + Attributes
+        + lesson_plan_template (LessonPlanTemplate)

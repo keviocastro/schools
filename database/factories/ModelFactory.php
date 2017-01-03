@@ -330,3 +330,18 @@ $factory->define(App\StudentGrade::class, function ($faker) use ($factory) {
         'school_class_id' => $schoolClass->id,
     ];
 });
+
+$factory->define(App\LessonPlan::class, function ($faker) use ($factory) {
+
+    $start = $faker->dateTime('now')->format('Y-m-d');
+    $end = $faker->dateTimeInInterval($start,'+ 60 days')->format('Y-m-d');
+    return [
+        'start_date' => $start,
+        'end_date' => $end,
+        'lessonPlanTemplate_id' => 1,
+        // function(){
+        //     return factory(App\LessonPlanTemplate::class)->create()->id;
+        // },
+        'content' => [[]]
+    ];
+});
