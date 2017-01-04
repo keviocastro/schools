@@ -18,5 +18,6 @@ class FakeDataForTestSeeder extends Seeder
         factory(App\Assessment::class, 20)->create();
         factory(App\Level::class, 3)->create();
         factory(App\Occurence::class, 20)->create();
+        factory(App\Teacher::class, 20)->create();
     }
 }

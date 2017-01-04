@@ -12,6 +12,8 @@
 
 <!-- include(Estudantes.apib) -->
 
+<!-- include(Professor.apib) -->
+
 <!-- include(Configuracoes.apib) -->
 
 <!-- include(ControleAcesso.apib) -->
