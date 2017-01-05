@@ -161,41 +161,50 @@ class SchoolClassControllerTest extends TestCase
             $this->getAutHeader())
             ->assertResponseStatus(200)
             ->seeJsonStructure([
-                'data' => ['*' => 
-                        ['student' => 
-                            [
-                            'id', 
-                            'person' => []
-                            ]
-                        ],
-                        ['school_calendar_report' => 
-                            [
-                            'average', 
-                            'average_calculation', 
-                            'average_formula', 
-                            'absences', 
-                            ]
-                        ],
-                        ['phases_report' => 
-                            ['*'=> 
-                                [
-                                'school_calendar_phase_id', 
-                                'average', 
-                                'average_calculation',
-                                'average_formula',
-                                'absences',
-                                'student_grades' => 
-                                    ['*' => 
-                                        [   //  Comentado porque quando o aluno não tem nota gera erro.
-                                            //  Criar um assert para tratar isso.
-                                            // 'grade',
-                                            // 'assessment_id'
+                'data' => 
+                    [
+                        'report_by_student' => 
+                            ['*' => 
+                                ['student' => 
+                                    [
+                                    'id', 
+                                    'person' => []
+                                    ]
+                                ],
+                                ['school_calendar_report' => 
+                                    [
+                                    'average', 
+                                    'average_calculation', 
+                                    'average_formula', 
+                                    'absences', 
+                                    ]
+                                ],
+                                ['phases_report' => 
+                                    ['*'=> 
+                                        [
+                                        'school_calendar_phase_id', 
+                                        'average', 
+                                        'average_calculation',
+                                        'average_formula',
+                                        'absences',
+                                        'student_grades' => 
+                                            ['*' => 
+                                                [   //  Comentado porque quando o aluno não tem nota gera erro.
+                                                    //  Criar um assert para tratar isso.
+                                                    // 'grade',
+                                                    // 'assessment_id'
+                                                ]
+                                            ]
                                         ]
                                     ]
                                 ]
+                            ],
+                        'school_class_report' => [
+                                'school_calendar_report' => ['average'],
+                                'phases_report' => ['*' => ['school_calendar_phase_id', 'average']]
                             ]
-                        ]
                     ]
+
                 ]);
     }
 
