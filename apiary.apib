@@ -6,6 +6,7 @@ HOST: http://localhost/api
 
 Schools é uma api para manter informações sobre escolas e seus registros administrativos.
 
+
 # Autentificação
 
 A autentificação de usuário para acesso aos recursos da api, deve ser feita atribuindo
@@ -16,6 +17,8 @@ sempre o seguinte cabeçario na requisição:
 Onde "token id" é obtido durante a autenficação do usuário no microservice de atentificação
 auth0 através do dominio "logos.auth0.com".
 Veja ver mais detalhes de como realizar essa autentificação nesse link: https://auth0.com/docs
+
+
 
 # Parametros de filtros, ordenação e pesquisa
 
@@ -67,6 +70,8 @@ Respectivamente, o not-insufixo:
 | `-not`        | !=        | Diferente                             |
 
 
+
+
 # Group Calendários escolares
 
 `Calendário escolar` (definido nesta API como SchoolCalendar) é considerado como a definição do ano letivo,
@@ -77,7 +82,7 @@ inicio e fim do ano.
 
 ### Listar calendarios escolares [GET]
 
-<!-- include(ParameterFilter.md) -->
+Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="output.html#header-parametros-de-filtros-em-listagem">sessão</a> como definir os parametros da requisição.
 
 + Parameters
     + _q (string, optional) - Pesquisa por palavra-chave, a correspondência e incluida conjunto de resultados.
@@ -91,7 +96,7 @@ inicio e fim do ano.
 
     + Headers
 
-            authorization: <!-- include(Token.md) -->
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4MzgwNzA2MywiaWF0IjoxNDgxMjE1MDYzfQ.1YO1iTYVRU9NDeJBnqYUQYPk0PVHcCPxSaRtiw1v5Wg
 
 + Response 200 (application/json)
 
@@ -105,7 +110,7 @@ inicio e fim do ano.
 + Request (application/json)
     + Headers
 
-            authorization: <!-- include(Token.md) -->
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4MzgwNzA2MywiaWF0IjoxNDgxMjE1MDYzfQ.1YO1iTYVRU9NDeJBnqYUQYPk0PVHcCPxSaRtiw1v5Wg
 
     + Attributes (SchoolCalendarFillable)
 
@@ -128,7 +133,7 @@ inicio e fim do ano.
 + Request
     + Headers
 
-            authorization: <!-- include(Token.md) -->
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4MzgwNzA2MywiaWF0IjoxNDgxMjE1MDYzfQ.1YO1iTYVRU9NDeJBnqYUQYPk0PVHcCPxSaRtiw1v5Wg
 
 + Response 200 (application/json)
 
@@ -143,7 +148,7 @@ inicio e fim do ano.
 + Request
     + Headers
 
-            authorization: <!-- include(Token.md) -->
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4MzgwNzA2MywiaWF0IjoxNDgxMjE1MDYzfQ.1YO1iTYVRU9NDeJBnqYUQYPk0PVHcCPxSaRtiw1v5Wg
 
     + Attributes (SchoolCalendarFillable)
 
@@ -161,7 +166,7 @@ inicio e fim do ano.
 
     + Headers
 
-            authorization: <!-- include(Token.md) -->
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4MzgwNzA2MywiaWF0IjoxNDgxMjE1MDYzfQ.1YO1iTYVRU9NDeJBnqYUQYPk0PVHcCPxSaRtiw1v5Wg
 
 + Response 204
 
@@ -174,7 +179,7 @@ e a nota do aluno no 1º Bimestre será composta pela conta (N1*0,4)+(N2*0,6)=NO
 
 ### Listar avaliações [GET]
 
-<!-- include(ParameterFilter.md) -->
+Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="output.html#header-parametros-de-filtros-em-listagem">sessão</a> como definir os parametros da requisição.
 
 
 + Parameters
@@ -190,7 +195,7 @@ e a nota do aluno no 1º Bimestre será composta pela conta (N1*0,4)+(N2*0,6)=NO
 + Request
     + Headers
 
-            authorization: <!-- include(Token.md) -->
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4MzgwNzA2MywiaWF0IjoxNDgxMjE1MDYzfQ.1YO1iTYVRU9NDeJBnqYUQYPk0PVHcCPxSaRtiw1v5Wg
 
 + Response 200 (application/json)
 
@@ -198,6 +203,8 @@ e a nota do aluno no 1º Bimestre será composta pela conta (N1*0,4)+(N2*0,6)=NO
         + Include Paginator
         + data (array)
             + (Assessment)
+
+
 
 # Group Escolas e turmas
 
@@ -208,7 +215,7 @@ e a nota do aluno no 1º Bimestre será composta pela conta (N1*0,4)+(N2*0,6)=NO
 ## Coleção de escolas [/schools{?_q,_sort,_with}]
 
 ### Listar escolas [GET]
-<!-- include(ParameterFilter.md) -->
+Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="output.html#header-parametros-de-filtros-em-listagem">sessão</a> como definir os parametros da requisição.
 
 + Parameters
     + _q (string, optional) - Pesquisa por palavra-chave, a correspondência e incluida conjunto de resultados.
@@ -222,7 +229,7 @@ e a nota do aluno no 1º Bimestre será composta pela conta (N1*0,4)+(N2*0,6)=NO
 + Request
     + Headers
 
-            authorization: <!-- include(Token.md) -->
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4MzgwNzA2MywiaWF0IjoxNDgxMjE1MDYzfQ.1YO1iTYVRU9NDeJBnqYUQYPk0PVHcCPxSaRtiw1v5Wg
 
 + Response 200 (application/json)
 
@@ -236,7 +243,7 @@ e a nota do aluno no 1º Bimestre será composta pela conta (N1*0,4)+(N2*0,6)=NO
 + Request (application/json)
     + Headers
 
-            authorization: <!-- include(Token.md) -->
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4MzgwNzA2MywiaWF0IjoxNDgxMjE1MDYzfQ.1YO1iTYVRU9NDeJBnqYUQYPk0PVHcCPxSaRtiw1v5Wg
 
     + Attributes (SchoolFillable)
 
@@ -258,7 +265,7 @@ e a nota do aluno no 1º Bimestre será composta pela conta (N1*0,4)+(N2*0,6)=NO
 + Request
     + Headers
 
-            authorization: <!-- include(Token.md) -->
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4MzgwNzA2MywiaWF0IjoxNDgxMjE1MDYzfQ.1YO1iTYVRU9NDeJBnqYUQYPk0PVHcCPxSaRtiw1v5Wg
 
 + Response 200 (application/json)
 
@@ -275,7 +282,7 @@ e a nota do aluno no 1º Bimestre será composta pela conta (N1*0,4)+(N2*0,6)=NO
 
     + Headers
 
-            authorization: <!-- include(Token.md) -->
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4MzgwNzA2MywiaWF0IjoxNDgxMjE1MDYzfQ.1YO1iTYVRU9NDeJBnqYUQYPk0PVHcCPxSaRtiw1v5Wg
 
     + Attributes (SchoolFillable)
 
@@ -293,7 +300,7 @@ e a nota do aluno no 1º Bimestre será composta pela conta (N1*0,4)+(N2*0,6)=NO
 
     + Headers
 
-            authorization: <!-- include(Token.md) -->
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4MzgwNzA2MywiaWF0IjoxNDgxMjE1MDYzfQ.1YO1iTYVRU9NDeJBnqYUQYPk0PVHcCPxSaRtiw1v5Wg
 
 + Response 204
 
@@ -301,7 +308,7 @@ e a nota do aluno no 1º Bimestre será composta pela conta (N1*0,4)+(N2*0,6)=NO
 
 ### Listar turmas [GET]
 
-<!-- include(ParameterFilter.md) -->
+Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="output.html#header-parametros-de-filtros-em-listagem">sessão</a> como definir os parametros da requisição.
 
 + Parameters
     + _q (string, optional) - Pesquisa por palavra-chave, a correspondência e incluida conjunto de resultados.
@@ -319,7 +326,7 @@ e a nota do aluno no 1º Bimestre será composta pela conta (N1*0,4)+(N2*0,6)=NO
 
     + Headers
 
-            authorization: <!-- include(Token.md) -->
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4MzgwNzA2MywiaWF0IjoxNDgxMjE1MDYzfQ.1YO1iTYVRU9NDeJBnqYUQYPk0PVHcCPxSaRtiw1v5Wg
 
 + Response 200 (application/json)
 
@@ -333,7 +340,7 @@ e a nota do aluno no 1º Bimestre será composta pela conta (N1*0,4)+(N2*0,6)=NO
 + Request (application/json)
     + Headers
 
-            authorization: <!-- include(Token.md) -->
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4MzgwNzA2MywiaWF0IjoxNDgxMjE1MDYzfQ.1YO1iTYVRU9NDeJBnqYUQYPk0PVHcCPxSaRtiw1v5Wg
 
     + Attributes (SchoolClassFillable)
 
@@ -360,7 +367,7 @@ e a nota do aluno no 1º Bimestre será composta pela conta (N1*0,4)+(N2*0,6)=NO
 + Request
     + Headers
 
-            authorization: <!-- include(Token.md) -->
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4MzgwNzA2MywiaWF0IjoxNDgxMjE1MDYzfQ.1YO1iTYVRU9NDeJBnqYUQYPk0PVHcCPxSaRtiw1v5Wg
 
 + Response 200 (application/json)
 
@@ -375,7 +382,7 @@ e a nota do aluno no 1º Bimestre será composta pela conta (N1*0,4)+(N2*0,6)=NO
 + Request
     + Headers
 
-            authorization: <!-- include(Token.md) -->
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4MzgwNzA2MywiaWF0IjoxNDgxMjE1MDYzfQ.1YO1iTYVRU9NDeJBnqYUQYPk0PVHcCPxSaRtiw1v5Wg
 
     + Attributes (SchoolClassFillable)
 
@@ -393,33 +400,35 @@ e a nota do aluno no 1º Bimestre será composta pela conta (N1*0,4)+(N2*0,6)=NO
 
     + Headers
 
-            authorization: <!-- include(Token.md) -->
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4MzgwNzA2MywiaWF0IjoxNDgxMjE1MDYzfQ.1YO1iTYVRU9NDeJBnqYUQYPk0PVHcCPxSaRtiw1v5Wg
 
 + Response 204
 
 ## Relatório anual da turma por disciplina [/school-classes/{school_class_id}/annual-report-by/{subject_id}]
 
-### Detalhes do relatório [GET]
+### Relatório anual por disciplina [GET]
 
 + Request
     + Headers
 
-            authorization: <!-- include(Token.md) -->
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4MzgwNzA2MywiaWF0IjoxNDgxMjE1MDYzfQ.1YO1iTYVRU9NDeJBnqYUQYPk0PVHcCPxSaRtiw1v5Wg
 
 + Response 200 (application/json)
 
     + Attributes
 
-        + students (array)
+        + report_by_student (array)
             + (object)
-                + Include (Student)
+                + student (object)
+                    + include Student
+                    + person (Person)
                 + school_calendar_report (object) - Relatório do aluno durante o calendário escolar para disciplina (subject_id)
                     + average: 9.2 (number) - Média do aluno no ano
                     + average_calculation: `((4.6 + 1.2)*0.4 + (9 + 3.1)*0.6)/2` (string) - Formula da média do aluno no ano
                     + average_formula: `(({1º Bimestre}+...+ {4º Bimestre})*0.6)/2"` (string) - Calculo da média do aluno no ano
                     + absences: 22 (number) - Total de faltas do aluno na disciplina em todo o calendário escolar
                 + phases_report (object)  - Relatório do aluno durante as fases do calendário escolar
-                    + school_calendar_phase_id - ID da fase do calendário escolar
+                    + school_calendar_phase_id: 1 (number) - ID da fase do calendário escolar
                     + average: 7.9 (number) - Média do aluno na fase para a disciplina
                     + average_calculation: `({8.3} + {7.4})/2` (string) - Calculo da média
                     + average_formula: `({Nota 1} + {Nota 2})/2` (string) - Formula utilizada no calculo
@@ -433,6 +442,182 @@ e a nota do aluno no 1º Bimestre será composta pela conta (N1*0,4)+(N2*0,6)=NO
                             + id: 2 (number)
                             + grade: 7.4 (number)
                             + assessment_id: 2 (number)
+        + school_class_report (array)
+            + (object)
+                + school_calendar_report (object) - Relatório da turma no calendário escolar para uma disciplina.
+                    + average: 8.2 (number) - Media aritimetica das notas dos alunos da turma no calendário escolar de uma disciplina.
+                + phases_report (array)  - Relatório da tuma em uma fase do calendário escolar para uma disciplina.
+                    + (object)
+                        + school_calendar_phase_id: 1 (number) - ID da fase do calendário escolar para uma disciplina.
+                        + average: 7.7 (number) - Media aritimetica das notas de todos os alunos da turma em uma disciplina para a fase do calendário escolar.
+
+
+# Group Aula
+
+`Lessons` são as aulas programadas para as turmas de uma escola.
+
+## Lessons Collection [/lessons{?_q,_sort,_with}]
+
+### Listar aulas [GET]
+
+Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="output.html#header-parametros-de-filtros-em-listagem">sessão</a> como definir os parametros da requisição.
+
+
++ Parameters
+    + _q (string, optional) - Pesquisa por palavra-chave, a correspondência e incluida conjunto de resultados.
+    + _sort (string, optional) - Ordena a coluna desejada, de forma acendente ou descendente.
+    + _with (string, optional) - Obtem informações do recurso relacionado.
+        + Members
+            + schoolClass
+            + schoolClass.grade
+            + schoolClass.shift
+            + subject
+
++ Request
+    + Headers
+
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4MzgwNzA2MywiaWF0IjoxNDgxMjE1MDYzfQ.1YO1iTYVRU9NDeJBnqYUQYPk0PVHcCPxSaRtiw1v5Wg
+
++ Response 200 (application/json)
+
+    + Attributes
+        + Include Paginator
+        + data (array)
+            + (Lesson)
+
+### Criar aula [POST]
+
++ Request (application/json)
+    + Headers
+
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4MzgwNzA2MywiaWF0IjoxNDgxMjE1MDYzfQ.1YO1iTYVRU9NDeJBnqYUQYPk0PVHcCPxSaRtiw1v5Wg
+
+    + Attributes (LessonFillable)
+
++ Response 200 (application/json)
+
+    + Attributes
+        + lesson (Lesson)
+
+
+## Lesson [/lessons/{lesson_id}{?_with,attach}]
+
+### Detalhes da aula [GET]
+
++ Parameters
+    + lesson_id: 1 (number) - ID of the lesson
+    + _with (string, optional) Nome da relação a ser incluida na resposta.
+        + Members
+            + attendanceRecords
+            + schoolClass
+            + schoolClass.grade
+            + schoolClass.students
+            + schoolClass.shift
+            + schoolClass.students.responsibles
+            + schoolClass.students.attendanceRecords
+            + schoolClass.students.person
+    + attach (string, optional)
+
+        Anexa mais informações da aula na responsta.
+        students.last_occurences são as ultimas 2 ocorrencias do aluno.
+        students.attendanceRecord é o registro de chamada da aula para o aluno.
+        students.absenceSummary é um resumo de faltas do aluno, durante o ano.
+
+        + Members
+            + students
+            + students.attendanceRecord
+            + students.last_occurences
+            + students.absenceSummary
+
++ Request
+    + Headers
+
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4MzgwNzA2MywiaWF0IjoxNDgxMjE1MDYzfQ.1YO1iTYVRU9NDeJBnqYUQYPk0PVHcCPxSaRtiw1v5Wg
+
++ Response 200 (application/json)
+
+    + Attributes
+        + lesson
+            + Include (Lesson)
+            + students (array)
+                + (object)
+                    + Include (Student)
+                    + attendance_record (AttendanceRecord)
+                    + last_occurences (array[Occurence])
+                    + absence_summary (object)
+                        + percentage_absences_reprove: 25 - Percentual máximo de faltas as aulas para não ser           reprovado
+                        + total_lessons_year: 200 - total de aulas programadas no ano da mesma disciplina
+                        + total_absences_year: 22 - total de faltas que o aluno tem no ano da mesma disciplina
+
+### Alterar aula [PUT]
+
++ Parameters
+    + lesson_id: 1 (number) - ID of the lesson
+
++ Request
+    + Headers
+
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4MzgwNzA2MywiaWF0IjoxNDgxMjE1MDYzfQ.1YO1iTYVRU9NDeJBnqYUQYPk0PVHcCPxSaRtiw1v5Wg
+
+    + Attributes (LessonFillable)
+
++ Response 200 (application/json)
+
+    + Attributes
+        + lesson (Lesson)
+
+
+### Excluir aula [DELETE]
+
++ Parameters
+    + lesson_id: 1 (number) - ID of the lesson
+
++ Request (application/json)
+    + Headers
+
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4MzgwNzA2MywiaWF0IjoxNDgxMjE1MDYzfQ.1YO1iTYVRU9NDeJBnqYUQYPk0PVHcCPxSaRtiw1v5Wg
+
++ Response 204
+
+
+## Aulas por dia [/lessons/per-day{?_with,_q,_sort,start,end}]
+
+### Listar aulas por dia [GET]
+
+Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="output.html#header-parametros-de-filtros-em-listagem">sessão</a> como definir os parametros da requisição.
+
+
++ Parameters
+    + start (string, optional) Data inicial
+        + Default: NOW()
+    + end (string, optional) Data final
+        + Default: NOW() + 15 days
+    + _with (string, optional) Nome da relação a ser incluida da resposta.
+        + Members
+            + schoolClass
+            + schoolClass.grade
+            + schoolClass.shift
+            + schoolClass.students
+            + schoolClass.students.studentResponsible
+            + schoolClass.students.attendanceRecords
+            + subject
+    + _q (string, optional) - Fulltext search
+
++ Request
+    + Headers
+
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4MzgwNzA2MywiaWF0IjoxNDgxMjE1MDYzfQ.1YO1iTYVRU9NDeJBnqYUQYPk0PVHcCPxSaRtiw1v5Wg
+
++ Response 200 (application/json)
+
+    + Attributes
+        + start: '2016-10-01' (string)
+        + end: '2016-10-15' (string)
+        + data (array)
+            + (object)
+                + day: `2016-10-01` (string)
+                + lessons (array[Lesson])
+
 
 # Group Estudantes
 
@@ -449,7 +634,7 @@ e relatórios como "Boletim anual do aluno" e "Histórico escolar", registro de 
 + Request
     + Headers
 
-            authorization: <!-- include(Token.md) -->
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4MzgwNzA2MywiaWF0IjoxNDgxMjE1MDYzfQ.1YO1iTYVRU9NDeJBnqYUQYPk0PVHcCPxSaRtiw1v5Wg
 
 + Response 200 (application/json)
 
@@ -466,7 +651,7 @@ e relatórios como "Boletim anual do aluno" e "Histórico escolar", registro de 
 + Request
     + Headers
 
-            authorization: <!-- include(Token.md) -->
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4MzgwNzA2MywiaWF0IjoxNDgxMjE1MDYzfQ.1YO1iTYVRU9NDeJBnqYUQYPk0PVHcCPxSaRtiw1v5Wg
 
 + Response 200 (application/json)
 
@@ -494,7 +679,7 @@ e relatórios como "Boletim anual do aluno" e "Histórico escolar", registro de 
 
 ### Listar estudantes [GET]
 
-<!-- include(ParameterFilter.md) -->
+Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="output.html#header-parametros-de-filtros-em-listagem">sessão</a> como definir os parametros da requisição.
 
 + Parameters
     + _q (string, optional) - Pesquisa por palavra-chave, a correspondência e incluida conjunto de resultados.
@@ -508,7 +693,7 @@ e relatórios como "Boletim anual do aluno" e "Histórico escolar", registro de 
 + Request (application/json)
     + Headers
 
-            authorization: <!-- include(Token.md) -->
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4MzgwNzA2MywiaWF0IjoxNDgxMjE1MDYzfQ.1YO1iTYVRU9NDeJBnqYUQYPk0PVHcCPxSaRtiw1v5Wg
 
 + Response 200 (application/json)
 
@@ -532,7 +717,7 @@ e relatórios como "Boletim anual do aluno" e "Histórico escolar", registro de 
 + Request
     + Headers
 
-            authorization: <!-- include(Token.md) -->
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4MzgwNzA2MywiaWF0IjoxNDgxMjE1MDYzfQ.1YO1iTYVRU9NDeJBnqYUQYPk0PVHcCPxSaRtiw1v5Wg
 
 + Response 200 (application/json)
 
@@ -546,7 +731,7 @@ se o aluno estava ou não presente durante a aula.
 
 ### Listar registro de presença [GET]
 
-<!-- include(ParameterFilter.md) -->
+Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="output.html#header-parametros-de-filtros-em-listagem">sessão</a> como definir os parametros da requisição.
 
 
 + Parameters
@@ -565,7 +750,7 @@ se o aluno estava ou não presente durante a aula.
 + Request
     + Headers
 
-            authorization: <!-- include(Token.md) -->
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4MzgwNzA2MywiaWF0IjoxNDgxMjE1MDYzfQ.1YO1iTYVRU9NDeJBnqYUQYPk0PVHcCPxSaRtiw1v5Wg
 
 + Response 200 (application/json)
 
@@ -583,7 +768,7 @@ retornado o registro já existente com as informações atualizadas.
 + Request (application/json)
     + Headers
 
-            authorization: <!-- include(Token.md) -->
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4MzgwNzA2MywiaWF0IjoxNDgxMjE1MDYzfQ.1YO1iTYVRU9NDeJBnqYUQYPk0PVHcCPxSaRtiw1v5Wg
 
     + Attributes (AttendanceRecordFillable)
 
@@ -624,7 +809,7 @@ retornado o registro já existente com as informações atualizadas.
 + Request
     + Headers
 
-            authorization: <!-- include(Token.md) -->
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4MzgwNzA2MywiaWF0IjoxNDgxMjE1MDYzfQ.1YO1iTYVRU9NDeJBnqYUQYPk0PVHcCPxSaRtiw1v5Wg
 
 + Response 200 (application/json)
 
@@ -639,7 +824,7 @@ retornado o registro já existente com as informações atualizadas.
 + Request
     + Headers
 
-            authorization: <!-- include(Token.md) -->
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4MzgwNzA2MywiaWF0IjoxNDgxMjE1MDYzfQ.1YO1iTYVRU9NDeJBnqYUQYPk0PVHcCPxSaRtiw1v5Wg
 
     + Attributes (AttendanceRecordFillable)
 
@@ -657,7 +842,7 @@ retornado o registro já existente com as informações atualizadas.
 + Request (application/json)
     + Headers
 
-            authorization: <!-- include(Token.md) -->
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4MzgwNzA2MywiaWF0IjoxNDgxMjE1MDYzfQ.1YO1iTYVRU9NDeJBnqYUQYPk0PVHcCPxSaRtiw1v5Wg
 
     + Attributes (StudentGradeFillable)
 
@@ -668,7 +853,7 @@ retornado o registro já existente com as informações atualizadas.
 
 ### List Student Grades [GET]
 
-<!-- include(ParameterFilter.md) -->
+Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="output.html#header-parametros-de-filtros-em-listagem">sessão</a> como definir os parametros da requisição.
 
 + Parameters
     + _q (string, optional) - Pesquisa por palavra-chave, a correspondência e incluida conjunto de resultados.
@@ -683,7 +868,7 @@ retornado o registro já existente com as informações atualizadas.
 + Request
     + Headers
 
-            authorization: <!-- include(Token.md) -->
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4MzgwNzA2MywiaWF0IjoxNDgxMjE1MDYzfQ.1YO1iTYVRU9NDeJBnqYUQYPk0PVHcCPxSaRtiw1v5Wg
 
 + Response 200 (application/json)
 
@@ -708,7 +893,7 @@ retornado o registro já existente com as informações atualizadas.
 + Request
     + Headers
 
-            authorization: <!-- include(Token.md) -->
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4MzgwNzA2MywiaWF0IjoxNDgxMjE1MDYzfQ.1YO1iTYVRU9NDeJBnqYUQYPk0PVHcCPxSaRtiw1v5Wg
 
 + Response 200 (application/json)
 
@@ -724,7 +909,7 @@ retornado o registro já existente com as informações atualizadas.
 
     + Headers
 
-            authorization: <!-- include(Token.md) -->
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4MzgwNzA2MywiaWF0IjoxNDgxMjE1MDYzfQ.1YO1iTYVRU9NDeJBnqYUQYPk0PVHcCPxSaRtiw1v5Wg
 
     + Attributes (StudentGradeFillable)
 
@@ -742,7 +927,7 @@ retornado o registro já existente com as informações atualizadas.
 + Request (application/json)
     + Headers
 
-            authorization: <!-- include(Token.md) -->
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4MzgwNzA2MywiaWF0IjoxNDgxMjE1MDYzfQ.1YO1iTYVRU9NDeJBnqYUQYPk0PVHcCPxSaRtiw1v5Wg
 
     + Attributes (OccurenceFillable)
 
@@ -753,7 +938,7 @@ retornado o registro já existente com as informações atualizadas.
 
 ### Listar ocorrências [GET]
 
-<!-- include(ParameterFilter.md) -->
+Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="output.html#header-parametros-de-filtros-em-listagem">sessão</a> como definir os parametros da requisição.
 
 + Parameters
     + _q (string, optional) - Pesquisa por palavra-chave, a correspondência e incluida conjunto de resultados.
@@ -768,7 +953,7 @@ retornado o registro já existente com as informações atualizadas.
 + Request
     + Headers
 
-            authorization: <!-- include(Token.md) -->
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4MzgwNzA2MywiaWF0IjoxNDgxMjE1MDYzfQ.1YO1iTYVRU9NDeJBnqYUQYPk0PVHcCPxSaRtiw1v5Wg
 
 + Response 200 (application/json)
 
@@ -791,7 +976,7 @@ retornado o registro já existente com as informações atualizadas.
 + Request
     + Headers
 
-            authorization: <!-- include(Token.md) -->
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4MzgwNzA2MywiaWF0IjoxNDgxMjE1MDYzfQ.1YO1iTYVRU9NDeJBnqYUQYPk0PVHcCPxSaRtiw1v5Wg
 
 + Response 200 (application/json)
 
@@ -807,7 +992,7 @@ retornado o registro já existente com as informações atualizadas.
 
     + Headers
 
-            authorization: <!-- include(Token.md) -->
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4MzgwNzA2MywiaWF0IjoxNDgxMjE1MDYzfQ.1YO1iTYVRU9NDeJBnqYUQYPk0PVHcCPxSaRtiw1v5Wg
 
     + Attributes (OccurenceFillable)
 
@@ -824,10 +1009,12 @@ retornado o registro já existente com as informações atualizadas.
 + Request (application/json)
     + Headers
 
-            authorization: <!-- include(Token.md) -->
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4MzgwNzA2MywiaWF0IjoxNDgxMjE1MDYzfQ.1YO1iTYVRU9NDeJBnqYUQYPk0PVHcCPxSaRtiw1v5Wg
 
 
 + Response 204
+
+
 
 # Group Configurações
 
@@ -837,13 +1024,13 @@ Configurações da contado do usuário logado.
 
 ### Listar configurações [GET]
 
-<!-- include(ParameterFilter.md) -->
+Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="output.html#header-parametros-de-filtros-em-listagem">sessão</a> como definir os parametros da requisição.
 
 
 + Request
     + Headers
 
-            authorization: <!-- include(Token.md) -->
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4MzgwNzA2MywiaWF0IjoxNDgxMjE1MDYzfQ.1YO1iTYVRU9NDeJBnqYUQYPk0PVHcCPxSaRtiw1v5Wg
 
 + Response 200 (application/json)
 
@@ -882,7 +1069,7 @@ Configurações da contado do usuário logado.
 + Request (application/json)
     + Headers
 
-            authorization: <!-- include(Token.md) -->
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4MzgwNzA2MywiaWF0IjoxNDgxMjE1MDYzfQ.1YO1iTYVRU9NDeJBnqYUQYPk0PVHcCPxSaRtiw1v5Wg
 
     + Attributes (SubjectFillable)
 
@@ -893,7 +1080,7 @@ Configurações da contado do usuário logado.
 
 ### List Subjects [GET]
 
-<!-- include(ParameterFilter.md) -->
+Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="output.html#header-parametros-de-filtros-em-listagem">sessão</a> como definir os parametros da requisição.
 
 
 + Parameters
@@ -905,7 +1092,7 @@ Configurações da contado do usuário logado.
 + Request
     + Headers
 
-            authorization: <!-- include(Token.md) -->
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4MzgwNzA2MywiaWF0IjoxNDgxMjE1MDYzfQ.1YO1iTYVRU9NDeJBnqYUQYPk0PVHcCPxSaRtiw1v5Wg
 
 + Response 200 (application/json)
 
@@ -924,7 +1111,7 @@ Configurações da contado do usuário logado.
 + Request
     + Headers
 
-            authorization: <!-- include(Token.md) -->
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4MzgwNzA2MywiaWF0IjoxNDgxMjE1MDYzfQ.1YO1iTYVRU9NDeJBnqYUQYPk0PVHcCPxSaRtiw1v5Wg
 
 + Response 200 (application/json)
 
@@ -940,7 +1127,7 @@ Configurações da contado do usuário logado.
 
     + Headers
 
-            authorization: <!-- include(Token.md) -->
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4MzgwNzA2MywiaWF0IjoxNDgxMjE1MDYzfQ.1YO1iTYVRU9NDeJBnqYUQYPk0PVHcCPxSaRtiw1v5Wg
 
     + Attributes (SubjectFillable)
 
@@ -952,15 +1139,16 @@ Configurações da contado do usuário logado.
 ### Excluir disciplina [DELETE]
 
 + Parameters
-    + subject_id: 1 (number) - ID of the Subject
+    + subject_id: 2 (number) - ID of the Subject
 
 + Request (application/json)
     + Headers
 
-            authorization: <!-- include(Token.md) -->
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4MzgwNzA2MywiaWF0IjoxNDgxMjE1MDYzfQ.1YO1iTYVRU9NDeJBnqYUQYPk0PVHcCPxSaRtiw1v5Wg
 
 
 + Response 204
+
 
 # Group Controle de acesso
 
@@ -978,7 +1166,7 @@ Com isso o cadastro do Professor Medeiros fica pendente até que um usuário da 
 + Request (application/json)
     + Headers
 
-            authorization: <!-- include(Token.md) -->
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4MzgwNzA2MywiaWF0IjoxNDgxMjE1MDYzfQ.1YO1iTYVRU9NDeJBnqYUQYPk0PVHcCPxSaRtiw1v5Wg
 
 
 + Response 200 (application/json)
@@ -993,6 +1181,9 @@ Com isso o cadastro do Professor Medeiros fica pendente até que um usuário da 
                                 2 aprovada
             + created_at: `2016-08-15 20:26:39` (string) Data que a solicitação foi criada
             + updated_at: `2016-08-15 21:26:39` (string) Data da ultima alteração da solicitação
+
+
+
 
 # Data structure
 
@@ -1081,7 +1272,7 @@ Com isso o cadastro do Professor Medeiros fica pendente até que um usuário da 
 ## SchoolFillable (object)
 
 + name: Escola luz do saber (string) - Nome da escola.
-+ contacts: `[{"name": "Central de atendimento ao aluno","email": "ybittencourt@faria.net","phone": "(13) 3237-7629"}]` (string) - Json com informações de contatos da escola.
++ contacts (array) - Json com informações de contatos da escola.
 
 ## School (object)
 
@@ -1169,3 +1360,4 @@ Com isso o cadastro do Professor Medeiros fica pendente até que um usuário da 
 + prev_page_url: null (string, nullable) - Url para resultados da página anterior
 + from: 1 (number) - Número inicial de resultados de paginação da página atual
 + to: 15 (number) - Número final de resultados de paginação da página atual
+
