@@ -8,7 +8,7 @@ use Tests\TestCase;
 class LessonPlanControllerTest extends TestCase
 {
      /**
-     * @covers LessonPlanControllerTest::index
+     * @covers App\Http\Controllers\LessonPlanController::index
      *
      * @return void
      */
@@ -23,7 +23,7 @@ class LessonPlanControllerTest extends TestCase
     }
 
     /**
-     * @covers LessonPlanControllerTest::store
+     * @covers App\Http\Controllers\LessonPlanController::store
      *
      * @return void
      */
@@ -39,7 +39,7 @@ class LessonPlanControllerTest extends TestCase
     }
 
     /**
-     * @covers LessonPlanControllerTest::show
+     * @covers App\Http\Controllers\LessonPlanController::show
      *
      * @return void
      */
@@ -54,7 +54,7 @@ class LessonPlanControllerTest extends TestCase
     }
 
     /**
-     * @covers LessonPlanControllerTest::update
+     * @covers App\Http\Controllers\LessonPlanController::update
      *
      * @return void
      */
@@ -71,7 +71,7 @@ class LessonPlanControllerTest extends TestCase
     }
 
     /**
-     * @covers LessonPlanControllerTest::destroy
+     * @covers App\Http\Controllers\LessonPlanController::destroy
      * 
      * @return void
      */
