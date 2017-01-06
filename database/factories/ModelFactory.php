@@ -172,6 +172,9 @@ $factory->define(App\Lesson::class, function ($faker) use ($factory) {
             'school_class_id' => function(){
                 return  factory(App\SchoolClass::class)->create()->id;
             },
+            'teacher_id' => function(){
+                return factory(App\Teacher::class)->create()->id;
+            },
             'subject_id' => function(){
                 return factory(App\Subject::class)->create()->id;
             },
@@ -328,5 +331,14 @@ $factory->define(App\StudentGrade::class, function ($faker) use ($factory) {
         },
         'assessment_id' => $assessment->id,
         'school_class_id' => $schoolClass->id,
+    ];
+});
+
+$factory->define(App\Teacher::class, function ($faker) use ($factory) {
+    
+    $person_id = factory(App\Person::class)->create()->id;
+
+    return [
+        'person_id' => $person_id
     ];
 });

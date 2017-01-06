@@ -1,0 +1,31 @@
+# Group Professor
+
+`Teachers` são os professores de uma escola.
+
+## Coleção de turmas [/teachers/1/school-classes{?_q,_sort,_with}]
+
+### Listar turmas do professor [GET]
+
+<!-- include(ParameterFilter.md) -->
+
++ Parameters
+    + _sort (string, optional) - Ordena a coluna desejada, de forma acendente ou descendente.
+    + _with (string, optional) - Obtem informações do recurso relacionado.
+        + Members
+            + schoolClass.grade
+            + schoolClass.schoolCalendar
+            + schoolClass.shit
+
++ Request
+    + Headers
+
+            authorization: <!-- include(Token.md) -->
+
++ Response 200 (application/json)
+    
+    + Attributes
+        + Include Paginator
+        + data (array)
+            + (object)
+                + schoolClass (SchoolClass)
+                + subject (Subject)
