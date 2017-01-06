@@ -106,6 +106,9 @@ $api->version('v1', function ($api) {
 			$api->get('subjects/{id}', 'App\Http\Controllers\SubjectController@show');
 			$api->put('subjects/{id}', 'App\Http\Controllers\SubjectController@update');
 			$api->delete('subjects/{id}', 'App\Http\Controllers\SubjectController@destroy');
+
+			//Teachers
+			$api->get('teachers/{id}/school-classes', 'App\Http\Controllers\TeacherController@schoolClasses');
 		});
 	});
 
