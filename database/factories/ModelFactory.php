@@ -342,6 +342,6 @@ $factory->define(App\LessonPlan::class, function ($faker) use ($factory) {
         // function(){
         //     return factory(App\LessonPlanTemplate::class)->create()->id;
         // },
-        'content' => [[]]
+        'content' => ['conteudo' => $faker->realText(100),'Metodologia' => $faker->realText(400),'Didatica' => $faker->realText(200)]
     ];
 });

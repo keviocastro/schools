@@ -17,7 +17,10 @@ class LessonPlans extends Migration
             $table->date('start_date');
             $table->date('end_date');
             $table->unsignedInteger('lessonPlanTemplate_id');
-            $table->string('content');
+            $table->json('content');
+            $table->string('created_by')->nullable();
+            $table->string('updated_by')->nullable();
+            $table->string('deleted_by')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

@@ -15,12 +15,12 @@ class LessonPlan extends Model
      * @var array
      */
     protected $hidden = [
-        'deleted_at',
-        'updated_at',
-        'created_at',
-        'created_by',
-        'deleted_by',
-        'updated_by'
+            'deleted_at',
+            'updated_at',
+            'created_at',
+            'created_by',
+            'deleted_by',
+            'updated_by'
         ];
 
     /**
@@ -28,7 +28,7 @@ class LessonPlan extends Model
      *
      * @var array
      */
-    protected $fillable = ['start_date','end_date','lessonPlanTemplate_id'];
+    protected $fillable = ['start_date','end_date','lessonPlanTemplate_id','content'];
 
     /**
      * The attributes that should be casted to native types.

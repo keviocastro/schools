@@ -11,6 +11,7 @@ class FakeDataForTestSeeder extends Seeder
      */
     public function run()
     {
+        factory(App\LessonPlan::class, 20)->create();
         factory(App\Lesson::class, 20)->create();
         factory(App\AttendanceRecord::class, 20)->create();
         factory(App\SchoolCalendarPhase::class, 20)->create();
@@ -18,6 +19,5 @@ class FakeDataForTestSeeder extends Seeder
         factory(App\Assessment::class, 20)->create();
         factory(App\Level::class, 3)->create();
         factory(App\Occurence::class, 20)->create();
-        factory(App\LessonPlan::class, 20)->create();
     }
 }

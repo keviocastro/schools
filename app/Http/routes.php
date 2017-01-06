@@ -102,11 +102,11 @@ $api->version('v1', function ($api) {
 			$api->delete('subjects/{id}', 'App\Http\Controllers\SubjectController@destroy');
 
 			//LessonPlans
-			$api->get('lessons-plans', 'App\Http\Controllers\LessonPlanController@index');
-			$api->post('lessons-plans', 'App\Http\Controllers\LessonPlanController@store');
-			$api->get('lessons-plans/{id}', 'App\Http\Controllers\LessonPlanController@show');
-			$api->put('lessons-plans/{id}', 'App\Http\Controllers\LessonPlanController@update');
-			$api->delete('lessons-plans/{id}', 'App\Http\Controllers\LessonPlanController@destroy');
+			$api->get('lesson-plans', 'App\Http\Controllers\LessonPlanController@index');
+			$api->post('lesson-plans', 'App\Http\Controllers\LessonPlanController@store');
+			$api->get('lesson-plans/{id}', 'App\Http\Controllers\LessonPlanController@show');
+			$api->put('lesson-plans/{id}', 'App\Http\Controllers\LessonPlanController@update');
+			$api->delete('lesson-plans/{id}', 'App\Http\Controllers\LessonPlanController@destroy');
 		});
 	});
 

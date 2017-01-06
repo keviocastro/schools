@@ -29,9 +29,9 @@ class LessonPlanController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validationForStoreAction($request, [
-                // '{attribute}' => '{validation}',
-            ]);
+        // $this->validationForStoreAction($request, [
+        //         // '{attribute}' => '{validation}',
+        //     ]);
         $lessonPlanController = LessonPlan::create($request->all());
 
         return $this->response->created("/resource/{$lessonPlanController->id}", $lessonPlanController);
