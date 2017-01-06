@@ -406,7 +406,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 
 ## Relatório anual da turma por disciplina [/school-classes/{school_class_id}/annual-report-by/{subject_id}]
 
-### Detalhes do relatório [GET]
+### Relatório anual por disciplina [GET]
 
 + Request
     + Headers
@@ -417,16 +417,18 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 
     + Attributes
 
-        + students (array)
+        + report_by_student (array)
             + (object)
-                + Include (Student)
+                + student (object)
+                    + include Student
+                    + person (Person)
                 + school_calendar_report (object) - Relatório do aluno durante o calendário escolar para disciplina (subject_id)
                     + average: 9.2 (number) - Média do aluno no ano
                     + average_calculation: `((4.6 + 1.2)*0.4 + (9 + 3.1)*0.6)/2` (string) - Formula da média do aluno no ano
                     + average_formula: `(({1º Bimestre}+...+ {4º Bimestre})*0.6)/2"` (string) - Calculo da média do aluno no ano
                     + absences: 22 (number) - Total de faltas do aluno na disciplina em todo o calendário escolar
                 + phases_report (object)  - Relatório do aluno durante as fases do calendário escolar
-                    + school_calendar_phase_id - ID da fase do calendário escolar
+                    + school_calendar_phase_id: 1 (number) - ID da fase do calendário escolar
                     + average: 7.9 (number) - Média do aluno na fase para a disciplina
                     + average_calculation: `({8.3} + {7.4})/2` (string) - Calculo da média
                     + average_formula: `({Nota 1} + {Nota 2})/2` (string) - Formula utilizada no calculo
@@ -440,7 +442,14 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
                             + id: 2 (number)
                             + grade: 7.4 (number)
                             + assessment_id: 2 (number)
-
+        + school_class_report (array)
+            + (object)
+                + school_calendar_report (object) - Relatório da turma no calendário escolar para uma disciplina.
+                    + average: 8.2 (number) - Media aritimetica das notas dos alunos da turma no calendário escolar de uma disciplina.
+                + phases_report (array)  - Relatório da tuma em uma fase do calendário escolar para uma disciplina.
+                    + (object)
+                        + school_calendar_phase_id: 1 (number) - ID da fase do calendário escolar para uma disciplina.
+                        + average: 7.7 (number) - Media aritimetica das notas de todos os alunos da turma em uma disciplina para a fase do calendário escolar.
 
 
 # Group Aula
