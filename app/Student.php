@@ -361,12 +361,20 @@ class Student extends Model
                             ->where('subject_id', $subject->id)
                             ->first();   
 
-                        if ($grade && !is_null($grade->grade)) {
+                        if ($grade) {
 
                             $grade->load('assessment');
                             $assessment_and_grade->push($toArray ? $grade->toArray() : $grade);
-                            $calculation = str_replace('{'.$variable.'}', 
-                                $grade->grade, $calculation);
+                            // Se a nota for null ele será incluida no resultado mas não 
+                            // será calcudada a média
+                            if (is_null($grade->grade)) {
+                                $calculation = str_replace('{'.$variable.'}', 
+                                '{'.$variable.':gradeIsNull}', $calculation);
+                                $all_variables_found = false;
+                            }else{
+                                $calculation = str_replace('{'.$variable.'}', 
+                                    $grade->grade, $calculation);
+                            }
                         }else{
                             $calculation = str_replace('{'.$variable.'}', 
                                 '{'.$variable.':notFoundGrade}', $calculation);
