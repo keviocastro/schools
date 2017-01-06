@@ -173,6 +173,7 @@ class StudentGradeControllerTest extends TestCase
             ->seeJson($studentGrade_changed);
 
         //somente a nota pode ser alterada
+
         $studentGrade = factory(StudentGrade::class)->create();
 
         $studentGrade_changed = $studentGrade->toArray();
@@ -184,6 +185,15 @@ class StudentGradeControllerTest extends TestCase
             $this->getAutHeader())
             ->assertResponseStatus(409)
             ->seeJson(['message' => 'Only the grade can be changed.']);
+
+        // Permite alterar para nulo
+        $this->put("api/student-grades/{$studentGrade->id}",
+            ['grade' => null],
+            $this->getAutHeader())
+            ->assertResponseStatus(200)
+            ->seeJson(
+                array_merge($studentGrade->toArray(), ['grade' => null])
+                );
     }
 
     /**

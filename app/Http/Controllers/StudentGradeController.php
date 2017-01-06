@@ -41,7 +41,6 @@ class StudentGradeController extends Controller
             ], '',true);
 
         $records = $this->makeMultipleInputData();
-
         $studentGradesCreated = collect();
         foreach ($records as $key => $grade) {
 
@@ -103,7 +102,7 @@ class StudentGradeController extends Controller
     public function update(Request $request, $id)
     {
         $this->validationForUpdateAction($request, [
-            'grade' => 'required|numeric|max:10|min:0'
+            'grade' => 'nullable|required|numeric|max:10|min:0'
         ]);
 
         $studentGrade = StudentGrade::findOrFail($id);

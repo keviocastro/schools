@@ -49,7 +49,7 @@ class AttendanceRecordsAndStudentGrade extends Migration
         // Notas dos alunos de uma avaliação em uma fase do ano letivo
         Schema::create('student_grades', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->float('grade');
+            $table->float('grade')->nullable();
             $table->unsignedInteger('student_id');
             $table->unsignedInteger('assessment_id');
             $table->unsignedInteger('subject_id');

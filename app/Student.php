@@ -361,7 +361,7 @@ class Student extends Model
                             ->where('subject_id', $subject->id)
                             ->first();   
 
-                        if ($grade) {
+                        if ($grade && !is_null($grade->grade)) {
 
                             $grade->load('assessment');
                             $assessment_and_grade->push($toArray ? $grade->toArray() : $grade);

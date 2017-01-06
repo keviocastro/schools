@@ -17,12 +17,16 @@ class Teachers extends Migration
             $table->unsignedInteger('person_id');
             $table->timestamps();
             $table->softDeletes();
+            $table->string('created_by')->nullable();
+            $table->string('updated_by')->nullable();
+            $table->string('deleted_by')->nullable();
 
             $table->foreign('person_id')->references('id')->on('people');
         });
 
         Schema::table('lessons', function(Blueprint $table){
             $table->unsignedInteger('teacher_id')->nullable();
+            
 
             $table->foreign('teacher_id')->references('id')->on('teachers');
         });
