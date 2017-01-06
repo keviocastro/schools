@@ -106,20 +106,17 @@ class StudentGradeController extends Controller
             'grade' => 'required|numeric|max:10|min:0'
         ]);
 
-        $StudentGrade = StudentGrade::findOrFail($id);
+        $studentGrade = StudentGrade::findOrFail($id);
 
-        $condicao = $request->student_id == $StudentGrade['student_id'] && 
-            $request->subject_id == $StudentGrade['subject_id'] && 
-            $request->assessment_id == $StudentGrade['assessment_id'] && 
-            $request->school_class_id == $StudentGrade['school_class_id'];
-
-        if($condicao)
-        {
-            $StudentGrade->update($request->all());
-        }else{
-            throw new ConflictHttpException('Only the grade can be changed.');
+        $allowChange = ['grade'];
+        foreach ($request->except($allowChange) as $key => $value) {
+            if ($value != $studentGrade->$key) {
+                throw new ConflictHttpException('Only the grade can be changed.');
+            }
         }
 
-        return $StudentGrade;
+        $studentGrade->update($request->all());
+
+        return $studentGrade;
     }
 }

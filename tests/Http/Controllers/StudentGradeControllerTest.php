@@ -164,10 +164,10 @@ class StudentGradeControllerTest extends TestCase
     {
         $studantGrade = factory(StudentGrade::class)->create();
         $studantGrade_changed = $studantGrade->toArray();
-        $studantGrade_changed['grade'] = '9.9';
+        $studantGrade_changed['grade'] = 9.9;
 
         $this->put("api/student-grades/{$studantGrade->id}",
-            $studantGrade_changed,
+            ['grade' => 9.9],
             $this->getAutHeader())
             ->assertResponseStatus(200)
             ->seeJson($studantGrade_changed);
