@@ -89,10 +89,16 @@ $api->version('v1', function ($api) {
 			$api->put('occurences/{id}', 'App\Http\Controllers\OccurenceController@update');
 
 			//StudantGrades
-			$api->get('student-grades', 'App\Http\Controllers\StudentGradeController@index');
-			$api->post('student-grades', 'App\Http\Controllers\StudentGradeController@store');
-			$api->get('student-grades/{id}', 'App\Http\Controllers\StudentGradeController@show');
-			$api->put('student-grades/{id}', 'App\Http\Controllers\StudentGradeController@update');
+			$api->get('student-grades', 
+				'App\Http\Controllers\StudentGradeController@index');
+			$api->post('student-grades', 
+				'App\Http\Controllers\StudentGradeController@store');
+			$api->get('student-grades/{id}', 
+				'App\Http\Controllers\StudentGradeController@show');
+			$api->put('student-grades/{id}', 
+				'App\Http\Controllers\StudentGradeController@update');
+			$api->delete('student-grades/{id}', 
+				'App\Http\Controllers\StudentGradeController@destroy');
 
 			//Subjects
 			$api->get('subjects', 'App\Http\Controllers\SubjectController@index');

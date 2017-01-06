@@ -877,12 +877,12 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
         + data (array)
             + (StudentGrade)
 
-## Nota [/student-grades/{student_grades_id}{?_with}]
+## Nota [/student-grades/{student_grade_id}{?_with}]
 
 ### Detalhes da nota [GET]
 
 + Parameters
-    + student_grades_id: 1 (number) - ID of the occurence
+    + student_grade_id: 1 (number) - ID of the occurence
     + _with (string, optional) - Obtem informações do recurso relacionado.
         + Members
             + student
@@ -903,7 +903,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 ### Alterar nota [PUT]
 
 + Parameters
-    + student_grades_id: 1 (number) - ID of the Student Grades
+    + student_grade_id: 1 (number) - ID of the Student Grades
 
 + Request (application/json)
 
@@ -917,6 +917,19 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 
     + Attributes
         + StudentGrade (StudentGrade)
+
+### Excluir nota [DELETE]
+
++ Parameters
+    + student_grade_id: 1 (number) - Identificador único da nota do aluno
+
++ Request (application/json)
+
+    + Headers
+
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4MzgwNzA2MywiaWF0IjoxNDgxMjE1MDYzfQ.1YO1iTYVRU9NDeJBnqYUQYPk0PVHcCPxSaRtiw1v5Wg
+
++ Response 204
 
 ## Coleção de ocorrências [/occurences{?_q,_sort,_with}]
 

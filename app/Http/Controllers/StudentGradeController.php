@@ -119,4 +119,18 @@ class StudentGradeController extends Controller
 
         return $studentGrade;
     }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        $studentGrade = StudentGrade::findOrFail($id);
+        $studentGrade->delete();
+
+        return $this->response->noContent();
+    }
 }

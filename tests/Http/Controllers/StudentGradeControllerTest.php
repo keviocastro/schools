@@ -50,18 +50,18 @@ class StudentGradeControllerTest extends TestCase
     public function testStore()
     {
 		// Success
-    	$studantGrade = factory(StudentGrade::class)->make()->toArray();
+    	$studentGrade = factory(StudentGrade::class)->make()->toArray();
 
         $this->post('api/student-grades',
-        	$studantGrade,
+        	$studentGrade,
         	$this->getAutHeader())
         	->assertResponseStatus(201)
-        	->seeJson($studantGrade);
+        	->seeJson($studentGrade);
 
         // grade não pode ser maior que 10
-		$studantGrade['grade'] = 20;
+		$studentGrade['grade'] = 20;
 		$this->post('api/student-grades',
-        	$studantGrade,
+        	$studentGrade,
         	$this->getAutHeader())
         	->assertResponseStatus(422)
         	->seeJson([
@@ -73,9 +73,9 @@ class StudentGradeControllerTest extends TestCase
         		]);
 
         // grade não pode ser menor que 0
-        $studantGrade['grade'] = -5;
+        $studentGrade['grade'] = -5;
 		$this->post('api/student-grades',
-        	$studantGrade,
+        	$studentGrade,
         	$this->getAutHeader())
         	->assertResponseStatus(422)
         	->seeJsonStructure([
@@ -88,20 +88,20 @@ class StudentGradeControllerTest extends TestCase
         $student = factory(Student::class)->create();
         $schoolClass = factory(SchoolClass::class)->create();
 
-        $studantGrade = factory(StudentGrade::class)->make([
+        $studentGrade = factory(StudentGrade::class)->make([
                 'student_id' => $student->id,
                 'school_class_id' => $schoolClass->id
             ])->toArray();
 
         $schoolClass = factory(SchoolClass::class)->create();
-        $studantGrade['school_class_id'] = $schoolClass->id;
+        $studentGrade['school_class_id'] = $schoolClass->id;
 
         $this->post('api/student-grades',
-            $studantGrade,
+            $studentGrade,
             $this->getAutHeader())
             ->assertResponseStatus(409)
             ->seeJson(['message' => 
-                "The student is not in the school class ({$studantGrade['school_class_id']})."]);
+                "The student is not in the school class ({$studentGrade['school_class_id']})."]);
 
         //Cadastrar multiplos registros.
         $studentGrade = factory(StudentGrade::class, 3)->make()->toArray();
@@ -145,12 +145,12 @@ class StudentGradeControllerTest extends TestCase
      */
     public function testShow()
     {
-        $studantGrade = factory(StudentGrade::class)->create();
+        $studentGrade = factory(StudentGrade::class)->create();
     	
-        $this->get("api/student-grades/{$studantGrade->id}",
+        $this->get("api/student-grades/{$studentGrade->id}",
         	$this->getAutHeader())
         	->assertResponseStatus(200)
-        	->seeJson($studantGrade->toArray());
+        	->seeJson($studentGrade->toArray());
     }
 
     /**
@@ -162,27 +162,43 @@ class StudentGradeControllerTest extends TestCase
      */
     public function testUpdate()
     {
-        $studantGrade = factory(StudentGrade::class)->create();
-        $studantGrade_changed = $studantGrade->toArray();
-        $studantGrade_changed['grade'] = 9.9;
+        $studentGrade = factory(StudentGrade::class)->create();
+        $studentGrade_changed = $studentGrade->toArray();
+        $studentGrade_changed['grade'] = 9.9;
 
-        $this->put("api/student-grades/{$studantGrade->id}",
+        $this->put("api/student-grades/{$studentGrade->id}",
             ['grade' => 9.9],
             $this->getAutHeader())
             ->assertResponseStatus(200)
-            ->seeJson($studantGrade_changed);
+            ->seeJson($studentGrade_changed);
 
         //somente a nota pode ser alterada
-        $studantGrade = factory(StudentGrade::class)->create();
+        $studentGrade = factory(StudentGrade::class)->create();
 
-        $studantGrade_changed = $studantGrade->toArray();
-        $studantGrade_changed['student_id'] = 2;
-        $studantGrade_changed['grade'] = 1.9;
+        $studentGrade_changed = $studentGrade->toArray();
+        $studentGrade_changed['student_id'] = 2;
+        $studentGrade_changed['grade'] = 1.9;
 
-        $this->put("api/student-grades/{$studantGrade->id}",
-            $studantGrade_changed,
+        $this->put("api/student-grades/{$studentGrade->id}",
+            $studentGrade_changed,
             $this->getAutHeader())
             ->assertResponseStatus(409)
             ->seeJson(['message' => 'Only the grade can be changed.']);
+    }
+
+    /**
+     * @covers App\Http\Controllers\StudentGradeController
+     * 
+     * @return void
+     */
+    public function testDestroy()
+    {
+        $studentGrade = factory(\App\StudentGrade::class)->create();
+
+        $this->delete("api/student-grades/$studentGrade->id",
+            [],
+            $this->getAutHeader())
+        ->assertResponseStatus(204)
+        ->seeIsSoftDeletedInDatabase('student_grades', ['id' => $studentGrade->id]);
     }
 }

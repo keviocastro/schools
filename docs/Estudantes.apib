@@ -256,12 +256,12 @@ retornado o registro já existente com as informações atualizadas.
         + data (array)
             + (StudentGrade)
 
-## Nota [/student-grades/{student_grades_id}{?_with}]
+## Nota [/student-grades/{student_grade_id}{?_with}]
 
 ### Detalhes da nota [GET]
 
 + Parameters
-    + student_grades_id: 1 (number) - ID of the occurence
+    + student_grade_id: 1 (number) - ID of the occurence
     + _with (string, optional) - Obtem informações do recurso relacionado.
         + Members
             + student
@@ -282,7 +282,7 @@ retornado o registro já existente com as informações atualizadas.
 ### Alterar nota [PUT]
 
 + Parameters
-    + student_grades_id: 1 (number) - ID of the Student Grades
+    + student_grade_id: 1 (number) - ID of the Student Grades
 
 + Request (application/json)
 
@@ -296,6 +296,19 @@ retornado o registro já existente com as informações atualizadas.
 
     + Attributes
         + StudentGrade (StudentGrade)
+
+### Excluir nota [DELETE]
+
++ Parameters
+    + student_grade_id: 1 (number) - Identificador único da nota do aluno
+
++ Request (application/json)
+
+    + Headers
+
+            authorization: <!-- include(Token.md) -->
+
++ Response 204
 
 ## Coleção de ocorrências [/occurences{?_q,_sort,_with}]
 
