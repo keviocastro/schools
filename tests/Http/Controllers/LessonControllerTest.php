@@ -109,6 +109,7 @@ class LessonControllerTest extends TestCase
         // Test param students.last_occurences
         $ocurrences = Student::find(1)
             ->occurences()
+            ->with('level')
             ->orderBy('updated_at')
             ->take(2)
             ->get()
@@ -116,10 +117,12 @@ class LessonControllerTest extends TestCase
 
         $this->assertEquals($ocurrences, $student['last_occurences']);
 
+        // Test param students.attendanceRecord
         $this->assertEquals([
                 'lesson_id' => 1,
                 'student_id' => 1,
-                'presence' => 0, // 0 que foi definido pelo seer
+                'absence_dismissal' => '',
+                'presence' => 0, // 0 que foi definido pelo seeder
             ],
             collect($student['attendance_record'])->except('id')->toArray() 
         );
