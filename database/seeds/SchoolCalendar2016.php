@@ -1,17 +1,18 @@
 <?php
 
 use App\Assessment;
-use App\SchoolClassSubject;
 use App\Lesson;
 use App\Occurence;
 use App\SchoolCalendar;
 use App\SchoolCalendarPhase;
 use App\SchoolClass;
 use App\SchoolClassStudent;
+use App\SchoolClassSubject;
 use App\Student;
 use App\StudentGrade;
 use App\StudentResponsible;
 use App\Subject;
+use App\Teacher;
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 
@@ -32,15 +33,15 @@ class SchoolCalendar2016 extends Seeder
     }
 
     /**
-     * @todo Refactor because this method is a monster
-     * 
      * Cria um calendario para 2016
      * Com uma turma
-     * Aulas durante todo o ano para essa turma
-     * Alunos
-     * Responsaveis pelos alunos
-     * Registros de notas durante o ano
-     * Registros de falta durante o ano
+     * Aulas durante todo o ano para essa turma com 5 disciplinas, onde:
+     *     O professor 1 ministra aulas para as disciplinas 1 e 2.
+     *     As disciplinas 3,4,5 tem são ministradas pelos professores 2,3,4 respectivamente. 
+     * Cria Alunos para a turma
+     * Cria Responsaveis pelos alunos
+     * Cria Registros de notas dos alunos durante o ano
+     * Cria Registros de falta durante o ano
      *
      *
      *  Aulas: 240 aulas criadas para cada disciplina.
@@ -232,6 +233,7 @@ class SchoolCalendar2016 extends Seeder
         $subject = factory(Subject::class)->create([
                 'name' => 'Matématica'
             ]);
+        $teacher1 = factory(Teacher::class)->create();
         $subjectFixedData = $subject;
         array_push($subjects, $subject);
         self::createLessonsBetweenTwoDates(
@@ -239,7 +241,8 @@ class SchoolCalendar2016 extends Seeder
             $end, 
             7,
             $schoolClass,
-            $subject);
+            $subject,
+            $teacher1);
 
 
         $subject = factory(Subject::class)->create();
@@ -250,8 +253,10 @@ class SchoolCalendar2016 extends Seeder
             $end, 
             8,
             $schoolClass,
-            $subject);
+            $subject,
+            $teacher1);
 
+        $teacher2 = factory(Teacher::class)->create();
         $subject = factory(Subject::class)->create();
         array_push($subjects, $subject);
         self::createLessonsBetweenTwoDates(
@@ -259,8 +264,10 @@ class SchoolCalendar2016 extends Seeder
             $end, 
             9,
             $schoolClass,
-            $subject);
+            $subject,
+            $teacher2);
 
+        $teacher3 = factory(Teacher::class)->create();
         $subject = factory(Subject::class)->create();
         array_push($subjects, $subject);
         self::createLessonsBetweenTwoDates(
@@ -268,8 +275,10 @@ class SchoolCalendar2016 extends Seeder
             $end, 
             10,
             $schoolClass,
-            $subject);
+            $subject,
+            $teacher3);
 
+        $teacher4 = factory(Teacher::class)->create();
         $subject = factory(Subject::class)->create();
         array_push($subjects, $subject);
         self::createLessonsBetweenTwoDates(
@@ -277,7 +286,8 @@ class SchoolCalendar2016 extends Seeder
             $end, 
             11,
             $schoolClass,
-            $subject);
+            $subject,
+            $teacher4);
 
         // Definindo disciplinas da turma
         $schoolClassSubjects = [];
@@ -412,7 +422,8 @@ class SchoolCalendar2016 extends Seeder
         Carbon $lastDay, 
         int $lessonStartTime,
         \App\SchoolClass $schoolClass,
-        \App\Subject $subject
+        \App\Subject $subject,
+        \App\Teacher $teacher
         ){
 
         $startLesson = clone $firstDay;
@@ -430,6 +441,7 @@ class SchoolCalendar2016 extends Seeder
 	        			'start' => $startLesson->format('Y-m-d H:i'),
 	        			'end' => $endLesson->format('Y-m-d H:i'),
                         'subject_id' => $subject->id,
+                        'teacher_id' => $teacher->id
                     ]);
             
             }

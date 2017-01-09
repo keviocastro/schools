@@ -52,10 +52,12 @@ class OwnerResource extends Migration
      */
     public function down()
     {
-//        foreach ($this->tables as $tableName) {
-//            Schema::table($tableName, function ($table) {
-//                $table->dropColumn(['created_by','updated_by','deleted_by']);
-//            });
-//        }
+       foreach ($this->tables as $tableName) {
+           Schema::table($tableName, function ($table) {
+               $table->dropColumn('created_by');
+               $table->dropColumn('updated_by');
+               $table->dropColumn('deleted_by');
+           });
+       }
     }
 }

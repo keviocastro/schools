@@ -8,11 +8,15 @@ use Tests\TestCase;
 class TeacherControllerTest extends TestCase
 {
     /**
-    *
-    */
+     * 
+     * @covers App\Http\Controllers\TeacherController::schoolClasses
+     *
+     * @return void
+     */
     public function testSchoolClasses(){
         $teacher = factory(App\Teacher::class)->create();
-        $subject = factory(App\Subject::class)->create();
+        $subject = factory(App\Subject::class)->create(4);
+
         $schoolClasses = factory(App\Lesson::class)->create([
             'teacher_id' => $teacher->id,
             'subject_id' => $subject->id
@@ -53,7 +57,7 @@ class TeacherControllerTest extends TestCase
 
         $this->get("api/teachers/$teacher->id/school-classes".
             "?_with=schoolClass.grade,schoolClass.shift,schoolClass.schoolCalendar",
-            $this->getAutHeader())
+            $this->getAutHeader())->dump()
             ->assertResponseStatus(200)
             ->seeJsonStructure($structure);
     }
