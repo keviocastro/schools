@@ -90,6 +90,8 @@ class SchoolClassController extends Controller
     }
 
     /**
+     * @todo Analisar e melhor desempenho dessa action
+     * 
      * Relatório annual da turma, com notas e faltas dos alunos
      * 
      * @param  Request $request 
@@ -111,6 +113,9 @@ class SchoolClassController extends Controller
             return $student;
         });
 
-        return $this->collection($students, new AnnualReportTransformer);
+        $transform = new AnnualReportTransformer();
+        $resource = $transform->transformCollection($students);
+        
+        return $this->response->array($resource);
     }
 }
