@@ -163,6 +163,7 @@
                 + day: `2016-10-01` (string)
                 + lessons (array[Lesson])
 
+
 ## Coleção do plano de aulas [/lesson-plans{?_q,_sort,_with}]
 
 `Lesson plan` são registro dos valores e templantes dos planos de aulas.
@@ -174,8 +175,12 @@
 + Parameters
     + _q (string, optional) - Pesquisa por palavra-chave, a correspondência e incluida conjunto de resultados.
     + _sort (string, optional) - Ordena a coluna desejada, de forma acendente ou descendente.
+    + _with (string, optional) - Obtem informações do recurso relacionado.
+        + Members
+            + LessonPlanModel
 
 + Request
+    + Headers
 
             authorization: <!-- include(Token.md) -->
 
@@ -185,3 +190,147 @@
         + Include Paginator
         + data (array)
             + (LessonPlan)
+
+
+### Criar aula [POST]
+
++ Request (application/json)
+    + Headers
+
+            authorization: <!-- include(Token.md) -->
+
+    + Attributes (LessonPlanFillable)
+
++ Response 200 (application/json)
+
+    + Attributes
+        + lesson_plan (LessonPlan)
+
+## Lesson Plan [/lesson_plans/{lesson_plan_id}{?_with,attach}]
+
+### Detalhes da aula [GET]
+
++ Parameters
+    + lesson_id: 1 (number) - ID of the lesson
+    + _with (string, optional) Nome da relação a ser incluida na resposta.
+        + Members
+            + LessonPlanModel
+
++ Request
+    + Headers
+
+            authorization: <!-- include(Token.md) -->
+
++ Response 200 (application/json)
+
+    + Attributes
+        + Include (LessonPlan)
+
+### Alterar aula [PUT]
+
++ Parameters
+    + lesson_plan_id: 1 (number) - ID of the lesson
+
++ Request
+    + Headers
+
+            authorization: <!-- include(Token.md) -->
+
+    + Attributes (LessonPlanFillable)
+
++ Response 200 (application/json)
+
+    + Attributes
+        + lesson (LessonPlan)
+
+
+### Excluir aula [DELETE]
+
++ Parameters
+    + lesson_plan_id: 1 (number) - ID of the lesson
+
++ Request (application/json)
+    + Headers
+
+            authorization: <!-- include(Token.md) -->
+
++ Response 204
+
+
+## Coleção de modelos para planos de aula [/lesson-plan-models]
+
+### Listar modelos de plano de aula [GET]
+
++ Request
+    + Headers
+
+            authorization: <!-- include(Token.md) -->
+
++ Response 200 (application/json)
+
+    + Attributes
+        + Include Paginator
+        + data (array)
+            + (LessonPlanModel)
+
+### Criar modelo de plano de aula [POST]
+
++ Request (application/json)
+    + Headers
+
+            authorization: <!-- include(Token.md) -->
+
+    + Attributes (LessonPlanModelFillable)
+
++ Response 200 (application/json)
+
+    + Attributes
+        + lesson_plan_Model (LessonPlanModel)
+
+## Lesson Plan Model [/lesson-plan-models/{lesson_plan_model_id}{?_with}]
+
+### Detalhes da aula [GET]
+
++ Parameters
+    + lesson_plan_model_id: 1 (number) - ID of the model lesson plan
+
++ Request
+    + Headers
+
+            authorization: <!-- include(Token.md) -->
+
++ Response 200 (application/json)
+
+    + Attributes
+        + Include (LessonPlanModel)
+
+### Alterar aula [PUT]
+
++ Parameters
+    + lesson_plan_model_id: 1 (number) - ID of the model lesson plan
+
++ Request
+    + Headers
+
+            authorization: <!-- include(Token.md) -->
+
+    + Attributes (LessonPlanModelFillable)
+
++ Response 200 (application/json)
+
+    + Attributes
+        + lesson_plan_model (LessonPlanModel)
+
+
+### Excluir aula [DELETE]
+
++ Parameters
+    + lesson_plan_model_id: 1 (number) - ID of the model lesson plan
+
++ Request (application/json)
+    + Headers
+
+            authorization: <!-- include(Token.md) -->
+
++ Response 204
+

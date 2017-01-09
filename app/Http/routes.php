@@ -107,6 +107,13 @@ $api->version('v1', function ($api) {
 			$api->get('lesson-plans/{id}', 'App\Http\Controllers\LessonPlanController@show');
 			$api->put('lesson-plans/{id}', 'App\Http\Controllers\LessonPlanController@update');
 			$api->delete('lesson-plans/{id}', 'App\Http\Controllers\LessonPlanController@destroy');
+
+			//LessonPlanModels
+			$api->get('lesson-plan-models','App\Http\Controllers\LessonPlanModelController@index');
+			$api->post('lesson-plan-models','App\Http\Controllers\LessonPlanModelController@store');
+			$api->get('lesson-plan-models/{id}','App\Http\Controllers\LessonPlanModelController@show');
+			$api->put('lesson-plan-models/{id}','App\Http\Controllers\LessonPlanModelController@update');
+			$api->delete('lesson-plan-models/{id}','App\Http\Controllers\LessonPlanModelController@destroy');
 		});
 	});
 

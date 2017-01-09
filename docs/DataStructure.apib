@@ -1,13 +1,20 @@
 # Data structure
 
-## LessonPlanTemplate
-+ model: `[{"name":"expectativa-aprendizagem","required":"true"},{"name":"material-didatiro","required":"true"}]` (string) - Json com estutura de campos do modelo
+## LessonPlanModelFillable
 
-## LessonPlan
++ definition: `[{"name":"Objetivo","type":"text","required":"true"},{"name":"Conteúdo","type":"text","required":"true"},{"name":"Metodologia","type":"text","required":"true"},{"name":"Material ditatico","type":"text","required":"true"}]` (string) - Json com estutura de campos do modelo
 
-+ id
-+ dates
-+ plan (array)
+## LessonPlanModel
+
++ id: 1 (number) - Identificador único do modelo do plano de aula
++ Include (LessonPlanModelFillable)
+
+## LessonPlanFillable
+
++ start_date
++ end_date
++ lessonPlanTemplate_id
++ content (array)
     + (object)
         + name: `Objetivo` (string)
         + type: 'text' (string)
@@ -28,6 +35,11 @@
         + type: 'text' (string)
         + required: true (boolean)
         + value: 'Livro didático, Jogo de tabuleiro.'
+
+## LessonPlan
+
++ id: 1 (number) - Identificador único do plano de aula
++ Include (LessonPlanFillable)
 
 ## SubjectAnnualReport (object)
 

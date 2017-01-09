@@ -608,6 +608,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
                 + day: `2016-10-01` (string)
                 + lessons (array[Lesson])
 
+
 ## Coleção do plano de aulas [/lesson-plans{?_q,_sort,_with}]
 
 `Lesson plan` são registro dos valores e templantes dos planos de aulas.
@@ -619,8 +620,12 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 + Parameters
     + _q (string, optional) - Pesquisa por palavra-chave, a correspondência e incluida conjunto de resultados.
     + _sort (string, optional) - Ordena a coluna desejada, de forma acendente ou descendente.
+    + _with (string, optional) - Obtem informações do recurso relacionado.
+        + Members
+            + LessonPlanModel
 
 + Request
+    + Headers
 
             authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4NjU1Mjg5OCwiaWF0IjoxNDgzOTYwODk4fQ.JorxAL0f_rGEuMRSw4o-DkfX6Q21KuTL9MhTPlBpMPI
 
@@ -630,6 +635,150 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
         + Include Paginator
         + data (array)
             + (LessonPlan)
+
+
+### Criar aula [POST]
+
++ Request (application/json)
+    + Headers
+
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4NjU1Mjg5OCwiaWF0IjoxNDgzOTYwODk4fQ.JorxAL0f_rGEuMRSw4o-DkfX6Q21KuTL9MhTPlBpMPI
+
+    + Attributes (LessonPlanFillable)
+
++ Response 200 (application/json)
+
+    + Attributes
+        + lesson_plan (LessonPlan)
+
+## Lesson Plan [/lesson_plans/{lesson_plan_id}{?_with,attach}]
+
+### Detalhes da aula [GET]
+
++ Parameters
+    + lesson_id: 1 (number) - ID of the lesson
+    + _with (string, optional) Nome da relação a ser incluida na resposta.
+        + Members
+            + LessonPlanModel
+
++ Request
+    + Headers
+
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4NjU1Mjg5OCwiaWF0IjoxNDgzOTYwODk4fQ.JorxAL0f_rGEuMRSw4o-DkfX6Q21KuTL9MhTPlBpMPI
+
++ Response 200 (application/json)
+
+    + Attributes
+        + Include (LessonPlan)
+
+### Alterar aula [PUT]
+
++ Parameters
+    + lesson_plan_id: 1 (number) - ID of the lesson
+
++ Request
+    + Headers
+
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4NjU1Mjg5OCwiaWF0IjoxNDgzOTYwODk4fQ.JorxAL0f_rGEuMRSw4o-DkfX6Q21KuTL9MhTPlBpMPI
+
+    + Attributes (LessonPlanFillable)
+
++ Response 200 (application/json)
+
+    + Attributes
+        + lesson (LessonPlan)
+
+
+### Excluir aula [DELETE]
+
++ Parameters
+    + lesson_plan_id: 1 (number) - ID of the lesson
+
++ Request (application/json)
+    + Headers
+
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4NjU1Mjg5OCwiaWF0IjoxNDgzOTYwODk4fQ.JorxAL0f_rGEuMRSw4o-DkfX6Q21KuTL9MhTPlBpMPI
+
++ Response 204
+
+
+## Coleção de modelos para planos de aula [/lesson-plan-models]
+
+### Listar modelos de plano de aula [GET]
+
++ Request
+    + Headers
+
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4NjU1Mjg5OCwiaWF0IjoxNDgzOTYwODk4fQ.JorxAL0f_rGEuMRSw4o-DkfX6Q21KuTL9MhTPlBpMPI
+
++ Response 200 (application/json)
+
+    + Attributes
+        + Include Paginator
+        + data (array)
+            + (LessonPlanModel)
+
+### Criar modelo de plano de aula [POST]
+
++ Request (application/json)
+    + Headers
+
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4NjU1Mjg5OCwiaWF0IjoxNDgzOTYwODk4fQ.JorxAL0f_rGEuMRSw4o-DkfX6Q21KuTL9MhTPlBpMPI
+
+    + Attributes (LessonPlanModelFillable)
+
++ Response 200 (application/json)
+
+    + Attributes
+        + lesson_plan_Model (LessonPlanModel)
+
+## Lesson Plan Model [/lesson-plan-models/{lesson_plan_model_id}{?_with}]
+
+### Detalhes da aula [GET]
+
++ Parameters
+    + lesson_plan_model_id: 1 (number) - ID of the model lesson plan
+
++ Request
+    + Headers
+
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4NjU1Mjg5OCwiaWF0IjoxNDgzOTYwODk4fQ.JorxAL0f_rGEuMRSw4o-DkfX6Q21KuTL9MhTPlBpMPI
+
++ Response 200 (application/json)
+
+    + Attributes
+        + Include (LessonPlanModel)
+
+### Alterar aula [PUT]
+
++ Parameters
+    + lesson_plan_model_id: 1 (number) - ID of the model lesson plan
+
++ Request
+    + Headers
+
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4NjU1Mjg5OCwiaWF0IjoxNDgzOTYwODk4fQ.JorxAL0f_rGEuMRSw4o-DkfX6Q21KuTL9MhTPlBpMPI
+
+    + Attributes (LessonPlanModelFillable)
+
++ Response 200 (application/json)
+
+    + Attributes
+        + lesson_plan_model (LessonPlanModel)
+
+
+### Excluir aula [DELETE]
+
++ Parameters
+    + lesson_plan_model_id: 1 (number) - ID of the model lesson plan
+
++ Request (application/json)
+    + Headers
+
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4NjU1Mjg5OCwiaWF0IjoxNDgzOTYwODk4fQ.JorxAL0f_rGEuMRSw4o-DkfX6Q21KuTL9MhTPlBpMPI
+
++ Response 204
+
 
 
 # Group Estudantes
@@ -1200,14 +1349,21 @@ Com isso o cadastro do Professor Medeiros fica pendente até que um usuário da 
 
 # Data structure
 
-## LessonPlanTemplate
-+ model: `[{"name":"expectativa-aprendizagem","required":"true"},{"name":"material-didatiro","required":"true"}]` (string) - Json com estutura de campos do modelo
+## LessonPlanModelFillable
 
-## LessonPlan
++ definition: `[{"name":"Objetivo","type":"text","required":"true"},{"name":"Conteúdo","type":"text","required":"true"},{"name":"Metodologia","type":"text","required":"true"},{"name":"Material ditatico","type":"text","required":"true"}]` (string) - Json com estutura de campos do modelo
 
-+ id
-+ dates
-+ plan (array)
+## LessonPlanModel
+
++ id: 1 (number) - Identificador único do modelo do plano de aula
++ Include (LessonPlanModelFillable)
+
+## LessonPlanFillable
+
++ start_date
++ end_date
++ lessonPlanTemplate_id
++ content (array)
     + (object)
         + name: `Objetivo` (string)
         + type: 'text' (string)
@@ -1228,6 +1384,11 @@ Com isso o cadastro do Professor Medeiros fica pendente até que um usuário da 
         + type: 'text' (string)
         + required: true (boolean)
         + value: 'Livro didático, Jogo de tabuleiro.'
+
+## LessonPlan
+
++ id: 1 (number) - Identificador único do plano de aula
++ Include (LessonPlanFillable)
 
 ## SubjectAnnualReport (object)
 

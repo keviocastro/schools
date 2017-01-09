@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class LessonPlan extends Model
+class LessonPlanModel extends Model
 {
     use SoftDeletes;
 
@@ -28,7 +28,7 @@ class LessonPlan extends Model
      *
      * @var array
      */
-    protected $fillable = ['start_date','end_date','lessonPlanTemplate_id','content'];
+    protected $fillable = ['definition'];
 
     /**
      * The attributes that should be casted to native types.
@@ -36,16 +36,6 @@ class LessonPlan extends Model
      * @var array
      */
     protected $casts = [
-        'content' => 'array',
+        'definition' => 'array',
     ];
-
-    /**
-     * @Relation
-     * 
-     * @return Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function lessonPlanModel()
-    {
-    	return $this->belongsTo('App\LessonPlanModel');
-    }
 }

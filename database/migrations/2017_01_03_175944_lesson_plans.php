@@ -24,6 +24,15 @@ class LessonPlans extends Migration
             $table->timestamps();
             $table->softDeletes();
         });
+        Schema::create('lesson_plan_models', function (Blueprint $table) {
+            $table->increments('id');
+            $table->json('definition');
+            $table->string('created_by')->nullable();
+            $table->string('updated_by')->nullable();
+            $table->string('deleted_by')->nullable();
+            $table->timestamps();
+            $table->softDeletes();
+        });
     }
 
     /**
@@ -34,5 +43,6 @@ class LessonPlans extends Migration
     public function down()
     {
         Schema::drop('lesson_plans');
+        Schema::drop('lesson_plan_models');
     }
 }
