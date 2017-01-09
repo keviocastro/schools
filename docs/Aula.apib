@@ -174,9 +174,6 @@
 + Parameters
     + _q (string, optional) - Pesquisa por palavra-chave, a correspondência e incluida conjunto de resultados.
     + _sort (string, optional) - Ordena a coluna desejada, de forma acendente ou descendente.
-    + _with (string, optional) - Obtem informações do recurso relacionado.
-        + Members
-            + LessonPlanTemplate
 
 + Request
 
@@ -188,34 +185,3 @@
         + Include Paginator
         + data (array)
             + (LessonPlan)
-
-
-## Coleção de modelos para planos de aula [/lesson-plan-models]
-
-### Listar modelos de plano de aula [GET]
-
-+ Request
-    + Headers
-
-            authorization: <!-- include(Token.md) -->
-
-+ Response 200 (application/json)
-
-    + Attributes
-        + Include Paginator
-        + data (array)
-            + (LessonPlanTemplate)
-
-### Criar modelo de plano de aula [POST]
-
-+ Request (application/json)
-    + Headers
-
-            authorization: <!-- include(Token.md) -->
-
-    + Attributes (LessonPlanTemplate)
-
-+ Response 200 (application/json)
-
-    + Attributes
-        + lesson_plan_template (LessonPlanTemplate)
