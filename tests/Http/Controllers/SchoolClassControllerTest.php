@@ -199,13 +199,14 @@ class SchoolClassControllerTest extends TestCase
                                     ]
                                 ]
                             ],
-                        'school_class_report' => [
-                                'school_calendar_report' => ['average'],
-                                'phases_report' => ['*' => ['school_calendar_phase_id', 'average']]
-                            ]
+                        // 'school_class_report' => [
+                        //         'school_calendar_report' => ['average'],
+                        //         'phases_report' => ['*' => ['school_calendar_phase_id', 'average']]
+                        //     ]
                     ]
 
                 ]);
+
     }
 
 }

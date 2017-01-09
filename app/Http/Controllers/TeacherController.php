@@ -24,6 +24,7 @@ class TeacherController extends Controller
     {
         $query = Lesson::
             join('school_classes', 'lessons.school_class_id', '=', 'school_classes.id')
+            ->groupBy('lessons.subject_id', 'lessons.school_class_id')
             ->where('lessons.teacher_id', '=', $teacher_id);
 
         $result = $this->parseMultiple($query);
