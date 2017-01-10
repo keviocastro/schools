@@ -404,9 +404,15 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 
 + Response 204
 
-## Relatório anual da turma por disciplina [/school-classes/{school_class_id}/annual-report-by/{subject_id}]
+## Relatório anual da turma por disciplina [/school-classes/{school_class_id}/annual-report-by/{subject_id}{?_sort_students}]
 
 ### Relatório anual por disciplina [GET]
+
++ Parameters 
+    + _sort_students (string, optional) - Para ordenar os resultados de report_by_user
+        + Members
+            + name  - Para listar estudantes ordenado por nome em ordem crescente
+            + `-name` - Para listar em ordem decrescente
 
 + Request
     + Headers
@@ -420,8 +426,8 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
         + report_by_student (array)
             + (object)
                 + student (object)
-                    + include Student
-                    + person (Person)
+                    + id: 1 (number) - ID do estudante
+                    + person (Person) - Informações básicas do estudante
                 + school_calendar_report (object) - Relatório do aluno durante o calendário escolar para disciplina (subject_id)
                     + average: 9.2 (number) - Média do aluno no ano
                     + average_calculation: `((4.6 + 1.2)*0.4 + (9 + 3.1)*0.6)/2` (string) - Formula da média do aluno no ano

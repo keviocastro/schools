@@ -148,7 +148,7 @@ class AnnualReportTransformer
 
 		return [
 			'student' => collect($student)
-				->except('annual_report', 'pivot', 'person_id')
+				->except('annual_report', 'pivot', 'person_id', 'student_id', 'school_class_id')
 				->toArray(),
 			// Relatório/Boletim de notas e faltas do ano
 			'school_calendar_report' => [

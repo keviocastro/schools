@@ -104,7 +104,19 @@ class SchoolClassController extends Controller
         $schoolClass = SchoolClass::findOrFail($school_class_id);
         $subject = Subject::findOrFail($subject_id);
 
-        $students = $schoolClass->students;
+        $queryStudents = $schoolClass->students()
+          ->select('students.*')
+          ->join('people', 'people.id', '=', 'students.person_id');
+        
+        if ($request->get('_sort_students') == 'name') {
+            $queryStudents->orderBy('name');
+        }
+
+        if ($request->get('_sort_students') == '-name') {
+            $queryStudents->orderBy('name', 'desc');
+        }
+
+        $students = $queryStudents->get();
         $students->transform(function($student, $key)
             use ($schoolClass, $subject){
             

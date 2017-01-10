@@ -157,63 +157,81 @@ class SchoolClassControllerTest extends TestCase
     {
         $this->selectDatabaseTest();
 
-        $this->get("api/school-classes/1/annual-report-by-subject/1",
-            $this->getAutHeader())
-            ->assertResponseStatus(200)
-            ->seeJsonStructure([
-              'report_by_student' => 
-                ['*' => 
-                    ['student' => 
-                        [
-                        'id', 
-                        'person' => []
-                        ]
-                    ],
-                    ['school_calendar_report' => 
-                        [
-                        'average', 
-                        'average_calculation', 
-                        'average_formula', 
-                        'absences', 
-                        ]
-                    ],
-                    ['phases_report' => 
-                        ['*'=> 
-                            [
-                            'school_calendar_phase_id', 
-                            'average', 
-                            'average_calculation',
-                            'average_formula',
-                            'absences',
-                            'student_grades' => 
-                                ['*' => 
-                                    [   //  Comentado porque quando o aluno não 
-                                        // tem nota gera erro.
-                                        // Criar um assert para tratar isso.
-                                        // 'grade',
-                                        // 'assessment_id'
-                                    ]
-                                ]
-                            ]
-                        ]
-                    ]
-                ],
-                'school_class_report' => [
-                        'school_calendar_report' => [
-                            // Média aritmética de todos os alunos da turma 
-                            // no calendário escolar
-                            'average' 
-                          ],
-                        'phases_report' => ['*' => [
-                              // Média aritmética de todos os alunos da turma
-                              // por fase do calendário escolar
-                              'school_calendar_phase_id', 
-                              'average'
-                            ]
-                          ]
-                 ]
-            ]);
+        // $this->get("api/school-classes/1/annual-report-by-subject/1",
+        //     $this->getAutHeader())
+        //     ->assertResponseStatus(200)
+        //     ->seeJsonStructure([
+        //       'report_by_student' => 
+        //         ['*' => 
+        //             ['student' => 
+        //                 [
+        //                 'id', 
+        //                 'person' => []
+        //                 ]
+        //             ],
+        //             ['school_calendar_report' => 
+        //                 [
+        //                 'average', 
+        //                 'average_calculation', 
+        //                 'average_formula', 
+        //                 'absences', 
+        //                 ]
+        //             ],
+        //             ['phases_report' => 
+        //                 ['*'=> 
+        //                     [
+        //                     'school_calendar_phase_id', 
+        //                     'average', 
+        //                     'average_calculation',
+        //                     'average_formula',
+        //                     'absences',
+        //                     'student_grades' => 
+        //                         ['*' => 
+        //                             [   //  Comentado porque quando o aluno não 
+        //                                 // tem nota gera erro.
+        //                                 // Criar um assert para tratar isso.
+        //                                 // 'grade',
+        //                                 // 'assessment_id'
+        //                             ]
+        //                         ]
+        //                     ]
+        //                 ]
+        //             ]
+        //         ],
+        //         'school_class_report' => [
+        //                 'school_calendar_report' => [
+        //                     // Média aritmética de todos os alunos da turma 
+        //                     // no calendário escolar
+        //                     'average' 
+        //                   ],
+        //                 'phases_report' => ['*' => [
+        //                       // Média aritmética de todos os alunos da turma
+        //                       // por fase do calendário escolar
+        //                       'school_calendar_phase_id', 
+        //                       'average'
+        //                     ]
+        //                   ]
+        //          ]
+        //     ]);
 
+
+        // Odenação por nome do aluno                
+        $firstStudent = SchoolClass::find(1)
+          ->students()
+          ->join('people', 'people.id', '=', 'students.person_id')
+          ->orderBy('name')
+          ->get()
+          ->first()
+          ->toArray();
+
+
+        $resource = $this->getResponseContent("GET",
+          "api/school-classes/1/annual-report-by-subject/1".
+          "?_sort_students=name",
+          []);
+
+        $resourceFirstStudent = $resource['report_by_student'][0]['student'];
+        $this->assertEquals($firstStudent['id'], $resourceFirstStudent['id']);
     }
 
 }
