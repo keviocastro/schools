@@ -13,6 +13,10 @@ return [
     |
     */
 
+    // Traduções criadas nesse projeto
+    'date_greater_or_equals' => 'The :attribute must be a date after or equal :date.',
+    'date_less_or_equals' => 'The :attribute must be a date before or equal :date.',
+
     'accepted'             => 'The :attribute must be accepted.',
     'active_url'           => 'The :attribute is not a valid URL.',
     'after'                => 'The :attribute must be a date after :date.',

@@ -136,12 +136,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/barryvdh/laravel-cors.git",
-                "reference": "2ff9f79da53e5407ad8ebb2d57ba6b6db7dfb578"
+                "reference": "ca4769c93c852a88d201a4b38eb84a9c2b0c0d6e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/barryvdh/laravel-cors/zipball/2ff9f79da53e5407ad8ebb2d57ba6b6db7dfb578",
-                "reference": "2ff9f79da53e5407ad8ebb2d57ba6b6db7dfb578",
+                "url": "https://api.github.com/repos/barryvdh/laravel-cors/zipball/ca4769c93c852a88d201a4b38eb84a9c2b0c0d6e",
+                "reference": "ca4769c93c852a88d201a4b38eb84a9c2b0c0d6e",
                 "shasum": ""
             },
             "require": {
@@ -181,7 +181,7 @@
                 "crossdomain",
                 "laravel"
             ],
-            "time": "2016-12-21 15:43:12"
+            "time": "2017-01-11 09:21:40"
         },
         {
             "name": "classpreloader/classpreloader",
@@ -458,35 +458,35 @@
         },
         {
             "name": "doctrine/annotations",
-            "version": "v1.2.7",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/annotations.git",
-                "reference": "f25c8aab83e0c3e976fd7d19875f198ccf2f7535"
+                "reference": "1fcf863da06d8f305fc031ee87360f087d854c8d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/annotations/zipball/f25c8aab83e0c3e976fd7d19875f198ccf2f7535",
-                "reference": "f25c8aab83e0c3e976fd7d19875f198ccf2f7535",
+                "url": "https://api.github.com/repos/doctrine/annotations/zipball/1fcf863da06d8f305fc031ee87360f087d854c8d",
+                "reference": "1fcf863da06d8f305fc031ee87360f087d854c8d",
                 "shasum": ""
             },
             "require": {
                 "doctrine/lexer": "1.*",
-                "php": ">=5.3.2"
+                "php": "^5.6 || ^7.0"
             },
             "require-dev": {
                 "doctrine/cache": "1.*",
-                "phpunit/phpunit": "4.*"
+                "phpunit/phpunit": "^5.7"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.3.x-dev"
+                    "dev-master": "1.4.x-dev"
                 }
             },
             "autoload": {
-                "psr-0": {
-                    "Doctrine\\Common\\Annotations\\": "lib/"
+                "psr-4": {
+                    "Doctrine\\Common\\Annotations\\": "lib/Doctrine/Common/Annotations"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -522,7 +522,7 @@
                 "docblock",
                 "parser"
             ],
-            "time": "2015-08-31 12:32:49"
+            "time": "2017-01-09 00:44:36"
         },
         {
             "name": "doctrine/inflector",
@@ -1047,12 +1047,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "7839ef638f23a61dd2adb7ce95da9d65e9d42335"
+                "reference": "3ee1c8f0145a212f7d170b6e54c2f11365a892a0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/7839ef638f23a61dd2adb7ce95da9d65e9d42335",
-                "reference": "7839ef638f23a61dd2adb7ce95da9d65e9d42335",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/3ee1c8f0145a212f7d170b6e54c2f11365a892a0",
+                "reference": "3ee1c8f0145a212f7d170b6e54c2f11365a892a0",
                 "shasum": ""
             },
             "require": {
@@ -1167,7 +1167,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2017-01-08 17:32:48"
+            "time": "2017-01-12 16:06:26"
         },
         {
             "name": "league/flysystem",
@@ -1373,12 +1373,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Seldaek/monolog.git",
-                "reference": "b732364e70a615231f15944e015b31d0d77bf9f5"
+                "reference": "c82afaa30356d20e08cc74fec7ab9b6ecd38288a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/b732364e70a615231f15944e015b31d0d77bf9f5",
-                "reference": "b732364e70a615231f15944e015b31d0d77bf9f5",
+                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/c82afaa30356d20e08cc74fec7ab9b6ecd38288a",
+                "reference": "c82afaa30356d20e08cc74fec7ab9b6ecd38288a",
                 "shasum": ""
             },
             "require": {
@@ -1443,7 +1443,7 @@
                 "logging",
                 "psr-3"
             ],
-            "time": "2016-12-13 14:25:55"
+            "time": "2017-01-11 16:17:39"
         },
         {
             "name": "mtdowling/cron-expression",
@@ -2383,12 +2383,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/http-kernel.git",
-                "reference": "3a376ef623ca26bb47413da204b04a0c4824cfcd"
+                "reference": "3910d3a87183c81c0b883a3911743883b027f153"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/http-kernel/zipball/3a376ef623ca26bb47413da204b04a0c4824cfcd",
-                "reference": "3a376ef623ca26bb47413da204b04a0c4824cfcd",
+                "url": "https://api.github.com/repos/symfony/http-kernel/zipball/3910d3a87183c81c0b883a3911743883b027f153",
+                "reference": "3910d3a87183c81c0b883a3911743883b027f153",
                 "shasum": ""
             },
             "require": {
@@ -2457,7 +2457,7 @@
             ],
             "description": "Symfony HttpKernel Component",
             "homepage": "https://symfony.com",
-            "time": "2017-01-06 07:41:29"
+            "time": "2017-01-10 14:09:41"
         },
         {
             "name": "symfony/polyfill-mbstring",

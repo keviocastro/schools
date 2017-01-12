@@ -342,3 +342,54 @@ $factory->define(App\Teacher::class, function ($faker) use ($factory) {
         'person_id' => $person_id
     ];
 });
+
+$factory->define(App\LessonPlan::class, function ($faker) use ($factory) {
+
+    $start = $faker->dateTime('now')->format('Y-m-d');
+    $end = $faker->dateTimeInInterval($start,'+ 15 days')->format('Y-m-d');
+    $lessonPlanModel = factory(App\LessonPlanModel::class)->create()->toArray();
+    
+    foreach ($lessonPlanModel['definition'] as $key => $item) {
+        $lessonPlanModel['definition'][$key]['value'] = $faker->realText(rand(20,150));
+    }
+    
+    return [
+        'start_date' => $start,
+        'end_date' => $end,
+        'lesson_plan_template_id' => $lessonPlanModel['id'],
+        'content' => $lessonPlanModel['definition']
+    ];
+});
+
+$factory->define(App\LessonPlanModel::class, function ($faker) use ($factory) {
+ 
+    $models = [
+        [
+            ['name' => 'Tema da aula', 'type' => 'text', 'required' => true],
+            ['name' => 'Objetivos Gerais', 'type' => 'long-text', 'required' => true],
+            ['name' => 'Objetivos Específicos', 'type' => 'long-text', 'required' => true],
+            ['name' => 'Problematização', 'type' => 'long-text', 'required' => true],
+            ['name' => 'Metodologia', 'type' => 'long-text', 'required' => true],
+            ['name' => 'Avaliação', 'type' => 'long-text', 'required' => true],
+            ['name' => 'Cronograma', 'type' => 'long-text', 'required' => false],
+        ],
+        [
+            ['name' => 'Objetivos', 'type' => 'long-text', 'required' => true],
+            ['name' => 'Conteudo', 'type' => 'long-text', 'required' => true],
+            ['name' => 'Metodo ou estrategia', 'type' => 'long-text', 'required' => true],
+            ['name' => 'Recursos didaticos', 'type' => 'long-text', 'required' => false],
+            ['name' => 'Avaliacao', 'type' => 'long-text', 'required' => true],
+        ],
+        [
+            ['name' => 'Tema da aula', 'type' => 'text', 'required' => true],
+            ['name' => 'Objetivos', 'type' => 'long-text', 'required' => true],
+            ['name' => 'Conteudo', 'type' => 'long-text', 'required' => true],
+            ['name' => 'Metodo ou estrategia', 'type' => 'long-text', 'required' => true],
+            ['name' => 'Avaliacao', 'type' => 'long-text', 'required' => true],
+        ]
+    ];
+
+    return [
+        'definition' => $faker->randomElement($models)
+    ];
+});

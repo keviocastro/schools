@@ -15,11 +15,11 @@ class Teachers extends Migration
         Schema::create('teachers', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('person_id');
-            $table->timestamps();
-            $table->softDeletes();
             $table->string('created_by')->nullable();
             $table->string('updated_by')->nullable();
             $table->string('deleted_by')->nullable();
+            $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('person_id')->references('id')->on('people');
         });

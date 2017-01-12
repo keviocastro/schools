@@ -1,9 +1,10 @@
 <?php
-namespace App;
 
+namespace App;
 
 use App\Observers\OwnerResourceObsever;
 use Illuminate\Database\Eloquent\Model as EloquentModel;
+use App\Services\Validation;
 
 class Model extends EloquentModel
 {

@@ -1,5 +1,62 @@
 # Data structure
 
+## LessonPlanModelFillable
+
++ definition (array)
+    + (object)
+        + name: `Objetivo` (string)
+        + type: 'text' (string)
+        + `required`: true (boolean)
+    + (object)
+        + name: `Conteúdo` (string)
+        + type: 'text' (string)
+        + `required`: true (boolean)
+    + (object)
+        + name: `Metodologia` (string)
+        + type: 'long-text' (string)
+        + `required`: true (boolean)
+    + (object)
+        + name: `Material ditatico` (string)
+        + type: 'text' (string)
+        + `required`: true (boolean)
+
+## LessonPlanModel
+
++ id: 1 (number) - Identificador único do modelo do plano de aula
++ Include (LessonPlanModelFillable)
+
+## LessonPlanFillable
+
++ start_date: `2016-10-01`
++ end_date: `2016-10-26`
++ lesson_plan_template_id: 1
++ content (array)
+    + (object)
+        + name: `Objetivo` (string)
+        + type: 'text' (string)
+        + `required`: true (boolean)
+        + value: 'Resolver operações utilizando números decimais obedecendo regras.'
+    + (object)
+        + name: `Conteúdo` (string)
+        + type: 'text' (string)
+        + `required`: true (boolean)
+        + value: 'Operações com números ordinais.'
+    + (object)
+        + name: `Metodologia` (string)
+        + type: 'long-text' (string)
+        + `required`: true (boolean)
+        + value: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
+    + (object)
+        + name: `Material ditatico` (string)
+        + type: 'text' (string)
+        + `required`: true (boolean)
+        + value: 'Livro didático, Jogo de tabuleiro.'
+
+## LessonPlan
+
++ id: 1 (number) - Identificador único do plano de aula
++ Include (LessonPlanFillable)
+
 ## SubjectAnnualReport (object)
 
 + Include (Subject)
@@ -127,6 +184,7 @@
 ## Lesson (object)
 
 + id: 1 (number) - `Identificador único  da aula.`
++ lesson_plan_id - `Identificador do plano de aula.`
 + Include (LessonFillable)
 
 ## Teacher (object)
