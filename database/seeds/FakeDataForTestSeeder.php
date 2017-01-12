@@ -12,6 +12,7 @@ class FakeDataForTestSeeder extends Seeder
     public function run()
     {
         factory(App\LessonPlan::class, 20)->create();
+        factory(App\LessonPlanModel::class, 2)->create();
         factory(App\Lesson::class, 20)->create();
         factory(App\AttendanceRecord::class, 20)->create();
         factory(App\SchoolCalendarPhase::class, 20)->create();

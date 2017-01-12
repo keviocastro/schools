@@ -4,7 +4,7 @@
         Exemplo: escola, CMDEIS (Centros Municipais de Educação Infantil), universidades.
 'Turmas' (definido como SchoolClass) são as turmas de uma escola que existem em um determinado ano calendário escolar (definido como SchoolCalendar).
 
-## Coleção de escolas [/schools{?_q,_sort,_with}]
+## Coleção de escolas [/schools]
 
 ### Listar escolas [GET]
 <!-- include(ParameterFilter.md) -->
@@ -18,7 +18,7 @@
         + Members
             + schoolClasses
 
-+ Request
++ Request  (application/json)
     + Headers
 
             authorization: <!-- include(Token.md) -->
@@ -32,7 +32,7 @@
 
 ### Criar escola [POST]
 
-+ Request (application/json)
++ Request  (application/json)
     + Headers
 
             authorization: <!-- include(Token.md) -->
@@ -44,7 +44,7 @@
     + Attributes
         + School (School)
 
-## Escola [/schools/{school_id}{?_with}]
+## Escola [/schools/{school_id}]
 
 ### Detalhes da escola [GET]
 
@@ -54,7 +54,7 @@
         + Members
             + schoolClasses
 
-+ Request
++ Request  (application/json)
     + Headers
 
             authorization: <!-- include(Token.md) -->
@@ -70,7 +70,7 @@
 + Parameters
     + school_id: 1 (number) - Identificador único da escola
 
-+ Request (application/json)
++ Request  (application/json)
 
     + Headers
 
@@ -88,7 +88,7 @@
 + Parameters
     + school_id: 1 (number) - Identificador único da escola
 
-+ Request (application/json)
++ Request  (application/json)
 
     + Headers
 
@@ -96,7 +96,7 @@
 
 + Response 204
 
-## Coleção de turmas [/school-classes{?_q,_sort,_with}]
+## Coleção de turmas [/school-classes]
 
 ### Listar turmas [GET]
 
@@ -114,7 +114,7 @@
             + schoolCalendar - Ano letivo.
             + subjects - Avaliação.
 
-+ Request (application/json)
++ Request  (application/json)
 
     + Headers
 
@@ -129,19 +129,19 @@
 
 ### Criar turma [POST]
 
-+ Request (application/json)
++ Request  (application/json)
     + Headers
 
             authorization: <!-- include(Token.md) -->
 
     + Attributes (SchoolClassFillable)
 
-+ Response 200 (application/json)
++ Response 201 (application/json)
 
     + Attributes
         + school_class (SchoolClass)
 
-## Turma [/school-classes/{school_class_id}{?_with}]
+## Turma [/school-classes/{school_class_id}]
 
 + Parameters
     - school_class_id: 1 (number) - ID of the school class
@@ -156,7 +156,7 @@
             + schoolCalendar - Ano letivo.
             + subjects - Avaliação.
 
-+ Request
++ Request  (application/json)
     + Headers
 
             authorization: <!-- include(Token.md) -->
@@ -171,7 +171,7 @@
 + Parameters
     + school_class_id: 1 (number) - ID of the School
 
-+ Request
++ Request  (application/json)
     + Headers
 
             authorization: <!-- include(Token.md) -->
@@ -188,7 +188,7 @@
 + Parameters
     + school_class_id: 1 (number) - ID of the School
 
-+ Request (application/json)
++ Request  (application/json)
 
     + Headers
 
@@ -196,11 +196,11 @@
 
 + Response 204
 
-## Relatório anual da turma por disciplina [/school-classes/{school_class_id}/annual-report-by/{subject_id}]
+## Relatório anual da turma por disciplina [/school-classes/{school_class_id}/annual-report-by-subject/{subject_id}]
 
 ### Detalhes do relatório [GET]
 
-+ Request
++ Request  (application/json)
     + Headers
 
             authorization: <!-- include(Token.md) -->

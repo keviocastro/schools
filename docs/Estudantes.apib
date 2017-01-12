@@ -3,14 +3,14 @@
 Ações relacionadas a informações dos alunos: cadastrais, indicadores de desempenho
 e relatórios como "Boletim anual do aluno" e "Histórico escolar", registro de notas e presenças.
 
-## Relatório anual [/students/{student_id}/annual-report{?school_calendar_id}]
+## Relatório anual [/students/{student_id}/annual-report/{school_calendar_id}]
 
 ### Ver relatório anual do aluno [GET]
 
 + Parameters
     + school_calendar_id: 1 (required, number) - ID do ano letivo
 
-+ Request
++ Request  (application/json)
     + Headers
 
             authorization: <!-- include(Token.md) -->
@@ -20,14 +20,14 @@ e relatórios como "Boletim anual do aluno" e "Histórico escolar", registro de 
     + Attributes (object)
         + report_by_subjects (array[SubjectAnnualReport]) - Médias e faltas por disciplina no ano letivo
 
-## Resumo anual do aluno [/students/{student_id}/annual-summary{?school_calendar_id}]
+## Resumo anual do aluno [/students/{student_id}/annual-summary/{school_calendar_id}]
 
 ### Ver resumo anual do aluno [GET]
 
 + Parameters
     + school_calendar_id: 1 (number, required) - `ID do ano letivo`
 
-+ Request
++ Request  (application/json)
     + Headers
 
             authorization: <!-- include(Token.md) -->
@@ -54,7 +54,7 @@ e relatórios como "Boletim anual do aluno" e "Histórico escolar", registro de 
                     + include (StudentGrade)
                     + assessment (Assessment)
 
-## Coleção de estudantes [/students{?_q,_sort,_with}]
+## Coleção de estudantes [/students]
 
 ### Listar estudantes [GET]
 
@@ -69,7 +69,7 @@ e relatórios como "Boletim anual do aluno" e "Histórico escolar", registro de 
             + responsibles - Responsáveis pelo estudante.
             + schoolClasses - Turmas que o aluno estudou.
 
-+ Request (application/json)
++ Request  (application/json)
     + Headers
 
             authorization: <!-- include(Token.md) -->
@@ -81,7 +81,7 @@ e relatórios como "Boletim anual do aluno" e "Histórico escolar", registro de 
         + data (array)
             + (Student)
 
-## Estudante [/students/{id}{?_with}]
+## Estudante [/students/{id}]
 
 ### Detalhes do estudante [GET]
 
@@ -93,7 +93,7 @@ e relatórios como "Boletim anual do aluno" e "Histórico escolar", registro de 
             + responsibles - Responsáveis pelo estudante.
             + schoolClasses - Turmas que o aluno estudou.
 
-+ Request
++ Request  (application/json)
     + Headers
 
             authorization: <!-- include(Token.md) -->
@@ -103,7 +103,7 @@ e relatórios como "Boletim anual do aluno" e "Histórico escolar", registro de 
     + Attributes (object)
         + student (Student)
 
-## Coleção de registro de presença [/attendance-records{?_q,_sort,_with}]
+## Coleção de registro de presença [/attendance-records]
 
 `Attendance Records` são os registros de presenças dos alunos em uma aula, definindo
 se o aluno estava ou não presente durante a aula.
@@ -126,7 +126,7 @@ se o aluno estava ou não presente durante a aula.
             + student.person
             + student.schoolClass
 
-+ Request
++ Request  (application/json)
     + Headers
 
             authorization: <!-- include(Token.md) -->
@@ -144,7 +144,7 @@ O registro de presença de um aluno em uma aula é único.
 Se o registro de presença que já existe for solicitado, será
 retornado o registro já existente com as informações atualizadas.
 
-+ Request (application/json)
++ Request  (application/json)
     + Headers
 
             authorization: <!-- include(Token.md) -->
@@ -167,7 +167,7 @@ retornado o registro já existente com as informações atualizadas.
             "status_code": 409
         }
 
-## Registro de presença [/attendance-records/{attendance_record_id}{?_with}]
+## Registro de presença [/attendance-records/{attendance_record_id}]
 
 + Parameters
     + attendance_record_id: 1 (number) - ID of the attendance record
@@ -185,7 +185,7 @@ retornado o registro já existente com as informações atualizadas.
             + student.person
             + student.schoolClass
 
-+ Request
++ Request  (application/json)
     + Headers
 
             authorization: <!-- include(Token.md) -->
@@ -200,7 +200,7 @@ retornado o registro já existente com as informações atualizadas.
 + Parameters
     + attendance_record_id: 1 (number) - ID of the attendance record
 
-+ Request
++ Request  (application/json)
     + Headers
 
             authorization: <!-- include(Token.md) -->
@@ -212,13 +212,13 @@ retornado o registro já existente com as informações atualizadas.
     + Attributes
         + attendance_record (AttendanceRecord)
 
-## Coleção de notas [/student_grades{?_q,_sort,_field,_with}]
+## Coleção de notas [/student-grades]
 
 `Student Grades` São registo de notas de cada aluno em suas diciplinas nos periodos e turmas pertencentes a ele.
 
 ### Crair nota [POST]
 
-+ Request (application/json)
++ Request  (application/json)
     + Headers
 
             authorization: <!-- include(Token.md) -->
@@ -244,7 +244,7 @@ retornado o registro já existente com as informações atualizadas.
             + assessment
             + schoolClass
 
-+ Request
++ Request  (application/json)
     + Headers
 
             authorization: <!-- include(Token.md) -->
@@ -256,7 +256,7 @@ retornado o registro já existente com as informações atualizadas.
         + data (array)
             + (StudentGrade)
 
-## Nota [/student-grades/{student_grades_id}{?_with}]
+## Nota [/student-grades/{student_grades_id}]
 
 ### Detalhes da nota [GET]
 
@@ -269,7 +269,7 @@ retornado o registro já existente com as informações atualizadas.
             + assessment
             + schoolClass
 
-+ Request
++ Request  (application/json)
     + Headers
 
             authorization: <!-- include(Token.md) -->
@@ -284,7 +284,7 @@ retornado o registro já existente com as informações atualizadas.
 + Parameters
     + student_grades_id: 1 (number) - ID of the Student Grades
 
-+ Request (application/json)
++ Request  (application/json)
 
     + Headers
 
@@ -297,13 +297,13 @@ retornado o registro já existente com as informações atualizadas.
     + Attributes
         + StudentGrade (StudentGrade)
 
-## Coleção de ocorrências [/occurences{?_q,_sort,_with}]
+## Coleção de ocorrências [/occurences]
 
 `Occurrence` são registros de ocorrências registrar por professor em relação aos alunos.
 
 ### Criar ocorrência [POST]
 
-+ Request (application/json)
++ Request  (application/json)
     + Headers
 
             authorization: <!-- include(Token.md) -->
@@ -329,7 +329,7 @@ retornado o registro já existente com as informações atualizadas.
             + aboutPerson
             + level
 
-+ Request
++ Request  (application/json)
     + Headers
 
             authorization: <!-- include(Token.md) -->
@@ -341,7 +341,7 @@ retornado o registro já existente com as informações atualizadas.
         + data (array)
             + (Occurence)
 
-## Ocorrência [/occurences/{occurence_id}{?_with}]
+## Ocorrência [/occurences/{occurence_id}]
 
 ### Detalhes da ocorrência [GET]
 
@@ -352,7 +352,7 @@ retornado o registro já existente com as informações atualizadas.
             + aboutPerson
             + level
 
-+ Request
++ Request  (application/json)
     + Headers
 
             authorization: <!-- include(Token.md) -->
@@ -367,7 +367,7 @@ retornado o registro já existente com as informações atualizadas.
 + Parameters
     + occurence_id: 1 (number) - Identificador único da Occorencia
 
-+ Request (application/json)
++ Request  (application/json)
 
     + Headers
 
@@ -385,7 +385,7 @@ retornado o registro já existente com as informações atualizadas.
 + Parameters
     + occurence_id: 1 (number) - Identificador único da Occorencia
 
-+ Request (application/json)
++ Request  (application/json)
     + Headers
 
             authorization: <!-- include(Token.md) -->

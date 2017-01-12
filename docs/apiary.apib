@@ -78,7 +78,7 @@ Respectivamente, o not-insufixo:
 contendo fases fases avaliativas do ano (Ex.: bimestres), feriados, férias,
 inicio e fim do ano.
 
-## Coleção de calendarios escolares [/school-calendars{?_q,_sort,_with}]
+## Coleção de calendarios escolares [/school-calendars]
 
 ### Listar calendarios escolares [GET]
 
@@ -92,7 +92,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
             + schoolClasses - Turmas do ano letivo.
             + phases - Fases avaliativas do ano letivo. Recurso (SchoolCalendarPhase)
 
-+ Request (application/json)
++ Request  (application/json)
 
     + Headers
 
@@ -107,19 +107,19 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 
 ### Criar calendário escolar [POST]
 
-+ Request (application/json)
++ Request  (application/json)
     + Headers
 
             authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4NjU1Mjg5OCwiaWF0IjoxNDgzOTYwODk4fQ.JorxAL0f_rGEuMRSw4o-DkfX6Q21KuTL9MhTPlBpMPI
 
     + Attributes (SchoolCalendarFillable)
 
-+ Response 200 (application/json)
++ Response 201 (application/json)
 
     + Attributes
         + school_calendar (SchoolCalendar)
 
-## Calendário escolar [/school-calendars/{school_calendar_id}{?_with}]
+## Calendário escolar [/school-calendars/{school_calendar_id}]
 
 ### Detalhes do calendário escolar [GET]
 
@@ -130,7 +130,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
             + schoolClasses - Turmas do ano letivo.
             + phases - Fases avaliativas do ano letivo. Recurso (SchoolCalendarPhase)
 
-+ Request
++ Request  (application/json)
     + Headers
 
             authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4NjU1Mjg5OCwiaWF0IjoxNDgzOTYwODk4fQ.JorxAL0f_rGEuMRSw4o-DkfX6Q21KuTL9MhTPlBpMPI
@@ -145,7 +145,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 + Parameters
     + school_calendar_id: 1 (number) - ID of the school class
 
-+ Request
++ Request  (application/json)
     + Headers
 
             authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4NjU1Mjg5OCwiaWF0IjoxNDgzOTYwODk4fQ.JorxAL0f_rGEuMRSw4o-DkfX6Q21KuTL9MhTPlBpMPI
@@ -162,7 +162,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 + Parameters
     + school_calendar_id: 1 (number) - ID of the School
 
-+ Request (application/json)
++ Request  (application/json)
 
     + Headers
 
@@ -170,7 +170,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 
 + Response 204
 
-## Coleção de avaliacoes [/assessments{?_q,_sort,_with}]
+## Coleção de avaliacoes [/assessments]
 
 `Assessments` são as definições das avaliações que um professor precisar aplicar
 aos seus alunos durante uma fase do ano.
@@ -192,7 +192,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
             + studentGrades
             + schoolCalendarPhase
 
-+ Request
++ Request  (application/json)
     + Headers
 
             authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4NjU1Mjg5OCwiaWF0IjoxNDgzOTYwODk4fQ.JorxAL0f_rGEuMRSw4o-DkfX6Q21KuTL9MhTPlBpMPI
@@ -212,7 +212,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
         Exemplo: escola, CMDEIS (Centros Municipais de Educação Infantil), universidades.
 'Turmas' (definido como SchoolClass) são as turmas de uma escola que existem em um determinado ano calendário escolar (definido como SchoolCalendar).
 
-## Coleção de escolas [/schools{?_q,_sort,_with}]
+## Coleção de escolas [/schools]
 
 ### Listar escolas [GET]
 Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="output.html#header-parametros-de-filtros-em-listagem">sessão</a> como definir os parametros da requisição.
@@ -226,7 +226,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
         + Members
             + schoolClasses
 
-+ Request
++ Request  (application/json)
     + Headers
 
             authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4NjU1Mjg5OCwiaWF0IjoxNDgzOTYwODk4fQ.JorxAL0f_rGEuMRSw4o-DkfX6Q21KuTL9MhTPlBpMPI
@@ -240,7 +240,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 
 ### Criar escola [POST]
 
-+ Request (application/json)
++ Request  (application/json)
     + Headers
 
             authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4NjU1Mjg5OCwiaWF0IjoxNDgzOTYwODk4fQ.JorxAL0f_rGEuMRSw4o-DkfX6Q21KuTL9MhTPlBpMPI
@@ -252,7 +252,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
     + Attributes
         + School (School)
 
-## Escola [/schools/{school_id}{?_with}]
+## Escola [/schools/{school_id}]
 
 ### Detalhes da escola [GET]
 
@@ -262,7 +262,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
         + Members
             + schoolClasses
 
-+ Request
++ Request  (application/json)
     + Headers
 
             authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4NjU1Mjg5OCwiaWF0IjoxNDgzOTYwODk4fQ.JorxAL0f_rGEuMRSw4o-DkfX6Q21KuTL9MhTPlBpMPI
@@ -278,7 +278,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 + Parameters
     + school_id: 1 (number) - Identificador único da escola
 
-+ Request (application/json)
++ Request  (application/json)
 
     + Headers
 
@@ -296,7 +296,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 + Parameters
     + school_id: 1 (number) - Identificador único da escola
 
-+ Request (application/json)
++ Request  (application/json)
 
     + Headers
 
@@ -304,7 +304,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 
 + Response 204
 
-## Coleção de turmas [/school-classes{?_q,_sort,_with}]
+## Coleção de turmas [/school-classes]
 
 ### Listar turmas [GET]
 
@@ -322,7 +322,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
             + schoolCalendar - Ano letivo.
             + subjects - Avaliação.
 
-+ Request (application/json)
++ Request  (application/json)
 
     + Headers
 
@@ -337,19 +337,19 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 
 ### Criar turma [POST]
 
-+ Request (application/json)
++ Request  (application/json)
     + Headers
 
             authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4NjU1Mjg5OCwiaWF0IjoxNDgzOTYwODk4fQ.JorxAL0f_rGEuMRSw4o-DkfX6Q21KuTL9MhTPlBpMPI
 
     + Attributes (SchoolClassFillable)
 
-+ Response 200 (application/json)
++ Response 201 (application/json)
 
     + Attributes
         + school_class (SchoolClass)
 
-## Turma [/school-classes/{school_class_id}{?_with}]
+## Turma [/school-classes/{school_class_id}]
 
 + Parameters
     - school_class_id: 1 (number) - ID of the school class
@@ -364,7 +364,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
             + schoolCalendar - Ano letivo.
             + subjects - Avaliação.
 
-+ Request
++ Request  (application/json)
     + Headers
 
             authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4NjU1Mjg5OCwiaWF0IjoxNDgzOTYwODk4fQ.JorxAL0f_rGEuMRSw4o-DkfX6Q21KuTL9MhTPlBpMPI
@@ -379,7 +379,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 + Parameters
     + school_class_id: 1 (number) - ID of the School
 
-+ Request
++ Request  (application/json)
     + Headers
 
             authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4NjU1Mjg5OCwiaWF0IjoxNDgzOTYwODk4fQ.JorxAL0f_rGEuMRSw4o-DkfX6Q21KuTL9MhTPlBpMPI
@@ -396,7 +396,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 + Parameters
     + school_class_id: 1 (number) - ID of the School
 
-+ Request (application/json)
++ Request  (application/json)
 
     + Headers
 
@@ -404,11 +404,11 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 
 + Response 204
 
-## Relatório anual da turma por disciplina [/school-classes/{school_class_id}/annual-report-by/{subject_id}]
+## Relatório anual da turma por disciplina [/school-classes/{school_class_id}/annual-report-by-subject/{subject_id}]
 
 ### Detalhes do relatório [GET]
 
-+ Request
++ Request  (application/json)
     + Headers
 
             authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4NjU1Mjg5OCwiaWF0IjoxNDgzOTYwODk4fQ.JorxAL0f_rGEuMRSw4o-DkfX6Q21KuTL9MhTPlBpMPI
@@ -445,7 +445,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 
 # Group Aula
 
-## Coleção de aulas [/lessons{?_q,_sort,_with}]
+## Coleção de aulas [/lessons]
 
 `Lessons` são as aulas programadas para as turmas de uma escola.
 
@@ -464,7 +464,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
             + schoolClass.shift
             + subject
 
-+ Request
++ Request  (application/json)
     + Headers
 
             authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4NjU1Mjg5OCwiaWF0IjoxNDgzOTYwODk4fQ.JorxAL0f_rGEuMRSw4o-DkfX6Q21KuTL9MhTPlBpMPI
@@ -478,20 +478,20 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 
 ### Criar aula [POST]
 
-+ Request (application/json)
++ Request  (application/json)
     + Headers
 
             authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4NjU1Mjg5OCwiaWF0IjoxNDgzOTYwODk4fQ.JorxAL0f_rGEuMRSw4o-DkfX6Q21KuTL9MhTPlBpMPI
 
     + Attributes (LessonFillable)
 
-+ Response 200 (application/json)
++ Response 201 (application/json)
 
     + Attributes
         + lesson (Lesson)
 
 
-## Lesson [/lessons/{lesson_id}{?_with,attach}]
+## Lesson [/lessons/{lesson_id}]
 
 ### Detalhes da aula [GET]
 
@@ -520,7 +520,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
             + students.last_occurences
             + students.absenceSummary
 
-+ Request
++ Request  (application/json)
     + Headers
 
             authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4NjU1Mjg5OCwiaWF0IjoxNDgzOTYwODk4fQ.JorxAL0f_rGEuMRSw4o-DkfX6Q21KuTL9MhTPlBpMPI
@@ -545,7 +545,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 + Parameters
     + lesson_id: 1 (number) - ID of the lesson
 
-+ Request
++ Request  (application/json)
     + Headers
 
             authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4NjU1Mjg5OCwiaWF0IjoxNDgzOTYwODk4fQ.JorxAL0f_rGEuMRSw4o-DkfX6Q21KuTL9MhTPlBpMPI
@@ -563,7 +563,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 + Parameters
     + lesson_id: 1 (number) - ID of the lesson
 
-+ Request (application/json)
++ Request  (application/json)
     + Headers
 
             authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4NjU1Mjg5OCwiaWF0IjoxNDgzOTYwODk4fQ.JorxAL0f_rGEuMRSw4o-DkfX6Q21KuTL9MhTPlBpMPI
@@ -571,11 +571,9 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 + Response 204
 
 
-## Aulas por dia [/lessons/per-day{?_with,_q,_sort,start,end}]
+## Aulas por dia [/lessons/per-day]
 
 ### Listar aulas por dia [GET]
-
-Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="output.html#header-parametros-de-filtros-em-listagem">sessão</a> como definir os parametros da requisição.
 
 + Parameters
     + start (string, optional) Data inicial
@@ -593,7 +591,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
             + subject
     + _q (string, optional) - Fulltext search
 
-+ Request
++ Request  (application/json)
     + Headers
 
             authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4NjU1Mjg5OCwiaWF0IjoxNDgzOTYwODk4fQ.JorxAL0f_rGEuMRSw4o-DkfX6Q21KuTL9MhTPlBpMPI
@@ -609,13 +607,11 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
                 + lessons (array[Lesson])
 
 
-## Coleção do plano de aulas [/lesson-plans{?_q,_sort,_with}]
+## Coleção do plano de aulas [/lesson-plans]
 
-`Lesson plan` são registro dos valores e templantes dos planos de aulas.
+`Lesson plan` são planos de aulas ou planejamento de aulas criado pelos professores 
 
-### Listar Planos de aulas [GET]
-
-Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="output.html#header-parametros-de-filtros-em-listagem">sessão</a> como definir os parametros da requisição.
+### Listar planos de aulas [GET]
 
 + Parameters
     + _q (string, optional) - Pesquisa por palavra-chave, a correspondência e incluida conjunto de resultados.
@@ -624,7 +620,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
         + Members
             + LessonPlanModel
 
-+ Request
++ Request  (application/json)
     + Headers
 
             authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4NjU1Mjg5OCwiaWF0IjoxNDgzOTYwODk4fQ.JorxAL0f_rGEuMRSw4o-DkfX6Q21KuTL9MhTPlBpMPI
@@ -637,31 +633,31 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
             + (LessonPlan)
 
 
-### Criar aula [POST]
+### Criar plano de aula [POST]
 
-+ Request (application/json)
++ Request  (application/json)
     + Headers
 
             authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4NjU1Mjg5OCwiaWF0IjoxNDgzOTYwODk4fQ.JorxAL0f_rGEuMRSw4o-DkfX6Q21KuTL9MhTPlBpMPI
 
     + Attributes (LessonPlanFillable)
 
-+ Response 200 (application/json)
++ Response 201 (application/json)
 
     + Attributes
         + lesson_plan (LessonPlan)
 
-## Lesson Plan [/lesson_plans/{lesson_plan_id}{?_with,attach}]
+## Plano de aula [/lesson-plans/{lesson_plan_id}]
 
-### Detalhes da aula [GET]
+### Detalhes do plano de aula [GET]
 
 + Parameters
-    + lesson_id: 1 (number) - ID of the lesson
+    + lesson_plan_id: 1 (number) - ID of the lesson plan
     + _with (string, optional) Nome da relação a ser incluida na resposta.
         + Members
             + LessonPlanModel
 
-+ Request
++ Request  (application/json)
     + Headers
 
             authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4NjU1Mjg5OCwiaWF0IjoxNDgzOTYwODk4fQ.JorxAL0f_rGEuMRSw4o-DkfX6Q21KuTL9MhTPlBpMPI
@@ -671,12 +667,12 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
     + Attributes
         + Include (LessonPlan)
 
-### Alterar aula [PUT]
+### Alterar plano de aula [PUT]
 
 + Parameters
-    + lesson_plan_id: 1 (number) - ID of the lesson
+    + lesson_plan_id: 1 (number) - ID of the lesson plan
 
-+ Request
++ Request  (application/json)
     + Headers
 
             authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4NjU1Mjg5OCwiaWF0IjoxNDgzOTYwODk4fQ.JorxAL0f_rGEuMRSw4o-DkfX6Q21KuTL9MhTPlBpMPI
@@ -689,12 +685,12 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
         + lesson (LessonPlan)
 
 
-### Excluir aula [DELETE]
+### Excluir plano de aula [DELETE]
 
 + Parameters
-    + lesson_plan_id: 1 (number) - ID of the lesson
+    + lesson_plan_id: 1 (number) - ID of the lesson plan
 
-+ Request (application/json)
++ Request  (application/json)
     + Headers
 
             authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4NjU1Mjg5OCwiaWF0IjoxNDgzOTYwODk4fQ.JorxAL0f_rGEuMRSw4o-DkfX6Q21KuTL9MhTPlBpMPI
@@ -704,9 +700,11 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 
 ## Coleção de modelos para planos de aula [/lesson-plan-models]
 
-### Listar modelos de plano de aula [GET]
+Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="output.html#header-parametros-de-filtros-em-listagem">sessão</a> como definir os parametros da requisição.
 
-+ Request
+### Listar modelos Planos de aulas [GET]
+
++ Request  (application/json)
     + Headers
 
             authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4NjU1Mjg5OCwiaWF0IjoxNDgzOTYwODk4fQ.JorxAL0f_rGEuMRSw4o-DkfX6Q21KuTL9MhTPlBpMPI
@@ -720,26 +718,26 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 
 ### Criar modelo de plano de aula [POST]
 
-+ Request (application/json)
++ Request  (application/json)
     + Headers
 
             authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4NjU1Mjg5OCwiaWF0IjoxNDgzOTYwODk4fQ.JorxAL0f_rGEuMRSw4o-DkfX6Q21KuTL9MhTPlBpMPI
 
     + Attributes (LessonPlanModelFillable)
 
-+ Response 200 (application/json)
++ Response 201 (application/json)
 
     + Attributes
         + lesson_plan_Model (LessonPlanModel)
 
-## Lesson Plan Model [/lesson-plan-models/{lesson_plan_model_id}{?_with}]
+## Modelo do plano de aulas [/lesson-plan-models/{lesson_plan_model_id}]
 
-### Detalhes da aula [GET]
+### Detalhes do modelo de plano de aula [GET]
 
 + Parameters
     + lesson_plan_model_id: 1 (number) - ID of the model lesson plan
 
-+ Request
++ Request  (application/json)
     + Headers
 
             authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4NjU1Mjg5OCwiaWF0IjoxNDgzOTYwODk4fQ.JorxAL0f_rGEuMRSw4o-DkfX6Q21KuTL9MhTPlBpMPI
@@ -749,12 +747,12 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
     + Attributes
         + Include (LessonPlanModel)
 
-### Alterar aula [PUT]
+### Alterar modelo de plano de aula [PUT]
 
 + Parameters
     + lesson_plan_model_id: 1 (number) - ID of the model lesson plan
 
-+ Request
++ Request  (application/json)
     + Headers
 
             authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4NjU1Mjg5OCwiaWF0IjoxNDgzOTYwODk4fQ.JorxAL0f_rGEuMRSw4o-DkfX6Q21KuTL9MhTPlBpMPI
@@ -766,13 +764,12 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
     + Attributes
         + lesson_plan_model (LessonPlanModel)
 
-
 ### Excluir aula [DELETE]
 
 + Parameters
     + lesson_plan_model_id: 1 (number) - ID of the model lesson plan
 
-+ Request (application/json)
++ Request  (application/json)
     + Headers
 
             authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4NjU1Mjg5OCwiaWF0IjoxNDgzOTYwODk4fQ.JorxAL0f_rGEuMRSw4o-DkfX6Q21KuTL9MhTPlBpMPI
@@ -786,14 +783,14 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 Ações relacionadas a informações dos alunos: cadastrais, indicadores de desempenho
 e relatórios como "Boletim anual do aluno" e "Histórico escolar", registro de notas e presenças.
 
-## Relatório anual [/students/{student_id}/annual-report{?school_calendar_id}]
+## Relatório anual [/students/{student_id}/annual-report/{school_calendar_id}]
 
 ### Ver relatório anual do aluno [GET]
 
 + Parameters
     + school_calendar_id: 1 (required, number) - ID do ano letivo
 
-+ Request
++ Request  (application/json)
     + Headers
 
             authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4NjU1Mjg5OCwiaWF0IjoxNDgzOTYwODk4fQ.JorxAL0f_rGEuMRSw4o-DkfX6Q21KuTL9MhTPlBpMPI
@@ -803,14 +800,14 @@ e relatórios como "Boletim anual do aluno" e "Histórico escolar", registro de 
     + Attributes (object)
         + report_by_subjects (array[SubjectAnnualReport]) - Médias e faltas por disciplina no ano letivo
 
-## Resumo anual do aluno [/students/{student_id}/annual-summary{?school_calendar_id}]
+## Resumo anual do aluno [/students/{student_id}/annual-summary/{school_calendar_id}]
 
 ### Ver resumo anual do aluno [GET]
 
 + Parameters
     + school_calendar_id: 1 (number, required) - `ID do ano letivo`
 
-+ Request
++ Request  (application/json)
     + Headers
 
             authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4NjU1Mjg5OCwiaWF0IjoxNDgzOTYwODk4fQ.JorxAL0f_rGEuMRSw4o-DkfX6Q21KuTL9MhTPlBpMPI
@@ -837,7 +834,7 @@ e relatórios como "Boletim anual do aluno" e "Histórico escolar", registro de 
                     + include (StudentGrade)
                     + assessment (Assessment)
 
-## Coleção de estudantes [/students{?_q,_sort,_with}]
+## Coleção de estudantes [/students]
 
 ### Listar estudantes [GET]
 
@@ -852,7 +849,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
             + responsibles - Responsáveis pelo estudante.
             + schoolClasses - Turmas que o aluno estudou.
 
-+ Request (application/json)
++ Request  (application/json)
     + Headers
 
             authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4NjU1Mjg5OCwiaWF0IjoxNDgzOTYwODk4fQ.JorxAL0f_rGEuMRSw4o-DkfX6Q21KuTL9MhTPlBpMPI
@@ -864,7 +861,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
         + data (array)
             + (Student)
 
-## Estudante [/students/{id}{?_with}]
+## Estudante [/students/{id}]
 
 ### Detalhes do estudante [GET]
 
@@ -876,7 +873,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
             + responsibles - Responsáveis pelo estudante.
             + schoolClasses - Turmas que o aluno estudou.
 
-+ Request
++ Request  (application/json)
     + Headers
 
             authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4NjU1Mjg5OCwiaWF0IjoxNDgzOTYwODk4fQ.JorxAL0f_rGEuMRSw4o-DkfX6Q21KuTL9MhTPlBpMPI
@@ -886,7 +883,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
     + Attributes (object)
         + student (Student)
 
-## Coleção de registro de presença [/attendance-records{?_q,_sort,_with}]
+## Coleção de registro de presença [/attendance-records]
 
 `Attendance Records` são os registros de presenças dos alunos em uma aula, definindo
 se o aluno estava ou não presente durante a aula.
@@ -909,7 +906,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
             + student.person
             + student.schoolClass
 
-+ Request
++ Request  (application/json)
     + Headers
 
             authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4NjU1Mjg5OCwiaWF0IjoxNDgzOTYwODk4fQ.JorxAL0f_rGEuMRSw4o-DkfX6Q21KuTL9MhTPlBpMPI
@@ -927,7 +924,7 @@ O registro de presença de um aluno em uma aula é único.
 Se o registro de presença que já existe for solicitado, será
 retornado o registro já existente com as informações atualizadas.
 
-+ Request (application/json)
++ Request  (application/json)
     + Headers
 
             authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4NjU1Mjg5OCwiaWF0IjoxNDgzOTYwODk4fQ.JorxAL0f_rGEuMRSw4o-DkfX6Q21KuTL9MhTPlBpMPI
@@ -950,7 +947,7 @@ retornado o registro já existente com as informações atualizadas.
             "status_code": 409
         }
 
-## Registro de presença [/attendance-records/{attendance_record_id}{?_with}]
+## Registro de presença [/attendance-records/{attendance_record_id}]
 
 + Parameters
     + attendance_record_id: 1 (number) - ID of the attendance record
@@ -968,7 +965,7 @@ retornado o registro já existente com as informações atualizadas.
             + student.person
             + student.schoolClass
 
-+ Request
++ Request  (application/json)
     + Headers
 
             authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4NjU1Mjg5OCwiaWF0IjoxNDgzOTYwODk4fQ.JorxAL0f_rGEuMRSw4o-DkfX6Q21KuTL9MhTPlBpMPI
@@ -983,7 +980,7 @@ retornado o registro já existente com as informações atualizadas.
 + Parameters
     + attendance_record_id: 1 (number) - ID of the attendance record
 
-+ Request
++ Request  (application/json)
     + Headers
 
             authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4NjU1Mjg5OCwiaWF0IjoxNDgzOTYwODk4fQ.JorxAL0f_rGEuMRSw4o-DkfX6Q21KuTL9MhTPlBpMPI
@@ -995,13 +992,13 @@ retornado o registro já existente com as informações atualizadas.
     + Attributes
         + attendance_record (AttendanceRecord)
 
-## Coleção de notas [/student_grades{?_q,_sort,_field,_with}]
+## Coleção de notas [/student-grades]
 
 `Student Grades` São registo de notas de cada aluno em suas diciplinas nos periodos e turmas pertencentes a ele.
 
 ### Crair nota [POST]
 
-+ Request (application/json)
++ Request  (application/json)
     + Headers
 
             authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4NjU1Mjg5OCwiaWF0IjoxNDgzOTYwODk4fQ.JorxAL0f_rGEuMRSw4o-DkfX6Q21KuTL9MhTPlBpMPI
@@ -1027,7 +1024,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
             + assessment
             + schoolClass
 
-+ Request
++ Request  (application/json)
     + Headers
 
             authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4NjU1Mjg5OCwiaWF0IjoxNDgzOTYwODk4fQ.JorxAL0f_rGEuMRSw4o-DkfX6Q21KuTL9MhTPlBpMPI
@@ -1039,7 +1036,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
         + data (array)
             + (StudentGrade)
 
-## Nota [/student-grades/{student_grades_id}{?_with}]
+## Nota [/student-grades/{student_grades_id}]
 
 ### Detalhes da nota [GET]
 
@@ -1052,7 +1049,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
             + assessment
             + schoolClass
 
-+ Request
++ Request  (application/json)
     + Headers
 
             authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4NjU1Mjg5OCwiaWF0IjoxNDgzOTYwODk4fQ.JorxAL0f_rGEuMRSw4o-DkfX6Q21KuTL9MhTPlBpMPI
@@ -1067,7 +1064,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 + Parameters
     + student_grades_id: 1 (number) - ID of the Student Grades
 
-+ Request (application/json)
++ Request  (application/json)
 
     + Headers
 
@@ -1080,13 +1077,13 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
     + Attributes
         + StudentGrade (StudentGrade)
 
-## Coleção de ocorrências [/occurences{?_q,_sort,_with}]
+## Coleção de ocorrências [/occurences]
 
 `Occurrence` são registros de ocorrências registrar por professor em relação aos alunos.
 
 ### Criar ocorrência [POST]
 
-+ Request (application/json)
++ Request  (application/json)
     + Headers
 
             authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4NjU1Mjg5OCwiaWF0IjoxNDgzOTYwODk4fQ.JorxAL0f_rGEuMRSw4o-DkfX6Q21KuTL9MhTPlBpMPI
@@ -1112,7 +1109,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
             + aboutPerson
             + level
 
-+ Request
++ Request  (application/json)
     + Headers
 
             authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4NjU1Mjg5OCwiaWF0IjoxNDgzOTYwODk4fQ.JorxAL0f_rGEuMRSw4o-DkfX6Q21KuTL9MhTPlBpMPI
@@ -1124,7 +1121,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
         + data (array)
             + (Occurence)
 
-## Ocorrência [/occurences/{occurence_id}{?_with}]
+## Ocorrência [/occurences/{occurence_id}]
 
 ### Detalhes da ocorrência [GET]
 
@@ -1135,7 +1132,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
             + aboutPerson
             + level
 
-+ Request
++ Request  (application/json)
     + Headers
 
             authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4NjU1Mjg5OCwiaWF0IjoxNDgzOTYwODk4fQ.JorxAL0f_rGEuMRSw4o-DkfX6Q21KuTL9MhTPlBpMPI
@@ -1150,7 +1147,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 + Parameters
     + occurence_id: 1 (number) - Identificador único da Occorencia
 
-+ Request (application/json)
++ Request  (application/json)
 
     + Headers
 
@@ -1168,7 +1165,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 + Parameters
     + occurence_id: 1 (number) - Identificador único da Occorencia
 
-+ Request (application/json)
++ Request  (application/json)
     + Headers
 
             authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4NjU1Mjg5OCwiaWF0IjoxNDgzOTYwODk4fQ.JorxAL0f_rGEuMRSw4o-DkfX6Q21KuTL9MhTPlBpMPI
@@ -1189,7 +1186,7 @@ Configurações da contado do usuário logado.
 Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="output.html#header-parametros-de-filtros-em-listagem">sessão</a> como definir os parametros da requisição.
 
 
-+ Request
++ Request  (application/json)
     + Headers
 
             authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4NjU1Mjg5OCwiaWF0IjoxNDgzOTYwODk4fQ.JorxAL0f_rGEuMRSw4o-DkfX6Q21KuTL9MhTPlBpMPI
@@ -1222,13 +1219,13 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
                 + value: 6 (number)
                 + `default`: 6 (number)
 
-## Coleção de disciplinas [/subjects{?_q,_sort,_with}]
+## Coleção de disciplinas [/subjects]
 
 `Subjects` São quais quer disciplinas ministradas nas escolas. ex: Português, matemática, direito constitucional entre outras.
 
 ### Criar disciplina [POST]
 
-+ Request (application/json)
++ Request  (application/json)
     + Headers
 
             authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4NjU1Mjg5OCwiaWF0IjoxNDgzOTYwODk4fQ.JorxAL0f_rGEuMRSw4o-DkfX6Q21KuTL9MhTPlBpMPI
@@ -1251,7 +1248,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
             +name
     + _sort (string, optional) - Ordena a coluna desejada, de forma acendente ou descendente.
 
-+ Request
++ Request  (application/json)
     + Headers
 
             authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4NjU1Mjg5OCwiaWF0IjoxNDgzOTYwODk4fQ.JorxAL0f_rGEuMRSw4o-DkfX6Q21KuTL9MhTPlBpMPI
@@ -1270,7 +1267,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 + Parameters
     + subject_id: 1 (number) - ID of the Subject
 
-+ Request
++ Request  (application/json)
     + Headers
 
             authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4NjU1Mjg5OCwiaWF0IjoxNDgzOTYwODk4fQ.JorxAL0f_rGEuMRSw4o-DkfX6Q21KuTL9MhTPlBpMPI
@@ -1285,7 +1282,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 + Parameters
     + subject_id: 1 (number) - ID of the Subject
 
-+ Request (application/json)
++ Request  (application/json)
 
     + Headers
 
@@ -1303,7 +1300,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 + Parameters
     + subject_id: 2 (number) - ID of the Subject
 
-+ Request (application/json)
++ Request  (application/json)
     + Headers
 
             authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4NjU1Mjg5OCwiaWF0IjoxNDgzOTYwODk4fQ.JorxAL0f_rGEuMRSw4o-DkfX6Q21KuTL9MhTPlBpMPI
@@ -1325,7 +1322,7 @@ Com isso o cadastro do Professor Medeiros fica pendente até que um usuário da 
 
 ### Criar uma solicitação de acesso [POST]
 
-+ Request (application/json)
++ Request  (application/json)
     + Headers
 
             authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4NjU1Mjg5OCwiaWF0IjoxNDgzOTYwODk4fQ.JorxAL0f_rGEuMRSw4o-DkfX6Q21KuTL9MhTPlBpMPI
@@ -1351,7 +1348,23 @@ Com isso o cadastro do Professor Medeiros fica pendente até que um usuário da 
 
 ## LessonPlanModelFillable
 
-+ definition: `[{"name":"Objetivo","type":"text","required":"true"},{"name":"Conteúdo","type":"text","required":"true"},{"name":"Metodologia","type":"text","required":"true"},{"name":"Material ditatico","type":"text","required":"true"}]` (string) - Json com estutura de campos do modelo
++ definition (array)
+    + (object)
+        + name: `Objetivo` (string)
+        + type: 'text' (string)
+        + `required`: true (boolean)
+    + (object)
+        + name: `Conteúdo` (string)
+        + type: 'text' (string)
+        + `required`: true (boolean)
+    + (object)
+        + name: `Metodologia` (string)
+        + type: 'long-text' (string)
+        + `required`: true (boolean)
+    + (object)
+        + name: `Material ditatico` (string)
+        + type: 'text' (string)
+        + `required`: true (boolean)
 
 ## LessonPlanModel
 
@@ -1360,29 +1373,29 @@ Com isso o cadastro do Professor Medeiros fica pendente até que um usuário da 
 
 ## LessonPlanFillable
 
-+ start_date
-+ end_date
-+ lessonPlanTemplate_id
++ start_date: `2016-10-01`
++ end_date: `2016-10-26`
++ lesson_plan_template_id: 1
 + content (array)
     + (object)
         + name: `Objetivo` (string)
         + type: 'text' (string)
-        + required: true (boolean)
+        + `required`: true (boolean)
         + value: 'Resolver operações utilizando números decimais obedecendo regras.'
     + (object)
         + name: `Conteúdo` (string)
         + type: 'text' (string)
-        + required: true (boolean)
+        + `required`: true (boolean)
         + value: 'Operações com números ordinais.'
     + (object)
         + name: `Metodologia` (string)
         + type: 'long-text' (string)
-        + required: true (boolean)
+        + `required`: true (boolean)
         + value: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
     + (object)
         + name: `Material ditatico` (string)
         + type: 'text' (string)
-        + required: true (boolean)
+        + `required`: true (boolean)
         + value: 'Livro didático, Jogo de tabuleiro.'
 
 ## LessonPlan

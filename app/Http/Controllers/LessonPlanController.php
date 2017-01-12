@@ -29,9 +29,13 @@ class LessonPlanController extends Controller
      */
     public function store(Request $request)
     {
-        // $this->validationForStoreAction($request, [
-        //         // '{attribute}' => '{validation}',
-        //     ]);
+        $this->validationForStoreAction($request, [
+            'start_date' => 'required|date_format:Y-m-d|dateLessOrEquals:end_date',
+            'end_date' => 'required|date_format:Y-m-d',
+            'lesson_plan_template_id' => 'exists:lesson_plan_models,id',
+            'content' => 'required|array',
+        ]);
+
         $lessonPlanController = LessonPlan::create($request->all());
 
         return $this->response->created("/resource/{$lessonPlanController->id}", $lessonPlanController);
@@ -57,9 +61,12 @@ class LessonPlanController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $this->validationForUpdateAction($request, [
-            // 'attribute' => 'rule',
-            ]);
+        $this->validationForStoreAction($request, [
+            'start_date' => 'date_format:Y-m-d|dateLessOrEquals:end_date',
+            'end_date' => 'date_format:Y-m-d',
+            'lesson_plan_template_id' => 'exists:lesson_plan_models,id',
+            'content' => 'array',
+        ]);
 
         $lessonPlanController = LessonPlan::findOrFail($id);
         $lessonPlanController->update($request->all());

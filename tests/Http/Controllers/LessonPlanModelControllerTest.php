@@ -39,6 +39,31 @@ class LessonPlanModelControllerTest extends TestCase
     }
 
     /**
+     * @covers App\Http\Controllers\LessonPlanModelController::store
+     *
+     * @return void
+     */
+    public function testStoreValidation()
+    {
+        //Testando a validacao do componente, e do campo content
+        $lessonPlanModel = factory(App\LessonPlanModel::class)->make()->toArray();
+        
+        $lessonPlanModel['definition'] = 'Testando o com string';
+
+        $this->post('api/lesson-plan-models',
+            $lessonPlanModel,
+            $this->getAutHeader())
+            ->assertResponseStatus(422)
+            ->seeJson([
+                    'errors' => [
+                        'definition' => [
+                            "The definition must be an array."
+                        ]
+                    ]
+                ]);
+    }
+
+    /**
      * @covers App\Http\Controllers\LessonPlanModelController::show
      *
      * @return void

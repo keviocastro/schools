@@ -4,7 +4,7 @@
 contendo fases fases avaliativas do ano (Ex.: bimestres), feriados, férias,
 inicio e fim do ano.
 
-## Coleção de calendarios escolares [/school-calendars{?_q,_sort,_with}]
+## Coleção de calendarios escolares [/school-calendars]
 
 ### Listar calendarios escolares [GET]
 
@@ -18,7 +18,7 @@ inicio e fim do ano.
             + schoolClasses - Turmas do ano letivo.
             + phases - Fases avaliativas do ano letivo. Recurso (SchoolCalendarPhase)
 
-+ Request (application/json)
++ Request  (application/json)
 
     + Headers
 
@@ -33,19 +33,19 @@ inicio e fim do ano.
 
 ### Criar calendário escolar [POST]
 
-+ Request (application/json)
++ Request  (application/json)
     + Headers
 
             authorization: <!-- include(Token.md) -->
 
     + Attributes (SchoolCalendarFillable)
 
-+ Response 200 (application/json)
++ Response 201 (application/json)
 
     + Attributes
         + school_calendar (SchoolCalendar)
 
-## Calendário escolar [/school-calendars/{school_calendar_id}{?_with}]
+## Calendário escolar [/school-calendars/{school_calendar_id}]
 
 ### Detalhes do calendário escolar [GET]
 
@@ -56,7 +56,7 @@ inicio e fim do ano.
             + schoolClasses - Turmas do ano letivo.
             + phases - Fases avaliativas do ano letivo. Recurso (SchoolCalendarPhase)
 
-+ Request
++ Request  (application/json)
     + Headers
 
             authorization: <!-- include(Token.md) -->
@@ -71,7 +71,7 @@ inicio e fim do ano.
 + Parameters
     + school_calendar_id: 1 (number) - ID of the school class
 
-+ Request
++ Request  (application/json)
     + Headers
 
             authorization: <!-- include(Token.md) -->
@@ -88,7 +88,7 @@ inicio e fim do ano.
 + Parameters
     + school_calendar_id: 1 (number) - ID of the School
 
-+ Request (application/json)
++ Request  (application/json)
 
     + Headers
 
@@ -96,7 +96,7 @@ inicio e fim do ano.
 
 + Response 204
 
-## Coleção de avaliacoes [/assessments{?_q,_sort,_with}]
+## Coleção de avaliacoes [/assessments]
 
 `Assessments` são as definições das avaliações que um professor precisar aplicar
 aos seus alunos durante uma fase do ano.
@@ -118,7 +118,7 @@ e a nota do aluno no 1º Bimestre será composta pela conta (N1*0,4)+(N2*0,6)=NO
             + studentGrades
             + schoolCalendarPhase
 
-+ Request
++ Request  (application/json)
     + Headers
 
             authorization: <!-- include(Token.md) -->

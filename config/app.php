@@ -165,6 +165,8 @@ return [
         Marcelgwerder\ApiHandler\ApiHandlerServiceProvider::class,
 
         App\Providers\HelperServiceProvider::class,  
+
+        App\Providers\CustomValidationServiceProvider::class,
     ],
 
     /*

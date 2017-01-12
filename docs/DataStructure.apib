@@ -2,7 +2,23 @@
 
 ## LessonPlanModelFillable
 
-+ definition: `[{"name":"Objetivo","type":"text","required":"true"},{"name":"Conteúdo","type":"text","required":"true"},{"name":"Metodologia","type":"text","required":"true"},{"name":"Material ditatico","type":"text","required":"true"}]` (string) - Json com estutura de campos do modelo
++ definition (array)
+    + (object)
+        + name: `Objetivo` (string)
+        + type: 'text' (string)
+        + `required`: true (boolean)
+    + (object)
+        + name: `Conteúdo` (string)
+        + type: 'text' (string)
+        + `required`: true (boolean)
+    + (object)
+        + name: `Metodologia` (string)
+        + type: 'long-text' (string)
+        + `required`: true (boolean)
+    + (object)
+        + name: `Material ditatico` (string)
+        + type: 'text' (string)
+        + `required`: true (boolean)
 
 ## LessonPlanModel
 
@@ -11,29 +27,29 @@
 
 ## LessonPlanFillable
 
-+ start_date
-+ end_date
-+ lessonPlanTemplate_id
++ start_date: `2016-10-01`
++ end_date: `2016-10-26`
++ lesson_plan_template_id: 1
 + content (array)
     + (object)
         + name: `Objetivo` (string)
         + type: 'text' (string)
-        + required: true (boolean)
+        + `required`: true (boolean)
         + value: 'Resolver operações utilizando números decimais obedecendo regras.'
     + (object)
         + name: `Conteúdo` (string)
         + type: 'text' (string)
-        + required: true (boolean)
+        + `required`: true (boolean)
         + value: 'Operações com números ordinais.'
     + (object)
         + name: `Metodologia` (string)
         + type: 'long-text' (string)
-        + required: true (boolean)
+        + `required`: true (boolean)
         + value: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
     + (object)
         + name: `Material ditatico` (string)
         + type: 'text' (string)
-        + required: true (boolean)
+        + `required`: true (boolean)
         + value: 'Livro didático, Jogo de tabuleiro.'
 
 ## LessonPlan

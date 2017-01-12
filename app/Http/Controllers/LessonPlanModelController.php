@@ -30,10 +30,9 @@ class LessonPlanModelController extends Controller
     public function store(Request $request)
     {
         $this->validationForStoreAction($request, [
-                // '{attribute}' => '{validation}',
+                'definition' => 'required|array',
             ]);
         $lessonPlanModel = LessonPlanModel::create($request->all());
-
         return $this->response->created("/lesson-plan-models/{$lessonPlanModel->id}", $lessonPlanModel);
     }
 
@@ -58,11 +57,12 @@ class LessonPlanModelController extends Controller
     public function update(Request $request, $id)
     {
         $this->validationForUpdateAction($request, [
-            // 'attribute' => 'rule',
+                'definition' => 'required|array',
             ]);
 
         $lessonPlanModel = LessonPlanModel::findOrFail($id);
         $lessonPlanModel->update($request->all());
+        // dd('validou');
 
         return $lessonPlanModel;
     }

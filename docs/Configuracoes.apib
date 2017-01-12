@@ -9,7 +9,7 @@ Configurações da contado do usuário logado.
 <!-- include(ParameterFilter.md) -->
 
 
-+ Request
++ Request  (application/json)
     + Headers
 
             authorization: <!-- include(Token.md) -->
@@ -42,13 +42,13 @@ Configurações da contado do usuário logado.
                 + value: 6 (number)
                 + `default`: 6 (number)
 
-## Coleção de disciplinas [/subjects{?_q,_sort,_with}]
+## Coleção de disciplinas [/subjects]
 
 `Subjects` São quais quer disciplinas ministradas nas escolas. ex: Português, matemática, direito constitucional entre outras.
 
 ### Criar disciplina [POST]
 
-+ Request (application/json)
++ Request  (application/json)
     + Headers
 
             authorization: <!-- include(Token.md) -->
@@ -71,7 +71,7 @@ Configurações da contado do usuário logado.
             +name
     + _sort (string, optional) - Ordena a coluna desejada, de forma acendente ou descendente.
 
-+ Request
++ Request  (application/json)
     + Headers
 
             authorization: <!-- include(Token.md) -->
@@ -90,7 +90,7 @@ Configurações da contado do usuário logado.
 + Parameters
     + subject_id: 1 (number) - ID of the Subject
 
-+ Request
++ Request  (application/json)
     + Headers
 
             authorization: <!-- include(Token.md) -->
@@ -105,7 +105,7 @@ Configurações da contado do usuário logado.
 + Parameters
     + subject_id: 1 (number) - ID of the Subject
 
-+ Request (application/json)
++ Request  (application/json)
 
     + Headers
 
@@ -123,7 +123,7 @@ Configurações da contado do usuário logado.
 + Parameters
     + subject_id: 2 (number) - ID of the Subject
 
-+ Request (application/json)
++ Request  (application/json)
     + Headers
 
             authorization: <!-- include(Token.md) -->
