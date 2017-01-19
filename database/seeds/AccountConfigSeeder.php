@@ -48,5 +48,10 @@ class AccountConfigSeeder extends Seeder
                         'material-didatico' => ['type' => 'tags', 'required' => false]
                     ]
                 ]);
+        AccountConfig::firstOrCreate([
+                    // Id do modelo de plano de aula padrão da conta
+                    'name' => 'lesson_plan_id',
+                    'default' => '1'
+                ]);
     }
 }
