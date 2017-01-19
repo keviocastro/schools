@@ -1,6 +1,7 @@
 <?php
 
 use App\AccountConfig;
+use App\LessonPlanModel;
 use Illuminate\Database\Seeder;
 
 class AccountConfigSeeder extends Seeder
@@ -37,6 +38,15 @@ class AccountConfigSeeder extends Seeder
                     // disciplina
                     'name' => 'passing_grade_threshold',
                     'default' => '6'
+                ]);
+        LessonPlanModel::firstOrCreate([
+                    // 1º Modelo de plano de aula de amostra
+                    'definition' => [
+                        'objetivos' => ['type' => 'text', 'required' => true],
+                        'conteudo' => ['type' => 'long-text', 'required' => false],
+                        'metodologia' => ['type' => 'text', 'required' => false],
+                        'material-didatico' => ['type' => 'tags', 'required' => false]
+                    ]
                 ]);
     }
 }
