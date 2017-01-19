@@ -50,7 +50,7 @@ class AccountConfigSeeder extends Seeder
                 ]);
         AccountConfig::firstOrCreate([
                     // Id do modelo de plano de aula padrão da conta
-                    'name' => 'lesson_plan_id',
+                    'name' => 'lesson_plan_model_id',
                     'default' => '1'
                 ]);
     }

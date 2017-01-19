@@ -1,3 +1,4 @@
 aglio -i gist.md -o apiary.apib
-aglio --theme-full-width -i gist.md -o docs.html
-google-chrome docs.html
+apiary preview
+cp /tmp/apiary-preview.html docs.html
+cp apiary.apib ../apiary.apib

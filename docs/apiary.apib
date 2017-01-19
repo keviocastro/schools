@@ -783,7 +783,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
     + Attributes
         + lesson_plan_model (LessonPlanModel)
 
-### Excluir aula [DELETE]
+### Excluir modelo de plano de aula [DELETE]
 
 + Parameters
     + lesson_plan_model_id: 1 (number) - ID of the model lesson plan
@@ -1283,6 +1283,10 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
                 + name: passing_grade_threshold (string) - `Média mínima para o aluno ser aprovado em uma disciplina`
                 + value: 6 (number)
                 + `default`: 6 (number)
+            + (object)]
+                + id: 5 (number)
+                + name: lesson_plan_model_id (number) - `ID do modelo de plano de aula padrão da conta`
+                + `default`: 1 (number) 
 
 ## Coleção de disciplinas [/subjects]
 
