@@ -46,8 +46,8 @@ class StudentTest extends TestCase
         // Obs.: não é testado aqui a média das fases (school_calendar_phase).
         //       porque é de responsabilidade do metodo Student::subjectAvaragePerYearPhase
         $this->assertEquals(
-            collect($expected)->except('school_calendar_phases'), 
-            collect($result)->except('school_calendar_phases')
+            collect($expected)->except('school_calendar_phases')->toArray(), 
+            collect($result)->except('school_calendar_phases')->toArray()
         );
 
         // Teste com 2º estudante que 

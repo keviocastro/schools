@@ -27,8 +27,15 @@ class LessonControllerTest extends TestCase
     public function testIndex()
     {
         $lesson = factory(Lesson::class)->create();
+        // para testar o parametro _with
+        $lesson->load('lessonPlan', 
+            'schoolClass.grade',
+            'schoolClass.shift',
+            'subject');
 
-    	$this->get('api/lessons?_sort=-id',$this->getAutHeader())
+    	$this->get('api/lessons?_sort=-id'.
+            '&_with=lessonPlan,schoolClass.grade,schoolClass.shift,subject',
+            $this->getAutHeader())
     		->assertResponseStatus(200)
     		->seeJson($lesson->toArray());
     }

@@ -71,10 +71,20 @@ class Lesson extends Model
     }
 
     /**
-     * Registros de chamada da aula 
-     *
+     * Get a lesson plan record
+     * 
      * @Relation
      * 
+     * @return Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function lessonPlan()
+    {
+        return $this->belongsTo('App\LessonPlan');
+    }
+
+    /**
+     * Registros de chamada da aula 
+     *
      * @return Illuminate\Database\Eloquent\Relations\hasMany
      */
     public function attendanceRecords()

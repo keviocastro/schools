@@ -180,6 +180,9 @@ $factory->define(App\Lesson::class, function ($faker) use ($factory) {
             },
             'start' => $start->format('Y-m-d H:i:s'),
             'end' => $start->modify('+ 30 minutes')->format('Y-m-d H:i:s'),
+            'lesson_plan_id' => function(){
+                return factory(App\LessonPlan::class)->create()->id;
+            }
         ];
 });
 

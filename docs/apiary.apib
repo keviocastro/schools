@@ -404,11 +404,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 
 + Response 204
 
-<<<<<<< HEAD
 ## Relatório anual da turma por disciplina [/school-classes/{school_class_id}/annual-report-by/{subject_id}{?_sort_students}]
-=======
-## Relatório anual da turma por disciplina [/school-classes/{school_class_id}/annual-report-by-subject/{subject_id}]
->>>>>>> planosDeAulas
 
 ### Relatório anual por disciplina [GET]
 
@@ -464,11 +460,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 
 # Group Aula
 
-<<<<<<< HEAD
-## Coleção de aulas [/lessons{?_q,_sort,_with}]
-=======
 ## Coleção de aulas [/lessons]
->>>>>>> planosDeAulas
 
 `Lessons` são as aulas programadas para as turmas de uma escola.
 
@@ -486,6 +478,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
             + schoolClass.grade
             + schoolClass.shift
             + subject
+            + lessonPlan
 
 + Request  (application/json)
     + Headers
@@ -530,6 +523,8 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
             + schoolClass.students.responsibles
             + schoolClass.students.attendanceRecords
             + schoolClass.students.person
+            + lessonPlan
+
     + attach (string, optional)
 
         Anexa mais informações da aula na responsta.
@@ -598,11 +593,8 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 
 ### Listar aulas por dia [GET]
 
-<<<<<<< HEAD
 Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="output.html#header-parametros-de-filtros-em-listagem">sessão</a> como definir os parametros da requisição.
 
-=======
->>>>>>> planosDeAulas
 + Parameters
     + start (string, optional) Data inicial
         + Default: NOW()
@@ -617,7 +609,6 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
             + schoolClass.students.studentResponsible
             + schoolClass.students.attendanceRecords
             + subject
-    + _q (string, optional) - Fulltext search
 
 + Request  (application/json)
     + Headers
@@ -1064,11 +1055,8 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
         + data (array)
             + (StudentGrade)
 
-<<<<<<< HEAD
-## Nota [/student-grades/{student_grade_id}{?_with}]
-=======
+
 ## Nota [/student-grades/{student_grades_id}]
->>>>>>> planosDeAulas
 
 ### Detalhes da nota [GET]
 
@@ -1109,7 +1097,6 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
     + Attributes
         + StudentGrade (StudentGrade)
 
-<<<<<<< HEAD
 ### Excluir nota [DELETE]
 
 + Parameters
@@ -1119,14 +1106,11 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4MzgwNzA2MywiaWF0IjoxNDgxMjE1MDYzfQ.1YO1iTYVRU9NDeJBnqYUQYPk0PVHcCPxSaRtiw1v5Wg
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4NjU1Mjg5OCwiaWF0IjoxNDgzOTYwODk4fQ.JorxAL0f_rGEuMRSw4o-DkfX6Q21KuTL9MhTPlBpMPI
 
 + Response 204
 
-## Coleção de ocorrências [/occurences{?_q,_sort,_with}]
-=======
 ## Coleção de ocorrências [/occurences]
->>>>>>> planosDeAulas
 
 `Occurrence` são registros de ocorrências registrar por professor em relação aos alunos.
 
@@ -1245,7 +1229,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 + Request
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4MzgwNzA2MywiaWF0IjoxNDgxMjE1MDYzfQ.1YO1iTYVRU9NDeJBnqYUQYPk0PVHcCPxSaRtiw1v5Wg
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4NjU1Mjg5OCwiaWF0IjoxNDgzOTYwODk4fQ.JorxAL0f_rGEuMRSw4o-DkfX6Q21KuTL9MhTPlBpMPI
 
 + Response 200 (application/json)
     

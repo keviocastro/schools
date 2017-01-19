@@ -35,6 +35,12 @@ class LessonPlans extends Migration
 
             $table->foreign('lesson_plan_template_id')->references('id')->on('lesson_plan_models');
         });
+
+        Schema::table('lessons',function (Blueprint $table) {
+            $table->unsignedInteger('lesson_plan_id')->nullable();
+
+            $table->foreign('lesson_plan_id')->references('id')->on('lesson_plans');
+        });
     }
 
     /**
@@ -44,6 +50,10 @@ class LessonPlans extends Migration
      */
     public function down()
     {
+        Schema::table('lessons', function(Blueprint $table){
+            $table->dropForeign(['lesson_plan_id']);
+            $table->dropColumn('lesson_plan_id');
+        });
         Schema::drop('lesson_plans');
         Schema::drop('lesson_plan_models');
     }
