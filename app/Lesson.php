@@ -28,6 +28,7 @@ class Lesson extends Model
     	'subject_id', 
     	'start', 
     	'end',
+        'lesson_plan_id'
     	];
     
     /**
@@ -51,7 +52,7 @@ class Lesson extends Model
      *
      * @Relation
      * 
-     * @return Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function schoolClass()
     {
@@ -85,7 +86,7 @@ class Lesson extends Model
     /**
      * Registros de chamada da aula 
      *
-     * @return Illuminate\Database\Eloquent\Relations\hasMany
+     * @return Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function attendanceRecords()
     {
