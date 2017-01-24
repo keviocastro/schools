@@ -8,7 +8,6 @@ use Config;
 use Dotenv\Dotenv;
 use Illuminate\Foundation\Testing\TestCase as TestCaseLara;
 use Illuminate\Support\Facades\Schema;
-use Kirkbater\Testing\SoftDeletes as SoftDeletes;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
 use Tests\selectDatabaseTest;

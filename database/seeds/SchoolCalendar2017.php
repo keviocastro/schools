@@ -19,7 +19,7 @@ use Illuminate\Database\Seeder;
 /**
  * @author Kévio Castro keviocastro@gmail.com
  */
-class SchoolCalendar2016 extends Seeder
+class SchoolCalendar2017 extends Seeder
 {
     /**
      * Run the database seeds.
@@ -33,7 +33,7 @@ class SchoolCalendar2016 extends Seeder
     }
 
     /**
-     * Cria um calendario para 2016
+     * Cria um calendario para 2017
      * Com uma turma
      * Aulas durante todo o ano para essa turma com 5 disciplinas, onde:
      *     O professor 1 ministra aulas para as disciplinas 1 e 2.
@@ -52,77 +52,62 @@ class SchoolCalendar2016 extends Seeder
      *       Para o primeiro aluno criado (id = 1), e
      *       1º disciplina criada (id = 1), com nome Matématica, tem as notas: 
      *       
-     *       Nota 1.1 = 10 
-     *       Nota 1.2 = 9.2 
-     *       Nota 2.1 = 8.5
-     *       Nota 2.2 = 10 
-     *       Nota 3.1 = 9.5
-     *       Nota 3.2 = 9.0
-     *       Nota 4.1 = 10 
-     *       Nota 4.2 = 9.6
+     *       Nota 1.1    = 4.1 
+     *       Nota 1.2    = 5.6 
+     *       Nota 2.1    = 5.8
+     *       Nota 2.2    = 4.1 
+     *       Nota 3.1    = 6
+     *       Nota 3.2    = 4.3
+     *       Nota 4.1    = 5.2 
+     *       Nota 4.2    = 3.1
+     *       Recuperação = 7.4
      *       
-     *       Média = (10+9.2)/2 = 9.6 +      // 1 Bimestre. 
-     *               (8.5+10)/2 = 9.3 +     // 2 Bim.
-     *               (9.5+9.0)/2 = 9.3 +    // 3 Bim.
-     *               (10+9.6)/2 = 9.8        // 4 Bim.
+     *       Média = (4.1+5.6)/2 = 4.9     // 1 Bimestre. 
+     *               (5.8+4.1)/2 = 4.9     // 2 Bim.
+     *               (6+4.3)/2   = 5.2     // 3 Bim.
+     *               (5.2+3.1)/2 = 4.2     // 4 Bim.
+     *                7.4                  // Recuperação
      *               
      *       A média anual é calculada por: 
-     *       ( (1 Bim + 2 Bim) * 0.4 + (3 Bim + 4 Bim) * 0.6 ) / 2 = MÉDIA NO ANO
+     *       ( (1 Bim + 2 Bim) * 0.4 + (3 Bim + 4 Bim) * 0.6 ) / 2 ) = MÉDIA NO ANO
      *       
-     *       1 Semestre = (9.6 + 9.25)*0.4 = 7.54
-     *       2 Semestre = (9.25 + 9.8)*0.6 = 11.43
+     *       1 Semestre = (4.9 + 4.9)*0.6  = 5.9 
+     *       2 Semestre = (5.2 + 4.2)*0.4 = 3.8 
+     *       Recuperação = 7.4
      *       
-     *       ( 7.54 + 11.43 ) /2  = 9.48
+     *       (5.9+3.8)/2 = 4.9 MÉDIA NO ANO
      *       
-     *      2º disciplina criada é a menor média do ano = 0.2
-     *  
      *  FALTAS:
      *  
      * Para o 1º aluno criado (id = 1):
      * 
-     *    1º Bimestre = 4
-     *    2º Bimestre = 3
-     *    3º Bimestre = 6
-     *    4º Bimestre = 2
-     *    Total no ano: 15
+     *    1º Bimestre = 3
+     *    2º Bimestre = 0
+     *    3º Bimestre = 0
+     *    4º Bimestre = 0
+     *    Total no ano: 3
      *
      *
-     * Pra o 2º aluno criado (id = 2), e 1º disciplina criada (id = 1), 
-     * com nome Matématica, tem as notas:
-     *     
-     *     Nota 1.1 = 7.2 
-     *     Nota 1.2 = 9.6
-     *     Nota 2.1 =           (sem nota)
-     *     Nota 2.2 = 8.5 
-     *     Nota 3.1 =           (sem nota)
-     *     Nota 3.2 =           (sem nota)
-     *     Nota 4.1 = 9.2        
-     *     Nota 4.2 = 8.6
-     *
-     *     1º Bimestre (7.2+9.6)/2 = 8.4
-     *     2º Bimestre (SemNota+8.5) = sem média do bimestre
-     *     3º Bimestre (SemNota+SemNota) = sem média do bimestre
-     *     4º Bimestre (9.2+8.6)/2 = 8.9
-     * 
      * @return array
      */
     public static function create()
     {
-        // Calendario escolar com 4 bimesres
-        // 3 notas por bimestre para compor a nota do bimestre.
+        // Calendario escolar com 5 fases: 4 bimestes e 1 recuperação
+        // 2 notas por fase
+        // 1 nota na recuperação
         dump('Criando calendário escolar e avaliações...');
         $schoolCalendar = factory(SchoolCalendar::class)->create([
-            'year' => '2016',
-            'start' => '2016-01-20',
-            'end' => '2016-12-16',
+            'year' => '2017',
+            'start' => '2017-02-01',
+            'end' => '2017-12-08',
             'average_formula' => 
-                '( ({1º Bimestre} + {2º Bimestre})*0.4 + ({3º Bimestre} + {4º Bimestre})*0.6 )/2'
+                '( ({1º Bimestre} + {2º Bimestre})*0.6 + ({3º Bimestre} + {4º Bimestre})*0.4 )/2'
         ]);
         $schoolCalendarPhase1 = factory(SchoolCalendarPhase::class)->create([
             'school_calendar_id' => $schoolCalendar->id,
             'name' => '1º Bimestre',
-            'start' => '2016-01-16',
-            'end' => '2016-04-15',
+            'start' => '2017-02-01',
+            'end' => '2017-04-15',
             'average_formula' => '({Nota 1.1} + {Nota 1.2})/2'
         ]);
 
@@ -140,8 +125,8 @@ class SchoolCalendar2016 extends Seeder
         $schoolCalendarPhase2 = factory(SchoolCalendarPhase::class)->create([
             'school_calendar_id' => $schoolCalendar->id,
             'name' => '2º Bimestre',
-            'start' => '2016-04-16',
-            'end' => '2016-06-30',
+            'start' => '2017-04-16',
+            'end' => '2017-06-31',
             'average_formula' => '({Nota 2.1} + {Nota 2.2})/2'
         ]);
 
@@ -160,8 +145,8 @@ class SchoolCalendar2016 extends Seeder
         $schoolCalendarPhase3 = factory(SchoolCalendarPhase::class)->create([
             'school_calendar_id' => $schoolCalendar->id,
             'name' => '3º Bimestre',
-            'start' => '2016-08-01',
-            'end' => '2016-09-30',
+            'start' => '2017-08-01',
+            'end' => '2017-09-30',
             'average_formula' => '({Nota 3.1} + {Nota 3.2})/2'
         ]);
         $assessments = [
@@ -179,8 +164,8 @@ class SchoolCalendar2016 extends Seeder
         $schoolCalendarPhase4 = factory(SchoolCalendarPhase::class)->create([
             'school_calendar_id' => $schoolCalendar->id,
             'name' => '4º Bimestre',
-            'start' => '2016-10-01',
-            'end' => '2016-12-16',
+            'start' => '2017-10-01',
+            'end' => '2017-12-15',
             'average_formula' => '({Nota 4.1} + {Nota 4.2})/2'
         ]);
         $assessments = [
@@ -191,6 +176,21 @@ class SchoolCalendar2016 extends Seeder
             factory(App\Assessment::class)->make([
                 'school_calendar_phase_id' => $schoolCalendarPhase4->id,
                 'name' => 'Nota 4.2', 
+            ])->toArray()
+        ];
+        Assessment::insert($assessments);
+
+        $schoolCalendarPhase5 = factory(SchoolCalendarPhase::class)->create([
+            'school_calendar_id' => $schoolCalendar->id,
+            'name' => 'Recuperação',
+            'start' => '2018    -01-08',
+            'end' => '2018-01-31',
+            'average_formula' => '{Nota 5.1}'
+        ]);
+        $assessments = [
+            factory(App\Assessment::class)->make([
+                'school_calendar_phase_id' => $schoolCalendarPhase5->id,
+                'name' => 'Recuperação', 
             ])->toArray()
         ];
         Assessment::insert($assessments);
@@ -222,8 +222,6 @@ class SchoolCalendar2016 extends Seeder
         // Estudante que terão dados de faltas e notas
         // pré-definidos para ser utilizados em testes 
         $studentFixedData = $students[0];
-        $studentFixedData2 = $students[1];
-
 
         $start = Carbon::createFromFormat('Y-m-d', $schoolCalendarPhase1->start);
         $end = Carbon::createFromFormat('Y-m-d', $schoolCalendarPhase4->end);
@@ -303,7 +301,6 @@ class SchoolCalendar2016 extends Seeder
         SchoolClassSubject::insert($schoolClassSubjects);
 
         // 1º Bimeste
-        dump('Registrando presenças e notas para o 1º Bimestre...');
         $assessments = $schoolCalendarPhase1->assessments()
             ->orderBy('id')->get();
         
@@ -311,103 +308,125 @@ class SchoolCalendar2016 extends Seeder
                 // 1º Aluno
                 [
                     'subject_id' =>  $subjectFixedData->id,
-                    'grade' => 10,
+                    'grade' => 4.1,
                     'student_id' => $studentFixedData->id,
                     'assessment_id' => $assessments[0]->id
                 ],
                 [
                     'subject_id' => $subjectFixedData->id,
-                    'grade' => 9.2,
+                    'grade' => 5.6,
                     'student_id' => $studentFixedData->id,
                     'assessment_id' => $assessments[1]->id
-                ],
-                [
-                    'subject_id' => $subjectFixedData2->id,
-                    'grade' => 0.2,
-                    'student_id' => $studentFixedData->id,
-                ],
-                // 2º Aluno
-                [
-                    'subject_id' =>  $subjectFixedData->id,
-                    'grade' => 7.2,
-                    'student_id' => $studentFixedData2->id,
-                    'assessment_id' => $assessments[0]->id
-                ],
-                [
-                    'subject_id' => $subjectFixedData->id,
-                    'grade' => 9.6,
-                    'student_id' => $studentFixedData2->id,
-                    'assessment_id' => $assessments[1]->id
-                ],
+                ]
             ];
-        AttendanceRecordsFactory::create($schoolCalendarPhase1, 4, $studentFixedData->id);
-        StudentGradesFactory::create($schoolCalendarPhase1, 
-            $schoolClass, $subjects, $fixedDataSubjects);
+        dump('Registrando presenças para o 1º Bimestre...');
+        AttendanceRecordsFactory::create(
+            $schoolCalendarPhase1, 
+            3, 
+            $studentFixedData->id
+        );
+
+        dump('Registrando notas para o 1º Bimestre...');
+        StudentGradesFactory::create(
+            $schoolCalendarPhase1, 
+            $schoolClass, 
+            $subjects, 
+            $fixedDataSubjects
+        );
 
         // 2º Bimestre
-        dump('Registrando presenças e notas para o 2º Bimestre...');
         $assessments = $schoolCalendarPhase2->assessments()
             ->orderBy('id')->get();
         // 1º Aluno 
         $fixedDataSubjects[0]['assessment_id'] = $assessments[0]->id;
-        $fixedDataSubjects[0]['grade'] = 8.5;
+        $fixedDataSubjects[0]['grade'] = 5.8;
 
         $fixedDataSubjects[1]['assessment_id'] = $assessments[1]->id;
-        $fixedDataSubjects[1]['grade'] = 10;
-        // 2º Aluno 
-        $fixedDataSubjects[3]['assessment_id'] = $assessments[0]->id;
-        $fixedDataSubjects[3]['grade'] = 'do-not-create';
-
-        $fixedDataSubjects[4]['assessment_id'] = $assessments[1]->id;
-        $fixedDataSubjects[4]['grade'] = 8.5;
+        $fixedDataSubjects[1]['grade'] = 4.1;
         
+        dump('Registrando presenças para o 2º Bimestre...');
+        AttendanceRecordsFactory::create(
+            $schoolCalendarPhase2, 
+            0, 
+            $studentFixedData->id
+        );
 
-        AttendanceRecordsFactory::create($schoolCalendarPhase2, 3, $studentFixedData->id);
-        $assessments_phase_2 = $schoolCalendarPhase2->assessments;
-        StudentGradesFactory::create($schoolCalendarPhase2, $schoolClass, 
-            $subjects, $fixedDataSubjects);
+        dump('Registrando notas para o 2º Bimestre...');
+        StudentGradesFactory::create(
+            $schoolCalendarPhase2, 
+            $schoolClass, 
+            $subjects, 
+            $fixedDataSubjects
+        );
 
         // 3º Bimestre
-        dump('Registrando presenças e notas para o 3º Bimestre...');
         $assessments = $schoolCalendarPhase3->assessments()
             ->orderBy('id')->get();
         // 1º Aluno
         $fixedDataSubjects[0]['assessment_id'] = $assessments[0]->id;
-        $fixedDataSubjects[0]['grade'] = 9.5;
+        $fixedDataSubjects[0]['grade'] = 6;
 
         $fixedDataSubjects[1]['assessment_id'] = $assessments[1]->id;
-        $fixedDataSubjects[1]['grade'] = 9.0;
-        // 2º Aluno 
-        $fixedDataSubjects[3]['assessment_id'] = $assessments[0]->id;
-        $fixedDataSubjects[3]['grade'] = 'do-not-create';
-
-        $fixedDataSubjects[4]['assessment_id'] = $assessments[1]->id;
-        $fixedDataSubjects[4]['grade'] = 'do-not-create';
+        $fixedDataSubjects[1]['grade'] = 4.3;
         
-        AttendanceRecordsFactory::create($schoolCalendarPhase3, 6, $studentFixedData->id);
-        StudentGradesFactory::create($schoolCalendarPhase3, $schoolClass, 
-            $subjects, $fixedDataSubjects);
+        dump('Registrando presenças para o 3º Bimestre...');
+        AttendanceRecordsFactory::create(
+            $schoolCalendarPhase3, 
+            0, 
+            $studentFixedData->id
+        );
+        dump('Registrando notas para o 3º Bimestre...');
+        StudentGradesFactory::create(
+            $schoolCalendarPhase3, 
+            $schoolClass, 
+            $subjects, 
+            $fixedDataSubjects
+        );
 
         // 4º Bimestre
-        dump('Registrando presenças e notas para o 4º Bimestre...');
         $assessments = $schoolCalendarPhase4->assessments()
             ->orderBy('id')->get();
         //1º Aluno
         $fixedDataSubjects[0]['assessment_id'] = $assessments[0]->id;
-        $fixedDataSubjects[0]['grade'] = 10;
+        $fixedDataSubjects[0]['grade'] = 5.2;
 
         $fixedDataSubjects[1]['assessment_id'] = $assessments[1]->id;
-        $fixedDataSubjects[1]['grade'] = 9.6;
-        // 2º Aluno 
-        $fixedDataSubjects[3]['assessment_id'] = $assessments[0]->id;
-        $fixedDataSubjects[3]['grade'] = 9.2;
+        $fixedDataSubjects[1]['grade'] = 3.1;
 
-        $fixedDataSubjects[4]['assessment_id'] = $assessments[1]->id;
-        $fixedDataSubjects[4]['grade'] = 8.6;
+        dump('Registrando presenças para o 4º Bimestre...');
+        AttendanceRecordsFactory::create(
+            $schoolCalendarPhase4, 
+            2, 
+            $studentFixedData->id
+        );
+        dump('Registrando notas para o 4º Bimestre...');
+        StudentGradesFactory::create(
+            $schoolCalendarPhase4, 
+            $schoolClass, 
+            $subjects, 
+            $fixedDataSubjects
+        );
 
-        AttendanceRecordsFactory::create($schoolCalendarPhase4, 2, $studentFixedData->id);
-        $assessments_phase_4 = $schoolCalendarPhase4->assessments;
-        StudentGradesFactory::create($schoolCalendarPhase4, $schoolClass, 
-            $subjects, $fixedDataSubjects);
+        // Recuperação
+        $assessment = $schoolCalendarPhase5->assessments()
+            ->first();
+
+        //1º Aluno
+        dump('Registrando presenças para a Recuperação...');
+        AttendanceRecordsFactory::create(
+            $schoolCalendarPhase5, 
+            0, 
+            $studentFixedData->id
+        );
+
+        dump('Registrando notas para a Recuperação...');
+        $fixedDataSubjects[0]['assessment_id'] = $assessment->id;
+        $fixedDataSubjects[0]['grade'] = 7.4;
+        StudentGradesFactory::create(
+            $schoolCalendarPhase5, 
+            $schoolClass, 
+            $subjects, 
+            $fixedDataSubjects
+        );
     }
 }
