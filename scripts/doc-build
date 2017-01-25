@@ -1,4 +1,5 @@
-aglio -i gist.md -o apiary.apib
-apiary preview
-cp /tmp/apiary-preview.html docs.html
-cp apiary.apib ../apiary.apib
+aglio -i gist.md -o api.apib
+apiary preview --path=api.apib
+cp /tmp/api-preview.html api.html
+drafter -f json -t ast -o api.json api.apib 
+blueman convert --output=api-postman-collection.json api.json

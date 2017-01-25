@@ -1,5 +1,5 @@
 docker exec schools_web_1 php artisan migrate:refresh --seed
 docker exec schools_web_1 php artisan db:seed --class=SchoolCalendar2016
 docker exec schools_web_1 php artisan db:seed --class=FakeDataForTestSeeder
-aglio -i gist.md -o apiary.apib
+aglio -i gist.md -o api.apib
 dredd

@@ -62,9 +62,6 @@ class LessonPlanControllerTest extends TestCase
             ->seeJsonEquals([
                     "message" => "Could not create new resource.",
                     'errors' => [
-                        'start_date' => [
-                            "The start date must be a date before or equal :date."
-                        ],
                         'lesson_plan_template_id' => [
                             'The selected lesson plan template id is invalid.'
                         ],
@@ -122,8 +119,6 @@ class LessonPlanControllerTest extends TestCase
     public function testUpdateValidation()
     {
         $lessonPlan = factory(App\LessonPlan::class)->make()->toArray();
-        $lessonPlan['start_date'] = '2016-04-08';
-        $lessonPlan['end_date'] = '2016-04-07';
         $lessonPlan['lesson_plan_template_id'] = -99;
         $lessonPlan['content'] = "Thnis is bot an array it's a string";
 
@@ -134,9 +129,6 @@ class LessonPlanControllerTest extends TestCase
             ->seeJsonEquals([
                 "message" => "Could not create new resource.",
                 'errors' => [
-                    'start_date' => [
-                        "The start date must be a date before or equal :date."
-                    ],
                     'lesson_plan_template_id' => [
                         'The selected lesson plan template id is invalid.'
                     ],

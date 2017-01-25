@@ -1,4 +1,4 @@
-# Group Aula
+# Group Aulas
 
 ## Coleção de aulas [/lessons]
 
@@ -6,7 +6,7 @@
 
 ### Listar aulas [GET]
 
-<!-- include(ParameterFilter.md) -->
+<!-- include(LinkParametrosPadroesListagem.md) -->
 
 
 + Parameters
@@ -47,7 +47,7 @@
         + lesson (Lesson)
 
 
-## Lesson [/lessons/{lesson_id}]
+## Aula [/lessons/{lesson_id}]
 
 ### Detalhes da aula [GET]
 
@@ -133,7 +133,7 @@
 
 ### Listar aulas por dia [GET]
 
-<!-- include(ParameterFilter.md) -->
+<!-- include(LinkParametrosPadroesListagem.md) -->
 
 + Parameters
     + start (string, optional) Data inicial
@@ -166,11 +166,11 @@
                 + lessons (array[Lesson])
 
 
-## Coleção do plano de aulas [/lesson-plans]
+## Coleção de planos de aula [/lesson-plans]
 
-`Lesson plan` são planos de aulas ou planejamento de aulas criado pelos professores 
+`Lesson plan` são planejamentos dos professores para como e quando vão aplicar conteúdos na sala de aula. 
 
-### Listar planos de aulas [GET]
+### Listar planos de aula [GET]
 
 + Parameters
     + _q (string, optional) - Pesquisa por palavra-chave, a correspondência e incluida conjunto de resultados.
@@ -259,9 +259,12 @@
 
 ## Coleção de modelos para planos de aula [/lesson-plan-models]
 
-<!-- include(ParameterFilter.md) -->
+'Modelos de plano de aula' são definições de formatos que os professores devem seguir
+ao criar seus planos de aula
 
-### Listar modelos Planos de aulas [GET]
+<!-- include(LinkParametrosPadroesListagem.md) -->
+
+### Listar modelos de plano de aula [GET]
 
 + Request  (application/json)
     + Headers
@@ -289,7 +292,7 @@
     + Attributes
         + lesson_plan_Model (LessonPlanModel)
 
-## Modelo do plano de aulas [/lesson-plan-models/{lesson_plan_model_id}]
+## Modelo de plano de aulas [/lesson-plan-models/{lesson_plan_model_id}]
 
 ### Detalhes do modelo de plano de aula [GET]
 

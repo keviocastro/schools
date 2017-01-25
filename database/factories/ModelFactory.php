@@ -348,8 +348,6 @@ $factory->define(App\Teacher::class, function ($faker) use ($factory) {
 
 $factory->define(App\LessonPlan::class, function ($faker) use ($factory) {
 
-    $start = $faker->dateTime('now')->format('Y-m-d');
-    $end = $faker->dateTimeInInterval($start,'+ 15 days')->format('Y-m-d');
     $lessonPlanModel = factory(App\LessonPlanModel::class)->create()->toArray();
     
     foreach ($lessonPlanModel['definition'] as $key => $item) {
@@ -357,8 +355,6 @@ $factory->define(App\LessonPlan::class, function ($faker) use ($factory) {
     }
     
     return [
-        'start_date' => $start,
-        'end_date' => $end,
         'lesson_plan_template_id' => $lessonPlanModel['id'],
         'content' => $lessonPlanModel['definition']
     ];

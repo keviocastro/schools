@@ -30,8 +30,6 @@ class LessonPlanController extends Controller
     public function store(Request $request)
     {
         $this->validationForStoreAction($request, [
-            'start_date' => 'required|date_format:Y-m-d|dateLessOrEquals:end_date',
-            'end_date' => 'required|date_format:Y-m-d',
             'lesson_plan_template_id' => 'exists:lesson_plan_models,id',
             'content' => 'required|array',
         ]);
@@ -62,8 +60,6 @@ class LessonPlanController extends Controller
     public function update(Request $request, $id)
     {
         $this->validationForStoreAction($request, [
-            'start_date' => 'date_format:Y-m-d|dateLessOrEquals:end_date',
-            'end_date' => 'date_format:Y-m-d',
             'lesson_plan_template_id' => 'exists:lesson_plan_models,id',
             'content' => 'array',
         ]);

@@ -23,8 +23,6 @@ class LessonPlans extends Migration
         });
         Schema::create('lesson_plans', function (Blueprint $table) {
             $table->increments('id');
-            $table->date('start_date');
-            $table->date('end_date');
             $table->unsignedInteger('lesson_plan_template_id')->nullable();
             $table->json('content');
             $table->string('created_by')->nullable();

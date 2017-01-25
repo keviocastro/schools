@@ -1,7 +1,7 @@
 reporter: apiary
 custom:
   apiaryApiKey: 6cabb663232a4ff4c4b5a5243fc96c82
-  apiaryApiName: schoolsap
+  apiaryApiName: schoolsapi
 dry-run: null
 hookfiles: null
 language: nodejs
@@ -32,5 +32,5 @@ hooks-worker-term-retry: 500
 hooks-worker-handler-host: localhost
 hooks-worker-handler-port: 61321
 config: ./dredd.yml
-blueprint: apiary.apib
+blueprint: api.apib
 endpoint: 'http://localhost/api'

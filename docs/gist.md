@@ -1,6 +1,6 @@
-<!-- include(DefinitionOfApi.apib) -->
+<!-- include(DefinicaoApi.apib) -->
 
-<!-- include(Authentication.apib) -->
+<!-- include(Autentificacao.apib) -->
 
 <!-- include(Parametros.md) -->
 
@@ -18,4 +18,4 @@
 
 <!-- include(ControleAcesso.apib) -->
 
-<!-- include(DataStructure.apib) -->
+<!-- include(EstruturaDeDados.apib) -->

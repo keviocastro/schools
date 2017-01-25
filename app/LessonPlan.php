@@ -28,7 +28,9 @@ class LessonPlan extends Model
      *
      * @var array
      */
-    protected $fillable = ['start_date','end_date','lesson_plan_template_id','content'];
+    protected $fillable = [
+        'lesson_plan_template_id',
+        'content'];
 
     /**
      * The attributes that should be casted to native types.

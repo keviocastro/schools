@@ -10,7 +10,6 @@ use Illuminate\Foundation\Testing\TestCase as TestCaseLara;
 use Illuminate\Support\Facades\Schema;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
-use Tests\selectDatabaseTest;
 use Illuminate\Support\Facades\Artisan;
 
 class TestCase extends TestCaseLara
