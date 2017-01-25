@@ -458,7 +458,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
                         + average: 7.7 (number) - Media aritimetica das notas de todos os alunos da turma em uma disciplina para a fase do calendário escolar.
 
 
-# Group Aula
+# Group Aulas
 
 ## Coleção de aulas [/lessons]
 
@@ -507,7 +507,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
         + lesson (Lesson)
 
 
-## Lesson [/lessons/{lesson_id}]
+## Aula [/lessons/{lesson_id}]
 
 ### Detalhes da aula [GET]
 
@@ -626,11 +626,11 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
                 + lessons (array[Lesson])
 
 
-## Coleção do plano de aulas [/lesson-plans]
+## Coleção de planos de aula [/lesson-plans]
 
-`Lesson plan` são planos de aulas ou planejamento de aulas criado pelos professores 
+`Lesson plan` são planejamentos dos professores para como e quando vão aplicar conteúdos na sala de aula. 
 
-### Listar planos de aulas [GET]
+### Listar planos de aula [GET]
 
 + Parameters
     + _q (string, optional) - Pesquisa por palavra-chave, a correspondência e incluida conjunto de resultados.
@@ -719,9 +719,12 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 
 ## Coleção de modelos para planos de aula [/lesson-plan-models]
 
+'Modelos de plano de aula' são definições de formatos que os professores devem seguir
+ao criar seus planos de aula
+
 Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="output.html#header-parametros-de-filtros-em-listagem">sessão</a> como definir os parametros da requisição.
 
-### Listar modelos Planos de aulas [GET]
+### Listar modelos de plano de aula [GET]
 
 + Request  (application/json)
     + Headers
@@ -749,7 +752,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
     + Attributes
         + lesson_plan_Model (LessonPlanModel)
 
-## Modelo do plano de aulas [/lesson-plan-models/{lesson_plan_model_id}]
+## Modelo de plano de aulas [/lesson-plan-models/{lesson_plan_model_id}]
 
 ### Detalhes do modelo de plano de aula [GET]
 
@@ -971,7 +974,7 @@ retornado o registro já existente com as informações atualizadas.
 + Parameters
     + attendance_record_id: 1 (number) - ID of the attendance record
 
-### View a attendance record detail [GET]
+### Detalhes do registro de presença [GET]
 
 + Parameters
     + _with (string, optional) - Obtem informações do recurso relacionado.
@@ -1029,7 +1032,7 @@ retornado o registro já existente com as informações atualizadas.
     + Attributes
         + StudentGrade (StudentGrade)
 
-### List Student Grades [GET]
+### Litar notas [GET]
 
 Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="output.html#header-parametros-de-filtros-em-listagem">sessão</a> como definir os parametros da requisição.
 
@@ -1208,7 +1211,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 
 
 
-# Group Professor
+# Group Professores
 
 `Teachers` são os professores de uma escola.
 
@@ -1306,7 +1309,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
     + Attributes
         + Subject (Subject)
 
-### List Subjects [GET]
+### Listar disciplinas [GET]
 
 Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="output.html#header-parametros-de-filtros-em-listagem">sessão</a> como definir os parametros da requisição.
 
@@ -1378,7 +1381,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 + Response 204
 
 
-# Group Controle de acesso
+# Group Controles de acesso
 
 ## Solicitação de acesso [/auth/request-access]
 
@@ -1417,7 +1420,7 @@ Com isso o cadastro do Professor Medeiros fica pendente até que um usuário da 
 
 ## LessonPlanModelFillable
 
-+ definition (array)
++ definition (array) - String JSON válido com definição do formulário de castro do plano de aula
     + (object)
         + name: `Objetivo` (string)
         + type: 'text' (string)
@@ -1437,15 +1440,13 @@ Com isso o cadastro do Professor Medeiros fica pendente até que um usuário da 
 
 ## LessonPlanModel
 
-+ id: 1 (number) - Identificador único do modelo do plano de aula
++ id: 1 (number) - ID do modelo do plano de aula
 + Include (LessonPlanModelFillable)
 
 ## LessonPlanFillable
 
-+ start_date: `2016-10-01`
-+ end_date: `2016-10-26`
-+ lesson_plan_template_id: 1
-+ content (array)
++ lesson_plan_template_id: 1 (number, optional) - ID do modelo de plano de aula relacionado
++ content (array) - String JSON válido contendo o conteúdo do plano
     + (object)
         + name: `Objetivo` (string)
         + type: 'text' (string)
