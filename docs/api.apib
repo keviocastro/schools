@@ -703,12 +703,19 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 
             authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Nzg2NDkwMCwiaWF0IjoxNDg1MjcyOTAwfQ.b99sxpaj3mLljTx1YfwvcUHpwKsIB5dayiBycByPZ0A
 
-    + Attributes (LessonPlanFillable)
+    + Attributes (object)
+        + Include LessonPlanFillable
+        + lesson_ids (array) - `Array com ID das aulas a quais o plano de 
+        aula é relacionado` 
+            - Sample
+                + 1 (number)
 
 + Response 200 (application/json)
 
     + Attributes
-        + lesson (LessonPlan)
+        + lesson_plan (object) - Dados do plano de aula criado
+            + Include LessonPlan
+            + lessons (array[Lesson]) - Aulas relacionadas ao plano de aula
 
 
 ### Excluir plano de aula [DELETE]

@@ -3421,14 +3421,48 @@
                             "value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Nzg2NDkwMCwiaWF0IjoxNDg1MjcyOTAwfQ.b99sxpaj3mLljTx1YfwvcUHpwKsIB5dayiBycByPZ0A"
                           }
                         ],
-                        "body": "{\n  \"lesson_plan_template_id\": 1,\n  \"content\": [\n    {\n      \"name\": \"Objetivo\",\n      \"type\": \"'text'\",\n      \"required\": true,\n      \"value\": \"'Resolver operações utilizando números decimais obedecendo regras.'\"\n    },\n    {\n      \"name\": \"Conteúdo\",\n      \"type\": \"'text'\",\n      \"required\": true,\n      \"value\": \"'Operações com números ordinais.'\"\n    },\n    {\n      \"name\": \"Metodologia\",\n      \"type\": \"'long\",\n      \"required\": true,\n      \"value\": [\n        \"'Lorem ipsum dolor sit amet\",\n        \"consectetur adipiscing elit.'\"\n      ]\n    },\n    {\n      \"name\": \"Material ditatico\",\n      \"type\": \"'text'\",\n      \"required\": true,\n      \"value\": [\n        \"'Livro didático\",\n        \"Jogo de tabuleiro.'\"\n      ]\n    }\n  ]\n}",
-                        "schema": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"lesson_plan_template_id\": {\n      \"type\": \"number\",\n      \"description\": \"ID do modelo de plano de aula relacionado\"\n    },\n    \"content\": {\n      \"type\": \"array\",\n      \"description\": \"String JSON válido contendo o conteúdo do plano\"\n    }\n  }\n}",
+                        "body": "{\n  \"lesson_plan_template_id\": 1,\n  \"content\": [\n    {\n      \"name\": \"Objetivo\",\n      \"type\": \"'text'\",\n      \"required\": true,\n      \"value\": \"'Resolver operações utilizando números decimais obedecendo regras.'\"\n    },\n    {\n      \"name\": \"Conteúdo\",\n      \"type\": \"'text'\",\n      \"required\": true,\n      \"value\": \"'Operações com números ordinais.'\"\n    },\n    {\n      \"name\": \"Metodologia\",\n      \"type\": \"'long\",\n      \"required\": true,\n      \"value\": [\n        \"'Lorem ipsum dolor sit amet\",\n        \"consectetur adipiscing elit.'\"\n      ]\n    },\n    {\n      \"name\": \"Material ditatico\",\n      \"type\": \"'text'\",\n      \"required\": true,\n      \"value\": [\n        \"'Livro didático\",\n        \"Jogo de tabuleiro.'\"\n      ]\n    }\n  ],\n  \"lesson_ids\": [\n    1\n  ]\n}",
+                        "schema": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"lesson_plan_template_id\": {\n      \"type\": \"number\",\n      \"description\": \"ID do modelo de plano de aula relacionado\"\n    },\n    \"content\": {\n      \"type\": \"array\",\n      \"description\": \"String JSON válido contendo o conteúdo do plano\"\n    },\n    \"lesson_ids\": {\n      \"type\": \"array\",\n      \"description\": \"`Array com ID das aulas a quais o plano de\\n\\naula é relacionado` \\n\"\n    }\n  }\n}",
                         "content": [
                           {
                             "element": "dataStructure",
                             "content": [
                               {
-                                "element": "LessonPlanFillable"
+                                "element": "object",
+                                "content": [
+                                  {
+                                    "element": "ref",
+                                    "content": {
+                                      "href": "LessonPlanFillable",
+                                      "path": "content"
+                                    }
+                                  },
+                                  {
+                                    "element": "member",
+                                    "meta": {
+                                      "description": "`Array com ID das aulas a quais o plano de\n\naula é relacionado` \n"
+                                    },
+                                    "content": {
+                                      "key": {
+                                        "element": "string",
+                                        "content": "lesson_ids"
+                                      },
+                                      "value": {
+                                        "element": "array",
+                                        "attributes": {
+                                          "samples": [
+                                            [
+                                              {
+                                                "element": "number",
+                                                "content": 1
+                                              }
+                                            ]
+                                          ]
+                                        }
+                                      }
+                                    }
+                                  }
+                                ]
                               }
                             ]
                           }
@@ -3445,8 +3479,8 @@
                             "value": "application/json"
                           }
                         ],
-                        "body": "{\n  \"lesson\": {\n    \"id\": 1,\n    \"lesson_plan_template_id\": 1,\n    \"content\": [\n      {\n        \"name\": \"Objetivo\",\n        \"type\": \"'text'\",\n        \"required\": true,\n        \"value\": \"'Resolver operações utilizando números decimais obedecendo regras.'\"\n      },\n      {\n        \"name\": \"Conteúdo\",\n        \"type\": \"'text'\",\n        \"required\": true,\n        \"value\": \"'Operações com números ordinais.'\"\n      },\n      {\n        \"name\": \"Metodologia\",\n        \"type\": \"'long\",\n        \"required\": true,\n        \"value\": [\n          \"'Lorem ipsum dolor sit amet\",\n          \"consectetur adipiscing elit.'\"\n        ]\n      },\n      {\n        \"name\": \"Material ditatico\",\n        \"type\": \"'text'\",\n        \"required\": true,\n        \"value\": [\n          \"'Livro didático\",\n          \"Jogo de tabuleiro.'\"\n        ]\n      }\n    ]\n  }\n}",
-                        "schema": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"lesson\": {\n      \"type\": \"object\",\n      \"properties\": {\n        \"id\": {\n          \"type\": \"number\",\n          \"description\": \"Identificador único do plano de aula\"\n        },\n        \"lesson_plan_template_id\": {\n          \"type\": \"number\",\n          \"description\": \"ID do modelo de plano de aula relacionado\"\n        },\n        \"content\": {\n          \"type\": \"array\",\n          \"description\": \"String JSON válido contendo o conteúdo do plano\"\n        }\n      }\n    }\n  }\n}",
+                        "body": "{\n  \"lesson_plan\": {\n    \"id\": 1,\n    \"lesson_plan_template_id\": 1,\n    \"content\": [\n      {\n        \"name\": \"Objetivo\",\n        \"type\": \"'text'\",\n        \"required\": true,\n        \"value\": \"'Resolver operações utilizando números decimais obedecendo regras.'\"\n      },\n      {\n        \"name\": \"Conteúdo\",\n        \"type\": \"'text'\",\n        \"required\": true,\n        \"value\": \"'Operações com números ordinais.'\"\n      },\n      {\n        \"name\": \"Metodologia\",\n        \"type\": \"'long\",\n        \"required\": true,\n        \"value\": [\n          \"'Lorem ipsum dolor sit amet\",\n          \"consectetur adipiscing elit.'\"\n        ]\n      },\n      {\n        \"name\": \"Material ditatico\",\n        \"type\": \"'text'\",\n        \"required\": true,\n        \"value\": [\n          \"'Livro didático\",\n          \"Jogo de tabuleiro.'\"\n        ]\n      }\n    ],\n    \"lessons\": [\n      {\n        \"id\": 1,\n        \"lesson_plan_id\": \"\",\n        \"school_class_id\": 1,\n        \"subject_id\": 1,\n        \"start\": \"2016-08-30 13:17:11\",\n        \"end\": \"2016-08-30 13:17:11\",\n        \"teacher_id\": 1\n      }\n    ]\n  }\n}",
+                        "schema": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"lesson_plan\": {\n      \"type\": \"object\",\n      \"properties\": {\n        \"id\": {\n          \"type\": \"number\",\n          \"description\": \"Identificador único do plano de aula\"\n        },\n        \"lesson_plan_template_id\": {\n          \"type\": \"number\",\n          \"description\": \"ID do modelo de plano de aula relacionado\"\n        },\n        \"content\": {\n          \"type\": \"array\",\n          \"description\": \"String JSON válido contendo o conteúdo do plano\"\n        },\n        \"lessons\": {\n          \"type\": \"array\",\n          \"description\": \"Aulas relacionadas ao plano de aula\"\n        }\n      },\n      \"description\": \"Dados do plano de aula criado\"\n    }\n  }\n}",
                         "content": [
                           {
                             "element": "dataStructure",
@@ -3456,13 +3490,45 @@
                                 "content": [
                                   {
                                     "element": "member",
+                                    "meta": {
+                                      "description": "Dados do plano de aula criado"
+                                    },
                                     "content": {
                                       "key": {
                                         "element": "string",
-                                        "content": "lesson"
+                                        "content": "lesson_plan"
                                       },
                                       "value": {
-                                        "element": "LessonPlan"
+                                        "element": "object",
+                                        "content": [
+                                          {
+                                            "element": "ref",
+                                            "content": {
+                                              "href": "LessonPlan",
+                                              "path": "content"
+                                            }
+                                          },
+                                          {
+                                            "element": "member",
+                                            "meta": {
+                                              "description": "Aulas relacionadas ao plano de aula"
+                                            },
+                                            "content": {
+                                              "key": {
+                                                "element": "string",
+                                                "content": "lessons"
+                                              },
+                                              "value": {
+                                                "element": "array",
+                                                "content": [
+                                                  {
+                                                    "element": "Lesson"
+                                                  }
+                                                ]
+                                              }
+                                            }
+                                          }
+                                        ]
                                       }
                                     }
                                   }
@@ -10614,14 +10680,48 @@
                             "value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Nzg2NDkwMCwiaWF0IjoxNDg1MjcyOTAwfQ.b99sxpaj3mLljTx1YfwvcUHpwKsIB5dayiBycByPZ0A"
                           }
                         ],
-                        "body": "{\n  \"lesson_plan_template_id\": 1,\n  \"content\": [\n    {\n      \"name\": \"Objetivo\",\n      \"type\": \"'text'\",\n      \"required\": true,\n      \"value\": \"'Resolver operações utilizando números decimais obedecendo regras.'\"\n    },\n    {\n      \"name\": \"Conteúdo\",\n      \"type\": \"'text'\",\n      \"required\": true,\n      \"value\": \"'Operações com números ordinais.'\"\n    },\n    {\n      \"name\": \"Metodologia\",\n      \"type\": \"'long\",\n      \"required\": true,\n      \"value\": [\n        \"'Lorem ipsum dolor sit amet\",\n        \"consectetur adipiscing elit.'\"\n      ]\n    },\n    {\n      \"name\": \"Material ditatico\",\n      \"type\": \"'text'\",\n      \"required\": true,\n      \"value\": [\n        \"'Livro didático\",\n        \"Jogo de tabuleiro.'\"\n      ]\n    }\n  ]\n}",
-                        "schema": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"lesson_plan_template_id\": {\n      \"type\": \"number\",\n      \"description\": \"ID do modelo de plano de aula relacionado\"\n    },\n    \"content\": {\n      \"type\": \"array\",\n      \"description\": \"String JSON válido contendo o conteúdo do plano\"\n    }\n  }\n}",
+                        "body": "{\n  \"lesson_plan_template_id\": 1,\n  \"content\": [\n    {\n      \"name\": \"Objetivo\",\n      \"type\": \"'text'\",\n      \"required\": true,\n      \"value\": \"'Resolver operações utilizando números decimais obedecendo regras.'\"\n    },\n    {\n      \"name\": \"Conteúdo\",\n      \"type\": \"'text'\",\n      \"required\": true,\n      \"value\": \"'Operações com números ordinais.'\"\n    },\n    {\n      \"name\": \"Metodologia\",\n      \"type\": \"'long\",\n      \"required\": true,\n      \"value\": [\n        \"'Lorem ipsum dolor sit amet\",\n        \"consectetur adipiscing elit.'\"\n      ]\n    },\n    {\n      \"name\": \"Material ditatico\",\n      \"type\": \"'text'\",\n      \"required\": true,\n      \"value\": [\n        \"'Livro didático\",\n        \"Jogo de tabuleiro.'\"\n      ]\n    }\n  ],\n  \"lesson_ids\": [\n    1\n  ]\n}",
+                        "schema": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"lesson_plan_template_id\": {\n      \"type\": \"number\",\n      \"description\": \"ID do modelo de plano de aula relacionado\"\n    },\n    \"content\": {\n      \"type\": \"array\",\n      \"description\": \"String JSON válido contendo o conteúdo do plano\"\n    },\n    \"lesson_ids\": {\n      \"type\": \"array\",\n      \"description\": \"`Array com ID das aulas a quais o plano de\\n\\naula é relacionado` \\n\"\n    }\n  }\n}",
                         "content": [
                           {
                             "element": "dataStructure",
                             "content": [
                               {
-                                "element": "LessonPlanFillable"
+                                "element": "object",
+                                "content": [
+                                  {
+                                    "element": "ref",
+                                    "content": {
+                                      "href": "LessonPlanFillable",
+                                      "path": "content"
+                                    }
+                                  },
+                                  {
+                                    "element": "member",
+                                    "meta": {
+                                      "description": "`Array com ID das aulas a quais o plano de\n\naula é relacionado` \n"
+                                    },
+                                    "content": {
+                                      "key": {
+                                        "element": "string",
+                                        "content": "lesson_ids"
+                                      },
+                                      "value": {
+                                        "element": "array",
+                                        "attributes": {
+                                          "samples": [
+                                            [
+                                              {
+                                                "element": "number",
+                                                "content": 1
+                                              }
+                                            ]
+                                          ]
+                                        }
+                                      }
+                                    }
+                                  }
+                                ]
                               }
                             ]
                           }
@@ -10638,8 +10738,8 @@
                             "value": "application/json"
                           }
                         ],
-                        "body": "{\n  \"lesson\": {\n    \"id\": 1,\n    \"lesson_plan_template_id\": 1,\n    \"content\": [\n      {\n        \"name\": \"Objetivo\",\n        \"type\": \"'text'\",\n        \"required\": true,\n        \"value\": \"'Resolver operações utilizando números decimais obedecendo regras.'\"\n      },\n      {\n        \"name\": \"Conteúdo\",\n        \"type\": \"'text'\",\n        \"required\": true,\n        \"value\": \"'Operações com números ordinais.'\"\n      },\n      {\n        \"name\": \"Metodologia\",\n        \"type\": \"'long\",\n        \"required\": true,\n        \"value\": [\n          \"'Lorem ipsum dolor sit amet\",\n          \"consectetur adipiscing elit.'\"\n        ]\n      },\n      {\n        \"name\": \"Material ditatico\",\n        \"type\": \"'text'\",\n        \"required\": true,\n        \"value\": [\n          \"'Livro didático\",\n          \"Jogo de tabuleiro.'\"\n        ]\n      }\n    ]\n  }\n}",
-                        "schema": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"lesson\": {\n      \"type\": \"object\",\n      \"properties\": {\n        \"id\": {\n          \"type\": \"number\",\n          \"description\": \"Identificador único do plano de aula\"\n        },\n        \"lesson_plan_template_id\": {\n          \"type\": \"number\",\n          \"description\": \"ID do modelo de plano de aula relacionado\"\n        },\n        \"content\": {\n          \"type\": \"array\",\n          \"description\": \"String JSON válido contendo o conteúdo do plano\"\n        }\n      }\n    }\n  }\n}",
+                        "body": "{\n  \"lesson_plan\": {\n    \"id\": 1,\n    \"lesson_plan_template_id\": 1,\n    \"content\": [\n      {\n        \"name\": \"Objetivo\",\n        \"type\": \"'text'\",\n        \"required\": true,\n        \"value\": \"'Resolver operações utilizando números decimais obedecendo regras.'\"\n      },\n      {\n        \"name\": \"Conteúdo\",\n        \"type\": \"'text'\",\n        \"required\": true,\n        \"value\": \"'Operações com números ordinais.'\"\n      },\n      {\n        \"name\": \"Metodologia\",\n        \"type\": \"'long\",\n        \"required\": true,\n        \"value\": [\n          \"'Lorem ipsum dolor sit amet\",\n          \"consectetur adipiscing elit.'\"\n        ]\n      },\n      {\n        \"name\": \"Material ditatico\",\n        \"type\": \"'text'\",\n        \"required\": true,\n        \"value\": [\n          \"'Livro didático\",\n          \"Jogo de tabuleiro.'\"\n        ]\n      }\n    ],\n    \"lessons\": [\n      {\n        \"id\": 1,\n        \"lesson_plan_id\": \"\",\n        \"school_class_id\": 1,\n        \"subject_id\": 1,\n        \"start\": \"2016-08-30 13:17:11\",\n        \"end\": \"2016-08-30 13:17:11\",\n        \"teacher_id\": 1\n      }\n    ]\n  }\n}",
+                        "schema": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"lesson_plan\": {\n      \"type\": \"object\",\n      \"properties\": {\n        \"id\": {\n          \"type\": \"number\",\n          \"description\": \"Identificador único do plano de aula\"\n        },\n        \"lesson_plan_template_id\": {\n          \"type\": \"number\",\n          \"description\": \"ID do modelo de plano de aula relacionado\"\n        },\n        \"content\": {\n          \"type\": \"array\",\n          \"description\": \"String JSON válido contendo o conteúdo do plano\"\n        },\n        \"lessons\": {\n          \"type\": \"array\",\n          \"description\": \"Aulas relacionadas ao plano de aula\"\n        }\n      },\n      \"description\": \"Dados do plano de aula criado\"\n    }\n  }\n}",
                         "content": [
                           {
                             "element": "dataStructure",
@@ -10649,13 +10749,45 @@
                                 "content": [
                                   {
                                     "element": "member",
+                                    "meta": {
+                                      "description": "Dados do plano de aula criado"
+                                    },
                                     "content": {
                                       "key": {
                                         "element": "string",
-                                        "content": "lesson"
+                                        "content": "lesson_plan"
                                       },
                                       "value": {
-                                        "element": "LessonPlan"
+                                        "element": "object",
+                                        "content": [
+                                          {
+                                            "element": "ref",
+                                            "content": {
+                                              "href": "LessonPlan",
+                                              "path": "content"
+                                            }
+                                          },
+                                          {
+                                            "element": "member",
+                                            "meta": {
+                                              "description": "Aulas relacionadas ao plano de aula"
+                                            },
+                                            "content": {
+                                              "key": {
+                                                "element": "string",
+                                                "content": "lessons"
+                                              },
+                                              "value": {
+                                                "element": "array",
+                                                "content": [
+                                                  {
+                                                    "element": "Lesson"
+                                                  }
+                                                ]
+                                              }
+                                            }
+                                          }
+                                        ]
                                       }
                                     }
                                   }
@@ -17024,7 +17156,7 @@
       "message": "parameter '_q' is not found within the URI template '/students' for 'Coleção de estudantes' ",
       "location": [
         {
-          "index": 34512,
+          "index": 34833,
           "length": 29
         }
       ]
@@ -17034,7 +17166,7 @@
       "message": "parameter '_sort' is not found within the URI template '/students' for 'Coleção de estudantes' ",
       "location": [
         {
-          "index": 34512,
+          "index": 34833,
           "length": 29
         }
       ]
@@ -17044,7 +17176,7 @@
       "message": "parameter '_with' is not found within the URI template '/students' for 'Coleção de estudantes' ",
       "location": [
         {
-          "index": 34512,
+          "index": 34833,
           "length": 29
         }
       ]
@@ -17054,7 +17186,7 @@
       "message": "parameter '_with' is not found within the URI template '/students/{id}' for 'Estudante' ",
       "location": [
         {
-          "index": 35747,
+          "index": 36068,
           "length": 33
         }
       ]
@@ -17064,7 +17196,7 @@
       "message": "parameter '_q' is not found within the URI template '/attendance-records' for 'Coleção de registro de presença' ",
       "location": [
         {
-          "index": 36772,
+          "index": 37093,
           "length": 39
         }
       ]
@@ -17074,7 +17206,7 @@
       "message": "parameter '_sort' is not found within the URI template '/attendance-records' for 'Coleção de registro de presença' ",
       "location": [
         {
-          "index": 36772,
+          "index": 37093,
           "length": 39
         }
       ]
@@ -17084,7 +17216,7 @@
       "message": "parameter '_with' is not found within the URI template '/attendance-records' for 'Coleção de registro de presença' ",
       "location": [
         {
-          "index": 36772,
+          "index": 37093,
           "length": 39
         }
       ]
@@ -17094,7 +17226,7 @@
       "message": "parameter '_with' is not found within the URI template '/attendance-records/{attendance_record_id}' for 'Registro de presença' ",
       "location": [
         {
-          "index": 39157,
+          "index": 39478,
           "length": 44
         }
       ]
@@ -17104,7 +17236,7 @@
       "message": "parameter '_q' is not found within the URI template '/student-grades' for 'Coleção de notas' ",
       "location": [
         {
-          "index": 41288,
+          "index": 41609,
           "length": 23
         }
       ]
@@ -17114,7 +17246,7 @@
       "message": "parameter '_sort' is not found within the URI template '/student-grades' for 'Coleção de notas' ",
       "location": [
         {
-          "index": 41288,
+          "index": 41609,
           "length": 23
         }
       ]
@@ -17124,7 +17256,7 @@
       "message": "parameter '_with' is not found within the URI template '/student-grades' for 'Coleção de notas' ",
       "location": [
         {
-          "index": 41288,
+          "index": 41609,
           "length": 23
         }
       ]
@@ -17134,7 +17266,7 @@
       "message": "parameter 'student_grade_id' is not found within the URI template '/student-grades/{student_grades_id}' for 'Nota' ",
       "location": [
         {
-          "index": 42443,
+          "index": 42764,
           "length": 28
         }
       ]
@@ -17144,7 +17276,7 @@
       "message": "parameter '_with' is not found within the URI template '/student-grades/{student_grades_id}' for 'Nota' ",
       "location": [
         {
-          "index": 42443,
+          "index": 42764,
           "length": 28
         }
       ]
@@ -17154,7 +17286,7 @@
       "message": "parameter 'student_grade_id' is not found within the URI template '/student-grades/{student_grades_id}' for 'Nota' ",
       "location": [
         {
-          "index": 43181,
+          "index": 43502,
           "length": 24
         }
       ]
@@ -17164,7 +17296,7 @@
       "message": "parameter 'student_grade_id' is not found within the URI template '/student-grades/{student_grades_id}' for 'Nota' ",
       "location": [
         {
-          "index": 43774,
+          "index": 44095,
           "length": 27
         }
       ]
@@ -17174,7 +17306,7 @@
       "message": "parameter '_q' is not found within the URI template '/occurences' for 'Coleção de ocorrências' ",
       "location": [
         {
-          "index": 44908,
+          "index": 45229,
           "length": 30
         }
       ]
@@ -17184,7 +17316,7 @@
       "message": "parameter '_sort' is not found within the URI template '/occurences' for 'Coleção de ocorrências' ",
       "location": [
         {
-          "index": 44908,
+          "index": 45229,
           "length": 30
         }
       ]
@@ -17194,7 +17326,7 @@
       "message": "parameter '_with' is not found within the URI template '/occurences' for 'Coleção de ocorrências' ",
       "location": [
         {
-          "index": 44908,
+          "index": 45229,
           "length": 30
         }
       ]
@@ -17204,7 +17336,7 @@
       "message": "parameter '_with' is not found within the URI template '/occurences/{occurence_id}' for 'Ocorrência' ",
       "location": [
         {
-          "index": 46053,
+          "index": 46374,
           "length": 34
         }
       ]
@@ -17214,7 +17346,7 @@
       "message": "parameter '_q' is not found within the URI template '/subjects' for 'Coleção de disciplinas' ",
       "location": [
         {
-          "index": 51973,
+          "index": 52294,
           "length": 30
         }
       ]
@@ -17224,7 +17356,7 @@
       "message": "parameter '_sort' is not found within the URI template '/subjects' for 'Coleção de disciplinas' ",
       "location": [
         {
-          "index": 51973,
+          "index": 52294,
           "length": 30
         }
       ]

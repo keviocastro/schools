@@ -78,12 +78,30 @@ class LessonPlanController extends Controller
         $this->validationForStoreAction($request, [
             'lesson_plan_template_id' => 'exists:lesson_plan_models,id',
             'content' => 'array',
+            'lessons_id' => 'array|exists:lessons,id'
         ]);
 
-        $lessonPlanController = LessonPlan::findOrFail($id);
-        $lessonPlanController->update($request->all());
+        $lessonPlan = LessonPlan::findOrFail($id);
+        DB::transaction(function() use ($lessonPlan, $request){
+            $lessonPlan->update($request->all());
 
-        return $lessonPlanController;
+            $lessonsId = $request->get('lessons_id');
+            if ($lessonsId) {
+
+                // Desassocia as aulas que estavam relacionadas ao plano 
+                $lessonPlan->lessons()->update(['lesson_plan_id' => null]);
+
+                // Associa as aulas do parametro $lessonsId ao plano
+                $lessonsId = is_array($lessonsId) ? $lessonsId : [$lessonsId];
+                Lesson::whereIn('id', $lessonsId)->update([
+                        'lesson_plan_id' => $lessonPlan->id
+                    ]);
+            }
+        });
+
+        $lessonPlan->load('lessons');
+
+        return $lessonPlan;
     }
 
     /**

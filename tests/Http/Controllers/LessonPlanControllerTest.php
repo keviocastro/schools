@@ -124,13 +124,26 @@ class LessonPlanControllerTest extends TestCase
     public function testUpdate()
     {
     	$lessonPlan = factory(App\LessonPlan::class)->create();
-    	$lessonPlan_changed = factory(App\LessonPlan::class)->make()->toArray();
+    	$lessons = factory(App\Lesson::class, 2)->create([
+                'lesson_plan_id' => $lessonPlan->id
+            ]);
+
+        $lessonPlan_changed = factory(App\LessonPlan::class)->make()->toArray();
+        $newLesson = factory(App\Lesson::class)->create();
+        $lessonPlan_changed['lessons_id'] = [$newLesson->id];
+
+        // Nos resultados é esperado que a aula relacionada seja somente a que foi enviada
+        $lessonPlanResult = $lessonPlan_changed;
+        unset($lessonPlanResult['lessons_id']);
+        $newLesson->lesson_plan_id = $lessonPlan->id;
+        $lessonPlanResult['lessons'] = [$newLesson->toArray()];
+        $lessonPlanResult['id'] = $lessonPlan->id;
 
         $this->put("api/lesson-plans/{$lessonPlan->id}",
         	$lessonPlan_changed,
-        	$this->getAutHeader())
+        	$this->getAutHeader())->dump()
         	->assertResponseStatus(200)
-        	->seeJson($lessonPlan_changed);
+        	->seeJsonEquals(['lesson_plan' => $lessonPlanResult]);
     }
 
     /**
@@ -145,6 +158,7 @@ class LessonPlanControllerTest extends TestCase
         $lessonPlan = factory(App\LessonPlan::class)->make()->toArray();
         $lessonPlan['lesson_plan_template_id'] = -99;
         $lessonPlan['content'] = "Thnis is bot an array it's a string";
+        $lessonPlan['lessons_id'] = [-1];
 
         $this->put('api/lesson-plans/{$lessonPlan->id}',
             $lessonPlan,
@@ -158,6 +172,9 @@ class LessonPlanControllerTest extends TestCase
                     ],
                     'content' => [
                         "The content must be an array."
+                    ],
+                    'lessons_id' => [
+                        'The selected lessons id is invalid.'
                     ]
                 ],
                 "status_code" => 422

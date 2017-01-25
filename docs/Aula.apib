@@ -243,12 +243,21 @@
 
             authorization: <!-- include(Token.md) -->
 
-    + Attributes (LessonPlanFillable)
+    + Attributes (object)
+        + Include LessonPlanFillable
+        + lesson_ids (array) - `Array com ID das aulas a quais o plano de 
+        aula será relacionado. 
+        Somente os ids enviados nesse parametro estarão relacionados ao plano.
+        Qualquer outra aula que não estiver nesse parametro será desassociada.` 
+            - Sample
+                + 1 (number)
 
 + Response 200 (application/json)
 
     + Attributes
-        + lesson (LessonPlan)
+        + lesson_plan (object) - Dados do plano de aula criado
+            + Include LessonPlan
+            + lessons (array[Lesson]) - Aulas relacionadas ao plano de aula
 
 
 ### Excluir plano de aula [DELETE]
