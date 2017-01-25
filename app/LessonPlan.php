@@ -42,6 +42,8 @@ class LessonPlan extends Model
     ];
 
     /**
+     * Modelo de plano de aula utilizado para o plano
+     * 
      * @Relation
      * 
      * @return Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -49,5 +51,17 @@ class LessonPlan extends Model
     public function lessonPlanModel()
     {
     	return $this->belongsTo('App\LessonPlanModel');
+    }
+
+    /**
+     * Aulas que o plano de aula está relacionado
+     * 
+     * @Relation 
+     * 
+     * @return Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function lessons()
+    {
+        return $this->hasMany('App\Lesson');
     }
 }

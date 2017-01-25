@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-
 use App\Http\Requests;
+use App\Lesson;
 use App\LessonPlan;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class LessonPlanController extends Controller
 {
@@ -32,11 +33,26 @@ class LessonPlanController extends Controller
         $this->validationForStoreAction($request, [
             'lesson_plan_template_id' => 'exists:lesson_plan_models,id',
             'content' => 'required|array',
+            'lessons_id' => 'array|exists:lessons,id',
         ]);
 
-        $lessonPlanController = LessonPlan::create($request->all());
+        $lessonPlan = null;
+        DB::transaction(function() use ($request, &$lessonPlan){
+            
+            $lessonPlan = LessonPlan::create($request->all());
+            $lessonsId = $request->get('lessons_id');
+            
+            if ($lessonsId) {
+                // is_array Porque é aceito lessons_id = 1 ou lessons_id = [1,2,3,...]
+                $lessonsId = is_array($lessonsId) ? $lessonsId : [$lessonsId];
+                Lesson::whereIn('id', $lessonsId)->update([
+                        'lesson_plan_id' => $lessonPlan->id
+                    ]);
+                $lessonPlan->load('lessons');
+            }
+        });
 
-        return $this->response->created("/resource/{$lessonPlanController->id}", $lessonPlanController);
+        return $this->response->created("/resource/{$lessonPlan->id}", $lessonPlan);
     }
 
     /**
