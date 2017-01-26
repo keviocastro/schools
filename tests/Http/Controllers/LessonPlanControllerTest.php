@@ -141,7 +141,7 @@ class LessonPlanControllerTest extends TestCase
 
         $this->put("api/lesson-plans/{$lessonPlan->id}",
         	$lessonPlan_changed,
-        	$this->getAutHeader())->dump()
+        	$this->getAutHeader())
         	->assertResponseStatus(200)
         	->seeJsonEquals(['lesson_plan' => $lessonPlanResult]);
     }
