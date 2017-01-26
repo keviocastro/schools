@@ -3422,7 +3422,7 @@
                           }
                         ],
                         "body": "{\n  \"lesson_plan_template_id\": 1,\n  \"content\": [\n    {\n      \"name\": \"Objetivo\",\n      \"type\": \"'text'\",\n      \"required\": true,\n      \"value\": \"'Resolver operações utilizando números decimais obedecendo regras.'\"\n    },\n    {\n      \"name\": \"Conteúdo\",\n      \"type\": \"'text'\",\n      \"required\": true,\n      \"value\": \"'Operações com números ordinais.'\"\n    },\n    {\n      \"name\": \"Metodologia\",\n      \"type\": \"'long\",\n      \"required\": true,\n      \"value\": [\n        \"'Lorem ipsum dolor sit amet\",\n        \"consectetur adipiscing elit.'\"\n      ]\n    },\n    {\n      \"name\": \"Material ditatico\",\n      \"type\": \"'text'\",\n      \"required\": true,\n      \"value\": [\n        \"'Livro didático\",\n        \"Jogo de tabuleiro.'\"\n      ]\n    }\n  ],\n  \"lesson_ids\": [\n    1\n  ]\n}",
-                        "schema": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"lesson_plan_template_id\": {\n      \"type\": \"number\",\n      \"description\": \"ID do modelo de plano de aula relacionado\"\n    },\n    \"content\": {\n      \"type\": \"array\",\n      \"description\": \"String JSON válido contendo o conteúdo do plano\"\n    },\n    \"lesson_ids\": {\n      \"type\": \"array\",\n      \"description\": \"`Array com ID das aulas a quais o plano de\\n\\naula é relacionado` \\n\"\n    }\n  }\n}",
+                        "schema": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"lesson_plan_template_id\": {\n      \"type\": \"number\",\n      \"description\": \"ID do modelo de plano de aula relacionado\"\n    },\n    \"content\": {\n      \"type\": \"array\",\n      \"description\": \"String JSON válido contendo o conteúdo do plano\"\n    },\n    \"lesson_ids\": {\n      \"type\": \"array\",\n      \"description\": \"`Array com ID das aulas a quais o plano de\\n\\naula será relacionado. \\nSomente os ids enviados nesse parametro estarão relacionados ao plano.\\nQualquer outra aula que não estiver nesse parametro será desassociada.` \\n\"\n    }\n  }\n}",
                         "content": [
                           {
                             "element": "dataStructure",
@@ -3440,7 +3440,7 @@
                                   {
                                     "element": "member",
                                     "meta": {
-                                      "description": "`Array com ID das aulas a quais o plano de\n\naula é relacionado` \n"
+                                      "description": "`Array com ID das aulas a quais o plano de\n\naula será relacionado. \nSomente os ids enviados nesse parametro estarão relacionados ao plano.\nQualquer outra aula que não estiver nesse parametro será desassociada.` \n"
                                     },
                                     "content": {
                                       "key": {
@@ -10681,7 +10681,7 @@
                           }
                         ],
                         "body": "{\n  \"lesson_plan_template_id\": 1,\n  \"content\": [\n    {\n      \"name\": \"Objetivo\",\n      \"type\": \"'text'\",\n      \"required\": true,\n      \"value\": \"'Resolver operações utilizando números decimais obedecendo regras.'\"\n    },\n    {\n      \"name\": \"Conteúdo\",\n      \"type\": \"'text'\",\n      \"required\": true,\n      \"value\": \"'Operações com números ordinais.'\"\n    },\n    {\n      \"name\": \"Metodologia\",\n      \"type\": \"'long\",\n      \"required\": true,\n      \"value\": [\n        \"'Lorem ipsum dolor sit amet\",\n        \"consectetur adipiscing elit.'\"\n      ]\n    },\n    {\n      \"name\": \"Material ditatico\",\n      \"type\": \"'text'\",\n      \"required\": true,\n      \"value\": [\n        \"'Livro didático\",\n        \"Jogo de tabuleiro.'\"\n      ]\n    }\n  ],\n  \"lesson_ids\": [\n    1\n  ]\n}",
-                        "schema": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"lesson_plan_template_id\": {\n      \"type\": \"number\",\n      \"description\": \"ID do modelo de plano de aula relacionado\"\n    },\n    \"content\": {\n      \"type\": \"array\",\n      \"description\": \"String JSON válido contendo o conteúdo do plano\"\n    },\n    \"lesson_ids\": {\n      \"type\": \"array\",\n      \"description\": \"`Array com ID das aulas a quais o plano de\\n\\naula é relacionado` \\n\"\n    }\n  }\n}",
+                        "schema": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"lesson_plan_template_id\": {\n      \"type\": \"number\",\n      \"description\": \"ID do modelo de plano de aula relacionado\"\n    },\n    \"content\": {\n      \"type\": \"array\",\n      \"description\": \"String JSON válido contendo o conteúdo do plano\"\n    },\n    \"lesson_ids\": {\n      \"type\": \"array\",\n      \"description\": \"`Array com ID das aulas a quais o plano de\\n\\naula será relacionado. \\nSomente os ids enviados nesse parametro estarão relacionados ao plano.\\nQualquer outra aula que não estiver nesse parametro será desassociada.` \\n\"\n    }\n  }\n}",
                         "content": [
                           {
                             "element": "dataStructure",
@@ -10699,7 +10699,7 @@
                                   {
                                     "element": "member",
                                     "meta": {
-                                      "description": "`Array com ID das aulas a quais o plano de\n\naula é relacionado` \n"
+                                      "description": "`Array com ID das aulas a quais o plano de\n\naula será relacionado. \nSomente os ids enviados nesse parametro estarão relacionados ao plano.\nQualquer outra aula que não estiver nesse parametro será desassociada.` \n"
                                     },
                                     "content": {
                                       "key": {
@@ -17156,7 +17156,7 @@
       "message": "parameter '_q' is not found within the URI template '/students' for 'Coleção de estudantes' ",
       "location": [
         {
-          "index": 34833,
+          "index": 34996,
           "length": 29
         }
       ]
@@ -17166,7 +17166,7 @@
       "message": "parameter '_sort' is not found within the URI template '/students' for 'Coleção de estudantes' ",
       "location": [
         {
-          "index": 34833,
+          "index": 34996,
           "length": 29
         }
       ]
@@ -17176,7 +17176,7 @@
       "message": "parameter '_with' is not found within the URI template '/students' for 'Coleção de estudantes' ",
       "location": [
         {
-          "index": 34833,
+          "index": 34996,
           "length": 29
         }
       ]
@@ -17186,7 +17186,7 @@
       "message": "parameter '_with' is not found within the URI template '/students/{id}' for 'Estudante' ",
       "location": [
         {
-          "index": 36068,
+          "index": 36231,
           "length": 33
         }
       ]
@@ -17196,7 +17196,7 @@
       "message": "parameter '_q' is not found within the URI template '/attendance-records' for 'Coleção de registro de presença' ",
       "location": [
         {
-          "index": 37093,
+          "index": 37256,
           "length": 39
         }
       ]
@@ -17206,7 +17206,7 @@
       "message": "parameter '_sort' is not found within the URI template '/attendance-records' for 'Coleção de registro de presença' ",
       "location": [
         {
-          "index": 37093,
+          "index": 37256,
           "length": 39
         }
       ]
@@ -17216,7 +17216,7 @@
       "message": "parameter '_with' is not found within the URI template '/attendance-records' for 'Coleção de registro de presença' ",
       "location": [
         {
-          "index": 37093,
+          "index": 37256,
           "length": 39
         }
       ]
@@ -17226,7 +17226,7 @@
       "message": "parameter '_with' is not found within the URI template '/attendance-records/{attendance_record_id}' for 'Registro de presença' ",
       "location": [
         {
-          "index": 39478,
+          "index": 39641,
           "length": 44
         }
       ]
@@ -17236,7 +17236,7 @@
       "message": "parameter '_q' is not found within the URI template '/student-grades' for 'Coleção de notas' ",
       "location": [
         {
-          "index": 41609,
+          "index": 41772,
           "length": 23
         }
       ]
@@ -17246,7 +17246,7 @@
       "message": "parameter '_sort' is not found within the URI template '/student-grades' for 'Coleção de notas' ",
       "location": [
         {
-          "index": 41609,
+          "index": 41772,
           "length": 23
         }
       ]
@@ -17256,7 +17256,7 @@
       "message": "parameter '_with' is not found within the URI template '/student-grades' for 'Coleção de notas' ",
       "location": [
         {
-          "index": 41609,
+          "index": 41772,
           "length": 23
         }
       ]
@@ -17266,7 +17266,7 @@
       "message": "parameter 'student_grade_id' is not found within the URI template '/student-grades/{student_grades_id}' for 'Nota' ",
       "location": [
         {
-          "index": 42764,
+          "index": 42927,
           "length": 28
         }
       ]
@@ -17276,7 +17276,7 @@
       "message": "parameter '_with' is not found within the URI template '/student-grades/{student_grades_id}' for 'Nota' ",
       "location": [
         {
-          "index": 42764,
+          "index": 42927,
           "length": 28
         }
       ]
@@ -17286,7 +17286,7 @@
       "message": "parameter 'student_grade_id' is not found within the URI template '/student-grades/{student_grades_id}' for 'Nota' ",
       "location": [
         {
-          "index": 43502,
+          "index": 43665,
           "length": 24
         }
       ]
@@ -17296,7 +17296,7 @@
       "message": "parameter 'student_grade_id' is not found within the URI template '/student-grades/{student_grades_id}' for 'Nota' ",
       "location": [
         {
-          "index": 44095,
+          "index": 44258,
           "length": 27
         }
       ]
@@ -17306,7 +17306,7 @@
       "message": "parameter '_q' is not found within the URI template '/occurences' for 'Coleção de ocorrências' ",
       "location": [
         {
-          "index": 45229,
+          "index": 45392,
           "length": 30
         }
       ]
@@ -17316,7 +17316,7 @@
       "message": "parameter '_sort' is not found within the URI template '/occurences' for 'Coleção de ocorrências' ",
       "location": [
         {
-          "index": 45229,
+          "index": 45392,
           "length": 30
         }
       ]
@@ -17326,7 +17326,7 @@
       "message": "parameter '_with' is not found within the URI template '/occurences' for 'Coleção de ocorrências' ",
       "location": [
         {
-          "index": 45229,
+          "index": 45392,
           "length": 30
         }
       ]
@@ -17336,7 +17336,7 @@
       "message": "parameter '_with' is not found within the URI template '/occurences/{occurence_id}' for 'Ocorrência' ",
       "location": [
         {
-          "index": 46374,
+          "index": 46537,
           "length": 34
         }
       ]
@@ -17346,7 +17346,7 @@
       "message": "parameter '_q' is not found within the URI template '/subjects' for 'Coleção de disciplinas' ",
       "location": [
         {
-          "index": 52294,
+          "index": 52457,
           "length": 30
         }
       ]
@@ -17356,7 +17356,7 @@
       "message": "parameter '_sort' is not found within the URI template '/subjects' for 'Coleção de disciplinas' ",
       "location": [
         {
-          "index": 52294,
+          "index": 52457,
           "length": 30
         }
       ]
