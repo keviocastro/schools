@@ -42,10 +42,10 @@ class AccountConfigSeeder extends Seeder
         LessonPlanModel::firstOrCreate([
                     // 1º Modelo de plano de aula de amostra
                     'definition' => [
-                        'objetivos' => ['type' => 'text', 'required' => true],
-                        'conteudo' => ['type' => 'long-text', 'required' => false],
-                        'metodologia' => ['type' => 'text', 'required' => false],
-                        'material-didatico' => ['type' => 'tags', 'required' => false]
+                        'objetivos' => ['type' => 'text', 'required' => true, 'label' => 'Objetivos'],
+                        'conteudo' => ['type' => 'long-text', 'required' => false, 'label' => 'Conteúdo'],
+                        'metodologia' => ['type' => 'text', 'required' => false, 'label' => 'Metodologia'],
+                        'material-didatico' => ['type' => 'tags', 'required' => false, 'label' => 'Material didático']
                     ]
                 ]);
         AccountConfig::firstOrCreate([
