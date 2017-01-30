@@ -33,17 +33,17 @@ class LessonPlanController extends Controller
         $this->validationForStoreAction($request, [
             'lesson_plan_template_id' => 'exists:lesson_plan_models,id',
             'content' => 'required|array',
-            'lessons_id' => 'array|exists:lessons,id',
+            'lesson_ids' => 'array|exists:lessons,id',
         ]);
 
         $lessonPlan = null;
         DB::transaction(function() use ($request, &$lessonPlan){
             
             $lessonPlan = LessonPlan::create($request->all());
-            $lessonsId = $request->get('lessons_id');
+            $lessonsId = $request->get('lesson_ids');
             
             if ($lessonsId) {
-                // is_array Porque é aceito lessons_id = 1 ou lessons_id = [1,2,3,...]
+                // is_array Porque é aceito lesson_ids = 1 ou lesson_ids = [1,2,3,...]
                 $lessonsId = is_array($lessonsId) ? $lessonsId : [$lessonsId];
                 Lesson::whereIn('id', $lessonsId)->update([
                         'lesson_plan_id' => $lessonPlan->id
@@ -78,14 +78,14 @@ class LessonPlanController extends Controller
         $this->validationForStoreAction($request, [
             'lesson_plan_template_id' => 'exists:lesson_plan_models,id',
             'content' => 'array',
-            'lessons_id' => 'array|exists:lessons,id'
+            'lesson_ids' => 'array|exists:lessons,id'
         ]);
 
         $lessonPlan = LessonPlan::findOrFail($id);
         DB::transaction(function() use ($lessonPlan, $request){
             $lessonPlan->update($request->all());
 
-            $lessonsId = $request->get('lessons_id');
+            $lessonsId = $request->get('lesson_ids');
             if ($lessonsId) {
 
                 // Desassocia as aulas que estavam relacionadas ao plano 

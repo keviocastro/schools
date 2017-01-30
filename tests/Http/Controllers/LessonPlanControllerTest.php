@@ -37,17 +37,17 @@ class LessonPlanControllerTest extends TestCase
             'lesson_plan_id' => null
             ]);
         $lessonsIds = $lessons ->pluck('id')->toArray();
-        $lessonPlan['lessons_id'] = $lessonsIds;
+        $lessonPlan['lesson_ids'] = $lessonsIds;
 
         // Formata o array da forma que é esperado o retorno
         $lessonPlanResult = $lessonPlan;
-        unset($lessonPlanResult['lessons_id']);
+        unset($lessonPlanResult['lesson_ids']);
         $lessonPlanResult['id'] = App\LessonPlan::orderBy('id', 'desc')->first()->id + 1; 
         $lessons[0]['lesson_plan_id'] = $lessonPlanResult['id'];
         $lessons[1]['lesson_plan_id'] = $lessonPlanResult['id'];
 
         // Experado retornar o plano de aula e as aulas relacionada. 
-        // parametro `lessons_id`
+        // parametro `lesson_ids`
         $result = array_merge(
             $lessonPlanResult, 
             ['lessons' => $lessons->toArray()]
@@ -74,7 +74,7 @@ class LessonPlanControllerTest extends TestCase
         $lessonPlan['end_date'] = '2016-04-07';
         $lessonPlan['lesson_plan_template_id'] = -99;
         $lessonPlan['content'] = "Thnis is bot an array it's a string";
-        $lessonPlan['lessons_id'] = [-1,-2];
+        $lessonPlan['lesson_ids'] = [-1,-2];
 
         $this->post('api/lesson-plans',
             $lessonPlan,
@@ -89,8 +89,8 @@ class LessonPlanControllerTest extends TestCase
                         'content' => [
                             "The content must be an array."
                         ],
-                        'lessons_id' => [
-                            'The selected lessons id is invalid.'
+                        'lesson_ids' => [
+                            'The selected lesson ids is invalid.'
                         ]
                     ],
                     "status_code" => 422
@@ -130,11 +130,11 @@ class LessonPlanControllerTest extends TestCase
 
         $lessonPlan_changed = factory(App\LessonPlan::class)->make()->toArray();
         $newLesson = factory(App\Lesson::class)->create();
-        $lessonPlan_changed['lessons_id'] = [$newLesson->id];
+        $lessonPlan_changed['lesson_ids'] = [$newLesson->id];
 
         // Nos resultados é esperado que a aula relacionada seja somente a que foi enviada
         $lessonPlanResult = $lessonPlan_changed;
-        unset($lessonPlanResult['lessons_id']);
+        unset($lessonPlanResult['lesson_ids']);
         $newLesson->lesson_plan_id = $lessonPlan->id;
         $lessonPlanResult['lessons'] = [$newLesson->toArray()];
         $lessonPlanResult['id'] = $lessonPlan->id;
@@ -158,7 +158,7 @@ class LessonPlanControllerTest extends TestCase
         $lessonPlan = factory(App\LessonPlan::class)->make()->toArray();
         $lessonPlan['lesson_plan_template_id'] = -99;
         $lessonPlan['content'] = "Thnis is bot an array it's a string";
-        $lessonPlan['lessons_id'] = [-1];
+        $lessonPlan['lesson_ids'] = [-1];
 
         $this->put('api/lesson-plans/{$lessonPlan->id}',
             $lessonPlan,
@@ -173,8 +173,8 @@ class LessonPlanControllerTest extends TestCase
                     'content' => [
                         "The content must be an array."
                     ],
-                    'lessons_id' => [
-                        'The selected lessons id is invalid.'
+                    'lesson_ids' => [
+                        'The selected lesson ids is invalid.'
                     ]
                 ],
                 "status_code" => 422

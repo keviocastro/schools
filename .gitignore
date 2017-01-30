@@ -13,6 +13,9 @@ phpunit.xml
 #IDE PHPSTORM
 .idea/*
 
+#IDE Visual studio code
+.vscode
+
 # Elastic Beanstalk Files
 .elasticbeanstalk/*
 !.elasticbeanstalk/*.cfg.yml
