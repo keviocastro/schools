@@ -5,7 +5,7 @@ set -e
 if [[ ! -f /var/app/vendor/autoload.php ]]; then
 	echo 'File vendor/autoload.php does not exist.'
 	echo 'Running composer install'
-	composer install
+	composer install --prefer-source
 	cp .env.example .env
 	php artisan key:generate
 fi
