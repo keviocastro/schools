@@ -8,10 +8,10 @@ RUN apt-get update && apt-get install -y \
     git \
     --no-install-recommends && rm -r /var/lib/apt/lists/*
 
-#RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
-#RUN php -r "if (hash_file('SHA384', 'composer-setup.php') === 'aa96f26c2b67226a324c27919f1eb05f21c248b987e6195cad9690d5c1ff713d53020a02ac8c217dbf90a7eacc9d141d') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
-#RUN php composer-setup.php --install-dir=/usr/bin --filename=composer
-#RUN php -r "unlink('composer-setup.php');"
+RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+RUN php -r "if (hash_file('SHA384', 'composer-setup.php') === 'aa96f26c2b67226a324c27919f1eb05f21c248b987e6195cad9690d5c1ff713d53020a02ac8c217dbf90a7eacc9d141d') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
+RUN php composer-setup.php --install-dir=/usr/bin --filename=composer
+RUN php -r "unlink('composer-setup.php');"
 
 # Install Xdebug
 RUN curl -fsSL 'https://xdebug.org/files/xdebug-2.4.0.tgz' -o xdebug.tar.gz \
@@ -42,9 +42,9 @@ RUN echo "zend_extension=$(find /usr/local/lib/php/extensions/ -name xdebug.so)"
     && echo "xdebug.remote_log=/var/log/xdebug_remote.log" >> /usr/local/etc/php/conf.d/xdebug.ini
 
 
-#COPY docker/entrypoint.sh /usr/local/bin/docker-dev-entrypoint
-#RUN chmod +x /usr/local/bin/docker-dev-entrypoint
+COPY docker/entrypoint.sh /usr/local/bin/docker-dev-entrypoint
+RUN chmod +x /usr/local/bin/docker-dev-entrypoint
 
 # Entrypoint resets command
-#ENTRYPOINT ["docker-dev-entrypoint"]
-#CMD ["docker-entrypoint"]
+ENTRYPOINT ["docker-dev-entrypoint"]
+CMD ["docker-entrypoint"]
