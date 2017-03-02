@@ -6,8 +6,8 @@ return array(
      * Credenciais para autentificação de usuário utilizado
      * na automatização de testes
      */
-    'email_user_tester' => env('AUTH0_EMAIL_USER_TESTER', 'tester@logoseducacao.com.br'),
-    'pass_user_tester' => env('AUTH0_PASS_USER_TESTER', 'ga+6pH'),
+    'email_user_tester' => env('AUTH0_EMAIL_USER_TESTER'),
+    'pass_user_tester' => env('AUTH0_PASS_USER_TESTER'),
     'token_user_tester' => env('AUTH0_TOKEN_USER_TESTER'),
     'token_id_tester' => env('AUTH0_ID_USER_TESTER'),
 
@@ -20,7 +20,7 @@ return array(
     |
     */
 
-    'domain'        => env('AUTH0_DOMAIN', 'logos.auth0.com'),
+    'domain'        => env('AUTH0_DOMAIN'),
     /*
     |--------------------------------------------------------------------------
     |   Your APP id
@@ -29,7 +29,7 @@ return array(
     |
     */
 
-    'client_id'     => env('AUTH0_CLIENT_ID', 'w27z1v9xRPBurqaX6lDqsMI2uNWhqx0v'),
+    'client_id'     => env('AUTH0_CLIENT_ID'),
 
     /*
     |--------------------------------------------------------------------------
@@ -38,7 +38,7 @@ return array(
     |   As set in the auth0 administration page
     |
     */
-    'client_secret' => env('AUTH0_CLIENT_SECRET', 's7cBnjQ6vacWxYKabh0ruAax5OPxJicJ90D3JssykHaQTf1YimqEfGULQDIrhzFU'),
+    'client_secret' => env('AUTH0_CLIENT_SECRET'),
 
 
    /*
@@ -73,7 +73,7 @@ return array(
     |   This is used to verify the decoded tokens when using RS256
     |
     */
-    'authorized_issuers'  => [ 'https://logos.auth0.com/', 'https://logos.auth0.com/api/v2/' ],
+    'authorized_issuers'  => ['https://logos.auth0.com/'],
     /*
     |--------------------------------------------------------------------------
     |   The authorized token issuers
@@ -81,6 +81,6 @@ return array(
     |   This is used to verify the decoded tokens when using RS256
     |
     */
-    'api_identifier'  => [ 'https://logos.auth0.com/', 'https://logos.auth0.com/api/v2/' ],
+    'api_identifier'  => [ 'http://schools'],
 
 );
