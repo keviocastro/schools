@@ -50,7 +50,7 @@ return array(
     |
     */
 
-    'redirect_uri'  => 'http://logos.auth0.com/auth0/callback',
+    'redirect_uri'  => env('AUTH0_REDIRECT_URI'),
 
     /*
     |--------------------------------------------------------------------------
@@ -73,7 +73,7 @@ return array(
     |   This is used to verify the decoded tokens when using RS256
     |
     */
-    'authorized_issuers'  => ['https://logos.auth0.com/'],
+    'authorized_issuers'  => [env('AUTH0_AUTHORIZED_ISSUERS')],
     /*
     |--------------------------------------------------------------------------
     |   The authorized token issuers
@@ -81,6 +81,6 @@ return array(
     |   This is used to verify the decoded tokens when using RS256
     |
     */
-    'api_identifier'  => [ 'http://schools'],
+    'api_identifier'  => [env('AUTH0_API_IDENTIFIER')],
 
 );
