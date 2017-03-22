@@ -82,7 +82,7 @@ class TestCase extends TestCaseLara
     public function getAutHeader()
     {
         $token = Config::get('laravel-auth0.token_user_tester');
-
+        
         if (empty($token)) {
             
             $tokens = self::getTokenUserTester();
@@ -109,7 +109,7 @@ class TestCase extends TestCaseLara
      * @return array tokens
      */
     public static function getTokenUserTester()
-    {
+    {   
         $auth0Api = new Auth0AuthApi(
             Config::get('laravel-auth0.domain'), 
             Config::get('laravel-auth0.client_id'), 

@@ -3,6 +3,21 @@
 return array(
 
     /**
+      * Para configurar a decodificação de tokens
+      * Solucionando esse problema:
+      *     Os horários do servidor e do browser do usuário (que gera o token em outra aplicação SPA)
+      *     tem pequenas diferença, impossibilitando decodificar um token gerar em uma data acima a 
+      *     data atual do servidor de SchoolsApi.
+      *
+      * Esse atributo configura a classe Firebase\JWT para permitir 
+      * uma pequena diferença toleravel
+      *
+      * Em segundos
+      *
+      */
+    'jwt_leeway' => env('JWT_LEEWAY', 60),
+
+    /**
      * Credenciais para autentificação de usuário utilizado
      * na automatização de testes
      */

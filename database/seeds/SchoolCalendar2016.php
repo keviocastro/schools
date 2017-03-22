@@ -86,7 +86,6 @@ class SchoolCalendar2016 extends Seeder
      *    4º Bimestre = 2
      *    Total no ano: 15
      *
-     *
      * Pra o 2º aluno criado (id = 2), e 1º disciplina criada (id = 1), 
      * com nome Matématica, tem as notas:
      *     
@@ -103,6 +102,11 @@ class SchoolCalendar2016 extends Seeder
      *     2º Bimestre (SemNota+8.5) = sem média do bimestre
      *     3º Bimestre (SemNota+SemNota) = sem média do bimestre
      *     4º Bimestre (9.2+8.6)/2 = 8.9
+     *
+     *  OCORRENCIAS:
+     *
+     *  O 1º aluno tem 20 ocorrências no ano.
+     *  Os outros alunos tem ocorrências aleatórias.
      * 
      * @return array
      */
@@ -199,12 +203,15 @@ class SchoolCalendar2016 extends Seeder
         // 20 Alunos
         // 1 Responsável para cada aluno
         // 4 Registros de ocorrencia para cada aluno
-        dump('Criando turmas e alunos...');
+        dump('Criando turmas, alunos e ocorrências...');
         $schoolClass = factory(SchoolClass::class)->create([
                 'school_calendar_id' => $schoolCalendar->id
             ]);
+        $firstStudentId = null;
         $students = factory(Student::class, 20)->create()
-            ->each(function($student) use ($schoolClass){
+            ->each(function($student) use ($schoolClass, $firstStudentId){
+                $firstStudentId = ($firstStudentId == null) ? $student->id : $firstStudentId; 
+
                 factory(StudentResponsible::class)->create([
                         'student_id' => $student->id 
                     ]);
@@ -212,7 +219,12 @@ class SchoolCalendar2016 extends Seeder
                         'student_id' => $student->id,
                         'school_class_id' => $schoolClass->id
                     ]);
-                if (rand(0,1)) {
+                // O primeiro estudante terá sempre 10 ocorrências
+                if ($firstStudentId == $student->id) {
+                    factory(Occurence::class, 10)->create([
+                            'about_person_id' => $student->id
+                        ]);
+                }elseif (rand(0,1)) {
                     factory(Occurence::class, 4)->create([
                             'about_person_id' => $student->id
                         ]);

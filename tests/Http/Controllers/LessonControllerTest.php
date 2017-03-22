@@ -98,14 +98,19 @@ class LessonControllerTest extends TestCase
         // são gerados pelo seeder SchoolCalendar2016 
         $this->selectDatabaseTest();
 
-        $response = $this->getResponseContent("GET",
-            "api/lessons/1?attach=students.attendanceRecord,".
+        $url = "api/lessons/1?attach=students.attendanceRecord,".
             "students.last_occurences,".
-            "students.absenceSummary");
+            "students.absenceSummary"; 
 
+        $this->get($url, $this->getAutHeader())
+            ->assertResponseStatus(200);
+            
+        $response = $this->getResponseContent("GET", $url);
+
+        
         // Test param students.absenceSummary
         $student = collect($response['lesson']['students'])->where('id', 1)
-            ->first();
+            ->first(); 
         $this->assertEquals([
                 'percentage_absences_reprove' => 25,
                 'total_lessons_year' => 240,
@@ -117,7 +122,7 @@ class LessonControllerTest extends TestCase
         $ocurrences = Student::find(1)
             ->occurences()
             ->with('level')
-            ->orderBy('updated_at')
+            ->orderBy('updated_at', 'desc')
             ->take(2)
             ->get()
             ->toArray();

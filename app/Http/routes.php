@@ -5,8 +5,11 @@ Route::get('/', function () {
 });
 $api->version('v1', function ($api) {
 	
-	$api->group(['middleware' => 'cors'], function ($api) {
-		$api->group(['middleware' => 'auth0.jwt'], function ($api) {
+	$api->group(['middleware' => 'config'], function($api){
+
+		$api->group(['middleware' => 'cors'], function ($api) {
+			
+			$api->group(['middleware' => 'auth0.jwt'], function ($api) {
 	        
 	        // Auth and Account
 			$api->post('auth/request-access', 
@@ -122,6 +125,7 @@ $api->version('v1', function ($api) {
 			$api->get('lesson-plan-models/{id}','App\Http\Controllers\LessonPlanModelController@show');
 			$api->put('lesson-plan-models/{id}','App\Http\Controllers\LessonPlanModelController@update');
 			$api->delete('lesson-plan-models/{id}','App\Http\Controllers\LessonPlanModelController@destroy');
+			});
 		});
 	});
 

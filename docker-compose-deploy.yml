@@ -1,9 +1,10 @@
 version: '2'
 services:
   web:
-    build: .
+    image: keviocastro/laravel:5
     environment:
-      XDEBUG_CONFIG: remote_host=192.168.0.19
+      APP_ENV: prodution
+      APP_DEBUG: false
     depends_on:
       - db
     volumes:
