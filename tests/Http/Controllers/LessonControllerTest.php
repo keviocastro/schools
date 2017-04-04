@@ -186,7 +186,7 @@ class LessonControllerTest extends TestCase
         $end = clone $start;
         $end->addDays(2);
         $result = [];
-        $auth_user_id = \Config::get('laravel-auth0.user_id_role_teacher_1');
+        $teacher = factory(\App\Teacher::class)->create();
 
         // Remove existentes para verificar se vai retornar exatamente as 
         // que foram criadas
@@ -205,12 +205,7 @@ class LessonControllerTest extends TestCase
             $lessons = factory(Lesson::class, 2)->create([
                     'start' => $dateLesson->format('Y-m-d H:i:s'),
                     'end' => $dateLesson->format('Y-m-d H:i:s'),
-                    'teacher_id' => factory(\App\Teacher::class)->create([
-                            'person_id' => factory(\App\Person::class)->create([
-                                    'user_id' => $auth_user_id 
-                                    // Para definir o usuário do professor para testar o filtro por usuário. 
-                                ])->id
-                        ])->id
+                    'teacher_id' => $teacher->id
                 ]);
 
             // Não deve ser exibido nos resultados porque será aplicado o filtro por professor
@@ -223,11 +218,10 @@ class LessonControllerTest extends TestCase
                 'schoolClass.shift',
                 'schoolClass.students',
                 'subject');
+
             // Attributo "day" e "user_id" que a api retorna mas não existe na base
             $lessons[0]->day = $dateLesson->format('Y-m-d');
-            $lessons[0]->user_id = $auth_user_id;
             $lessons[1]->day = $dateLesson->format('Y-m-d');
-            $lessons[1]->user_id = $auth_user_id;
             
             $result[$i]['lessons'] = $lessons->toArray();
             $i++; 
@@ -243,7 +237,7 @@ class LessonControllerTest extends TestCase
         $this->get("api/lessons/per-day".
             "?start={$start->format('Y-m-d')}".
             "&end={$end->format('Y-m-d')}".
-            "&user_id=".\Config::get('laravel-auth0.user_id_role_teacher_1').
+            "&user_id=".$teacher->person->user_id.
             "&_with=schoolClass.grade".
                 ",schoolClass.shift".
                 ",schoolClass.students".

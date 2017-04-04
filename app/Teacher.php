@@ -11,23 +11,32 @@ class Teacher extends Model
      */
     protected $fillable = ['person_id'];
 
+
     /**
-     * @Relation
+     * Registro de pessoa associado com o professor
      * 
+     * @Relation
+     *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function grade()
+    public function person()
     {
-        return $this->belongsTo('App\Grade', 'grade_id');
+        return $this->belongsTo('App\Person');
     }
-    
+
     /**
-     * @Relation
+     * Obtem um professor por user_id do seriço de autentificação
      * 
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @param  int $user_id 
+     * @return Teacher
      */
-    public function schoolCalendar()
-    {
-        return $this->belongsTo('App\SchoolCalendar', 'school_calendar_id');
-    }
+    public static function findByUserId($user_id)
+    {   
+        $person = Person::where('user_id', $user_id)->first();
+        if ($person) {
+            return $person->teacher;
+        }else{
+            return [];
+        }
+    }    
 }

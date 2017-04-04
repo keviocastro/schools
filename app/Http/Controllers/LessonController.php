@@ -165,10 +165,10 @@ class LessonController extends Controller
                 'day', '=', DB::raw('DATE_FORMAT(lessons.start, "%Y-%m-%d")'));
 
         if ($user_id) {
-            $query->leftJoin('teachers', 'teachers.id', '=', 'lessons.teacher_id')
-                ->join('people', 'people.id', '=', 'teachers.person_id')
-                ->where('people.user_id', $user_id);
-            $query->addSelect('people.user_id');
+            $teacher = \App\Teacher::findByUserId($user_id);
+            if ($teacher) {
+                $query->where('lessons.teacher_id', $teacher->id);
+            }
         }
 
         // apiHandler->parseMultiple para possibilitar utilizar o parametro _with da requisição

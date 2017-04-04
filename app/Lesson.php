@@ -28,7 +28,8 @@ class Lesson extends Model
     	'subject_id', 
     	'start', 
     	'end',
-        'lesson_plan_id'
+        'lesson_plan_id',
+        'teacher_id'
     	];
     
     /**
@@ -42,8 +43,7 @@ class Lesson extends Model
         'created_at',
         'created_by',
         'deleted_by',
-        'updated_by',
-        'teacher_id'
+        'updated_by'
     ];
 
 

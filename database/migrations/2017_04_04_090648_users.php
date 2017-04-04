@@ -15,6 +15,7 @@ class Users extends Migration
     {
         Schema::table('people', function(Blueprint $table){
             $table->string('user_id')->nullable(); // id do usuário no serviço de autentificação: exmplo auth0
+            $table->unique('user_id');
         });
     }
 

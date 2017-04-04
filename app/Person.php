@@ -50,4 +50,14 @@ class Person extends Model
         'phone',
         'user_id' // id do usuário no serviço de autentificação: exmplo auth0
         ];
+
+    /**
+     * Registro de professor associado com a pessoa
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\hasOne
+     */
+    public function teacher()
+    {
+        return $this->hasOne('App\Teacher');
+    }   
 }

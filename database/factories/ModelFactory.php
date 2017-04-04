@@ -140,7 +140,7 @@ $factory->define(App\Person::class, function () use ($factory, $faker) {
     	'more' => $faker->text(),
         'avatarUrl' => $avatarUrl,
         'phone' => $faker->phoneNumber,
-        'user_id' => '', // user_id do serviço de autentificação: exemplo auth0.
+        'user_id' => $faker->uuid, // user_id do serviço de autentificação: exemplo auth0.
     	];
 });
 
