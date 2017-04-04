@@ -600,6 +600,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
         + Default: NOW()
     + end (string, optional) Data final
         + Default: NOW() + 15 days
+    + user_id (string, optional) ID do usuário no serviço de autentificação (auth0)
     + _with (string, optional) Nome da relação a ser incluida da resposta.
         + Members
             + schoolClass
@@ -623,7 +624,9 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
         + data (array)
             + (object)
                 + day: `2016-10-01` (string)
-                + lessons (array[Lesson])
+                + lessons (array)
+                    + include Lesson
+                    + user_id: auth0|58e39955afec3158a325b50a (string, optional) ID do usuário no serviço de autentificação
 
 
 ## Coleção de planos de aula [/lesson-plans]
@@ -813,8 +816,6 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
             authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Nzg2NDkwMCwiaWF0IjoxNDg1MjcyOTAwfQ.b99sxpaj3mLljTx1YfwvcUHpwKsIB5dayiBycByPZ0A
 
 + Response 204
-
-
 
 # Group Estudantes
 
@@ -1258,6 +1259,26 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
             + (object)
                 + schoolClass (SchoolClass)
                 + subject (Subject)
+
+## Carga horária [/teacher/{teacher_id}/workload]
+
+### Resumo de carga horária [GET]
+
++ Parameters
+    + teacher_id: (number, required) - ID do professor
+    + school_calendar_id: (number, required) - ID do calendário escolar
+
++ Request 
+    + Headers
+
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1N2MwODQwZGVhZTA5NTQ3MWFiYTQwOTMiLCJhdWQiOiJ3Mjd6MXY5eFJQQnVycWFYNmxEcXNNSTJ1TldocXgwdiIsImV4cCI6MTQ4Nzg2NDkwMCwiaWF0IjoxNDg1MjcyOTAwfQ.b99sxpaj3mLljTx1YfwvcUHpwKsIB5dayiBycByPZ0A
+
++ Response 200 (application/json)
+
+    + Attributes (object)
+        + annual_workload: 400 (number) - Total de carga horária em horas do professor no calendário escolar
+        
+
 
 # Group Configurações
 
