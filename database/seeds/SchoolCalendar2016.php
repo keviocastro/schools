@@ -13,6 +13,7 @@ use App\StudentGrade;
 use App\StudentResponsible;
 use App\Subject;
 use App\Teacher;
+use App\Person;
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 
@@ -35,9 +36,15 @@ class SchoolCalendar2016 extends Seeder
     /**
      * Cria um calendario para 2016
      * Com uma turma
+     * 
      * Aulas durante todo o ano para essa turma com 5 disciplinas, onde:
-     *     O professor 1 ministra aulas para as disciplinas 1 e 2.
+     *     O professor 1 ministra aulas para as disciplinas 1 e 2
+     *         
      *     As disciplinas 3,4,5 tem são ministradas pelos professores 2,3,4 respectivamente. 
+     *         
+     *     A identificação dos usuários dos professores (user_id) 
+     *     são definidos no arquivo .env, na váriavel AUTH0_USER_ID_ROLE_TEACHER
+     *     
      * Cria Alunos para a turma
      * Cria Responsaveis pelos alunos
      * Cria Registros de notas dos alunos durante o ano
@@ -247,7 +254,11 @@ class SchoolCalendar2016 extends Seeder
         $subject = factory(Subject::class)->create([
                 'name' => 'Matématica'
             ]);
-        $teacher1 = factory(Teacher::class)->create();
+        $teacher1 = factory(Teacher::class)->create([
+                'person_id' => factory(Person::class)->create([
+                            'user_id' => \Config::get('laravel-auth0.user_id_role_teacher_1')
+                        ])->id
+            ]);
         $subjectFixedData = $subject;
         array_push($subjects, $subject);
         LessonsFactory::createBetweenTwoDates(
@@ -270,7 +281,11 @@ class SchoolCalendar2016 extends Seeder
             $subject,
             $teacher1);
 
-        $teacher2 = factory(Teacher::class)->create();
+        $teacher2 = factory(Teacher::class)->create([
+                'person_id' => factory(Person::class)->create([
+                            'user_id' => \Config::get('laravel-auth0.user_id_role_teacher_2')
+                        ])->id
+            ]);
         $subject = factory(Subject::class)->create();
         array_push($subjects, $subject);
         LessonsFactory::createBetweenTwoDates(
@@ -281,7 +296,11 @@ class SchoolCalendar2016 extends Seeder
             $subject,
             $teacher2);
 
-        $teacher3 = factory(Teacher::class)->create();
+        $teacher3 = factory(Teacher::class)->create([
+                'person_id' => factory(Person::class)->create([
+                            'user_id' => \Config::get('laravel-auth0.user_id_role_teacher_3')
+                        ])->id
+            ]);
         $subject = factory(Subject::class)->create();
         array_push($subjects, $subject);
         LessonsFactory::createBetweenTwoDates(
@@ -292,7 +311,11 @@ class SchoolCalendar2016 extends Seeder
             $subject,
             $teacher3);
 
-        $teacher4 = factory(Teacher::class)->create();
+        $teacher4 = factory(Teacher::class)->create([
+                'person_id' => factory(Person::class)->create([
+                            'user_id' => \Config::get('laravel-auth0.user_id_role_teacher_4')
+                        ])->id
+            ]);
         $subject = factory(Subject::class)->create();
         array_push($subjects, $subject);
         LessonsFactory::createBetweenTwoDates(

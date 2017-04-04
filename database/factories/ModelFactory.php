@@ -140,6 +140,7 @@ $factory->define(App\Person::class, function () use ($factory, $faker) {
     	'more' => $faker->text(),
         'avatarUrl' => $avatarUrl,
         'phone' => $faker->phoneNumber,
+        'user_id' => '', // user_id do serviço de autentificação: exemplo auth0.
     	];
 });
 
@@ -339,10 +340,10 @@ $factory->define(App\StudentGrade::class, function ($faker) use ($factory) {
 
 $factory->define(App\Teacher::class, function ($faker) use ($factory) {
     
-    $person_id = factory(App\Person::class)->create()->id;
-
     return [
-        'person_id' => $person_id
+        'person_id' => function(){
+            return factory(App\Person::class)->create()->id;
+        }
     ];
 });
 

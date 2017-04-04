@@ -47,5 +47,7 @@ class Person extends Model
     	'place_of_birth', 
     	'more',
         'avatarUrl',
-        'phone'];
+        'phone',
+        'user_id' // id do usuário no serviço de autentificação: exmplo auth0
+        ];
 }

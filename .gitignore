@@ -11,7 +11,7 @@ clover.xml
 phpunit.xml
 
 #IDE PHPSTORM
-.idea/*
+.idea
 
 #IDE Visual studio code
 .vscode

@@ -140,6 +140,7 @@
         + Default: NOW()
     + end (string, optional) Data final
         + Default: NOW() + 15 days
+    + user_id (string, optional) ID do usuário no serviço de autentificação (auth0)
     + _with (string, optional) Nome da relação a ser incluida da resposta.
         + Members
             + schoolClass
@@ -163,7 +164,9 @@
         + data (array)
             + (object)
                 + day: `2016-10-01` (string)
-                + lessons (array[Lesson])
+                + lessons (array)
+                    + include Lesson
+                    + user_id: auth0|58e39955afec3158a325b50a (string, optional) ID do usuário no serviço de autentificação
 
 
 ## Coleção de planos de aula [/lesson-plans]

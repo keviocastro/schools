@@ -140,8 +140,6 @@ class LessonController extends Controller
      * @todo Converter sql para classe de modelo.
      *       Decidir se as datas serão dinamicas ou serão a partir da tabela dates.
      * 
-     * Display a listing of the resource.
-     *
      * @return \Illuminate\Http\Response
      */
     public function listPerDay(Request $request)
@@ -149,22 +147,32 @@ class LessonController extends Controller
         $this->validationForListAction([
                 'start' => 'date_format:Y-m-d',
                 'end' => 'date_format:Y-m-d',
+                // ID do usuário no serviço de autentificação utilizado: auth0 por exemplo.
+                'user_id' => 'string', 
             ]);
 
         $startDate = $request->input('start', Carbon::now()->format('Y-m-d'));
         $endDate = $request->input('end', Carbon::parse($startDate)->addDays(14)->format('Y-m-d'));
+        $user_id = $request->input('user_id');
 
         $queryDaysBetweenDates = "select * from (select adddate('$startDate',t4*10000 + t3*1000 + t2*100 + t1*10 + t0) day from (select 0 t0 union select 1 union select 2 union select 3 union select 4 union select 5 union select 6 union select 7 union select 8 union select 9) t0, (select 0 t1 union select 1 union select 2 union select 3 union select 4 union select 5 union select 6 union select 7 union select 8 union select 9) t1, (select 0 t2 union select 1 union select 2 union select 3 union select 4 union select 5 union select 6 union select 7 union select 8 union select 9) t2, (select 0 t3 union select 1 union select 2 union select 3 union select 4 union select 5 union select 6 union select 7 union select 8 union select 9) t3, (select 0 t4 union select 1 union select 2 union select 3 union select 4 union select 5 union select 6 union select 7 union select 8 union select 9) t4) v where day between '$startDate' and '$endDate'";
 
         $days = DB::select(DB::raw($queryDaysBetweenDates));
 
-        $query = Lesson::
-            rightJoin(
+        $query = Lesson::select('lessons.*', 'dates.*')
+            ->rightJoin(
                 DB::raw("($queryDaysBetweenDates) as dates"),
                 'day', '=', DB::raw('DATE_FORMAT(lessons.start, "%Y-%m-%d")'));
 
+        if ($user_id) {
+            $query->leftJoin('teachers', 'teachers.id', '=', 'lessons.teacher_id')
+                ->join('people', 'people.id', '=', 'teachers.person_id')
+                ->where('people.user_id', $user_id);
+            $query->addSelect('people.user_id');
+        }
+
         // apiHandler->parseMultiple para possibilitar utilizar o parametro _with da requisição
-        $result = $this->apiHandler->parseMultiple($query, [], $request->except('start', 'end'));
+        $result = $this->apiHandler->parseMultiple($query, [], $request->except('start', 'end', 'user_id'));
         $data = $result->getResult()->toArray();
 
         // To group lessons per day

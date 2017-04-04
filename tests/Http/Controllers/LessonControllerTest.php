@@ -186,6 +186,7 @@ class LessonControllerTest extends TestCase
         $end = clone $start;
         $end->addDays(2);
         $result = [];
+        $auth_user_id = \Config::get('laravel-auth0.user_id_role_teacher_1');
 
         // Remove existentes para verificar se vai retornar exatamente as 
         // que foram criadas
@@ -199,17 +200,34 @@ class LessonControllerTest extends TestCase
         $i = 0;
         while ( $dateLesson->lte($end) ) {
             $result[$i]['day'] = $dateLesson->format('Y-m-d');
+            // 4 Aulas por dia, sendo 2 para o professor "user_id_role_teacher_1"
+            // e 2 para um professores aleatórios
             $lessons = factory(Lesson::class, 2)->create([
                     'start' => $dateLesson->format('Y-m-d H:i:s'),
                     'end' => $dateLesson->format('Y-m-d H:i:s'),
+                    'teacher_id' => factory(\App\Teacher::class)->create([
+                            'person_id' => factory(\App\Person::class)->create([
+                                    'user_id' => $auth_user_id 
+                                    // Para definir o usuário do professor para testar o filtro por usuário. 
+                                ])->id
+                        ])->id
                 ]);
+
+            // Não deve ser exibido nos resultados porque será aplicado o filtro por professor
+            $random_lessons = factory(Lesson::class, 2)->create([
+                    'start' => $dateLesson->format('Y-m-d H:i:s'),
+                    'end' => $dateLesson->format('Y-m-d H:i:s')
+                ]);
+
             $lessons->load('schoolClass.grade', 
                 'schoolClass.shift',
                 'schoolClass.students',
                 'subject');
-            // Attributo "day" que a api retorna mas não existe na base
+            // Attributo "day" e "user_id" que a api retorna mas não existe na base
             $lessons[0]->day = $dateLesson->format('Y-m-d');
+            $lessons[0]->user_id = $auth_user_id;
             $lessons[1]->day = $dateLesson->format('Y-m-d');
+            $lessons[1]->user_id = $auth_user_id;
             
             $result[$i]['lessons'] = $lessons->toArray();
             $i++; 
@@ -225,6 +243,7 @@ class LessonControllerTest extends TestCase
         $this->get("api/lessons/per-day".
             "?start={$start->format('Y-m-d')}".
             "&end={$end->format('Y-m-d')}".
+            "&user_id=".\Config::get('laravel-auth0.user_id_role_teacher_1').
             "&_with=schoolClass.grade".
                 ",schoolClass.shift".
                 ",schoolClass.students".
