@@ -45,8 +45,10 @@ class AuthController extends Controller
     public function showUser(Request $request)
     {
         $user_id = Auth0::jwtuser()->sub;
+        $person = Person::select()->with('student', 'teacher');
 
-        return Person::where('user_id', $user_id)->first()
-            ->load('teacher', 'student');
+        return $this->apiHandler
+            ->parseSingle($person, ['user_id' => $user_id])
+            ->getResult();
     }
 }

@@ -41,8 +41,9 @@ Com isso o cadastro do Professor Medeiros fica pendente até que um usuário da 
     + user_id: 1 (number) - ID do usuário no serviço de autentificação
     + _with (string, optional) - Obtem informações do recurso relacionado.
         + Members
-            + teacher
-            + student
+            + student.responsibles
+            + student.attendanceRecords
+            + student.studentGrades
 
 + Request  (application/json)
     + Headers
