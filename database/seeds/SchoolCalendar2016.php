@@ -254,11 +254,7 @@ class SchoolCalendar2016 extends Seeder
         $subject = factory(Subject::class)->create([
                 'name' => 'Matématica'
             ]);
-        $teacher1 = factory(Teacher::class)->create([
-                'person_id' => factory(Person::class)->create([
-                            'user_id' => \Config::get('laravel-auth0.user_id_role_teacher_1')
-                        ])->id
-            ]);
+        $teacher1 = LessonsFactory::createTeacherIfNotExists(Config::get('laravel-auth0.user_id_role_teacher_1'));
         $subjectFixedData = $subject;
         array_push($subjects, $subject);
         LessonsFactory::createBetweenTwoDates(
@@ -281,11 +277,7 @@ class SchoolCalendar2016 extends Seeder
             $subject,
             $teacher1);
 
-        $teacher2 = factory(Teacher::class)->create([
-                'person_id' => factory(Person::class)->create([
-                            'user_id' => \Config::get('laravel-auth0.user_id_role_teacher_2')
-                        ])->id
-            ]);
+        $teacher2 = LessonsFactory::createTeacherIfNotExists(Config::get('laravel-auth0.user_id_role_teacher_2'));
         $subject = factory(Subject::class)->create();
         array_push($subjects, $subject);
         LessonsFactory::createBetweenTwoDates(
@@ -296,11 +288,7 @@ class SchoolCalendar2016 extends Seeder
             $subject,
             $teacher2);
 
-        $teacher3 = factory(Teacher::class)->create([
-                'person_id' => factory(Person::class)->create([
-                            'user_id' => \Config::get('laravel-auth0.user_id_role_teacher_3')
-                        ])->id
-            ]);
+        $teacher3 = LessonsFactory::createTeacherIfNotExists(Config::get('laravel-auth0.user_id_role_teacher_3'));
         $subject = factory(Subject::class)->create();
         array_push($subjects, $subject);
         LessonsFactory::createBetweenTwoDates(
@@ -311,11 +299,7 @@ class SchoolCalendar2016 extends Seeder
             $subject,
             $teacher3);
 
-        $teacher4 = factory(Teacher::class)->create([
-                'person_id' => factory(Person::class)->create([
-                            'user_id' => \Config::get('laravel-auth0.user_id_role_teacher_4')
-                        ])->id
-            ]);
+        $teacher4 = LessonsFactory::createTeacherIfNotExists(Config::get('laravel-auth0.user_id_role_teacher_4'));
         $subject = factory(Subject::class)->create();
         array_push($subjects, $subject);
         LessonsFactory::createBetweenTwoDates(

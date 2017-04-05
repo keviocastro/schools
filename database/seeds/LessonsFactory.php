@@ -58,4 +58,26 @@ class LessonsFactory
 
         \App\Lesson::insert($lessons);
     }
+
+    /**
+     * Cria um professor com user_id do servico de autentificação.
+     * Se ele já já existir, o professor é retornado.
+     * 
+     * @param  string $user_id ID do usuaŕio no serviço de autentificação
+     * @return Teacher
+     */
+    public static function createTeacherIfNotExists($user_id)
+    {
+        $teacher = Teacher::findByUserId($user_id);
+
+        if (empty($teacher)) {
+            $teacher = factory(Teacher::class)->create([
+                'person_id' => factory(Person::class)->create([
+                            'user_id' => $user_id
+                        ])->id
+            ]);
+        }
+
+        return $teacher;
+    }
 }
