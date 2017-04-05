@@ -31,3 +31,28 @@ Com isso o cadastro do Professor Medeiros fica pendente até que um usuário da 
             + updated_at: `2016-08-15 21:26:39` (string) Data da ultima alteração da solicitação
 
 
+## Usuarios [/auth/user]
+
+`Users` contem ações que identificam e gerenciam informações do usuário nesta API. 
+
+### Detalhes do usuário logado [GET]
+
++ Parameters
+    + user_id: 1 (number) - ID do usuário no serviço de autentificação
+    + _with (string, optional) - Obtem informações do recurso relacionado.
+        + Members
+            + teacher
+            + student
+
++ Request  (application/json)
+    + Headers
+
+            authorization: <!-- include(Token.md) -->
+
++ Response 200 (application/json)
+
+    + Attributes
+        + person (Person)
+        + student (Student)
+        + teacher (Teacher)
+

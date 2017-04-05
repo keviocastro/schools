@@ -53,10 +53,24 @@ class Person extends Model
 
     /**
      * Registro de professor associado com a pessoa
+     *
+     * @Relation
      * 
      * @return \Illuminate\Database\Eloquent\Relations\hasOne
      */
     public function teacher()
+    {
+        return $this->hasOne('App\Teacher');
+    }
+
+    /**
+     * Registro de estudante associado com a pessoa
+     *
+     * @Relation
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\hasOne
+     */
+    public function student()
     {
         return $this->hasOne('App\Teacher');
     }   

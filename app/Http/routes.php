@@ -16,6 +16,8 @@ $api->version('v1', function ($api) {
 				'App\Http\Controllers\Auth\AuthController@requestAccess');
 			$api->get('account-configs', 'App\Http\Controllers\AccountConfigController@index');
 			$api->put('account-configs/{id}', 'App\Http\Controllers\AccountConfigController@update');
+			$api->get('auth/user', 
+				'App\Http\Controllers\Auth\AuthController@showUser');
 			
 			// Schools
 			$api->get('schools', 'App\Http\Controllers\SchoolController@index');

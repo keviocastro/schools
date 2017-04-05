@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\RequestAccess;
 use App\User;
+use App\Person;
 use Auth0;
 use Illuminate\Http\Request;
 
@@ -33,5 +34,19 @@ class AuthController extends Controller
         }
 
         return $requestAccess;
+    }
+
+    /**
+     * Exibe os dados do usuário logado 
+     * 
+     * @param  Request $request 
+     * @return \Illuminate\Http\JsonResponse 
+     */
+    public function showUser(Request $request)
+    {
+        $user_id = Auth0::jwtuser()->sub;
+
+        return Person::where('user_id', $user_id)->first()
+            ->load('teacher', 'student');
     }
 }

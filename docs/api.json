@@ -7366,6 +7366,141 @@
               }
             ],
             "content": []
+          },
+          {
+            "element": "resource",
+            "name": "Usuarios",
+            "description": "`Users` contem ações que identificam e gerenciam informações do usuário nesta API. \n\n",
+            "uriTemplate": "/users/{user_id}",
+            "model": {},
+            "parameters": [],
+            "actions": [
+              {
+                "name": "Detalhes do usuário",
+                "description": "",
+                "method": "GET",
+                "parameters": [
+                  {
+                    "name": "user_id",
+                    "description": "ID do usuário no serviço de autentificação",
+                    "type": "number",
+                    "required": true,
+                    "default": "",
+                    "example": "1",
+                    "values": []
+                  },
+                  {
+                    "name": "_with",
+                    "description": "Obtem informações do recurso relacionado.",
+                    "type": "string",
+                    "required": false,
+                    "default": "",
+                    "example": "",
+                    "values": [
+                      {
+                        "value": "teacher"
+                      },
+                      {
+                        "value": "student"
+                      }
+                    ]
+                  }
+                ],
+                "attributes": {
+                  "relation": "",
+                  "uriTemplate": ""
+                },
+                "content": [],
+                "examples": [
+                  {
+                    "name": "",
+                    "description": "",
+                    "requests": [
+                      {
+                        "name": "",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "name": "authorization",
+                            "value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJnb29nbGUtb2F1dGgyfDEwNTkyMTY4NzU3MDQ4NDEzNDYwOSIsImF1ZCI6WyJhcGkuc2Nob29scyIsImh0dHBzOi8vbG9nb3MuYXV0aDAuY29tL3VzZXJpbmZvIl0sImF6cCI6Ilh4akkxQ1ROVEdZTjl0YkJ4MHlKbXRNdnZUYnQ1aFdXIiwiZXhwIjoxNDkxMzIwNzE3LCJpYXQiOjE0OTEzMTM1MTcsInNjb3BlIjoib3BlbmlkIHByb2ZpbGUifQ.ce7JdJMPbNE6sdJVWmWwdqcdVkKmbv3pS0KJADlIknf7Lm4uAo5ncVM5EXhSGdNIxogAuUEFpoAqGSRfIftyLKndsnBh0OYJw5-ltl9jLMYGq_6r3TVCS_-glgYjBazMqwBGwwM92RUbR2KkOtgh3C0twYW2dKHT682i1QIXl62Iosf-N3EBtMsIxnHaTHCr7YVJnjAFozDYI67xiE5wCnqbHmZ57b6xfXFmv0P_eSDPuvHCDAI5_btQCkwI0MuIcPnf0RpMsEIkgHZ0pm81aSFhsbwG19uLwpkOrSwK0HFoUM3sZwkx55KyRLikwA2qjyoV3cROQHa-0nZsEA9kjQ"
+                          }
+                        ],
+                        "body": "",
+                        "schema": "",
+                        "content": []
+                      }
+                    ],
+                    "responses": [
+                      {
+                        "name": "200",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": "{\n  \"person\": {\n    \"id\": 1,\n    \"name\": \"Caio Fernando Chaves\",\n    \"age\": 15,\n    \"birthday\": \"2001-04-21\",\n    \"piture\": \"https://randomuser.me/api/portraits/lego/6.jpg\",\n    \"gender\": \"male\",\n    \"place_of_birth\": \"Santa Alenssandra\",\n    \"more\": \"descricao\",\n    \"phone\": \"(62) 8385-5421\"\n  },\n  \"student\": {\n    \"id\": 1,\n    \"person_id\": 1\n  },\n  \"teacher\": {\n    \"id\": 1,\n    \"person_id\": 1\n  }\n}",
+                        "schema": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"person\": {\n      \"type\": \"object\",\n      \"properties\": {\n        \"id\": {\n          \"type\": \"number\",\n          \"description\": \"Identificador único da pessoa\"\n        },\n        \"name\": {\n          \"type\": \"string\",\n          \"description\": \"Nome\"\n        },\n        \"age\": {\n          \"type\": \"number\",\n          \"description\": \"Idade\"\n        },\n        \"birthday\": {\n          \"type\": \"string\",\n          \"description\": \"Data de aniversário\"\n        },\n        \"piture\": {\n          \"type\": \"string\",\n          \"description\": \"Foto\"\n        },\n        \"gender\": {\n          \"type\": \"string\"\n        },\n        \"place_of_birth\": {\n          \"type\": \"string\",\n          \"description\": \"Cidade de nascimento\"\n        },\n        \"more\": {\n          \"type\": \"string\",\n          \"description\": \"Mais detalhes sobre a pessoa\"\n        },\n        \"phone\": {\n          \"type\": \"string\",\n          \"description\": \"numero de telefone da pessoa\"\n        }\n      }\n    },\n    \"student\": {\n      \"type\": \"object\",\n      \"properties\": {\n        \"id\": {\n          \"type\": \"number\",\n          \"description\": \"Identificador único do estudante.\"\n        },\n        \"person_id\": {\n          \"type\": \"number\",\n          \"description\": \"ID das informações básicas de pessoa do aluno (nome, sobrenome, etc.).\"\n        }\n      }\n    },\n    \"teacher\": {\n      \"type\": \"object\",\n      \"properties\": {\n        \"id\": {\n          \"type\": \"number\",\n          \"description\": \"`Identificador único do professor.`\"\n        },\n        \"person_id\": {\n          \"type\": \"number\",\n          \"description\": \"`ID das informações básicas de pessoa do professor (nome, sobrenome, etc.)`\"\n        }\n      }\n    }\n  }\n}",
+                        "content": [
+                          {
+                            "element": "dataStructure",
+                            "content": [
+                              {
+                                "element": "object",
+                                "content": [
+                                  {
+                                    "element": "member",
+                                    "content": {
+                                      "key": {
+                                        "element": "string",
+                                        "content": "person"
+                                      },
+                                      "value": {
+                                        "element": "Person"
+                                      }
+                                    }
+                                  },
+                                  {
+                                    "element": "member",
+                                    "content": {
+                                      "key": {
+                                        "element": "string",
+                                        "content": "student"
+                                      },
+                                      "value": {
+                                        "element": "Student"
+                                      }
+                                    }
+                                  },
+                                  {
+                                    "element": "member",
+                                    "content": {
+                                      "key": {
+                                        "element": "string",
+                                        "content": "teacher"
+                                      },
+                                      "value": {
+                                        "element": "Teacher"
+                                      }
+                                    }
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "content": []
           }
         ]
       }
@@ -14751,6 +14886,141 @@
               }
             ],
             "content": []
+          },
+          {
+            "element": "resource",
+            "name": "Usuarios",
+            "description": "`Users` contem ações que identificam e gerenciam informações do usuário nesta API. \n\n",
+            "uriTemplate": "/users/{user_id}",
+            "model": {},
+            "parameters": [],
+            "actions": [
+              {
+                "name": "Detalhes do usuário",
+                "description": "",
+                "method": "GET",
+                "parameters": [
+                  {
+                    "name": "user_id",
+                    "description": "ID do usuário no serviço de autentificação",
+                    "type": "number",
+                    "required": true,
+                    "default": "",
+                    "example": "1",
+                    "values": []
+                  },
+                  {
+                    "name": "_with",
+                    "description": "Obtem informações do recurso relacionado.",
+                    "type": "string",
+                    "required": false,
+                    "default": "",
+                    "example": "",
+                    "values": [
+                      {
+                        "value": "teacher"
+                      },
+                      {
+                        "value": "student"
+                      }
+                    ]
+                  }
+                ],
+                "attributes": {
+                  "relation": "",
+                  "uriTemplate": ""
+                },
+                "content": [],
+                "examples": [
+                  {
+                    "name": "",
+                    "description": "",
+                    "requests": [
+                      {
+                        "name": "",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "name": "authorization",
+                            "value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJnb29nbGUtb2F1dGgyfDEwNTkyMTY4NzU3MDQ4NDEzNDYwOSIsImF1ZCI6WyJhcGkuc2Nob29scyIsImh0dHBzOi8vbG9nb3MuYXV0aDAuY29tL3VzZXJpbmZvIl0sImF6cCI6Ilh4akkxQ1ROVEdZTjl0YkJ4MHlKbXRNdnZUYnQ1aFdXIiwiZXhwIjoxNDkxMzIwNzE3LCJpYXQiOjE0OTEzMTM1MTcsInNjb3BlIjoib3BlbmlkIHByb2ZpbGUifQ.ce7JdJMPbNE6sdJVWmWwdqcdVkKmbv3pS0KJADlIknf7Lm4uAo5ncVM5EXhSGdNIxogAuUEFpoAqGSRfIftyLKndsnBh0OYJw5-ltl9jLMYGq_6r3TVCS_-glgYjBazMqwBGwwM92RUbR2KkOtgh3C0twYW2dKHT682i1QIXl62Iosf-N3EBtMsIxnHaTHCr7YVJnjAFozDYI67xiE5wCnqbHmZ57b6xfXFmv0P_eSDPuvHCDAI5_btQCkwI0MuIcPnf0RpMsEIkgHZ0pm81aSFhsbwG19uLwpkOrSwK0HFoUM3sZwkx55KyRLikwA2qjyoV3cROQHa-0nZsEA9kjQ"
+                          }
+                        ],
+                        "body": "",
+                        "schema": "",
+                        "content": []
+                      }
+                    ],
+                    "responses": [
+                      {
+                        "name": "200",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": "{\n  \"person\": {\n    \"id\": 1,\n    \"name\": \"Caio Fernando Chaves\",\n    \"age\": 15,\n    \"birthday\": \"2001-04-21\",\n    \"piture\": \"https://randomuser.me/api/portraits/lego/6.jpg\",\n    \"gender\": \"male\",\n    \"place_of_birth\": \"Santa Alenssandra\",\n    \"more\": \"descricao\",\n    \"phone\": \"(62) 8385-5421\"\n  },\n  \"student\": {\n    \"id\": 1,\n    \"person_id\": 1\n  },\n  \"teacher\": {\n    \"id\": 1,\n    \"person_id\": 1\n  }\n}",
+                        "schema": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"person\": {\n      \"type\": \"object\",\n      \"properties\": {\n        \"id\": {\n          \"type\": \"number\",\n          \"description\": \"Identificador único da pessoa\"\n        },\n        \"name\": {\n          \"type\": \"string\",\n          \"description\": \"Nome\"\n        },\n        \"age\": {\n          \"type\": \"number\",\n          \"description\": \"Idade\"\n        },\n        \"birthday\": {\n          \"type\": \"string\",\n          \"description\": \"Data de aniversário\"\n        },\n        \"piture\": {\n          \"type\": \"string\",\n          \"description\": \"Foto\"\n        },\n        \"gender\": {\n          \"type\": \"string\"\n        },\n        \"place_of_birth\": {\n          \"type\": \"string\",\n          \"description\": \"Cidade de nascimento\"\n        },\n        \"more\": {\n          \"type\": \"string\",\n          \"description\": \"Mais detalhes sobre a pessoa\"\n        },\n        \"phone\": {\n          \"type\": \"string\",\n          \"description\": \"numero de telefone da pessoa\"\n        }\n      }\n    },\n    \"student\": {\n      \"type\": \"object\",\n      \"properties\": {\n        \"id\": {\n          \"type\": \"number\",\n          \"description\": \"Identificador único do estudante.\"\n        },\n        \"person_id\": {\n          \"type\": \"number\",\n          \"description\": \"ID das informações básicas de pessoa do aluno (nome, sobrenome, etc.).\"\n        }\n      }\n    },\n    \"teacher\": {\n      \"type\": \"object\",\n      \"properties\": {\n        \"id\": {\n          \"type\": \"number\",\n          \"description\": \"`Identificador único do professor.`\"\n        },\n        \"person_id\": {\n          \"type\": \"number\",\n          \"description\": \"`ID das informações básicas de pessoa do professor (nome, sobrenome, etc.)`\"\n        }\n      }\n    }\n  }\n}",
+                        "content": [
+                          {
+                            "element": "dataStructure",
+                            "content": [
+                              {
+                                "element": "object",
+                                "content": [
+                                  {
+                                    "element": "member",
+                                    "content": {
+                                      "key": {
+                                        "element": "string",
+                                        "content": "person"
+                                      },
+                                      "value": {
+                                        "element": "Person"
+                                      }
+                                    }
+                                  },
+                                  {
+                                    "element": "member",
+                                    "content": {
+                                      "key": {
+                                        "element": "string",
+                                        "content": "student"
+                                      },
+                                      "value": {
+                                        "element": "Student"
+                                      }
+                                    }
+                                  },
+                                  {
+                                    "element": "member",
+                                    "content": {
+                                      "key": {
+                                        "element": "string",
+                                        "content": "teacher"
+                                      },
+                                      "value": {
+                                        "element": "Teacher"
+                                      }
+                                    }
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "content": []
           }
         ]
       },
@@ -17628,6 +17898,16 @@
         {
           "index": 80905,
           "length": 30
+        }
+      ]
+    },
+    {
+      "code": 8,
+      "message": "parameter '_with' is not found within the URI template '/users/{user_id}' for 'Usuarios' ",
+      "location": [
+        {
+          "index": 87737,
+          "length": 31
         }
       ]
     },

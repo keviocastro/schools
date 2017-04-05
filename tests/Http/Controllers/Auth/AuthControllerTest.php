@@ -24,4 +24,18 @@ class AuthControllerTest extends TestCase
                         ['id','status','status', 'user_id'], // 0 pendente
                     ]);
     }
+
+    /**
+     * @covers App\Http\Controllers\Auth\AuthController::showUser
+     * 
+     * @return void
+     */
+    public function testShowUser()
+    {
+        // O usuário é identificado pelo token que está no cabeçario da requisição, 
+        // variável "authHeader".
+        $this->get('api/auth/user',
+            $this->getAutHeader())
+            ->assertResponseStatus(200);
+    }
 }

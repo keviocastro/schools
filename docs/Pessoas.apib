@@ -1,0 +1,29 @@
+# Group Pessoas
+
+Ações relacionadas a informações de todas as pessoas cadastradas no sistema: professores, alunos, gestores, coordenadoes, secretários, etc.
+
+## Coleção de pessoas [/people]
+
+### Listar pessoas [GET]
+
+<!-- include(LinkParametrosPadroesListagem.md) -->
+
++ Parameters
+    + _q (string, optional) - Pesquisa por palavra-chave, a correspondência e incluida conjunto de resultados.
+    + _sort (string, optional) - Ordena a coluna desejada, de forma acendente ou descendente.
+    + _with (string, optional) - Obtem informações do recurso relacionado.
+        + Members
+            + teacher - Informações se a pessoa for um professor.
+            + student - Informações de estudante.
+
++ Request  (application/json)
+    + Headers
+
+            authorization: <!-- include(Token.md) -->
+
++ Response 200 (application/json)
+
+    + Attributes
+        + Include Paginator
+        + data (array)
+            + (Person)
