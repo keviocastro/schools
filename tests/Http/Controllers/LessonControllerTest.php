@@ -234,10 +234,27 @@ class LessonControllerTest extends TestCase
             'data' => $result
         ];
 
+        // Obtem as duas aulas do professor
         $this->get("api/lessons/per-day".
             "?start={$start->format('Y-m-d')}".
             "&end={$end->format('Y-m-d')}".
             "&user_id=".$teacher->person->user_id.
+            "&_with=schoolClass.grade".
+                ",schoolClass.shift".
+                ",schoolClass.students".
+                ",subject",
+            $this->getAutHeader())
+            ->assertResponseStatus(200)
+            ->seeJsonEquals($jsonResult);
+
+        // Retorna nenhuma aula porque o professor não tem aula
+        foreach ($jsonResult['data'] as $key => $value) {
+            $jsonResult['data'][$key]['lessons'] = [];
+        }
+        $this->get("api/lessons/per-day".
+            "?start={$start->format('Y-m-d')}".
+            "&end={$end->format('Y-m-d')}".
+            "&user_id=-1".
             "&_with=schoolClass.grade".
                 ",schoolClass.shift".
                 ",schoolClass.students".

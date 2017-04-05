@@ -168,6 +168,8 @@ class LessonController extends Controller
             $teacher = \App\Teacher::findByUserId($user_id);
             if ($teacher) {
                 $query->where('lessons.teacher_id', $teacher->id);
+            }else{
+                $query->where('lessons.teacher_id', -1);
             }
         }
 
