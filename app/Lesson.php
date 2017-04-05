@@ -46,6 +46,17 @@ class Lesson extends Model
         'updated_by'
     ];
 
+    /**
+     * Get a teacher
+     *
+     * @Relation
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\belongsTo
+     */
+    public function teacher()
+    {
+        return $this->belongsTo('App\Teacher');
+    }
 
     /**
      * Get a school class record
