@@ -4,6 +4,7 @@ use App\Lesson;
 use App\SchoolClass;
 use App\Subject;
 use App\Teacher;
+use App\Person;
 use Carbon\Carbon;
 
 /**
