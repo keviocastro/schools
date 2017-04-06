@@ -73,7 +73,7 @@ class AttendanceRecordController extends Controller
     public function show($id)
     {
         $result = $this->apiHandler->parseSingle(new AttendanceRecord, $id);
-        return $result->getResult();
+        return $result->getResultOrFail();
     }
 
     /**

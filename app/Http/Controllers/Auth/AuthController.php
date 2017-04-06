@@ -49,6 +49,6 @@ class AuthController extends Controller
 
         return $this->apiHandler
             ->parseSingle($person, ['user_id' => $user_id])
-            ->getResult();
+            ->getResultOrFail();
     }
 }

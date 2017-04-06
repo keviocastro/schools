@@ -51,7 +51,7 @@ class SchoolClassController extends Controller
     {
         return $this->apiHandler
             ->parseSingle(New SchoolClass, $id)
-            ->getResult();
+            ->getResultOrFail();
     }
 
     /**

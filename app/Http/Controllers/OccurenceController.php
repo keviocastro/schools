@@ -48,7 +48,7 @@ class OccurenceController extends Controller
     public function show($id)
     {
         $result = $this->apiHandler->parseSingle(new Occurence,$id);
-        return $result->getResult();
+        return $result->getResultOrFail();
     }
 
     /**

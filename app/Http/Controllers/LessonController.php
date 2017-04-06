@@ -54,7 +54,7 @@ class LessonController extends Controller
      */
     public function show(Request $request, $id)
     {   
-        $result = $this->apiHandler->parseSingle(New Lesson, $id)->getResult();
+        $result = $this->apiHandler->parseSingle(New Lesson, $id)->getResultOrFail();
         $attach = explode(',', $request->input('attach'));
 
         if (in_array('students',$attach) || 

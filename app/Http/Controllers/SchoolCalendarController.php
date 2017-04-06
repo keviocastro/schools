@@ -61,7 +61,7 @@ class SchoolCalendarController extends Controller
     {
         return $this->apiHandler
             ->parseSingle(New SchoolCalendar, $id)
-            ->getResult();
+            ->getResultOrFail();
     }
 
     /**

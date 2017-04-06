@@ -36,6 +36,7 @@ class AuthControllerTest extends TestCase
         // variável "authHeader".
         $this->get('api/auth/user',
             $this->getAutHeader())
-            ->assertResponseStatus(200);
+            ->assertResponseStatus(200)
+            ->seeJsonStructure(['user' => ['person', 'teacher', 'student']]);
     }
 }

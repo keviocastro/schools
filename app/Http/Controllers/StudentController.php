@@ -33,7 +33,7 @@ class StudentController extends Controller
 
         return $this->apiHandler
             ->parseSingle(New Student, $id, array_merge(['_with' => 'person'], $queryParams))
-            ->getResult();
+            ->getResultOrFail();
     }
 
     /**
