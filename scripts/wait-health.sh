@@ -9,7 +9,7 @@ if [ -z "$APP_URL" ]; then
 fi
 
 cmd="$1"
-wait_for=60
+wait_for=180
 i=0
 
 until [ $( curl --write-out "%{http_code}" --silent --output /dev/null "${APP_URL}/api/health") -eq "200" ]; do
