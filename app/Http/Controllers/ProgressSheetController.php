@@ -5,9 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
-use App\EvaluationSheet;
+use App\ProgressSheet;
 
-class EvaluationSheetController extends Controller
+class ProgressSheetController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,7 +16,7 @@ class EvaluationSheetController extends Controller
      */
     public function index()
     {
-        $result = $this->parseMultiple(new EvaluationSheet, ['name']);
+        $result = $this->parseMultiple(new ProgressSheet, ['name']);
 
         return $result;
     }
@@ -32,9 +32,9 @@ class EvaluationSheetController extends Controller
         $this->validationForStoreAction($request, [
                 // '{attribute}' => '{validation}',
             ]);
-        $evaluationSheetController = EvaluationSheet::create($request->all());
+        $progressSheetController = ProgressSheet::create($request->all());
 
-        return $this->response->created("/resource/{$evaluationSheetController->id}", $evaluationSheetController);
+        return $this->response->created("/progress-sheets/{$progressSheetController->id}", $progressSheetController);
     }
 
     /**
@@ -45,7 +45,7 @@ class EvaluationSheetController extends Controller
      */
     public function show($id)
     {
-        return EvaluationSheet::findOrFail($id);
+        return ProgressSheet::findOrFail($id);
     }
 
     /**
@@ -61,10 +61,10 @@ class EvaluationSheetController extends Controller
             // 'attribute' => 'rule',
             ]);
 
-        $evaluationSheetController = EvaluationSheet::findOrFail($id);
-        $evaluationSheetController->update($request->all());
+        $progressSheetController = ProgressSheet::findOrFail($id);
+        $progressSheetController->update($request->all());
 
-        return $evaluationSheetController;
+        return $progressSheetController;
     }
 
     /**
@@ -75,8 +75,8 @@ class EvaluationSheetController extends Controller
      */
     public function destroy($id)
     {
-        $evaluationSheetController = EvaluationSheet::findOrFail($id);
-        $evaluationSheetController->delete();
+        $progressSheetController = ProgressSheet::findOrFail($id);
+        $progressSheetController->delete();
 
         return $this->response->noContent();
     }

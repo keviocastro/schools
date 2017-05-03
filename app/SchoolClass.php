@@ -13,7 +13,7 @@ class SchoolClass extends Model
 
      /**
      * 
-     * The attributes that should be hidden for arrays.
+     * Atributos que não são exibidos json ou arrays
      *
      * @var array
      */
@@ -27,14 +27,14 @@ class SchoolClass extends Model
         ];
     
     /**
-     * The attributes that should be mutated to dates.
+     * Atributos convertidos em formato de data
      *
      * @var array
      */
     protected $dates = ['deleted_at'];
 
     /**
-     * The attributes that are mass assignable.
+     * Atributos que podem ser preenchidos/modificados
      *
      * @var array
      */
@@ -43,7 +43,27 @@ class SchoolClass extends Model
         'grade_id', 
         'shift_id',
         'school_calendar_id',
-        'school_id'];
+        'school_id',
+        'evaluation_type',
+        'progress_sheet_id'];
+
+
+    protected $appends = ['evaluation_type'];
+
+
+    /**
+     * Obtem o tipo que os alunos da turma são avaliados.
+     * 
+     * descriptive_sheet = Ficha de avaliação descritiva preenchida por fase
+     * grade_per_phase = Nota numérica caclulada por fase
+     *
+     * @return string
+     */
+    public function getEvaluationTypeAttribute()
+    {
+        $evaluation_type = ['grade_per_phase', 'progress_sheet_per_phase'];
+        return $this->attributes['evaluation_type'] = $evaluation_type[array_rand($evaluation_type, 1)];
+    }
 
     /**
      * Turno da turma 

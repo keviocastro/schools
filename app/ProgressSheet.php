@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class EvaluationSheet extends Model
+class ProgressSheet extends Model
 {
 	 use SoftDeletes;
 
@@ -15,12 +15,6 @@ class EvaluationSheet extends Model
      * @var array
      */
     protected $hidden = [
-        'deleted_at',
-        'created_at',
-        'updated_at',
-        'created_by',
-        'deleted_by',
-        'updated_by'
         ];
 
     /**
@@ -29,7 +23,8 @@ class EvaluationSheet extends Model
      * @var array
      */
     protected $fillable = [
-        'name'
+        'name',
+        'options'
     ];
 
 }
