@@ -393,3 +393,18 @@ $factory->define(App\LessonPlanModel::class, function ($faker) use ($factory) {
         'definition' => $faker->randomElement($models)
     ];
 });
+
+$factory->define(App\EvaluationSheet::class, function ($faker) use ($factory) {
+    $evalution = [
+        'Ficha de acompanhamento ',
+        'Ficha de ensino ',
+        'Ficha avaliativa '
+    ];
+    $for = [
+        'adultos',
+        'infantil'          
+    ];
+    return [
+        'name' => $faker->randomElement($evalution).$faker->randomElement($for)
+    ];
+});
