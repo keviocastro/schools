@@ -127,6 +127,13 @@ $api->version('v1', function ($api) {
 			$api->get('lesson-plan-models/{id}','App\Http\Controllers\LessonPlanModelController@show');
 			$api->put('lesson-plan-models/{id}','App\Http\Controllers\LessonPlanModelController@update');
 			$api->delete('lesson-plan-models/{id}','App\Http\Controllers\LessonPlanModelController@destroy');
+
+			//EvaluationSheets
+			$api->get('evaluation-sheets','App\Http\Controllers\EvaluationSheetController@index');
+			$api->post('evaluation-sheets','App\Http\Controllers\EvaluationSheetController@store');
+			$api->get('evaluation-sheets/{id}','App\Http\Controllers\EvaluationSheetController@show');
+			$api->put('evaluation-sheets/{id}','App\Http\Controllers\EvaluationSheetController@update');
+			$api->delete('evaluation-sheets/{id}','App\Http\Controllers\EvaluationSheetController@destroy');
 			});
 		});
 	});

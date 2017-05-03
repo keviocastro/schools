@@ -19,3 +19,5 @@
 <!-- include(ControleAcesso.apib) -->
 
 <!-- include(EstruturaDeDados.apib) -->
+
+<!-- include(Avaliacoes.apib) -->
