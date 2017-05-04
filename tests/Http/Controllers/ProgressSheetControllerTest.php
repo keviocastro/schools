@@ -20,10 +20,22 @@ class ProgressSheetControllerTest extends TestCase
     {
         $progressSheet = factory(ProgressSheet::class)->create();
         
+        $json = [
+                'total',
+                'per_page',
+                'current_page',
+                'last_page',
+                'prev_page_url',
+                'next_page_url',
+                'from',
+                'to',
+                'data' => ['*' => array_keys($progressSheet->attributesToArray())]
+        ];
+
         $this->get('api/progress-sheets?_sort=-id',
-        	$this->getAutHeader())
-        	->assertResponseStatus(200)
-        	->seeJson($progressSheet->toArray());
+            $this->getAutHeader())
+            ->assertResponseStatus(200)
+            ->seeJsonStructure($json);
     }
 
     /**
@@ -49,12 +61,18 @@ class ProgressSheetControllerTest extends TestCase
      */
     public function testShow()
     {
-    	$progressSheet = factory(ProgressSheet::class)->create()->toArray();
+    	$progressSheet = factory(ProgressSheet::class)->create();
         
-        $this->get("api/progress-sheets/{$progressSheet['id']}",
+        $json = [
+            "progress_sheet" => 
+                array_keys($progressSheet->attributesToArray())
+            
+        ];
+
+        $this->get("api/progress-sheets/{$progressSheet->id}",
         	$this->getAutHeader())
         	->assertResponseStatus(200)
-        	->seeJson($progressSheet);
+        	->seeJsonStructure($json);
     }
 
     /**

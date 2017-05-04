@@ -16,7 +16,7 @@ class ProgressSheetController extends Controller
      */
     public function index()
     {
-        $result = $this->parseMultiple(new ProgressSheet, ['name']);
+        $result = $this->parseMultiple(new ProgressSheet, ['name','options']);
 
         return $result;
     }
