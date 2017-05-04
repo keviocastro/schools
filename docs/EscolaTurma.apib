@@ -152,9 +152,11 @@
     + _with (string, optional) - Obtem informações do recurso relacionado.
         + Members
             + shift - Turno.
-            + students - Aluno.
-            + schoolCalendar - Ano letivo.
-            + subjects - Avaliação.
+            + students - Alunos.
+            + schoolCalendar - Calendário letivo/ano letivo em qual a turma foi criada.
+            + subjects - Disciplinas ministradas na turma.
+            + progressSheet - Filha de avaliação descritiva da turma.
+            + progressSheet.items - Filha de avaliação descritiva com items.
 
 + Request  (application/json)
     + Headers

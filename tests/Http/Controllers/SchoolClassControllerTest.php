@@ -18,12 +18,13 @@ class SchoolClassControllerTest extends TestCase
      * @return void
      */
     public function testIndex()
-    {
+    {   
     	$schoolClass = factory(SchoolClass::class)->create();
         
-        $this->get('api/school-classes?_sort=-id',
+            $this->get('api/school-classes?_sort=-id'.
+          "&_with=progressSheet.items,shift,students,schoolCalendar,subjects,grade,school",
         	$this->getAutHeader())
-        	->assertResponseStatus(200)->dump()
+        	->assertResponseStatus(200)
         	->seeJson($schoolClass->toArray());
     }
 

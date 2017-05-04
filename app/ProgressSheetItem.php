@@ -2,14 +2,10 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\SoftDeletes;
-
-class ProgressSheet extends Model
+class ProgressSheetItem extends Model
 {
-	 use SoftDeletes;
-
-     /**
-     * 
+    /**
+     *
      * The attributes that should be hidden for arrays.
      *
      * @var array
@@ -30,19 +26,18 @@ class ProgressSheet extends Model
      */
     protected $fillable = [
         'name',
-        'options'
+        'progress_sheet_id'
     ];
 
     /**
-     * Itens da avaliação descritiva
+     * Avaliação descritiva a qual o item está relacionado
      *
      * @Relation
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function items()
+    public function progressSheet()
     {
-        return $this->hasMany('App\ProgressSheetItem');
+        return $this->belongsTo('App\ProgressSheet');
     }
-
 }
