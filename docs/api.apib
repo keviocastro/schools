@@ -1451,14 +1451,38 @@ Com isso o cadastro do Professor Medeiros fica pendente até que um usuário da 
 
 # Data structure
 
-## EvaluationSheetsFillable
+## ProgressSheetItemsFillable
+
++ nome: `Conhece o alfabeto como símbolo da escrita` (string) - Nome do item da ficha avaliativa
++ Progress_sheet_id: 1 (number, optional) - ID do modelo da ficha avaliativa
+
+
+## ProgressSheetItems
+
++ progress_sheet_item_id: 1 (number) - Id Do item da ficha avaliativa
++ Include (ProgressSheetItemsFillable)
+
+## ProgressSheetsFillable
 
 + nome: `goiania ficha 1` (string) - Nome da ficha avaliativa
++ options (array)
+    + (object)
+        + identifier: `I` (string)
+        + label: `Irregular` (string)
+    + (object)
+        + identifier: `R` (string)
+        + label: `Regular` (string)
+    + (object)
+        + identifier: `B` (string)
+        + label: `Bom` (string)
+    + (object)
+        + identifier: `O` (string)
+        + label: `Ótimo` (string)
 
-## EvaluationSheets
+## ProgressSheets
 
-+ peformace_report_id: 1 (number) - ID da ficha de avaliacao
-+ Include (EvaluationSheetsFillable)
++ progress_sheet_id: 1 (number) - ID da ficha de avaliacao
++ Include (ProgressSheetsFillable)
 
 ## LessonPlanModelFillable
 
@@ -1728,9 +1752,9 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
             + (Assessment)
 
 
-## Coleção de fichas avaliativas [/evaluation_sheets{?_q,_sort}]
+## Coleção de fichas avaliativas [/progress_sheets{?_q,_sort,_with}]
 
-`evaluation_sheets` são fichas avaliativas do desempenho do aluno.
+`progress_sheets` são fichas avaliativas do desempenho do aluno.
 
 ### Listar de fichas avaliativas [GET]
 
@@ -1738,7 +1762,12 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 
 + Parameters
     + _q (string, optional) - Pesquisa por palavra-chave, a correspondência e incluida conjunto de resultados.
+        + Members
+            +name
     + _sort (string, optional) - Ordena a coluna desejada, de forma acendente ou descendente.
+    + _with (string, optional) - Obtem informações do recurso relacionado.
+        + Members
+            + progressSheet
 
 + Request  (application/json)
     + Headers
@@ -1750,7 +1779,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
     + Attributes
         + Include Paginator
         + data (array)
-            + (EvaluationSheets)
+            + (ProgressSheets)
 
 ### Criar ficha avaliativa [POST]
 
@@ -1759,20 +1788,20 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 
             authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1OGUzOTk1NWFmZWMzMTU4YTMyNWI1MGEiLCJhdWQiOlsiYXBpLnNjaG9vbHMiLCJodHRwczovL2xvZ29zLmF1dGgwLmNvbS91c2VyaW5mbyJdLCJhenAiOiJYeGpJMUNUTlRHWU45dGJCeDB5Sm10TXZ2VGJ0NWhXVyIsImV4cCI6MTQ5MTUwMDM3OCwiaWF0IjoxNDkxNDEzOTc4LCJzY29wZSI6Im9wZW5pZCBwcm9maWxlIiwiZ3R5IjoicGFzc3dvcmQifQ.ny6mKtvFbLFVokGpTzYtBruhXgNEO6dsJ1PU5A1fvZcuNGArRUprfHWBpW14N31Kh-WajY0ZMoQFFfSeE4_U3GdYM6u3S1gsPFe0nbNgQRIOXJwI4Q7qnG9z0QKJQjE2vW_ZyLBRhlxPPZQFr5BlcOi8_LkIId5QiFmSa-wdnNbjY9HdezJu9zphBG9p5C9YrP4eQO6Y_Xnk4Ozh2a31kyp123zCZirJoeTBzWMg0fhPbomm17Hdts1CVINn_0Z8DJUgTfSsbFDnh9MZ_SG_Tdx1Kfvzex9GQApXo2jgtHDy_pN8HC6VYCplJxtZa924twbUIkjoX0-Glen7vis9HA
 
-    + Attributes (EvaluationSheetsFillable)
+    + Attributes (ProgressSheetsFillable)
 
 + Response 201 (application/json)
 
     + Attributes
-        + evaluationSheets (EvaluationSheets)
+        + progressSheets (ProgressSheets)
 
 
-## ficha avaliativa [/evaluation_sheets/{evaluation_sheets_id}]
+## ficha avaliativa [/progress_sheets/{progress_sheet_id}]
 
 ### Detalhes da ficha avaliativa [GET]
 
 + Parameters
-    + evaluation_sheets_id: 1 (number) - ID da ficha avaliativa
+    + progress_sheet_id: 1 (number) - ID da ficha avaliativa
 
 + Request  (application/json)
     + Headers
@@ -1782,30 +1811,124 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 + Response 200 (application/json)
 
     + Attributes
-        + evaluationSheets (EvaluationSheets)
+        + progressSheets (ProgressSheets)
 
 ### Alterar ficha avaliativa [PUT]
 
 + Parameters
-    + evaluation_sheets_id: 1 (number) - ID da ficha avaliativa
+    + progress_sheet_id: 1 (number) - ID da ficha avaliativa
 
 + Request  (application/json)
     + Headers
 
             authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1OGUzOTk1NWFmZWMzMTU4YTMyNWI1MGEiLCJhdWQiOlsiYXBpLnNjaG9vbHMiLCJodHRwczovL2xvZ29zLmF1dGgwLmNvbS91c2VyaW5mbyJdLCJhenAiOiJYeGpJMUNUTlRHWU45dGJCeDB5Sm10TXZ2VGJ0NWhXVyIsImV4cCI6MTQ5MTUwMDM3OCwiaWF0IjoxNDkxNDEzOTc4LCJzY29wZSI6Im9wZW5pZCBwcm9maWxlIiwiZ3R5IjoicGFzc3dvcmQifQ.ny6mKtvFbLFVokGpTzYtBruhXgNEO6dsJ1PU5A1fvZcuNGArRUprfHWBpW14N31Kh-WajY0ZMoQFFfSeE4_U3GdYM6u3S1gsPFe0nbNgQRIOXJwI4Q7qnG9z0QKJQjE2vW_ZyLBRhlxPPZQFr5BlcOi8_LkIId5QiFmSa-wdnNbjY9HdezJu9zphBG9p5C9YrP4eQO6Y_Xnk4Ozh2a31kyp123zCZirJoeTBzWMg0fhPbomm17Hdts1CVINn_0Z8DJUgTfSsbFDnh9MZ_SG_Tdx1Kfvzex9GQApXo2jgtHDy_pN8HC6VYCplJxtZa924twbUIkjoX0-Glen7vis9HA
 
-    + Attributes (EvaluationSheetsFillable)
+    + Attributes (ProgressSheetsFillable)
 
 + Response 200 (application/json)
 
     + Attributes
-        + evaluationSheets (EvaluationSheets)
+        + progressSheets (ProgressSheets)
 
 
-### Excluir aula [DELETE]
+### Excluir ficha avaliativa [DELETE]
 
 + Parameters
-    + evaluation_sheets_id: 1 (number) - ID da ficha avaliativa
+    + progress_sheet_id: 1 (number) - ID da ficha avaliativa
+
++ Request  (application/json)
+    + Headers
+
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1OGUzOTk1NWFmZWMzMTU4YTMyNWI1MGEiLCJhdWQiOlsiYXBpLnNjaG9vbHMiLCJodHRwczovL2xvZ29zLmF1dGgwLmNvbS91c2VyaW5mbyJdLCJhenAiOiJYeGpJMUNUTlRHWU45dGJCeDB5Sm10TXZ2VGJ0NWhXVyIsImV4cCI6MTQ5MTUwMDM3OCwiaWF0IjoxNDkxNDEzOTc4LCJzY29wZSI6Im9wZW5pZCBwcm9maWxlIiwiZ3R5IjoicGFzc3dvcmQifQ.ny6mKtvFbLFVokGpTzYtBruhXgNEO6dsJ1PU5A1fvZcuNGArRUprfHWBpW14N31Kh-WajY0ZMoQFFfSeE4_U3GdYM6u3S1gsPFe0nbNgQRIOXJwI4Q7qnG9z0QKJQjE2vW_ZyLBRhlxPPZQFr5BlcOi8_LkIId5QiFmSa-wdnNbjY9HdezJu9zphBG9p5C9YrP4eQO6Y_Xnk4Ozh2a31kyp123zCZirJoeTBzWMg0fhPbomm17Hdts1CVINn_0Z8DJUgTfSsbFDnh9MZ_SG_Tdx1Kfvzex9GQApXo2jgtHDy_pN8HC6VYCplJxtZa924twbUIkjoX0-Glen7vis9HA
+
++ Response 204
+
+
+
+
+## Coleção de items da fichas avaliativas [/progress_sheet_items{?_q,_sort,_with}]
+
+`progress_sheet_items` são items da fichas avaliativas do desempenho do aluno.
+
+### Listar items da fichas avaliativas [GET]
+
+Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="output.html#header-parametros-de-filtros-em-listagem">sessão</a> como definir os parametros da requisição.
+
++ Parameters
+    + _q (string, optional) - Pesquisa por palavra-chave, a correspondência e incluida conjunto de resultados.
+        + Members
+            +name
+    + _sort (string, optional) - Ordena a coluna desejada, de forma acendente ou descendente.
+    + _with (string, optional) - Obtem informações do recurso relacionado.
+        + Members
+            + progressSheet
+
++ Request  (application/json)
+    + Headers
+
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1OGUzOTk1NWFmZWMzMTU4YTMyNWI1MGEiLCJhdWQiOlsiYXBpLnNjaG9vbHMiLCJodHRwczovL2xvZ29zLmF1dGgwLmNvbS91c2VyaW5mbyJdLCJhenAiOiJYeGpJMUNUTlRHWU45dGJCeDB5Sm10TXZ2VGJ0NWhXVyIsImV4cCI6MTQ5MTUwMDM3OCwiaWF0IjoxNDkxNDEzOTc4LCJzY29wZSI6Im9wZW5pZCBwcm9maWxlIiwiZ3R5IjoicGFzc3dvcmQifQ.ny6mKtvFbLFVokGpTzYtBruhXgNEO6dsJ1PU5A1fvZcuNGArRUprfHWBpW14N31Kh-WajY0ZMoQFFfSeE4_U3GdYM6u3S1gsPFe0nbNgQRIOXJwI4Q7qnG9z0QKJQjE2vW_ZyLBRhlxPPZQFr5BlcOi8_LkIId5QiFmSa-wdnNbjY9HdezJu9zphBG9p5C9YrP4eQO6Y_Xnk4Ozh2a31kyp123zCZirJoeTBzWMg0fhPbomm17Hdts1CVINn_0Z8DJUgTfSsbFDnh9MZ_SG_Tdx1Kfvzex9GQApXo2jgtHDy_pN8HC6VYCplJxtZa924twbUIkjoX0-Glen7vis9HA
+
++ Response 200 (application/json)
+
+    + Attributes
+        + Include Paginator
+        + data (array)
+            + (ProgressSheetItems)
+
+### Criar item da ficha avaliativa [POST]
+
++ Request  (application/json)
+    + Headers
+
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1OGUzOTk1NWFmZWMzMTU4YTMyNWI1MGEiLCJhdWQiOlsiYXBpLnNjaG9vbHMiLCJodHRwczovL2xvZ29zLmF1dGgwLmNvbS91c2VyaW5mbyJdLCJhenAiOiJYeGpJMUNUTlRHWU45dGJCeDB5Sm10TXZ2VGJ0NWhXVyIsImV4cCI6MTQ5MTUwMDM3OCwiaWF0IjoxNDkxNDEzOTc4LCJzY29wZSI6Im9wZW5pZCBwcm9maWxlIiwiZ3R5IjoicGFzc3dvcmQifQ.ny6mKtvFbLFVokGpTzYtBruhXgNEO6dsJ1PU5A1fvZcuNGArRUprfHWBpW14N31Kh-WajY0ZMoQFFfSeE4_U3GdYM6u3S1gsPFe0nbNgQRIOXJwI4Q7qnG9z0QKJQjE2vW_ZyLBRhlxPPZQFr5BlcOi8_LkIId5QiFmSa-wdnNbjY9HdezJu9zphBG9p5C9YrP4eQO6Y_Xnk4Ozh2a31kyp123zCZirJoeTBzWMg0fhPbomm17Hdts1CVINn_0Z8DJUgTfSsbFDnh9MZ_SG_Tdx1Kfvzex9GQApXo2jgtHDy_pN8HC6VYCplJxtZa924twbUIkjoX0-Glen7vis9HA
+
+    + Attributes (ProgressSheetItemsFillable)
+
++ Response 201 (application/json)
+
+    + Attributes
+        + progressSheetItems (ProgressSheetItems)
+
+
+## Item da ficha avaliativa [/progress_sheet_items/{progress_sheet_item_id}]
+
+### Detalhes do item da ficha avaliativa [GET]
+
++ Parameters
+    + progress_sheet_item_id: 1 (number) - ID do item da ficha avaliativa
+
++ Request  (application/json)
+    + Headers
+
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1OGUzOTk1NWFmZWMzMTU4YTMyNWI1MGEiLCJhdWQiOlsiYXBpLnNjaG9vbHMiLCJodHRwczovL2xvZ29zLmF1dGgwLmNvbS91c2VyaW5mbyJdLCJhenAiOiJYeGpJMUNUTlRHWU45dGJCeDB5Sm10TXZ2VGJ0NWhXVyIsImV4cCI6MTQ5MTUwMDM3OCwiaWF0IjoxNDkxNDEzOTc4LCJzY29wZSI6Im9wZW5pZCBwcm9maWxlIiwiZ3R5IjoicGFzc3dvcmQifQ.ny6mKtvFbLFVokGpTzYtBruhXgNEO6dsJ1PU5A1fvZcuNGArRUprfHWBpW14N31Kh-WajY0ZMoQFFfSeE4_U3GdYM6u3S1gsPFe0nbNgQRIOXJwI4Q7qnG9z0QKJQjE2vW_ZyLBRhlxPPZQFr5BlcOi8_LkIId5QiFmSa-wdnNbjY9HdezJu9zphBG9p5C9YrP4eQO6Y_Xnk4Ozh2a31kyp123zCZirJoeTBzWMg0fhPbomm17Hdts1CVINn_0Z8DJUgTfSsbFDnh9MZ_SG_Tdx1Kfvzex9GQApXo2jgtHDy_pN8HC6VYCplJxtZa924twbUIkjoX0-Glen7vis9HA
+
++ Response 200 (application/json)
+
+    + Attributes
+        + progressSheetItems (ProgressSheetItems)
+
+### Alterar item da ficha avaliativa [PUT]
+
++ Parameters
+    + progress_sheet_item_id: 1 (number) - ID do item da ficha avaliativa
+
++ Request  (application/json)
+    + Headers
+
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1OGUzOTk1NWFmZWMzMTU4YTMyNWI1MGEiLCJhdWQiOlsiYXBpLnNjaG9vbHMiLCJodHRwczovL2xvZ29zLmF1dGgwLmNvbS91c2VyaW5mbyJdLCJhenAiOiJYeGpJMUNUTlRHWU45dGJCeDB5Sm10TXZ2VGJ0NWhXVyIsImV4cCI6MTQ5MTUwMDM3OCwiaWF0IjoxNDkxNDEzOTc4LCJzY29wZSI6Im9wZW5pZCBwcm9maWxlIiwiZ3R5IjoicGFzc3dvcmQifQ.ny6mKtvFbLFVokGpTzYtBruhXgNEO6dsJ1PU5A1fvZcuNGArRUprfHWBpW14N31Kh-WajY0ZMoQFFfSeE4_U3GdYM6u3S1gsPFe0nbNgQRIOXJwI4Q7qnG9z0QKJQjE2vW_ZyLBRhlxPPZQFr5BlcOi8_LkIId5QiFmSa-wdnNbjY9HdezJu9zphBG9p5C9YrP4eQO6Y_Xnk4Ozh2a31kyp123zCZirJoeTBzWMg0fhPbomm17Hdts1CVINn_0Z8DJUgTfSsbFDnh9MZ_SG_Tdx1Kfvzex9GQApXo2jgtHDy_pN8HC6VYCplJxtZa924twbUIkjoX0-Glen7vis9HA
+
+    + Attributes (ProgressSheetItemsFillable)
+
++ Response 200 (application/json)
+
+    + Attributes
+        + progressSheetItems (ProgressSheetItems)
+
+
+### Excluir item da ficha avaliativa [DELETE]
+
++ Parameters
+    + progress_sheet_item_id: 1 (number) - ID da ficha avaliativa
 
 + Request  (application/json)
     + Headers

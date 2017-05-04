@@ -35,9 +35,10 @@ e a nota do aluno no 1º Bimestre será composta pela conta (N1*0,4)+(N2*0,6)=NO
             + (Assessment)
 
 
-## Coleção de fichas avaliativas [/evaluation_sheets{?_q,_sort}]
 
-`evaluation_sheets` são fichas avaliativas do desempenho do aluno.
+## Coleção de fichas avaliativas [/progress_sheets{?_q,_sort,_with}]
+
+`progress_sheets` são fichas avaliativas do desempenho do aluno.
 
 ### Listar de fichas avaliativas [GET]
 
@@ -45,7 +46,12 @@ e a nota do aluno no 1º Bimestre será composta pela conta (N1*0,4)+(N2*0,6)=NO
 
 + Parameters
     + _q (string, optional) - Pesquisa por palavra-chave, a correspondência e incluida conjunto de resultados.
+        + Members
+            +name
     + _sort (string, optional) - Ordena a coluna desejada, de forma acendente ou descendente.
+    + _with (string, optional) - Obtem informações do recurso relacionado.
+        + Members
+            + progressSheet
 
 + Request  (application/json)
     + Headers
@@ -57,7 +63,7 @@ e a nota do aluno no 1º Bimestre será composta pela conta (N1*0,4)+(N2*0,6)=NO
     + Attributes
         + Include Paginator
         + data (array)
-            + (EvaluationSheets)
+            + (ProgressSheets)
 
 ### Criar ficha avaliativa [POST]
 
@@ -66,20 +72,20 @@ e a nota do aluno no 1º Bimestre será composta pela conta (N1*0,4)+(N2*0,6)=NO
 
             authorization: <!-- include(Token.md) -->
 
-    + Attributes (EvaluationSheetsFillable)
+    + Attributes (ProgressSheetsFillable)
 
 + Response 201 (application/json)
 
     + Attributes
-        + evaluationSheets (EvaluationSheets)
+        + progressSheets (ProgressSheets)
 
 
-## ficha avaliativa [/evaluation_sheets/{evaluation_sheets_id}]
+## ficha avaliativa [/progress_sheets/{progress_sheet_id}]
 
 ### Detalhes da ficha avaliativa [GET]
 
 + Parameters
-    + evaluation_sheets_id: 1 (number) - ID da ficha avaliativa
+    + progress_sheet_id: 1 (number) - ID da ficha avaliativa
 
 + Request  (application/json)
     + Headers
@@ -89,30 +95,123 @@ e a nota do aluno no 1º Bimestre será composta pela conta (N1*0,4)+(N2*0,6)=NO
 + Response 200 (application/json)
 
     + Attributes
-        + evaluationSheets (EvaluationSheets)
+        + progressSheets (ProgressSheets)
 
 ### Alterar ficha avaliativa [PUT]
 
 + Parameters
-    + evaluation_sheets_id: 1 (number) - ID da ficha avaliativa
+    + progress_sheet_id: 1 (number) - ID da ficha avaliativa
 
 + Request  (application/json)
     + Headers
 
             authorization: <!-- include(Token.md) -->
 
-    + Attributes (EvaluationSheetsFillable)
+    + Attributes (ProgressSheetsFillable)
 
 + Response 200 (application/json)
 
     + Attributes
-        + evaluationSheets (EvaluationSheets)
+        + progressSheets (ProgressSheets)
 
 
-### Excluir aula [DELETE]
+### Excluir ficha avaliativa [DELETE]
 
 + Parameters
-    + evaluation_sheets_id: 1 (number) - ID da ficha avaliativa
+    + progress_sheet_id: 1 (number) - ID da ficha avaliativa
+
++ Request  (application/json)
+    + Headers
+
+            authorization: <!-- include(Token.md) -->
+
++ Response 204
+
+
+
+## Coleção de items da fichas avaliativas [/progress_sheet_items{?_q,_sort,_with}]
+
+`progress_sheet_items` são items da fichas avaliativas do desempenho do aluno.
+
+### Listar items da fichas avaliativas [GET]
+
+<!-- include(LinkParametrosPadroesListagem.md) -->
+
++ Parameters
+    + _q (string, optional) - Pesquisa por palavra-chave, a correspondência e incluida conjunto de resultados.
+        + Members
+            +name
+    + _sort (string, optional) - Ordena a coluna desejada, de forma acendente ou descendente.
+    + _with (string, optional) - Obtem informações do recurso relacionado.
+        + Members
+            + progressSheet
+
++ Request  (application/json)
+    + Headers
+
+            authorization: <!-- include(Token.md) -->
+
++ Response 200 (application/json)
+
+    + Attributes
+        + Include Paginator
+        + data (array)
+            + (ProgressSheetItems)
+
+### Criar item da ficha avaliativa [POST]
+
++ Request  (application/json)
+    + Headers
+
+            authorization: <!-- include(Token.md) -->
+
+    + Attributes (ProgressSheetItemsFillable)
+
++ Response 201 (application/json)
+
+    + Attributes
+        + progressSheetItems (ProgressSheetItems)
+
+
+## Item da ficha avaliativa [/progress_sheet_items/{progress_sheet_item_id}]
+
+### Detalhes do item da ficha avaliativa [GET]
+
++ Parameters
+    + progress_sheet_item_id: 1 (number) - ID do item da ficha avaliativa
+
++ Request  (application/json)
+    + Headers
+
+            authorization: <!-- include(Token.md) -->
+
++ Response 200 (application/json)
+
+    + Attributes
+        + progressSheetItems (ProgressSheetItems)
+
+### Alterar item da ficha avaliativa [PUT]
+
++ Parameters
+    + progress_sheet_item_id: 1 (number) - ID do item da ficha avaliativa
+
++ Request  (application/json)
+    + Headers
+
+            authorization: <!-- include(Token.md) -->
+
+    + Attributes (ProgressSheetItemsFillable)
+
++ Response 200 (application/json)
+
+    + Attributes
+        + progressSheetItems (ProgressSheetItems)
+
+
+### Excluir item da ficha avaliativa [DELETE]
+
++ Parameters
+    + progress_sheet_item_id: 1 (number) - ID do item da ficha avaliativa
 
 + Request  (application/json)
     + Headers
