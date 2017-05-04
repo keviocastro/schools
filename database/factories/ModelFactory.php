@@ -413,7 +413,31 @@ $factory->define(App\ProgressSheet::class, function ($faker) use ($factory) {
         'adultos',
         'infantil'          
     ];
+
+    $options = [
+        [
+            ["identifier" => "I", "label" => "Irregular"],
+            ["identifier" => "R", "label" => "Regular"],
+            ["identifier" => "B", "label" => "Bom"],
+            ["identifier" => "O", "label" => "Ótimo"],
+        ],
+        [
+            ["identifier" => "B", "label" => "Bom"],
+            ["identifier" => "R", "label" => "Ruim"],
+        ],
+        [
+            ["identifier" => "C", "label" => "Completo"],
+            ["identifier" => "P", "label" => "Parcial"],
+            ["identifier" => "I", "label" =>"Incompleto"],
+        ],
+    ];
+
+    $options = json_encode(
+        $faker->randomElement($options)
+    );
+
     return [
-        'name' => $faker->randomElement($evalution).$faker->randomElement($for)
+        'name' => $faker->randomElement($evalution).$faker->randomElement($for),
+        'options' => $options
     ];
 });
