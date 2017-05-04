@@ -311,30 +311,22 @@ $factory->define(App\Occurence::class, function ($faker) use ($factory) {
     ];
 });
 
-$factory->define(App\StudentGrade::class, function ($faker) use ($factory) {
-    
-    $schoolClass = factory(App\SchoolClass::class)->create();
-    $student = factory(App\Student::class)->create();
-    factory(App\SchoolClassStudent::class)->create([
-            'student_id' => $student->id,
-            'school_class_id' => $schoolClass->id
-        ]);
-
-    $schoolCalendarPhase = factory(App\SchoolCalendarPhase::class)->create([
-            'school_calendar_id' => $schoolClass->school_calendar_id
-        ]);
-    $assessment = factory(App\Assessment::class)->create([
-            'school_calendar_phase_id' => $schoolCalendarPhase->id
-        ]);
+$factory->define(App\StudentGrade::class, function ($faker, $attributes) use ($factory) {
 
     return [
         'grade' => $faker->randomFloat(1,0,10),
-        'student_id' => $student->id,
+        'student_id' => function(){
+            return factory(App\Student::class)->create()->id;
+        },
         'subject_id' => function(){
             return factory(App\Subject::class)->create()->id;
         },
-        'assessment_id' => $assessment->id,
-        'school_class_id' => $schoolClass->id,
+        'assessment_id' => function(){
+            return factory(App\Assessment::class)->create()->id;
+        },
+        'school_class_id' => function(){
+            return factory(App\SchoolClass::class)->create()->id;
+        },
     ];
 });
 
