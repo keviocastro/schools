@@ -104,12 +104,13 @@ class SchoolClassControllerTest extends TestCase
         $students->each(function($item, $key) use ($schoolClass){
             factory(SchoolClassStudent::class)->create([
                     'student_id' => $item->id,
-                    'school_class_id' => $schoolClass['id']
+                    'school_class_id' => $schoolClass['id'] 
                 ]);
         });
 
-        $this->get("api/school-classes/{$schoolClass['id']}",
-        	$this->getAutHeader())
+        $this->get("api/school-classes/{$schoolClass['id']}".
+            "?_with=progressSheet.items,shift,students,schoolCalendar,subjects,grade,school",
+        	$this->getAutHeader())->dump()
         	->assertResponseStatus(200)
         	->seeJson($schoolClass);
     }

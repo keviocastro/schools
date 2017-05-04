@@ -167,6 +167,8 @@ return [
         App\Providers\HelperServiceProvider::class,  
 
         App\Providers\CustomValidationServiceProvider::class,
+
+        Conner\Tagging\Providers\TaggingServiceProvider::class,
     ],
 
     /*
