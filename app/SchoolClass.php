@@ -47,22 +47,25 @@ class SchoolClass extends Model
         'evaluation_type',
         'progress_sheet_id'];
 
-
-    protected $appends = ['evaluation_type'];
-
+    /**
+     * Os atributos que devem ser convertidos em tipos nativos
+     *
+     * @var array
+     */
+    protected $casts = [
+        'options' => 'array',
+    ];
 
     /**
-     * Obtem o tipo que os alunos da turma são avaliados.
-     * 
-     * descriptive_sheet = Ficha de avaliação descritiva preenchida por fase
-     * grade_per_phase = Nota numérica caclulada por fase
+     * Ficha de avaliação descritiva da turma
      *
-     * @return string
+     * @Relation
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
-    public function getEvaluationTypeAttribute()
+    public function progressSheet()
     {
-        $evaluation_type = ['grade_per_phase', 'progress_sheet_per_phase'];
-        return $this->attributes['evaluation_type'] = $evaluation_type[array_rand($evaluation_type, 1)];
+        return $this->belongsTo('App\ProgressSheet');
     }
 
     /**

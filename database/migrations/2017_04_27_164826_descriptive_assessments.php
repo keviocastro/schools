@@ -45,31 +45,15 @@ class DescriptiveAssessments extends Migration
             $table->softDeletes();
         });
 
-        Schema::create('progress_groups', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('name');
-            $table->timestamps();
-
-            $table->string('created_by')->nullable();
-            $table->string('updated_by')->nullable();
-            $table->string('deleted_by')->nullable();
-            $table->softDeletes();
-        });
-
         // Item de avaliação
         Schema::create('progress_sheet_items', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
             $table->unsignedInteger('progress_sheet_id');
-            $table->unsignedInteger('progress_group_id')->nullable();
 
             $table->foreign('progress_sheet_id')
                 ->references('id')
                 ->on('progress_sheets');
-
-            $table->foreign('progress_group_id')
-                ->references('id')
-                ->on('progress_groups');
 
             $table->string('created_by')->nullable();
             $table->string('updated_by')->nullable();
@@ -122,7 +106,6 @@ class DescriptiveAssessments extends Migration
     {
         Schema::drop('progress_sheet_item_student');
         Schema::drop('progress_sheet_items');
-        Schema::drop('progress_groups');
         Schema::drop('progress_sheets');
         Schema::table('school_classes', function(Blueprint $table) {
             $table->dropColumn('evaluation_type');

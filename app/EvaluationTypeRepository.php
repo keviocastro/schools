@@ -15,7 +15,7 @@ class EvaluationTypeRepository
      * 
      * @return array
      */
-    public static function getTypes()
+    public static function all()
     {
         return [
             self::GRADE_PHASE,
