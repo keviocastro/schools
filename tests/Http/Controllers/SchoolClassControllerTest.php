@@ -13,22 +13,23 @@ use Tests\TestCase;
 class SchoolClassControllerTest extends TestCase
 {
     /**
-     * @covers App\Http\Controllers\SchoolClassController::index
+     * @covers \App\Http\Controllers\SchoolClassController::index
      *
      * @return void
      */
     public function testIndex()
-    {
+    {   
     	$schoolClass = factory(SchoolClass::class)->create();
         
-        $this->get('api/school-classes?_sort=-id',
+            $this->get('api/school-classes?_sort=-id'.
+          "&_with=progressSheet.items,shift,students,schoolCalendar,subjects,grade,school",
         	$this->getAutHeader())
         	->assertResponseStatus(200)
         	->seeJson($schoolClass->toArray());
     }
 
     /**
-     * @covers App\Http\Controllers\SchoolClassController::index
+     * @covers \App\Http\Controllers\SchoolClassController::index
      *
      * Teste do parametro _q = Full text search
      * 
@@ -74,7 +75,7 @@ class SchoolClassControllerTest extends TestCase
     }
 
     /**
-     * @covers App\Http\Controllers\SchoolClassController::store
+     * @covers \App\Http\Controllers\SchoolClassController::store
      *
      * @return void
      */
@@ -92,7 +93,7 @@ class SchoolClassControllerTest extends TestCase
     }
 
     /**
-     * @covers App\Http\Controllers\SchoolClassController::show
+     * @covers \App\Http\Controllers\SchoolClassController::show
      *
      * @return void
      */
@@ -114,7 +115,7 @@ class SchoolClassControllerTest extends TestCase
     }
 
     /**
-     * @covers App\Http\Controllers\SchoolClassController::update
+     * @covers \App\Http\Controllers\SchoolClassController::update
      *
      * @return void
      */
@@ -131,7 +132,7 @@ class SchoolClassControllerTest extends TestCase
     }
 
     /**
-     * @covers App\Http\Controllers\SchoolClassController::destroy
+     * @covers \App\Http\Controllers\SchoolClassController::destroy
      * 
      * @return void
      */
@@ -149,7 +150,7 @@ class SchoolClassControllerTest extends TestCase
     /**
      * @todo Resolver questão da validação de estrutura do array ['student_grades']
      * 
-     * @covers App\Http\Controllers\SchoolClassController::annualReport
+     * @covers \App\Http\Controllers\SchoolClassController::annualReport
      * 
      * @return void
      */

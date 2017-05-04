@@ -1,0 +1,122 @@
+# Group Avaliações
+
+## Coleção de avaliacoes [/assessments]
+
+`Assessments` são as definições das avaliações que um professor precisar aplicar
+aos seus alunos durante uma fase do ano.
+Exemplo: No 1º Bimestre o professor precisa avaliar seus alunos com duas provas (N1 e N2),
+e a nota do aluno no 1º Bimestre será composta pela conta (N1*0,4)+(N2*0,6)=NOTA_DO_BIMESTRE.
+
+### Listar avaliações [GET]
+
+<!-- include(LinkParametrosPadroesListagem.md) -->
+
+
++ Parameters
+    + _q (string, optional) - Pesquisa por palavra-chave, a correspondência e incluida conjunto de resultados.
+        + Members
+            +name
+    + _sort (string, optional) - Ordena a coluna desejada, de forma acendente ou descendente.
+    + _with (string, optional) - Obtem informações do recurso relacionado.
+        + Members
+            + studentGrades
+            + schoolCalendarPhase
+
++ Request  (application/json)
+    + Headers
+
+            authorization: <!-- include(Token.md) -->
+
++ Response 200 (application/json)
+
+    + Attributes
+        + Include Paginator
+        + data (array)
+            + (Assessment)
+
+
+## Coleção de fichas avaliativas [/evaluation_sheets{?_q,_sort}]
+
+`evaluation_sheets` são fichas avaliativas do desempenho do aluno.
+
+### Listar de fichas avaliativas [GET]
+
+<!-- include(LinkParametrosPadroesListagem.md) -->
+
++ Parameters
+    + _q (string, optional) - Pesquisa por palavra-chave, a correspondência e incluida conjunto de resultados.
+    + _sort (string, optional) - Ordena a coluna desejada, de forma acendente ou descendente.
+
++ Request  (application/json)
+    + Headers
+
+            authorization: <!-- include(Token.md) -->
+
++ Response 200 (application/json)
+
+    + Attributes
+        + Include Paginator
+        + data (array)
+            + (EvaluationSheets)
+
+### Criar ficha avaliativa [POST]
+
++ Request  (application/json)
+    + Headers
+
+            authorization: <!-- include(Token.md) -->
+
+    + Attributes (EvaluationSheetsFillable)
+
++ Response 201 (application/json)
+
+    + Attributes
+        + evaluationSheets (EvaluationSheets)
+
+
+## ficha avaliativa [/evaluation_sheets/{evaluation_sheets_id}]
+
+### Detalhes da ficha avaliativa [GET]
+
++ Parameters
+    + evaluation_sheets_id: 1 (number) - ID da ficha avaliativa
+
++ Request  (application/json)
+    + Headers
+
+            authorization: <!-- include(Token.md) -->
+
++ Response 200 (application/json)
+
+    + Attributes
+        + evaluationSheets (EvaluationSheets)
+
+### Alterar ficha avaliativa [PUT]
+
++ Parameters
+    + evaluation_sheets_id: 1 (number) - ID da ficha avaliativa
+
++ Request  (application/json)
+    + Headers
+
+            authorization: <!-- include(Token.md) -->
+
+    + Attributes (EvaluationSheetsFillable)
+
++ Response 200 (application/json)
+
+    + Attributes
+        + evaluationSheets (EvaluationSheets)
+
+
+### Excluir aula [DELETE]
+
++ Parameters
+    + evaluation_sheets_id: 1 (number) - ID da ficha avaliativa
+
++ Request  (application/json)
+    + Headers
+
+            authorization: <!-- include(Token.md) -->
+
++ Response 204

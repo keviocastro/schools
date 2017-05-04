@@ -46,6 +46,8 @@ $factory->define(App\School::class, function () use ($factory, $faker) {
 
 
 $factory->define(App\SchoolClass::class, function () use ($factory, $faker) {
+    $evaluation_type = $faker->randomElement(App\EvaluationTypeRepository::all());
+
     return [
         'identifier' => $faker->randomLetter(),
         'shift_id' => function(){
@@ -60,6 +62,13 @@ $factory->define(App\SchoolClass::class, function () use ($factory, $faker) {
         'school_calendar_id' => function(){
             return factory(App\SchoolCalendar::class)->create()->id;
         },
+        'evaluation_type' => $evaluation_type, 
+        'progress_sheet_id' => function() use ($evaluation_type){
+            if ($evaluation_type == App\EvaluationTypeRepository::PROGRESS_SHEET_PHASE) {
+                return factory(App\ProgressSheet::class)->create()->id;
+            }
+        },
+
     ];
 });
 
@@ -383,5 +392,44 @@ $factory->define(App\LessonPlanModel::class, function ($faker) use ($factory) {
 
     return [
         'definition' => $faker->randomElement($models)
+    ];
+});
+
+$factory->define(App\ProgressSheet::class, function ($faker) use ($factory) {
+    $evalution = [
+        'Ficha de acompanhamento ',
+        'Ficha de ensino ',
+        'Ficha avaliativa '
+    ];
+    $for = [
+        'adultos',
+        'infantil'          
+    ];
+
+    $options = [
+        [
+            ["identifier" => "I", "label" => "Irregular"],
+            ["identifier" => "R", "label" => "Regular"],
+            ["identifier" => "B", "label" => "Bom"],
+            ["identifier" => "O", "label" => "Ótimo"],
+        ],
+        [
+            ["identifier" => "B", "label" => "Bom"],
+            ["identifier" => "R", "label" => "Ruim"],
+        ],
+        [
+            ["identifier" => "C", "label" => "Completo"],
+            ["identifier" => "P", "label" => "Parcial"],
+            ["identifier" => "I", "label" =>"Incompleto"],
+        ],
+    ];
+
+    $options = json_encode(
+        $faker->randomElement($options)
+    );
+
+    return [
+        'name' => $faker->randomElement($evalution).$faker->randomElement($for),
+        'options' => $options
     ];
 });
