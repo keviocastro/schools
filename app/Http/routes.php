@@ -134,6 +134,11 @@ $api->version('v1', function ($api) {
 			$api->get('progress-sheets/{id}','App\Http\Controllers\ProgressSheetController@show');
 			$api->put('progress-sheets/{id}','App\Http\Controllers\ProgressSheetController@update');
 			$api->delete('progress-sheets/{id}','App\Http\Controllers\ProgressSheetController@destroy');
+			$api->get('progress-sheets/{id}/items','App\Http\Controllers\ProgressSheetController@indexItems');
+			$api->post('progress-sheets/{id}/items','App\Http\Controllers\ProgressSheetController@storeItems');
+			$api->put('progress-sheets/{id}/items','App\Http\Controllers\ProgressSheetController@updateItems');
+			$api->delete('progress-sheets/{id}/items','App\Http\Controllers\ProgressSheetController@destroyItems');
+			
 			});
 		});
 	});

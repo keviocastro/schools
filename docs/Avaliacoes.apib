@@ -1,11 +1,16 @@
 # Group Avaliações
 
+Nesta API, avaliações são definições de desempenho dos alunos. <br/>
+O desempenho do aluno pode ser avaliado por `Notas` ou `Avaliações descritivas`.<br/>
+`Notas` são os registros de resultados dos alunos em provas/trabalhos/etc.<br/>
+`Avaliações descritivas` são registros que os professores fazem para indicar qual a situação do aluno referente a uma habilidade.<br>
+Veja a imagem neste [link](https://drive.google.com/file/d/0B3GJIAxM0VTOSWpoLTY4aXo0VkE/view) com a simulação de um aplicativo durante o preenchimento da ficha de avaliação de um aluno.
+
 ## Coleção de avaliacoes [/assessments]
 
-`Assessments` são as definições das avaliações que um professor precisar aplicar
-aos seus alunos durante uma fase do ano.
-Exemplo: No 1º Bimestre o professor precisa avaliar seus alunos com duas provas (N1 e N2),
-e a nota do aluno no 1º Bimestre será composta pela conta (N1*0,4)+(N2*0,6)=NOTA_DO_BIMESTRE.
+`Assessments` são as notas dos alunos que o professor precisa informar durante o ano/calendário escolar.<br/>
+Veja a imagem neste [Link](https://drive.google.com/a/logoseducacao.com.br/file/d/0B_HwgyV_NIl-OEhRWkQ0dnc3Z28/view?usp=sharing) com exemplo de um aplicativo
+para registrar notas dos alunos de uma turma.<br/>`Nota 1.1` e `Nota 1.2` são os assessments.
 
 ### Listar avaliações [GET]
 
@@ -35,10 +40,12 @@ e a nota do aluno no 1º Bimestre será composta pela conta (N1*0,4)+(N2*0,6)=NO
             + (Assessment)
 
 
+## Coleção de fichas avaliativas [/progress-sheets{?_q,_sort,_with}]
 
-## Coleção de fichas avaliativas [/progress_sheets{?_q,_sort,_with}]
-
-`progress_sheets` são fichas avaliativas do desempenho do aluno.
+`progress-sheets` são fichas de avaliação descritiva preenchidas pelos professores com informações sobre o desempenho dos alunos. 
+Normalmente essas fichas são utilizadas para avaliações durante o nível de educação infantíl.
+Veja a imagem neste [link](https://drive.google.com/file/d/0B3GJIAxM0VTOSWpoLTY4aXo0VkE/view) a simulação de um aplicativo 
+onde é registrado a ficha de avaliação de um aluno.
 
 ### Listar de fichas avaliativas [GET]
 
@@ -51,7 +58,7 @@ e a nota do aluno no 1º Bimestre será composta pela conta (N1*0,4)+(N2*0,6)=NO
     + _sort (string, optional) - Ordena a coluna desejada, de forma acendente ou descendente.
     + _with (string, optional) - Obtem informações do recurso relacionado.
         + Members
-            + progressSheet
+            + items - Items da ficha avaliativa
 
 + Request  (application/json)
     + Headers
@@ -63,7 +70,7 @@ e a nota do aluno no 1º Bimestre será composta pela conta (N1*0,4)+(N2*0,6)=NO
     + Attributes
         + Include Paginator
         + data (array)
-            + (ProgressSheets)
+            + (ProgressSheet)
 
 ### Criar ficha avaliativa [POST]
 
@@ -72,15 +79,15 @@ e a nota do aluno no 1º Bimestre será composta pela conta (N1*0,4)+(N2*0,6)=NO
 
             authorization: <!-- include(Token.md) -->
 
-    + Attributes (ProgressSheetsFillable)
+    + Attributes (ProgressSheetFillable)
 
 + Response 201 (application/json)
 
     + Attributes
-        + progressSheets (ProgressSheets)
+        + progress_sheet (ProgressSheet)
 
 
-## ficha avaliativa [/progress_sheets/{progress_sheet_id}]
+## Ficha avaliativa [/progress-sheets/{progress_sheet_id}]
 
 ### Detalhes da ficha avaliativa [GET]
 
@@ -95,24 +102,24 @@ e a nota do aluno no 1º Bimestre será composta pela conta (N1*0,4)+(N2*0,6)=NO
 + Response 200 (application/json)
 
     + Attributes
-        + progressSheets (ProgressSheets)
+        + progress_sheet (ProgressSheet)
 
 ### Alterar ficha avaliativa [PUT]
 
 + Parameters
-    + progress_sheet_id: 1 (number) - ID da ficha avaliativa
+    + progress-sheet_id: 1 (number) - ID da ficha avaliativa
 
 + Request  (application/json)
     + Headers
 
             authorization: <!-- include(Token.md) -->
 
-    + Attributes (ProgressSheetsFillable)
+    + Attributes (ProgressSheetFillable)
 
 + Response 200 (application/json)
 
     + Attributes
-        + progressSheets (ProgressSheets)
+        + progress_sheet (ProgressSheet)
 
 
 ### Excluir ficha avaliativa [DELETE]
@@ -129,11 +136,9 @@ e a nota do aluno no 1º Bimestre será composta pela conta (N1*0,4)+(N2*0,6)=NO
 
 
 
-## Coleção de items da fichas avaliativas [/progress_sheet_items{?_q,_sort,_with}]
+## Coleção de items da ficha avaliativa [/progress-sheet/{progress_sheet_id}/items{?_q,_sort,_with}]
 
-`progress_sheet_items` são items da fichas avaliativas do desempenho do aluno.
-
-### Listar items da fichas avaliativas [GET]
+### Listar items da fichas avaliativa [GET]
 
 <!-- include(LinkParametrosPadroesListagem.md) -->
 
@@ -144,7 +149,7 @@ e a nota do aluno no 1º Bimestre será composta pela conta (N1*0,4)+(N2*0,6)=NO
     + _sort (string, optional) - Ordena a coluna desejada, de forma acendente ou descendente.
     + _with (string, optional) - Obtem informações do recurso relacionado.
         + Members
-            + progressSheet
+            + progressSheet - Ficha avaliativa associada ao item.
 
 + Request  (application/json)
     + Headers
@@ -156,7 +161,7 @@ e a nota do aluno no 1º Bimestre será composta pela conta (N1*0,4)+(N2*0,6)=NO
     + Attributes
         + Include Paginator
         + data (array)
-            + (ProgressSheetItems)
+            + (ProgressSheetItem)
 
 ### Criar item da ficha avaliativa [POST]
 
@@ -165,30 +170,12 @@ e a nota do aluno no 1º Bimestre será composta pela conta (N1*0,4)+(N2*0,6)=NO
 
             authorization: <!-- include(Token.md) -->
 
-    + Attributes (ProgressSheetItemsFillable)
+    + Attributes (ProgressSheetItemFillable)
 
 + Response 201 (application/json)
 
     + Attributes
-        + progressSheetItems (ProgressSheetItems)
-
-
-## Item da ficha avaliativa [/progress_sheet_items/{progress_sheet_item_id}]
-
-### Detalhes do item da ficha avaliativa [GET]
-
-+ Parameters
-    + progress_sheet_item_id: 1 (number) - ID do item da ficha avaliativa
-
-+ Request  (application/json)
-    + Headers
-
-            authorization: <!-- include(Token.md) -->
-
-+ Response 200 (application/json)
-
-    + Attributes
-        + progressSheetItems (ProgressSheetItems)
+        + progress_sheet_item (ProgressSheetItem)
 
 ### Alterar item da ficha avaliativa [PUT]
 
@@ -200,12 +187,12 @@ e a nota do aluno no 1º Bimestre será composta pela conta (N1*0,4)+(N2*0,6)=NO
 
             authorization: <!-- include(Token.md) -->
 
-    + Attributes (ProgressSheetItemsFillable)
+    + Attributes (ProgressSheetItemFillable)
 
 + Response 200 (application/json)
 
     + Attributes
-        + progressSheetItems (ProgressSheetItems)
+        + progress_sheet_item (ProgressSheetItem)
 
 
 ### Excluir item da ficha avaliativa [DELETE]

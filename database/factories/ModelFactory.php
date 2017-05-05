@@ -424,12 +424,44 @@ $factory->define(App\ProgressSheet::class, function ($faker) use ($factory) {
         ],
     ];
 
-    $options = json_encode(
-        $faker->randomElement($options)
-    );
-
     return [
         'name' => $faker->randomElement($evalution).$faker->randomElement($for),
         'options' => $options
+    ];
+});
+
+$factory->define(App\ProgressSheetItem::class, function ($faker) use ($factory) {
+
+    return [
+        'progress_sheet_id' => function(){
+            return factory(App\ProgressSheet::class)->create()->id;
+        },
+        'name' => $faker->randomElement([
+            'Escreve o próprio nome.',
+            'Reconhece e nomeia as letras do alfabeto.',
+            'Diferencia letras de números e outros símbolos.',
+            'Conhece a ordem alfabética e seus usos em diferentes gêneros.',
+            'Reconhece diferentes tipos de letras em textos de diferentes gêneros e suportes textuais.',
+            'Usa diferentes tipos de letras em situações de escrita de palavras e textos.',
+            'Percebe que palavras diferentes variam quanto ao número, repertório e ordem de letras.',
+            'Segmenta oralmente as sílabas de palavras e compara as palavras quanto ao tamanho.',
+            'Identifica semelhanças sonoras em sílabas e em rimas.',
+            'Reconhece que as sílabas variam quanto às suas composições.',
+            'Percebe que as vogais estão presentes em todas as sílabas.',
+            'Lê, ajustando a pauta sonora ao escrito.',
+            'Domina as correspondências entre letras ou grupos de letras e seu valor sonoro, de modo a ler palavras e textos.',
+            'Domina as correspondências entre letras ou grupos de letras e seu valor sonoro, de modo a escrever palavras e textos.',
+            'Lê textos não verbais, em diferentes suportes.',
+            'Lê textos (poemas, canções, tirinhas, textos de tradição oral, dentre outros), com autonomia.',
+            'Compreende textos lidos por outras pessoas de diferentes gêneros e com diferentes propósitos.',
+            'Reconhece finalidades de textos lidos pelo professor ou pelas crianças.',
+            'Localiza informações explícitas em textos de diferentes gêneros, temáticas, lidos pelo professor ou outro leitor experiente.',
+            'Realiza inferências em textos de diferentes gêneros e temáticas, lidos com autonomia.',
+            'Compara comprimento de dois ou mais objetos por comparação direta (sem o uso de unidades de medidas convencionais) para identificar: maior, menor, igual, mais alto, mais baixo, mais comprido, mais curto, mais grosso, mais fino, mais largo etc.',
+            'Identifica ordem de eventos em programações diárias, usando palavras como: antes, depois.',
+            'Identifica  unidades de tempo — dia, semana, mês, bimestre, semestre, ano — e utilizar calendários.',
+            'Lê horas, comparando relógios digitais e de ponteiros.',
+            'Reconhece cédulas e moedas que circulam no Brasil e de possíveis trocas entre cédulas e moedas em função de seus valores em experiências com dinheiro em brincadeiras ou em situações de interesse das crianças',
+        ]),
     ];
 });

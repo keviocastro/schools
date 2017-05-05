@@ -1,12 +1,25 @@
 # Development only
 FROM keviocastro/laravel:5
 
+RUN curl -sL https://deb.nodesource.com/setup_6.x | bash -
 RUN apt-get update && apt-get install -y \
- 	mysql-client \
+    mysql-client \
     vim \
- 	nmap \
+    nmap \
     git \
-    --no-install-recommends && rm -r /var/lib/apt/lists/*
+    wget \
+    nodejs \
+    rubygems \ 
+    --no-install-recommends
+
+RUN gem install apiaryio
+RUN npm -g install aglio dredd drafter
+RUN curl -sS http://blueman.pixelfusion.co.nz/installer.php | php && mv blueman.phar /usr/local/bin/blueman
+RUN wget https://github.com/apiaryio/drafter/releases/download/v3.1.3/drafter-v3.1.3.tar.gz \
+    && tar -zxvf drafter-v3.1.3.tar.gz \
+    && cd drafter-v3.1.3 \
+    && make install && cd .. \
+    && rm -rf drafter-v3.1.3
 
 RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
 #RUN php -r "if (hash_file('SHA384', 'composer-setup.php') === '55d6ead61b29c7bdee5cccfb50076874187bd9f21f65d8991d46ec5cc90518f447387fb9f76ebae1fbbacf329e583e30') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
@@ -40,7 +53,6 @@ RUN echo "zend_extension=$(find /usr/local/lib/php/extensions/ -name xdebug.so)"
     # && echo "xdebug.profiler_enable_trigger=1"      >> /usr/local/etc/php/conf.d/xdebug.ini \
     # && echo "xdebug.idekey=sublime.xdebug"          >> /usr/local/etc/php/conf.d/xdebug.ini \
     && echo "xdebug.remote_log=/var/log/xdebug_remote.log" >> /usr/local/etc/php/conf.d/xdebug.ini
-
 
 COPY docker/entrypoint.sh /usr/local/bin/docker-dev-entrypoint
 RUN chmod +x /usr/local/bin/docker-dev-entrypoint

@@ -107,4 +107,50 @@ class ProgressSheetControllerTest extends TestCase
             ->assertResponseStatus(204)
             ->seeIsSoftDeletedInDatabase('progress_sheets', ['id' => $progressSheet->id]);
     }
+
+    /**
+     * @covers App\Http\Controllers\ProgressSheetController::IndexItems
+     * 
+     * @return void
+     */
+    public function testIndexItems(){
+
+        $progressSheet = factory(\App\ProgressSheet::class)
+            ->create();
+
+        $items = factory(\App\ProgressSheetItem::class, 5)->create([
+            'progress_sheet_id' => $progressSheet->id
+        ])->each(function ($item, $key){
+            $item->tag(['HABILIDADE COGNITIVA']);
+        });
+
+        $items = factory(\App\ProgressSheetItem::class, 6)->create([
+            'progress_sheet_id' => $progressSheet->id
+        ])->each(function ($item, $key){
+            $item->tag(['LINGUAGEM']);
+        });
+
+        $items = factory(\App\ProgressSheetItem::class, 7)->create([
+            'progress_sheet_id' => $progressSheet->id
+        ])->each(function ($item, $key){
+            $item->tag(['HABILIDADE SENSÓRIO-PERCEPTIVA']);
+        });
+
+        $result = [
+            'total',
+            'per_page',
+            'current_page',
+            'last_page',
+            'prev_page_url',
+            'next_page_url',
+            'from',
+            'to',
+            'data' => ['*' => array_keys($items[0]->attributesToArray())]
+        ];
+
+        $this->get("api/progress-sheets/$progressSheet->id/items",
+            $this->getAutHeader())
+            ->assertResponseStatus(200)
+            ->seeJsonStructure($result);
+    }
 }

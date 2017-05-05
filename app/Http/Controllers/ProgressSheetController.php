@@ -45,7 +45,9 @@ class ProgressSheetController extends Controller
      */
     public function show($id)
     {
-        return ProgressSheet::findOrFail($id);
+        return $this->apiHandler
+            ->parseSingle(New ProgressSheet, $id)
+            ->getResultOrFail();
     }
 
     /**
@@ -75,9 +77,22 @@ class ProgressSheetController extends Controller
      */
     public function destroy($id)
     {
-        $progressSheetController = ProgressSheet::findOrFail($id);
-        $progressSheetController->delete();
+        $progressSheet = ProgressSheet::findOrFail($id);
+        $progressSheet->delete();
 
         return $this->response->noContent();
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function indexItems($id)
+    {   
+        $itemsQuery = ProgressSheet::findOrFail($id)->items();   
+        $result = $this->parseMultiple($itemsQuery);
+
+        return $result;
     }
 }

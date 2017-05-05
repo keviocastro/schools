@@ -34,6 +34,15 @@ class ProgressSheet extends Model
     ];
 
     /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'options' => 'array',
+    ];
+
+    /**
      * Itens da avaliação descritiva
      *
      * @Relation

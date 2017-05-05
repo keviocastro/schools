@@ -1,17 +1,25 @@
 # Data structure
 
-## ProgressSheetItemsFillable
+## Tag (object)
+
++ id: 1 (number) - ID da tag.
++ tag_group_id: 1 (number) - ID do grupo que a tag está associada.
++ slug: habilidade-cognitiva (string) - Nome normalizado da tag.
++ name: Habilidade cognitiva (string) - Nome da tag
++ count: 10 (number) - Quantidade total de utilização da tag.
+
+## ProgressSheetItemFillable
 
 + nome: `Conhece o alfabeto como símbolo da escrita` (string) - Nome do item da ficha avaliativa
-+ Progress_sheet_id: 1 (number, optional) - ID do modelo da ficha avaliativa
++ Progress_sheet_id: 1 (number, optional) - ID da ficha avaliativa
++ tags (array[Tag]) - Tags associadas ao item.
 
-
-## ProgressSheetItems
+## ProgressSheetItem
 
 + progress_sheet_item_id: 1 (number) - Id Do item da ficha avaliativa
-+ Include (ProgressSheetItemsFillable)
++ Include (ProgressSheetItemFillable)
 
-## ProgressSheetsFillable
+## ProgressSheetFillable
 
 + nome: `goiania ficha 1` (string) - Nome da ficha avaliativa
 + options (array)
@@ -28,10 +36,10 @@
         + identifier: `O` (string)
         + label: `Ótimo` (string)
 
-## ProgressSheets
+## ProgressSheet
 
 + progress_sheet_id: 1 (number) - ID da ficha de avaliacao
-+ Include (ProgressSheetsFillable)
++ Include (ProgressSheetFillable)
 
 ## LessonPlanModelFillable
 
@@ -187,6 +195,11 @@
 + shift_id: 1 (number) - ID do turno.
 + school_calendar_id: 1 (number) - ID do Ano letivo em que a turma existe.
 + school_id: 1 (number) - ID da escola relacionada.
++ evaluation_type (enum[string]) - Definiçao do modo de avaliação da turma.
+    + members
+        + grade_phase - Define que a avaliação da turma é por notas númericas calculadas por fase do calendário escolar.
+        + progress_sheet_phase - Define que a avaliação da turma é por ficha descritiva por aluno. 
++ progress_sheet_id (number) - ID da ficha descritiva utilizada para avaliar os alunos da turma.
 
 ## SchoolClass (object)
 

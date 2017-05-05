@@ -4,9 +4,11 @@ namespace App;
 
 class ProgressSheetItem extends Model
 {
+    use \Conner\Tagging\Taggable;
+
     /**
      *
-     * The attributes that should be hidden for arrays.
+     * Atributos que não serão exibidos em arrya ou jsons
      *
      * @var array
      */
@@ -16,11 +18,12 @@ class ProgressSheetItem extends Model
         'updated_at',
         'created_by',
         'deleted_by',
-        'updated_by'
+        'updated_by',
+        'tagged' //  appends tags anexa dois atributos tagged e tags. tagged não é necessário
     ];
 
     /**
-     * The attributes that are mass assignable.
+     * Atributos que podem ser preenchidos
      *
      * @var array
      */
@@ -28,6 +31,8 @@ class ProgressSheetItem extends Model
         'name',
         'progress_sheet_id'
     ];
+
+    protected $appends = ['tags'];
 
     /**
      * Avaliação descritiva a qual o item está relacionado
