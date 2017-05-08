@@ -1462,21 +1462,31 @@ Com isso o cadastro do Professor Medeiros fica pendente até que um usuário da 
 + name: Habilidade cognitiva (string) - Nome da tag
 + count: 10 (number) - Quantidade total de utilização da tag.
 
+## GroupFillable (object)
+
++ name: Habilidade cognitiva (string) - Nome do grupo
++ order: 3 (number) - Número de ordenação do grupo
+
+## Group (object)
+
++ id: 1 (number) - ID do grupo
++ include GroupFillable
+
 ## ProgressSheetItemFillable
 
 + nome: `Conhece o alfabeto como símbolo da escrita` (string) - Nome do item da ficha avaliativa
-+ Progress_sheet_id: 1 (number, optional) - ID da ficha avaliativa
-+ tags (array[Tag]) - Tags associadas ao item.
++ progress_sheet_id: 1 (number, optional) - ID da ficha avaliativa
++ group_id: 1 (number, optional) - ID do grupo associado ao item.
 
 ## ProgressSheetItem
 
-+ progress_sheet_item_id: 1 (number) - Id Do item da ficha avaliativa
++ id: 1 (number) - Id Do item da ficha avaliativa
 + Include (ProgressSheetItemFillable)
 
 ## ProgressSheetFillable
 
-+ nome: `goiania ficha 1` (string) - Nome da ficha avaliativa
-+ options (array)
++ nome: `Ficha de Acompanhamento da Aprendizagem` (string) - Nome da ficha avaliativa
++ options (array) - Opções de resposta de avaliação dos itens da ficha
     + (object)
         + identifier: `I` (string)
         + label: `Irregular` (string)
@@ -1757,7 +1767,6 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
     + _sort (string, optional) - Ordena a coluna desejada, de forma acendente ou descendente.
     + _with (string, optional) - Obtem informações do recurso relacionado.
         + Members
-            + studentGrades
             + schoolCalendarPhase
 
 + Request  (application/json)
@@ -1826,6 +1835,13 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 
 + Parameters
     + progress_sheet_id: 1 (number) - ID da ficha avaliativa
+    + _attach (string, optional) - Anexa outras informações a ficha a resposta
+        + Members
+            + groups - Lista de todos os grupos relacionados os itens da ficha avaliativa.
+    + _with (string, optional) - Inclui as relações da ficha a resposta
+        + Members
+            + items - Items da ficha avaliativa
+
 
 + Request  (application/json)
     + Headers
@@ -1871,7 +1887,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 
 ## Coleção de items da ficha avaliativa [/progress-sheet/{progress_sheet_id}/items{?_q,_sort,_with}]
 
-### Listar items da fichas avaliativa [GET]
+### Listar items [GET]
 
 Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="output.html#header-parametros-de-filtros-em-listagem">sessão</a> como definir os parametros da requisição.
 
@@ -1883,6 +1899,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
     + _with (string, optional) - Obtem informações do recurso relacionado.
         + Members
             + progressSheet - Ficha avaliativa associada ao item.
+            + group - Grupo associado ao item
 
 + Request  (application/json)
     + Headers
@@ -1895,48 +1912,3 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
         + Include Paginator
         + data (array)
             + (ProgressSheetItem)
-
-### Criar item da ficha avaliativa [POST]
-
-+ Request  (application/json)
-    + Headers
-
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQyNjg3MzYsImlhdCI6MTQ5NDI2MTUzNiwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.UKSXHE7LQ0blPp6an9UewlSMCl-Q1aFYNPnkwQjWWqd3sfXToue0u8_6Y4iwh-CqfNP704t-e8OpVUwwo568ShBWrBiEgLbzgFnig56KtQkoO1daz9U_6B-89CVAyIdvG0wmOgXf17s2fskusDt7Lr7rxTzXAbscSpGOXh6_IUsiVe7JFACf2TNiJ8KaBcfTxO2vgqcH3wJ8T5-Iuyj4YYz6EDVZe6Yd70Y89R0X_ERmrsTAK8t_sA9pHMs3j8VCSySxUoyfWeTLCCqzJXFNebZWIb02ntWwuk6AHl3Q2yNPms_HqQMVYB7owbWa45Eg6QMqQnBslW3KskJjz6es2g
-
-    + Attributes (ProgressSheetItemFillable)
-
-+ Response 201 (application/json)
-
-    + Attributes
-        + progress_sheet_item (ProgressSheetItem)
-
-### Alterar item da ficha avaliativa [PUT]
-
-+ Parameters
-    + progress_sheet_item_id: 1 (number) - ID do item da ficha avaliativa
-
-+ Request  (application/json)
-    + Headers
-
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQyNjg3MzYsImlhdCI6MTQ5NDI2MTUzNiwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.UKSXHE7LQ0blPp6an9UewlSMCl-Q1aFYNPnkwQjWWqd3sfXToue0u8_6Y4iwh-CqfNP704t-e8OpVUwwo568ShBWrBiEgLbzgFnig56KtQkoO1daz9U_6B-89CVAyIdvG0wmOgXf17s2fskusDt7Lr7rxTzXAbscSpGOXh6_IUsiVe7JFACf2TNiJ8KaBcfTxO2vgqcH3wJ8T5-Iuyj4YYz6EDVZe6Yd70Y89R0X_ERmrsTAK8t_sA9pHMs3j8VCSySxUoyfWeTLCCqzJXFNebZWIb02ntWwuk6AHl3Q2yNPms_HqQMVYB7owbWa45Eg6QMqQnBslW3KskJjz6es2g
-
-    + Attributes (ProgressSheetItemFillable)
-
-+ Response 200 (application/json)
-
-    + Attributes
-        + progress_sheet_item (ProgressSheetItem)
-
-
-### Excluir item da ficha avaliativa [DELETE]
-
-+ Parameters
-    + progress_sheet_item_id: 1 (number) - ID do item da ficha avaliativa
-
-+ Request  (application/json)
-    + Headers
-
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQyNjg3MzYsImlhdCI6MTQ5NDI2MTUzNiwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.UKSXHE7LQ0blPp6an9UewlSMCl-Q1aFYNPnkwQjWWqd3sfXToue0u8_6Y4iwh-CqfNP704t-e8OpVUwwo568ShBWrBiEgLbzgFnig56KtQkoO1daz9U_6B-89CVAyIdvG0wmOgXf17s2fskusDt7Lr7rxTzXAbscSpGOXh6_IUsiVe7JFACf2TNiJ8KaBcfTxO2vgqcH3wJ8T5-Iuyj4YYz6EDVZe6Yd70Y89R0X_ERmrsTAK8t_sA9pHMs3j8VCSySxUoyfWeTLCCqzJXFNebZWIb02ntWwuk6AHl3Q2yNPms_HqQMVYB7owbWa45Eg6QMqQnBslW3KskJjz6es2g
-
-+ Response 204
-

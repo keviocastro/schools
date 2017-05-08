@@ -43,11 +43,20 @@ class ProgressSheetController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request, $id)
     {
-        return $this->apiHandler
+        $_attach = explode(',', $request->input('_attach'));
+
+        $result = $this->apiHandler
             ->parseSingle(New ProgressSheet, $id)
             ->getResultOrFail();
+
+        if (in_array('groups',$_attach)) {
+            $result->groups = $result->groups()->toArray();
+        }
+
+        return $result;
+
     }
 
     /**

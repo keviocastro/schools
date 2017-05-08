@@ -46,8 +46,6 @@ class Assessment extends Model
     /**
      * Notas da avaliação
      * 
-     * @Relation
-     * 
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function studentGrades()

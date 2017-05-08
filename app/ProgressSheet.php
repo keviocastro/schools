@@ -42,6 +42,7 @@ class ProgressSheet extends Model
         'options' => 'array',
     ];
 
+
     /**
      * Itens da avaliação descritiva
      *
@@ -52,6 +53,24 @@ class ProgressSheet extends Model
     public function items()
     {
         return $this->hasMany('App\ProgressSheetItem');
+    }
+
+    /**
+     * Grupos associados aos itens da avaliação (ProgressSheetItem)
+     * 
+     * @return Illuminate\Database\Eloquent\Collection
+     */
+    public function groups()
+    {
+        $groups = Group::select('groups.*')
+            ->join('progress_sheet_items', 
+                'progress_sheet_items.group_id', 
+                '=', 'groups.id')
+            ->where('progress_sheet_items.progress_sheet_id', $this->id)
+            ->groupBy('groups.id')
+            ->get();
+            
+        return $groups;
     }
 
 }
