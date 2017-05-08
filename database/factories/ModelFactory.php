@@ -398,6 +398,7 @@ $factory->define(App\LessonPlanModel::class, function ($faker) use ($factory) {
 $factory->define(App\ProgressSheet::class, function ($faker) use ($factory) {
     $evalution = [
         'Ficha de acompanhamento ',
+        'Ficha de desempenho ',
         'Ficha de ensino ',
         'Ficha avaliativa '
     ];
@@ -426,7 +427,7 @@ $factory->define(App\ProgressSheet::class, function ($faker) use ($factory) {
 
     return [
         'name' => $faker->randomElement($evalution).$faker->randomElement($for),
-        'options' => $options
+        'options' =>  $faker->randomElement($options)
     ];
 });
 
@@ -463,5 +464,22 @@ $factory->define(App\ProgressSheetItem::class, function ($faker) use ($factory) 
             'Lê horas, comparando relógios digitais e de ponteiros.',
             'Reconhece cédulas e moedas que circulam no Brasil e de possíveis trocas entre cédulas e moedas em função de seus valores em experiências com dinheiro em brincadeiras ou em situações de interesse das crianças',
         ]),
+    ];
+});
+$factory->define(App\StudentProgressSheet::class, function ($faker) use ($factory) {
+
+    $options = factory(App\ProgressSheet::class)->create()->toArray();
+    $option = $faker->randomElement($options['options']);
+
+
+    $progressSheetItem = factory(App\ProgressSheetItem::class)->create()->id;
+    $student = factory(App\Student::class)->create()->id;
+    $schoolCalendarPhase = factory(App\SchoolCalendarPhase::class)->create()->id;
+
+    return [
+        'option_identifier' => $option['identifier'],
+        'progress_sheet_item_id' => $progressSheetItem,
+        'student_id' => $student,
+        'school_calendar_phase_id' => $schoolCalendarPhase
     ];
 });

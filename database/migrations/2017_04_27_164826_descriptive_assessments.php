@@ -63,7 +63,7 @@ class DescriptiveAssessments extends Migration
         });
 
 
-        Schema::create('progress_sheet_item_student', function (Blueprint $table) {
+        Schema::create('student_progress_sheets', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('student_id');
             $table->unsignedInteger('progress_sheet_item_id');
@@ -105,7 +105,7 @@ class DescriptiveAssessments extends Migration
      */
     public function down()
     {
-        Schema::drop('progress_sheet_item_student');
+        Schema::drop('student_progress_sheet');
         Schema::drop('progress_sheet_items');
         Schema::drop('progress_sheets');
         Schema::table('school_classes', function(Blueprint $table) {

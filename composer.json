@@ -12,7 +12,8 @@
         "dingo/api": "1.0.x@dev",
         "marcelgwerder/laravel-api-handler": "dev-master",
         "barryvdh/laravel-cors": "^0.8.2",
-        "danielstjules/stringy": "~2.3"
+        "danielstjules/stringy": "~2.3",
+        "rtconner/laravel-tagging": "~2.2"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

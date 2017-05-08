@@ -407,3 +407,96 @@ retornado o registro já existente com as informações atualizadas.
 
 + Response 204
 
+
+## Coleção de ficha avaliativa do estudante [/student-progress-sheet{?_q,_sort,_with}]
+
+### Listar as fichas avaliativas dos estudantes [GET]
+
+<!-- include(LinkParametrosPadroesListagem.md) -->
+
++ Parameters
+    + _q (string, optional) - Pesquisa por palavra-chave, a correspondência e incluida conjunto de resultados.
+        + Members
+            +name
+    + _sort (string, optional) - Ordena a coluna desejada, de forma acendente ou descendente.
+    + _with (string, optional) - Obtem informações do recurso relacionado.
+        + Members
+            + progressSheet - Ficha avaliativa.
+            + progressSheetItem - Item da ficha avaliativa do estudante.
+
++ Request  (application/json)
+    + Headers
+
+            authorization: <!-- include(Token.md) -->
+
++ Response 200 (application/json)
+
+    + Attributes
+        + Include Paginator
+        + data (array)
+            + (ProgressSheetStudent)
+
+### Criar ficha avaliativa do estudante [POST]
+
++ Request  (application/json)
+    + Headers
+
+            authorization: <!-- include(Token.md) -->
+
+    + Attributes (ProgressSheetStudentFillable)
+
++ Response 201 (application/json)
+
+    + Attributes
+        + student_progress_sheet (ProgressSheetStudent)
+
+## Ficha avaliativa do estudante [/student-progress-sheet/{student_progress_sheet_id}]
+
+### Detalhes da ficha avaliativa do estudante [GET]
+
++ Parameters
+    + student_progress_sheet_id: 1 (number) - ID da ficha avaliativa do estudante
+    + _with (string, optional) - Obtem informações do recurso relacionado.
+        + Members
+            + progressSheet - Ficha avaliativa.
+            + progressSheetItem - Item da ficha avaliativa do estudante.
+
++ Request  (application/json)
+    + Headers
+
+            authorization: <!-- include(Token.md) -->
+
++ Response 200 (application/json)
+
+    + Attributes
+        + student_progress_sheet (Occurence)
+
+### Alterar ficha avaliativa do estudante  [PUT]
+
++ Parameters
+    + student_progress_sheet_id: 1 (number) - ID da ficha avaliativa do estudante
+
++ Request  (application/json)
+    + Headers
+
+            authorization: <!-- include(Token.md) -->
+
+    + Attributes (ProgressSheetStudentFillable)
+
++ Response 200 (application/json)
+
+    + Attributes
+        + student_progress_sheet (ProgressSheetStudent)
+
+
+### Excluir ficha avaliativa do estudante [DELETE]
+
++ Parameters
+    + student_progress_sheet_id: 1 (number) - ID da ficha avaliativa do estudante
+
++ Request  (application/json)
+    + Headers
+
+            authorization: <!-- include(Token.md) -->
+
++ Response 204
