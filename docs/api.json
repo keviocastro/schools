@@ -6010,14 +6010,14 @@
           },
           {
             "element": "resource",
-            "name": "Coleção de ficha avaliativa do estudante",
+            "name": "Coleção de itens de fichas avaliativas",
             "description": "",
-            "uriTemplate": "/student-progress-sheet{?_q,_sort,_with}",
+            "uriTemplate": "/student-progress-sheets{?_q,_sort,_with}",
             "model": {},
             "parameters": [],
             "actions": [
               {
-                "name": "Listar as fichas avaliativas dos estudantes",
+                "name": "Listar itens de fichas avaliativas",
                 "description": "Nesta ação você pode usar varios filtros para listagem, veja nesta <a href=\"output.html#header-parametros-de-filtros-em-listagem\">sessão</a> como definir os parametros da requisição.\n\n",
                 "method": "GET",
                 "parameters": [
@@ -6047,9 +6047,6 @@
                     "default": "",
                     "example": "",
                     "values": [
-                      {
-                        "value": "progressSheet"
-                      },
                       {
                         "value": "progressSheetItem"
                       }
@@ -6094,7 +6091,7 @@
                             "value": "application/json"
                           }
                         ],
-                        "body": "{\n  \"total\": 25,\n  \"per_page\": 15,\n  \"current_page\": 1,\n  \"last_page\": 2,\n  \"next_page_url\": \"http://localhost/api/<resource>?page=2\",\n  \"prev_page_url\": \"null\",\n  \"from\": 1,\n  \"to\": 15,\n  \"data\": [\n    {\n      \"student_progress_sheet_id\": 1,\n      \"nome\": \"Conhece o alfabeto como símbolo da escrita\",\n      \"progress_sheet_id\": 1,\n      \"group_id\": 1\n    }\n  ]\n}",
+                        "body": "{\n  \"total\": 25,\n  \"per_page\": 15,\n  \"current_page\": 1,\n  \"last_page\": 2,\n  \"next_page_url\": \"http://localhost/api/<resource>?page=2\",\n  \"prev_page_url\": \"null\",\n  \"from\": 1,\n  \"to\": 15,\n  \"data\": [\n    {\n      \"id\": 1,\n      \"progress_sheet_item_id\": 1,\n      \"school_calendar_phase_id\": 1,\n      \"school_class_id\": 1,\n      \"student_id\": 1,\n      \"option_identifier\": \"I\"\n    }\n  ]\n}",
                         "schema": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"total\": {\n      \"type\": \"number\",\n      \"description\": \"Total de resultados encontrados\"\n    },\n    \"per_page\": {\n      \"type\": \"number\",\n      \"description\": \"Quantidade de resultados por página\"\n    },\n    \"current_page\": {\n      \"type\": \"number\",\n      \"description\": \"Página atual\"\n    },\n    \"last_page\": {\n      \"type\": \"number\",\n      \"description\": \"Ultima página\"\n    },\n    \"next_page_url\": {\n      \"type\": [\n        \"string\",\n        \"null\"\n      ],\n      \"description\": \"Url para resultados da proxima página\"\n    },\n    \"prev_page_url\": {\n      \"type\": [\n        \"string\",\n        \"null\"\n      ],\n      \"description\": \"Url para resultados da página anterior\"\n    },\n    \"from\": {\n      \"type\": \"number\",\n      \"description\": \"Número inicial de resultados de paginação da página atual\"\n    },\n    \"to\": {\n      \"type\": \"number\",\n      \"description\": \"Número final de resultados de paginação da página atual\"\n    },\n    \"data\": {\n      \"type\": \"array\"\n    }\n  }\n}",
                         "content": [
                           {
@@ -6116,6 +6113,135 @@
                                       "key": {
                                         "element": "string",
                                         "content": "data"
+                                      },
+                                      "value": {
+                                        "element": "array",
+                                        "content": [
+                                          {
+                                            "element": "ProgressSheetStudent"
+                                          }
+                                        ]
+                                      }
+                                    }
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "name": "Criar itens de ficha avaliativa",
+                "description": "",
+                "method": "POST",
+                "parameters": [],
+                "attributes": {
+                  "relation": "",
+                  "uriTemplate": ""
+                },
+                "content": [],
+                "examples": [
+                  {
+                    "name": "",
+                    "description": "",
+                    "requests": [
+                      {
+                        "name": "",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "name": "authorization",
+                            "value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQyNjg3MzYsImlhdCI6MTQ5NDI2MTUzNiwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.UKSXHE7LQ0blPp6an9UewlSMCl-Q1aFYNPnkwQjWWqd3sfXToue0u8_6Y4iwh-CqfNP704t-e8OpVUwwo568ShBWrBiEgLbzgFnig56KtQkoO1daz9U_6B-89CVAyIdvG0wmOgXf17s2fskusDt7Lr7rxTzXAbscSpGOXh6_IUsiVe7JFACf2TNiJ8KaBcfTxO2vgqcH3wJ8T5-Iuyj4YYz6EDVZe6Yd70Y89R0X_ERmrsTAK8t_sA9pHMs3j8VCSySxUoyfWeTLCCqzJXFNebZWIb02ntWwuk6AHl3Q2yNPms_HqQMVYB7owbWa45Eg6QMqQnBslW3KskJjz6es2g"
+                          }
+                        ],
+                        "body": "[\n  {\n    \"progress_sheet_item_id\": 1,\n    \"school_calendar_phase_id\": 1,\n    \"school_class_id\": 1,\n    \"student_id\": 1,\n    \"option_identifier\": \"I\"\n  }\n]",
+                        "schema": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"array\"\n}",
+                        "content": [
+                          {
+                            "element": "dataStructure",
+                            "content": [
+                              {
+                                "element": "array",
+                                "content": [
+                                  {
+                                    "element": "ProgressSheetStudentFillable"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ],
+                    "responses": [
+                      {
+                        "name": "201",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": "{\n  \"student_progress_sheet\": {\n    \"id\": 1,\n    \"progress_sheet_item_id\": 1,\n    \"school_calendar_phase_id\": 1,\n    \"school_class_id\": 1,\n    \"student_id\": 1,\n    \"option_identifier\": \"I\"\n  }\n}",
+                        "schema": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"student_progress_sheet\": {\n      \"type\": \"object\",\n      \"properties\": {\n        \"id\": {\n          \"type\": \"number\",\n          \"description\": \"Id de resultado do aluno em um item de ficha de avaliação\"\n        },\n        \"progress_sheet_item_id\": {\n          \"type\": \"number\",\n          \"description\": \"Id do item da ficha avaliativa.\"\n        },\n        \"school_calendar_phase_id\": {\n          \"type\": \"number\",\n          \"description\": \"ID da fase do calendário escolar em que o aluno foi avaliado.\"\n        },\n        \"school_class_id\": {\n          \"type\": \"number\",\n          \"description\": \"ID da turma em que o aluno estava quando foi avaliado.\"\n        },\n        \"student_id\": {\n          \"type\": \"number\",\n          \"description\": \"ID do aluno.\"\n        },\n        \"option_identifier\": {\n          \"type\": \"string\",\n          \"description\": \"Identificador de resposta/avaliação em relação ao item.\"\n        }\n      }\n    }\n  }\n}",
+                        "content": [
+                          {
+                            "element": "dataStructure",
+                            "content": [
+                              {
+                                "element": "object",
+                                "content": [
+                                  {
+                                    "element": "member",
+                                    "content": {
+                                      "key": {
+                                        "element": "string",
+                                        "content": "student_progress_sheet"
+                                      },
+                                      "value": {
+                                        "element": "ProgressSheetStudent"
+                                      }
+                                    }
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "name": "201",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": "{\n  \"student_progress_sheets\": [\n    {\n      \"id\": 1,\n      \"progress_sheet_item_id\": 1,\n      \"school_calendar_phase_id\": 1,\n      \"school_class_id\": 1,\n      \"student_id\": 1,\n      \"option_identifier\": \"I\"\n    }\n  ]\n}",
+                        "schema": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"student_progress_sheets\": {\n      \"type\": \"array\"\n    }\n  }\n}",
+                        "content": [
+                          {
+                            "element": "dataStructure",
+                            "content": [
+                              {
+                                "element": "object",
+                                "content": [
+                                  {
+                                    "element": "member",
+                                    "content": {
+                                      "key": {
+                                        "element": "string",
+                                        "content": "student_progress_sheets"
                                       },
                                       "value": {
                                         "element": "array",
@@ -14543,14 +14669,14 @@
           },
           {
             "element": "resource",
-            "name": "Coleção de ficha avaliativa do estudante",
+            "name": "Coleção de itens de fichas avaliativas",
             "description": "",
-            "uriTemplate": "/student-progress-sheet{?_q,_sort,_with}",
+            "uriTemplate": "/student-progress-sheets{?_q,_sort,_with}",
             "model": {},
             "parameters": [],
             "actions": [
               {
-                "name": "Listar as fichas avaliativas dos estudantes",
+                "name": "Listar itens de fichas avaliativas",
                 "description": "Nesta ação você pode usar varios filtros para listagem, veja nesta <a href=\"output.html#header-parametros-de-filtros-em-listagem\">sessão</a> como definir os parametros da requisição.\n\n",
                 "method": "GET",
                 "parameters": [
@@ -14580,9 +14706,6 @@
                     "default": "",
                     "example": "",
                     "values": [
-                      {
-                        "value": "progressSheet"
-                      },
                       {
                         "value": "progressSheetItem"
                       }
@@ -14627,7 +14750,7 @@
                             "value": "application/json"
                           }
                         ],
-                        "body": "{\n  \"total\": 25,\n  \"per_page\": 15,\n  \"current_page\": 1,\n  \"last_page\": 2,\n  \"next_page_url\": \"http://localhost/api/<resource>?page=2\",\n  \"prev_page_url\": \"null\",\n  \"from\": 1,\n  \"to\": 15,\n  \"data\": [\n    {\n      \"student_progress_sheet_id\": 1,\n      \"nome\": \"Conhece o alfabeto como símbolo da escrita\",\n      \"progress_sheet_id\": 1,\n      \"group_id\": 1\n    }\n  ]\n}",
+                        "body": "{\n  \"total\": 25,\n  \"per_page\": 15,\n  \"current_page\": 1,\n  \"last_page\": 2,\n  \"next_page_url\": \"http://localhost/api/<resource>?page=2\",\n  \"prev_page_url\": \"null\",\n  \"from\": 1,\n  \"to\": 15,\n  \"data\": [\n    {\n      \"id\": 1,\n      \"progress_sheet_item_id\": 1,\n      \"school_calendar_phase_id\": 1,\n      \"school_class_id\": 1,\n      \"student_id\": 1,\n      \"option_identifier\": \"I\"\n    }\n  ]\n}",
                         "schema": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"total\": {\n      \"type\": \"number\",\n      \"description\": \"Total de resultados encontrados\"\n    },\n    \"per_page\": {\n      \"type\": \"number\",\n      \"description\": \"Quantidade de resultados por página\"\n    },\n    \"current_page\": {\n      \"type\": \"number\",\n      \"description\": \"Página atual\"\n    },\n    \"last_page\": {\n      \"type\": \"number\",\n      \"description\": \"Ultima página\"\n    },\n    \"next_page_url\": {\n      \"type\": [\n        \"string\",\n        \"null\"\n      ],\n      \"description\": \"Url para resultados da proxima página\"\n    },\n    \"prev_page_url\": {\n      \"type\": [\n        \"string\",\n        \"null\"\n      ],\n      \"description\": \"Url para resultados da página anterior\"\n    },\n    \"from\": {\n      \"type\": \"number\",\n      \"description\": \"Número inicial de resultados de paginação da página atual\"\n    },\n    \"to\": {\n      \"type\": \"number\",\n      \"description\": \"Número final de resultados de paginação da página atual\"\n    },\n    \"data\": {\n      \"type\": \"array\"\n    }\n  }\n}",
                         "content": [
                           {
@@ -14649,6 +14772,135 @@
                                       "key": {
                                         "element": "string",
                                         "content": "data"
+                                      },
+                                      "value": {
+                                        "element": "array",
+                                        "content": [
+                                          {
+                                            "element": "ProgressSheetStudent"
+                                          }
+                                        ]
+                                      }
+                                    }
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "name": "Criar itens de ficha avaliativa",
+                "description": "",
+                "method": "POST",
+                "parameters": [],
+                "attributes": {
+                  "relation": "",
+                  "uriTemplate": ""
+                },
+                "content": [],
+                "examples": [
+                  {
+                    "name": "",
+                    "description": "",
+                    "requests": [
+                      {
+                        "name": "",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "name": "authorization",
+                            "value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQyNjg3MzYsImlhdCI6MTQ5NDI2MTUzNiwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.UKSXHE7LQ0blPp6an9UewlSMCl-Q1aFYNPnkwQjWWqd3sfXToue0u8_6Y4iwh-CqfNP704t-e8OpVUwwo568ShBWrBiEgLbzgFnig56KtQkoO1daz9U_6B-89CVAyIdvG0wmOgXf17s2fskusDt7Lr7rxTzXAbscSpGOXh6_IUsiVe7JFACf2TNiJ8KaBcfTxO2vgqcH3wJ8T5-Iuyj4YYz6EDVZe6Yd70Y89R0X_ERmrsTAK8t_sA9pHMs3j8VCSySxUoyfWeTLCCqzJXFNebZWIb02ntWwuk6AHl3Q2yNPms_HqQMVYB7owbWa45Eg6QMqQnBslW3KskJjz6es2g"
+                          }
+                        ],
+                        "body": "[\n  {\n    \"progress_sheet_item_id\": 1,\n    \"school_calendar_phase_id\": 1,\n    \"school_class_id\": 1,\n    \"student_id\": 1,\n    \"option_identifier\": \"I\"\n  }\n]",
+                        "schema": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"array\"\n}",
+                        "content": [
+                          {
+                            "element": "dataStructure",
+                            "content": [
+                              {
+                                "element": "array",
+                                "content": [
+                                  {
+                                    "element": "ProgressSheetStudentFillable"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ],
+                    "responses": [
+                      {
+                        "name": "201",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": "{\n  \"student_progress_sheet\": {\n    \"id\": 1,\n    \"progress_sheet_item_id\": 1,\n    \"school_calendar_phase_id\": 1,\n    \"school_class_id\": 1,\n    \"student_id\": 1,\n    \"option_identifier\": \"I\"\n  }\n}",
+                        "schema": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"student_progress_sheet\": {\n      \"type\": \"object\",\n      \"properties\": {\n        \"id\": {\n          \"type\": \"number\",\n          \"description\": \"Id de resultado do aluno em um item de ficha de avaliação\"\n        },\n        \"progress_sheet_item_id\": {\n          \"type\": \"number\",\n          \"description\": \"Id do item da ficha avaliativa.\"\n        },\n        \"school_calendar_phase_id\": {\n          \"type\": \"number\",\n          \"description\": \"ID da fase do calendário escolar em que o aluno foi avaliado.\"\n        },\n        \"school_class_id\": {\n          \"type\": \"number\",\n          \"description\": \"ID da turma em que o aluno estava quando foi avaliado.\"\n        },\n        \"student_id\": {\n          \"type\": \"number\",\n          \"description\": \"ID do aluno.\"\n        },\n        \"option_identifier\": {\n          \"type\": \"string\",\n          \"description\": \"Identificador de resposta/avaliação em relação ao item.\"\n        }\n      }\n    }\n  }\n}",
+                        "content": [
+                          {
+                            "element": "dataStructure",
+                            "content": [
+                              {
+                                "element": "object",
+                                "content": [
+                                  {
+                                    "element": "member",
+                                    "content": {
+                                      "key": {
+                                        "element": "string",
+                                        "content": "student_progress_sheet"
+                                      },
+                                      "value": {
+                                        "element": "ProgressSheetStudent"
+                                      }
+                                    }
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "name": "201",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": "{\n  \"student_progress_sheets\": [\n    {\n      \"id\": 1,\n      \"progress_sheet_item_id\": 1,\n      \"school_calendar_phase_id\": 1,\n      \"school_class_id\": 1,\n      \"student_id\": 1,\n      \"option_identifier\": \"I\"\n    }\n  ]\n}",
+                        "schema": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"student_progress_sheets\": {\n      \"type\": \"array\"\n    }\n  }\n}",
+                        "content": [
+                          {
+                            "element": "dataStructure",
+                            "content": [
+                              {
+                                "element": "object",
+                                "content": [
+                                  {
+                                    "element": "member",
+                                    "content": {
+                                      "key": {
+                                        "element": "string",
+                                        "content": "student_progress_sheets"
                                       },
                                       "value": {
                                         "element": "array",
@@ -16086,7 +16338,7 @@
                   {
                     "element": "member",
                     "meta": {
-                      "description": "Id do item da ficha avaliativa"
+                      "description": "Id do item da ficha avaliativa."
                     },
                     "content": {
                       "key": {
@@ -16102,12 +16354,28 @@
                   {
                     "element": "member",
                     "meta": {
-                      "description": "ID da fase que a avaliação será registrada."
+                      "description": "ID da fase do calendário escolar em que o aluno foi avaliado."
                     },
                     "content": {
                       "key": {
                         "element": "string",
                         "content": "school_calendar_phase_id"
+                      },
+                      "value": {
+                        "element": "number",
+                        "content": 1
+                      }
+                    }
+                  },
+                  {
+                    "element": "member",
+                    "meta": {
+                      "description": "ID da turma em que o aluno estava quando foi avaliado."
+                    },
+                    "content": {
+                      "key": {
+                        "element": "string",
+                        "content": "school_class_id"
                       },
                       "value": {
                         "element": "number",
@@ -16134,7 +16402,7 @@
                   {
                     "element": "member",
                     "meta": {
-                      "description": "Resposta da ficha avaliativa"
+                      "description": "Identificador de resposta/avaliação em relação ao item."
                     },
                     "content": {
                       "key": {
@@ -16163,12 +16431,12 @@
                   {
                     "element": "member",
                     "meta": {
-                      "description": "Id da ficha avaliativa do estudante"
+                      "description": "Id de resultado do aluno em um item de ficha de avaliação"
                     },
                     "content": {
                       "key": {
                         "element": "string",
-                        "content": "student_progress_sheet_id"
+                        "content": "id"
                       },
                       "value": {
                         "element": "number",
@@ -16179,7 +16447,7 @@
                   {
                     "element": "ref",
                     "content": {
-                      "href": "ProgressSheetItemFillable",
+                      "href": "ProgressSheetStudentFillable",
                       "path": "content"
                     }
                   }
@@ -20507,11 +20775,21 @@
       ]
     },
     {
+      "code": 2,
+      "message": "response payload `201` already defined for `POST` method",
+      "location": [
+        {
+          "index": 74532,
+          "length": 117
+        }
+      ]
+    },
+    {
       "code": 6,
       "message": "no value(s) specified",
       "location": [
         {
-          "index": 75363,
+          "index": 76452,
           "length": 49
         }
       ]
@@ -20521,7 +20799,7 @@
       "message": "no value(s) specified",
       "location": [
         {
-          "index": 75418,
+          "index": 76507,
           "length": 66
         }
       ]
@@ -20531,7 +20809,7 @@
       "message": "parameter 'school_calendar_id' is not found within the URI template '/teacher/{teacher_id}/workload' for 'Carga horária' ",
       "location": [
         {
-          "index": 75309,
+          "index": 76398,
           "length": 35
         }
       ]
@@ -20541,7 +20819,7 @@
       "message": "parameter '_q' is not found within the URI template '/subjects' for 'Coleção de disciplinas' ",
       "location": [
         {
-          "index": 80382,
+          "index": 81471,
           "length": 30
         }
       ]
@@ -20551,7 +20829,7 @@
       "message": "parameter '_sort' is not found within the URI template '/subjects' for 'Coleção de disciplinas' ",
       "location": [
         {
-          "index": 80382,
+          "index": 81471,
           "length": 30
         }
       ]
@@ -20561,7 +20839,7 @@
       "message": "parameter 'user_id' is not found within the URI template '/auth/user' for 'Usuarios' ",
       "location": [
         {
-          "index": 87138,
+          "index": 88227,
           "length": 38
         }
       ]
@@ -20571,7 +20849,7 @@
       "message": "parameter '_with' is not found within the URI template '/auth/user' for 'Usuarios' ",
       "location": [
         {
-          "index": 87138,
+          "index": 88227,
           "length": 38
         }
       ]
@@ -20581,7 +20859,7 @@
       "message": "please escape the name of the data structure using backticks since it contains MSON reserved characters",
       "location": [
         {
-          "index": 89686,
+          "index": 90928,
           "length": 91
         }
       ]
@@ -20591,7 +20869,7 @@
       "message": "sub-types of primitive types should not have nested members",
       "location": [
         {
-          "index": 89777,
+          "index": 91019,
           "length": 99
         }
       ]
@@ -20601,7 +20879,7 @@
       "message": "ignoring unrecognized block",
       "location": [
         {
-          "index": 89777,
+          "index": 91019,
           "length": 99
         }
       ]
@@ -20611,7 +20889,7 @@
       "message": "ignoring unrecognized block",
       "location": [
         {
-          "index": 89876,
+          "index": 91118,
           "length": 39
         }
       ]
@@ -20621,7 +20899,7 @@
       "message": "parameter '_q' is not found within the URI template '/assessments' for 'Coleção de avaliacoes' ",
       "location": [
         {
-          "index": 100375,
+          "index": 101617,
           "length": 29
         }
       ]
@@ -20631,7 +20909,7 @@
       "message": "parameter '_sort' is not found within the URI template '/assessments' for 'Coleção de avaliacoes' ",
       "location": [
         {
-          "index": 100375,
+          "index": 101617,
           "length": 29
         }
       ]
@@ -20641,7 +20919,7 @@
       "message": "parameter '_with' is not found within the URI template '/assessments' for 'Coleção de avaliacoes' ",
       "location": [
         {
-          "index": 100375,
+          "index": 101617,
           "length": 29
         }
       ]
@@ -20651,7 +20929,7 @@
       "message": "parameter '_attach' is not found within the URI template '/progress-sheets/{progress_sheet_id}' for 'Ficha avaliativa' ",
       "location": [
         {
-          "index": 105096,
+          "index": 106338,
           "length": 40
         }
       ]
@@ -20661,7 +20939,7 @@
       "message": "parameter '_with' is not found within the URI template '/progress-sheets/{progress_sheet_id}' for 'Ficha avaliativa' ",
       "location": [
         {
-          "index": 105096,
+          "index": 106338,
           "length": 40
         }
       ]
@@ -20671,7 +20949,7 @@
       "message": "action is missing a response",
       "location": [
         {
-          "index": 108662,
+          "index": 109904,
           "length": 42
         }
       ]
@@ -20681,7 +20959,7 @@
       "message": "action with method 'GET' already defined for resource '/progress-sheet/{progress_sheet_id}/items{?_q,_sort,_with}'",
       "location": [
         {
-          "index": 108712,
+          "index": 109954,
           "length": 23
         }
       ]
@@ -20691,7 +20969,7 @@
       "message": "parameter 'progress_sheet_item_id' is not found within the URI template '/progress-sheet/{progress_sheet_id}/items{?_q,_sort,_with}' for 'Coleção de items da ficha avaliativa' ",
       "location": [
         {
-          "index": 111462,
+          "index": 112704,
           "length": 44
         }
       ]
@@ -20701,7 +20979,7 @@
       "message": "unexpected header block, expected a group, resource or an action definition, e.g. '# Group <name>', '# <resource name> [<URI>]' or '# <HTTP method> <URI>'",
       "location": [
         {
-          "index": 113586,
+          "index": 114828,
           "length": 8
         }
       ]
@@ -20711,7 +20989,7 @@
       "message": "dangling message-body asset, expected a pre-formatted code block, indent every of it's line by 4 spaces or 1 tabs",
       "location": [
         {
-          "index": 113594,
+          "index": 114836,
           "length": 34
         }
       ]
@@ -20721,7 +20999,7 @@
       "message": "ignoring unrecognized block",
       "location": [
         {
-          "index": 113628,
+          "index": 114870,
           "length": 50
         }
       ]
@@ -20731,7 +21009,7 @@
       "message": "parameter 'progress_sheet_item_id' is not found within the URI template '/progress-sheet/{progress_sheet_id}/items{?_q,_sort,_with}' for 'Coleção de items da ficha avaliativa' ",
       "location": [
         {
-          "index": 112589,
+          "index": 113831,
           "length": 47
         }
       ]

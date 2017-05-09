@@ -408,21 +408,18 @@ retornado o registro já existente com as informações atualizadas.
 + Response 204
 
 
-## Coleção de ficha avaliativa do estudante [/student-progress-sheet{?_q,_sort,_with}]
+## Coleção de itens de fichas avaliativas [/student-progress-sheets{?_q,_sort,_with}]
 
-### Listar as fichas avaliativas dos estudantes [GET]
+### Listar itens de fichas avaliativas [GET]
 
 <!-- include(LinkParametrosPadroesListagem.md) -->
 
 + Parameters
     + _q (string, optional) - Pesquisa por palavra-chave, a correspondência e incluida conjunto de resultados.
-        + Members
-            +name
     + _sort (string, optional) - Ordena a coluna desejada, de forma acendente ou descendente.
     + _with (string, optional) - Obtem informações do recurso relacionado.
         + Members
-            + progressSheet - Ficha avaliativa.
-            + progressSheetItem - Item da ficha avaliativa do estudante.
+            + progressSheetItem - Item de avaliação da ficha relacionado.
 
 + Request  (application/json)
     + Headers
@@ -435,3 +432,23 @@ retornado o registro já existente com as informações atualizadas.
         + Include Paginator
         + data (array)
             + (ProgressSheetStudent)
+
+### Criar itens de ficha avaliativa [POST]
+
++ Request  (application/json)
+    + Headers
+
+            authorization: <!-- include(Token.md) -->
+
+    + Attributes (array)
+        + (ProgressSheetStudentFillable)
+
++ Response 201 (application/json)
+
+    + Attributes
+        + student_progress_sheet (ProgressSheetStudent)
+
++ Response 201 (application/json)
+
+    + Attributes
+        + student_progress_sheets (array[ProgressSheetStudent])

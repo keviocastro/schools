@@ -110,7 +110,7 @@ class SchoolClassControllerTest extends TestCase
 
         $this->get("api/school-classes/{$schoolClass['id']}".
             "?_with=progressSheet.items,shift,students,schoolCalendar,subjects,grade,school",
-        	$this->getAutHeader())->dump()
+        	$this->getAutHeader())
         	->assertResponseStatus(200)
         	->seeJson($schoolClass);
     }

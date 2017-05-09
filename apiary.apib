@@ -1200,21 +1200,18 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 + Response 204
 
 
-## Coleção de ficha avaliativa do estudante [/student-progress-sheet{?_q,_sort,_with}]
+## Coleção de itens de fichas avaliativas [/student-progress-sheets{?_q,_sort,_with}]
 
-### Listar as fichas avaliativas dos estudantes [GET]
+### Listar itens de fichas avaliativas [GET]
 
 Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="output.html#header-parametros-de-filtros-em-listagem">sessão</a> como definir os parametros da requisição.
 
 + Parameters
     + _q (string, optional) - Pesquisa por palavra-chave, a correspondência e incluida conjunto de resultados.
-        + Members
-            +name
     + _sort (string, optional) - Ordena a coluna desejada, de forma acendente ou descendente.
     + _with (string, optional) - Obtem informações do recurso relacionado.
         + Members
-            + progressSheet - Ficha avaliativa.
-            + progressSheetItem - Item da ficha avaliativa do estudante.
+            + progressSheetItem - Item de avaliação da ficha relacionado.
 
 + Request  (application/json)
     + Headers
@@ -1227,6 +1224,26 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
         + Include Paginator
         + data (array)
             + (ProgressSheetStudent)
+
+### Criar itens de ficha avaliativa [POST]
+
++ Request  (application/json)
+    + Headers
+
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQyNjg3MzYsImlhdCI6MTQ5NDI2MTUzNiwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.UKSXHE7LQ0blPp6an9UewlSMCl-Q1aFYNPnkwQjWWqd3sfXToue0u8_6Y4iwh-CqfNP704t-e8OpVUwwo568ShBWrBiEgLbzgFnig56KtQkoO1daz9U_6B-89CVAyIdvG0wmOgXf17s2fskusDt7Lr7rxTzXAbscSpGOXh6_IUsiVe7JFACf2TNiJ8KaBcfTxO2vgqcH3wJ8T5-Iuyj4YYz6EDVZe6Yd70Y89R0X_ERmrsTAK8t_sA9pHMs3j8VCSySxUoyfWeTLCCqzJXFNebZWIb02ntWwuk6AHl3Q2yNPms_HqQMVYB7owbWa45Eg6QMqQnBslW3KskJjz6es2g
+
+    + Attributes (array)
+        + (ProgressSheetStudentFillable)
+
++ Response 201 (application/json)
+
+    + Attributes
+        + student_progress_sheet (ProgressSheetStudent)
+
++ Response 201 (application/json)
+
+    + Attributes
+        + student_progress_sheets (array[ProgressSheetStudent])
 
 # Group Professores
 
@@ -1481,17 +1498,18 @@ Com isso o cadastro do Professor Medeiros fica pendente até que um usuário da 
 
 # Data structure
 
-## ProgressSheetStudentFillable
+## ProgressSheetStudentFillable (object)
 
-+ progress_sheet_item_id: 1 (number) - Id do item da ficha avaliativa
-+ school_calendar_phase_id: 1 (number) - ID da fase que a avaliação será registrada.
++ progress_sheet_item_id: 1 (number) - Id do item da ficha avaliativa.
++ school_calendar_phase_id: 1 (number) - ID da fase do calendário escolar em que o aluno foi avaliado.
++ school_class_id: 1 (number) - ID da turma em que o aluno estava quando foi avaliado.
 + student_id: 1 (number) - ID do aluno.
-+ option_identifier: `I` (string) - Resposta da ficha avaliativa
++ option_identifier: `I` (string) - Identificador de resposta/avaliação em relação ao item.
 
-## ProgressSheetStudent
+## ProgressSheetStudent (object)
 
-+ student_progress_sheet_id: 1 (number) - Id da ficha avaliativa do estudante
-+ Include (ProgressSheetItemFillable)
++ id: 1 (number) - Id de resultado do aluno em um item de ficha de avaliação
++ Include (ProgressSheetStudentFillable)
 
 ## Tag (object)
 

@@ -1,16 +1,17 @@
 # Data structure
 
-## ProgressSheetStudentFillable
+## ProgressSheetStudentFillable (object)
 
-+ progress_sheet_item_id: 1 (number) - Id do item da ficha avaliativa
-+ school_calendar_phase_id: 1 (number) - ID da fase que a avaliação será registrada.
++ progress_sheet_item_id: 1 (number) - Id do item da ficha avaliativa.
++ school_calendar_phase_id: 1 (number) - ID da fase do calendário escolar em que o aluno foi avaliado.
++ school_class_id: 1 (number) - ID da turma em que o aluno estava quando foi avaliado.
 + student_id: 1 (number) - ID do aluno.
-+ option_identifier: `I` (string) - Resposta da ficha avaliativa
++ option_identifier: `I` (string) - Identificador de resposta/avaliação em relação ao item.
 
-## ProgressSheetStudent
+## ProgressSheetStudent (object)
 
-+ student_progress_sheet_id: 1 (number) - Id da ficha avaliativa do estudante
-+ Include (ProgressSheetItemFillable)
++ id: 1 (number) - Id de resultado do aluno em um item de ficha de avaliação
++ Include (ProgressSheetStudentFillable)
 
 ## Tag (object)
 

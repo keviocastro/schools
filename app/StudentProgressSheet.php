@@ -16,7 +16,8 @@ class StudentProgressSheet extends Model
         'option_identifier',
         'progress_sheet_item_id',
         'student_id',
-        'school_calendar_phase_id'
+        'school_calendar_phase_id',
+        'school_class_id'
     ];
     
     /**

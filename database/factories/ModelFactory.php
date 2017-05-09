@@ -487,20 +487,50 @@ $factory->define(App\ProgressSheetItem::class, function ($faker) use ($factory) 
         ]),
     ];
 });
-$factory->define(App\StudentProgressSheet::class, function ($faker) use ($factory) {
+$factory->define(App\StudentProgressSheet::class, function ($faker, $attributes) use ($factory) {
 
-    $options = factory(App\ProgressSheet::class)->create()->toArray();
-    $option = $faker->randomElement($options['options']);
+    // Regras para preparar dado para que o registro seja para ao estudante
+    // matriculado na turma do qual o item de avaliação está relacionado.
+    if (empty($attributes['progress_sheet_item_id'])) {
+        $progressSheetItem = factory(App\ProgressSheetItem::class)->create();
+    }else{
+        $progressSheetItem = App\ProgressSheetItem::findOrFail($attributes['progress_sheet_item_id']);
+    }
 
+    if (empty($attributes['school_class_id'])) {
+        $schoolClass = factory(App\SchoolClass::class)->create();
+    }else{
+        $schoolClass = App\SchoolClass::findOrFail($attributes['school_class_id']);
+    }
 
-    $progressSheetItem = factory(App\ProgressSheetItem::class)->create()->id;
-    $student = factory(App\Student::class)->create()->id;
-    $schoolCalendarPhase = factory(App\SchoolCalendarPhase::class)->create()->id;
+    $phases = $schoolClass->schoolCalendar->phases->toArray();
+    if (empty($phases)) {
+        $phases = factory(App\SchoolCalendarPhase::class, 4)->create()->toArray();
+    }
+    $phase = $faker->randomElement($phases); 
+
+    $options = $progressSheetItem->progressSheet->options;
+
+     // identifier também pode ser null
+     // define que o registro foi iniciado mas não foi escolhido uma opção
+    array_push($options, ['identifier' => null]);
+    $option = $faker->randomElement($options);
+
+    if (empty($attributes['student_id'])) {
+        $student = factory(App\Student::class)->create();
+        factory(App\SchoolClassStudent::class)->create([
+                'student_id' => $student->id,
+                'school_class_id' => $schoolClass->id
+            ]);
+    }else{
+        $student = App\Student::findOrFail($attributes['student_id']);
+    }
 
     return [
         'option_identifier' => $option['identifier'],
-        'progress_sheet_item_id' => $progressSheetItem,
-        'student_id' => $student,
-        'school_calendar_phase_id' => $schoolCalendarPhase
+        'progress_sheet_item_id' => $progressSheetItem->id,
+        'student_id' => $student->id,
+        'school_calendar_phase_id' => $phase['id'],
+        'school_class_id' => $schoolClass->id
     ];
 });

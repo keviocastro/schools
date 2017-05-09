@@ -81,14 +81,16 @@ class DescriptiveAssessments extends Migration
             $table->unsignedInteger('student_id');
             $table->unsignedInteger('progress_sheet_item_id');
             $table->unsignedInteger('school_calendar_phase_id');
+            $table->unsignedInteger('school_class_id');
 
             $table->string('created_by')->nullable();
             $table->string('updated_by')->nullable();
             $table->string('deleted_by')->nullable();
             $table->softDeletes();
 
-            // Identifier de progress_sheets.options
-            $table->string('option_identifier');
+            // Identificador da resposta para o aluno no item.
+            // É um dos identificadores armazenados em progress_sheets.options
+            $table->string('option_identifier')->nullable();
             $table->timestamps();
 
             $table->foreign('student_id')
@@ -100,6 +102,10 @@ class DescriptiveAssessments extends Migration
             $table->foreign('school_calendar_phase_id')
                 ->references('id')
                 ->on('school_calendar_phases');
+
+            $table->foreign('school_class_id')
+                ->references('id')
+                ->on('school_classes');
         });
 
         Schema::table('school_classes', function(Blueprint $table){
@@ -118,9 +124,9 @@ class DescriptiveAssessments extends Migration
      */
     public function down()
     {
-        Schema::drop('student_progress_sheet');
+        Schema::drop('student_progress_sheets');
         Schema::drop('progress_sheet_items');
-        Schema::drop('progress_sheet_groups');
+        Schema::drop('groups');
         Schema::drop('progress_sheets');
         Schema::table('school_classes', function(Blueprint $table) {
             $table->dropColumn('evaluation_type');
