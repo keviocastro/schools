@@ -4,8 +4,6 @@ namespace App;
 
 class ProgressSheetItem extends Model
 {
-    use \Conner\Tagging\Taggable;
-
     /**
      *
      * Atributos que não serão exibidos em arrya ou jsons
@@ -18,8 +16,7 @@ class ProgressSheetItem extends Model
         'updated_at',
         'created_by',
         'deleted_by',
-        'updated_by',
-        'tagged' //  appends tags anexa dois atributos tagged e tags. tagged não é necessário
+        'updated_by'
     ];
 
     /**
@@ -29,10 +26,21 @@ class ProgressSheetItem extends Model
      */
     protected $fillable = [
         'name',
-        'progress_sheet_id'
+        'progress_sheet_id',
+        'group_id'
     ];
 
-    protected $appends = ['tags'];
+    /**
+     * Grupo associado ao item de avaliação
+     *
+     * @Relation
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function group()
+    {
+        return $this->belongsTo('App\Group');
+    }
 
     /**
      * Avaliação descritiva a qual o item está relacionado

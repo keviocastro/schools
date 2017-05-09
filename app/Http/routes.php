@@ -3,6 +3,11 @@ $api = app('Dingo\Api\Routing\Router');
 Route::get('/', function () {
 	return view('welcome');
 });
+
+Route::get('/apidocs', function () {
+	return File::get(base_path() . '/docs/api.html');
+});
+
 $api->version('v1', function ($api) {
 	
 	$api->group(['middleware' => 'config'], function($api){

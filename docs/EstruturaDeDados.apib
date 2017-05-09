@@ -20,21 +20,35 @@
 + name: Habilidade cognitiva (string) - Nome da tag
 + count: 10 (number) - Quantidade total de utilização da tag.
 
+## GroupFillable (object)
+
++ name: Habilidade cognitiva (string) - Nome do grupo
++ order: 3 (number) - Número de ordenação do grupo
+
+## Group (object)
+
++ id: 1 (number) - ID do grupo
++ include GroupFillable
+
 ## ProgressSheetItemFillable
 
 + nome: `Conhece o alfabeto como símbolo da escrita` (string) - Nome do item da ficha avaliativa
-+ Progress_sheet_id: 1 (number, optional) - ID da ficha avaliativa
-+ tags (array[Tag]) - Tags associadas ao item.
++ progress_sheet_id: 1 (number, optional) - ID da ficha avaliativa
++ group_id: 1 (number, optional) - ID do grupo associado ao item.
 
 ## ProgressSheetItem
 
+<<<<<<< HEAD
 + progress_sheet_item_id: 1 (number) - Id do item da ficha avaliativa
+=======
++ id: 1 (number) - Id Do item da ficha avaliativa
+>>>>>>> 33f9157dfbb0eceb68419edf5270142a2eac07c0
 + Include (ProgressSheetItemFillable)
 
 ## ProgressSheetFillable
 
-+ nome: `goiania ficha 1` (string) - Nome da ficha avaliativa
-+ options (array)
++ nome: `Ficha de Acompanhamento da Aprendizagem` (string) - Nome da ficha avaliativa
++ options (array) - Opções de resposta de avaliação dos itens da ficha
     + (object)
         + identifier: `I` (string)
         + label: `Irregular` (string)

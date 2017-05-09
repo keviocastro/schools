@@ -431,11 +431,32 @@ $factory->define(App\ProgressSheet::class, function ($faker) use ($factory) {
     ];
 });
 
+$factory->define(App\Group::class, function ($faker) use ($factory) {
+    return [
+        'name' => $faker->randomElement([
+                'ANÁLISE LINGUÍSTICA: APROPRIAÇÃO DO SISTEMA  DE ESCRITA ALFABÉTICA',
+                'LEITURA',
+                'PRODUÇÃO DE TEXTOS ESCRITOS',
+                'ORALIDADE',
+                'ANÁLISE LINGUÍSTICA: DISCURSIVIDADE, TEXTUALIDADE E NORMATIVIDADE.',
+                'NÚMEROS E OPERAÇÕES',
+                'GEOMETRIA',
+                'GRANDEZAS E MEDIDAS',
+                'TRATAMENTO DE INFORMAÇÕES',
+                'PNAIC',
+            ]),
+        'order' => rand(1,10)
+    ];
+});
+
 $factory->define(App\ProgressSheetItem::class, function ($faker) use ($factory) {
 
     return [
         'progress_sheet_id' => function(){
             return factory(App\ProgressSheet::class)->create()->id;
+        },
+        'group_id' => function(){
+            return factory(App\Group::class)->create()->id;
         },
         'name' => $faker->randomElement([
             'Escreve o próprio nome.',

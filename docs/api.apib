@@ -1,0 +1,2012 @@
+FORMAT: 1A
+
+HOST: http://schools.logoseducacao.com.br/api
+
+# Schools API
+
+Schools é uma api para manter informações sobre escolas e seus registros administrativos.
+
+
+# Autentificação
+
+A autentificação de usuário para acesso aos recursos da api, deve ser feita atribuindo
+sempre o seguinte cabeçario na requisição:
+
+`authorization: Bearer token_id`
+
+Onde "token id" é obtido durante a autenficação do usuário no microservice de atentificação
+auth0 através do dominio "logos.auth0.com".
+Veja ver mais detalhes de como realizar essa autentificação nesse link: https://auth0.com/docs
+
+
+
+# Parametros de filtros, ordenação e pesquisa
+
+Cada parâmetro de consulta, exceto as funções pré-definidas _with, _sort e _q, é interpretado como um filtro.
+
+Exemplo: Listar todas as escola que começam com nome: Vieira.
+
+<pre><code>/api/schools?name-lk=Vieira*</code></pre>
+
+No exemplo acima o parametro name recebe o nome vieira que e o nome da escola, é com prefixo -lk sendo este igual a like do sql.
+
+Todos os filtros podem ser combinados com um operador AND.
+
+<pre><code>/api/schools?name-lk=Vieira*&created_at-min=2016-12-01 12:55:02</code></pre>
+
+O exemplo acima resultaria na seguinte SQL:
+
+<pre><code>Where `schools` LIKE "Vieira%" AND `created_at` >= "2016-12-01 12:55:02"</code></pre>
+
+É também possível usar vários valores para um filtro.
+Vários valores estão separados por um tubo |.
+Vários valores são combinados com OR a não ser quando há um -not como sufixo, então eles são combinados com AND.
+Por exemplo, todos os livros com o ID de 5 ou 6:
+
+<pre><code>/api/schools?id=5|6</code></pre>
+
+Ou todos os livros, exceto aqueles com ID 5 ou 6:
+
+<pre><code>/api/schools?id-not=5|6</code></pre>
+
+O mesmo pode ser conseguido usando o -in como sufixo:
+
+<pre><code>/api/schools?id-in=5,6</code></pre>
+
+Respectivamente, o not-insufixo:
+
+<pre><code>/api/schools?id-not-in=5,6</code></pre>
+
+| Suffix        | Operator  | Meaning                               |
+|:--------------|-----------|---------------------------------------|
+| `-lk`         | LIKE      | O mesmo que o operador LIKE do SQL    |
+| `-not-lk`     | NOT LIKE  | O mesmo que o operador NOT LIKE do SQL|
+| `-in`         | IN        | O mesmo que o operador IN do SQL      |
+| `-not-in`     | NOT IN    | O mesmo que o operador NOT IN do SQL  |
+| `-min`        | >=        | Maior ou igual a                      |
+| `-max`        | <=        | Menor ou igual a                      |
+| `-st`         | <         | Menor que                             |
+| `-gt`         | >         | Maior que                             |
+| `-not`        | !=        | Diferente                             |
+
+
+
+
+# Group Calendários escolares
+
+`Calendário escolar` (definido nesta API como SchoolCalendar) é considerado como a definição do ano letivo,
+contendo fases fases avaliativas do ano (Ex.: bimestres), feriados, férias,
+inicio e fim do ano.
+
+## Coleção de calendarios escolares [/school-calendars]
+
+### Listar calendarios escolares [GET]
+
+Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="output.html#header-parametros-de-filtros-em-listagem">sessão</a> como definir os parametros da requisição.
+
++ Parameters
+    + _q (string, optional) - Pesquisa por palavra-chave, a correspondência e incluida conjunto de resultados.
+    + _sort (string, optional) - Ordena a coluna desejada, de forma acendente ou descendente.
+    + _with (string, optional) - Obtem informações do recurso relacionado.
+        + Members
+            + schoolClasses - Turmas do ano letivo.
+            + phases - Fases avaliativas do ano letivo. Recurso (SchoolCalendarPhase)
+
++ Request  (application/json)
+
+    + Headers
+
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQyNjg3MzYsImlhdCI6MTQ5NDI2MTUzNiwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.UKSXHE7LQ0blPp6an9UewlSMCl-Q1aFYNPnkwQjWWqd3sfXToue0u8_6Y4iwh-CqfNP704t-e8OpVUwwo568ShBWrBiEgLbzgFnig56KtQkoO1daz9U_6B-89CVAyIdvG0wmOgXf17s2fskusDt7Lr7rxTzXAbscSpGOXh6_IUsiVe7JFACf2TNiJ8KaBcfTxO2vgqcH3wJ8T5-Iuyj4YYz6EDVZe6Yd70Y89R0X_ERmrsTAK8t_sA9pHMs3j8VCSySxUoyfWeTLCCqzJXFNebZWIb02ntWwuk6AHl3Q2yNPms_HqQMVYB7owbWa45Eg6QMqQnBslW3KskJjz6es2g
+
++ Response 200 (application/json)
+
+    + Attributes
+        + Include Paginator
+        + data (array)
+            + (SchoolCalendar)
+
+### Criar calendário escolar [POST]
+
++ Request  (application/json)
+    + Headers
+
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQyNjg3MzYsImlhdCI6MTQ5NDI2MTUzNiwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.UKSXHE7LQ0blPp6an9UewlSMCl-Q1aFYNPnkwQjWWqd3sfXToue0u8_6Y4iwh-CqfNP704t-e8OpVUwwo568ShBWrBiEgLbzgFnig56KtQkoO1daz9U_6B-89CVAyIdvG0wmOgXf17s2fskusDt7Lr7rxTzXAbscSpGOXh6_IUsiVe7JFACf2TNiJ8KaBcfTxO2vgqcH3wJ8T5-Iuyj4YYz6EDVZe6Yd70Y89R0X_ERmrsTAK8t_sA9pHMs3j8VCSySxUoyfWeTLCCqzJXFNebZWIb02ntWwuk6AHl3Q2yNPms_HqQMVYB7owbWa45Eg6QMqQnBslW3KskJjz6es2g
+
+    + Attributes (SchoolCalendarFillable)
+
++ Response 201 (application/json)
+
+    + Attributes
+        + school_calendar (SchoolCalendar)
+
+## Calendário escolar [/school-calendars/{school_calendar_id}]
+
+### Detalhes do calendário escolar [GET]
+
++ Parameters
+    + school_calendar_id: 1 (number) - ID of the school class
+    + _with (string, optional) - Obtem informações do recurso relacionado.
+        + Members
+            + schoolClasses - Turmas do ano letivo.
+            + phases - Fases avaliativas do ano letivo. Recurso (SchoolCalendarPhase)
+
++ Request  (application/json)
+    + Headers
+
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQyNjg3MzYsImlhdCI6MTQ5NDI2MTUzNiwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.UKSXHE7LQ0blPp6an9UewlSMCl-Q1aFYNPnkwQjWWqd3sfXToue0u8_6Y4iwh-CqfNP704t-e8OpVUwwo568ShBWrBiEgLbzgFnig56KtQkoO1daz9U_6B-89CVAyIdvG0wmOgXf17s2fskusDt7Lr7rxTzXAbscSpGOXh6_IUsiVe7JFACf2TNiJ8KaBcfTxO2vgqcH3wJ8T5-Iuyj4YYz6EDVZe6Yd70Y89R0X_ERmrsTAK8t_sA9pHMs3j8VCSySxUoyfWeTLCCqzJXFNebZWIb02ntWwuk6AHl3Q2yNPms_HqQMVYB7owbWa45Eg6QMqQnBslW3KskJjz6es2g
+
++ Response 200 (application/json)
+
+    + Attributes
+        + school_calendar (SchoolCalendar)
+
+### Alterar calendário [PUT]
+
++ Parameters
+    + school_calendar_id: 1 (number) - ID of the school class
+
++ Request  (application/json)
+    + Headers
+
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQyNjg3MzYsImlhdCI6MTQ5NDI2MTUzNiwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.UKSXHE7LQ0blPp6an9UewlSMCl-Q1aFYNPnkwQjWWqd3sfXToue0u8_6Y4iwh-CqfNP704t-e8OpVUwwo568ShBWrBiEgLbzgFnig56KtQkoO1daz9U_6B-89CVAyIdvG0wmOgXf17s2fskusDt7Lr7rxTzXAbscSpGOXh6_IUsiVe7JFACf2TNiJ8KaBcfTxO2vgqcH3wJ8T5-Iuyj4YYz6EDVZe6Yd70Y89R0X_ERmrsTAK8t_sA9pHMs3j8VCSySxUoyfWeTLCCqzJXFNebZWIb02ntWwuk6AHl3Q2yNPms_HqQMVYB7owbWa45Eg6QMqQnBslW3KskJjz6es2g
+
+    + Attributes (SchoolCalendarFillable)
+
++ Response 200 (application/json)
+
+    + Attributes
+        + school_calendar (SchoolCalendar)
+
+### Excluir calendário [DELETE]
+
++ Parameters
+    + school_calendar_id: 1 (number) - ID of the School
+
++ Request  (application/json)
+
+    + Headers
+
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQyNjg3MzYsImlhdCI6MTQ5NDI2MTUzNiwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.UKSXHE7LQ0blPp6an9UewlSMCl-Q1aFYNPnkwQjWWqd3sfXToue0u8_6Y4iwh-CqfNP704t-e8OpVUwwo568ShBWrBiEgLbzgFnig56KtQkoO1daz9U_6B-89CVAyIdvG0wmOgXf17s2fskusDt7Lr7rxTzXAbscSpGOXh6_IUsiVe7JFACf2TNiJ8KaBcfTxO2vgqcH3wJ8T5-Iuyj4YYz6EDVZe6Yd70Y89R0X_ERmrsTAK8t_sA9pHMs3j8VCSySxUoyfWeTLCCqzJXFNebZWIb02ntWwuk6AHl3Q2yNPms_HqQMVYB7owbWa45Eg6QMqQnBslW3KskJjz6es2g
+
++ Response 204
+
+
+
+# Group Escolas e turmas
+
+'Escolas' (definido como School nesta API) são quaisquer entidades educacional associadas a uma conta.
+        Exemplo: escola, CMDEIS (Centros Municipais de Educação Infantil), universidades.
+'Turmas' (definido como SchoolClass) são as turmas de uma escola que existem em um determinado ano calendário escolar (definido como SchoolCalendar).
+
+## Coleção de escolas [/schools]
+
+### Listar escolas [GET]
+Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="output.html#header-parametros-de-filtros-em-listagem">sessão</a> como definir os parametros da requisição.
+
++ Parameters
+    + _q (string, optional) - Pesquisa por palavra-chave, a correspondência e incluida conjunto de resultados.
+        + Members
+            +name
+    + _sort (string, optional) - Ordena a coluna desejada, de forma acendente ou descendente.
+    + _with (string, optional) - Obtem informações do recurso relacionado.
+        + Members
+            + schoolClasses
+
++ Request  (application/json)
+    + Headers
+
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQyNjg3MzYsImlhdCI6MTQ5NDI2MTUzNiwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.UKSXHE7LQ0blPp6an9UewlSMCl-Q1aFYNPnkwQjWWqd3sfXToue0u8_6Y4iwh-CqfNP704t-e8OpVUwwo568ShBWrBiEgLbzgFnig56KtQkoO1daz9U_6B-89CVAyIdvG0wmOgXf17s2fskusDt7Lr7rxTzXAbscSpGOXh6_IUsiVe7JFACf2TNiJ8KaBcfTxO2vgqcH3wJ8T5-Iuyj4YYz6EDVZe6Yd70Y89R0X_ERmrsTAK8t_sA9pHMs3j8VCSySxUoyfWeTLCCqzJXFNebZWIb02ntWwuk6AHl3Q2yNPms_HqQMVYB7owbWa45Eg6QMqQnBslW3KskJjz6es2g
+
++ Response 200 (application/json)
+
+    + Attributes
+        + Include (Paginator)
+        + data (array)
+            + (School)
+
+### Criar escola [POST]
+
++ Request  (application/json)
+    + Headers
+
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQyNjg3MzYsImlhdCI6MTQ5NDI2MTUzNiwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.UKSXHE7LQ0blPp6an9UewlSMCl-Q1aFYNPnkwQjWWqd3sfXToue0u8_6Y4iwh-CqfNP704t-e8OpVUwwo568ShBWrBiEgLbzgFnig56KtQkoO1daz9U_6B-89CVAyIdvG0wmOgXf17s2fskusDt7Lr7rxTzXAbscSpGOXh6_IUsiVe7JFACf2TNiJ8KaBcfTxO2vgqcH3wJ8T5-Iuyj4YYz6EDVZe6Yd70Y89R0X_ERmrsTAK8t_sA9pHMs3j8VCSySxUoyfWeTLCCqzJXFNebZWIb02ntWwuk6AHl3Q2yNPms_HqQMVYB7owbWa45Eg6QMqQnBslW3KskJjz6es2g
+
+    + Attributes (SchoolFillable)
+
++ Response 201 (application/json)
+
+    + Attributes
+        + School (School)
+
+## Escola [/schools/{school_id}]
+
+### Detalhes da escola [GET]
+
++ Parameters
+    + school_id: 1 (number) - Identificador único da escola
+    + _with (string, optional) - Obtem informações do recurso relacionado.
+        + Members
+            + schoolClasses
+
++ Request  (application/json)
+    + Headers
+
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQyNjg3MzYsImlhdCI6MTQ5NDI2MTUzNiwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.UKSXHE7LQ0blPp6an9UewlSMCl-Q1aFYNPnkwQjWWqd3sfXToue0u8_6Y4iwh-CqfNP704t-e8OpVUwwo568ShBWrBiEgLbzgFnig56KtQkoO1daz9U_6B-89CVAyIdvG0wmOgXf17s2fskusDt7Lr7rxTzXAbscSpGOXh6_IUsiVe7JFACf2TNiJ8KaBcfTxO2vgqcH3wJ8T5-Iuyj4YYz6EDVZe6Yd70Y89R0X_ERmrsTAK8t_sA9pHMs3j8VCSySxUoyfWeTLCCqzJXFNebZWIb02ntWwuk6AHl3Q2yNPms_HqQMVYB7owbWa45Eg6QMqQnBslW3KskJjz6es2g
+
++ Response 200 (application/json)
+
+    + Attributes
+        + school (School)
+
+
+### Alterar escola [PUT]
+
++ Parameters
+    + school_id: 1 (number) - Identificador único da escola
+
++ Request  (application/json)
+
+    + Headers
+
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQyNjg3MzYsImlhdCI6MTQ5NDI2MTUzNiwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.UKSXHE7LQ0blPp6an9UewlSMCl-Q1aFYNPnkwQjWWqd3sfXToue0u8_6Y4iwh-CqfNP704t-e8OpVUwwo568ShBWrBiEgLbzgFnig56KtQkoO1daz9U_6B-89CVAyIdvG0wmOgXf17s2fskusDt7Lr7rxTzXAbscSpGOXh6_IUsiVe7JFACf2TNiJ8KaBcfTxO2vgqcH3wJ8T5-Iuyj4YYz6EDVZe6Yd70Y89R0X_ERmrsTAK8t_sA9pHMs3j8VCSySxUoyfWeTLCCqzJXFNebZWIb02ntWwuk6AHl3Q2yNPms_HqQMVYB7owbWa45Eg6QMqQnBslW3KskJjz6es2g
+
+    + Attributes (SchoolFillable)
+
++ Response 200 (application/json)
+
+    + Attributes
+        + School (School)
+
+### Excluir escola [DELETE]
+
++ Parameters
+    + school_id: 1 (number) - Identificador único da escola
+
++ Request  (application/json)
+
+    + Headers
+
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQyNjg3MzYsImlhdCI6MTQ5NDI2MTUzNiwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.UKSXHE7LQ0blPp6an9UewlSMCl-Q1aFYNPnkwQjWWqd3sfXToue0u8_6Y4iwh-CqfNP704t-e8OpVUwwo568ShBWrBiEgLbzgFnig56KtQkoO1daz9U_6B-89CVAyIdvG0wmOgXf17s2fskusDt7Lr7rxTzXAbscSpGOXh6_IUsiVe7JFACf2TNiJ8KaBcfTxO2vgqcH3wJ8T5-Iuyj4YYz6EDVZe6Yd70Y89R0X_ERmrsTAK8t_sA9pHMs3j8VCSySxUoyfWeTLCCqzJXFNebZWIb02ntWwuk6AHl3Q2yNPms_HqQMVYB7owbWa45Eg6QMqQnBslW3KskJjz6es2g
+
++ Response 204
+
+## Coleção de turmas [/school-classes]
+
+### Listar turmas [GET]
+
+Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="output.html#header-parametros-de-filtros-em-listagem">sessão</a> como definir os parametros da requisição.
+
++ Parameters
+    + _q (string, optional) - Pesquisa por palavra-chave, a correspondência e incluida conjunto de resultados.
+        + Members
+            +identifier
+    + _sort (string, optional) - Ordena a coluna desejada, de forma acendente ou descendente.
+    + _with (string, optional) - Obtem informações do recurso relacionado.
+        + Members
+            + shift - Turno.
+            + students - Aluno.
+            + schoolCalendar - Ano letivo.
+            + subjects - Avaliação.
+            + progressSheet - Ficha descritiva que é utilizada para avaliar os alunos da turma. 
+
++ Request  (application/json)
+
+    + Headers
+
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQyNjg3MzYsImlhdCI6MTQ5NDI2MTUzNiwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.UKSXHE7LQ0blPp6an9UewlSMCl-Q1aFYNPnkwQjWWqd3sfXToue0u8_6Y4iwh-CqfNP704t-e8OpVUwwo568ShBWrBiEgLbzgFnig56KtQkoO1daz9U_6B-89CVAyIdvG0wmOgXf17s2fskusDt7Lr7rxTzXAbscSpGOXh6_IUsiVe7JFACf2TNiJ8KaBcfTxO2vgqcH3wJ8T5-Iuyj4YYz6EDVZe6Yd70Y89R0X_ERmrsTAK8t_sA9pHMs3j8VCSySxUoyfWeTLCCqzJXFNebZWIb02ntWwuk6AHl3Q2yNPms_HqQMVYB7owbWa45Eg6QMqQnBslW3KskJjz6es2g
+
++ Response 200 (application/json)
+
+    + Attributes
+        + Include Paginator
+        + data (array)
+            + (SchoolClass)
+
+### Criar turma [POST]
+
++ Request  (application/json)
+    + Headers
+
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQyNjg3MzYsImlhdCI6MTQ5NDI2MTUzNiwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.UKSXHE7LQ0blPp6an9UewlSMCl-Q1aFYNPnkwQjWWqd3sfXToue0u8_6Y4iwh-CqfNP704t-e8OpVUwwo568ShBWrBiEgLbzgFnig56KtQkoO1daz9U_6B-89CVAyIdvG0wmOgXf17s2fskusDt7Lr7rxTzXAbscSpGOXh6_IUsiVe7JFACf2TNiJ8KaBcfTxO2vgqcH3wJ8T5-Iuyj4YYz6EDVZe6Yd70Y89R0X_ERmrsTAK8t_sA9pHMs3j8VCSySxUoyfWeTLCCqzJXFNebZWIb02ntWwuk6AHl3Q2yNPms_HqQMVYB7owbWa45Eg6QMqQnBslW3KskJjz6es2g
+
+    + Attributes (SchoolClassFillable)
+
++ Response 201 (application/json)
+
+    + Attributes
+        + school_class (SchoolClass)
+
+## Turma [/school-classes/{school_class_id}]
+
++ Parameters
+    - school_class_id: 1 (number) - ID of the school class
+
+### Detalhes da turma [GET]
+
++ Parameters
+    + _with (string, optional) - Obtem informações do recurso relacionado.
+        + Members
+            + shift - Turno.
+            + students - Alunos.
+            + schoolCalendar - Calendário letivo/ano letivo em qual a turma foi criada.
+            + subjects - Disciplinas ministradas na turma.
+            + progressSheet - Filha de avaliação descritiva da turma.
+            + progressSheet.items - Filha de avaliação descritiva com items.
+
++ Request  (application/json)
+    + Headers
+
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQyNjg3MzYsImlhdCI6MTQ5NDI2MTUzNiwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.UKSXHE7LQ0blPp6an9UewlSMCl-Q1aFYNPnkwQjWWqd3sfXToue0u8_6Y4iwh-CqfNP704t-e8OpVUwwo568ShBWrBiEgLbzgFnig56KtQkoO1daz9U_6B-89CVAyIdvG0wmOgXf17s2fskusDt7Lr7rxTzXAbscSpGOXh6_IUsiVe7JFACf2TNiJ8KaBcfTxO2vgqcH3wJ8T5-Iuyj4YYz6EDVZe6Yd70Y89R0X_ERmrsTAK8t_sA9pHMs3j8VCSySxUoyfWeTLCCqzJXFNebZWIb02ntWwuk6AHl3Q2yNPms_HqQMVYB7owbWa45Eg6QMqQnBslW3KskJjz6es2g
+
++ Response 200 (application/json)
+
+    + Attributes
+        + school_class (SchoolClass)
+
+### Alterar turma [PUT]
+
++ Parameters
+    + school_class_id: 1 (number) - ID of the School
+
++ Request  (application/json)
+    + Headers
+
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQyNjg3MzYsImlhdCI6MTQ5NDI2MTUzNiwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.UKSXHE7LQ0blPp6an9UewlSMCl-Q1aFYNPnkwQjWWqd3sfXToue0u8_6Y4iwh-CqfNP704t-e8OpVUwwo568ShBWrBiEgLbzgFnig56KtQkoO1daz9U_6B-89CVAyIdvG0wmOgXf17s2fskusDt7Lr7rxTzXAbscSpGOXh6_IUsiVe7JFACf2TNiJ8KaBcfTxO2vgqcH3wJ8T5-Iuyj4YYz6EDVZe6Yd70Y89R0X_ERmrsTAK8t_sA9pHMs3j8VCSySxUoyfWeTLCCqzJXFNebZWIb02ntWwuk6AHl3Q2yNPms_HqQMVYB7owbWa45Eg6QMqQnBslW3KskJjz6es2g
+
+    + Attributes (SchoolClassFillable)
+
++ Response 200 (application/json)
+
+    + Attributes
+        + school_class (SchoolClass)
+
+### Excluir turma [DELETE]
+
++ Parameters
+    + school_class_id: 1 (number) - ID of the School
+
++ Request  (application/json)
+
+    + Headers
+
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQyNjg3MzYsImlhdCI6MTQ5NDI2MTUzNiwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.UKSXHE7LQ0blPp6an9UewlSMCl-Q1aFYNPnkwQjWWqd3sfXToue0u8_6Y4iwh-CqfNP704t-e8OpVUwwo568ShBWrBiEgLbzgFnig56KtQkoO1daz9U_6B-89CVAyIdvG0wmOgXf17s2fskusDt7Lr7rxTzXAbscSpGOXh6_IUsiVe7JFACf2TNiJ8KaBcfTxO2vgqcH3wJ8T5-Iuyj4YYz6EDVZe6Yd70Y89R0X_ERmrsTAK8t_sA9pHMs3j8VCSySxUoyfWeTLCCqzJXFNebZWIb02ntWwuk6AHl3Q2yNPms_HqQMVYB7owbWa45Eg6QMqQnBslW3KskJjz6es2g
+
++ Response 204
+
+## Relatório anual da turma por disciplina [/school-classes/{school_class_id}/annual-report-by/{subject_id}{?_sort_students}]
+
+### Relatório anual por disciplina [GET]
+
++ Parameters 
+    + _sort_students (string, optional) - Para ordenar os resultados de report_by_user
+        + Members
+            + name  - Para listar estudantes ordenado por nome em ordem crescente
+            + `-name` - Para listar em ordem decrescente
+
++ Request  (application/json)
+    + Headers
+
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQyNjg3MzYsImlhdCI6MTQ5NDI2MTUzNiwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.UKSXHE7LQ0blPp6an9UewlSMCl-Q1aFYNPnkwQjWWqd3sfXToue0u8_6Y4iwh-CqfNP704t-e8OpVUwwo568ShBWrBiEgLbzgFnig56KtQkoO1daz9U_6B-89CVAyIdvG0wmOgXf17s2fskusDt7Lr7rxTzXAbscSpGOXh6_IUsiVe7JFACf2TNiJ8KaBcfTxO2vgqcH3wJ8T5-Iuyj4YYz6EDVZe6Yd70Y89R0X_ERmrsTAK8t_sA9pHMs3j8VCSySxUoyfWeTLCCqzJXFNebZWIb02ntWwuk6AHl3Q2yNPms_HqQMVYB7owbWa45Eg6QMqQnBslW3KskJjz6es2g
+
++ Response 200 (application/json)
+
+    + Attributes
+
+        + report_by_student (array)
+            + (object)
+                + student (object)
+                    + id: 1 (number) - ID do estudante
+                    + person (Person) - Informações básicas do estudante
+                + school_calendar_report (object) - Relatório do aluno durante o calendário escolar para disciplina (subject_id)
+                    + average: 9.2 (number) - Média do aluno no ano
+                    + average_calculation: `((4.6 + 1.2)*0.4 + (9 + 3.1)*0.6)/2` (string) - Formula da média do aluno no ano
+                    + average_formula: `(({1º Bimestre}+...+ {4º Bimestre})*0.6)/2"` (string) - Calculo da média do aluno no ano
+                    + absences: 22 (number) - Total de faltas do aluno na disciplina em todo o calendário escolar
+                + phases_report (object)  - Relatório do aluno durante as fases do calendário escolar
+                    + school_calendar_phase_id: 1 (number) - ID da fase do calendário escolar
+                    + average: 7.9 (number) - Média do aluno na fase para a disciplina
+                    + average_calculation: `({8.3} + {7.4})/2` (string) - Calculo da média
+                    + average_formula: `({Nota 1} + {Nota 2})/2` (string) - Formula utilizada no calculo
+                    + absences: 4 (number) - Total de faltas na fase
+                    + student_grades (array) - Notas do aluno que compõem a média da fase
+                        + (object)
+                            + id: 1 (number) - ID do registro de nota do aluno na avaliação
+                            + grade: 8.3 (number) - Nota do aluno na avaliação (assessment_id)
+                            + assessment_id: 1 (number) - ID da avaliação da fase
+                        + (object)
+                            + id: 2 (number)
+                            + grade: 7.4 (number)
+                            + assessment_id: 2 (number)
+        + school_class_report (array)
+            + (object)
+                + school_calendar_report (object) - Relatório da turma no calendário escolar para uma disciplina.
+                    + average: 8.2 (number) - Media aritimetica das notas dos alunos da turma no calendário escolar de uma disciplina.
+                + phases_report (array)  - Relatório da tuma em uma fase do calendário escolar para uma disciplina.
+                    + (object)
+                        + school_calendar_phase_id: 1 (number) - ID da fase do calendário escolar para uma disciplina.
+                        + average: 7.7 (number) - Media aritimetica das notas de todos os alunos da turma em uma disciplina para a fase do calendário escolar.
+
+
+# Group Aulas
+
+## Coleção de aulas [/lessons]
+
+`Lessons` são as aulas programadas para as turmas de uma escola.
+
+### Listar aulas [GET]
+
+Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="output.html#header-parametros-de-filtros-em-listagem">sessão</a> como definir os parametros da requisição.
+
+
++ Parameters
+    + _q (string, optional) - Pesquisa por palavra-chave, a correspondência e incluida conjunto de resultados.
+    + _sort (string, optional) - Ordena a coluna desejada, de forma acendente ou descendente.
+    + _with (string, optional) - Obtem informações do recurso relacionado.
+        + Members
+            + schoolClass
+            + schoolClass.grade
+            + schoolClass.shift
+            + subject
+            + lessonPlan
+
++ Request  (application/json)
+    + Headers
+
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQyNjg3MzYsImlhdCI6MTQ5NDI2MTUzNiwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.UKSXHE7LQ0blPp6an9UewlSMCl-Q1aFYNPnkwQjWWqd3sfXToue0u8_6Y4iwh-CqfNP704t-e8OpVUwwo568ShBWrBiEgLbzgFnig56KtQkoO1daz9U_6B-89CVAyIdvG0wmOgXf17s2fskusDt7Lr7rxTzXAbscSpGOXh6_IUsiVe7JFACf2TNiJ8KaBcfTxO2vgqcH3wJ8T5-Iuyj4YYz6EDVZe6Yd70Y89R0X_ERmrsTAK8t_sA9pHMs3j8VCSySxUoyfWeTLCCqzJXFNebZWIb02ntWwuk6AHl3Q2yNPms_HqQMVYB7owbWa45Eg6QMqQnBslW3KskJjz6es2g
+
++ Response 200 (application/json)
+
+    + Attributes
+        + Include Paginator
+        + data (array)
+            + (Lesson)
+
+### Criar aula [POST]
+
++ Request  (application/json)
+    + Headers
+
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQyNjg3MzYsImlhdCI6MTQ5NDI2MTUzNiwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.UKSXHE7LQ0blPp6an9UewlSMCl-Q1aFYNPnkwQjWWqd3sfXToue0u8_6Y4iwh-CqfNP704t-e8OpVUwwo568ShBWrBiEgLbzgFnig56KtQkoO1daz9U_6B-89CVAyIdvG0wmOgXf17s2fskusDt7Lr7rxTzXAbscSpGOXh6_IUsiVe7JFACf2TNiJ8KaBcfTxO2vgqcH3wJ8T5-Iuyj4YYz6EDVZe6Yd70Y89R0X_ERmrsTAK8t_sA9pHMs3j8VCSySxUoyfWeTLCCqzJXFNebZWIb02ntWwuk6AHl3Q2yNPms_HqQMVYB7owbWa45Eg6QMqQnBslW3KskJjz6es2g
+
+    + Attributes (LessonFillable)
+
++ Response 201 (application/json)
+
+    + Attributes
+        + lesson (Lesson)
+
+
+## Aula [/lessons/{lesson_id}]
+
+### Detalhes da aula [GET]
+
++ Parameters
+    + lesson_id: 1 (number) - ID of the lesson
+    + _with (string, optional) Nome da relação a ser incluida na resposta.
+        + Members
+            + attendanceRecords
+            + schoolClass
+            + schoolClass.grade
+            + schoolClass.students
+            + schoolClass.shift
+            + schoolClass.students.responsibles
+            + schoolClass.students.attendanceRecords
+            + schoolClass.students.person
+            + lessonPlan
+            + teacher
+            + teacher.person
+
+    + attach (string, optional)
+
+        Anexa mais informações da aula na responsta.
+        students.last_occurences são as ultimas 2 ocorrencias do aluno.
+        students.attendanceRecord é o registro de chamada da aula para o aluno.
+        students.absenceSummary é um resumo de faltas do aluno, durante o ano.
+
+        + Members
+            + students
+            + students.attendanceRecord
+            + students.last_occurences
+            + students.absenceSummary
+
++ Request  (application/json)
+    + Headers
+
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQyNjg3MzYsImlhdCI6MTQ5NDI2MTUzNiwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.UKSXHE7LQ0blPp6an9UewlSMCl-Q1aFYNPnkwQjWWqd3sfXToue0u8_6Y4iwh-CqfNP704t-e8OpVUwwo568ShBWrBiEgLbzgFnig56KtQkoO1daz9U_6B-89CVAyIdvG0wmOgXf17s2fskusDt7Lr7rxTzXAbscSpGOXh6_IUsiVe7JFACf2TNiJ8KaBcfTxO2vgqcH3wJ8T5-Iuyj4YYz6EDVZe6Yd70Y89R0X_ERmrsTAK8t_sA9pHMs3j8VCSySxUoyfWeTLCCqzJXFNebZWIb02ntWwuk6AHl3Q2yNPms_HqQMVYB7owbWa45Eg6QMqQnBslW3KskJjz6es2g
+
++ Response 200 (application/json)
+
+    + Attributes
+        + lesson
+            + Include (Lesson)
+            + students (array)
+                + (object)
+                    + Include (Student)
+                    + attendance_record (AttendanceRecord)
+                    + last_occurences (array[Occurence])
+                    + absence_summary (object)
+                        + percentage_absences_reprove: 25 - Percentual máximo de faltas as aulas para não ser           reprovado
+                        + total_lessons_year: 200 - total de aulas programadas no ano da mesma disciplina
+                        + total_absences_year: 22 - total de faltas que o aluno tem no ano da mesma disciplina
+
+### Alterar aula [PUT]
+
++ Parameters
+    + lesson_id: 1 (number) - ID of the lesson
+
++ Request  (application/json)
+    + Headers
+
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQyNjg3MzYsImlhdCI6MTQ5NDI2MTUzNiwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.UKSXHE7LQ0blPp6an9UewlSMCl-Q1aFYNPnkwQjWWqd3sfXToue0u8_6Y4iwh-CqfNP704t-e8OpVUwwo568ShBWrBiEgLbzgFnig56KtQkoO1daz9U_6B-89CVAyIdvG0wmOgXf17s2fskusDt7Lr7rxTzXAbscSpGOXh6_IUsiVe7JFACf2TNiJ8KaBcfTxO2vgqcH3wJ8T5-Iuyj4YYz6EDVZe6Yd70Y89R0X_ERmrsTAK8t_sA9pHMs3j8VCSySxUoyfWeTLCCqzJXFNebZWIb02ntWwuk6AHl3Q2yNPms_HqQMVYB7owbWa45Eg6QMqQnBslW3KskJjz6es2g
+
+    + Attributes (LessonFillable)
+
++ Response 200 (application/json)
+
+    + Attributes
+        + lesson (Lesson)
+
+
+### Excluir aula [DELETE]
+
++ Parameters
+    + lesson_id: 1 (number) - ID of the lesson
+
++ Request  (application/json)
+    + Headers
+
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQyNjg3MzYsImlhdCI6MTQ5NDI2MTUzNiwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.UKSXHE7LQ0blPp6an9UewlSMCl-Q1aFYNPnkwQjWWqd3sfXToue0u8_6Y4iwh-CqfNP704t-e8OpVUwwo568ShBWrBiEgLbzgFnig56KtQkoO1daz9U_6B-89CVAyIdvG0wmOgXf17s2fskusDt7Lr7rxTzXAbscSpGOXh6_IUsiVe7JFACf2TNiJ8KaBcfTxO2vgqcH3wJ8T5-Iuyj4YYz6EDVZe6Yd70Y89R0X_ERmrsTAK8t_sA9pHMs3j8VCSySxUoyfWeTLCCqzJXFNebZWIb02ntWwuk6AHl3Q2yNPms_HqQMVYB7owbWa45Eg6QMqQnBslW3KskJjz6es2g
+
++ Response 204
+
+
+## Aulas por dia [/lessons/per-day]
+
+### Listar aulas por dia [GET]
+
+Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="output.html#header-parametros-de-filtros-em-listagem">sessão</a> como definir os parametros da requisição.
+
++ Parameters
+    + start (string, optional) Data inicial
+        + Default: NOW()
+    + end (string, optional) Data final
+        + Default: NOW() + 15 days
+    + user_id (string, optional) ID do usuário no serviço de autentificação (auth0)
+    + _with (string, optional) Nome da relação a ser incluida da resposta.
+        + Members
+            + schoolClass
+            + schoolClass.grade
+            + schoolClass.shift
+            + schoolClass.students
+            + schoolClass.students.studentResponsible
+            + schoolClass.students.attendanceRecords
+            + subject
+            + teacher
+            + teacher.person
+
++ Request  (application/json)
+    + Headers
+
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQyNjg3MzYsImlhdCI6MTQ5NDI2MTUzNiwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.UKSXHE7LQ0blPp6an9UewlSMCl-Q1aFYNPnkwQjWWqd3sfXToue0u8_6Y4iwh-CqfNP704t-e8OpVUwwo568ShBWrBiEgLbzgFnig56KtQkoO1daz9U_6B-89CVAyIdvG0wmOgXf17s2fskusDt7Lr7rxTzXAbscSpGOXh6_IUsiVe7JFACf2TNiJ8KaBcfTxO2vgqcH3wJ8T5-Iuyj4YYz6EDVZe6Yd70Y89R0X_ERmrsTAK8t_sA9pHMs3j8VCSySxUoyfWeTLCCqzJXFNebZWIb02ntWwuk6AHl3Q2yNPms_HqQMVYB7owbWa45Eg6QMqQnBslW3KskJjz6es2g
+
++ Response 200 (application/json)
+
+    + Attributes
+        + start: '2016-10-01' (string)
+        + end: '2016-10-15' (string)
+        + data (array)
+            + (object)
+                + day: `2016-10-01` (string)
+                + lessons (array)
+                    + include Lesson
+                    + user_id: auth0|58e39955afec3158a325b50a (string, optional) ID do usuário no serviço de autentificação
+
+
+## Coleção de planos de aula [/lesson-plans]
+
+`Lesson plan` são planejamentos dos professores para como e quando vão aplicar conteúdos na sala de aula. 
+
+### Listar planos de aula [GET]
+
++ Parameters
+    + _q (string, optional) - Pesquisa por palavra-chave, a correspondência e incluida conjunto de resultados.
+    + _sort (string, optional) - Ordena a coluna desejada, de forma acendente ou descendente.
+    + _with (string, optional) - Obtem informações do recurso relacionado.
+        + Members
+            + LessonPlanModel
+
++ Request  (application/json)
+    + Headers
+
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQyNjg3MzYsImlhdCI6MTQ5NDI2MTUzNiwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.UKSXHE7LQ0blPp6an9UewlSMCl-Q1aFYNPnkwQjWWqd3sfXToue0u8_6Y4iwh-CqfNP704t-e8OpVUwwo568ShBWrBiEgLbzgFnig56KtQkoO1daz9U_6B-89CVAyIdvG0wmOgXf17s2fskusDt7Lr7rxTzXAbscSpGOXh6_IUsiVe7JFACf2TNiJ8KaBcfTxO2vgqcH3wJ8T5-Iuyj4YYz6EDVZe6Yd70Y89R0X_ERmrsTAK8t_sA9pHMs3j8VCSySxUoyfWeTLCCqzJXFNebZWIb02ntWwuk6AHl3Q2yNPms_HqQMVYB7owbWa45Eg6QMqQnBslW3KskJjz6es2g
+
++ Response 200 (application/json)
+
+    + Attributes
+        + Include Paginator
+        + data (array)
+            + (LessonPlan)
+
+
+### Criar plano de aula [POST]
+
++ Request  (application/json)
+    + Headers
+
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQyNjg3MzYsImlhdCI6MTQ5NDI2MTUzNiwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.UKSXHE7LQ0blPp6an9UewlSMCl-Q1aFYNPnkwQjWWqd3sfXToue0u8_6Y4iwh-CqfNP704t-e8OpVUwwo568ShBWrBiEgLbzgFnig56KtQkoO1daz9U_6B-89CVAyIdvG0wmOgXf17s2fskusDt7Lr7rxTzXAbscSpGOXh6_IUsiVe7JFACf2TNiJ8KaBcfTxO2vgqcH3wJ8T5-Iuyj4YYz6EDVZe6Yd70Y89R0X_ERmrsTAK8t_sA9pHMs3j8VCSySxUoyfWeTLCCqzJXFNebZWIb02ntWwuk6AHl3Q2yNPms_HqQMVYB7owbWa45Eg6QMqQnBslW3KskJjz6es2g
+
+    + Attributes (object)
+        + Include LessonPlanFillable
+        + lesson_ids (array) - `Array com ID das aulas a quais o plano de 
+        aula é relacionado` 
+            - Sample
+                + 1 (number)
+
++ Response 201 (application/json)
+
+    + Attributes
+        + lesson_plan (object) - Dados do plano de aula criado
+            + Include LessonPlan
+            + lessons (array[Lesson]) - Aulas relacionadas ao plano de aula
+
+## Plano de aula [/lesson-plans/{lesson_plan_id}]
+
+### Detalhes do plano de aula [GET]
+
++ Parameters
+    + lesson_plan_id: 1 (number) - ID of the lesson plan
+    + _with (string, optional) Nome da relação a ser incluida na resposta.
+        + Members
+            + LessonPlanModel
+
++ Request  (application/json)
+    + Headers
+
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQyNjg3MzYsImlhdCI6MTQ5NDI2MTUzNiwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.UKSXHE7LQ0blPp6an9UewlSMCl-Q1aFYNPnkwQjWWqd3sfXToue0u8_6Y4iwh-CqfNP704t-e8OpVUwwo568ShBWrBiEgLbzgFnig56KtQkoO1daz9U_6B-89CVAyIdvG0wmOgXf17s2fskusDt7Lr7rxTzXAbscSpGOXh6_IUsiVe7JFACf2TNiJ8KaBcfTxO2vgqcH3wJ8T5-Iuyj4YYz6EDVZe6Yd70Y89R0X_ERmrsTAK8t_sA9pHMs3j8VCSySxUoyfWeTLCCqzJXFNebZWIb02ntWwuk6AHl3Q2yNPms_HqQMVYB7owbWa45Eg6QMqQnBslW3KskJjz6es2g
+
++ Response 200 (application/json)
+
+    + Attributes
+        + Include (LessonPlan)
+
+### Alterar plano de aula [PUT]
+
++ Parameters
+    + lesson_plan_id: 1 (number) - ID of the lesson plan
+
++ Request  (application/json)
+    + Headers
+
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQyNjg3MzYsImlhdCI6MTQ5NDI2MTUzNiwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.UKSXHE7LQ0blPp6an9UewlSMCl-Q1aFYNPnkwQjWWqd3sfXToue0u8_6Y4iwh-CqfNP704t-e8OpVUwwo568ShBWrBiEgLbzgFnig56KtQkoO1daz9U_6B-89CVAyIdvG0wmOgXf17s2fskusDt7Lr7rxTzXAbscSpGOXh6_IUsiVe7JFACf2TNiJ8KaBcfTxO2vgqcH3wJ8T5-Iuyj4YYz6EDVZe6Yd70Y89R0X_ERmrsTAK8t_sA9pHMs3j8VCSySxUoyfWeTLCCqzJXFNebZWIb02ntWwuk6AHl3Q2yNPms_HqQMVYB7owbWa45Eg6QMqQnBslW3KskJjz6es2g
+
+    + Attributes (object)
+        + Include LessonPlanFillable
+        + lesson_ids (array) - `Array com ID das aulas a quais o plano de 
+        aula será relacionado. 
+        Somente os ids enviados nesse parametro estarão relacionados ao plano.
+        Qualquer outra aula que não estiver nesse parametro será desassociada.` 
+            - Sample
+                + 1 (number)
+
++ Response 200 (application/json)
+
+    + Attributes
+        + lesson_plan (object) - Dados do plano de aula criado
+            + Include LessonPlan
+            + lessons (array[Lesson]) - Aulas relacionadas ao plano de aula
+
+
+### Excluir plano de aula [DELETE]
+
++ Parameters
+    + lesson_plan_id: 1 (number) - ID of the lesson plan
+
++ Request  (application/json)
+    + Headers
+
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQyNjg3MzYsImlhdCI6MTQ5NDI2MTUzNiwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.UKSXHE7LQ0blPp6an9UewlSMCl-Q1aFYNPnkwQjWWqd3sfXToue0u8_6Y4iwh-CqfNP704t-e8OpVUwwo568ShBWrBiEgLbzgFnig56KtQkoO1daz9U_6B-89CVAyIdvG0wmOgXf17s2fskusDt7Lr7rxTzXAbscSpGOXh6_IUsiVe7JFACf2TNiJ8KaBcfTxO2vgqcH3wJ8T5-Iuyj4YYz6EDVZe6Yd70Y89R0X_ERmrsTAK8t_sA9pHMs3j8VCSySxUoyfWeTLCCqzJXFNebZWIb02ntWwuk6AHl3Q2yNPms_HqQMVYB7owbWa45Eg6QMqQnBslW3KskJjz6es2g
+
++ Response 204
+
+
+## Coleção de modelos para planos de aula [/lesson-plan-models]
+
+'Modelos de plano de aula' são definições de formatos que os professores devem seguir
+ao criar seus planos de aula
+
+Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="output.html#header-parametros-de-filtros-em-listagem">sessão</a> como definir os parametros da requisição.
+
+### Listar modelos de plano de aula [GET]
+
++ Request  (application/json)
+    + Headers
+
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQyNjg3MzYsImlhdCI6MTQ5NDI2MTUzNiwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.UKSXHE7LQ0blPp6an9UewlSMCl-Q1aFYNPnkwQjWWqd3sfXToue0u8_6Y4iwh-CqfNP704t-e8OpVUwwo568ShBWrBiEgLbzgFnig56KtQkoO1daz9U_6B-89CVAyIdvG0wmOgXf17s2fskusDt7Lr7rxTzXAbscSpGOXh6_IUsiVe7JFACf2TNiJ8KaBcfTxO2vgqcH3wJ8T5-Iuyj4YYz6EDVZe6Yd70Y89R0X_ERmrsTAK8t_sA9pHMs3j8VCSySxUoyfWeTLCCqzJXFNebZWIb02ntWwuk6AHl3Q2yNPms_HqQMVYB7owbWa45Eg6QMqQnBslW3KskJjz6es2g
+
++ Response 200 (application/json)
+
+    + Attributes
+        + Include Paginator
+        + data (array)
+            + (LessonPlanModel)
+
+### Criar modelo de plano de aula [POST]
+
++ Request  (application/json)
+    + Headers
+
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQyNjg3MzYsImlhdCI6MTQ5NDI2MTUzNiwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.UKSXHE7LQ0blPp6an9UewlSMCl-Q1aFYNPnkwQjWWqd3sfXToue0u8_6Y4iwh-CqfNP704t-e8OpVUwwo568ShBWrBiEgLbzgFnig56KtQkoO1daz9U_6B-89CVAyIdvG0wmOgXf17s2fskusDt7Lr7rxTzXAbscSpGOXh6_IUsiVe7JFACf2TNiJ8KaBcfTxO2vgqcH3wJ8T5-Iuyj4YYz6EDVZe6Yd70Y89R0X_ERmrsTAK8t_sA9pHMs3j8VCSySxUoyfWeTLCCqzJXFNebZWIb02ntWwuk6AHl3Q2yNPms_HqQMVYB7owbWa45Eg6QMqQnBslW3KskJjz6es2g
+
+    + Attributes (LessonPlanModelFillable)
+
++ Response 201 (application/json)
+
+    + Attributes
+        + lesson_plan_Model (LessonPlanModel)
+
+## Modelo de plano de aulas [/lesson-plan-models/{lesson_plan_model_id}]
+
+### Detalhes do modelo de plano de aula [GET]
+
++ Parameters
+    + lesson_plan_model_id: 1 (number) - ID of the model lesson plan
+
++ Request  (application/json)
+    + Headers
+
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQyNjg3MzYsImlhdCI6MTQ5NDI2MTUzNiwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.UKSXHE7LQ0blPp6an9UewlSMCl-Q1aFYNPnkwQjWWqd3sfXToue0u8_6Y4iwh-CqfNP704t-e8OpVUwwo568ShBWrBiEgLbzgFnig56KtQkoO1daz9U_6B-89CVAyIdvG0wmOgXf17s2fskusDt7Lr7rxTzXAbscSpGOXh6_IUsiVe7JFACf2TNiJ8KaBcfTxO2vgqcH3wJ8T5-Iuyj4YYz6EDVZe6Yd70Y89R0X_ERmrsTAK8t_sA9pHMs3j8VCSySxUoyfWeTLCCqzJXFNebZWIb02ntWwuk6AHl3Q2yNPms_HqQMVYB7owbWa45Eg6QMqQnBslW3KskJjz6es2g
+
++ Response 200 (application/json)
+
+    + Attributes
+        + Include (LessonPlanModel)
+
+### Alterar modelo de plano de aula [PUT]
+
++ Parameters
+    + lesson_plan_model_id: 1 (number) - ID of the model lesson plan
+
++ Request  (application/json)
+    + Headers
+
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQyNjg3MzYsImlhdCI6MTQ5NDI2MTUzNiwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.UKSXHE7LQ0blPp6an9UewlSMCl-Q1aFYNPnkwQjWWqd3sfXToue0u8_6Y4iwh-CqfNP704t-e8OpVUwwo568ShBWrBiEgLbzgFnig56KtQkoO1daz9U_6B-89CVAyIdvG0wmOgXf17s2fskusDt7Lr7rxTzXAbscSpGOXh6_IUsiVe7JFACf2TNiJ8KaBcfTxO2vgqcH3wJ8T5-Iuyj4YYz6EDVZe6Yd70Y89R0X_ERmrsTAK8t_sA9pHMs3j8VCSySxUoyfWeTLCCqzJXFNebZWIb02ntWwuk6AHl3Q2yNPms_HqQMVYB7owbWa45Eg6QMqQnBslW3KskJjz6es2g
+
+    + Attributes (LessonPlanModelFillable)
+
++ Response 200 (application/json)
+
+    + Attributes
+        + lesson_plan_model (LessonPlanModel)
+
+### Excluir modelo de plano de aula [DELETE]
+
++ Parameters
+    + lesson_plan_model_id: 1 (number) - ID of the model lesson plan
+
++ Request  (application/json)
+    + Headers
+
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQyNjg3MzYsImlhdCI6MTQ5NDI2MTUzNiwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.UKSXHE7LQ0blPp6an9UewlSMCl-Q1aFYNPnkwQjWWqd3sfXToue0u8_6Y4iwh-CqfNP704t-e8OpVUwwo568ShBWrBiEgLbzgFnig56KtQkoO1daz9U_6B-89CVAyIdvG0wmOgXf17s2fskusDt7Lr7rxTzXAbscSpGOXh6_IUsiVe7JFACf2TNiJ8KaBcfTxO2vgqcH3wJ8T5-Iuyj4YYz6EDVZe6Yd70Y89R0X_ERmrsTAK8t_sA9pHMs3j8VCSySxUoyfWeTLCCqzJXFNebZWIb02ntWwuk6AHl3Q2yNPms_HqQMVYB7owbWa45Eg6QMqQnBslW3KskJjz6es2g
+
++ Response 204
+
+# Group Estudantes
+
+Ações relacionadas a informações dos alunos: cadastrais, indicadores de desempenho
+e relatórios como "Boletim anual do aluno" e "Histórico escolar", registro de notas e presenças.
+
+## Relatório anual [/students/{student_id}/annual-report/{school_calendar_id}]
+
+### Ver relatório anual do aluno [GET]
+
++ Parameters
+    + school_calendar_id: 1 (required, number) - ID do ano letivo
+
++ Request  (application/json)
+    + Headers
+
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQyNjg3MzYsImlhdCI6MTQ5NDI2MTUzNiwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.UKSXHE7LQ0blPp6an9UewlSMCl-Q1aFYNPnkwQjWWqd3sfXToue0u8_6Y4iwh-CqfNP704t-e8OpVUwwo568ShBWrBiEgLbzgFnig56KtQkoO1daz9U_6B-89CVAyIdvG0wmOgXf17s2fskusDt7Lr7rxTzXAbscSpGOXh6_IUsiVe7JFACf2TNiJ8KaBcfTxO2vgqcH3wJ8T5-Iuyj4YYz6EDVZe6Yd70Y89R0X_ERmrsTAK8t_sA9pHMs3j8VCSySxUoyfWeTLCCqzJXFNebZWIb02ntWwuk6AHl3Q2yNPms_HqQMVYB7owbWa45Eg6QMqQnBslW3KskJjz6es2g
+
++ Response 200 (application/json)
+
+    + Attributes (object)
+        + report_by_subjects (array[SubjectAnnualReport]) - Médias e faltas por disciplina no ano letivo
+
+## Resumo anual do aluno [/students/{student_id}/annual-summary/{school_calendar_id}]
+
+### Ver resumo anual do aluno [GET]
+
++ Parameters
+    + school_calendar_id: 1 (number, required) - `ID do ano letivo`
+
++ Request  (application/json)
+    + Headers
+
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQyNjg3MzYsImlhdCI6MTQ5NDI2MTUzNiwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.UKSXHE7LQ0blPp6an9UewlSMCl-Q1aFYNPnkwQjWWqd3sfXToue0u8_6Y4iwh-CqfNP704t-e8OpVUwwo568ShBWrBiEgLbzgFnig56KtQkoO1daz9U_6B-89CVAyIdvG0wmOgXf17s2fskusDt7Lr7rxTzXAbscSpGOXh6_IUsiVe7JFACf2TNiJ8KaBcfTxO2vgqcH3wJ8T5-Iuyj4YYz6EDVZe6Yd70Y89R0X_ERmrsTAK8t_sA9pHMs3j8VCSySxUoyfWeTLCCqzJXFNebZWIb02ntWwuk6AHl3Q2yNPms_HqQMVYB7owbWa45Eg6QMqQnBslW3KskJjz6es2g
+
++ Response 200 (application/json)
+
+    + Attributes (object)
+        + absences (object)
+            + total: 22 (number) - Total de faltas do aluno no ano letivo
+        + best_average (object) - Melhor média do aluno no ano
+            + include (Subject)
+            + average: 9.5 (number) - Média
+            + average_calculation: `(7.8 + 8.5)/2` (string) - Calculo da média
+            + student_grades (array) - Notas do aluno que compõem a média
+                + (object)
+                    + include (StudentGrade)
+                    + assessment (Assessment)
+        + low_average (object) - Pior média do aluno no ano
+            + include (Subject)
+            + average: 9.5 (number)
+            + average_calculation: `(7.8 + 8.5)/2` (string)
+            + student_grades (array)
+                + (object)
+                    + include (StudentGrade)
+                    + assessment (Assessment)
+
+## Coleção de estudantes [/students]
+
+### Listar estudantes [GET]
+
+Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="output.html#header-parametros-de-filtros-em-listagem">sessão</a> como definir os parametros da requisição.
+
++ Parameters
+    + _q (string, optional) - Pesquisa por palavra-chave, a correspondência e incluida conjunto de resultados.
+    + _sort (string, optional) - Ordena a coluna desejada, de forma acendente ou descendente.
+    + _with (string, optional) - Obtem informações do recurso relacionado.
+        + Members
+            + person - Informações básicas do aluno (nome, telefone, ...).
+            + responsibles - Responsáveis pelo estudante.
+            + schoolClasses - Turmas que o aluno estudou.
+
++ Request  (application/json)
+    + Headers
+
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQyNjg3MzYsImlhdCI6MTQ5NDI2MTUzNiwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.UKSXHE7LQ0blPp6an9UewlSMCl-Q1aFYNPnkwQjWWqd3sfXToue0u8_6Y4iwh-CqfNP704t-e8OpVUwwo568ShBWrBiEgLbzgFnig56KtQkoO1daz9U_6B-89CVAyIdvG0wmOgXf17s2fskusDt7Lr7rxTzXAbscSpGOXh6_IUsiVe7JFACf2TNiJ8KaBcfTxO2vgqcH3wJ8T5-Iuyj4YYz6EDVZe6Yd70Y89R0X_ERmrsTAK8t_sA9pHMs3j8VCSySxUoyfWeTLCCqzJXFNebZWIb02ntWwuk6AHl3Q2yNPms_HqQMVYB7owbWa45Eg6QMqQnBslW3KskJjz6es2g
+
++ Response 200 (application/json)
+
+    + Attributes
+        + Include Paginator
+        + data (array)
+            + (Student)
+
+## Estudante [/students/{id}]
+
+### Detalhes do estudante [GET]
+
++ Parameters
+    + id: 1 (required, number) - ID do estudante.
+    + _with (string, optional) - Obtem informações do recurso relacionado.
+        + Members
+            + person - Informações básicas do aluno (nome, telefone, ...).
+            + responsibles - Responsáveis pelo estudante.
+            + schoolClasses - Turmas que o aluno estudou.
+
++ Request  (application/json)
+    + Headers
+
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQyNjg3MzYsImlhdCI6MTQ5NDI2MTUzNiwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.UKSXHE7LQ0blPp6an9UewlSMCl-Q1aFYNPnkwQjWWqd3sfXToue0u8_6Y4iwh-CqfNP704t-e8OpVUwwo568ShBWrBiEgLbzgFnig56KtQkoO1daz9U_6B-89CVAyIdvG0wmOgXf17s2fskusDt7Lr7rxTzXAbscSpGOXh6_IUsiVe7JFACf2TNiJ8KaBcfTxO2vgqcH3wJ8T5-Iuyj4YYz6EDVZe6Yd70Y89R0X_ERmrsTAK8t_sA9pHMs3j8VCSySxUoyfWeTLCCqzJXFNebZWIb02ntWwuk6AHl3Q2yNPms_HqQMVYB7owbWa45Eg6QMqQnBslW3KskJjz6es2g
+
++ Response 200 (application/json)
+
+    + Attributes (object)
+        + student (Student)
+
+## Coleção de registro de presença [/attendance-records]
+
+`Attendance Records` são os registros de presenças dos alunos em uma aula, definindo
+se o aluno estava ou não presente durante a aula.
+
+### Listar registro de presença [GET]
+
+Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="output.html#header-parametros-de-filtros-em-listagem">sessão</a> como definir os parametros da requisição.
+
+
++ Parameters
+    + _q (string, optional) - Pesquisa por palavra-chave, a correspondência e incluida conjunto de resultados.
+    + _sort (string, optional) - Ordena a coluna desejada, de forma acendente ou descendente.
+    + _with (string, optional) - Obtem informações do recurso relacionado.
+        + Members
+            + lesson
+            + lesson.schoolClass
+            + lesson.schoolClass.grade
+            + lesson.schoolClass.shift
+            + lesson.subject
+            + student.person
+            + student.schoolClass
+
++ Request  (application/json)
+    + Headers
+
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQyNjg3MzYsImlhdCI6MTQ5NDI2MTUzNiwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.UKSXHE7LQ0blPp6an9UewlSMCl-Q1aFYNPnkwQjWWqd3sfXToue0u8_6Y4iwh-CqfNP704t-e8OpVUwwo568ShBWrBiEgLbzgFnig56KtQkoO1daz9U_6B-89CVAyIdvG0wmOgXf17s2fskusDt7Lr7rxTzXAbscSpGOXh6_IUsiVe7JFACf2TNiJ8KaBcfTxO2vgqcH3wJ8T5-Iuyj4YYz6EDVZe6Yd70Y89R0X_ERmrsTAK8t_sA9pHMs3j8VCSySxUoyfWeTLCCqzJXFNebZWIb02ntWwuk6AHl3Q2yNPms_HqQMVYB7owbWa45Eg6QMqQnBslW3KskJjz6es2g
+
++ Response 200 (application/json)
+
+    + Attributes
+        + Include Paginator
+        + data (array)
+            + (AttendanceRecord)
+
+### Criar registro de presença [POST]
+
+O registro de presença de um aluno em uma aula é único.
+Se o registro de presença que já existe for solicitado, será
+retornado o registro já existente com as informações atualizadas.
+
++ Request  (application/json)
+    + Headers
+
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQyNjg3MzYsImlhdCI6MTQ5NDI2MTUzNiwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.UKSXHE7LQ0blPp6an9UewlSMCl-Q1aFYNPnkwQjWWqd3sfXToue0u8_6Y4iwh-CqfNP704t-e8OpVUwwo568ShBWrBiEgLbzgFnig56KtQkoO1daz9U_6B-89CVAyIdvG0wmOgXf17s2fskusDt7Lr7rxTzXAbscSpGOXh6_IUsiVe7JFACf2TNiJ8KaBcfTxO2vgqcH3wJ8T5-Iuyj4YYz6EDVZe6Yd70Y89R0X_ERmrsTAK8t_sA9pHMs3j8VCSySxUoyfWeTLCCqzJXFNebZWIb02ntWwuk6AHl3Q2yNPms_HqQMVYB7owbWa45Eg6QMqQnBslW3KskJjz6es2g
+
+    + Attributes (AttendanceRecordFillable)
+
++ Response 201 (application/json)
+
+    + Headers
+
+            Location: /attendance_records/1
+
+    + Attributes
+        + attendance_record (AttendanceRecord)
+
++ Response 409 (application/json)
+
+        {
+            "message": "The record of the student (student.id = 1 ) to the lesson already exists.",
+            "status_code": 409
+        }
+
+## Registro de presença [/attendance-records/{attendance_record_id}]
+
++ Parameters
+    + attendance_record_id: 1 (number) - ID of the attendance record
+
+### Detalhes do registro de presença [GET]
+
++ Parameters
+    + _with (string, optional) - Obtem informações do recurso relacionado.
+        + Members
+            + lesson
+            + lesson.schoolClass
+            + lesson.schoolClass.grade
+            + lesson.schoolClass.shift
+            + lesson.subject
+            + student.person
+            + student.schoolClass
+
++ Request  (application/json)
+    + Headers
+
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQyNjg3MzYsImlhdCI6MTQ5NDI2MTUzNiwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.UKSXHE7LQ0blPp6an9UewlSMCl-Q1aFYNPnkwQjWWqd3sfXToue0u8_6Y4iwh-CqfNP704t-e8OpVUwwo568ShBWrBiEgLbzgFnig56KtQkoO1daz9U_6B-89CVAyIdvG0wmOgXf17s2fskusDt7Lr7rxTzXAbscSpGOXh6_IUsiVe7JFACf2TNiJ8KaBcfTxO2vgqcH3wJ8T5-Iuyj4YYz6EDVZe6Yd70Y89R0X_ERmrsTAK8t_sA9pHMs3j8VCSySxUoyfWeTLCCqzJXFNebZWIb02ntWwuk6AHl3Q2yNPms_HqQMVYB7owbWa45Eg6QMqQnBslW3KskJjz6es2g
+
++ Response 200 (application/json)
+
+    + Attributes
+        + attendance_record (AttendanceRecord)
+
+### Alterar registro de presença [PUT]
+
++ Parameters
+    + attendance_record_id: 1 (number) - ID of the attendance record
+
++ Request  (application/json)
+    + Headers
+
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQyNjg3MzYsImlhdCI6MTQ5NDI2MTUzNiwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.UKSXHE7LQ0blPp6an9UewlSMCl-Q1aFYNPnkwQjWWqd3sfXToue0u8_6Y4iwh-CqfNP704t-e8OpVUwwo568ShBWrBiEgLbzgFnig56KtQkoO1daz9U_6B-89CVAyIdvG0wmOgXf17s2fskusDt7Lr7rxTzXAbscSpGOXh6_IUsiVe7JFACf2TNiJ8KaBcfTxO2vgqcH3wJ8T5-Iuyj4YYz6EDVZe6Yd70Y89R0X_ERmrsTAK8t_sA9pHMs3j8VCSySxUoyfWeTLCCqzJXFNebZWIb02ntWwuk6AHl3Q2yNPms_HqQMVYB7owbWa45Eg6QMqQnBslW3KskJjz6es2g
+
+    + Attributes (AttendanceRecordFillable)
+
++ Response 200 (application/json)
+
+    + Attributes
+        + attendance_record (AttendanceRecord)
+
+## Coleção de notas [/student-grades]
+
+`Student Grades` São registo de notas de cada aluno em suas diciplinas nos periodos e turmas pertencentes a ele.
+
+### Crair nota [POST]
+
++ Request  (application/json)
+    + Headers
+
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQyNjg3MzYsImlhdCI6MTQ5NDI2MTUzNiwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.UKSXHE7LQ0blPp6an9UewlSMCl-Q1aFYNPnkwQjWWqd3sfXToue0u8_6Y4iwh-CqfNP704t-e8OpVUwwo568ShBWrBiEgLbzgFnig56KtQkoO1daz9U_6B-89CVAyIdvG0wmOgXf17s2fskusDt7Lr7rxTzXAbscSpGOXh6_IUsiVe7JFACf2TNiJ8KaBcfTxO2vgqcH3wJ8T5-Iuyj4YYz6EDVZe6Yd70Y89R0X_ERmrsTAK8t_sA9pHMs3j8VCSySxUoyfWeTLCCqzJXFNebZWIb02ntWwuk6AHl3Q2yNPms_HqQMVYB7owbWa45Eg6QMqQnBslW3KskJjz6es2g
+
+    + Attributes (StudentGradeFillable)
+
++ Response 201 (application/json)
+
+    + Attributes
+        + StudentGrade (StudentGrade)
+
+### Litar notas [GET]
+
+Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="output.html#header-parametros-de-filtros-em-listagem">sessão</a> como definir os parametros da requisição.
+
++ Parameters
+    + _q (string, optional) - Pesquisa por palavra-chave, a correspondência e incluida conjunto de resultados.
+    + _sort (string, optional) - Ordena a coluna desejada, de forma acendente ou descendente.
+    + _with (string, optional) - Obtem informações do recurso relacionado.
+        + Members
+            + student
+            + subject
+            + assessment
+            + schoolClass
+
++ Request  (application/json)
+    + Headers
+
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQyNjg3MzYsImlhdCI6MTQ5NDI2MTUzNiwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.UKSXHE7LQ0blPp6an9UewlSMCl-Q1aFYNPnkwQjWWqd3sfXToue0u8_6Y4iwh-CqfNP704t-e8OpVUwwo568ShBWrBiEgLbzgFnig56KtQkoO1daz9U_6B-89CVAyIdvG0wmOgXf17s2fskusDt7Lr7rxTzXAbscSpGOXh6_IUsiVe7JFACf2TNiJ8KaBcfTxO2vgqcH3wJ8T5-Iuyj4YYz6EDVZe6Yd70Y89R0X_ERmrsTAK8t_sA9pHMs3j8VCSySxUoyfWeTLCCqzJXFNebZWIb02ntWwuk6AHl3Q2yNPms_HqQMVYB7owbWa45Eg6QMqQnBslW3KskJjz6es2g
+
++ Response 200 (application/json)
+
+    + Attributes
+        + Include Paginator
+        + data (array)
+            + (StudentGrade)
+
+
+## Nota [/student-grades/{student_grades_id}]
+
+### Detalhes da nota [GET]
+
++ Parameters
+    + student_grade_id: 1 (number) - ID of the occurence
+    + _with (string, optional) - Obtem informações do recurso relacionado.
+        + Members
+            + student
+            + subject
+            + assessment
+            + schoolClass
+
++ Request  (application/json)
+    + Headers
+
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQyNjg3MzYsImlhdCI6MTQ5NDI2MTUzNiwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.UKSXHE7LQ0blPp6an9UewlSMCl-Q1aFYNPnkwQjWWqd3sfXToue0u8_6Y4iwh-CqfNP704t-e8OpVUwwo568ShBWrBiEgLbzgFnig56KtQkoO1daz9U_6B-89CVAyIdvG0wmOgXf17s2fskusDt7Lr7rxTzXAbscSpGOXh6_IUsiVe7JFACf2TNiJ8KaBcfTxO2vgqcH3wJ8T5-Iuyj4YYz6EDVZe6Yd70Y89R0X_ERmrsTAK8t_sA9pHMs3j8VCSySxUoyfWeTLCCqzJXFNebZWIb02ntWwuk6AHl3Q2yNPms_HqQMVYB7owbWa45Eg6QMqQnBslW3KskJjz6es2g
+
++ Response 200 (application/json)
+
+    + Attributes
+        + StudentGrade (StudentGrade)
+
+### Alterar nota [PUT]
+
++ Parameters
+    + student_grade_id: 1 (number) - ID of the Student Grades
+
++ Request  (application/json)
+
+    + Headers
+
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQyNjg3MzYsImlhdCI6MTQ5NDI2MTUzNiwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.UKSXHE7LQ0blPp6an9UewlSMCl-Q1aFYNPnkwQjWWqd3sfXToue0u8_6Y4iwh-CqfNP704t-e8OpVUwwo568ShBWrBiEgLbzgFnig56KtQkoO1daz9U_6B-89CVAyIdvG0wmOgXf17s2fskusDt7Lr7rxTzXAbscSpGOXh6_IUsiVe7JFACf2TNiJ8KaBcfTxO2vgqcH3wJ8T5-Iuyj4YYz6EDVZe6Yd70Y89R0X_ERmrsTAK8t_sA9pHMs3j8VCSySxUoyfWeTLCCqzJXFNebZWIb02ntWwuk6AHl3Q2yNPms_HqQMVYB7owbWa45Eg6QMqQnBslW3KskJjz6es2g
+
+    + Attributes (StudentGradeFillable)
+
++ Response 200 (application/json)
+
+    + Attributes
+        + StudentGrade (StudentGrade)
+
+### Excluir nota [DELETE]
+
++ Parameters
+    + student_grade_id: 1 (number) - Identificador único da nota do aluno
+
++ Request (application/json)
+
+    + Headers
+
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQyNjg3MzYsImlhdCI6MTQ5NDI2MTUzNiwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.UKSXHE7LQ0blPp6an9UewlSMCl-Q1aFYNPnkwQjWWqd3sfXToue0u8_6Y4iwh-CqfNP704t-e8OpVUwwo568ShBWrBiEgLbzgFnig56KtQkoO1daz9U_6B-89CVAyIdvG0wmOgXf17s2fskusDt7Lr7rxTzXAbscSpGOXh6_IUsiVe7JFACf2TNiJ8KaBcfTxO2vgqcH3wJ8T5-Iuyj4YYz6EDVZe6Yd70Y89R0X_ERmrsTAK8t_sA9pHMs3j8VCSySxUoyfWeTLCCqzJXFNebZWIb02ntWwuk6AHl3Q2yNPms_HqQMVYB7owbWa45Eg6QMqQnBslW3KskJjz6es2g
+
++ Response 204
+
+## Coleção de ocorrências [/occurences]
+
+`Occurrence` são registros de ocorrências registrar por professor em relação aos alunos.
+
+### Criar ocorrência [POST]
+
++ Request  (application/json)
+    + Headers
+
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQyNjg3MzYsImlhdCI6MTQ5NDI2MTUzNiwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.UKSXHE7LQ0blPp6an9UewlSMCl-Q1aFYNPnkwQjWWqd3sfXToue0u8_6Y4iwh-CqfNP704t-e8OpVUwwo568ShBWrBiEgLbzgFnig56KtQkoO1daz9U_6B-89CVAyIdvG0wmOgXf17s2fskusDt7Lr7rxTzXAbscSpGOXh6_IUsiVe7JFACf2TNiJ8KaBcfTxO2vgqcH3wJ8T5-Iuyj4YYz6EDVZe6Yd70Y89R0X_ERmrsTAK8t_sA9pHMs3j8VCSySxUoyfWeTLCCqzJXFNebZWIb02ntWwuk6AHl3Q2yNPms_HqQMVYB7owbWa45Eg6QMqQnBslW3KskJjz6es2g
+
+    + Attributes (OccurenceFillable)
+
++ Response 201 (application/json)
+
+    + Attributes
+        + occurence (Occurence)
+
+### Listar ocorrências [GET]
+
+Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="output.html#header-parametros-de-filtros-em-listagem">sessão</a> como definir os parametros da requisição.
+
++ Parameters
+    + _q (string, optional) - Pesquisa por palavra-chave, a correspondência e incluida conjunto de resultados.
+        + Members
+            +comment
+    + _sort (string, optional) - Ordena a coluna desejada, de forma acendente ou descendente.
+    + _with (string, optional) - Obtem informações do recurso relacionado.
+        + Members
+            + aboutPerson
+            + level
+
++ Request  (application/json)
+    + Headers
+
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQyNjg3MzYsImlhdCI6MTQ5NDI2MTUzNiwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.UKSXHE7LQ0blPp6an9UewlSMCl-Q1aFYNPnkwQjWWqd3sfXToue0u8_6Y4iwh-CqfNP704t-e8OpVUwwo568ShBWrBiEgLbzgFnig56KtQkoO1daz9U_6B-89CVAyIdvG0wmOgXf17s2fskusDt7Lr7rxTzXAbscSpGOXh6_IUsiVe7JFACf2TNiJ8KaBcfTxO2vgqcH3wJ8T5-Iuyj4YYz6EDVZe6Yd70Y89R0X_ERmrsTAK8t_sA9pHMs3j8VCSySxUoyfWeTLCCqzJXFNebZWIb02ntWwuk6AHl3Q2yNPms_HqQMVYB7owbWa45Eg6QMqQnBslW3KskJjz6es2g
+
++ Response 200 (application/json)
+
+    + Attributes
+        + Include Paginator
+        + data (array)
+            + (Occurence)
+
+## Ocorrência [/occurences/{occurence_id}]
+
+### Detalhes da ocorrência [GET]
+
++ Parameters
+    + occurence_id: 1 (number) - Identificador único da Occorencia
+    + _with (string, optional) - Obtem informações do recurso relacionado.
+        + Members
+            + aboutPerson
+            + level
+
++ Request  (application/json)
+    + Headers
+
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQyNjg3MzYsImlhdCI6MTQ5NDI2MTUzNiwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.UKSXHE7LQ0blPp6an9UewlSMCl-Q1aFYNPnkwQjWWqd3sfXToue0u8_6Y4iwh-CqfNP704t-e8OpVUwwo568ShBWrBiEgLbzgFnig56KtQkoO1daz9U_6B-89CVAyIdvG0wmOgXf17s2fskusDt7Lr7rxTzXAbscSpGOXh6_IUsiVe7JFACf2TNiJ8KaBcfTxO2vgqcH3wJ8T5-Iuyj4YYz6EDVZe6Yd70Y89R0X_ERmrsTAK8t_sA9pHMs3j8VCSySxUoyfWeTLCCqzJXFNebZWIb02ntWwuk6AHl3Q2yNPms_HqQMVYB7owbWa45Eg6QMqQnBslW3KskJjz6es2g
+
++ Response 200 (application/json)
+
+    + Attributes
+        + Occurence (Occurence)
+
+### Alterar ocorrência [PUT]
+
++ Parameters
+    + occurence_id: 1 (number) - Identificador único da Occorencia
+
++ Request  (application/json)
+
+    + Headers
+
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQyNjg3MzYsImlhdCI6MTQ5NDI2MTUzNiwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.UKSXHE7LQ0blPp6an9UewlSMCl-Q1aFYNPnkwQjWWqd3sfXToue0u8_6Y4iwh-CqfNP704t-e8OpVUwwo568ShBWrBiEgLbzgFnig56KtQkoO1daz9U_6B-89CVAyIdvG0wmOgXf17s2fskusDt7Lr7rxTzXAbscSpGOXh6_IUsiVe7JFACf2TNiJ8KaBcfTxO2vgqcH3wJ8T5-Iuyj4YYz6EDVZe6Yd70Y89R0X_ERmrsTAK8t_sA9pHMs3j8VCSySxUoyfWeTLCCqzJXFNebZWIb02ntWwuk6AHl3Q2yNPms_HqQMVYB7owbWa45Eg6QMqQnBslW3KskJjz6es2g
+
+    + Attributes (OccurenceFillable)
+
++ Response 200 (application/json)
+
+    + Attributes
+        + Occurence (Occurence)
+
+### Excluir ocorrência [DELETE]
+
++ Parameters
+    + occurence_id: 1 (number) - Identificador único da Occorencia
+
++ Request  (application/json)
+    + Headers
+
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQyNjg3MzYsImlhdCI6MTQ5NDI2MTUzNiwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.UKSXHE7LQ0blPp6an9UewlSMCl-Q1aFYNPnkwQjWWqd3sfXToue0u8_6Y4iwh-CqfNP704t-e8OpVUwwo568ShBWrBiEgLbzgFnig56KtQkoO1daz9U_6B-89CVAyIdvG0wmOgXf17s2fskusDt7Lr7rxTzXAbscSpGOXh6_IUsiVe7JFACf2TNiJ8KaBcfTxO2vgqcH3wJ8T5-Iuyj4YYz6EDVZe6Yd70Y89R0X_ERmrsTAK8t_sA9pHMs3j8VCSySxUoyfWeTLCCqzJXFNebZWIb02ntWwuk6AHl3Q2yNPms_HqQMVYB7owbWa45Eg6QMqQnBslW3KskJjz6es2g
+
+
++ Response 204
+
+
+## Coleção de ficha avaliativa do estudante [/student-progress-sheet{?_q,_sort,_with}]
+
+### Listar as fichas avaliativas dos estudantes [GET]
+
+Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="output.html#header-parametros-de-filtros-em-listagem">sessão</a> como definir os parametros da requisição.
+
++ Parameters
+    + _q (string, optional) - Pesquisa por palavra-chave, a correspondência e incluida conjunto de resultados.
+        + Members
+            +name
+    + _sort (string, optional) - Ordena a coluna desejada, de forma acendente ou descendente.
+    + _with (string, optional) - Obtem informações do recurso relacionado.
+        + Members
+            + progressSheet - Ficha avaliativa.
+            + progressSheetItem - Item da ficha avaliativa do estudante.
+
++ Request  (application/json)
+    + Headers
+
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQyNjg3MzYsImlhdCI6MTQ5NDI2MTUzNiwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.UKSXHE7LQ0blPp6an9UewlSMCl-Q1aFYNPnkwQjWWqd3sfXToue0u8_6Y4iwh-CqfNP704t-e8OpVUwwo568ShBWrBiEgLbzgFnig56KtQkoO1daz9U_6B-89CVAyIdvG0wmOgXf17s2fskusDt7Lr7rxTzXAbscSpGOXh6_IUsiVe7JFACf2TNiJ8KaBcfTxO2vgqcH3wJ8T5-Iuyj4YYz6EDVZe6Yd70Y89R0X_ERmrsTAK8t_sA9pHMs3j8VCSySxUoyfWeTLCCqzJXFNebZWIb02ntWwuk6AHl3Q2yNPms_HqQMVYB7owbWa45Eg6QMqQnBslW3KskJjz6es2g
+
++ Response 200 (application/json)
+
+    + Attributes
+        + Include Paginator
+        + data (array)
+            + (ProgressSheetStudent)
+
+# Group Professores
+
+`Teachers` são os professores de uma escola.
+
+## Coleção de turmas [/teachers/1/school-classes{?_q,_sort,_with}]
+
+### Listar turmas do professor [GET]
+
+Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="output.html#header-parametros-de-filtros-em-listagem">sessão</a> como definir os parametros da requisição.
+
++ Parameters
+    + _sort (string, optional) - Ordena a coluna desejada, de forma acendente ou descendente.
+    + _with (string, optional) - Obtem informações do recurso relacionado.
+        + Members
+            + schoolClass.grade
+            + schoolClass.schoolCalendar
+            + schoolClass.shit
+
++ Request
+    + Headers
+
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQyNjg3MzYsImlhdCI6MTQ5NDI2MTUzNiwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.UKSXHE7LQ0blPp6an9UewlSMCl-Q1aFYNPnkwQjWWqd3sfXToue0u8_6Y4iwh-CqfNP704t-e8OpVUwwo568ShBWrBiEgLbzgFnig56KtQkoO1daz9U_6B-89CVAyIdvG0wmOgXf17s2fskusDt7Lr7rxTzXAbscSpGOXh6_IUsiVe7JFACf2TNiJ8KaBcfTxO2vgqcH3wJ8T5-Iuyj4YYz6EDVZe6Yd70Y89R0X_ERmrsTAK8t_sA9pHMs3j8VCSySxUoyfWeTLCCqzJXFNebZWIb02ntWwuk6AHl3Q2yNPms_HqQMVYB7owbWa45Eg6QMqQnBslW3KskJjz6es2g
+
++ Response 200 (application/json)
+    
+    + Attributes
+        + Include Paginator
+        + data (array)
+            + (object)
+                + schoolClass (SchoolClass)
+                + subject (Subject)
+
+## Carga horária [/teacher/{teacher_id}/workload]
+
+### Resumo de carga horária [GET]
+
++ Parameters
+    + teacher_id: (number, required) - ID do professor
+    + school_calendar_id: (number, required) - ID do calendário escolar
+
++ Request 
+    + Headers
+
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQyNjg3MzYsImlhdCI6MTQ5NDI2MTUzNiwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.UKSXHE7LQ0blPp6an9UewlSMCl-Q1aFYNPnkwQjWWqd3sfXToue0u8_6Y4iwh-CqfNP704t-e8OpVUwwo568ShBWrBiEgLbzgFnig56KtQkoO1daz9U_6B-89CVAyIdvG0wmOgXf17s2fskusDt7Lr7rxTzXAbscSpGOXh6_IUsiVe7JFACf2TNiJ8KaBcfTxO2vgqcH3wJ8T5-Iuyj4YYz6EDVZe6Yd70Y89R0X_ERmrsTAK8t_sA9pHMs3j8VCSySxUoyfWeTLCCqzJXFNebZWIb02ntWwuk6AHl3Q2yNPms_HqQMVYB7owbWa45Eg6QMqQnBslW3KskJjz6es2g
+
++ Response 200 (application/json)
+
+    + Attributes (object)
+        + annual_workload: 400 (number) - Total de carga horária em horas do professor no calendário escolar
+        
+
+
+# Group Configurações
+
+## Colleção de configurações da conta [/account-configs]
+
+Configurações da contado do usuário logado.
+
+### Listar configurações [GET]
+
+Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="output.html#header-parametros-de-filtros-em-listagem">sessão</a> como definir os parametros da requisição.
+
+
++ Request  (application/json)
+    + Headers
+
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQyNjg3MzYsImlhdCI6MTQ5NDI2MTUzNiwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.UKSXHE7LQ0blPp6an9UewlSMCl-Q1aFYNPnkwQjWWqd3sfXToue0u8_6Y4iwh-CqfNP704t-e8OpVUwwo568ShBWrBiEgLbzgFnig56KtQkoO1daz9U_6B-89CVAyIdvG0wmOgXf17s2fskusDt7Lr7rxTzXAbscSpGOXh6_IUsiVe7JFACf2TNiJ8KaBcfTxO2vgqcH3wJ8T5-Iuyj4YYz6EDVZe6Yd70Y89R0X_ERmrsTAK8t_sA9pHMs3j8VCSySxUoyfWeTLCCqzJXFNebZWIb02ntWwuk6AHl3Q2yNPms_HqQMVYB7owbWa45Eg6QMqQnBslW3KskJjz6es2g
+
++ Response 200 (application/json)
+
+    + Attributes
+        + account_configs (array)
+            + (object)
+                + id: 1 (number)
+                + name: percentage_absences_reprove (string) - `Percentual máximo de faltas que um aluno pode ter para não ser reprovado. Exemplo: Existem 200 aulas de Matématica no ano, e consideramos que percentage_absences_reprove == 15, então o aluno pode faltar no máximo 30 aulas (200*0,15).`
+                + value: 20 (number)
+                + `default`: 25 (number)
+
+            + (object)
+                + id: 2 (number)
+                + name: grade_threshold_great (string) - `Se o aluno tiver média igual ou acima dessa nota, ele é considerado ótimo`
+                + value: 9 (number)
+                + `default`: 9 (number)
+
+            + (object)
+                + id: 3 (number)
+                + name: grade_threshold_good (string) - `Se o aluno tiver média igual ou acima dessa nota, e menor do que "grade_threshold_great", ele é considerado bom.`
+                + value:  6 (number)
+                + `default`: 6 (number)
+
+            + (object)
+                + id: 4 (number)
+                + name: passing_grade_threshold (string) - `Média mínima para o aluno ser aprovado em uma disciplina`
+                + value: 6 (number)
+                + `default`: 6 (number)
+            + (object)]
+                + id: 5 (number)
+                + name: lesson_plan_model_id (number) - `ID do modelo de plano de aula padrão da conta`
+                + `default`: 1 (number) 
+
+## Coleção de disciplinas [/subjects]
+
+`Subjects` São quais quer disciplinas ministradas nas escolas. ex: Português, matemática, direito constitucional entre outras.
+
+### Criar disciplina [POST]
+
++ Request  (application/json)
+    + Headers
+
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQyNjg3MzYsImlhdCI6MTQ5NDI2MTUzNiwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.UKSXHE7LQ0blPp6an9UewlSMCl-Q1aFYNPnkwQjWWqd3sfXToue0u8_6Y4iwh-CqfNP704t-e8OpVUwwo568ShBWrBiEgLbzgFnig56KtQkoO1daz9U_6B-89CVAyIdvG0wmOgXf17s2fskusDt7Lr7rxTzXAbscSpGOXh6_IUsiVe7JFACf2TNiJ8KaBcfTxO2vgqcH3wJ8T5-Iuyj4YYz6EDVZe6Yd70Y89R0X_ERmrsTAK8t_sA9pHMs3j8VCSySxUoyfWeTLCCqzJXFNebZWIb02ntWwuk6AHl3Q2yNPms_HqQMVYB7owbWa45Eg6QMqQnBslW3KskJjz6es2g
+
+    + Attributes (SubjectFillable)
+
++ Response 201 (application/json)
+
+    + Attributes
+        + Subject (Subject)
+
+### Listar disciplinas [GET]
+
+Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="output.html#header-parametros-de-filtros-em-listagem">sessão</a> como definir os parametros da requisição.
+
+
++ Parameters
+    + _q (string, optional) - Pesquisa por palavra-chave, a correspondência e incluida conjunto de resultados.
+        + Members
+            +name
+    + _sort (string, optional) - Ordena a coluna desejada, de forma acendente ou descendente.
+
++ Request  (application/json)
+    + Headers
+
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQyNjg3MzYsImlhdCI6MTQ5NDI2MTUzNiwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.UKSXHE7LQ0blPp6an9UewlSMCl-Q1aFYNPnkwQjWWqd3sfXToue0u8_6Y4iwh-CqfNP704t-e8OpVUwwo568ShBWrBiEgLbzgFnig56KtQkoO1daz9U_6B-89CVAyIdvG0wmOgXf17s2fskusDt7Lr7rxTzXAbscSpGOXh6_IUsiVe7JFACf2TNiJ8KaBcfTxO2vgqcH3wJ8T5-Iuyj4YYz6EDVZe6Yd70Y89R0X_ERmrsTAK8t_sA9pHMs3j8VCSySxUoyfWeTLCCqzJXFNebZWIb02ntWwuk6AHl3Q2yNPms_HqQMVYB7owbWa45Eg6QMqQnBslW3KskJjz6es2g
+
++ Response 200 (application/json)
+
+    + Attributes
+        + Include Paginator
+        + data (array)
+            + (Subject)
+
+## Disciplina [/subjects/{subject_id}]
+
+### Detalhes da disciplina [GET]
+
++ Parameters
+    + subject_id: 1 (number) - ID of the Subject
+
++ Request  (application/json)
+    + Headers
+
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQyNjg3MzYsImlhdCI6MTQ5NDI2MTUzNiwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.UKSXHE7LQ0blPp6an9UewlSMCl-Q1aFYNPnkwQjWWqd3sfXToue0u8_6Y4iwh-CqfNP704t-e8OpVUwwo568ShBWrBiEgLbzgFnig56KtQkoO1daz9U_6B-89CVAyIdvG0wmOgXf17s2fskusDt7Lr7rxTzXAbscSpGOXh6_IUsiVe7JFACf2TNiJ8KaBcfTxO2vgqcH3wJ8T5-Iuyj4YYz6EDVZe6Yd70Y89R0X_ERmrsTAK8t_sA9pHMs3j8VCSySxUoyfWeTLCCqzJXFNebZWIb02ntWwuk6AHl3Q2yNPms_HqQMVYB7owbWa45Eg6QMqQnBslW3KskJjz6es2g
+
++ Response 200 (application/json)
+
+    + Attributes
+        + Subject (Subject)
+
+### Alterar disciplina [PUT]
+
++ Parameters
+    + subject_id: 1 (number) - ID of the Subject
+
++ Request  (application/json)
+
+    + Headers
+
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQyNjg3MzYsImlhdCI6MTQ5NDI2MTUzNiwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.UKSXHE7LQ0blPp6an9UewlSMCl-Q1aFYNPnkwQjWWqd3sfXToue0u8_6Y4iwh-CqfNP704t-e8OpVUwwo568ShBWrBiEgLbzgFnig56KtQkoO1daz9U_6B-89CVAyIdvG0wmOgXf17s2fskusDt7Lr7rxTzXAbscSpGOXh6_IUsiVe7JFACf2TNiJ8KaBcfTxO2vgqcH3wJ8T5-Iuyj4YYz6EDVZe6Yd70Y89R0X_ERmrsTAK8t_sA9pHMs3j8VCSySxUoyfWeTLCCqzJXFNebZWIb02ntWwuk6AHl3Q2yNPms_HqQMVYB7owbWa45Eg6QMqQnBslW3KskJjz6es2g
+
+    + Attributes (SubjectFillable)
+
++ Response 200 (application/json)
+
+    + Attributes
+        + Subject (Subject)
+
+### Excluir disciplina [DELETE]
+
++ Parameters
+    + subject_id: 2 (number) - ID of the Subject
+
++ Request  (application/json)
+    + Headers
+
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQyNjg3MzYsImlhdCI6MTQ5NDI2MTUzNiwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.UKSXHE7LQ0blPp6an9UewlSMCl-Q1aFYNPnkwQjWWqd3sfXToue0u8_6Y4iwh-CqfNP704t-e8OpVUwwo568ShBWrBiEgLbzgFnig56KtQkoO1daz9U_6B-89CVAyIdvG0wmOgXf17s2fskusDt7Lr7rxTzXAbscSpGOXh6_IUsiVe7JFACf2TNiJ8KaBcfTxO2vgqcH3wJ8T5-Iuyj4YYz6EDVZe6Yd70Y89R0X_ERmrsTAK8t_sA9pHMs3j8VCSySxUoyfWeTLCCqzJXFNebZWIb02ntWwuk6AHl3Q2yNPms_HqQMVYB7owbWa45Eg6QMqQnBslW3KskJjz6es2g
+
+
++ Response 204
+
+
+# Group Controles de acesso
+
+## Solicitação de acesso [/auth/request-access]
+
+`Request access` são solicitações de acesso que um usuário faz a uma conta.
+
+Exemplo: considerando que a Escola Luz do Saber tem uma conta na sua aplicação, e o Professor Medeiros
+vai começar a utilizar o aplicativo para registrar presenças e notas dos alunos. Então o
+Professor Medeiros acessa seu aplicativo informando usuário e senha para se cadastrar.
+Com isso o cadastro do Professor Medeiros fica pendente até que um usuário da Escola Luz do Saber com permissão para liberação confirme seu cadastro.
+
+### Criar uma solicitação de acesso [POST]
+
++ Request  (application/json)
+    + Headers
+
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQyNjg3MzYsImlhdCI6MTQ5NDI2MTUzNiwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.UKSXHE7LQ0blPp6an9UewlSMCl-Q1aFYNPnkwQjWWqd3sfXToue0u8_6Y4iwh-CqfNP704t-e8OpVUwwo568ShBWrBiEgLbzgFnig56KtQkoO1daz9U_6B-89CVAyIdvG0wmOgXf17s2fskusDt7Lr7rxTzXAbscSpGOXh6_IUsiVe7JFACf2TNiJ8KaBcfTxO2vgqcH3wJ8T5-Iuyj4YYz6EDVZe6Yd70Y89R0X_ERmrsTAK8t_sA9pHMs3j8VCSySxUoyfWeTLCCqzJXFNebZWIb02ntWwuk6AHl3Q2yNPms_HqQMVYB7owbWa45Eg6QMqQnBslW3KskJjz6es2g
+
+
++ Response 200 (application/json)
+
+    + Attributes
+        + request_access (object)
+            + id: 1 (number) - Identificador único da solicitação
+            + user_id: auth0|57c0840deae095471aba4093 (string) - id do usuário no microservice de autentificação auth0.
+            + status: 0 (number) - Situação da solicitação.
+                                0 pendente
+                                1 negada
+                                2 aprovada
+            + created_at: `2016-08-15 20:26:39` (string) Data que a solicitação foi criada
+            + updated_at: `2016-08-15 21:26:39` (string) Data da ultima alteração da solicitação
+
+
+## Usuarios [/auth/user]
+
+`Users` contem ações que identificam e gerenciam informações do usuário nesta API. 
+
+### Detalhes do usuário logado [GET]
+
++ Parameters
+    + user_id: 1 (number) - ID do usuário no serviço de autentificação
+    + _with (string, optional) - Obtem informações do recurso relacionado.
+        + Members
+            + student.responsibles
+            + student.attendanceRecords
+            + student.studentGrades
+
++ Request  (application/json)
+    + Headers
+
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQyNjg3MzYsImlhdCI6MTQ5NDI2MTUzNiwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.UKSXHE7LQ0blPp6an9UewlSMCl-Q1aFYNPnkwQjWWqd3sfXToue0u8_6Y4iwh-CqfNP704t-e8OpVUwwo568ShBWrBiEgLbzgFnig56KtQkoO1daz9U_6B-89CVAyIdvG0wmOgXf17s2fskusDt7Lr7rxTzXAbscSpGOXh6_IUsiVe7JFACf2TNiJ8KaBcfTxO2vgqcH3wJ8T5-Iuyj4YYz6EDVZe6Yd70Y89R0X_ERmrsTAK8t_sA9pHMs3j8VCSySxUoyfWeTLCCqzJXFNebZWIb02ntWwuk6AHl3Q2yNPms_HqQMVYB7owbWa45Eg6QMqQnBslW3KskJjz6es2g
+
++ Response 200 (application/json)
+
+    + Attributes
+        + person (Person)
+        + student (Student)
+        + teacher (Teacher)
+
+
+
+# Data structure
+
+## ProgressSheetStudentFillable
+
++ progress_sheet_item_id: 1 (number) - Id do item da ficha avaliativa
++ school_calendar_phase_id: 1 (number) - ID da fase que a avaliação será registrada.
++ student_id: 1 (number) - ID do aluno.
++ option_identifier: `I` (string) - Resposta da ficha avaliativa
+
+## ProgressSheetStudent
+
++ student_progress_sheet_id: 1 (number) - Id da ficha avaliativa do estudante
++ Include (ProgressSheetItemFillable)
+
+## Tag (object)
+
++ id: 1 (number) - ID da tag.
++ tag_group_id: 1 (number) - ID do grupo que a tag está associada.
++ slug: habilidade-cognitiva (string) - Nome normalizado da tag.
++ name: Habilidade cognitiva (string) - Nome da tag
++ count: 10 (number) - Quantidade total de utilização da tag.
+
+## GroupFillable (object)
+
++ name: Habilidade cognitiva (string) - Nome do grupo
++ order: 3 (number) - Número de ordenação do grupo
+
+## Group (object)
+
++ id: 1 (number) - ID do grupo
++ include GroupFillable
+
+## ProgressSheetItemFillable
+
++ nome: `Conhece o alfabeto como símbolo da escrita` (string) - Nome do item da ficha avaliativa
++ progress_sheet_id: 1 (number, optional) - ID da ficha avaliativa
++ group_id: 1 (number, optional) - ID do grupo associado ao item.
+
+## ProgressSheetItem
+
+<<<<<<< HEAD
++ progress_sheet_item_id: 1 (number) - Id do item da ficha avaliativa
+=======
++ id: 1 (number) - Id Do item da ficha avaliativa
+>>>>>>> 33f9157dfbb0eceb68419edf5270142a2eac07c0
++ Include (ProgressSheetItemFillable)
+
+## ProgressSheetFillable
+
++ nome: `Ficha de Acompanhamento da Aprendizagem` (string) - Nome da ficha avaliativa
++ options (array) - Opções de resposta de avaliação dos itens da ficha
+    + (object)
+        + identifier: `I` (string)
+        + label: `Irregular` (string)
+    + (object)
+        + identifier: `R` (string)
+        + label: `Regular` (string)
+    + (object)
+        + identifier: `B` (string)
+        + label: `Bom` (string)
+    + (object)
+        + identifier: `O` (string)
+        + label: `Ótimo` (string)
+
+## ProgressSheet
+
++ progress_sheet_id: 1 (number) - ID da ficha de avaliacao
++ Include (ProgressSheetFillable)
+
+## LessonPlanModelFillable
+
++ definition (array) - String JSON válido com definição do formulário de castro do plano de aula
+    + (object)
+        + name: `Objetivo` (string)
+        + type: 'text' (string)
+        + `required`: true (boolean)
+    + (object)
+        + name: `Conteúdo` (string)
+        + type: 'text' (string)
+        + `required`: true (boolean)
+    + (object)
+        + name: `Metodologia` (string)
+        + type: 'long-text' (string)
+        + `required`: true (boolean)
+    + (object)
+        + name: `Material ditatico` (string)
+        + type: 'text' (string)
+        + `required`: true (boolean)
+
+## LessonPlanModel
+
++ id: 1 (number) - ID do modelo do plano de aula
++ Include (LessonPlanModelFillable)
+
+## LessonPlanFillable
+
++ lesson_plan_template_id: 1 (number, optional) - ID do modelo de plano de aula relacionado
++ content (array) - String JSON válido contendo o conteúdo do plano
+    + (object)
+        + name: `Objetivo` (string)
+        + type: 'text' (string)
+        + `required`: true (boolean)
+        + value: 'Resolver operações utilizando números decimais obedecendo regras.'
+    + (object)
+        + name: `Conteúdo` (string)
+        + type: 'text' (string)
+        + `required`: true (boolean)
+        + value: 'Operações com números ordinais.'
+    + (object)
+        + name: `Metodologia` (string)
+        + type: 'long-text' (string)
+        + `required`: true (boolean)
+        + value: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
+    + (object)
+        + name: `Material ditatico` (string)
+        + type: 'text' (string)
+        + `required`: true (boolean)
+        + value: 'Livro didático, Jogo de tabuleiro.'
+
+## LessonPlan
+
++ id: 1 (number) - Identificador único do plano de aula
++ Include (LessonPlanFillable)
+
+## SubjectAnnualReport (object)
+
++ Include (Subject)
++ average_calculation: `((9.6 + 9.3)*0.4 + (9.3 + 9.8)*0.6)/2` (string) - `Calculo de média da disciplina`
++ average_formula: `( ({1º Bimestre} + {2º Bimestre})*0.4 + ({3º Bimestre} + {4º Bimestre})*0.6 )/2` (string)  - `Formula utilizada para calcular a média anual da disciplina`
++ average_year: 8.2 (number) - `Média do aluno para disciplina no ano letivo`
++ absences: 10 (number) - `Total de faltas do aluno para disciplina no ano letivo`
++ school_calendar_phases (array)
+    +  (object)
+        + Include (SchoolCalendarPhase)
+        + average: 7.2 (number) - `Média do aluno no para disciplina na fase do ano`
+        + average_calculation: `(6.5 + 5.7)/2` (string) - `Calculo da média da disciplina na fase do ano`
+        + average_formula: `({Nota 1.1} + {Nota 1.2})/2` (string) - `Formula utilizada para  calcular a média da disciplina na fase do ano`
+        + absences: 2 (number) - `Total de faltas do aluno para disciplina na fase do ano`
+        + student_grades (array)
+            + (StudentGrade)
+
+
+## SubjectFillable (object)
+
++ name: Matématica  (string) - Nome da disciplina. Ex.: Matématica, Português, Fisica.
+
+## Subject (object)
+
++ id: 1 (number) - Identificador único da disciplina.
++ Include (SubjectFillable)
+
+## StudentGradeFillable (object)
+
++ grade: 7.5 (number) - Nota do aluno na avaliação.
++ student_id: 1 (number) - ID do aluno.
++ subject_id: 1 (number) - ID da disciplina relacionada a turma a qual o aluno realizou a avaliação.
++ assessment_id: 1 (number) - ID da avaliação.
++ school_class_id: 1 (number) - ID da turma onde a prova foi aplicada.
+
+## StudentGrade (object)
+
++ id: 1 (number) - Identificador único da nota do aluno.
++ Include (StudentGradeFillable)
+
+## OccurenceFillable (object)
+
++ comment: fulano fez isso (string) - descrição sobre os fatos da occorencia
++ level_id: 1 (number) - Nivel da occorencia
++ about_person_id: 2 (number) - ID do usuario que esta recebendo a occorencia
+
+## Occurence (object)
+
++ id: 1 (number) - Identificador único da ocorrência.
++ Include (OccurenceFillable)
+
+## Level (object)
+
++ id: 1 (number) - Identificador único de level
++ name: Grave (string)
+
+## Assessment (object)
+
++ id: 1 (number) - Identificador único da avaliação
++ name: Nota N1 (string)- Descrição da avaliação
++ school_calendar_phase_id: 1 (number) - ID da fase que a avaliação será registrada.
+
+## SchoolCalendarPhase (object)
+
++ id: 1 (number) - Identificador único da fase avaliativa do ano.
++ name: `1º Bimestre` (string)
++ start: `2016-02-01` (string) - Data inicial do período avaliativo
++ end: `2016-04-01` (string) - Ultimo dia do período avaliativo
++ school_calendar_id: 1 (number)- ID do ano letivo a qual esta fase está relacionada.
+
+## SchoolCalendar (object)
+
++ id: 1 (number) - Identificador único do ano letivo.
++ Include (SchoolCalendarFillable)
+
+## SchoolCalendarFillable (object)
+
++ year: 2014 (number) - Ano de referência
++ start: `2016-02-01` - Inicio do ano letivo
++ end: `2016-12-10` - Fim do ano letivo
++ average_formula: `( ({1º Bimestre} + {2º Bimestre})*0.4 + ({3º Bimestre} + {4º Bimestre})*0.6 )/2`  - `Fórmula utilizada para calcular médias do aluno no ano`
+
+## SchoolFillable (object)
+
++ name: Escola luz do saber (string) - Nome da escola.
++ contacts (array) - Json com informações de contatos da escola.
+
+## School (object)
+
++ id: 1 (number) - Identificador único da escola.
++ Include (SchoolFillable)
+
+## SchoolClassFillable (object)
+
++ identifier: A (string) - Abreviação/identificação da turma. Exmplo: B, para segunda turma do 1º ano (de 1 Ano B).
++ grade_id: 1 (number) - ID do ano estudantíl.
++ shift_id: 1 (number) - ID do turno.
++ school_calendar_id: 1 (number) - ID do Ano letivo em que a turma existe.
++ school_id: 1 (number) - ID da escola relacionada.
++ evaluation_type (enum[string]) - Definiçao do modo de avaliação da turma.
+    + members
+        + grade_phase - Define que a avaliação da turma é por notas númericas calculadas por fase do calendário escolar.
+        + progress_sheet_phase - Define que a avaliação da turma é por ficha descritiva por aluno. 
++ progress_sheet_id (number) - ID da ficha descritiva utilizada para avaliar os alunos da turma.
+
+## SchoolClass (object)
+
++ id: 1 (number) - Identificador único da turma.
++ Include (SchoolClassFillable)
+
+## SchoolClassSubject (object)
+
++ id: 1 (number) - Identificador único da disciplina em uma turma.
++ school_class_id - ID da turma
++ subject_id - ID da disciplina
+
+## Shift (object)
+
++ id: 1 (number) - Identificador único do turno.
++ name: Matutino (string) - Nome do turno. Exemplo: Vespertino, matutino, noturno.
+
+## LessonFillable (object)
+
++ school_class_id: 1 (number) - `Identificador único da turma.`
++ subject_id: 1 (number) - `Identificador único da disciplina (Matématica, física, ...).`
++ start: `2016-08-30 13:17:11` (string) - `Data e horário de inicio da aula.`
++ end: `2016-08-30 13:17:11` (string) - `Data e horário de termino da aula.`
++ teacher_id: 1 (number) - `ID do professor.`
+
+## Lesson (object)
+
++ id: 1 (number) - `Identificador único  da aula.`
++ lesson_plan_id - `Identificador do plano de aula.`
++ Include (LessonFillable)
+
+## Teacher (object)
+
++ id: 1 (number) - `Identificador único do professor.`
++ person_id: 1 (number) - `ID das informações básicas de pessoa do professor (nome, sobrenome, etc.)`
+
+## Person (object)
+
++ id: 1 (number) - Identificador único da pessoa
++ name: Caio Fernando Chaves (string) - Nome
++ age: 15 (number) - Idade
++ birthday: `2001-04-21` (string) - Data de aniversário
++ piture: `https://randomuser.me/api/portraits/lego/6.jpg` (string) - Foto
++ gender: male (string)
++ place_of_birth: Santa Alenssandra (string) - Cidade de nascimento
++ more: descricao (string) - Mais detalhes sobre a pessoa
++ phone: `(62) 8385-5421` (string) - numero de telefone da pessoa
+
+## Student (object)
+
++ id: 1 (number) - Identificador único do estudante.
++ person_id: 1 (number) - ID das informações básicas de pessoa do aluno (nome, sobrenome, etc.).
+
+## AttendanceRecordFillable (object)
+
++ lesson_id: 1 (number) - Identificador único da aula relacionada
++ student_id: 1 (number) - Identificador único do aluno
++ presence: 2 (number) - `0=Faltou a aula.1=Presente.2=Falta abonada.
++ absence_dismissal: `Ricardo apresentou atestado medico` (string) - `Justificativa da falta (caso presence igual a 2)`
+
+## AttendanceRecord (object)
+
++ id: 1 (number) - Identificador único do registro de presença
++ Include (AttendanceRecordFillable)
+
+## Paginator (object)
+
++ total: 25 (number) - Total de resultados encontrados
++ per_page: 15 (number) - Quantidade de resultados por página
++ current_page: 1 (number) - Página atual
++ last_page: 2 (number) - Ultima página
++ next_page_url: `http://localhost/api/<resource>?page=2` (string, nullable) - Url para resultados da proxima página
++ prev_page_url: null (string, nullable) - Url para resultados da página anterior
++ from: 1 (number) - Número inicial de resultados de paginação da página atual
++ to: 15 (number) - Número final de resultados de paginação da página atual
+
+
+# Group Avaliações
+
+Nesta API, avaliações são definições de desempenho dos alunos. <br/>
+O desempenho do aluno pode ser avaliado por `Notas` ou `Avaliações descritivas`.<br/>
+`Notas` são os registros de resultados dos alunos em provas/trabalhos/etc.<br/>
+`Avaliações descritivas` são registros que os professores fazem para indicar qual a situação do aluno referente a uma habilidade.<br>
+Veja a imagem neste [link](https://drive.google.com/file/d/0B3GJIAxM0VTOSWpoLTY4aXo0VkE/view) com a simulação de um aplicativo durante o preenchimento da ficha de avaliação de um aluno.
+
+## Coleção de avaliacoes [/assessments]
+
+`Assessments` são as notas dos alunos que o professor precisa informar durante o ano/calendário escolar.<br/>
+Veja a imagem neste [Link](https://drive.google.com/a/logoseducacao.com.br/file/d/0B_HwgyV_NIl-OEhRWkQ0dnc3Z28/view?usp=sharing) com exemplo de um aplicativo
+para registrar notas dos alunos de uma turma.<br/>`Nota 1.1` e `Nota 1.2` são os assessments.
+
+### Listar avaliações [GET]
+
+Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="output.html#header-parametros-de-filtros-em-listagem">sessão</a> como definir os parametros da requisição.
+
+
++ Parameters
+    + _q (string, optional) - Pesquisa por palavra-chave, a correspondência e incluida conjunto de resultados.
+        + Members
+            +name
+    + _sort (string, optional) - Ordena a coluna desejada, de forma acendente ou descendente.
+    + _with (string, optional) - Obtem informações do recurso relacionado.
+        + Members
+            + schoolCalendarPhase
+
++ Request  (application/json)
+    + Headers
+
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQyNjg3MzYsImlhdCI6MTQ5NDI2MTUzNiwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.UKSXHE7LQ0blPp6an9UewlSMCl-Q1aFYNPnkwQjWWqd3sfXToue0u8_6Y4iwh-CqfNP704t-e8OpVUwwo568ShBWrBiEgLbzgFnig56KtQkoO1daz9U_6B-89CVAyIdvG0wmOgXf17s2fskusDt7Lr7rxTzXAbscSpGOXh6_IUsiVe7JFACf2TNiJ8KaBcfTxO2vgqcH3wJ8T5-Iuyj4YYz6EDVZe6Yd70Y89R0X_ERmrsTAK8t_sA9pHMs3j8VCSySxUoyfWeTLCCqzJXFNebZWIb02ntWwuk6AHl3Q2yNPms_HqQMVYB7owbWa45Eg6QMqQnBslW3KskJjz6es2g
+
++ Response 200 (application/json)
+
+    + Attributes
+        + Include Paginator
+        + data (array)
+            + (Assessment)
+
+
+## Coleção de fichas avaliativas [/progress-sheets{?_q,_sort,_with}]
+
+`progress-sheets` são fichas de avaliação descritiva preenchidas pelos professores com informações sobre o desempenho dos alunos. 
+Normalmente essas fichas são utilizadas para avaliações durante o nível de educação infantíl.
+Veja a imagem neste [link](https://drive.google.com/file/d/0B3GJIAxM0VTOSWpoLTY4aXo0VkE/view) a simulação de um aplicativo 
+onde é registrado a ficha de avaliação de um aluno.
+
+### Listar de fichas avaliativas [GET]
+
+Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="output.html#header-parametros-de-filtros-em-listagem">sessão</a> como definir os parametros da requisição.
+
++ Parameters
+    + _q (string, optional) - Pesquisa por palavra-chave, a correspondência e incluida conjunto de resultados.
+        + Members
+            +name
+    + _sort (string, optional) - Ordena a coluna desejada, de forma acendente ou descendente.
+    + _with (string, optional) - Obtem informações do recurso relacionado.
+        + Members
+            + items - Items da ficha avaliativa
+
++ Request  (application/json)
+    + Headers
+
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQyNjg3MzYsImlhdCI6MTQ5NDI2MTUzNiwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.UKSXHE7LQ0blPp6an9UewlSMCl-Q1aFYNPnkwQjWWqd3sfXToue0u8_6Y4iwh-CqfNP704t-e8OpVUwwo568ShBWrBiEgLbzgFnig56KtQkoO1daz9U_6B-89CVAyIdvG0wmOgXf17s2fskusDt7Lr7rxTzXAbscSpGOXh6_IUsiVe7JFACf2TNiJ8KaBcfTxO2vgqcH3wJ8T5-Iuyj4YYz6EDVZe6Yd70Y89R0X_ERmrsTAK8t_sA9pHMs3j8VCSySxUoyfWeTLCCqzJXFNebZWIb02ntWwuk6AHl3Q2yNPms_HqQMVYB7owbWa45Eg6QMqQnBslW3KskJjz6es2g
+
++ Response 200 (application/json)
+
+    + Attributes
+        + Include Paginator
+        + data (array)
+            + (ProgressSheet)
+
+### Criar ficha avaliativa [POST]
+
++ Request  (application/json)
+    + Headers
+
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQyNjg3MzYsImlhdCI6MTQ5NDI2MTUzNiwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.UKSXHE7LQ0blPp6an9UewlSMCl-Q1aFYNPnkwQjWWqd3sfXToue0u8_6Y4iwh-CqfNP704t-e8OpVUwwo568ShBWrBiEgLbzgFnig56KtQkoO1daz9U_6B-89CVAyIdvG0wmOgXf17s2fskusDt7Lr7rxTzXAbscSpGOXh6_IUsiVe7JFACf2TNiJ8KaBcfTxO2vgqcH3wJ8T5-Iuyj4YYz6EDVZe6Yd70Y89R0X_ERmrsTAK8t_sA9pHMs3j8VCSySxUoyfWeTLCCqzJXFNebZWIb02ntWwuk6AHl3Q2yNPms_HqQMVYB7owbWa45Eg6QMqQnBslW3KskJjz6es2g
+
+    + Attributes (ProgressSheetFillable)
+
++ Response 201 (application/json)
+
+    + Attributes
+        + progress_sheet (ProgressSheet)
+
+
+## Ficha avaliativa [/progress-sheets/{progress_sheet_id}]
+
+### Detalhes da ficha avaliativa [GET]
+
++ Parameters
+    + progress_sheet_id: 1 (number) - ID da ficha avaliativa
+    + _attach (string, optional) - Anexa outras informações a ficha a resposta
+        + Members
+            + groups - Lista de todos os grupos relacionados os itens da ficha avaliativa.
+    + _with (string, optional) - Inclui as relações da ficha a resposta
+        + Members
+            + items - Items da ficha avaliativa
+
+
++ Request  (application/json)
+    + Headers
+
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQyNjg3MzYsImlhdCI6MTQ5NDI2MTUzNiwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.UKSXHE7LQ0blPp6an9UewlSMCl-Q1aFYNPnkwQjWWqd3sfXToue0u8_6Y4iwh-CqfNP704t-e8OpVUwwo568ShBWrBiEgLbzgFnig56KtQkoO1daz9U_6B-89CVAyIdvG0wmOgXf17s2fskusDt7Lr7rxTzXAbscSpGOXh6_IUsiVe7JFACf2TNiJ8KaBcfTxO2vgqcH3wJ8T5-Iuyj4YYz6EDVZe6Yd70Y89R0X_ERmrsTAK8t_sA9pHMs3j8VCSySxUoyfWeTLCCqzJXFNebZWIb02ntWwuk6AHl3Q2yNPms_HqQMVYB7owbWa45Eg6QMqQnBslW3KskJjz6es2g
+
++ Response 200 (application/json)
+
+    + Attributes
+        + progress_sheet (ProgressSheet)
+
+### Alterar ficha avaliativa [PUT]
+
++ Parameters
+    + progress_sheet_id: 1 (number) - ID da ficha avaliativa
+
++ Request  (application/json)
+    + Headers
+
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQyNjg3MzYsImlhdCI6MTQ5NDI2MTUzNiwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.UKSXHE7LQ0blPp6an9UewlSMCl-Q1aFYNPnkwQjWWqd3sfXToue0u8_6Y4iwh-CqfNP704t-e8OpVUwwo568ShBWrBiEgLbzgFnig56KtQkoO1daz9U_6B-89CVAyIdvG0wmOgXf17s2fskusDt7Lr7rxTzXAbscSpGOXh6_IUsiVe7JFACf2TNiJ8KaBcfTxO2vgqcH3wJ8T5-Iuyj4YYz6EDVZe6Yd70Y89R0X_ERmrsTAK8t_sA9pHMs3j8VCSySxUoyfWeTLCCqzJXFNebZWIb02ntWwuk6AHl3Q2yNPms_HqQMVYB7owbWa45Eg6QMqQnBslW3KskJjz6es2g
+
+    + Attributes (ProgressSheetFillable)
+
++ Response 200 (application/json)
+
+    + Attributes
+        + progress_sheet (ProgressSheet)
+
+
+### Excluir ficha avaliativa [DELETE]
+
++ Parameters
+    + progress_sheet_id: 1 (number) - ID da ficha avaliativa
+
++ Request  (application/json)
+    + Headers
+
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQyNjg3MzYsImlhdCI6MTQ5NDI2MTUzNiwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.UKSXHE7LQ0blPp6an9UewlSMCl-Q1aFYNPnkwQjWWqd3sfXToue0u8_6Y4iwh-CqfNP704t-e8OpVUwwo568ShBWrBiEgLbzgFnig56KtQkoO1daz9U_6B-89CVAyIdvG0wmOgXf17s2fskusDt7Lr7rxTzXAbscSpGOXh6_IUsiVe7JFACf2TNiJ8KaBcfTxO2vgqcH3wJ8T5-Iuyj4YYz6EDVZe6Yd70Y89R0X_ERmrsTAK8t_sA9pHMs3j8VCSySxUoyfWeTLCCqzJXFNebZWIb02ntWwuk6AHl3Q2yNPms_HqQMVYB7owbWa45Eg6QMqQnBslW3KskJjz6es2g
+
++ Response 204
+
+
+
+## Coleção de items da ficha avaliativa [/progress-sheet/{progress_sheet_id}/items{?_q,_sort,_with}]
+
+<<<<<<< HEAD
+### Listar item da ficha avaliativa [GET]
+=======
+### Listar items [GET]
+>>>>>>> 33f9157dfbb0eceb68419edf5270142a2eac07c0
+
+Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="output.html#header-parametros-de-filtros-em-listagem">sessão</a> como definir os parametros da requisição.
+
++ Parameters
+    + _q (string, optional) - Pesquisa por palavra-chave, a correspondência e incluida conjunto de resultados.
+        + Members
+            +name
+    + _sort (string, optional) - Ordena a coluna desejada, de forma acendente ou descendente.
+    + _with (string, optional) - Obtem informações do recurso relacionado.
+        + Members
+            + progressSheet - Ficha avaliativa associada ao item.
+            + group - Grupo associado ao item
+
++ Request  (application/json)
+    + Headers
+
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQyNjg3MzYsImlhdCI6MTQ5NDI2MTUzNiwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.UKSXHE7LQ0blPp6an9UewlSMCl-Q1aFYNPnkwQjWWqd3sfXToue0u8_6Y4iwh-CqfNP704t-e8OpVUwwo568ShBWrBiEgLbzgFnig56KtQkoO1daz9U_6B-89CVAyIdvG0wmOgXf17s2fskusDt7Lr7rxTzXAbscSpGOXh6_IUsiVe7JFACf2TNiJ8KaBcfTxO2vgqcH3wJ8T5-Iuyj4YYz6EDVZe6Yd70Y89R0X_ERmrsTAK8t_sA9pHMs3j8VCSySxUoyfWeTLCCqzJXFNebZWIb02ntWwuk6AHl3Q2yNPms_HqQMVYB7owbWa45Eg6QMqQnBslW3KskJjz6es2g
+
++ Response 200 (application/json)
+
+    + Attributes
+        + Include Paginator
+        + data (array)
+<<<<<<< HEAD
+            + (ProgressSheetItem)
+
+### Criar item da ficha avaliativa [POST]
+
++ Request  (application/json)
+    + Headers
+
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQyNjg3MzYsImlhdCI6MTQ5NDI2MTUzNiwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.UKSXHE7LQ0blPp6an9UewlSMCl-Q1aFYNPnkwQjWWqd3sfXToue0u8_6Y4iwh-CqfNP704t-e8OpVUwwo568ShBWrBiEgLbzgFnig56KtQkoO1daz9U_6B-89CVAyIdvG0wmOgXf17s2fskusDt7Lr7rxTzXAbscSpGOXh6_IUsiVe7JFACf2TNiJ8KaBcfTxO2vgqcH3wJ8T5-Iuyj4YYz6EDVZe6Yd70Y89R0X_ERmrsTAK8t_sA9pHMs3j8VCSySxUoyfWeTLCCqzJXFNebZWIb02ntWwuk6AHl3Q2yNPms_HqQMVYB7owbWa45Eg6QMqQnBslW3KskJjz6es2g
+
+    + Attributes (ProgressSheetItemFillable)
+
++ Response 201 (application/json)
+
+    + Attributes
+        + progress_sheet_item (ProgressSheetItem)
+
+### Alterar item da ficha avaliativa [PUT]
+
++ Parameters
+    + progress_sheet_item_id: 1 (number) - ID do item da ficha avaliativa
+
++ Request  (application/json)
+    + Headers
+
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQyNjg3MzYsImlhdCI6MTQ5NDI2MTUzNiwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.UKSXHE7LQ0blPp6an9UewlSMCl-Q1aFYNPnkwQjWWqd3sfXToue0u8_6Y4iwh-CqfNP704t-e8OpVUwwo568ShBWrBiEgLbzgFnig56KtQkoO1daz9U_6B-89CVAyIdvG0wmOgXf17s2fskusDt7Lr7rxTzXAbscSpGOXh6_IUsiVe7JFACf2TNiJ8KaBcfTxO2vgqcH3wJ8T5-Iuyj4YYz6EDVZe6Yd70Y89R0X_ERmrsTAK8t_sA9pHMs3j8VCSySxUoyfWeTLCCqzJXFNebZWIb02ntWwuk6AHl3Q2yNPms_HqQMVYB7owbWa45Eg6QMqQnBslW3KskJjz6es2g
+
+    + Attributes (ProgressSheetItemFillable)
+
++ Response 200 (application/json)
+
+    + Attributes
+        + progress_sheet_item (ProgressSheetItem)
+
+
+### Excluir item da ficha avaliativa [DELETE]
+
++ Parameters
+    + progress_sheet_item_id: 1 (number) - ID do item da ficha avaliativa
+
++ Request  (application/json)
+    + Headers
+
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQyNjg3MzYsImlhdCI6MTQ5NDI2MTUzNiwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.UKSXHE7LQ0blPp6an9UewlSMCl-Q1aFYNPnkwQjWWqd3sfXToue0u8_6Y4iwh-CqfNP704t-e8OpVUwwo568ShBWrBiEgLbzgFnig56KtQkoO1daz9U_6B-89CVAyIdvG0wmOgXf17s2fskusDt7Lr7rxTzXAbscSpGOXh6_IUsiVe7JFACf2TNiJ8KaBcfTxO2vgqcH3wJ8T5-Iuyj4YYz6EDVZe6Yd70Y89R0X_ERmrsTAK8t_sA9pHMs3j8VCSySxUoyfWeTLCCqzJXFNebZWIb02ntWwuk6AHl3Q2yNPms_HqQMVYB7owbWa45Eg6QMqQnBslW3KskJjz6es2g
+
++ Response 204
+
+
+=======
+            + (ProgressSheetItem)
+>>>>>>> 33f9157dfbb0eceb68419edf5270142a2eac07c0
+
