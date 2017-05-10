@@ -27,57 +27,25 @@ class StudentProgressSheetController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    // public function store(Request $request)
-    // {
-    //     $this->validationForStoreAction($request, [
-    //             // '{attribute}' => '{validation}',
-    //         ]);
-    //     $studentProgressSheetController = StudentProgressSheet::create($request->all());
+    public function store(Request $request)
+    {
+        $studentProgressSheetController = StudentProgressSheet::create($request->all());
 
-    //     return $this->response->created("/resource/{$studentProgressSheetController->id}", $studentProgressSheetController);
-    // }
+        return $this->response->created("/student-progress-sheets/{$studentProgressSheetController->id}", $studentProgressSheetController);
+    }
 
     /**
-     * Display the specified resource.
+     * Show a single resulte
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    // public function show($id)
-    // {
-    //     return StudentProgressSheet::findOrFail($id);
-    // }
+    public function show($id)
+    {
+        $result = $this->apiHandler->parseSingle(new StudentProgressSheet, $id);
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    // public function update(Request $request, $id)
-    // {
-    //     $this->validationForUpdateAction($request, [
-    //         // 'attribute' => 'rule',
-    //         ]);
+        return $result->getResultOrFail();
+    }
 
-    //     $studentProgressSheetController = StudentProgressSheet::findOrFail($id);
-    //     $studentProgressSheetController->update($request->all());
 
-    //     return $studentProgressSheetController;
-    // }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    // public function destroy($id)
-    // {
-    //     $studentProgressSheetController = StudentProgressSheet::findOrFail($id);
-    //     $studentProgressSheetController->delete();
-
-    //     return $this->response->noContent();
-    // }
 }

@@ -141,10 +141,8 @@ $api->version('v1', function ($api) {
 			$api->delete('progress-sheets/{id}/items','App\Http\Controllers\ProgressSheetController@destroyItems');
 
 			$api->get('student-progress-sheets','App\Http\Controllers\StudentProgressSheetController@index');
-			// $api->post('progress-student-progress-sheets','App\Http\Controllers\ProgressSheetController@store');
-			// $api->get('student-progress-sheets/{id}','App\Http\Controllers\ProgressSheetController@show');
-			// $api->put('student-progress-sheets/{id}','App\Http\Controllers\ProgressSheetController@update');
-			// $api->delete('student-progress-sheets/{id}','App\Http\Controllers\ProgressSheetController@destroy');
+			$api->post('student-progress-sheets','App\Http\Controllers\StudentProgressSheetController@store');
+			$api->get('student-progress-sheets/{id}','App\Http\Controllers\StudentProgressSheetController@show');
 			
 			});
 		});
