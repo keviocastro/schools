@@ -13,7 +13,8 @@
         "marcelgwerder/laravel-api-handler": "dev-master",
         "barryvdh/laravel-cors": "^0.8.2",
         "danielstjules/stringy": "~2.3",
-        "rtconner/laravel-tagging": "~2.2"
+        "rtconner/laravel-tagging": "~2.2",
+        "doctrine/dbal": "^2.6@dev"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

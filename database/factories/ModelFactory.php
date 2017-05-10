@@ -45,8 +45,13 @@ $factory->define(App\School::class, function () use ($factory, $faker) {
 });
 
 
-$factory->define(App\SchoolClass::class, function () use ($factory, $faker) {
-    $evaluation_type = $faker->randomElement(App\EvaluationTypeRepository::all());
+$factory->define(App\SchoolClass::class, function ($faker, $attributes) use ($factory) {
+    
+    if (empty($attributes['evaluation_type'])) {
+        $evaluation_type = $faker->randomElement(App\EvaluationTypeRepository::all());
+    }else{
+        $evaluation_type = $attributes['evaluation_type'];
+    }
 
     return [
         'identifier' => $faker->randomLetter(),

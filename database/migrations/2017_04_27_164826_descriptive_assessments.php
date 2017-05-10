@@ -115,6 +115,14 @@ class DescriptiveAssessments extends Migration
             $table->string('evaluation_type')->default('grade_per_phase');
             $table->unsignedInteger('progress_sheet_id')->nullable();
         });
+
+        Schema::table('lessons', function(Blueprint $table){
+            // Porque uma aula pode ser multidiciplinar.
+            // Por exemplo para jardim I, Jardim II, 1º Ano só teremos uma professora em sala.
+            $table->unsignedInteger('subject_id')
+                ->nullable()
+                ->change();
+        });
     }
 
     /**

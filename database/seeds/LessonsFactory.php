@@ -29,7 +29,7 @@ class LessonsFactory
         Carbon $lastDay, 
         int $lessonStartTime,
         \App\SchoolClass $schoolClass,
-        \App\Subject $subject,
+        $subject=null,
         \App\Teacher $teacher
         ){
 
@@ -37,6 +37,8 @@ class LessonsFactory
         $startLesson->hour = $lessonStartTime;
         $endLesson = clone $startLesson;
         $endLesson->addMinutes(45);
+
+        $subject = empty($subject) ? null : $subject->id;
 
         $lessons = [];
         while ( $startLesson->lt($lastDay) ) {
@@ -47,7 +49,7 @@ class LessonsFactory
 	        			'school_class_id' => $schoolClass->id,
 	        			'start' => $startLesson->format('Y-m-d H:i'),
 	        			'end' => $endLesson->format('Y-m-d H:i'),
-                        'subject_id' => $subject->id,
+                        'subject_id' => $subject,
                         'teacher_id' => $teacher->id
                     ]);
             
