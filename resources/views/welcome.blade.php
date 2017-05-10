@@ -41,6 +41,10 @@
                 margin-bottom: 20px;
             }
 
+            .container a {
+                font-size: 30px;
+            }
+
             .title {
                 font-size: 96px;
             }
@@ -53,6 +57,7 @@
                 font-size: 22px; 
                 padding: 20px; 
             }
+
         </style>
     </head>
     <body>
@@ -60,8 +65,9 @@
             <div class="content">
                 <img src="images/schools.png">
                 <div class="title">Schools API</div>
-                <div class="description">APIs e ferramentas para você gerir dados de escolas, alunos, professores, matriculas de alunos, registros de presença e notas.</div>
+                <div class="description">Esta API permite gerir dados administrativas organização educacional podendo ser privada ou publica. São dados administrativos tais como matriculas, registros de frequencias, notas, cargos e funções dos professores, entre outros.</div >
             </div>
+            <a class="doc-link" href="/apidocs">Veja aqui a documentação da api.</a>
         </div>
     </body>
 </html>

@@ -83,7 +83,6 @@ class Controller extends BaseController
         return $result;
     }
 
-
     /**
      * Validation for store action queryParams
      * 

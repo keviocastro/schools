@@ -12,7 +12,13 @@ class StudentProgressSheet extends Model
      *
      * @var array
      */
-    protected $fillable = ['option_identifier','progress_sheet_item_id','student_id','school_calendar_phase_id'];
+    protected $fillable = [
+        'option_identifier',
+        'progress_sheet_item_id',
+        'student_id',
+        'school_calendar_phase_id',
+        'school_class_id'
+    ];
     
     /**
      * Atributos que não serão exibidos em array
@@ -36,31 +42,6 @@ class StudentProgressSheet extends Model
      */
     public function progressSheetItem()
     {
-        return $this->belongsTo('App\ProgressSheetItem','progress_sheet_item_id');
-    }
-
-    /**
-     * Get the Phases of the school calendar
-     * 
-     * @Relation
-     * 
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function phases()
-    {
-        return $this->hasMany('App\SchoolCalendarPhase','school_calendar_phase_id')
-            ->orderBy('start', 'asc');  
-    }
-	 
-	/**
-	 * Estudantes da aula
-	 * 
-	 * @Relation
-	 * 
-	 * @return \Illuminate\Database\Eloquent\Relations\belongsToMany
-	 */
-    public function students()
-    {
-        return $this->belongsToMany('App\Student','student_id')->with('person');
+        return $this->belongsTo('App\ProgressSheetItem');
     }
 }

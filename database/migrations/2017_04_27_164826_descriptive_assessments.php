@@ -45,11 +45,24 @@ class DescriptiveAssessments extends Migration
             $table->softDeletes();
         });
 
+        Schema::create('groups', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('name');
+            $table->tinyInteger('order')->nullable();
+
+            $table->string('created_by')->nullable();
+            $table->string('updated_by')->nullable();
+            $table->string('deleted_by')->nullable();
+            $table->softDeletes();
+            $table->timestamps();
+        });
+
         // Item de avaliação
         Schema::create('progress_sheet_items', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
             $table->unsignedInteger('progress_sheet_id');
+            $table->unsignedInteger('group_id');
 
             $table->foreign('progress_sheet_id')
                 ->references('id')
@@ -68,14 +81,16 @@ class DescriptiveAssessments extends Migration
             $table->unsignedInteger('student_id');
             $table->unsignedInteger('progress_sheet_item_id');
             $table->unsignedInteger('school_calendar_phase_id');
+            $table->unsignedInteger('school_class_id');
 
             $table->string('created_by')->nullable();
             $table->string('updated_by')->nullable();
             $table->string('deleted_by')->nullable();
             $table->softDeletes();
 
-            // Identifier de progress_sheets.options
-            $table->string('option_identifier');
+            // Identificador da resposta para o aluno no item.
+            // É um dos identificadores armazenados em progress_sheets.options
+            $table->string('option_identifier')->nullable();
             $table->timestamps();
 
             $table->foreign('student_id')
@@ -87,6 +102,10 @@ class DescriptiveAssessments extends Migration
             $table->foreign('school_calendar_phase_id')
                 ->references('id')
                 ->on('school_calendar_phases');
+
+            $table->foreign('school_class_id')
+                ->references('id')
+                ->on('school_classes');
         });
 
         Schema::table('school_classes', function(Blueprint $table){
@@ -95,6 +114,14 @@ class DescriptiveAssessments extends Migration
             // progress_sheet_per_phase
             $table->string('evaluation_type')->default('grade_per_phase');
             $table->unsignedInteger('progress_sheet_id')->nullable();
+        });
+
+        Schema::table('lessons', function(Blueprint $table){
+            // Porque uma aula pode ser multidiciplinar.
+            // Por exemplo para jardim I, Jardim II, 1º Ano só teremos uma professora em sala.
+            $table->unsignedInteger('subject_id')
+                ->nullable()
+                ->change();
         });
     }
 
@@ -105,8 +132,9 @@ class DescriptiveAssessments extends Migration
      */
     public function down()
     {
-        Schema::drop('student_progress_sheet');
+        Schema::drop('student_progress_sheets');
         Schema::drop('progress_sheet_items');
+        Schema::drop('groups');
         Schema::drop('progress_sheets');
         Schema::table('school_classes', function(Blueprint $table) {
             $table->dropColumn('evaluation_type');

@@ -212,7 +212,8 @@ class SchoolCalendar2016 extends Seeder
         // 4 Registros de ocorrencia para cada aluno
         dump('Criando turmas, alunos e ocorrências...');
         $schoolClass = factory(SchoolClass::class)->create([
-                'school_calendar_id' => $schoolCalendar->id
+                'school_calendar_id' => $schoolCalendar->id,
+                'evaluation_type' => App\EvaluationTypeRepository::GRADE_PHASE
             ]);
         $firstStudentId = null;
         $students = factory(Student::class, 20)->create()

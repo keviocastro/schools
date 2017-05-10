@@ -6,6 +6,8 @@ use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\ProgressSheet;
+use App\ProgressSheetItem;
+use App\Group;
 use Tests\TestCase;
 
 
@@ -61,15 +63,30 @@ class ProgressSheetControllerTest extends TestCase
      */
     public function testShow()
     {
+
     	$progressSheet = factory(ProgressSheet::class)->create();
+        $group = factory(Group::class)->create();
+        $progressSheetItems = factory(ProgressSheetItem::class, 5)->create([
+                'progress_sheet_id' => $progressSheet->id,
+                'group_id' => $group->id
+            ]);
+
+        $group = factory(Group::class)->create();
+        $progressSheetItems = factory(ProgressSheetItem::class, 5)->create([
+                'progress_sheet_id' => $progressSheet->id,
+                'group_id' => $group->id
+            ]);
         
+        $attributes = array_keys($progressSheet->attributesToArray());
+        $attributes['groups'] = ['*' => array_keys($group->attributesToArray())]; 
+
         $json = [
-            "progress_sheet" => 
-                array_keys($progressSheet->attributesToArray())
+            "progress_sheet" => $attributes 
             
         ];
 
-        $this->get("api/progress-sheets/{$progressSheet->id}",
+        $this->get("api/progress-sheets/{$progressSheet->id}".
+            "?_with=items&_attach=groups",
         	$this->getAutHeader())
         	->assertResponseStatus(200)
         	->seeJsonStructure($json);
