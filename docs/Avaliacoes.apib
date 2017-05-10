@@ -144,15 +144,12 @@ onde é registrado a ficha de avaliação de um aluno.
 
 ## Coleção de items da ficha avaliativa [/progress-sheet/{progress_sheet_id}/items{?_q,_sort,_with}]
 
-<<<<<<< HEAD
-### Listar item da ficha avaliativa [GET]
-=======
 ### Listar items [GET]
->>>>>>> 33f9157dfbb0eceb68419edf5270142a2eac07c0
 
 <!-- include(LinkParametrosPadroesListagem.md) -->
 
 + Parameters
+    + progress_sheet_id (number) - ID da ficha avaliativa
     + _q (string, optional) - Pesquisa por palavra-chave, a correspondência e incluida conjunto de resultados.
         + Members
             +name
@@ -172,10 +169,21 @@ onde é registrado a ficha de avaliação de um aluno.
     + Attributes
         + Include Paginator
         + data (array)
-<<<<<<< HEAD
             + (ProgressSheetItem)
 
 ### Criar item da ficha avaliativa [POST]
+
++ Request  (application/json)
+    + Headers
+
+            authorization: <!-- include(Token.md) -->
+
+    + Attributes (array[ProgressSheetItemFillable])
+
++ Response 201 (application/json)
+
+    + Attributes
+        + progress_sheet_items (array[ProgressSheetItem])
 
 + Request  (application/json)
     + Headers
@@ -188,38 +196,3 @@ onde é registrado a ficha de avaliação de um aluno.
 
     + Attributes
         + progress_sheet_item (ProgressSheetItem)
-
-### Alterar item da ficha avaliativa [PUT]
-
-+ Parameters
-    + progress_sheet_item_id: 1 (number) - ID do item da ficha avaliativa
-
-+ Request  (application/json)
-    + Headers
-
-            authorization: <!-- include(Token.md) -->
-
-    + Attributes (ProgressSheetItemFillable)
-
-+ Response 200 (application/json)
-
-    + Attributes
-        + progress_sheet_item (ProgressSheetItem)
-
-
-### Excluir item da ficha avaliativa [DELETE]
-
-+ Parameters
-    + progress_sheet_item_id: 1 (number) - ID do item da ficha avaliativa
-
-+ Request  (application/json)
-    + Headers
-
-            authorization: <!-- include(Token.md) -->
-
-+ Response 204
-
-
-=======
-            + (ProgressSheetItem)
->>>>>>> 33f9157dfbb0eceb68419edf5270142a2eac07c0
