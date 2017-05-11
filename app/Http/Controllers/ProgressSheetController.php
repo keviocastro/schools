@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\ProgressSheet;
+USE App\ProgressSheetItem;
+
+use DB;
 
 class ProgressSheetController extends Controller
 {
@@ -104,4 +107,36 @@ class ProgressSheetController extends Controller
 
         return $result;
     }
+
+     /**
+     * Armazena itens da ficha avaliativa
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function storeItems(Request $request)
+    {
+        $this->validationForStoreAction($request, [
+            'nome' => 'string',
+            'progress_sheet_id' => 'required|exists:progress_sheets,id',
+            'group_id' => 'exists:groups,id'
+            ], '', true);
+
+        $records = $this->makeMultipleInputData();
+        $items = [];
+
+        DB::transaction(function() use ($records, &$items){
+            foreach ($records as $key => $record) {
+                array_push($items, ProgressSheetItem::create($record));
+            }
+        });
+
+        if ($this->checkMultipleInputData()) {
+            return $this->response->created(null, ['progress_sheet_items' => $items]);
+        }else{
+            return $this->response->created('progress_sheet_item/{$items[0]->id}', $items[0]);
+        }
+    
+    }
+
 }
