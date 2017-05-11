@@ -18,10 +18,34 @@ class StudentProgressSheetController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return $this->parseMultiple(new StudentProgressSheet);        
+        $queryParams = $request->input();
+        $group_by = false;
+        $groups_accepted = [
+            'option_identifier', 
+            'student_id', 
+            'school_calendar_phase_id', 
+            'school_class_id'];
+
+        if (!empty($queryParams['_group_by']) && 
+            in_array($queryParams['_group_by'], $groups_accepted)) {
+            
+            $group_by = $queryParams['_group_by'];
+            unset($queryParams['_group_by']);
+        }
+
+
+        $result = $this->parseMultiple(new StudentProgressSheet, [], $queryParams)
+            ->toArray();  
+
+        if ($group_by) {
+            $result['data'] = collect($result['data'])->groupBy($group_by);
+        }
+
+        return $result;      
     }
+
 
     /**
      * Armazena itens de ficha de avaliação de um aluno

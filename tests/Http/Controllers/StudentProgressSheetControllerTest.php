@@ -5,21 +5,57 @@ use Tests\TestCase;
 class StudentProgressSheetControllerTest extends TestCase
 {
 
-    public function setUp(){
-        $this->createProgressSheet();
-        
-        parent::setUp();
-    }
-
-
-
     /**
      * Cria na base de dados uma ficha de avaliação completa
      *
      * @return void
      */
     public function createProgressSheet(){
-       
+
+        // Ficar ficha de avaliação com itens
+        $this->progressSheet = factory(App\ProgressSheet::class)->create();
+        $this->itemsGroup1 = factory(App\ProgressSheetItem::class, 3)->create([
+                'progress_sheet_id' => $this->progressSheet->id,
+                'group_id' => factory(App\Group::class)->create()->id
+            ]);
+        $this->itemsGroup2 = factory(App\ProgressSheetItem::class, 2)->create([
+                'progress_sheet_id' => $this->progressSheet->id,
+                'group_id' => factory(App\Group::class)->create()->id,
+            ]);
+
+        $this->student = factory(App\Student::class)->create();
+        $this->schoolClass = factory(App\SchoolClass::class)->create();
+        $this->phases = factory(App\SchoolCalendarPhase::class, 4)->create();
+    }
+
+    /**
+     * Criar resultados do aluno para todos os itens de avaliação da ficha, 
+     * em todas as fases do ano
+     * 
+     * @return void
+     */
+    public function createStudentProgreSheet(){
+
+        $this->createProgressSheet();
+
+        $options = $this->progressSheet->options;
+        
+        foreach ($this->progressSheet->items as $item) {
+
+            foreach ($this->phases as $phase) {
+
+                factory(App\StudentProgressSheet::class)->create([
+                    'student_id' => $this->student->id,
+                    'progress_sheet_item_id' => $item->id,
+                    'school_calendar_phase_id' => $phase->id,
+                    'school_class_id' => $this->schoolClass->id,
+                    'option_identifier' => $options[rand(0, count($options) -1)]['identifier'],
+                ])->toArray();
+            }
+
+        }
+
+
     }
 
 
@@ -38,6 +74,23 @@ class StudentProgressSheetControllerTest extends TestCase
         	$this->getAutHeader())
         	->assertResponseStatus(200)
         	->seeJson($studentProgressSheet->toArray());
+    }
+
+    /**
+     * @covers App\Http\Controllers\StudentProgressSheetController::index
+     *
+     * @return void
+     */
+    public function testIndexParamGroupBy()
+    {
+        $this->createStudentProgreSheet();  
+
+        $this->get('api/student-progress-sheets'.
+            "?student_id={$this->student->id}".
+            '&_group_by=school_calendar_phase_id'.
+            '&_with=schoolCalendarPhase',
+            $this->getAutHeader())
+            ->assertResponseStatus(200);
     }
 
     /**
@@ -121,19 +174,7 @@ class StudentProgressSheetControllerTest extends TestCase
      */
     public function testStoreConditionUniqueAnswer()
     {
-        $this->progressSheet = factory(App\ProgressSheet::class)->create();
-        $this->itemsGroup1 = factory(App\ProgressSheetItem::class, 5)->create([
-                'progress_sheet_id' => $this->progressSheet->id,
-                'group_id' => factory(App\Group::class)->create()->id
-            ]);
-        $this->itemsGroup2 = factory(App\ProgressSheetItem::class, 5)->create([
-                'progress_sheet_id' => $this->progressSheet->id,
-                'group_id' => factory(App\Group::class)->create()->id,
-            ]);
-
-        $this->student = factory(App\Student::class)->create();
-        $this->schoolClass = factory(App\SchoolClass::class)->create();
-        $this->phases = factory(App\SchoolCalendarPhase::class,4)->create();
+        $this->createProgressSheet();
 
         $option_identifier = $this->progressSheet->options[0]['identifier'];
         $option_identifier_changed = $this->progressSheet->options[1]['identifier'];
