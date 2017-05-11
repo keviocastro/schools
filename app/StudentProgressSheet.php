@@ -44,4 +44,40 @@ class StudentProgressSheet extends Model
     {
         return $this->belongsTo('App\ProgressSheetItem');
     }
+
+    /**
+     * Phase relacionada ao item
+     *
+     * @Relation
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function schoolCalendarPhase()
+    {
+        return $this->belongsTo('App\SchoolCalendarPhase');
+    }
+
+    /**
+     * Turma relacionada ao item
+     *
+     * @Relation
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function schoolClass()
+    {
+        return $this->belongsTo('App\SchoolClass');
+    }
+
+    /**
+     * Estudante relacionada ao item
+     *
+     * @Relation
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function student()
+    {
+        return $this->belongsTo('App\Student');
+    }
 }
