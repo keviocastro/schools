@@ -34,8 +34,9 @@ class SchoolClassController extends Controller
             'grade_id' => 'required|exists:grades,id',
             'shift_id' => 'required|exists:shifts,id',
             'identifier' => 'required|string',
+            'progress_sheet_id' => 'nullable|exists:progress_sheets,id'
         ]);
-
+        
         $schoolClass = SchoolClass::create($request->all());
 
         return $this->response->created("/schools/{$schoolClass->id}", $schoolClass);
