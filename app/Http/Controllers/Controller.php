@@ -122,7 +122,7 @@ class Controller extends BaseController
     /**
      * Validation for update action 
      * 
-     * @param  [type] $request   
+     * @param  Request $request   
      * @param  array  $rules     See https://laravel.com/docs/5.3/validation
      * @param  string $error_msg 
      * @return void
@@ -182,9 +182,9 @@ class Controller extends BaseController
     public function makeMultipleInputData()
     {
         if ($this->checkMultipleInputData()) {
-            return request()->json()->all();
+            return request()->input();
         }else{
-            return [request()->json()->all()];
+            return [request()->input()];
         }
     }
 }

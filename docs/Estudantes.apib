@@ -407,8 +407,7 @@ retornado o registro já existente com as informações atualizadas.
 
 + Response 204
 
-
-## Coleção de itens de fichas avaliativas [/student-progress-sheets{?_q,_sort,_with}]
+## Coleção de resultados dos aluno em itens de fichas avaliativas [/student-progress-sheets{?_q,_sort,_with}]
 
 ### Listar itens de fichas avaliativas [GET]
 
@@ -420,6 +419,9 @@ retornado o registro já existente com as informações atualizadas.
     + _with (string, optional) - Obtem informações do recurso relacionado.
         + Members
             + progressSheetItem - Item de avaliação da ficha relacionado.
+            + schoolCalendarPhase - Fase do ano relacionada ao item de avaliação do aluno.
+            + schoolClass - Turma relacionada ao item.
+            + student - Estudante relacionado ao item.
 
 + Request  (application/json)
     + Headers
@@ -433,7 +435,11 @@ retornado o registro já existente com as informações atualizadas.
         + data (array)
             + (ProgressSheetStudent)
 
-### Criar itens de ficha avaliativa [POST]
+### Criar resultado do aluno para itens de ficha avaliativa [POST]
+
+O aluno pode ter somente um resposta de um item de avaliação, em uma fase do ano, para uma turma.
+Isso significa que um requisição com a combinação de parametros progress_sheet_item_id, school_calendar_phase_id,
+school_class_id e student_id, já existirem, um novo registro não será criado e sim atualizado.
 
 + Request  (application/json)
     + Headers
