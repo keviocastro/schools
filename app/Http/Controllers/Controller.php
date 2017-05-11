@@ -104,7 +104,7 @@ class Controller extends BaseController
 
         if ($accept_items_array) {
             $inputs = $this->makeMultipleInputData();
-
+            
             collect($inputs)->map(function($item, $key) use ($rules,$error_msg){
                 $validator = app('validator')->make($item, $rules);
                 if ($validator->fails()) {
@@ -182,9 +182,9 @@ class Controller extends BaseController
     public function makeMultipleInputData()
     {
         if ($this->checkMultipleInputData()) {
-            return request()->all();
+            return request()->json()->all();
         }else{
-            return [request()->all()];
+            return [request()->json()->all()];
         }
     }
 }
