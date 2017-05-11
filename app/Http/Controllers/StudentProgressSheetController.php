@@ -68,4 +68,26 @@ class StudentProgressSheetController extends Controller
 
         return $result->getResultOrFail();
     }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        $this->validationForUpdateAction($request,[
+            'option_identifier' => 'string',
+            'progress_sheet_item_id' => 'required|exists:progress_sheet_items,id',
+            'student_id' => 'required|exists:students,id',
+            'school_calendar_phase_id' => 'required|exists:school_calendar_phases,id',
+            'school_class_id' => 'required|exists:school_classes,id'
+        ]);
+        $assertation = StudentProgressSheet::findOrFail($id);
+        $assertation->update($request->all());
+
+        return $assertation;
+    }
 }

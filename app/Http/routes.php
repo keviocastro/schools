@@ -148,6 +148,7 @@ $api->version('v1', function ($api) {
 			$api->get('student-progress-sheets','App\Http\Controllers\StudentProgressSheetController@index');
 			$api->post('student-progress-sheets','App\Http\Controllers\StudentProgressSheetController@store');
 			$api->get('student-progress-sheets/{id}','App\Http\Controllers\StudentProgressSheetController@show');
+			$api->put('student-progress-sheets/{id}','App\Http\Controllers\StudentProgressSheetController@update');
 			
 			});
 		});

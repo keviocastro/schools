@@ -97,15 +97,53 @@ class StudentProgressSheetControllerTest extends TestCase
      */
     public function testShow()
     {
-        $studentProgressSheet = factory(StudentProgressSheet::class)->create();
+        $progressSheetItem = factory(App\ProgressSheetItem::class)->create();
+        $studentProgressSheet = factory(StudentProgressSheet::class)->create(["progress_sheet_item_id" => $progressSheetItem->id]);
 
         $structure = [
-            'student_progress_sheet' => $studentProgressSheet->toArray()
+            'student_progress_sheet' => [
+                "id" => $studentProgressSheet->id,
+                "option_identifier" => $studentProgressSheet->option_identifier,
+                "progress_sheet_item" => $progressSheetItem->toArray(),
+                "progress_sheet_item_id" => $progressSheetItem->id,
+                "school_calendar_phase_id" => $studentProgressSheet->school_calendar_phase_id,
+                "school_class_id" => $studentProgressSheet->school_class_id,
+                "student_id" => $studentProgressSheet->student_id
+            ]
         ];
 
-        $this->get("api/student-progress-sheets/{$studentProgressSheet->id}",
+        $this->get("api/student-progress-sheets/{$studentProgressSheet->id}".
+            "?_with=progressSheetItem",
             $this->getAutHeader())
             ->assertResponseStatus(200)
             ->seeJsonEquals($structure);
+    }
+
+    /**
+     * @covers App\Http\Controllers\StudentProgressSheetController::update
+     *
+     * @return void
+     */
+    public function testUpdate()
+    {
+        $studentProgressSheet = factory(StudentProgressSheet::class)->create();
+        $studentProgressSheet_changed = factory(StudentProgressSheet::class)->make();
+
+        $json = [
+            "student_progress_sheet" => [
+                "id" => $studentProgressSheet->id,
+                "option_identifier" => $studentProgressSheet_changed->option_identifier,
+                "progress_sheet_item_id" => $studentProgressSheet_changed->progress_sheet_item_id,
+                "school_class_id" => $studentProgressSheet_changed->school_class_id,
+                "school_calendar_phase_id" => $studentProgressSheet_changed->school_calendar_phase_id,
+                "student_id" => $studentProgressSheet_changed->student_id
+            ]
+        ];
+
+        $this->put("api/student-progress-sheets/{$studentProgressSheet->id}",
+            $studentProgressSheet_changed->toArray(),
+            $this->getAutHeader())
+            ->assertResponseStatus(200)
+            ->seeJsonEquals($json);
     }
 }
