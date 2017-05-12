@@ -83,14 +83,30 @@ class StudentProgressSheetControllerTest extends TestCase
      */
     public function testIndexParamGroupBy()
     {
-        $this->createStudentProgreSheet();  
+        $this->createStudentProgreSheet();
 
+        $items = App\StudentProgressSheet::where([
+            ['school_class_id', '=', $this->schoolClass->id],
+            ['student_id', '=', $this->student->id],
+        ])->get()->toArray();
+
+        $itemsGrouped = collect($items)->groupBy('school_calendar_phase_id');
+
+        // Existing group
         $this->get('api/student-progress-sheets'.
             "?student_id={$this->student->id}".
-            '&_group_by=school_calendar_phase_id'.
-            '&_with=schoolCalendarPhase',
+                "&school_class_id={$this->schoolClass->id}".
+            '&_group_by=school_calendar_phase_id',
             $this->getAutHeader())
             ->assertResponseStatus(200);
+
+        // Not existing group
+        $this->get('api/student-progress-sheets'.
+            "?student_id={$this->student->id}".
+                "&school_class_id={$this->schoolClass->id}".
+            '&_group_by=not_exist_group',
+            $this->getAutHeader())
+            ->assertResponseStatus(422);
     }
 
     /**

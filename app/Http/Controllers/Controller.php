@@ -48,10 +48,14 @@ class Controller extends BaseController
      */
     public function parseMultiple($queryBuilder, $fullTextSearchColumns = array(), $queryParams = false)
     {
+        $group_by = false;
         if ($queryParams === false) {
             $queryParams = Input::get();
-        }
 
+            if (!empty($queryParams['_group_by'])) {
+                $group_by = $queryParams['_group_by'];
+            }
+        }
 
         // Se não remover apiHandler utiliza como filter.
         // _limit e _offset foram removidos porque é utilizado
@@ -62,7 +66,8 @@ class Controller extends BaseController
             'XDEBUG_SESSION_START', 
             'XDEBUG_SESSION_STOP',
             '_limit',
-            '_offset'
+            '_offset',
+            '_group_by'
         ];
 
         foreach ($notAFilter as $value) {
@@ -78,7 +83,19 @@ class Controller extends BaseController
             Input::get('_per_page', null), 
             $columns = ['*'], 
             $pageName = '_page', 
-            $page = null);        
+            $page = null)->toArray();
+
+        if($group_by){
+            if($result['total'] > 0){
+                // If attribute exists in the results
+                $attributes = array_keys($result['data'][0]);
+                if(array_search($group_by, $attributes)){
+                    $result['data'] = collect($result['data'])->groupBy($group_by);
+                }else{
+                    throw new ResourceException('The attribute defined in the _group_by parameter does not exist in the result set.');
+                }
+            }
+        }
 
         return $result;
     }
