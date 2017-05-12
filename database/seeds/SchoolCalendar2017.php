@@ -101,7 +101,7 @@ class SchoolCalendar2017 extends Seeder
     public function create()
     {
         $this->createSchoolCalendar();
-        // $this->createClassesWithGrade();
+        $this->createClassesWithGrade();
         $this->createClassesWithProgressSheet();
     }
 
