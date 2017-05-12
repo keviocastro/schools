@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\StudentProgressSheet;
+use App\SchoolClassStudent;
+use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
 use DB;
 
 /**
@@ -25,6 +27,8 @@ class StudentProgressSheetController extends Controller
 
 
     /**
+     * @todo  Migrar regras de negocio para o Repository.
+     * 
      * Armazena itens de ficha de avaliação de um aluno
      *
      * @param  \Illuminate\Http\Request  $request
@@ -67,9 +71,21 @@ class StudentProgressSheetController extends Controller
                     $current_answer->appliedAction = 'updated';
                     array_push($items, $current_answer);
                 }else{
-                    $newRecord = StudentProgressSheet::create($record);
-                    $newRecord->appliedAction = 'created';
-                    array_push($items, $newRecord);
+
+                    $studentInClass = SchoolClassStudent::
+                        where('school_class_id', $record['school_class_id'])
+                        ->where('student_id', $record['student_id'])
+                        ->first();
+
+                    if ($studentInClass) {
+                        $newRecord = StudentProgressSheet::create($record);
+                        $newRecord->appliedAction = 'created';
+                        array_push($items, $newRecord);
+                    }else{
+                        throw new ConflictHttpException(
+                            "The student is not in the school class id ({$record['school_class_id']})."
+                        );
+                    }
                 }
 
             }

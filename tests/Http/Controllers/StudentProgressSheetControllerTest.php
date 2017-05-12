@@ -25,6 +25,10 @@ class StudentProgressSheetControllerTest extends TestCase
 
         $this->student = factory(App\Student::class)->create();
         $this->schoolClass = factory(App\SchoolClass::class)->create();
+        factory(App\SchoolClassStudent::class)->create([
+                'student_id' => $this->student->id,
+                'school_class_id' => $this->schoolClass->id,
+            ]);
         $this->phases = factory(App\SchoolCalendarPhase::class, 4)->create();
     }
 
@@ -234,5 +238,37 @@ class StudentProgressSheetControllerTest extends TestCase
             )
             ->assertResponseStatus(201)
             ->seeJsonEquals(['student_progress_sheet' => $item]);
+    }
+
+     /**
+     * @covers App\Http\Controllers\StudentProgressSheetController::store
+     *
+     * Teste de condição:
+     *  Só pode ser registrado o resultado de um aluno para um item de avaliação se o aluno estiver
+     *  matriculado na turma.
+     *
+     * @see https://github.com/keviocastro/schools/issues/4
+     * 
+     * @return void
+     */
+    public function testStoreConditionClassStudent()
+    {
+        $this->createProgressSheet();
+
+        $item = factory(App\StudentProgressSheet::class)->make([
+            'student_id' => $this->student->id,
+            'progress_sheet_item_id' => $this->itemsGroup1[0]->id,
+            'school_calendar_phase_id' => $this->phases[1]->id,
+            'school_class_id' => factory(App\SchoolClass::class)->create()->id,
+        ])->toArray();
+
+        // Náo é aluno
+        $this->post('api/student-progress-sheets',
+            $item,
+            $this->getAutHeader())
+            ->assertResponseStatus(409)
+            ->seeJson([
+                'message' => "The student is not in the school class id ({$item['school_class_id']}).",
+                ]);
     }
 }
