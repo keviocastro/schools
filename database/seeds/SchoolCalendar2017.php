@@ -101,7 +101,7 @@ class SchoolCalendar2017 extends Seeder
     public function create()
     {
         $this->createSchoolCalendar();
-        $this->createClassesWithGrade();
+        // $this->createClassesWithGrade();
         $this->createClassesWithProgressSheet();
     }
 
@@ -491,6 +491,7 @@ class SchoolCalendar2017 extends Seeder
                 }
             ]);
 
+        dump('Criando turma com avaliação por ficha descritiva: estudantes');
         $students = factory(Student::class, 15)->create()
             ->each(function($student) use ($schoolClass){
                 factory(StudentResponsible::class)->create([
@@ -508,6 +509,7 @@ class SchoolCalendar2017 extends Seeder
             });
 
 
+        dump('Criando turma com avaliação por ficha descritiva: aulas');
         $start = Carbon::createFromFormat('Y-m-d', $this->schoolCalendarPhase1->start);
         $end = Carbon::createFromFormat('Y-m-d', $this->schoolCalendarPhase4->end);
 
@@ -523,6 +525,7 @@ class SchoolCalendar2017 extends Seeder
             $teacher1,
             240);
 
+        dump('Criando turma com avaliação por ficha descritiva: avaliações dos alunos');
         $studentsProgressSheets = [];
         foreach ( $progressSheet->items as $item) {
 
@@ -530,17 +533,23 @@ class SchoolCalendar2017 extends Seeder
 
                 foreach ($this->schoolCalendar->phases as $phase) {
 
+                    $option_identifier = $progressSheet
+                        ->options[rand(0,count($progressSheet->options)-1)]
+                        ['identifier'];
+
                     array_push($studentsProgressSheets,
                         factory(App\StudentProgressSheet::class)->make([
-                            'option_identifier' => $progressSheet->options[rand(0,count($progressSheet->options)-1)],
+                            'option_identifier' => $option_identifier,
                             'progress_sheet_item_id' => $item->id,
                             'student_id' => $student->id,
                             'school_calendar_phase_id' => $phase->id,
                             'school_class_id' => $schoolClass->id
-                        ]));
+                        ])->toArray()
+                    );
                 }
             }
-
         }
+
+        App\StudentProgressSheet::insert($studentsProgressSheets); 
     }
 }
