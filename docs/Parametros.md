@@ -50,24 +50,26 @@ Respectivamente, o not-insufixo:
 
 # Parametros paginação
 
-Toda action GET em qualquer coleção de dados contém os parametros padrões para paginação de resultados.
-São eles: _page, _per_page.
+Os parametros de paginação são: _page e _per_page.
+
+`_page` Define o número de página da consulta que será obtido.
+`_per_page` Define a quantidade de resultados da consulta por página.
 
 <pre><code>GET /api/schools?_page=2&_per_page=50</code></pre>
 
 Neste exemplo o resultado será a segunda página da coleção de resultados da listagem de escolas,
-com 50 escolas por página.
+com 50 escolas por página, tendo um total de 4 páginas e 156 resultados no total.
 
 Veja o exemplo:
 
-{ 
-    "per_page": "156",
+```
+{
+    "total": "156",
+    "per_page": "50",
     "current_page": "2",
     "last_page": "4",
     "next_page_url": "https://schools.logoseducacao.com.br/api/schools?_page=3"
     "prev_page_url": "https://schools.logoseducacao.com.br/api/schools?_page=1"
-    "from": "50",
-    "to": "100",
     "data": [
       {
           "id": 1, 
@@ -77,11 +79,11 @@ Veja o exemplo:
       },
       ....
 }
+```
 
 # Parametros de transformação
 
-Toda action GET em qualquer coleção de dados contém o parametro _group_by.
-Esse parametro é utilizado para agrupar os itens do resultado por um atributo contido nesses registros.
+O prametro _group_by é utilizado para agrupar o conjunto de resultados da página atual da consulta por atributo.
 
 Veja o exemplo:
 
@@ -92,13 +94,12 @@ Considerando que esse recurso retornaria o resultado
 
 ```
 { 
+    "total": "3"
     "per_page": "15",
     "current_page": "1",
-    "last_page": "3",
-    "next_page_url": "https://schools.logoseducacao.com.br/api/schools?_page=2"
+    "last_page": "1",
+    "next_page_url": "null"
     "prev_page_url": "null"
-    "from": "1",
-    "to": "15",
     "data": [
       {
           "id": 1, 
@@ -124,17 +125,16 @@ Considerando que esse recurso retornaria o resultado
 
 <pre><code>GET /api/schools</code></pre>
 
-Como o parametro _group_id=type, teriamos:
+Utilizando o parametro _group_id=type, teriamos:
 
 ```
 { 
+    "total": "3"
     "per_page": "15",
     "current_page": "1",
-    "last_page": "3",
-    "next_page_url": "https://schools.logoseducacao.com.br/api/schools?_page=2"
+    "last_page": "1",
+    "next_page_url": "null"
     "prev_page_url": "null"
-    "from": "1",
-    "to": "15",
     "data": [
        "middle-school": [
           {

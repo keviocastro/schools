@@ -13,7 +13,7 @@
       }
     ],
     "name": "Schools API",
-    "description": "Schools é uma api para manter informações sobre escolas e seus registros administrativos.\n\n\n# Autentificação\n\nA autentificação de usuário para acesso aos recursos da api, deve ser feita atribuindo\nsempre o seguinte cabeçario na requisição:\n\n`authorization: Bearer token_id`\n\nOnde \"token id\" é obtido durante a autenficação do usuário no microservice de atentificação\nauth0 através do dominio \"logos.auth0.com\".\nVeja ver mais detalhes de como realizar essa autentificação nesse link: https://auth0.com/docs\n\n\n\n# Parametros de filtros, ordenação e pesquisa\n\nCada parâmetro de consulta, exceto as funções pré-definidas _with, _sort, _q e _group_by é interpretado como um filtro.\n\nExemplo: Listar todas as escolas que começam com nome: Vieira.\n\n<pre><code>/api/schools?name-lk=Vieira*</code></pre>\n\nNo exemplo acima o parametro name recebe o nome vieira que e o nome da escola, é com prefixo -lk sendo este igual a like do sql.\n\nTodos os filtros podem ser combinados com um operador AND.\n\n<pre><code>/api/schools?name-lk=Vieira*&created_at-min=2016-12-01 12:55:02</code></pre>\n\nO exemplo acima resultaria na seguinte SQL:\n\n<pre><code>Where `schools` LIKE \"Vieira%\" AND `created_at` >= \"2016-12-01 12:55:02\"</code></pre>\n\nÉ também possível usar vários valores para um filtro.\nVários valores estão separados por barra vertical |.\nVários valores são combinados com OR a não ser quando há um -not como sufixo, então eles são combinados com AND.\nPor exemplo, todos os livros com o ID de 5 ou 6:\n\n<pre><code>/api/schools?id=5|6</code></pre>\n\nOu todas as escolas, exceto aqueles com ID 5 ou 6:\n\n<pre><code>/api/schools?id-not=5|6</code></pre>\n\nO mesmo pode ser conseguido usando o -in como sufixo:\n\n<pre><code>/api/schools?id-in=5,6</code></pre>\n\nRespectivamente, o not-insufixo:\n\n<pre><code>/api/schools?id-not-in=5,6</code></pre>\n\n| Suffix        | Operator  | Meaning                               |\n|:--------------|-----------|---------------------------------------|\n| `-lk`         | LIKE      | O mesmo que o operador LIKE do SQL    |\n| `-not-lk`     | NOT LIKE  | O mesmo que o operador NOT LIKE do SQL|\n| `-in`         | IN        | O mesmo que o operador IN do SQL      |\n| `-not-in`     | NOT IN    | O mesmo que o operador NOT IN do SQL  |\n| `-min`        | >=        | Maior ou igual a                      |\n| `-max`        | <=        | Menor ou igual a                      |\n| `-st`         | <         | Menor que                             |\n| `-gt`         | >         | Maior que                             |\n| `-not`        | !=        | Diferente                             |\n\n\n# Parametros paginação\n\nToda action GET em qualquer coleção de dados contém os parametros padrões para paginação de resultados.\nSão eles: _page, _per_page.\n\n<pre><code>GET /api/schools?_page=2&_per_page=50</code></pre>\n\nNeste exemplo o resultado será a segunda página da coleção de resultados da listagem de escolas,\ncom 50 escolas por página.\n\nVeja o exemplo:\n\n{ \n    \"per_page\": \"156\",\n    \"current_page\": \"2\",\n    \"last_page\": \"4\",\n    \"next_page_url\": \"https://schools.logoseducacao.com.br/api/schools?_page=3\"\n    \"prev_page_url\": \"https://schools.logoseducacao.com.br/api/schools?_page=1\"\n    \"from\": \"50\",\n    \"to\": \"100\",\n    \"data\": [\n      {\n          \"id\": 1, \n          \"name\": \n          \"Name of school\", \n          \"type\": \"middle-school\"\n      },\n      ....\n}\n\n# Parametros de transformação\n\nToda action GET em qualquer coleção de dados contém o parametro _group_by.\nEsse parametro é utilizado para agrupar os itens do resultado por um atributo contido nesses registros.\n\nVeja o exemplo:\n\n<pre><code>GET /api/schools</code></pre>\n\nConsiderando que esse recurso retornaria o resultado\n\n\n```\n{ \n    \"per_page\": \"15\",\n    \"current_page\": \"1\",\n    \"last_page\": \"3\",\n    \"next_page_url\": \"https://schools.logoseducacao.com.br/api/schools?_page=2\"\n    \"prev_page_url\": \"null\"\n    \"from\": \"1\",\n    \"to\": \"15\",\n    \"data\": [\n      {\n          \"id\": 1, \n          \"name\": \n          \"Name of school\", \n          \"type\": \"middle-school\"\n      },\n      {\n          \"id\": 1, \n          \"name\": \n          \"Name of school\", \n          \"type\": \"middle-school\"\n      },\n      {\n          \"id\": 1, \n          \"name\": \n          \"Name of school\", \n          \"type\": \"high-school\"\n      },\n    ]\n}\n```\n\n<pre><code>GET /api/schools</code></pre>\n\nComo o parametro _group_id=type, teriamos:\n\n```\n{ \n    \"per_page\": \"15\",\n    \"current_page\": \"1\",\n    \"last_page\": \"3\",\n    \"next_page_url\": \"https://schools.logoseducacao.com.br/api/schools?_page=2\"\n    \"prev_page_url\": \"null\"\n    \"from\": \"1\",\n    \"to\": \"15\",\n    \"data\": [\n       \"middle-school\": [\n          {\n              \"id\": 1, \n              \"name\": \n              \"Name of school\", \n              \"type\": \"middle-school\"\n          },\n          {\n              \"id\": 1, \n              \"name\": \n              \"Name of school\", \n              \"type\": \"middle-school\"\n          }\n       ],\n       \"high-school\": [\n          {\n              \"id\": 1, \n              \"name\": \n              \"Name of school\", \n              \"type\": \"high-school\"\n          }\n       ]\n    ]\n}\n```\n\n",
+    "description": "Schools é uma api para manter informações sobre escolas e seus registros administrativos.\n\n\n# Autentificação\n\nA autentificação de usuário para acesso aos recursos da api, deve ser feita atribuindo\nsempre o seguinte cabeçario na requisição:\n\n`authorization: Bearer token_id`\n\nOnde \"token id\" é obtido durante a autenficação do usuário no microservice de atentificação\nauth0 através do dominio \"logos.auth0.com\".\nVeja ver mais detalhes de como realizar essa autentificação nesse link: https://auth0.com/docs\n\n\n\n# Parametros de filtros, ordenação e pesquisa\n\nCada parâmetro de consulta, exceto as funções pré-definidas _with, _sort, _q e _group_by é interpretado como um filtro.\n\nExemplo: Listar todas as escolas que começam com nome: Vieira.\n\n<pre><code>/api/schools?name-lk=Vieira*</code></pre>\n\nNo exemplo acima o parametro name recebe o nome vieira que e o nome da escola, é com prefixo -lk sendo este igual a like do sql.\n\nTodos os filtros podem ser combinados com um operador AND.\n\n<pre><code>/api/schools?name-lk=Vieira*&created_at-min=2016-12-01 12:55:02</code></pre>\n\nO exemplo acima resultaria na seguinte SQL:\n\n<pre><code>Where `schools` LIKE \"Vieira%\" AND `created_at` >= \"2016-12-01 12:55:02\"</code></pre>\n\nÉ também possível usar vários valores para um filtro.\nVários valores estão separados por barra vertical |.\nVários valores são combinados com OR a não ser quando há um -not como sufixo, então eles são combinados com AND.\nPor exemplo, todos os livros com o ID de 5 ou 6:\n\n<pre><code>/api/schools?id=5|6</code></pre>\n\nOu todas as escolas, exceto aqueles com ID 5 ou 6:\n\n<pre><code>/api/schools?id-not=5|6</code></pre>\n\nO mesmo pode ser conseguido usando o -in como sufixo:\n\n<pre><code>/api/schools?id-in=5,6</code></pre>\n\nRespectivamente, o not-insufixo:\n\n<pre><code>/api/schools?id-not-in=5,6</code></pre>\n\n| Suffix        | Operator  | Meaning                               |\n|:--------------|-----------|---------------------------------------|\n| `-lk`         | LIKE      | O mesmo que o operador LIKE do SQL    |\n| `-not-lk`     | NOT LIKE  | O mesmo que o operador NOT LIKE do SQL|\n| `-in`         | IN        | O mesmo que o operador IN do SQL      |\n| `-not-in`     | NOT IN    | O mesmo que o operador NOT IN do SQL  |\n| `-min`        | >=        | Maior ou igual a                      |\n| `-max`        | <=        | Menor ou igual a                      |\n| `-st`         | <         | Menor que                             |\n| `-gt`         | >         | Maior que                             |\n| `-not`        | !=        | Diferente                             |\n\n\n# Parametros paginação\n\nOs parametros de paginação são: _page e _per_page.\n\n`_page` Define o número de página da consulta que será obtido.\n`_per_page` Define a quantidade de resultados da consulta por página.\n\n<pre><code>GET /api/schools?_page=2&_per_page=50</code></pre>\n\nNeste exemplo o resultado será a segunda página da coleção de resultados da listagem de escolas,\ncom 50 escolas por página, tendo um total de 4 páginas e 156 resultados no total.\n\nVeja o exemplo:\n\n```\n{\n    \"total\": \"156\",\n    \"per_page\": \"50\",\n    \"current_page\": \"2\",\n    \"last_page\": \"4\",\n    \"next_page_url\": \"https://schools.logoseducacao.com.br/api/schools?_page=3\"\n    \"prev_page_url\": \"https://schools.logoseducacao.com.br/api/schools?_page=1\"\n    \"data\": [\n      {\n          \"id\": 1, \n          \"name\": \n          \"Name of school\", \n          \"type\": \"middle-school\"\n      },\n      ....\n}\n```\n\n# Parametros de transformação\n\nO prametro _group_by é utilizado para agrupar o conjunto de resultados da página atual da consulta por atributo.\n\nVeja o exemplo:\n\n<pre><code>GET /api/schools</code></pre>\n\nConsiderando que esse recurso retornaria o resultado\n\n\n```\n{ \n    \"total\": \"3\"\n    \"per_page\": \"15\",\n    \"current_page\": \"1\",\n    \"last_page\": \"1\",\n    \"next_page_url\": \"null\"\n    \"prev_page_url\": \"null\"\n    \"data\": [\n      {\n          \"id\": 1, \n          \"name\": \n          \"Name of school\", \n          \"type\": \"middle-school\"\n      },\n      {\n          \"id\": 1, \n          \"name\": \n          \"Name of school\", \n          \"type\": \"middle-school\"\n      },\n      {\n          \"id\": 1, \n          \"name\": \n          \"Name of school\", \n          \"type\": \"high-school\"\n      },\n    ]\n}\n```\n\n<pre><code>GET /api/schools</code></pre>\n\nUtilizando o parametro _group_id=type, teriamos:\n\n```\n{ \n    \"total\": \"3\"\n    \"per_page\": \"15\",\n    \"current_page\": \"1\",\n    \"last_page\": \"1\",\n    \"next_page_url\": \"null\"\n    \"prev_page_url\": \"null\"\n    \"data\": [\n       \"middle-school\": [\n          {\n              \"id\": 1, \n              \"name\": \n              \"Name of school\", \n              \"type\": \"middle-school\"\n          },\n          {\n              \"id\": 1, \n              \"name\": \n              \"Name of school\", \n              \"type\": \"middle-school\"\n          }\n       ],\n       \"high-school\": [\n          {\n              \"id\": 1, \n              \"name\": \n              \"Name of school\", \n              \"type\": \"high-school\"\n          }\n       ]\n    ]\n}\n```\n\n",
     "element": "category",
     "resourceGroups": [
       {
@@ -20248,7 +20248,7 @@
       "message": "parameter '_q' is not found within the URI template '/school-calendars' for 'Coleção de calendarios escolares' ",
       "location": [
         {
-          "index": 5487,
+          "index": 5390,
           "length": 40
         }
       ]
@@ -20258,7 +20258,7 @@
       "message": "parameter '_sort' is not found within the URI template '/school-calendars' for 'Coleção de calendarios escolares' ",
       "location": [
         {
-          "index": 5487,
+          "index": 5390,
           "length": 40
         }
       ]
@@ -20268,7 +20268,7 @@
       "message": "parameter '_with' is not found within the URI template '/school-calendars' for 'Coleção de calendarios escolares' ",
       "location": [
         {
-          "index": 5487,
+          "index": 5390,
           "length": 40
         }
       ]
@@ -20278,7 +20278,7 @@
       "message": "parameter '_with' is not found within the URI template '/school-calendars/{school_calendar_id}' for 'Calendário escolar' ",
       "location": [
         {
-          "index": 8216,
+          "index": 8119,
           "length": 42
         }
       ]
@@ -20288,7 +20288,7 @@
       "message": "parameter '_q' is not found within the URI template '/schools' for 'Coleção de escolas' ",
       "location": [
         {
-          "index": 11967,
+          "index": 11870,
           "length": 25
         }
       ]
@@ -20298,7 +20298,7 @@
       "message": "parameter '_sort' is not found within the URI template '/schools' for 'Coleção de escolas' ",
       "location": [
         {
-          "index": 11967,
+          "index": 11870,
           "length": 25
         }
       ]
@@ -20308,7 +20308,7 @@
       "message": "parameter '_with' is not found within the URI template '/schools' for 'Coleção de escolas' ",
       "location": [
         {
-          "index": 11967,
+          "index": 11870,
           "length": 25
         }
       ]
@@ -20318,7 +20318,7 @@
       "message": "parameter '_with' is not found within the URI template '/schools/{school_id}' for 'Escola' ",
       "location": [
         {
-          "index": 14533,
+          "index": 14436,
           "length": 30
         }
       ]
@@ -20328,7 +20328,7 @@
       "message": "parameter '_q' is not found within the URI template '/school-classes' for 'Coleção de turmas' ",
       "location": [
         {
-          "index": 17748,
+          "index": 17651,
           "length": 25
         }
       ]
@@ -20338,7 +20338,7 @@
       "message": "parameter '_sort' is not found within the URI template '/school-classes' for 'Coleção de turmas' ",
       "location": [
         {
-          "index": 17748,
+          "index": 17651,
           "length": 25
         }
       ]
@@ -20348,7 +20348,7 @@
       "message": "parameter '_with' is not found within the URI template '/school-classes' for 'Coleção de turmas' ",
       "location": [
         {
-          "index": 17748,
+          "index": 17651,
           "length": 25
         }
       ]
@@ -20358,7 +20358,7 @@
       "message": "parameter '_with' is not found within the URI template '/school-classes/{school_class_id}' for 'Turma' ",
       "location": [
         {
-          "index": 20633,
+          "index": 20536,
           "length": 29
         }
       ]
@@ -20368,7 +20368,7 @@
       "message": "parameter '_q' is not found within the URI template '/lessons' for 'Coleção de aulas' ",
       "location": [
         {
-          "index": 28175,
+          "index": 28078,
           "length": 24
         }
       ]
@@ -20378,7 +20378,7 @@
       "message": "parameter '_sort' is not found within the URI template '/lessons' for 'Coleção de aulas' ",
       "location": [
         {
-          "index": 28175,
+          "index": 28078,
           "length": 24
         }
       ]
@@ -20388,7 +20388,7 @@
       "message": "parameter '_with' is not found within the URI template '/lessons' for 'Coleção de aulas' ",
       "location": [
         {
-          "index": 28175,
+          "index": 28078,
           "length": 24
         }
       ]
@@ -20398,7 +20398,7 @@
       "message": "parameter '_with' is not found within the URI template '/lessons/{lesson_id}' for 'Aula' ",
       "location": [
         {
-          "index": 30809,
+          "index": 30712,
           "length": 28
         }
       ]
@@ -20408,7 +20408,7 @@
       "message": "parameter 'attach' is not found within the URI template '/lessons/{lesson_id}' for 'Aula' ",
       "location": [
         {
-          "index": 30809,
+          "index": 30712,
           "length": 28
         }
       ]
@@ -20418,7 +20418,7 @@
       "message": "ignoring unrecognized block",
       "location": [
         {
-          "index": 35796,
+          "index": 35699,
           "length": 80
         }
       ]
@@ -20428,7 +20428,7 @@
       "message": "mixin base type should be the same as parent base type. objects should contain object mixins. arrays should contain array mixins",
       "location": [
         {
-          "index": 37393,
+          "index": 37296,
           "length": 17
         }
       ]
@@ -20438,7 +20438,7 @@
       "message": "parameter 'start' is not found within the URI template '/lessons/per-day' for 'Aulas por dia' ",
       "location": [
         {
-          "index": 35430,
+          "index": 35333,
           "length": 32
         }
       ]
@@ -20448,7 +20448,7 @@
       "message": "parameter 'end' is not found within the URI template '/lessons/per-day' for 'Aulas por dia' ",
       "location": [
         {
-          "index": 35430,
+          "index": 35333,
           "length": 32
         }
       ]
@@ -20458,7 +20458,7 @@
       "message": "parameter '_with' is not found within the URI template '/lessons/per-day' for 'Aulas por dia' ",
       "location": [
         {
-          "index": 35430,
+          "index": 35333,
           "length": 32
         }
       ]
@@ -20468,7 +20468,7 @@
       "message": "parameter '_q' is not found within the URI template '/lesson-plans' for 'Coleção de planos de aula' ",
       "location": [
         {
-          "index": 37690,
+          "index": 37593,
           "length": 33
         }
       ]
@@ -20478,7 +20478,7 @@
       "message": "parameter '_sort' is not found within the URI template '/lesson-plans' for 'Coleção de planos de aula' ",
       "location": [
         {
-          "index": 37690,
+          "index": 37593,
           "length": 33
         }
       ]
@@ -20488,7 +20488,7 @@
       "message": "parameter '_with' is not found within the URI template '/lesson-plans' for 'Coleção de planos de aula' ",
       "location": [
         {
-          "index": 37690,
+          "index": 37593,
           "length": 33
         }
       ]
@@ -20498,7 +20498,7 @@
       "message": "parameter '_with' is not found within the URI template '/lesson-plans/{lesson_plan_id}' for 'Plano de aula' ",
       "location": [
         {
-          "index": 40413,
+          "index": 40316,
           "length": 37
         }
       ]
@@ -20508,7 +20508,7 @@
       "message": "parameter '_q' is not found within the URI template '/students' for 'Coleção de estudantes' ",
       "location": [
         {
-          "index": 53167,
+          "index": 53070,
           "length": 29
         }
       ]
@@ -20518,7 +20518,7 @@
       "message": "parameter '_sort' is not found within the URI template '/students' for 'Coleção de estudantes' ",
       "location": [
         {
-          "index": 53167,
+          "index": 53070,
           "length": 29
         }
       ]
@@ -20528,7 +20528,7 @@
       "message": "parameter '_with' is not found within the URI template '/students' for 'Coleção de estudantes' ",
       "location": [
         {
-          "index": 53167,
+          "index": 53070,
           "length": 29
         }
       ]
@@ -20538,7 +20538,7 @@
       "message": "parameter '_with' is not found within the URI template '/students/{id}' for 'Estudante' ",
       "location": [
         {
-          "index": 54876,
+          "index": 54779,
           "length": 33
         }
       ]
@@ -20548,7 +20548,7 @@
       "message": "parameter '_q' is not found within the URI template '/attendance-records' for 'Coleção de registro de presença' ",
       "location": [
         {
-          "index": 56386,
+          "index": 56289,
           "length": 39
         }
       ]
@@ -20558,7 +20558,7 @@
       "message": "parameter '_sort' is not found within the URI template '/attendance-records' for 'Coleção de registro de presença' ",
       "location": [
         {
-          "index": 56386,
+          "index": 56289,
           "length": 39
         }
       ]
@@ -20568,7 +20568,7 @@
       "message": "parameter '_with' is not found within the URI template '/attendance-records' for 'Coleção de registro de presença' ",
       "location": [
         {
-          "index": 56386,
+          "index": 56289,
           "length": 39
         }
       ]
@@ -20578,7 +20578,7 @@
       "message": "parameter '_with' is not found within the URI template '/attendance-records/{attendance_record_id}' for 'Registro de presença' ",
       "location": [
         {
-          "index": 59730,
+          "index": 59633,
           "length": 44
         }
       ]
@@ -20588,7 +20588,7 @@
       "message": "parameter '_q' is not found within the URI template '/student-grades' for 'Coleção de notas' ",
       "location": [
         {
-          "index": 63316,
+          "index": 63219,
           "length": 23
         }
       ]
@@ -20598,7 +20598,7 @@
       "message": "parameter '_sort' is not found within the URI template '/student-grades' for 'Coleção de notas' ",
       "location": [
         {
-          "index": 63316,
+          "index": 63219,
           "length": 23
         }
       ]
@@ -20608,7 +20608,7 @@
       "message": "parameter '_with' is not found within the URI template '/student-grades' for 'Coleção de notas' ",
       "location": [
         {
-          "index": 63316,
+          "index": 63219,
           "length": 23
         }
       ]
@@ -20618,7 +20618,7 @@
       "message": "parameter 'student_grade_id' is not found within the URI template '/student-grades/{student_grades_id}' for 'Nota' ",
       "location": [
         {
-          "index": 64945,
+          "index": 64848,
           "length": 28
         }
       ]
@@ -20628,7 +20628,7 @@
       "message": "parameter '_with' is not found within the URI template '/student-grades/{student_grades_id}' for 'Nota' ",
       "location": [
         {
-          "index": 64945,
+          "index": 64848,
           "length": 28
         }
       ]
@@ -20638,7 +20638,7 @@
       "message": "parameter 'student_grade_id' is not found within the URI template '/student-grades/{student_grades_id}' for 'Nota' ",
       "location": [
         {
-          "index": 66168,
+          "index": 66071,
           "length": 24
         }
       ]
@@ -20648,7 +20648,7 @@
       "message": "parameter 'student_grade_id' is not found within the URI template '/student-grades/{student_grades_id}' for 'Nota' ",
       "location": [
         {
-          "index": 67246,
+          "index": 67149,
           "length": 27
         }
       ]
@@ -20658,7 +20658,7 @@
       "message": "parameter '_q' is not found within the URI template '/occurences' for 'Coleção de ocorrências' ",
       "location": [
         {
-          "index": 69350,
+          "index": 69253,
           "length": 30
         }
       ]
@@ -20668,7 +20668,7 @@
       "message": "parameter '_sort' is not found within the URI template '/occurences' for 'Coleção de ocorrências' ",
       "location": [
         {
-          "index": 69350,
+          "index": 69253,
           "length": 30
         }
       ]
@@ -20678,7 +20678,7 @@
       "message": "parameter '_with' is not found within the URI template '/occurences' for 'Coleção de ocorrências' ",
       "location": [
         {
-          "index": 69350,
+          "index": 69253,
           "length": 30
         }
       ]
@@ -20688,7 +20688,7 @@
       "message": "parameter '_with' is not found within the URI template '/occurences/{occurence_id}' for 'Ocorrência' ",
       "location": [
         {
-          "index": 70969,
+          "index": 70872,
           "length": 34
         }
       ]
@@ -20698,7 +20698,7 @@
       "message": "parameter '_group_by' is not found within the URI template '/student-progress-sheets{?_q,_sort,_with}' for 'Coleção de resultados dos aluno em itens de fichas avaliativas' ",
       "location": [
         {
-          "index": 74320,
+          "index": 74223,
           "length": 46
         }
       ]
@@ -20708,7 +20708,7 @@
       "message": "response payload `201` already defined for `POST` method",
       "location": [
         {
-          "index": 77724,
+          "index": 77627,
           "length": 117
         }
       ]
@@ -20718,7 +20718,7 @@
       "message": "no value(s) specified",
       "location": [
         {
-          "index": 79633,
+          "index": 79536,
           "length": 49
         }
       ]
@@ -20728,7 +20728,7 @@
       "message": "no value(s) specified",
       "location": [
         {
-          "index": 79688,
+          "index": 79591,
           "length": 66
         }
       ]
@@ -20738,7 +20738,7 @@
       "message": "parameter 'school_calendar_id' is not found within the URI template '/teacher/{teacher_id}/workload' for 'Carga horária' ",
       "location": [
         {
-          "index": 79579,
+          "index": 79482,
           "length": 35
         }
       ]
@@ -20748,7 +20748,7 @@
       "message": "parameter '_q' is not found within the URI template '/subjects' for 'Coleção de disciplinas' ",
       "location": [
         {
-          "index": 84641,
+          "index": 84544,
           "length": 30
         }
       ]
@@ -20758,7 +20758,7 @@
       "message": "parameter '_sort' is not found within the URI template '/subjects' for 'Coleção de disciplinas' ",
       "location": [
         {
-          "index": 84641,
+          "index": 84544,
           "length": 30
         }
       ]
@@ -20768,7 +20768,7 @@
       "message": "parameter 'user_id' is not found within the URI template '/auth/user' for 'Usuarios' ",
       "location": [
         {
-          "index": 91386,
+          "index": 91289,
           "length": 38
         }
       ]
@@ -20778,7 +20778,7 @@
       "message": "parameter '_with' is not found within the URI template '/auth/user' for 'Usuarios' ",
       "location": [
         {
-          "index": 91386,
+          "index": 91289,
           "length": 38
         }
       ]
@@ -20788,7 +20788,7 @@
       "message": "parameter '_q' is not found within the URI template '/assessments' for 'Coleção de avaliacoes' ",
       "location": [
         {
-          "index": 104621,
+          "index": 104524,
           "length": 29
         }
       ]
@@ -20798,7 +20798,7 @@
       "message": "parameter '_sort' is not found within the URI template '/assessments' for 'Coleção de avaliacoes' ",
       "location": [
         {
-          "index": 104621,
+          "index": 104524,
           "length": 29
         }
       ]
@@ -20808,7 +20808,7 @@
       "message": "parameter '_with' is not found within the URI template '/assessments' for 'Coleção de avaliacoes' ",
       "location": [
         {
-          "index": 104621,
+          "index": 104524,
           "length": 29
         }
       ]
@@ -20818,7 +20818,7 @@
       "message": "parameter '_attach' is not found within the URI template '/progress-sheets/{progress_sheet_id}' for 'Ficha avaliativa' ",
       "location": [
         {
-          "index": 109320,
+          "index": 109223,
           "length": 40
         }
       ]
@@ -20828,7 +20828,7 @@
       "message": "parameter '_with' is not found within the URI template '/progress-sheets/{progress_sheet_id}' for 'Ficha avaliativa' ",
       "location": [
         {
-          "index": 109320,
+          "index": 109223,
           "length": 40
         }
       ]
