@@ -71,7 +71,7 @@ class SchoolCalendar extends Model
      * 
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function phases()
+    public function schoolCalendarPhase()
     {
         return $this->hasMany('App\SchoolCalendarPhase')
             ->orderBy('start', 'asc');  
