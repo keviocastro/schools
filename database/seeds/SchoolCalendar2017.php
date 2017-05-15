@@ -115,7 +115,9 @@ class SchoolCalendar2017 extends Seeder
             'start' => '2017-02-01',
             'end' => '2017-12-08',
             'average_formula' => 
-                '( ({1º Bimestre} + {2º Bimestre})*0.6 + ({3º Bimestre} + {4º Bimestre})*0.4 )/2'
+                '('.
+                    '(({1º Bimestre} + {2º Bimestre} + {3º Bimestre} + {4º Bimestre})/4)-10'.
+                ')+{Recuperação}'
         ]);
         $this->schoolCalendarPhase1 = factory(SchoolCalendarPhase::class)->create([
             'school_calendar_id' => $schoolCalendar->id,
@@ -199,12 +201,12 @@ class SchoolCalendar2017 extends Seeder
             'name' => 'Recuperação',
             'start' => '2018-01-08',
             'end' => '2018-01-31',
-            'average_formula' => '{Nota 5.1}'
+            'average_formula' => '{Nota recuperação}'
         ]);
         $assessments = [
             factory(App\Assessment::class)->make([
                 'school_calendar_phase_id' => $this->schoolCalendarPhase5->id,
-                'name' => 'Recuperação', 
+                'name' => 'Nota recuperação', 
             ])->toArray()
         ];
         Assessment::insert($assessments);

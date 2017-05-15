@@ -25,14 +25,14 @@ class TeacherController extends Controller
         $query = Lesson::
             join('school_classes', 'lessons.school_class_id', '=', 'school_classes.id')
             ->groupBy('lessons.subject_id', 'lessons.school_class_id')
-            ->where('lessons.teacher_id', '=', $teacher_id);
+            ->where('lessons.teacher_id', '=', $teacher_id)
+            ->with('schoolClass', 'subject');
 
         $result = $this->parseMultiple($query);
-
-        $result->transform(function($item, $key){
-            return ['schoolClass' => $item->schoolClass, 'subject' => $item->subject];
-        });
-
-        return $result->toArray();
+        foreach($result['data'] as $key => $data){
+            $result['data'][$key] = ['schoolClass' => $data['school_class'], 'subject' => $data['subject']];    
+        }
+        
+        return $result;
     }
 }
