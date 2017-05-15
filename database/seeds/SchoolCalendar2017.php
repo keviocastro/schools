@@ -197,7 +197,7 @@ class SchoolCalendar2017 extends Seeder
         $this->schoolCalendarPhase5 = factory(SchoolCalendarPhase::class)->create([
             'school_calendar_id' => $schoolCalendar->id,
             'name' => 'Recuperação',
-            'start' => '2018    -01-08',
+            'start' => '2018-01-08',
             'end' => '2018-01-31',
             'average_formula' => '{Nota 5.1}'
         ]);

@@ -305,7 +305,7 @@ class Student extends Model
         // avaliações (assessments) da fase 
         // e notas do aluno (studentGrades)
         // no ano letivo (schoolCalendar)
-        $phases = $schoolCalendar->phases()
+        $phases = $schoolCalendar->schoolCalendarPhase()
             ->with(['assessments.studentGrades' => function($query){
                 $query->where('student_id', $this->id);
             }])->get();
