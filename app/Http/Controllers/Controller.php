@@ -46,7 +46,9 @@ class Controller extends BaseController
      * @param  array|boolean    $queryParams           A list of query parameter
      * @return Result
      */
-    public function parseMultiple($queryBuilder, $fullTextSearchColumns = array(), $queryParams = false)
+    public function parseMultiple($queryBuilder, 
+        $fullTextSearchColumns = array(), 
+        $queryParams = false)
     {
         $group_by = false;
         if ($queryParams === false) {

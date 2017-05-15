@@ -1,6 +1,7 @@
 <?php
 
 use Tests\TestCase;
+use App\StudentProgressSheet;
 
 class StudentProgressSheetControllerTest extends TestCase
 {
@@ -188,7 +189,7 @@ class StudentProgressSheetControllerTest extends TestCase
      * Isso significa que um requisição com a combinação de parametros progress_sheet_item_id, school_calendar_phase_id,
      * school_class_id e student_id, já existirem, um novo registro não será criado e sim atualizado.
      *
-     * @see https://github.com/keviocastro/schools/issues/4
+     * @link https://github.com/keviocastro/schools/issues/4
      * 
      * @return void
      */
@@ -247,7 +248,7 @@ class StudentProgressSheetControllerTest extends TestCase
      *  Só pode ser registrado o resultado de um aluno para um item de avaliação se o aluno estiver
      *  matriculado na turma.
      *
-     * @see https://github.com/keviocastro/schools/issues/4
+     * @link https://github.com/keviocastro/schools/issues/4
      * 
      * @return void
      */
@@ -270,5 +271,78 @@ class StudentProgressSheetControllerTest extends TestCase
             ->seeJson([
                 'message' => "The student is not in the school class id ({$item['school_class_id']}).",
                 ]);
+    }
+
+    /**
+     * @covers App\Http\Controllers\StudentProgressSheetController::show
+     *
+     * @return void
+     */
+    public function testShow()
+    {
+        $progressSheetItem = factory(App\ProgressSheetItem::class)->create();
+        $studentProgressSheet = factory(StudentProgressSheet::class)->create(["progress_sheet_item_id" => $progressSheetItem->id]);
+
+        $structure = [
+            'student_progress_sheet' => [
+                "id" => $studentProgressSheet->id,
+                "option_identifier" => $studentProgressSheet->option_identifier,
+                "progress_sheet_item" => $progressSheetItem->toArray(),
+                "progress_sheet_item_id" => $progressSheetItem->id,
+                "school_calendar_phase_id" => $studentProgressSheet->school_calendar_phase_id,
+                "school_class_id" => $studentProgressSheet->school_class_id,
+                "student_id" => $studentProgressSheet->student_id
+            ]
+        ];
+
+        $this->get("api/student-progress-sheets/{$studentProgressSheet->id}".
+            "?_with=progressSheetItem",
+            $this->getAutHeader())
+            ->assertResponseStatus(200)
+            ->seeJsonEquals($structure);
+    }
+
+    /**
+     * @covers App\Http\Controllers\StudentProgressSheetController::update
+     *
+     * @return void
+     */
+    public function testUpdate()
+    {
+        $studentProgressSheet = factory(StudentProgressSheet::class)->create();
+        $studentProgressSheet_changed = factory(StudentProgressSheet::class)->make();
+
+        $json = [
+            "student_progress_sheet" => [
+                "id" => $studentProgressSheet->id,
+                "option_identifier" => $studentProgressSheet_changed->option_identifier,
+                "progress_sheet_item_id" => $studentProgressSheet_changed->progress_sheet_item_id,
+                "school_class_id" => $studentProgressSheet_changed->school_class_id,
+                "school_calendar_phase_id" => $studentProgressSheet_changed->school_calendar_phase_id,
+                "student_id" => $studentProgressSheet_changed->student_id
+            ]
+        ];
+
+        $this->put("api/student-progress-sheets/{$studentProgressSheet->id}",
+            $studentProgressSheet_changed->toArray(),
+            $this->getAutHeader())
+            ->assertResponseStatus(200)
+            ->seeJsonEquals($json);
+    }
+
+    /**
+     * @covers App\Http\Controllers\StudentProgressSheetController::destroy
+     *
+     * @return void
+     */
+    public function testDestroy()
+    {
+        $studentProgressSheet = factory(StudentProgressSheet::class)->create();
+
+        $this->delete("api/student-progress-sheets/{$studentProgressSheet->id}",
+            [],
+            $this->getAutHeader())
+            ->assertResponseStatus(204)
+            ->seeIsSoftDeletedInDatabase('student_progress_sheets', ['id' => $studentProgressSheet->id]);
     }
 }

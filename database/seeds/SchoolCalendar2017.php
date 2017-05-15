@@ -197,7 +197,7 @@ class SchoolCalendar2017 extends Seeder
         $this->schoolCalendarPhase5 = factory(SchoolCalendarPhase::class)->create([
             'school_calendar_id' => $schoolCalendar->id,
             'name' => 'Recuperação',
-            'start' => '2018    -01-08',
+            'start' => '2018-01-08',
             'end' => '2018-01-31',
             'average_formula' => '{Nota 5.1}'
         ]);
@@ -488,6 +488,7 @@ class SchoolCalendar2017 extends Seeder
                         'progress_sheet_id' => $progressSheet->id,
                         'group_id' =>  $group3->id
                     ]);
+                    return $progressSheet->id;
                 }
             ]);
 
@@ -531,7 +532,7 @@ class SchoolCalendar2017 extends Seeder
 
             foreach ($schoolClass->students as $student) {
 
-                foreach ($this->schoolCalendar->phases as $phase) {
+                foreach ($this->schoolCalendar->schoolCalendarPhase as $phase) {
 
                     $option_identifier = $progressSheet
                         ->options[rand(0,count($progressSheet->options)-1)]
