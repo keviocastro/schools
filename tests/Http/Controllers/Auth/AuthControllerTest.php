@@ -6,6 +6,8 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Tests\TestCase;
+use App\Person;
+use App\Teacher;
 
 class AuthControllerTest extends TestCase
 {
@@ -32,11 +34,17 @@ class AuthControllerTest extends TestCase
      */
     public function testShowUser()
     {
+        $person_id = config('laravel-auth0.user_id_role_teacher_1');
+        $person = Person::firstOrCreate(['user_id' => $person_id]);
+
+        $teacher = Teacher::firstOrCreate(['person_id' => $person->id]);
+
+
         // O usuário é identificado pelo token que está no cabeçario da requisição, 
         // variável "authHeader".
         $this->get('api/auth/user',
             $this->getAutHeader())
             ->assertResponseStatus(200)
-            ->seeJsonStructure(['user' => ['person', 'teacher', 'student']]);
+            ->seeJson($teacher->toArray());
     }
 }
