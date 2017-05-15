@@ -488,6 +488,7 @@ class SchoolCalendar2017 extends Seeder
                         'progress_sheet_id' => $progressSheet->id,
                         'group_id' =>  $group3->id
                     ]);
+                    return $progressSheet->id;
                 }
             ]);
 
@@ -528,7 +529,7 @@ class SchoolCalendar2017 extends Seeder
 
             foreach ($schoolClass->students as $student) {
 
-                foreach ($this->schoolCalendar->phases as $phase) {
+                foreach ($this->schoolCalendar->schoolCalendarPhase as $phase) {
 
                     array_push($studentsProgressSheets,
                         factory(App\StudentProgressSheet::class)->make([
