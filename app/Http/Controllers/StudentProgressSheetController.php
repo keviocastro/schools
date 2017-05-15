@@ -79,7 +79,7 @@ class StudentProgressSheetController extends Controller
     public function update(Request $request, $id)
     {
         $this->validationForUpdateAction($request,[
-            'option_identifier' => 'string',
+            'option_identifier' => 'string|nullable',
             'progress_sheet_item_id' => 'required|exists:progress_sheet_items,id',
             'student_id' => 'required|exists:students,id',
             'school_calendar_phase_id' => 'required|exists:school_calendar_phases,id',
@@ -89,5 +89,19 @@ class StudentProgressSheetController extends Controller
         $assertation->update($request->all());
 
         return $assertation;
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        $studentProgressSheet = StudentProgressSheet::findOrFail($id);
+        $studentProgressSheet->delete();
+
+        return $this->response->noContent();
     }
 }

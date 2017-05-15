@@ -146,4 +146,20 @@ class StudentProgressSheetControllerTest extends TestCase
             ->assertResponseStatus(200)
             ->seeJsonEquals($json);
     }
+
+    /**
+     * @covers App\Http\Controllers\StudentProgressSheetController::destroy
+     *
+     * @return void
+     */
+    public function testDestroy()
+    {
+        $studentProgressSheet = factory(StudentProgressSheet::class)->create();
+
+        $this->delete("api/student-progress-sheets/{$studentProgressSheet->id}",
+            [],
+            $this->getAutHeader())
+            ->assertResponseStatus(204)
+            ->seeIsSoftDeletedInDatabase('student_progress_sheets', ['id' => $studentProgressSheet->id]);
+    }
 }

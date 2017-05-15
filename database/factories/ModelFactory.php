@@ -426,8 +426,8 @@ $factory->define(App\ProgressSheet::class, function ($faker) use ($factory) {
         [
             ["identifier" => "C", "label" => "Completo"],
             ["identifier" => "P", "label" => "Parcial"],
-            ["identifier" => "I", "label" =>"Incompleto"],
-        ],
+            ["identifier" => "I", "label" => "Incompleto"],
+        ]
     ];
 
     return [
@@ -508,7 +508,7 @@ $factory->define(App\StudentProgressSheet::class, function ($faker, $attributes)
         $schoolClass = App\SchoolClass::findOrFail($attributes['school_class_id']);
     }
 
-    $phases = $schoolClass->schoolCalendar->phases->toArray();
+    $phases = $schoolClass->schoolCalendar->schoolCalendarPhase->toArray();
     if (empty($phases)) {
         $phases = factory(App\SchoolCalendarPhase::class, 4)->create()->toArray();
     }
