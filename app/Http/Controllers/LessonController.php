@@ -77,7 +77,7 @@ class LessonController extends Controller
                 $students->map(function($item, $key){
                     $item->last_occurences = \App\Occurence::
                         where('about_person_id', $item->id)
-                        ->orderBy('updated_at')
+                        ->orderBy('updated_at', 'desc')
                         ->take(2)
                         ->with('level')
                         ->get();
@@ -85,7 +85,7 @@ class LessonController extends Controller
             }
 
             if (in_array('students.absenceSummary', $attach)) {
-                $students->map(function($item, $key) use ($lesson){
+                $students->map(function($item, $key) use ($lesson, $schoolClass){
                     $item->absence_summary = $item->absenceSummaryYear(
                             $schoolClass->school_calendar_id,
                             $schoolClass->id,
