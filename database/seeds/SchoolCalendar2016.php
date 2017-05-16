@@ -429,5 +429,7 @@ class SchoolCalendar2016 extends Seeder
         $assessments_phase_4 = $schoolCalendarPhase4->assessments;
         StudentGradesFactory::create($schoolCalendarPhase4, $schoolClass, 
             $subjects, $fixedDataSubjects);
+
+        dd($studentFixedData->absenceSummaryYear());
     }
 }

@@ -54,19 +54,20 @@ class LessonController extends Controller
      */
     public function show(Request $request, $id)
     {   
-        $result = $this->apiHandler->parseSingle(New Lesson, $id)->getResultOrFail();
+        $lesson = $this->apiHandler->parseSingle(New Lesson, $id)->getResultOrFail();
+        $schoolClass = $lesson->schoolClass;
         $attach = explode(',', $request->input('attach'));
 
         if (in_array('students',$attach) || 
             in_array('students.attendanceRecord',$attach) ||
             in_array('students.last_occurences',$attach)) {
 
-           $students = $result->students();
+           $students = $lesson->students();
 
             if (in_array('students.attendanceRecord',$attach)) {
-                $students->map(function($item, $key) use ($result){
+                $students->map(function($item, $key) use ($lesson){
                     $item->attendance_record = \App\AttendanceRecord::
-                        where('lesson_id', $result->id)
+                        where('lesson_id', $lesson->id)
                         ->where('student_id', $item->id)
                         ->first();
                 });
@@ -84,20 +85,20 @@ class LessonController extends Controller
             }
 
             if (in_array('students.absenceSummary', $attach)) {
-                $students->map(function($item, $key) use ($result){
+                $students->map(function($item, $key) use ($lesson){
                     $item->absence_summary = $item->absenceSummaryYear(
-                            $result->school_class_id,
-                            $result->subject_id,
-                            $result->schoolClass->school_calendar_id
+                            $schoolClass->school_calendar_id,
+                            $schoolClass->id,
+                            $lesson->subject_id
                         );
                 });
             }
 
-            $result['students'] = $students;
+            $lesson['students'] = $students;
 
         }
 
-        return $result;
+        return $lesson;
     }
 
     /**
