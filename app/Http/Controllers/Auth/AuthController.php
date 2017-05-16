@@ -47,8 +47,10 @@ class AuthController extends Controller
         $user_id = Auth0::jwtuser()->sub;
         $person = Person::select()->with('student', 'teacher');
 
-        return $this->apiHandler
+        $result = $this->apiHandler
             ->parseSingle($person, ['user_id' => $user_id])
             ->getResultOrFail();
+        
+        return $result;
     }
 }

@@ -305,7 +305,7 @@ class Student extends Model
         // avaliações (assessments) da fase 
         // e notas do aluno (studentGrades)
         // no ano letivo (schoolCalendar)
-        $phases = $schoolCalendar->phases()
+        $phases = $schoolCalendar->schoolCalendarPhase()
             ->with(['assessments.studentGrades' => function($query){
                 $query->where('student_id', $this->id);
             }])->get();
@@ -722,14 +722,11 @@ class Student extends Model
      * ]
      * @author Kévio Castro <keviocastro@gmail.com>
      */
-    public function absenceSummaryYear($school_class_id, $subject_id)
+    public function absenceSummaryYear($school_calendar_id, $school_class_id, $subject_id)
     {
-        $total_absences = $this->attendanceRecords()
-            ->join('lessons', 'lessons.id', '=', 'attendance_records.lesson_id')
-            ->join('school_classes', 'school_classes.id', '=', 'lessons.school_class_id')
+        $total_absences = $this->absencesYear($school_calendar_id)
             ->where('lessons.school_class_id', $school_class_id)
-            ->where('lessons.subject_id', $subject_id )
-            ->where('attendance_records.presence', 0)
+            ->where('lessons.subject_id', $subject_id)
             ->count();
 
         return [

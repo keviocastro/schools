@@ -14,18 +14,22 @@ class AttendanceRecordsFactory
      * 
      * @param  SchoolCalendarPhase $schoolCalendarPhase  
      * @param  int                 $totalAbsences        Opcional
-     * @param  int                 $student_id           Opcional. 
-     *                                                   Atribui total de faltas ($totalAbsences) 
-     *                                                   para esse aluno.        
+     * @param  int                 $student_id           Opcional. Atribui total de faltas ($totalAbsences) para esse aluno.     
+     * @param  int                 $school_class_id      Turma das aulas que serão registradas as presenças
+     *    
      * @return void                                   
      */
     public static function create(
         SchoolCalendarPhase $schoolCalendarPhase,
         int $totalAbsences,
-        int $student_id=null
+        int $student_id=null,
+        int $school_class_id
         ){
 
-        $lessons = $schoolCalendarPhase->lessons;
+        $lessons = $schoolCalendarPhase->lessons()
+            ->where('lessons.school_class_id', $school_class_id)
+            ->get();
+
         $attendanceRecords = [];
         $total_absences_student_id = 0;
 

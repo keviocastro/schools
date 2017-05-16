@@ -142,7 +142,7 @@ onde é registrado a ficha de avaliação de um aluno.
 
 
 
-## Coleção de items da ficha avaliativa [/progress-sheet/{progress_sheet_id}/items{?_q,_sort,_with}]
+## Coleção de items da ficha avaliativa [/progress-sheets/{progress_sheet_id}/items{?_q,_sort,_with}]
 
 ### Listar items [GET]
 
@@ -196,3 +196,16 @@ onde é registrado a ficha de avaliação de um aluno.
 
     + Attributes
         + progress_sheet_item (ProgressSheetItem)
+
+
+### Excluir item da ficha avaliativa [DELETE]
+
++ Parameters
+    + progress_sheet_item_id: 1 (number) - ID do item da ficha avaliativa
+
++ Request  (application/json)
+    + Headers
+
+            authorization: <!-- include(Token.md) -->
+
++ Response 204

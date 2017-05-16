@@ -202,13 +202,13 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="#
     + _with (string, optional) - Obtem informações do recurso relacionado.
         + Members
             + schoolClasses - Turmas do ano letivo.
-            + phases - Fases avaliativas do ano letivo. Recurso (SchoolCalendarPhase)
+            + schoolCalendarPhase - Fases avaliativas do ano letivo. Recurso (SchoolCalendarPhase)
 
 + Request  (application/json)
 
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQ1MzAwMTgsImlhdCI6MTQ5NDUyMjgxOCwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.fCm37r3TNs-QS4wa5DdMrosp5f4pTzZEUxhz2LugD4AEtixukn9JOoIMh5Kh9Z_REsfdCNnlny36c-0Ze7Q4C1Qnzjxh0OdU_E7ptHsy-OVBczVx1o87FS48HshXkgXj6KZprtLKyR9Ap11BgtTEZfIJGixLnJu6ZEhXbGh1rlipGGta-xLgAsOGeeS-NmnBPazvzWJaYbEJsqdNAnb7vSzCiAvrpcgmyc-DbBReOf_YfybT4uxtfyzafsHjIC0-cKObP3K4zDRJLHs9XW8qMpeIUrF932T2eVGWFAEBtbxiBFV6kgGNVkt4CfT6I0Jp8m5E2YaGg1Phu4iXgHekVg
+            authorization: Bearer {{token}}
 
 + Response 200 (application/json)
 
@@ -222,7 +222,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="#
 + Request  (application/json)
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQ1MzAwMTgsImlhdCI6MTQ5NDUyMjgxOCwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.fCm37r3TNs-QS4wa5DdMrosp5f4pTzZEUxhz2LugD4AEtixukn9JOoIMh5Kh9Z_REsfdCNnlny36c-0Ze7Q4C1Qnzjxh0OdU_E7ptHsy-OVBczVx1o87FS48HshXkgXj6KZprtLKyR9Ap11BgtTEZfIJGixLnJu6ZEhXbGh1rlipGGta-xLgAsOGeeS-NmnBPazvzWJaYbEJsqdNAnb7vSzCiAvrpcgmyc-DbBReOf_YfybT4uxtfyzafsHjIC0-cKObP3K4zDRJLHs9XW8qMpeIUrF932T2eVGWFAEBtbxiBFV6kgGNVkt4CfT6I0Jp8m5E2YaGg1Phu4iXgHekVg
+            authorization: Bearer {{token}}
 
     + Attributes (SchoolCalendarFillable)
 
@@ -240,12 +240,12 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="#
     + _with (string, optional) - Obtem informações do recurso relacionado.
         + Members
             + schoolClasses - Turmas do ano letivo.
-            + phases - Fases avaliativas do ano letivo. Recurso (SchoolCalendarPhase)
+            + schoolCalendarPhase - Fases avaliativas do ano letivo. Recurso (SchoolCalendarPhase)
 
 + Request  (application/json)
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQ1MzAwMTgsImlhdCI6MTQ5NDUyMjgxOCwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.fCm37r3TNs-QS4wa5DdMrosp5f4pTzZEUxhz2LugD4AEtixukn9JOoIMh5Kh9Z_REsfdCNnlny36c-0Ze7Q4C1Qnzjxh0OdU_E7ptHsy-OVBczVx1o87FS48HshXkgXj6KZprtLKyR9Ap11BgtTEZfIJGixLnJu6ZEhXbGh1rlipGGta-xLgAsOGeeS-NmnBPazvzWJaYbEJsqdNAnb7vSzCiAvrpcgmyc-DbBReOf_YfybT4uxtfyzafsHjIC0-cKObP3K4zDRJLHs9XW8qMpeIUrF932T2eVGWFAEBtbxiBFV6kgGNVkt4CfT6I0Jp8m5E2YaGg1Phu4iXgHekVg
+            authorization: Bearer {{token}}
 
 + Response 200 (application/json)
 
@@ -260,7 +260,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="#
 + Request  (application/json)
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQ1MzAwMTgsImlhdCI6MTQ5NDUyMjgxOCwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.fCm37r3TNs-QS4wa5DdMrosp5f4pTzZEUxhz2LugD4AEtixukn9JOoIMh5Kh9Z_REsfdCNnlny36c-0Ze7Q4C1Qnzjxh0OdU_E7ptHsy-OVBczVx1o87FS48HshXkgXj6KZprtLKyR9Ap11BgtTEZfIJGixLnJu6ZEhXbGh1rlipGGta-xLgAsOGeeS-NmnBPazvzWJaYbEJsqdNAnb7vSzCiAvrpcgmyc-DbBReOf_YfybT4uxtfyzafsHjIC0-cKObP3K4zDRJLHs9XW8qMpeIUrF932T2eVGWFAEBtbxiBFV6kgGNVkt4CfT6I0Jp8m5E2YaGg1Phu4iXgHekVg
+            authorization: Bearer {{token}}
 
     + Attributes (SchoolCalendarFillable)
 
@@ -278,7 +278,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="#
 
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQ1MzAwMTgsImlhdCI6MTQ5NDUyMjgxOCwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.fCm37r3TNs-QS4wa5DdMrosp5f4pTzZEUxhz2LugD4AEtixukn9JOoIMh5Kh9Z_REsfdCNnlny36c-0Ze7Q4C1Qnzjxh0OdU_E7ptHsy-OVBczVx1o87FS48HshXkgXj6KZprtLKyR9Ap11BgtTEZfIJGixLnJu6ZEhXbGh1rlipGGta-xLgAsOGeeS-NmnBPazvzWJaYbEJsqdNAnb7vSzCiAvrpcgmyc-DbBReOf_YfybT4uxtfyzafsHjIC0-cKObP3K4zDRJLHs9XW8qMpeIUrF932T2eVGWFAEBtbxiBFV6kgGNVkt4CfT6I0Jp8m5E2YaGg1Phu4iXgHekVg
+            authorization: Bearer {{token}}
 
 + Response 204
 
@@ -307,7 +307,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="#
 + Request  (application/json)
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQ1MzAwMTgsImlhdCI6MTQ5NDUyMjgxOCwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.fCm37r3TNs-QS4wa5DdMrosp5f4pTzZEUxhz2LugD4AEtixukn9JOoIMh5Kh9Z_REsfdCNnlny36c-0Ze7Q4C1Qnzjxh0OdU_E7ptHsy-OVBczVx1o87FS48HshXkgXj6KZprtLKyR9Ap11BgtTEZfIJGixLnJu6ZEhXbGh1rlipGGta-xLgAsOGeeS-NmnBPazvzWJaYbEJsqdNAnb7vSzCiAvrpcgmyc-DbBReOf_YfybT4uxtfyzafsHjIC0-cKObP3K4zDRJLHs9XW8qMpeIUrF932T2eVGWFAEBtbxiBFV6kgGNVkt4CfT6I0Jp8m5E2YaGg1Phu4iXgHekVg
+            authorization: Bearer {{token}}
 
 + Response 200 (application/json)
 
@@ -321,7 +321,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="#
 + Request  (application/json)
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQ1MzAwMTgsImlhdCI6MTQ5NDUyMjgxOCwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.fCm37r3TNs-QS4wa5DdMrosp5f4pTzZEUxhz2LugD4AEtixukn9JOoIMh5Kh9Z_REsfdCNnlny36c-0Ze7Q4C1Qnzjxh0OdU_E7ptHsy-OVBczVx1o87FS48HshXkgXj6KZprtLKyR9Ap11BgtTEZfIJGixLnJu6ZEhXbGh1rlipGGta-xLgAsOGeeS-NmnBPazvzWJaYbEJsqdNAnb7vSzCiAvrpcgmyc-DbBReOf_YfybT4uxtfyzafsHjIC0-cKObP3K4zDRJLHs9XW8qMpeIUrF932T2eVGWFAEBtbxiBFV6kgGNVkt4CfT6I0Jp8m5E2YaGg1Phu4iXgHekVg
+            authorization: Bearer {{token}}
 
     + Attributes (SchoolFillable)
 
@@ -343,7 +343,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="#
 + Request  (application/json)
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQ1MzAwMTgsImlhdCI6MTQ5NDUyMjgxOCwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.fCm37r3TNs-QS4wa5DdMrosp5f4pTzZEUxhz2LugD4AEtixukn9JOoIMh5Kh9Z_REsfdCNnlny36c-0Ze7Q4C1Qnzjxh0OdU_E7ptHsy-OVBczVx1o87FS48HshXkgXj6KZprtLKyR9Ap11BgtTEZfIJGixLnJu6ZEhXbGh1rlipGGta-xLgAsOGeeS-NmnBPazvzWJaYbEJsqdNAnb7vSzCiAvrpcgmyc-DbBReOf_YfybT4uxtfyzafsHjIC0-cKObP3K4zDRJLHs9XW8qMpeIUrF932T2eVGWFAEBtbxiBFV6kgGNVkt4CfT6I0Jp8m5E2YaGg1Phu4iXgHekVg
+            authorization: Bearer {{token}}
 
 + Response 200 (application/json)
 
@@ -360,7 +360,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="#
 
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQ1MzAwMTgsImlhdCI6MTQ5NDUyMjgxOCwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.fCm37r3TNs-QS4wa5DdMrosp5f4pTzZEUxhz2LugD4AEtixukn9JOoIMh5Kh9Z_REsfdCNnlny36c-0Ze7Q4C1Qnzjxh0OdU_E7ptHsy-OVBczVx1o87FS48HshXkgXj6KZprtLKyR9Ap11BgtTEZfIJGixLnJu6ZEhXbGh1rlipGGta-xLgAsOGeeS-NmnBPazvzWJaYbEJsqdNAnb7vSzCiAvrpcgmyc-DbBReOf_YfybT4uxtfyzafsHjIC0-cKObP3K4zDRJLHs9XW8qMpeIUrF932T2eVGWFAEBtbxiBFV6kgGNVkt4CfT6I0Jp8m5E2YaGg1Phu4iXgHekVg
+            authorization: Bearer {{token}}
 
     + Attributes (SchoolFillable)
 
@@ -378,7 +378,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="#
 
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQ1MzAwMTgsImlhdCI6MTQ5NDUyMjgxOCwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.fCm37r3TNs-QS4wa5DdMrosp5f4pTzZEUxhz2LugD4AEtixukn9JOoIMh5Kh9Z_REsfdCNnlny36c-0Ze7Q4C1Qnzjxh0OdU_E7ptHsy-OVBczVx1o87FS48HshXkgXj6KZprtLKyR9Ap11BgtTEZfIJGixLnJu6ZEhXbGh1rlipGGta-xLgAsOGeeS-NmnBPazvzWJaYbEJsqdNAnb7vSzCiAvrpcgmyc-DbBReOf_YfybT4uxtfyzafsHjIC0-cKObP3K4zDRJLHs9XW8qMpeIUrF932T2eVGWFAEBtbxiBFV6kgGNVkt4CfT6I0Jp8m5E2YaGg1Phu4iXgHekVg
+            authorization: Bearer {{token}}
 
 + Response 204
 
@@ -405,7 +405,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="#
 
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQ1MzAwMTgsImlhdCI6MTQ5NDUyMjgxOCwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.fCm37r3TNs-QS4wa5DdMrosp5f4pTzZEUxhz2LugD4AEtixukn9JOoIMh5Kh9Z_REsfdCNnlny36c-0Ze7Q4C1Qnzjxh0OdU_E7ptHsy-OVBczVx1o87FS48HshXkgXj6KZprtLKyR9Ap11BgtTEZfIJGixLnJu6ZEhXbGh1rlipGGta-xLgAsOGeeS-NmnBPazvzWJaYbEJsqdNAnb7vSzCiAvrpcgmyc-DbBReOf_YfybT4uxtfyzafsHjIC0-cKObP3K4zDRJLHs9XW8qMpeIUrF932T2eVGWFAEBtbxiBFV6kgGNVkt4CfT6I0Jp8m5E2YaGg1Phu4iXgHekVg
+            authorization: Bearer {{token}}
 
 + Response 200 (application/json)
 
@@ -419,7 +419,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="#
 + Request  (application/json)
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQ1MzAwMTgsImlhdCI6MTQ5NDUyMjgxOCwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.fCm37r3TNs-QS4wa5DdMrosp5f4pTzZEUxhz2LugD4AEtixukn9JOoIMh5Kh9Z_REsfdCNnlny36c-0Ze7Q4C1Qnzjxh0OdU_E7ptHsy-OVBczVx1o87FS48HshXkgXj6KZprtLKyR9Ap11BgtTEZfIJGixLnJu6ZEhXbGh1rlipGGta-xLgAsOGeeS-NmnBPazvzWJaYbEJsqdNAnb7vSzCiAvrpcgmyc-DbBReOf_YfybT4uxtfyzafsHjIC0-cKObP3K4zDRJLHs9XW8qMpeIUrF932T2eVGWFAEBtbxiBFV6kgGNVkt4CfT6I0Jp8m5E2YaGg1Phu4iXgHekVg
+            authorization: Bearer {{token}}
 
     + Attributes (SchoolClassFillable)
 
@@ -448,7 +448,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="#
 + Request  (application/json)
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQ1MzAwMTgsImlhdCI6MTQ5NDUyMjgxOCwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.fCm37r3TNs-QS4wa5DdMrosp5f4pTzZEUxhz2LugD4AEtixukn9JOoIMh5Kh9Z_REsfdCNnlny36c-0Ze7Q4C1Qnzjxh0OdU_E7ptHsy-OVBczVx1o87FS48HshXkgXj6KZprtLKyR9Ap11BgtTEZfIJGixLnJu6ZEhXbGh1rlipGGta-xLgAsOGeeS-NmnBPazvzWJaYbEJsqdNAnb7vSzCiAvrpcgmyc-DbBReOf_YfybT4uxtfyzafsHjIC0-cKObP3K4zDRJLHs9XW8qMpeIUrF932T2eVGWFAEBtbxiBFV6kgGNVkt4CfT6I0Jp8m5E2YaGg1Phu4iXgHekVg
+            authorization: Bearer {{token}}
 
 + Response 200 (application/json)
 
@@ -463,7 +463,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="#
 + Request  (application/json)
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQ1MzAwMTgsImlhdCI6MTQ5NDUyMjgxOCwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.fCm37r3TNs-QS4wa5DdMrosp5f4pTzZEUxhz2LugD4AEtixukn9JOoIMh5Kh9Z_REsfdCNnlny36c-0Ze7Q4C1Qnzjxh0OdU_E7ptHsy-OVBczVx1o87FS48HshXkgXj6KZprtLKyR9Ap11BgtTEZfIJGixLnJu6ZEhXbGh1rlipGGta-xLgAsOGeeS-NmnBPazvzWJaYbEJsqdNAnb7vSzCiAvrpcgmyc-DbBReOf_YfybT4uxtfyzafsHjIC0-cKObP3K4zDRJLHs9XW8qMpeIUrF932T2eVGWFAEBtbxiBFV6kgGNVkt4CfT6I0Jp8m5E2YaGg1Phu4iXgHekVg
+            authorization: Bearer {{token}}
 
     + Attributes (SchoolClassFillable)
 
@@ -481,7 +481,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="#
 
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQ1MzAwMTgsImlhdCI6MTQ5NDUyMjgxOCwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.fCm37r3TNs-QS4wa5DdMrosp5f4pTzZEUxhz2LugD4AEtixukn9JOoIMh5Kh9Z_REsfdCNnlny36c-0Ze7Q4C1Qnzjxh0OdU_E7ptHsy-OVBczVx1o87FS48HshXkgXj6KZprtLKyR9Ap11BgtTEZfIJGixLnJu6ZEhXbGh1rlipGGta-xLgAsOGeeS-NmnBPazvzWJaYbEJsqdNAnb7vSzCiAvrpcgmyc-DbBReOf_YfybT4uxtfyzafsHjIC0-cKObP3K4zDRJLHs9XW8qMpeIUrF932T2eVGWFAEBtbxiBFV6kgGNVkt4CfT6I0Jp8m5E2YaGg1Phu4iXgHekVg
+            authorization: Bearer {{token}}
 
 + Response 204
 
@@ -498,7 +498,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="#
 + Request  (application/json)
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQ1MzAwMTgsImlhdCI6MTQ5NDUyMjgxOCwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.fCm37r3TNs-QS4wa5DdMrosp5f4pTzZEUxhz2LugD4AEtixukn9JOoIMh5Kh9Z_REsfdCNnlny36c-0Ze7Q4C1Qnzjxh0OdU_E7ptHsy-OVBczVx1o87FS48HshXkgXj6KZprtLKyR9Ap11BgtTEZfIJGixLnJu6ZEhXbGh1rlipGGta-xLgAsOGeeS-NmnBPazvzWJaYbEJsqdNAnb7vSzCiAvrpcgmyc-DbBReOf_YfybT4uxtfyzafsHjIC0-cKObP3K4zDRJLHs9XW8qMpeIUrF932T2eVGWFAEBtbxiBFV6kgGNVkt4CfT6I0Jp8m5E2YaGg1Phu4iXgHekVg
+            authorization: Bearer {{token}}
 
 + Response 200 (application/json)
 
@@ -564,7 +564,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="#
 + Request  (application/json)
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQ1MzAwMTgsImlhdCI6MTQ5NDUyMjgxOCwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.fCm37r3TNs-QS4wa5DdMrosp5f4pTzZEUxhz2LugD4AEtixukn9JOoIMh5Kh9Z_REsfdCNnlny36c-0Ze7Q4C1Qnzjxh0OdU_E7ptHsy-OVBczVx1o87FS48HshXkgXj6KZprtLKyR9Ap11BgtTEZfIJGixLnJu6ZEhXbGh1rlipGGta-xLgAsOGeeS-NmnBPazvzWJaYbEJsqdNAnb7vSzCiAvrpcgmyc-DbBReOf_YfybT4uxtfyzafsHjIC0-cKObP3K4zDRJLHs9XW8qMpeIUrF932T2eVGWFAEBtbxiBFV6kgGNVkt4CfT6I0Jp8m5E2YaGg1Phu4iXgHekVg
+            authorization: Bearer {{token}}
 
 + Response 200 (application/json)
 
@@ -578,7 +578,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="#
 + Request  (application/json)
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQ1MzAwMTgsImlhdCI6MTQ5NDUyMjgxOCwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.fCm37r3TNs-QS4wa5DdMrosp5f4pTzZEUxhz2LugD4AEtixukn9JOoIMh5Kh9Z_REsfdCNnlny36c-0Ze7Q4C1Qnzjxh0OdU_E7ptHsy-OVBczVx1o87FS48HshXkgXj6KZprtLKyR9Ap11BgtTEZfIJGixLnJu6ZEhXbGh1rlipGGta-xLgAsOGeeS-NmnBPazvzWJaYbEJsqdNAnb7vSzCiAvrpcgmyc-DbBReOf_YfybT4uxtfyzafsHjIC0-cKObP3K4zDRJLHs9XW8qMpeIUrF932T2eVGWFAEBtbxiBFV6kgGNVkt4CfT6I0Jp8m5E2YaGg1Phu4iXgHekVg
+            authorization: Bearer {{token}}
 
     + Attributes (LessonFillable)
 
@@ -624,7 +624,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="#
 + Request  (application/json)
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQ1MzAwMTgsImlhdCI6MTQ5NDUyMjgxOCwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.fCm37r3TNs-QS4wa5DdMrosp5f4pTzZEUxhz2LugD4AEtixukn9JOoIMh5Kh9Z_REsfdCNnlny36c-0Ze7Q4C1Qnzjxh0OdU_E7ptHsy-OVBczVx1o87FS48HshXkgXj6KZprtLKyR9Ap11BgtTEZfIJGixLnJu6ZEhXbGh1rlipGGta-xLgAsOGeeS-NmnBPazvzWJaYbEJsqdNAnb7vSzCiAvrpcgmyc-DbBReOf_YfybT4uxtfyzafsHjIC0-cKObP3K4zDRJLHs9XW8qMpeIUrF932T2eVGWFAEBtbxiBFV6kgGNVkt4CfT6I0Jp8m5E2YaGg1Phu4iXgHekVg
+            authorization: Bearer {{token}}
 
 + Response 200 (application/json)
 
@@ -649,7 +649,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="#
 + Request  (application/json)
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQ1MzAwMTgsImlhdCI6MTQ5NDUyMjgxOCwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.fCm37r3TNs-QS4wa5DdMrosp5f4pTzZEUxhz2LugD4AEtixukn9JOoIMh5Kh9Z_REsfdCNnlny36c-0Ze7Q4C1Qnzjxh0OdU_E7ptHsy-OVBczVx1o87FS48HshXkgXj6KZprtLKyR9Ap11BgtTEZfIJGixLnJu6ZEhXbGh1rlipGGta-xLgAsOGeeS-NmnBPazvzWJaYbEJsqdNAnb7vSzCiAvrpcgmyc-DbBReOf_YfybT4uxtfyzafsHjIC0-cKObP3K4zDRJLHs9XW8qMpeIUrF932T2eVGWFAEBtbxiBFV6kgGNVkt4CfT6I0Jp8m5E2YaGg1Phu4iXgHekVg
+            authorization: Bearer {{token}}
 
     + Attributes (LessonFillable)
 
@@ -667,7 +667,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="#
 + Request  (application/json)
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQ1MzAwMTgsImlhdCI6MTQ5NDUyMjgxOCwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.fCm37r3TNs-QS4wa5DdMrosp5f4pTzZEUxhz2LugD4AEtixukn9JOoIMh5Kh9Z_REsfdCNnlny36c-0Ze7Q4C1Qnzjxh0OdU_E7ptHsy-OVBczVx1o87FS48HshXkgXj6KZprtLKyR9Ap11BgtTEZfIJGixLnJu6ZEhXbGh1rlipGGta-xLgAsOGeeS-NmnBPazvzWJaYbEJsqdNAnb7vSzCiAvrpcgmyc-DbBReOf_YfybT4uxtfyzafsHjIC0-cKObP3K4zDRJLHs9XW8qMpeIUrF932T2eVGWFAEBtbxiBFV6kgGNVkt4CfT6I0Jp8m5E2YaGg1Phu4iXgHekVg
+            authorization: Bearer {{token}}
 
 + Response 204
 
@@ -699,7 +699,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="#
 + Request  (application/json)
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQ1MzAwMTgsImlhdCI6MTQ5NDUyMjgxOCwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.fCm37r3TNs-QS4wa5DdMrosp5f4pTzZEUxhz2LugD4AEtixukn9JOoIMh5Kh9Z_REsfdCNnlny36c-0Ze7Q4C1Qnzjxh0OdU_E7ptHsy-OVBczVx1o87FS48HshXkgXj6KZprtLKyR9Ap11BgtTEZfIJGixLnJu6ZEhXbGh1rlipGGta-xLgAsOGeeS-NmnBPazvzWJaYbEJsqdNAnb7vSzCiAvrpcgmyc-DbBReOf_YfybT4uxtfyzafsHjIC0-cKObP3K4zDRJLHs9XW8qMpeIUrF932T2eVGWFAEBtbxiBFV6kgGNVkt4CfT6I0Jp8m5E2YaGg1Phu4iXgHekVg
+            authorization: Bearer {{token}}
 
 + Response 200 (application/json)
 
@@ -730,7 +730,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="#
 + Request  (application/json)
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQ1MzAwMTgsImlhdCI6MTQ5NDUyMjgxOCwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.fCm37r3TNs-QS4wa5DdMrosp5f4pTzZEUxhz2LugD4AEtixukn9JOoIMh5Kh9Z_REsfdCNnlny36c-0Ze7Q4C1Qnzjxh0OdU_E7ptHsy-OVBczVx1o87FS48HshXkgXj6KZprtLKyR9Ap11BgtTEZfIJGixLnJu6ZEhXbGh1rlipGGta-xLgAsOGeeS-NmnBPazvzWJaYbEJsqdNAnb7vSzCiAvrpcgmyc-DbBReOf_YfybT4uxtfyzafsHjIC0-cKObP3K4zDRJLHs9XW8qMpeIUrF932T2eVGWFAEBtbxiBFV6kgGNVkt4CfT6I0Jp8m5E2YaGg1Phu4iXgHekVg
+            authorization: Bearer {{token}}
 
 + Response 200 (application/json)
 
@@ -745,7 +745,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="#
 + Request  (application/json)
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQ1MzAwMTgsImlhdCI6MTQ5NDUyMjgxOCwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.fCm37r3TNs-QS4wa5DdMrosp5f4pTzZEUxhz2LugD4AEtixukn9JOoIMh5Kh9Z_REsfdCNnlny36c-0Ze7Q4C1Qnzjxh0OdU_E7ptHsy-OVBczVx1o87FS48HshXkgXj6KZprtLKyR9Ap11BgtTEZfIJGixLnJu6ZEhXbGh1rlipGGta-xLgAsOGeeS-NmnBPazvzWJaYbEJsqdNAnb7vSzCiAvrpcgmyc-DbBReOf_YfybT4uxtfyzafsHjIC0-cKObP3K4zDRJLHs9XW8qMpeIUrF932T2eVGWFAEBtbxiBFV6kgGNVkt4CfT6I0Jp8m5E2YaGg1Phu4iXgHekVg
+            authorization: Bearer {{token}}
 
     + Attributes (object)
         + Include LessonPlanFillable
@@ -774,7 +774,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="#
 + Request  (application/json)
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQ1MzAwMTgsImlhdCI6MTQ5NDUyMjgxOCwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.fCm37r3TNs-QS4wa5DdMrosp5f4pTzZEUxhz2LugD4AEtixukn9JOoIMh5Kh9Z_REsfdCNnlny36c-0Ze7Q4C1Qnzjxh0OdU_E7ptHsy-OVBczVx1o87FS48HshXkgXj6KZprtLKyR9Ap11BgtTEZfIJGixLnJu6ZEhXbGh1rlipGGta-xLgAsOGeeS-NmnBPazvzWJaYbEJsqdNAnb7vSzCiAvrpcgmyc-DbBReOf_YfybT4uxtfyzafsHjIC0-cKObP3K4zDRJLHs9XW8qMpeIUrF932T2eVGWFAEBtbxiBFV6kgGNVkt4CfT6I0Jp8m5E2YaGg1Phu4iXgHekVg
+            authorization: Bearer {{token}}
 
 + Response 200 (application/json)
 
@@ -789,7 +789,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="#
 + Request  (application/json)
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQ1MzAwMTgsImlhdCI6MTQ5NDUyMjgxOCwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.fCm37r3TNs-QS4wa5DdMrosp5f4pTzZEUxhz2LugD4AEtixukn9JOoIMh5Kh9Z_REsfdCNnlny36c-0Ze7Q4C1Qnzjxh0OdU_E7ptHsy-OVBczVx1o87FS48HshXkgXj6KZprtLKyR9Ap11BgtTEZfIJGixLnJu6ZEhXbGh1rlipGGta-xLgAsOGeeS-NmnBPazvzWJaYbEJsqdNAnb7vSzCiAvrpcgmyc-DbBReOf_YfybT4uxtfyzafsHjIC0-cKObP3K4zDRJLHs9XW8qMpeIUrF932T2eVGWFAEBtbxiBFV6kgGNVkt4CfT6I0Jp8m5E2YaGg1Phu4iXgHekVg
+            authorization: Bearer {{token}}
 
     + Attributes (object)
         + Include LessonPlanFillable
@@ -816,7 +816,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="#
 + Request  (application/json)
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQ1MzAwMTgsImlhdCI6MTQ5NDUyMjgxOCwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.fCm37r3TNs-QS4wa5DdMrosp5f4pTzZEUxhz2LugD4AEtixukn9JOoIMh5Kh9Z_REsfdCNnlny36c-0Ze7Q4C1Qnzjxh0OdU_E7ptHsy-OVBczVx1o87FS48HshXkgXj6KZprtLKyR9Ap11BgtTEZfIJGixLnJu6ZEhXbGh1rlipGGta-xLgAsOGeeS-NmnBPazvzWJaYbEJsqdNAnb7vSzCiAvrpcgmyc-DbBReOf_YfybT4uxtfyzafsHjIC0-cKObP3K4zDRJLHs9XW8qMpeIUrF932T2eVGWFAEBtbxiBFV6kgGNVkt4CfT6I0Jp8m5E2YaGg1Phu4iXgHekVg
+            authorization: Bearer {{token}}
 
 + Response 204
 
@@ -833,7 +833,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="#
 + Request  (application/json)
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQ1MzAwMTgsImlhdCI6MTQ5NDUyMjgxOCwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.fCm37r3TNs-QS4wa5DdMrosp5f4pTzZEUxhz2LugD4AEtixukn9JOoIMh5Kh9Z_REsfdCNnlny36c-0Ze7Q4C1Qnzjxh0OdU_E7ptHsy-OVBczVx1o87FS48HshXkgXj6KZprtLKyR9Ap11BgtTEZfIJGixLnJu6ZEhXbGh1rlipGGta-xLgAsOGeeS-NmnBPazvzWJaYbEJsqdNAnb7vSzCiAvrpcgmyc-DbBReOf_YfybT4uxtfyzafsHjIC0-cKObP3K4zDRJLHs9XW8qMpeIUrF932T2eVGWFAEBtbxiBFV6kgGNVkt4CfT6I0Jp8m5E2YaGg1Phu4iXgHekVg
+            authorization: Bearer {{token}}
 
 + Response 200 (application/json)
 
@@ -847,7 +847,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="#
 + Request  (application/json)
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQ1MzAwMTgsImlhdCI6MTQ5NDUyMjgxOCwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.fCm37r3TNs-QS4wa5DdMrosp5f4pTzZEUxhz2LugD4AEtixukn9JOoIMh5Kh9Z_REsfdCNnlny36c-0Ze7Q4C1Qnzjxh0OdU_E7ptHsy-OVBczVx1o87FS48HshXkgXj6KZprtLKyR9Ap11BgtTEZfIJGixLnJu6ZEhXbGh1rlipGGta-xLgAsOGeeS-NmnBPazvzWJaYbEJsqdNAnb7vSzCiAvrpcgmyc-DbBReOf_YfybT4uxtfyzafsHjIC0-cKObP3K4zDRJLHs9XW8qMpeIUrF932T2eVGWFAEBtbxiBFV6kgGNVkt4CfT6I0Jp8m5E2YaGg1Phu4iXgHekVg
+            authorization: Bearer {{token}}
 
     + Attributes (LessonPlanModelFillable)
 
@@ -866,7 +866,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="#
 + Request  (application/json)
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQ1MzAwMTgsImlhdCI6MTQ5NDUyMjgxOCwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.fCm37r3TNs-QS4wa5DdMrosp5f4pTzZEUxhz2LugD4AEtixukn9JOoIMh5Kh9Z_REsfdCNnlny36c-0Ze7Q4C1Qnzjxh0OdU_E7ptHsy-OVBczVx1o87FS48HshXkgXj6KZprtLKyR9Ap11BgtTEZfIJGixLnJu6ZEhXbGh1rlipGGta-xLgAsOGeeS-NmnBPazvzWJaYbEJsqdNAnb7vSzCiAvrpcgmyc-DbBReOf_YfybT4uxtfyzafsHjIC0-cKObP3K4zDRJLHs9XW8qMpeIUrF932T2eVGWFAEBtbxiBFV6kgGNVkt4CfT6I0Jp8m5E2YaGg1Phu4iXgHekVg
+            authorization: Bearer {{token}}
 
 + Response 200 (application/json)
 
@@ -881,7 +881,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="#
 + Request  (application/json)
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQ1MzAwMTgsImlhdCI6MTQ5NDUyMjgxOCwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.fCm37r3TNs-QS4wa5DdMrosp5f4pTzZEUxhz2LugD4AEtixukn9JOoIMh5Kh9Z_REsfdCNnlny36c-0Ze7Q4C1Qnzjxh0OdU_E7ptHsy-OVBczVx1o87FS48HshXkgXj6KZprtLKyR9Ap11BgtTEZfIJGixLnJu6ZEhXbGh1rlipGGta-xLgAsOGeeS-NmnBPazvzWJaYbEJsqdNAnb7vSzCiAvrpcgmyc-DbBReOf_YfybT4uxtfyzafsHjIC0-cKObP3K4zDRJLHs9XW8qMpeIUrF932T2eVGWFAEBtbxiBFV6kgGNVkt4CfT6I0Jp8m5E2YaGg1Phu4iXgHekVg
+            authorization: Bearer {{token}}
 
     + Attributes (LessonPlanModelFillable)
 
@@ -898,7 +898,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="#
 + Request  (application/json)
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQ1MzAwMTgsImlhdCI6MTQ5NDUyMjgxOCwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.fCm37r3TNs-QS4wa5DdMrosp5f4pTzZEUxhz2LugD4AEtixukn9JOoIMh5Kh9Z_REsfdCNnlny36c-0Ze7Q4C1Qnzjxh0OdU_E7ptHsy-OVBczVx1o87FS48HshXkgXj6KZprtLKyR9Ap11BgtTEZfIJGixLnJu6ZEhXbGh1rlipGGta-xLgAsOGeeS-NmnBPazvzWJaYbEJsqdNAnb7vSzCiAvrpcgmyc-DbBReOf_YfybT4uxtfyzafsHjIC0-cKObP3K4zDRJLHs9XW8qMpeIUrF932T2eVGWFAEBtbxiBFV6kgGNVkt4CfT6I0Jp8m5E2YaGg1Phu4iXgHekVg
+            authorization: Bearer {{token}}
 
 + Response 204
 
@@ -917,7 +917,7 @@ e relatórios como "Boletim anual do aluno" e "Histórico escolar", registro de 
 + Request  (application/json)
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQ1MzAwMTgsImlhdCI6MTQ5NDUyMjgxOCwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.fCm37r3TNs-QS4wa5DdMrosp5f4pTzZEUxhz2LugD4AEtixukn9JOoIMh5Kh9Z_REsfdCNnlny36c-0Ze7Q4C1Qnzjxh0OdU_E7ptHsy-OVBczVx1o87FS48HshXkgXj6KZprtLKyR9Ap11BgtTEZfIJGixLnJu6ZEhXbGh1rlipGGta-xLgAsOGeeS-NmnBPazvzWJaYbEJsqdNAnb7vSzCiAvrpcgmyc-DbBReOf_YfybT4uxtfyzafsHjIC0-cKObP3K4zDRJLHs9XW8qMpeIUrF932T2eVGWFAEBtbxiBFV6kgGNVkt4CfT6I0Jp8m5E2YaGg1Phu4iXgHekVg
+            authorization: Bearer {{token}}
 
 + Response 200 (application/json)
 
@@ -934,7 +934,7 @@ e relatórios como "Boletim anual do aluno" e "Histórico escolar", registro de 
 + Request  (application/json)
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQ1MzAwMTgsImlhdCI6MTQ5NDUyMjgxOCwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.fCm37r3TNs-QS4wa5DdMrosp5f4pTzZEUxhz2LugD4AEtixukn9JOoIMh5Kh9Z_REsfdCNnlny36c-0Ze7Q4C1Qnzjxh0OdU_E7ptHsy-OVBczVx1o87FS48HshXkgXj6KZprtLKyR9Ap11BgtTEZfIJGixLnJu6ZEhXbGh1rlipGGta-xLgAsOGeeS-NmnBPazvzWJaYbEJsqdNAnb7vSzCiAvrpcgmyc-DbBReOf_YfybT4uxtfyzafsHjIC0-cKObP3K4zDRJLHs9XW8qMpeIUrF932T2eVGWFAEBtbxiBFV6kgGNVkt4CfT6I0Jp8m5E2YaGg1Phu4iXgHekVg
+            authorization: Bearer {{token}}
 
 + Response 200 (application/json)
 
@@ -976,7 +976,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="#
 + Request  (application/json)
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQ1MzAwMTgsImlhdCI6MTQ5NDUyMjgxOCwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.fCm37r3TNs-QS4wa5DdMrosp5f4pTzZEUxhz2LugD4AEtixukn9JOoIMh5Kh9Z_REsfdCNnlny36c-0Ze7Q4C1Qnzjxh0OdU_E7ptHsy-OVBczVx1o87FS48HshXkgXj6KZprtLKyR9Ap11BgtTEZfIJGixLnJu6ZEhXbGh1rlipGGta-xLgAsOGeeS-NmnBPazvzWJaYbEJsqdNAnb7vSzCiAvrpcgmyc-DbBReOf_YfybT4uxtfyzafsHjIC0-cKObP3K4zDRJLHs9XW8qMpeIUrF932T2eVGWFAEBtbxiBFV6kgGNVkt4CfT6I0Jp8m5E2YaGg1Phu4iXgHekVg
+            authorization: Bearer {{token}}
 
 + Response 200 (application/json)
 
@@ -1000,7 +1000,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="#
 + Request  (application/json)
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQ1MzAwMTgsImlhdCI6MTQ5NDUyMjgxOCwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.fCm37r3TNs-QS4wa5DdMrosp5f4pTzZEUxhz2LugD4AEtixukn9JOoIMh5Kh9Z_REsfdCNnlny36c-0Ze7Q4C1Qnzjxh0OdU_E7ptHsy-OVBczVx1o87FS48HshXkgXj6KZprtLKyR9Ap11BgtTEZfIJGixLnJu6ZEhXbGh1rlipGGta-xLgAsOGeeS-NmnBPazvzWJaYbEJsqdNAnb7vSzCiAvrpcgmyc-DbBReOf_YfybT4uxtfyzafsHjIC0-cKObP3K4zDRJLHs9XW8qMpeIUrF932T2eVGWFAEBtbxiBFV6kgGNVkt4CfT6I0Jp8m5E2YaGg1Phu4iXgHekVg
+            authorization: Bearer {{token}}
 
 + Response 200 (application/json)
 
@@ -1033,7 +1033,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="#
 + Request  (application/json)
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQ1MzAwMTgsImlhdCI6MTQ5NDUyMjgxOCwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.fCm37r3TNs-QS4wa5DdMrosp5f4pTzZEUxhz2LugD4AEtixukn9JOoIMh5Kh9Z_REsfdCNnlny36c-0Ze7Q4C1Qnzjxh0OdU_E7ptHsy-OVBczVx1o87FS48HshXkgXj6KZprtLKyR9Ap11BgtTEZfIJGixLnJu6ZEhXbGh1rlipGGta-xLgAsOGeeS-NmnBPazvzWJaYbEJsqdNAnb7vSzCiAvrpcgmyc-DbBReOf_YfybT4uxtfyzafsHjIC0-cKObP3K4zDRJLHs9XW8qMpeIUrF932T2eVGWFAEBtbxiBFV6kgGNVkt4CfT6I0Jp8m5E2YaGg1Phu4iXgHekVg
+            authorization: Bearer {{token}}
 
 + Response 200 (application/json)
 
@@ -1051,7 +1051,7 @@ retornado o registro já existente com as informações atualizadas.
 + Request  (application/json)
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQ1MzAwMTgsImlhdCI6MTQ5NDUyMjgxOCwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.fCm37r3TNs-QS4wa5DdMrosp5f4pTzZEUxhz2LugD4AEtixukn9JOoIMh5Kh9Z_REsfdCNnlny36c-0Ze7Q4C1Qnzjxh0OdU_E7ptHsy-OVBczVx1o87FS48HshXkgXj6KZprtLKyR9Ap11BgtTEZfIJGixLnJu6ZEhXbGh1rlipGGta-xLgAsOGeeS-NmnBPazvzWJaYbEJsqdNAnb7vSzCiAvrpcgmyc-DbBReOf_YfybT4uxtfyzafsHjIC0-cKObP3K4zDRJLHs9XW8qMpeIUrF932T2eVGWFAEBtbxiBFV6kgGNVkt4CfT6I0Jp8m5E2YaGg1Phu4iXgHekVg
+            authorization: Bearer {{token}}
 
     + Attributes (AttendanceRecordFillable)
 
@@ -1092,7 +1092,7 @@ retornado o registro já existente com as informações atualizadas.
 + Request  (application/json)
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQ1MzAwMTgsImlhdCI6MTQ5NDUyMjgxOCwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.fCm37r3TNs-QS4wa5DdMrosp5f4pTzZEUxhz2LugD4AEtixukn9JOoIMh5Kh9Z_REsfdCNnlny36c-0Ze7Q4C1Qnzjxh0OdU_E7ptHsy-OVBczVx1o87FS48HshXkgXj6KZprtLKyR9Ap11BgtTEZfIJGixLnJu6ZEhXbGh1rlipGGta-xLgAsOGeeS-NmnBPazvzWJaYbEJsqdNAnb7vSzCiAvrpcgmyc-DbBReOf_YfybT4uxtfyzafsHjIC0-cKObP3K4zDRJLHs9XW8qMpeIUrF932T2eVGWFAEBtbxiBFV6kgGNVkt4CfT6I0Jp8m5E2YaGg1Phu4iXgHekVg
+            authorization: Bearer {{token}}
 
 + Response 200 (application/json)
 
@@ -1107,7 +1107,7 @@ retornado o registro já existente com as informações atualizadas.
 + Request  (application/json)
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQ1MzAwMTgsImlhdCI6MTQ5NDUyMjgxOCwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.fCm37r3TNs-QS4wa5DdMrosp5f4pTzZEUxhz2LugD4AEtixukn9JOoIMh5Kh9Z_REsfdCNnlny36c-0Ze7Q4C1Qnzjxh0OdU_E7ptHsy-OVBczVx1o87FS48HshXkgXj6KZprtLKyR9Ap11BgtTEZfIJGixLnJu6ZEhXbGh1rlipGGta-xLgAsOGeeS-NmnBPazvzWJaYbEJsqdNAnb7vSzCiAvrpcgmyc-DbBReOf_YfybT4uxtfyzafsHjIC0-cKObP3K4zDRJLHs9XW8qMpeIUrF932T2eVGWFAEBtbxiBFV6kgGNVkt4CfT6I0Jp8m5E2YaGg1Phu4iXgHekVg
+            authorization: Bearer {{token}}
 
     + Attributes (AttendanceRecordFillable)
 
@@ -1125,7 +1125,7 @@ retornado o registro já existente com as informações atualizadas.
 + Request  (application/json)
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQ1MzAwMTgsImlhdCI6MTQ5NDUyMjgxOCwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.fCm37r3TNs-QS4wa5DdMrosp5f4pTzZEUxhz2LugD4AEtixukn9JOoIMh5Kh9Z_REsfdCNnlny36c-0Ze7Q4C1Qnzjxh0OdU_E7ptHsy-OVBczVx1o87FS48HshXkgXj6KZprtLKyR9Ap11BgtTEZfIJGixLnJu6ZEhXbGh1rlipGGta-xLgAsOGeeS-NmnBPazvzWJaYbEJsqdNAnb7vSzCiAvrpcgmyc-DbBReOf_YfybT4uxtfyzafsHjIC0-cKObP3K4zDRJLHs9XW8qMpeIUrF932T2eVGWFAEBtbxiBFV6kgGNVkt4CfT6I0Jp8m5E2YaGg1Phu4iXgHekVg
+            authorization: Bearer {{token}}
 
     + Attributes (StudentGradeFillable)
 
@@ -1151,7 +1151,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="#
 + Request  (application/json)
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQ1MzAwMTgsImlhdCI6MTQ5NDUyMjgxOCwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.fCm37r3TNs-QS4wa5DdMrosp5f4pTzZEUxhz2LugD4AEtixukn9JOoIMh5Kh9Z_REsfdCNnlny36c-0Ze7Q4C1Qnzjxh0OdU_E7ptHsy-OVBczVx1o87FS48HshXkgXj6KZprtLKyR9Ap11BgtTEZfIJGixLnJu6ZEhXbGh1rlipGGta-xLgAsOGeeS-NmnBPazvzWJaYbEJsqdNAnb7vSzCiAvrpcgmyc-DbBReOf_YfybT4uxtfyzafsHjIC0-cKObP3K4zDRJLHs9XW8qMpeIUrF932T2eVGWFAEBtbxiBFV6kgGNVkt4CfT6I0Jp8m5E2YaGg1Phu4iXgHekVg
+            authorization: Bearer {{token}}
 
 + Response 200 (application/json)
 
@@ -1177,7 +1177,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="#
 + Request  (application/json)
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQ1MzAwMTgsImlhdCI6MTQ5NDUyMjgxOCwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.fCm37r3TNs-QS4wa5DdMrosp5f4pTzZEUxhz2LugD4AEtixukn9JOoIMh5Kh9Z_REsfdCNnlny36c-0Ze7Q4C1Qnzjxh0OdU_E7ptHsy-OVBczVx1o87FS48HshXkgXj6KZprtLKyR9Ap11BgtTEZfIJGixLnJu6ZEhXbGh1rlipGGta-xLgAsOGeeS-NmnBPazvzWJaYbEJsqdNAnb7vSzCiAvrpcgmyc-DbBReOf_YfybT4uxtfyzafsHjIC0-cKObP3K4zDRJLHs9XW8qMpeIUrF932T2eVGWFAEBtbxiBFV6kgGNVkt4CfT6I0Jp8m5E2YaGg1Phu4iXgHekVg
+            authorization: Bearer {{token}}
 
 + Response 200 (application/json)
 
@@ -1193,7 +1193,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="#
 
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQ1MzAwMTgsImlhdCI6MTQ5NDUyMjgxOCwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.fCm37r3TNs-QS4wa5DdMrosp5f4pTzZEUxhz2LugD4AEtixukn9JOoIMh5Kh9Z_REsfdCNnlny36c-0Ze7Q4C1Qnzjxh0OdU_E7ptHsy-OVBczVx1o87FS48HshXkgXj6KZprtLKyR9Ap11BgtTEZfIJGixLnJu6ZEhXbGh1rlipGGta-xLgAsOGeeS-NmnBPazvzWJaYbEJsqdNAnb7vSzCiAvrpcgmyc-DbBReOf_YfybT4uxtfyzafsHjIC0-cKObP3K4zDRJLHs9XW8qMpeIUrF932T2eVGWFAEBtbxiBFV6kgGNVkt4CfT6I0Jp8m5E2YaGg1Phu4iXgHekVg
+            authorization: Bearer {{token}}
 
     + Attributes (StudentGradeFillable)
 
@@ -1211,7 +1211,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="#
 
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQ1MzAwMTgsImlhdCI6MTQ5NDUyMjgxOCwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.fCm37r3TNs-QS4wa5DdMrosp5f4pTzZEUxhz2LugD4AEtixukn9JOoIMh5Kh9Z_REsfdCNnlny36c-0Ze7Q4C1Qnzjxh0OdU_E7ptHsy-OVBczVx1o87FS48HshXkgXj6KZprtLKyR9Ap11BgtTEZfIJGixLnJu6ZEhXbGh1rlipGGta-xLgAsOGeeS-NmnBPazvzWJaYbEJsqdNAnb7vSzCiAvrpcgmyc-DbBReOf_YfybT4uxtfyzafsHjIC0-cKObP3K4zDRJLHs9XW8qMpeIUrF932T2eVGWFAEBtbxiBFV6kgGNVkt4CfT6I0Jp8m5E2YaGg1Phu4iXgHekVg
+            authorization: Bearer {{token}}
 
 + Response 204
 
@@ -1224,7 +1224,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="#
 + Request  (application/json)
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQ1MzAwMTgsImlhdCI6MTQ5NDUyMjgxOCwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.fCm37r3TNs-QS4wa5DdMrosp5f4pTzZEUxhz2LugD4AEtixukn9JOoIMh5Kh9Z_REsfdCNnlny36c-0Ze7Q4C1Qnzjxh0OdU_E7ptHsy-OVBczVx1o87FS48HshXkgXj6KZprtLKyR9Ap11BgtTEZfIJGixLnJu6ZEhXbGh1rlipGGta-xLgAsOGeeS-NmnBPazvzWJaYbEJsqdNAnb7vSzCiAvrpcgmyc-DbBReOf_YfybT4uxtfyzafsHjIC0-cKObP3K4zDRJLHs9XW8qMpeIUrF932T2eVGWFAEBtbxiBFV6kgGNVkt4CfT6I0Jp8m5E2YaGg1Phu4iXgHekVg
+            authorization: Bearer {{token}}
 
     + Attributes (OccurenceFillable)
 
@@ -1250,7 +1250,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="#
 + Request  (application/json)
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQ1MzAwMTgsImlhdCI6MTQ5NDUyMjgxOCwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.fCm37r3TNs-QS4wa5DdMrosp5f4pTzZEUxhz2LugD4AEtixukn9JOoIMh5Kh9Z_REsfdCNnlny36c-0Ze7Q4C1Qnzjxh0OdU_E7ptHsy-OVBczVx1o87FS48HshXkgXj6KZprtLKyR9Ap11BgtTEZfIJGixLnJu6ZEhXbGh1rlipGGta-xLgAsOGeeS-NmnBPazvzWJaYbEJsqdNAnb7vSzCiAvrpcgmyc-DbBReOf_YfybT4uxtfyzafsHjIC0-cKObP3K4zDRJLHs9XW8qMpeIUrF932T2eVGWFAEBtbxiBFV6kgGNVkt4CfT6I0Jp8m5E2YaGg1Phu4iXgHekVg
+            authorization: Bearer {{token}}
 
 + Response 200 (application/json)
 
@@ -1273,7 +1273,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="#
 + Request  (application/json)
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQ1MzAwMTgsImlhdCI6MTQ5NDUyMjgxOCwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.fCm37r3TNs-QS4wa5DdMrosp5f4pTzZEUxhz2LugD4AEtixukn9JOoIMh5Kh9Z_REsfdCNnlny36c-0Ze7Q4C1Qnzjxh0OdU_E7ptHsy-OVBczVx1o87FS48HshXkgXj6KZprtLKyR9Ap11BgtTEZfIJGixLnJu6ZEhXbGh1rlipGGta-xLgAsOGeeS-NmnBPazvzWJaYbEJsqdNAnb7vSzCiAvrpcgmyc-DbBReOf_YfybT4uxtfyzafsHjIC0-cKObP3K4zDRJLHs9XW8qMpeIUrF932T2eVGWFAEBtbxiBFV6kgGNVkt4CfT6I0Jp8m5E2YaGg1Phu4iXgHekVg
+            authorization: Bearer {{token}}
 
 + Response 200 (application/json)
 
@@ -1289,7 +1289,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="#
 
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQ1MzAwMTgsImlhdCI6MTQ5NDUyMjgxOCwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.fCm37r3TNs-QS4wa5DdMrosp5f4pTzZEUxhz2LugD4AEtixukn9JOoIMh5Kh9Z_REsfdCNnlny36c-0Ze7Q4C1Qnzjxh0OdU_E7ptHsy-OVBczVx1o87FS48HshXkgXj6KZprtLKyR9Ap11BgtTEZfIJGixLnJu6ZEhXbGh1rlipGGta-xLgAsOGeeS-NmnBPazvzWJaYbEJsqdNAnb7vSzCiAvrpcgmyc-DbBReOf_YfybT4uxtfyzafsHjIC0-cKObP3K4zDRJLHs9XW8qMpeIUrF932T2eVGWFAEBtbxiBFV6kgGNVkt4CfT6I0Jp8m5E2YaGg1Phu4iXgHekVg
+            authorization: Bearer {{token}}
 
     + Attributes (OccurenceFillable)
 
@@ -1306,7 +1306,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="#
 + Request  (application/json)
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQ1MzAwMTgsImlhdCI6MTQ5NDUyMjgxOCwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.fCm37r3TNs-QS4wa5DdMrosp5f4pTzZEUxhz2LugD4AEtixukn9JOoIMh5Kh9Z_REsfdCNnlny36c-0Ze7Q4C1Qnzjxh0OdU_E7ptHsy-OVBczVx1o87FS48HshXkgXj6KZprtLKyR9Ap11BgtTEZfIJGixLnJu6ZEhXbGh1rlipGGta-xLgAsOGeeS-NmnBPazvzWJaYbEJsqdNAnb7vSzCiAvrpcgmyc-DbBReOf_YfybT4uxtfyzafsHjIC0-cKObP3K4zDRJLHs9XW8qMpeIUrF932T2eVGWFAEBtbxiBFV6kgGNVkt4CfT6I0Jp8m5E2YaGg1Phu4iXgHekVg
+            authorization: Bearer {{token}}
 
 
 + Response 204
@@ -1336,7 +1336,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="#
 + Request  (application/json)
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQ1MzAwMTgsImlhdCI6MTQ5NDUyMjgxOCwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.fCm37r3TNs-QS4wa5DdMrosp5f4pTzZEUxhz2LugD4AEtixukn9JOoIMh5Kh9Z_REsfdCNnlny36c-0Ze7Q4C1Qnzjxh0OdU_E7ptHsy-OVBczVx1o87FS48HshXkgXj6KZprtLKyR9Ap11BgtTEZfIJGixLnJu6ZEhXbGh1rlipGGta-xLgAsOGeeS-NmnBPazvzWJaYbEJsqdNAnb7vSzCiAvrpcgmyc-DbBReOf_YfybT4uxtfyzafsHjIC0-cKObP3K4zDRJLHs9XW8qMpeIUrF932T2eVGWFAEBtbxiBFV6kgGNVkt4CfT6I0Jp8m5E2YaGg1Phu4iXgHekVg
+            authorization: Bearer {{token}}
 
 + Response 200 (application/json)
 
@@ -1354,7 +1354,7 @@ school_class_id e student_id, já existirem, um novo registro não será criado 
 + Request  (application/json)
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQ1MzAwMTgsImlhdCI6MTQ5NDUyMjgxOCwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.fCm37r3TNs-QS4wa5DdMrosp5f4pTzZEUxhz2LugD4AEtixukn9JOoIMh5Kh9Z_REsfdCNnlny36c-0Ze7Q4C1Qnzjxh0OdU_E7ptHsy-OVBczVx1o87FS48HshXkgXj6KZprtLKyR9Ap11BgtTEZfIJGixLnJu6ZEhXbGh1rlipGGta-xLgAsOGeeS-NmnBPazvzWJaYbEJsqdNAnb7vSzCiAvrpcgmyc-DbBReOf_YfybT4uxtfyzafsHjIC0-cKObP3K4zDRJLHs9XW8qMpeIUrF932T2eVGWFAEBtbxiBFV6kgGNVkt4CfT6I0Jp8m5E2YaGg1Phu4iXgHekVg
+            authorization: Bearer {{token}}
 
     + Attributes (array)
         + (ProgressSheetStudentFillable)
@@ -1390,7 +1390,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="#
 + Request
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQ1MzAwMTgsImlhdCI6MTQ5NDUyMjgxOCwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.fCm37r3TNs-QS4wa5DdMrosp5f4pTzZEUxhz2LugD4AEtixukn9JOoIMh5Kh9Z_REsfdCNnlny36c-0Ze7Q4C1Qnzjxh0OdU_E7ptHsy-OVBczVx1o87FS48HshXkgXj6KZprtLKyR9Ap11BgtTEZfIJGixLnJu6ZEhXbGh1rlipGGta-xLgAsOGeeS-NmnBPazvzWJaYbEJsqdNAnb7vSzCiAvrpcgmyc-DbBReOf_YfybT4uxtfyzafsHjIC0-cKObP3K4zDRJLHs9XW8qMpeIUrF932T2eVGWFAEBtbxiBFV6kgGNVkt4CfT6I0Jp8m5E2YaGg1Phu4iXgHekVg
+            authorization: Bearer {{token}}
 
 + Response 200 (application/json)
     
@@ -1412,7 +1412,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="#
 + Request 
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQ1MzAwMTgsImlhdCI6MTQ5NDUyMjgxOCwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.fCm37r3TNs-QS4wa5DdMrosp5f4pTzZEUxhz2LugD4AEtixukn9JOoIMh5Kh9Z_REsfdCNnlny36c-0Ze7Q4C1Qnzjxh0OdU_E7ptHsy-OVBczVx1o87FS48HshXkgXj6KZprtLKyR9Ap11BgtTEZfIJGixLnJu6ZEhXbGh1rlipGGta-xLgAsOGeeS-NmnBPazvzWJaYbEJsqdNAnb7vSzCiAvrpcgmyc-DbBReOf_YfybT4uxtfyzafsHjIC0-cKObP3K4zDRJLHs9XW8qMpeIUrF932T2eVGWFAEBtbxiBFV6kgGNVkt4CfT6I0Jp8m5E2YaGg1Phu4iXgHekVg
+            authorization: Bearer {{token}}
 
 + Response 200 (application/json)
 
@@ -1435,7 +1435,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="#
 + Request  (application/json)
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQ1MzAwMTgsImlhdCI6MTQ5NDUyMjgxOCwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.fCm37r3TNs-QS4wa5DdMrosp5f4pTzZEUxhz2LugD4AEtixukn9JOoIMh5Kh9Z_REsfdCNnlny36c-0Ze7Q4C1Qnzjxh0OdU_E7ptHsy-OVBczVx1o87FS48HshXkgXj6KZprtLKyR9Ap11BgtTEZfIJGixLnJu6ZEhXbGh1rlipGGta-xLgAsOGeeS-NmnBPazvzWJaYbEJsqdNAnb7vSzCiAvrpcgmyc-DbBReOf_YfybT4uxtfyzafsHjIC0-cKObP3K4zDRJLHs9XW8qMpeIUrF932T2eVGWFAEBtbxiBFV6kgGNVkt4CfT6I0Jp8m5E2YaGg1Phu4iXgHekVg
+            authorization: Bearer {{token}}
 
 + Response 200 (application/json)
 
@@ -1478,7 +1478,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="#
 + Request  (application/json)
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQ1MzAwMTgsImlhdCI6MTQ5NDUyMjgxOCwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.fCm37r3TNs-QS4wa5DdMrosp5f4pTzZEUxhz2LugD4AEtixukn9JOoIMh5Kh9Z_REsfdCNnlny36c-0Ze7Q4C1Qnzjxh0OdU_E7ptHsy-OVBczVx1o87FS48HshXkgXj6KZprtLKyR9Ap11BgtTEZfIJGixLnJu6ZEhXbGh1rlipGGta-xLgAsOGeeS-NmnBPazvzWJaYbEJsqdNAnb7vSzCiAvrpcgmyc-DbBReOf_YfybT4uxtfyzafsHjIC0-cKObP3K4zDRJLHs9XW8qMpeIUrF932T2eVGWFAEBtbxiBFV6kgGNVkt4CfT6I0Jp8m5E2YaGg1Phu4iXgHekVg
+            authorization: Bearer {{token}}
 
     + Attributes (SubjectFillable)
 
@@ -1501,7 +1501,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="#
 + Request  (application/json)
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQ1MzAwMTgsImlhdCI6MTQ5NDUyMjgxOCwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.fCm37r3TNs-QS4wa5DdMrosp5f4pTzZEUxhz2LugD4AEtixukn9JOoIMh5Kh9Z_REsfdCNnlny36c-0Ze7Q4C1Qnzjxh0OdU_E7ptHsy-OVBczVx1o87FS48HshXkgXj6KZprtLKyR9Ap11BgtTEZfIJGixLnJu6ZEhXbGh1rlipGGta-xLgAsOGeeS-NmnBPazvzWJaYbEJsqdNAnb7vSzCiAvrpcgmyc-DbBReOf_YfybT4uxtfyzafsHjIC0-cKObP3K4zDRJLHs9XW8qMpeIUrF932T2eVGWFAEBtbxiBFV6kgGNVkt4CfT6I0Jp8m5E2YaGg1Phu4iXgHekVg
+            authorization: Bearer {{token}}
 
 + Response 200 (application/json)
 
@@ -1520,7 +1520,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="#
 + Request  (application/json)
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQ1MzAwMTgsImlhdCI6MTQ5NDUyMjgxOCwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.fCm37r3TNs-QS4wa5DdMrosp5f4pTzZEUxhz2LugD4AEtixukn9JOoIMh5Kh9Z_REsfdCNnlny36c-0Ze7Q4C1Qnzjxh0OdU_E7ptHsy-OVBczVx1o87FS48HshXkgXj6KZprtLKyR9Ap11BgtTEZfIJGixLnJu6ZEhXbGh1rlipGGta-xLgAsOGeeS-NmnBPazvzWJaYbEJsqdNAnb7vSzCiAvrpcgmyc-DbBReOf_YfybT4uxtfyzafsHjIC0-cKObP3K4zDRJLHs9XW8qMpeIUrF932T2eVGWFAEBtbxiBFV6kgGNVkt4CfT6I0Jp8m5E2YaGg1Phu4iXgHekVg
+            authorization: Bearer {{token}}
 
 + Response 200 (application/json)
 
@@ -1536,7 +1536,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="#
 
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQ1MzAwMTgsImlhdCI6MTQ5NDUyMjgxOCwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.fCm37r3TNs-QS4wa5DdMrosp5f4pTzZEUxhz2LugD4AEtixukn9JOoIMh5Kh9Z_REsfdCNnlny36c-0Ze7Q4C1Qnzjxh0OdU_E7ptHsy-OVBczVx1o87FS48HshXkgXj6KZprtLKyR9Ap11BgtTEZfIJGixLnJu6ZEhXbGh1rlipGGta-xLgAsOGeeS-NmnBPazvzWJaYbEJsqdNAnb7vSzCiAvrpcgmyc-DbBReOf_YfybT4uxtfyzafsHjIC0-cKObP3K4zDRJLHs9XW8qMpeIUrF932T2eVGWFAEBtbxiBFV6kgGNVkt4CfT6I0Jp8m5E2YaGg1Phu4iXgHekVg
+            authorization: Bearer {{token}}
 
     + Attributes (SubjectFillable)
 
@@ -1553,7 +1553,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="#
 + Request  (application/json)
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQ1MzAwMTgsImlhdCI6MTQ5NDUyMjgxOCwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.fCm37r3TNs-QS4wa5DdMrosp5f4pTzZEUxhz2LugD4AEtixukn9JOoIMh5Kh9Z_REsfdCNnlny36c-0Ze7Q4C1Qnzjxh0OdU_E7ptHsy-OVBczVx1o87FS48HshXkgXj6KZprtLKyR9Ap11BgtTEZfIJGixLnJu6ZEhXbGh1rlipGGta-xLgAsOGeeS-NmnBPazvzWJaYbEJsqdNAnb7vSzCiAvrpcgmyc-DbBReOf_YfybT4uxtfyzafsHjIC0-cKObP3K4zDRJLHs9XW8qMpeIUrF932T2eVGWFAEBtbxiBFV6kgGNVkt4CfT6I0Jp8m5E2YaGg1Phu4iXgHekVg
+            authorization: Bearer {{token}}
 
 
 + Response 204
@@ -1575,7 +1575,7 @@ Com isso o cadastro do Professor Medeiros fica pendente até que um usuário da 
 + Request  (application/json)
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQ1MzAwMTgsImlhdCI6MTQ5NDUyMjgxOCwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.fCm37r3TNs-QS4wa5DdMrosp5f4pTzZEUxhz2LugD4AEtixukn9JOoIMh5Kh9Z_REsfdCNnlny36c-0Ze7Q4C1Qnzjxh0OdU_E7ptHsy-OVBczVx1o87FS48HshXkgXj6KZprtLKyR9Ap11BgtTEZfIJGixLnJu6ZEhXbGh1rlipGGta-xLgAsOGeeS-NmnBPazvzWJaYbEJsqdNAnb7vSzCiAvrpcgmyc-DbBReOf_YfybT4uxtfyzafsHjIC0-cKObP3K4zDRJLHs9XW8qMpeIUrF932T2eVGWFAEBtbxiBFV6kgGNVkt4CfT6I0Jp8m5E2YaGg1Phu4iXgHekVg
+            authorization: Bearer {{token}}
 
 
 + Response 200 (application/json)
@@ -1609,7 +1609,7 @@ Com isso o cadastro do Professor Medeiros fica pendente até que um usuário da 
 + Request  (application/json)
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQ1MzAwMTgsImlhdCI6MTQ5NDUyMjgxOCwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.fCm37r3TNs-QS4wa5DdMrosp5f4pTzZEUxhz2LugD4AEtixukn9JOoIMh5Kh9Z_REsfdCNnlny36c-0Ze7Q4C1Qnzjxh0OdU_E7ptHsy-OVBczVx1o87FS48HshXkgXj6KZprtLKyR9Ap11BgtTEZfIJGixLnJu6ZEhXbGh1rlipGGta-xLgAsOGeeS-NmnBPazvzWJaYbEJsqdNAnb7vSzCiAvrpcgmyc-DbBReOf_YfybT4uxtfyzafsHjIC0-cKObP3K4zDRJLHs9XW8qMpeIUrF932T2eVGWFAEBtbxiBFV6kgGNVkt4CfT6I0Jp8m5E2YaGg1Phu4iXgHekVg
+            authorization: Bearer {{token}}
 
 + Response 200 (application/json)
 
@@ -1953,7 +1953,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="#
 + Request  (application/json)
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQ1MzAwMTgsImlhdCI6MTQ5NDUyMjgxOCwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.fCm37r3TNs-QS4wa5DdMrosp5f4pTzZEUxhz2LugD4AEtixukn9JOoIMh5Kh9Z_REsfdCNnlny36c-0Ze7Q4C1Qnzjxh0OdU_E7ptHsy-OVBczVx1o87FS48HshXkgXj6KZprtLKyR9Ap11BgtTEZfIJGixLnJu6ZEhXbGh1rlipGGta-xLgAsOGeeS-NmnBPazvzWJaYbEJsqdNAnb7vSzCiAvrpcgmyc-DbBReOf_YfybT4uxtfyzafsHjIC0-cKObP3K4zDRJLHs9XW8qMpeIUrF932T2eVGWFAEBtbxiBFV6kgGNVkt4CfT6I0Jp8m5E2YaGg1Phu4iXgHekVg
+            authorization: Bearer {{token}}
 
 + Response 200 (application/json)
 
@@ -1986,7 +1986,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="#
 + Request  (application/json)
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQ1MzAwMTgsImlhdCI6MTQ5NDUyMjgxOCwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.fCm37r3TNs-QS4wa5DdMrosp5f4pTzZEUxhz2LugD4AEtixukn9JOoIMh5Kh9Z_REsfdCNnlny36c-0Ze7Q4C1Qnzjxh0OdU_E7ptHsy-OVBczVx1o87FS48HshXkgXj6KZprtLKyR9Ap11BgtTEZfIJGixLnJu6ZEhXbGh1rlipGGta-xLgAsOGeeS-NmnBPazvzWJaYbEJsqdNAnb7vSzCiAvrpcgmyc-DbBReOf_YfybT4uxtfyzafsHjIC0-cKObP3K4zDRJLHs9XW8qMpeIUrF932T2eVGWFAEBtbxiBFV6kgGNVkt4CfT6I0Jp8m5E2YaGg1Phu4iXgHekVg
+            authorization: Bearer {{token}}
 
 + Response 200 (application/json)
 
@@ -2000,7 +2000,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="#
 + Request  (application/json)
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQ1MzAwMTgsImlhdCI6MTQ5NDUyMjgxOCwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.fCm37r3TNs-QS4wa5DdMrosp5f4pTzZEUxhz2LugD4AEtixukn9JOoIMh5Kh9Z_REsfdCNnlny36c-0Ze7Q4C1Qnzjxh0OdU_E7ptHsy-OVBczVx1o87FS48HshXkgXj6KZprtLKyR9Ap11BgtTEZfIJGixLnJu6ZEhXbGh1rlipGGta-xLgAsOGeeS-NmnBPazvzWJaYbEJsqdNAnb7vSzCiAvrpcgmyc-DbBReOf_YfybT4uxtfyzafsHjIC0-cKObP3K4zDRJLHs9XW8qMpeIUrF932T2eVGWFAEBtbxiBFV6kgGNVkt4CfT6I0Jp8m5E2YaGg1Phu4iXgHekVg
+            authorization: Bearer {{token}}
 
     + Attributes (ProgressSheetFillable)
 
@@ -2027,7 +2027,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="#
 + Request  (application/json)
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQ1MzAwMTgsImlhdCI6MTQ5NDUyMjgxOCwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.fCm37r3TNs-QS4wa5DdMrosp5f4pTzZEUxhz2LugD4AEtixukn9JOoIMh5Kh9Z_REsfdCNnlny36c-0Ze7Q4C1Qnzjxh0OdU_E7ptHsy-OVBczVx1o87FS48HshXkgXj6KZprtLKyR9Ap11BgtTEZfIJGixLnJu6ZEhXbGh1rlipGGta-xLgAsOGeeS-NmnBPazvzWJaYbEJsqdNAnb7vSzCiAvrpcgmyc-DbBReOf_YfybT4uxtfyzafsHjIC0-cKObP3K4zDRJLHs9XW8qMpeIUrF932T2eVGWFAEBtbxiBFV6kgGNVkt4CfT6I0Jp8m5E2YaGg1Phu4iXgHekVg
+            authorization: Bearer {{token}}
 
 + Response 200 (application/json)
 
@@ -2042,7 +2042,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="#
 + Request  (application/json)
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQ1MzAwMTgsImlhdCI6MTQ5NDUyMjgxOCwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.fCm37r3TNs-QS4wa5DdMrosp5f4pTzZEUxhz2LugD4AEtixukn9JOoIMh5Kh9Z_REsfdCNnlny36c-0Ze7Q4C1Qnzjxh0OdU_E7ptHsy-OVBczVx1o87FS48HshXkgXj6KZprtLKyR9Ap11BgtTEZfIJGixLnJu6ZEhXbGh1rlipGGta-xLgAsOGeeS-NmnBPazvzWJaYbEJsqdNAnb7vSzCiAvrpcgmyc-DbBReOf_YfybT4uxtfyzafsHjIC0-cKObP3K4zDRJLHs9XW8qMpeIUrF932T2eVGWFAEBtbxiBFV6kgGNVkt4CfT6I0Jp8m5E2YaGg1Phu4iXgHekVg
+            authorization: Bearer {{token}}
 
     + Attributes (ProgressSheetFillable)
 
@@ -2060,13 +2060,13 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="#
 + Request  (application/json)
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQ1MzAwMTgsImlhdCI6MTQ5NDUyMjgxOCwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.fCm37r3TNs-QS4wa5DdMrosp5f4pTzZEUxhz2LugD4AEtixukn9JOoIMh5Kh9Z_REsfdCNnlny36c-0Ze7Q4C1Qnzjxh0OdU_E7ptHsy-OVBczVx1o87FS48HshXkgXj6KZprtLKyR9Ap11BgtTEZfIJGixLnJu6ZEhXbGh1rlipGGta-xLgAsOGeeS-NmnBPazvzWJaYbEJsqdNAnb7vSzCiAvrpcgmyc-DbBReOf_YfybT4uxtfyzafsHjIC0-cKObP3K4zDRJLHs9XW8qMpeIUrF932T2eVGWFAEBtbxiBFV6kgGNVkt4CfT6I0Jp8m5E2YaGg1Phu4iXgHekVg
+            authorization: Bearer {{token}}
 
 + Response 204
 
 
 
-## Coleção de items da ficha avaliativa [/progress-sheet/{progress_sheet_id}/items{?_q,_sort,_with}]
+## Coleção de items da ficha avaliativa [/progress-sheets/{progress_sheet_id}/items{?_q,_sort,_with}]
 
 ### Listar items [GET]
 
@@ -2086,7 +2086,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="#
 + Request  (application/json)
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQ1MzAwMTgsImlhdCI6MTQ5NDUyMjgxOCwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.fCm37r3TNs-QS4wa5DdMrosp5f4pTzZEUxhz2LugD4AEtixukn9JOoIMh5Kh9Z_REsfdCNnlny36c-0Ze7Q4C1Qnzjxh0OdU_E7ptHsy-OVBczVx1o87FS48HshXkgXj6KZprtLKyR9Ap11BgtTEZfIJGixLnJu6ZEhXbGh1rlipGGta-xLgAsOGeeS-NmnBPazvzWJaYbEJsqdNAnb7vSzCiAvrpcgmyc-DbBReOf_YfybT4uxtfyzafsHjIC0-cKObP3K4zDRJLHs9XW8qMpeIUrF932T2eVGWFAEBtbxiBFV6kgGNVkt4CfT6I0Jp8m5E2YaGg1Phu4iXgHekVg
+            authorization: Bearer {{token}}
 
 + Response 200 (application/json)
 
@@ -2100,7 +2100,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="#
 + Request  (application/json)
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQ1MzAwMTgsImlhdCI6MTQ5NDUyMjgxOCwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.fCm37r3TNs-QS4wa5DdMrosp5f4pTzZEUxhz2LugD4AEtixukn9JOoIMh5Kh9Z_REsfdCNnlny36c-0Ze7Q4C1Qnzjxh0OdU_E7ptHsy-OVBczVx1o87FS48HshXkgXj6KZprtLKyR9Ap11BgtTEZfIJGixLnJu6ZEhXbGh1rlipGGta-xLgAsOGeeS-NmnBPazvzWJaYbEJsqdNAnb7vSzCiAvrpcgmyc-DbBReOf_YfybT4uxtfyzafsHjIC0-cKObP3K4zDRJLHs9XW8qMpeIUrF932T2eVGWFAEBtbxiBFV6kgGNVkt4CfT6I0Jp8m5E2YaGg1Phu4iXgHekVg
+            authorization: Bearer {{token}}
 
     + Attributes (array[ProgressSheetItemFillable])
 
@@ -2112,7 +2112,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="#
 + Request  (application/json)
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJmYWNlYm9va3wxMTcxMDcxMDQ2MjgzMjE0IiwiYXVkIjpbImFwaS5zY2hvb2xzIiwiaHR0cHM6Ly9sb2dvcy5hdXRoMC5jb20vdXNlcmluZm8iXSwiYXpwIjoiWHhqSTFDVE5UR1lOOXRiQngweUptdE12dlRidDVoV1ciLCJleHAiOjE0OTQ1MzAwMTgsImlhdCI6MTQ5NDUyMjgxOCwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSJ9.fCm37r3TNs-QS4wa5DdMrosp5f4pTzZEUxhz2LugD4AEtixukn9JOoIMh5Kh9Z_REsfdCNnlny36c-0Ze7Q4C1Qnzjxh0OdU_E7ptHsy-OVBczVx1o87FS48HshXkgXj6KZprtLKyR9Ap11BgtTEZfIJGixLnJu6ZEhXbGh1rlipGGta-xLgAsOGeeS-NmnBPazvzWJaYbEJsqdNAnb7vSzCiAvrpcgmyc-DbBReOf_YfybT4uxtfyzafsHjIC0-cKObP3K4zDRJLHs9XW8qMpeIUrF932T2eVGWFAEBtbxiBFV6kgGNVkt4CfT6I0Jp8m5E2YaGg1Phu4iXgHekVg
+            authorization: Bearer {{token}}
 
     + Attributes (ProgressSheetItemFillable)
 
@@ -2120,3 +2120,16 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="#
 
     + Attributes
         + progress_sheet_item (ProgressSheetItem)
+
+
+### Excluir item da ficha avaliativa [DELETE]
+
++ Parameters
+    + progress_sheet_item_id: 1 (number) - ID do item da ficha avaliativa
+
++ Request  (application/json)
+    + Headers
+
+            authorization: Bearer {{token}}
+
++ Response 204
