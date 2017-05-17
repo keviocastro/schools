@@ -46,7 +46,7 @@ class StudentProgressSheet extends Model
     }
     
     /**
-     * Estudante que esta sendo avaliado
+     * Estudante avaliado
      * 
      * @Relation
      * 
@@ -58,7 +58,7 @@ class StudentProgressSheet extends Model
     }
     
     /**
-     * Faze em que a avaliacao aconteceu
+     * Fase em que a avaliacao aconteceu
      * 
      * @Relation
      * 

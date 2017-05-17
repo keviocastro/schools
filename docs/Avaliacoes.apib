@@ -58,6 +58,7 @@ onde é registrado a ficha de avaliação de um aluno.
     + _with (string, optional) - Obtem informações do recurso relacionado.
         + Members
             + items - Items da ficha avaliativa
+            + groups - Todos os grupos relacionados a ficha avaliativa
 
 + Request  (application/json)
     + Headers
@@ -98,6 +99,7 @@ onde é registrado a ficha de avaliação de um aluno.
     + _with (string, optional) - Inclui as relações da ficha a resposta
         + Members
             + items - Items da ficha avaliativa
+            + groups - Todos os grupos relacionados a ficha avaliativa
 
 
 + Request  (application/json)
@@ -145,7 +147,6 @@ onde é registrado a ficha de avaliação de um aluno.
 ## Coleção de items da ficha avaliativa [/progress-sheets/{progress_sheet_id}/items{?_q,_sort,_with}]
 
 ### Listar items [GET]
->>>>>>> 33f9157dfbb0eceb68419edf5270142a2eac07c0
 
 <!-- include(LinkParametrosPadroesListagem.md) -->
 
@@ -157,7 +158,7 @@ onde é registrado a ficha de avaliação de um aluno.
     + _with (string, optional) - Obtem informações do recurso relacionado.
         + Members
             + progressSheet - Ficha avaliativa associada ao item.
-            + group - Grupo associado ao item
+            + groups - Grupo associado ao item
 
 + Request  (application/json)
     + Headers
