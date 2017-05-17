@@ -39,7 +39,7 @@
 
 ## ProgressSheetItem
 
-+ progress_sheet_item_id: 1 (number) - Id do item da ficha avaliativa
++ id: 1 (number) - Id Do item da ficha avaliativa
 + Include (ProgressSheetItemFillable)
 
 ## ProgressSheetFillable
@@ -61,7 +61,7 @@
 
 ## ProgressSheet
 
-+ progress_sheet_id: 1 (number) - ID da ficha de avaliacao
++ id: 1 (number) - ID da ficha de avaliacao
 + Include (ProgressSheetFillable)
 
 ## LessonPlanModelFillable
@@ -136,6 +136,11 @@
         + student_grades (array)
             + (StudentGrade)
 
+
+## AnnualReportPerPhase (object)
+
++ Include (SchoolCalendarPhase)
++ absences: 10 (number) - `Total de faltas do aluno na fase do calendário escolar.`
 
 ## SubjectFillable (object)
 

@@ -124,6 +124,7 @@ class LessonControllerTest extends TestCase
             ->with('level')
             ->orderBy('updated_at', 'desc')
             ->take(2)
+            ->with('level')
             ->get()
             ->toArray();
 

@@ -327,31 +327,20 @@ $factory->define(App\Occurence::class, function ($faker) use ($factory) {
 
 $factory->define(App\StudentGrade::class, function ($faker, $attributes) use ($factory) {
 
-    $schoolCalendarPhase = factory(App\SchoolCalendarPhase::class)->create();
-
-    $student = factory(App\Student::class)->create();
-
-    $schoolClass = factory(App\SchoolClass::class)->create([
-        'school_calendar_id' => $schoolCalendarPhase->school_calendar_id
-    ]);
-
-    $assessment = factory(App\Assessment::class)->create([
-        'school_calendar_phase_id' => $schoolCalendarPhase->id
-    ]);
-
-    factory(App\SchoolClassStudent::class)->create([
-        'student_id' => $student->id,
-        'school_class_id' => $schoolClass->id
-    ]);
-
     return [
         'grade' => $faker->randomFloat(1,0,10),
-        'student_id' => $student->id,
+        'student_id' => function(){
+            return factory(App\Student::class)->create()->id;
+        },
         'subject_id' => function(){
             return factory(App\Subject::class)->create()->id;
         },
-        'assessment_id' => $assessment->id,
-        'school_class_id' => $schoolClass->id,
+        'assessment_id' =>  function(){
+            return factory(App\Assessment::class)->create()->id;
+        },
+        'school_class_id' => function(){
+            return factory(App\SchoolClass::class)->create()->id;
+        },
     ];
 });
 
@@ -519,7 +508,7 @@ $factory->define(App\StudentProgressSheet::class, function ($faker, $attributes)
         $schoolClass = App\SchoolClass::findOrFail($attributes['school_class_id']);
     }
 
-    $phases = $schoolClass->schoolCalendar->schoolCalendarPhase->toArray();
+    $phases = $schoolClass->schoolCalendar->phases->toArray();
     if (empty($phases)) {
         $phases = factory(App\SchoolCalendarPhase::class, 4)->create()->toArray();
     }

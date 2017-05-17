@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\StudentProgressSheet;
+use App\SchoolClassStudent;
+use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
 use DB;
 
 /**
@@ -14,17 +16,20 @@ use DB;
 class StudentProgressSheetController extends Controller
 {
     /**
-     * Listagem e pesquisa de itens
+     * Listagem e pesquisa de itens de ficha de avaliação de um aluno
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return $this->parseMultiple(new StudentProgressSheet);        
+        return $this->parseMultiple(new StudentProgressSheet); 
     }
 
+
     /**
-     * Armazena itens
+     * @todo  Migrar regras de negocio para o Repository.
+     * 
+     * Armazena itens de ficha de avaliação de um aluno
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -44,7 +49,45 @@ class StudentProgressSheetController extends Controller
 
         DB::transaction(function() use ($records, &$items){
             foreach ($records as $key => $record) {
-                array_push($items, StudentProgressSheet::create($record));
+
+                /**
+                 * O aluno pode ter somente um resposta de um item de avaliação, em uma fase do ano, para uma turma.
+                 * Isso significa que um requisição com a combinação de parametros progress_sheet_item_id, school_calendar_phase_id,
+                 * school_class_id e student_id, já existirem, um novo registro não será criado e sim atualizado.
+                 *
+                 * @link https://github.com/keviocastro/schools/issues/4
+                 */
+                $current_answer = StudentProgressSheet::where([
+                    ['progress_sheet_item_id', '=', $record['progress_sheet_item_id']],
+                    ['student_id', '=', $record['student_id']],
+                    ['school_calendar_phase_id', '=', $record['school_calendar_phase_id']],
+                    ['school_class_id', '=',$record['school_class_id']]
+                ])->first();
+
+                if ($current_answer){
+                    $current_answer->update([
+                            'option_identifier' => $record['option_identifier']]
+                    );
+                    $current_answer->appliedAction = 'updated';
+                    array_push($items, $current_answer);
+                }else{
+
+                    $studentInClass = SchoolClassStudent::
+                        where('school_class_id', $record['school_class_id'])
+                        ->where('student_id', $record['student_id'])
+                        ->first();
+
+                    if ($studentInClass) {
+                        $newRecord = StudentProgressSheet::create($record);
+                        $newRecord->appliedAction = 'created';
+                        array_push($items, $newRecord);
+                    }else{
+                        throw new ConflictHttpException(
+                            "The student is not in the school class id ({$record['school_class_id']})."
+                        );
+                    }
+                }
+
             }
         });
 

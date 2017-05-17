@@ -6,7 +6,7 @@ APIs e ferramentas para você gerir dados de escolas, alunos, professores, matri
 
 ## Documentação
 
-<a href="http://docs.schoolsapi.apiary.io/" target="_blank">Documentação da API</a>
+<a href="http://docs.schoolsapidev.apiary.io/" target="_blank">Documentação da API</a>
 
 ## Para ver a coisa funcionando:
 

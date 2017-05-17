@@ -56,8 +56,8 @@ class SchoolCalendar2016 extends Seeder
      *  
      *  NOTAS:
      *      
-     *       Para o primeiro aluno criado (id = 1), e
-     *       1º disciplina criada (id = 1), com nome Matématica, tem as notas: 
+     *       Para o primeiro aluno criado, e
+     *       1º disciplina criada, com nome Matématica, tem as notas: 
      *       
      *       Nota 1.1 = 10 
      *       Nota 1.2 = 9.2 
@@ -85,7 +85,7 @@ class SchoolCalendar2016 extends Seeder
      *  
      *  FALTAS:
      *  
-     * Para o 1º aluno criado (id = 1):
+     * Para o 1º aluno criado:
      * 
      *    1º Bimestre = 4
      *    2º Bimestre = 3
@@ -93,7 +93,7 @@ class SchoolCalendar2016 extends Seeder
      *    4º Bimestre = 2
      *    Total no ano: 15
      *
-     * Pra o 2º aluno criado (id = 2), e 1º disciplina criada (id = 1), 
+     * Pra o 2º aluno criado (id = 2), e 1º disciplina criada, 
      * com nome Matématica, tem as notas:
      *     
      *     Nota 1.1 = 7.2 
@@ -360,7 +360,7 @@ class SchoolCalendar2016 extends Seeder
                     'assessment_id' => $assessments[1]->id
                 ],
             ];
-        AttendanceRecordsFactory::create($schoolCalendarPhase1, 4, $studentFixedData->id);
+        AttendanceRecordsFactory::create($schoolCalendarPhase1, 4, $studentFixedData->id, $schoolClass->id);
         StudentGradesFactory::create($schoolCalendarPhase1, 
             $schoolClass, $subjects, $fixedDataSubjects);
 
@@ -382,7 +382,7 @@ class SchoolCalendar2016 extends Seeder
         $fixedDataSubjects[4]['grade'] = 8.5;
         
 
-        AttendanceRecordsFactory::create($schoolCalendarPhase2, 3, $studentFixedData->id);
+        AttendanceRecordsFactory::create($schoolCalendarPhase2, 3, $studentFixedData->id, $schoolClass->id);
         $assessments_phase_2 = $schoolCalendarPhase2->assessments;
         StudentGradesFactory::create($schoolCalendarPhase2, $schoolClass, 
             $subjects, $fixedDataSubjects);
@@ -404,7 +404,7 @@ class SchoolCalendar2016 extends Seeder
         $fixedDataSubjects[4]['assessment_id'] = $assessments[1]->id;
         $fixedDataSubjects[4]['grade'] = 'do-not-create';
         
-        AttendanceRecordsFactory::create($schoolCalendarPhase3, 6, $studentFixedData->id);
+        AttendanceRecordsFactory::create($schoolCalendarPhase3, 6, $studentFixedData->id, $schoolClass->id);
         StudentGradesFactory::create($schoolCalendarPhase3, $schoolClass, 
             $subjects, $fixedDataSubjects);
 
@@ -425,7 +425,7 @@ class SchoolCalendar2016 extends Seeder
         $fixedDataSubjects[4]['assessment_id'] = $assessments[1]->id;
         $fixedDataSubjects[4]['grade'] = 8.6;
 
-        AttendanceRecordsFactory::create($schoolCalendarPhase4, 2, $studentFixedData->id);
+        AttendanceRecordsFactory::create($schoolCalendarPhase4, 2, $studentFixedData->id, $schoolClass->id);
         $assessments_phase_4 = $schoolCalendarPhase4->assessments;
         StudentGradesFactory::create($schoolCalendarPhase4, $schoolClass, 
             $subjects, $fixedDataSubjects);

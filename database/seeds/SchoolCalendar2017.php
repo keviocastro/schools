@@ -40,64 +40,6 @@ class SchoolCalendar2017 extends Seeder
         self::create();
     }
 
-    /**
-     * Cria um calendario para 2017
-     * Com uma turma
-     * Aulas durante todo o ano para essa turma com 5 disciplinas, onde:
-     *     O professor 1 ministra aulas para as disciplinas 1 e 2.
-     *     As disciplinas 3,4,5 tem são ministradas pelos professores 2,3,4 respectivamente. 
-     * Cria Alunos para a turma
-     * Cria Responsaveis pelos alunos
-     * Cria Registros de notas dos alunos durante o ano
-     * Cria Registros de falta durante o ano
-     *
-     *
-     *  Aulas: 240 aulas criadas para cada disciplina.
-     *         Todos os dias, exceto sabado e domingo
-     *  
-     *  NOTAS:
-     *      
-     *       Para o primeiro aluno criado (id = 1), e
-     *       1º disciplina criada (id = 1), com nome Matématica, tem as notas: 
-     *       
-     *       Nota 1.1    = 4.1 
-     *       Nota 1.2    = 5.6 
-     *       Nota 2.1    = 5.8
-     *       Nota 2.2    = 4.1 
-     *       Nota 3.1    = 6
-     *       Nota 3.2    = 4.3
-     *       Nota 4.1    = 5.2 
-     *       Nota 4.2    = 3.1
-     *       Recuperação = 7.4
-     *       
-     *       Média = (4.1+5.6)/2 = 4.9     // 1 Bimestre. 
-     *               (5.8+4.1)/2 = 4.9     // 2 Bim.
-     *               (6+4.3)/2   = 5.2     // 3 Bim.
-     *               (5.2+3.1)/2 = 4.2     // 4 Bim.
-     *                7.4                  // Recuperação
-     *               
-     *       A média anual é calculada por: 
-     *       ( (1 Bim + 2 Bim) * 0.4 + (3 Bim + 4 Bim) * 0.6 ) / 2 ) = MÉDIA NO ANO
-     *       
-     *       1 Semestre = (4.9 + 4.9)*0.6  = 5.9 
-     *       2 Semestre = (5.2 + 4.2)*0.4 = 3.8 
-     *       Recuperação = 7.4
-     *       
-     *       (5.9+3.8)/2 = 4.9 MÉDIA NO ANO
-     *       
-     *  FALTAS:
-     *  
-     * Para o 1º aluno criado (id = 1):
-     * 
-     *    1º Bimestre = 3
-     *    2º Bimestre = 0
-     *    3º Bimestre = 0
-     *    4º Bimestre = 0
-     *    Total no ano: 3
-     *
-     *
-     * @return array
-     */
     public function create()
     {
         $this->createSchoolCalendar();
@@ -105,6 +47,14 @@ class SchoolCalendar2017 extends Seeder
         $this->createClassesWithProgressSheet();
     }
 
+    /**
+     * Cria o calendário escolar 2017 com 5 fases. 
+     * Para a turma com avaliação calculada por nota (SchoolClass::evaluation_type = EvaluationTypeRepository::GRADE_PHASE)
+     * O calculo da nota final é:
+     *      ((({1º Bimestre} + {2º Bimestre} + {3º Bimestre} + {4º Bimestre})/4)-10)+{Recuperação}
+     * 
+     * @return void
+     */
     public function createSchoolCalendar()
     {
          // Calendario escolar com 5 fases: 4 bimestes e 1 recuperação
@@ -115,7 +65,9 @@ class SchoolCalendar2017 extends Seeder
             'start' => '2017-02-01',
             'end' => '2017-12-08',
             'average_formula' => 
-                '( ({1º Bimestre} + {2º Bimestre})*0.6 + ({3º Bimestre} + {4º Bimestre})*0.4 )/2'
+                '('.
+                    '(({1º Bimestre} + {2º Bimestre} + {3º Bimestre} + {4º Bimestre})/4)-10'.
+                ')+{Recuperação}'
         ]);
         $this->schoolCalendarPhase1 = factory(SchoolCalendarPhase::class)->create([
             'school_calendar_id' => $schoolCalendar->id,
@@ -199,12 +151,12 @@ class SchoolCalendar2017 extends Seeder
             'name' => 'Recuperação',
             'start' => '2018-01-08',
             'end' => '2018-01-31',
-            'average_formula' => '{Nota 5.1}'
+            'average_formula' => '{Nota recuperação}'
         ]);
         $assessments = [
             factory(App\Assessment::class)->make([
                 'school_calendar_phase_id' => $this->schoolCalendarPhase5->id,
-                'name' => 'Recuperação', 
+                'name' => 'Nota recuperação', 
             ])->toArray()
         ];
         Assessment::insert($assessments);
@@ -212,17 +164,66 @@ class SchoolCalendar2017 extends Seeder
         $this->schoolCalendar = $schoolCalendar;
     }
 
-    /**
-     * Cria turma com tipo de avaliação por nota
+      /**
+     * Cria uma turma
+     * Aulas durante todo o ano para essa turma com 5 disciplinas, onde:
+     *     O professor 1 ministra aulas para as disciplinas 1 e 2.
+     *     As disciplinas 3,4,5 são ministradas pelos professores 2,3,4 respectivamente. 
+     * Cria Alunos para a turma
+     * Cria Responsaveis pelos alunos
+     * Cria Registros de notas dos alunos durante o ano
+     * Cria Registros de falta durante o ano
      *
-     * @return void
+     *
+     *  Aulas: 240 aulas criadas para cada disciplina.
+     *         Todos os dias, exceto sabado e domingo
+     *  
+     *  NOTAS:
+     *      
+     *       Para o primeiro aluno criado, e
+     *       1º disciplina criada, com nome Matématica, tem as notas: 
+     *       
+     *       Nota 1.1    = 4.1 
+     *       Nota 1.2    = 5.6 
+     *       Nota 2.1    = 5.8
+     *       Nota 2.2    = 4.1 
+     *       Nota 3.1    = 6
+     *       Nota 3.2    = 4.3
+     *       Nota 4.1    = 5.2 
+     *       Nota 4.2    = 3.1
+     *       Recuperação = 7.4
+     *       
+     *       Média = (4.1+5.6)/2 = 4.9     // 1 Bimestre. 
+     *               (5.8+4.1)/2 = 4.9     // 2 Bim.
+     *               (6+4.3)/2   = 5.2     // 3 Bim.
+     *               (5.2+3.1)/2 = 4.2     // 4 Bim.
+     *                7.4                  // Recuperação
+     *               
+     *       A média anual é calculada por: 
+     *       ( (1 Bim + 2 Bim) * 0.4 + (3 Bim + 4 Bim) * 0.6 ) / 2 ) = MÉDIA NO ANO
+     *       
+     *       1 Semestre = (4.9 + 4.9)*0.6  = 5.9 
+     *       2 Semestre = (5.2 + 4.2)*0.4 = 3.8 
+     *       Recuperação = 7.4
+     *       
+     *       (5.9+3.8)/2 = 4.9 MÉDIA NO ANO
+     *       
+     *  FALTAS:
+     *  
+     * Para o 1º aluno criado:
+     * 
+     *    1º Bimestre = 3
+     *    2º Bimestre = 0
+     *    3º Bimestre = 0
+     *    4º Bimestre = 0
+     *    Total no ano: 3
+     *
+     *
+     * @return array
      */
     public function createClassesWithGrade()
     {
-        // 1 Turma
-        // 20 Alunos
-        // 1 Responsável para cada aluno
-        // 4 Registros de ocorrencia para cada aluno
+        
         dump('Criando turma com avaliação por nota e por diciplina...');
         $schoolClass = factory(SchoolClass::class)->create([
                 'school_calendar_id' => $this->schoolCalendar->id,
@@ -343,14 +344,16 @@ class SchoolCalendar2017 extends Seeder
                     'assessment_id' => $assessments[1]->id
                 ]
             ];
-        // dump('Registrando presenças para o 1º Bimestre...');
+
+        dump('Criando turma com avaliação por nota e por diciplina: presenças do 1º bimeste.');
         AttendanceRecordsFactory::create(
             $this->schoolCalendarPhase1, 
             3, 
-            $studentFixedData->id
+            $studentFixedData->id,
+            $schoolClass->id
         );
 
-        // dump('Registrando notas para o 1º Bimestre...');
+        dump('Criando turma com avaliação por nota e por diciplina: notas do 1º bimeste.');
         StudentGradesFactory::create(
             $this->schoolCalendarPhase1, 
             $schoolClass, 
@@ -368,14 +371,15 @@ class SchoolCalendar2017 extends Seeder
         $fixedDataSubjects[1]['assessment_id'] = $assessments[1]->id;
         $fixedDataSubjects[1]['grade'] = 4.1;
         
-        // dump('Registrando presenças para o 2º Bimestre...');
+        dump('Criando turma com avaliação por nota e por diciplina: presenças do 2º bimeste.');
         AttendanceRecordsFactory::create(
             $this->schoolCalendarPhase2, 
             0, 
-            $studentFixedData->id
+            $studentFixedData->id,
+            $schoolClass->id
         );
 
-        // dump('Registrando notas para o 2º Bimestre...');
+        dump('Criando turma com avaliação por nota e por diciplina: notas do 2º bimeste.');
         StudentGradesFactory::create(
             $this->schoolCalendarPhase2, 
             $schoolClass, 
@@ -393,13 +397,14 @@ class SchoolCalendar2017 extends Seeder
         $fixedDataSubjects[1]['assessment_id'] = $assessments[1]->id;
         $fixedDataSubjects[1]['grade'] = 4.3;
         
-        // dump('Registrando presenças para o 3º Bimestre...');
+        dump('Criando turma com avaliação por nota e por diciplina: presenças do 3º bimeste.');
         AttendanceRecordsFactory::create(
             $this->schoolCalendarPhase3, 
             0, 
-            $studentFixedData->id
+            $studentFixedData->id,
+            $schoolClass->id
         );
-        // dump('Registrando notas para o 3º Bimestre...');
+        dump('Criando turma com avaliação por nota e por diciplina: notas do 3º bimeste.');
         StudentGradesFactory::create(
             $this->schoolCalendarPhase3, 
             $schoolClass, 
@@ -417,13 +422,15 @@ class SchoolCalendar2017 extends Seeder
         $fixedDataSubjects[1]['assessment_id'] = $assessments[1]->id;
         $fixedDataSubjects[1]['grade'] = 3.1;
 
-        // dump('Registrando presenças para o 4º Bimestre...');
+        dump('Criando turma com avaliação por nota e por diciplina: presenças do 4º bimeste.');
         AttendanceRecordsFactory::create(
             $this->schoolCalendarPhase4, 
             2, 
-            $studentFixedData->id
+            $studentFixedData->id,
+            $schoolClass->id
         );
-        // dump('Registrando notas para o 4º Bimestre...');
+
+        dump('Criando turma com avaliação por nota e por diciplina: notas do 4º bimeste.');
         StudentGradesFactory::create(
             $this->schoolCalendarPhase4, 
             $schoolClass, 
@@ -436,14 +443,15 @@ class SchoolCalendar2017 extends Seeder
             ->first();
 
         //1º Aluno
-        // dump('Registrando presenças para a Recuperação...');
+        dump('Criando turma com avaliação por nota e por diciplina: presenças da recuperação.');
         AttendanceRecordsFactory::create(
             $this->schoolCalendarPhase5, 
             0, 
-            $studentFixedData->id
+            $studentFixedData->id,
+            $schoolClass->id
         );
 
-        // dump('Registrando notas para a Recuperação...');
+        dump('Criando turma com avaliação por nota e por diciplina: notas da recuperação.');
         $fixedDataSubjects[0]['assessment_id'] = $assessment->id;
         $fixedDataSubjects[0]['grade'] = 7.4;
         StudentGradesFactory::create(
@@ -456,15 +464,22 @@ class SchoolCalendar2017 extends Seeder
 
     /**
      * Cria turma com tipo de avaliação por ficha descritiva
+     * 15 Alunos
+     * 1 Responsável para cada aluno
+     * 3 Registros de ocorrencia para cada aluno
+     * 
+     *  Para o 1º aluno criado:
+     * 
+     *    1º Bimestre = 3
+     *    2º Bimestre = 2
+     *    3º Bimestre = 1
+     *    4º Bimestre = 4
+     *    Total no ano: 10
      *
      * @return void
      */
     public function createClassesWithProgressSheet()
     {
-        // 1 Turma com com uma ficha de avaliação
-        // 15 Alunos
-        // 1 Responsável para cada aluno
-        // 3 Registros de ocorrencia para cada aluno
         dump('Criando turma com avaliação por ficha descritiva');
         $progressSheet = factory(App\ProgressSheet::class)->create();
         $schoolClass = factory(SchoolClass::class)->create([
@@ -492,6 +507,9 @@ class SchoolCalendar2017 extends Seeder
                 }
             ]);
 
+        
+
+        dump('Criando turma com avaliação por ficha descritiva: estudantes');
         $students = factory(Student::class, 15)->create()
             ->each(function($student) use ($schoolClass){
                 factory(StudentResponsible::class)->create([
@@ -508,7 +526,12 @@ class SchoolCalendar2017 extends Seeder
                 }
             });
 
+        // Estudante que terá quantidade de faltas
+        // pré-definidas, conforme doc desse metodo
+        $studentFixedData = $students[0];
 
+
+        dump('Criando turma com avaliação por ficha descritiva: aulas');
         $start = Carbon::createFromFormat('Y-m-d', $this->schoolCalendarPhase1->start);
         $end = Carbon::createFromFormat('Y-m-d', $this->schoolCalendarPhase4->end);
 
@@ -524,24 +547,67 @@ class SchoolCalendar2017 extends Seeder
             $teacher1,
             240);
 
+        dump('Criando turma com avaliação por ficha descritiva: avaliações dos alunos');
         $studentsProgressSheets = [];
         foreach ( $progressSheet->items as $item) {
 
             foreach ($schoolClass->students as $student) {
 
-                foreach ($this->schoolCalendar->schoolCalendarPhase as $phase) {
+                foreach ($this->schoolCalendar->phases as $phase) {
+
+                    $option_identifier = $progressSheet
+                        ->options[rand(0,count($progressSheet->options)-1)]
+                        ['identifier'];
 
                     array_push($studentsProgressSheets,
                         factory(App\StudentProgressSheet::class)->make([
-                            'option_identifier' => $progressSheet->options[rand(0,count($progressSheet->options)-1)],
+                            'option_identifier' => $option_identifier,
                             'progress_sheet_item_id' => $item->id,
                             'student_id' => $student->id,
                             'school_calendar_phase_id' => $phase->id,
                             'school_class_id' => $schoolClass->id
-                        ]));
+                        ])->toArray()
+                    );
                 }
             }
-
         }
+
+        App\StudentProgressSheet::insert($studentsProgressSheets); 
+
+        dump('Criando turma com avaliação por ficha descritiva: presenças e faltas');
+        AttendanceRecordsFactory::create(
+            $this->schoolCalendarPhase1, 
+            3,
+            $studentFixedData->id,
+            $schoolClass->id
+        );
+
+        AttendanceRecordsFactory::create(
+            $this->schoolCalendarPhase2, 
+            2,
+            $studentFixedData->id,
+            $schoolClass->id
+        );
+
+        AttendanceRecordsFactory::create(
+            $this->schoolCalendarPhase3, 
+            1,
+            $studentFixedData->id,
+            $schoolClass->id
+        );
+
+        AttendanceRecordsFactory::create(
+            $this->schoolCalendarPhase4, 
+            4,
+            $studentFixedData->id,
+            $schoolClass->id
+        );
+
+        AttendanceRecordsFactory::create(
+            $this->schoolCalendarPhase5, 
+            0,
+            $studentFixedData->id,
+            $schoolClass->id
+        );
     }
 }

@@ -43,14 +43,38 @@ class StudentGradeControllerTest extends TestCase
     }
 
     /**
+     * Test para condições de sucesso e validações
+     * 
      * @covers App\Http\Controllers\StudentGradeController::store
      *
      * @return void
      */
     public function testStore()
     {
-		// Success
-    	$studentGrade = factory(StudentGrade::class)->make()->toArray();
+        /**
+         * Success:
+         *  - grade é entre 0 e 10
+         *  - O aluno está na turma que está sendo registrada a nota
+         */
+        $schoolCalendarPhase = factory(\App\SchoolCalendarPhase::class)->create();
+        $student = factory(\App\Student::class)->create();
+        $schoolClass = factory(\App\SchoolClass::class)->create([
+            'school_calendar_id' => $schoolCalendarPhase->school_calendar_id
+        ]);
+        $assessment = factory(\App\Assessment::class)->create([
+            'school_calendar_phase_id' => $schoolCalendarPhase->id
+        ]);
+        factory(\App\SchoolClassStudent::class)->create([
+            'student_id' => $student->id,
+            'school_class_id' => $schoolClass->id
+        ]);
+    	$studentGrade = factory(StudentGrade::class)
+            ->make([
+                'student_id' => $student->id,
+                'assessment_id' => $assessment->id,
+                'school_class_id' => $schoolClass->id,
+            ])
+            ->toArray();
 
         $this->post('api/student-grades',
         	$studentGrade,
@@ -85,36 +109,60 @@ class StudentGradeControllerTest extends TestCase
         		]);
 
         //O aluno precisa estar na turma que está sendo registrada a nota
-        $student = factory(Student::class)->create();
         $schoolClass = factory(SchoolClass::class)->create();
-
         $studentGrade = factory(StudentGrade::class)->make([
-                'student_id' => $student->id,
                 'school_class_id' => $schoolClass->id
             ])->toArray();
-
-        $schoolClass = factory(SchoolClass::class)->create();
-        $studentGrade['school_class_id'] = $schoolClass->id;
-
+            
         $this->post('api/student-grades',
             $studentGrade,
             $this->getAutHeader())
             ->assertResponseStatus(409)
             ->seeJson(['message' => 
-                "The student is not in the school class ({$studentGrade['school_class_id']})."]);
+                "The student is not in the school class ({$studentGrade['school_class_id']})."]);        
+    }
 
-        //Cadastrar multiplos registros.
-        $studentGrade = factory(StudentGrade::class, 3)->make()->toArray();
+    /**
+     * Test para criar multiplos registros
+     * 
+     * @covers App\Http\Controllers\StudentGradeController::store
+     *
+     * @return void
+     */
+    public function testStoreMultipleRecords()
+    {
+        // Criando um calendário com 1 avaliação em uma fase do calendário
+        $schoolClass = factory(\App\SchoolClass::class)->create();
+        $assessment_id = factory(\App\Assessment::class)->create([
+            'school_calendar_phase_id' => function() use ($schoolClass){
+                return factory(\App\SchoolCalendarPhase::class)->create([
+                    'school_calendar_id' => $schoolClass->schoolCalendar->id
+                ])->id;
+            }
+        ])->id;
+
+        // Criando o aluno e inserindo na turma
+        $student = factory(\App\Student::class)->create();
+        factory(\App\SchoolClassStudent::class)->create([
+            'student_id' => $student->id,
+            'school_class_id' => $schoolClass->id
+            ]);
+
+        // Gerando dados aleatórios da nota
+        $studentGrade = factory(StudentGrade::class, 3)->make([
+            'student_id' => $student->id,
+            'school_class_id' => $schoolClass->id,
+            'assessment_id' => $assessment_id
+        ])->toArray();
 
         $autHeader = $this->transformHeadersToServerVars($this->getAutHeader());
-
         $response = $this->call('POST',
             'api/student-grades',
             $studentGrade,
             [],
             [],
             $autHeader);
-
+        
         $responseData = collect(json_decode($response->getContent(), true)['student_grades']);
 
 
@@ -135,7 +183,6 @@ class StudentGradeControllerTest extends TestCase
         }
 
         $this->assertEquals(201, $response->getStatusCode());
-        
     }
 
     /**

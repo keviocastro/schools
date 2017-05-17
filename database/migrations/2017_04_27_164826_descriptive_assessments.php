@@ -7,7 +7,7 @@ use Illuminate\Database\Migrations\Migration;
 /**
  * Epic "Avaliações descritivas e turmas multidisciplinares"
  * 
- * @see https://github.com/keviocastro/daily-ui/issues/2
+ * @link https://github.com/keviocastro/daily-ui/issues/2
  * 
  */
 class DescriptiveAssessments extends Migration
@@ -82,6 +82,9 @@ class DescriptiveAssessments extends Migration
             $table->unsignedInteger('progress_sheet_item_id');
             $table->unsignedInteger('school_calendar_phase_id');
             $table->unsignedInteger('school_class_id');
+
+            // Um aluno só pode ter uma resposta para um item de avaliação durante um fase do ano.
+            $table->unique(['student_id', 'progress_sheet_item_id', 'school_calendar_phase_id', 'school_class_id'], 'unique_answer_per_student');
 
             $table->string('created_by')->nullable();
             $table->string('updated_by')->nullable();

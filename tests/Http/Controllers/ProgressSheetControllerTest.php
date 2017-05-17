@@ -151,4 +151,54 @@ class ProgressSheetControllerTest extends TestCase
             ->assertResponseStatus(200)
             ->seeJsonStructure($result);
     }
+
+    /**
+     * covers App\Http\Controllers\ProgressSheetController::storeItems
+     *
+     * @return void
+     */
+    public function testStoreItems()
+    {
+        $progressSheet = factory(\App\ProgressSheet::class)->create();
+        
+        $itemsGroup1 = collect(factory(\App\ProgressSheetItem::class, 5)->create([
+                'progress_sheet_id' => $progressSheet->id,
+                'group_id' => factory(\App\Group::class)->create()->id
+            ])->toArray());
+        $itemsGroup1->transform(function($item, $key){
+            return collect($item)->except(['id'])->toArray(); 
+        });
+
+        $itemsGroup2 = collect(factory(\App\ProgressSheetItem::class, 5)->create([
+                'progress_sheet_id' => $progressSheet->id,
+                'group_id' => factory(\App\Group::class)->create()->id,
+            ])->toArray());
+         $itemsGroup2->transform(function($item, $key){
+            return collect($item)->except(['id'])->toArray(); 
+        });
+
+        $items = $itemsGroup1->merge($itemsGroup2);
+
+        $resultItemStructure = array_keys(factory(\App\ProgressSheetItem::class)->make()->toArray());
+
+        // Store Multiple records
+        $this->post("api/progress-sheets/$progressSheet->id/items",
+                $items->toArray(),
+                $this->getAutHeader()
+            )
+            ->assertResponseStatus(201)
+            ->seeJsonStructure([
+                    'progress_sheet_items' => ['*' => $resultItemStructure]
+                ]);
+
+         // Store Single record
+        $this->post("api/progress-sheets/$progressSheet->id/items",
+                $items[0],
+                $this->getAutHeader()
+            )
+            ->assertResponseStatus(201)
+            ->seeJsonStructure([
+                    'progress_sheet_item' => $resultItemStructure
+                ]);
+    }
 }

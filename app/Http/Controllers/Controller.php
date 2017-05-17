@@ -46,12 +46,18 @@ class Controller extends BaseController
      * @param  array|boolean    $queryParams           A list of query parameter
      * @return Result
      */
-    public function parseMultiple($queryBuilder, $fullTextSearchColumns = array(), $queryParams = false)
+    public function parseMultiple($queryBuilder, 
+        $fullTextSearchColumns = array(), 
+        $queryParams = false)
     {
+        $group_by = false;
         if ($queryParams === false) {
             $queryParams = Input::get();
-        }
 
+            if (!empty($queryParams['_group_by'])) {
+                $group_by = $queryParams['_group_by'];
+            }
+        }
 
         // Se não remover apiHandler utiliza como filter.
         // _limit e _offset foram removidos porque é utilizado
@@ -62,7 +68,8 @@ class Controller extends BaseController
             'XDEBUG_SESSION_START', 
             'XDEBUG_SESSION_STOP',
             '_limit',
-            '_offset'
+            '_offset',
+            '_group_by'
         ];
 
         foreach ($notAFilter as $value) {
@@ -78,7 +85,19 @@ class Controller extends BaseController
             Input::get('_per_page', null), 
             $columns = ['*'], 
             $pageName = '_page', 
-            $page = null);        
+            $page = null)->toArray();
+
+        if($group_by){
+            if($result['total'] > 0){
+                // If attribute exists in the results
+                $attributes = array_keys($result['data'][0]);
+                if(array_search($group_by, $attributes)){
+                    $result['data'] = collect($result['data'])->groupBy($group_by);
+                }else{
+                    throw new ResourceException('The attribute defined in the _group_by parameter does not exist in the result set.');
+                }
+            }
+        }
 
         return $result;
     }
@@ -104,7 +123,7 @@ class Controller extends BaseController
 
         if ($accept_items_array) {
             $inputs = $this->makeMultipleInputData();
-
+            
             collect($inputs)->map(function($item, $key) use ($rules,$error_msg){
                 $validator = app('validator')->make($item, $rules);
                 if ($validator->fails()) {
@@ -122,7 +141,7 @@ class Controller extends BaseController
     /**
      * Validation for update action 
      * 
-     * @param  [type] $request   
+     * @param  Request $request   
      * @param  array  $rules     See https://laravel.com/docs/5.3/validation
      * @param  string $error_msg 
      * @return void
@@ -182,9 +201,9 @@ class Controller extends BaseController
     public function makeMultipleInputData()
     {
         if ($this->checkMultipleInputData()) {
-            return request()->all();
+            return request()->input();
         }else{
-            return [request()->all()];
+            return [request()->input()];
         }
     }
 }
