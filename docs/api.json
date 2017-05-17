@@ -18,7 +18,7 @@
     "resourceGroups": [
       {
         "name": "Calendários escolares",
-        "description": "`Calendário escolar` (definido nesta API como SchoolCalendar) é considerado como a definição do ano letivo,\ncontendo fases fases avaliativas do ano (Ex.: bimestres), feriados, férias,\ninicio e fim do ano.\n\n",
+        "description": "`Calendário escolar` (definido nesta API como SchoolCalendar) é considerado como a definição do ano letivo ou calendário letivo, contendo fases avaliativas (Ex.: bimestres, recuperação).\ninicio e fim do ano.\n\n",
         "resources": [
           {
             "element": "resource",
@@ -63,7 +63,7 @@
                         "value": "schoolClasses"
                       },
                       {
-                        "value": "schoolCalendarPhase"
+                        "value": "phases"
                       }
                     ]
                   }
@@ -269,7 +269,7 @@
                         "value": "schoolClasses"
                       },
                       {
-                        "value": "schoolCalendarPhase"
+                        "value": "phases"
                       }
                     ]
                   }
@@ -8672,7 +8672,7 @@
         "content": [
           {
             "element": "copy",
-            "content": "`Calendário escolar` (definido nesta API como SchoolCalendar) é considerado como a definição do ano letivo,\ncontendo fases fases avaliativas do ano (Ex.: bimestres), feriados, férias,\ninicio e fim do ano.\n\n"
+            "content": "`Calendário escolar` (definido nesta API como SchoolCalendar) é considerado como a definição do ano letivo ou calendário letivo, contendo fases avaliativas (Ex.: bimestres, recuperação).\ninicio e fim do ano.\n\n"
           },
           {
             "element": "resource",
@@ -8717,7 +8717,7 @@
                         "value": "schoolClasses"
                       },
                       {
-                        "value": "schoolCalendarPhase"
+                        "value": "phases"
                       }
                     ]
                   }
@@ -8923,7 +8923,7 @@
                         "value": "schoolClasses"
                       },
                       {
-                        "value": "schoolCalendarPhase"
+                        "value": "phases"
                       }
                     ]
                   }
@@ -20360,7 +20360,7 @@
       "message": "parameter '_q' is not found within the URI template '/school-calendars' for 'Coleção de calendarios escolares' ",
       "location": [
         {
-          "index": 5390,
+          "index": 5393,
           "length": 40
         }
       ]
@@ -20370,7 +20370,7 @@
       "message": "parameter '_sort' is not found within the URI template '/school-calendars' for 'Coleção de calendarios escolares' ",
       "location": [
         {
-          "index": 5390,
+          "index": 5393,
           "length": 40
         }
       ]
@@ -20380,7 +20380,7 @@
       "message": "parameter '_with' is not found within the URI template '/school-calendars' for 'Coleção de calendarios escolares' ",
       "location": [
         {
-          "index": 5390,
+          "index": 5393,
           "length": 40
         }
       ]
@@ -20390,7 +20390,7 @@
       "message": "parameter '_with' is not found within the URI template '/school-calendars/{school_calendar_id}' for 'Calendário escolar' ",
       "location": [
         {
-          "index": 6622,
+          "index": 6630,
           "length": 42
         }
       ]
@@ -20400,7 +20400,7 @@
       "message": "parameter '_q' is not found within the URI template '/schools' for 'Coleção de escolas' ",
       "location": [
         {
-          "index": 8121,
+          "index": 8134,
           "length": 25
         }
       ]
@@ -20410,7 +20410,7 @@
       "message": "parameter '_sort' is not found within the URI template '/schools' for 'Coleção de escolas' ",
       "location": [
         {
-          "index": 8121,
+          "index": 8134,
           "length": 25
         }
       ]
@@ -20420,7 +20420,7 @@
       "message": "parameter '_with' is not found within the URI template '/schools' for 'Coleção de escolas' ",
       "location": [
         {
-          "index": 8121,
+          "index": 8134,
           "length": 25
         }
       ]
@@ -20430,7 +20430,7 @@
       "message": "parameter '_with' is not found within the URI template '/schools/{school_id}' for 'Escola' ",
       "location": [
         {
-          "index": 9177,
+          "index": 9190,
           "length": 30
         }
       ]
@@ -20440,7 +20440,7 @@
       "message": "parameter '_q' is not found within the URI template '/school-classes' for 'Coleção de turmas' ",
       "location": [
         {
-          "index": 10127,
+          "index": 10140,
           "length": 25
         }
       ]
@@ -20450,7 +20450,7 @@
       "message": "parameter '_sort' is not found within the URI template '/school-classes' for 'Coleção de turmas' ",
       "location": [
         {
-          "index": 10127,
+          "index": 10140,
           "length": 25
         }
       ]
@@ -20460,7 +20460,7 @@
       "message": "parameter '_with' is not found within the URI template '/school-classes' for 'Coleção de turmas' ",
       "location": [
         {
-          "index": 10127,
+          "index": 10140,
           "length": 25
         }
       ]
@@ -20470,7 +20470,7 @@
       "message": "parameter '_with' is not found within the URI template '/school-classes/{school_class_id}' for 'Turma' ",
       "location": [
         {
-          "index": 11502,
+          "index": 11515,
           "length": 29
         }
       ]
@@ -20480,7 +20480,7 @@
       "message": "parameter '_q' is not found within the URI template '/lessons' for 'Coleção de aulas' ",
       "location": [
         {
-          "index": 16024,
+          "index": 16037,
           "length": 24
         }
       ]
@@ -20490,7 +20490,7 @@
       "message": "parameter '_sort' is not found within the URI template '/lessons' for 'Coleção de aulas' ",
       "location": [
         {
-          "index": 16024,
+          "index": 16037,
           "length": 24
         }
       ]
@@ -20500,7 +20500,7 @@
       "message": "parameter '_with' is not found within the URI template '/lessons' for 'Coleção de aulas' ",
       "location": [
         {
-          "index": 16024,
+          "index": 16037,
           "length": 24
         }
       ]
@@ -20510,7 +20510,7 @@
       "message": "parameter '_with' is not found within the URI template '/lessons/{lesson_id}' for 'Aula' ",
       "location": [
         {
-          "index": 17148,
+          "index": 17161,
           "length": 28
         }
       ]
@@ -20520,7 +20520,7 @@
       "message": "parameter 'attach' is not found within the URI template '/lessons/{lesson_id}' for 'Aula' ",
       "location": [
         {
-          "index": 17148,
+          "index": 17161,
           "length": 28
         }
       ]
@@ -20530,7 +20530,7 @@
       "message": "ignoring unrecognized block",
       "location": [
         {
-          "index": 19870,
+          "index": 19883,
           "length": 80
         }
       ]
@@ -20540,7 +20540,7 @@
       "message": "mixin base type should be the same as parent base type. objects should contain object mixins. arrays should contain array mixins",
       "location": [
         {
-          "index": 20712,
+          "index": 20725,
           "length": 17
         }
       ]
@@ -20550,7 +20550,7 @@
       "message": "parameter 'start' is not found within the URI template '/lessons/per-day' for 'Aulas por dia' ",
       "location": [
         {
-          "index": 19504,
+          "index": 19517,
           "length": 32
         }
       ]
@@ -20560,7 +20560,7 @@
       "message": "parameter 'end' is not found within the URI template '/lessons/per-day' for 'Aulas por dia' ",
       "location": [
         {
-          "index": 19504,
+          "index": 19517,
           "length": 32
         }
       ]
@@ -20570,7 +20570,7 @@
       "message": "parameter '_with' is not found within the URI template '/lessons/per-day' for 'Aulas por dia' ",
       "location": [
         {
-          "index": 19504,
+          "index": 19517,
           "length": 32
         }
       ]
@@ -20580,7 +20580,7 @@
       "message": "parameter '_q' is not found within the URI template '/lesson-plans' for 'Coleção de planos de aula' ",
       "location": [
         {
-          "index": 21009,
+          "index": 21022,
           "length": 33
         }
       ]
@@ -20590,7 +20590,7 @@
       "message": "parameter '_sort' is not found within the URI template '/lesson-plans' for 'Coleção de planos de aula' ",
       "location": [
         {
-          "index": 21009,
+          "index": 21022,
           "length": 33
         }
       ]
@@ -20600,7 +20600,7 @@
       "message": "parameter '_with' is not found within the URI template '/lesson-plans' for 'Coleção de planos de aula' ",
       "location": [
         {
-          "index": 21009,
+          "index": 21022,
           "length": 33
         }
       ]
@@ -20610,7 +20610,7 @@
       "message": "parameter '_with' is not found within the URI template '/lesson-plans/{lesson_plan_id}' for 'Plano de aula' ",
       "location": [
         {
-          "index": 22222,
+          "index": 22235,
           "length": 37
         }
       ]
@@ -20620,7 +20620,7 @@
       "message": "parameter '_q' is not found within the URI template '/students' for 'Coleção de estudantes' ",
       "location": [
         {
-          "index": 27426,
+          "index": 27439,
           "length": 29
         }
       ]
@@ -20630,7 +20630,7 @@
       "message": "parameter '_sort' is not found within the URI template '/students' for 'Coleção de estudantes' ",
       "location": [
         {
-          "index": 27426,
+          "index": 27439,
           "length": 29
         }
       ]
@@ -20640,7 +20640,7 @@
       "message": "parameter '_with' is not found within the URI template '/students' for 'Coleção de estudantes' ",
       "location": [
         {
-          "index": 27426,
+          "index": 27439,
           "length": 29
         }
       ]
@@ -20650,7 +20650,7 @@
       "message": "parameter '_with' is not found within the URI template '/students/{id}' for 'Estudante' ",
       "location": [
         {
-          "index": 28380,
+          "index": 28393,
           "length": 33
         }
       ]
@@ -20660,7 +20660,7 @@
       "message": "parameter '_q' is not found within the URI template '/attendance-records' for 'Coleção de registro de presença' ",
       "location": [
         {
-          "index": 29135,
+          "index": 29148,
           "length": 39
         }
       ]
@@ -20670,7 +20670,7 @@
       "message": "parameter '_sort' is not found within the URI template '/attendance-records' for 'Coleção de registro de presença' ",
       "location": [
         {
-          "index": 29135,
+          "index": 29148,
           "length": 39
         }
       ]
@@ -20680,7 +20680,7 @@
       "message": "parameter '_with' is not found within the URI template '/attendance-records' for 'Coleção de registro de presença' ",
       "location": [
         {
-          "index": 29135,
+          "index": 29148,
           "length": 39
         }
       ]
@@ -20690,7 +20690,7 @@
       "message": "parameter '_with' is not found within the URI template '/attendance-records/{attendance_record_id}' for 'Registro de presença' ",
       "location": [
         {
-          "index": 30969,
+          "index": 30982,
           "length": 44
         }
       ]
@@ -20700,7 +20700,7 @@
       "message": "parameter '_q' is not found within the URI template '/student-grades' for 'Coleção de notas' ",
       "location": [
         {
-          "index": 32290,
+          "index": 32303,
           "length": 23
         }
       ]
@@ -20710,7 +20710,7 @@
       "message": "parameter '_sort' is not found within the URI template '/student-grades' for 'Coleção de notas' ",
       "location": [
         {
-          "index": 32290,
+          "index": 32303,
           "length": 23
         }
       ]
@@ -20720,7 +20720,7 @@
       "message": "parameter '_with' is not found within the URI template '/student-grades' for 'Coleção de notas' ",
       "location": [
         {
-          "index": 32290,
+          "index": 32303,
           "length": 23
         }
       ]
@@ -20730,7 +20730,7 @@
       "message": "parameter 'student_grade_id' is not found within the URI template '/student-grades/{student_grades_id}' for 'Nota' ",
       "location": [
         {
-          "index": 33164,
+          "index": 33177,
           "length": 28
         }
       ]
@@ -20740,7 +20740,7 @@
       "message": "parameter '_with' is not found within the URI template '/student-grades/{student_grades_id}' for 'Nota' ",
       "location": [
         {
-          "index": 33164,
+          "index": 33177,
           "length": 28
         }
       ]
@@ -20750,7 +20750,7 @@
       "message": "parameter 'student_grade_id' is not found within the URI template '/student-grades/{student_grades_id}' for 'Nota' ",
       "location": [
         {
-          "index": 33632,
+          "index": 33645,
           "length": 24
         }
       ]
@@ -20760,7 +20760,7 @@
       "message": "parameter 'student_grade_id' is not found within the URI template '/student-grades/{student_grades_id}' for 'Nota' ",
       "location": [
         {
-          "index": 33955,
+          "index": 33968,
           "length": 27
         }
       ]
@@ -20770,7 +20770,7 @@
       "message": "parameter '_q' is not found within the URI template '/occurences' for 'Coleção de ocorrências' ",
       "location": [
         {
-          "index": 34549,
+          "index": 34562,
           "length": 30
         }
       ]
@@ -20780,7 +20780,7 @@
       "message": "parameter '_sort' is not found within the URI template '/occurences' for 'Coleção de ocorrências' ",
       "location": [
         {
-          "index": 34549,
+          "index": 34562,
           "length": 30
         }
       ]
@@ -20790,7 +20790,7 @@
       "message": "parameter '_with' is not found within the URI template '/occurences' for 'Coleção de ocorrências' ",
       "location": [
         {
-          "index": 34549,
+          "index": 34562,
           "length": 30
         }
       ]
@@ -20800,7 +20800,7 @@
       "message": "parameter '_with' is not found within the URI template '/occurences/{occurence_id}' for 'Ocorrência' ",
       "location": [
         {
-          "index": 35413,
+          "index": 35426,
           "length": 34
         }
       ]
@@ -20810,7 +20810,7 @@
       "message": "parameter '_group_by' is not found within the URI template '/student-progress-sheets{?_q,_sort,_with}' for 'Coleção de resultados dos aluno em itens de fichas avaliativas' ",
       "location": [
         {
-          "index": 36499,
+          "index": 36512,
           "length": 46
         }
       ]
@@ -20820,7 +20820,7 @@
       "message": "response payload `201` already defined for `POST` method",
       "location": [
         {
-          "index": 38393,
+          "index": 38406,
           "length": 117
         }
       ]
@@ -20830,7 +20830,7 @@
       "message": "no value(s) specified",
       "location": [
         {
-          "index": 39547,
+          "index": 39560,
           "length": 49
         }
       ]
@@ -20840,7 +20840,7 @@
       "message": "no value(s) specified",
       "location": [
         {
-          "index": 39602,
+          "index": 39615,
           "length": 66
         }
       ]
@@ -20850,7 +20850,7 @@
       "message": "parameter 'school_calendar_id' is not found within the URI template '/teacher/{teacher_id}/workload' for 'Carga horária' ",
       "location": [
         {
-          "index": 39493,
+          "index": 39506,
           "length": 35
         }
       ]
@@ -20860,7 +20860,7 @@
       "message": "parameter '_q' is not found within the URI template '/subjects' for 'Coleção de disciplinas' ",
       "location": [
         {
-          "index": 42290,
+          "index": 42303,
           "length": 30
         }
       ]
@@ -20870,7 +20870,7 @@
       "message": "parameter '_sort' is not found within the URI template '/subjects' for 'Coleção de disciplinas' ",
       "location": [
         {
-          "index": 42290,
+          "index": 42303,
           "length": 30
         }
       ]
@@ -20880,7 +20880,7 @@
       "message": "parameter 'user_id' is not found within the URI template '/auth/user' for 'Usuarios' ",
       "location": [
         {
-          "index": 45260,
+          "index": 45273,
           "length": 38
         }
       ]
@@ -20890,7 +20890,7 @@
       "message": "parameter '_with' is not found within the URI template '/auth/user' for 'Usuarios' ",
       "location": [
         {
-          "index": 45260,
+          "index": 45273,
           "length": 38
         }
       ]
@@ -20900,7 +20900,7 @@
       "message": "parameter '_q' is not found within the URI template '/assessments' for 'Coleção de avaliacoes' ",
       "location": [
         {
-          "index": 57740,
+          "index": 57753,
           "length": 29
         }
       ]
@@ -20910,7 +20910,7 @@
       "message": "parameter '_sort' is not found within the URI template '/assessments' for 'Coleção de avaliacoes' ",
       "location": [
         {
-          "index": 57740,
+          "index": 57753,
           "length": 29
         }
       ]
@@ -20920,7 +20920,7 @@
       "message": "parameter '_with' is not found within the URI template '/assessments' for 'Coleção de avaliacoes' ",
       "location": [
         {
-          "index": 57740,
+          "index": 57753,
           "length": 29
         }
       ]
@@ -20930,7 +20930,7 @@
       "message": "parameter '_attach' is not found within the URI template '/progress-sheets/{progress_sheet_id}' for 'Ficha avaliativa' ",
       "location": [
         {
-          "index": 60174,
+          "index": 60242,
           "length": 40
         }
       ]
@@ -20940,7 +20940,7 @@
       "message": "parameter '_with' is not found within the URI template '/progress-sheets/{progress_sheet_id}' for 'Ficha avaliativa' ",
       "location": [
         {
-          "index": 60174,
+          "index": 60242,
           "length": 40
         }
       ]
@@ -20950,7 +20950,7 @@
       "message": "parameter 'progress_sheet_item_id' is not found within the URI template '/progress-sheets/{progress_sheet_id}/items{?_q,_sort,_with}' for 'Coleção de items da ficha avaliativa' ",
       "location": [
         {
-          "index": 62943,
+          "index": 63011,
           "length": 47
         }
       ]

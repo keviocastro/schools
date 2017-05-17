@@ -1,7 +1,6 @@
 # Group Calendários escolares
 
-`Calendário escolar` (definido nesta API como SchoolCalendar) é considerado como a definição do ano letivo,
-contendo fases fases avaliativas do ano (Ex.: bimestres), feriados, férias,
+`Calendário escolar` (definido nesta API como SchoolCalendar) é considerado como a definição do ano letivo ou calendário letivo, contendo fases avaliativas (Ex.: bimestres, recuperação).
 inicio e fim do ano.
 
 ## Coleção de calendarios escolares [/school-calendars]
@@ -15,8 +14,8 @@ inicio e fim do ano.
     + _sort (string, optional) - Ordena a coluna desejada, de forma acendente ou descendente.
     + _with (string, optional) - Obtem informações do recurso relacionado.
         + Members
-            + schoolClasses - Turmas do ano letivo.
-            + schoolCalendarPhase - Fases avaliativas do ano letivo. Recurso (SchoolCalendarPhase)
+            + schoolClasses - Turmas do calendário escolar. Ex.: 1 Ano A.
+            + phases - Fases avaliativas do calendário escolar. Ex.: 1º Bimestre.
 
 + Request  (application/json)
 
@@ -53,8 +52,8 @@ inicio e fim do ano.
     + school_calendar_id: 1 (number) - ID of the school class
     + _with (string, optional) - Obtem informações do recurso relacionado.
         + Members
-            + schoolClasses - Turmas do ano letivo.
-            + schoolCalendarPhase - Fases avaliativas do ano letivo. Recurso (SchoolCalendarPhase)
+            + schoolClasses - Turmas do calendário escolar. Ex.: 1 Ano A.
+            + phases - Fases avaliativas do calendário escolar. Ex.: 1º Bimestre.
 
 + Request  (application/json)
     + Headers
