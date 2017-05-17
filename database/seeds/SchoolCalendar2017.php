@@ -551,7 +551,7 @@ class SchoolCalendar2017 extends Seeder
 
             foreach ($schoolClass->students as $student) {
 
-                foreach ($this->schoolCalendar->schoolCalendarPhase as $phase) {
+                foreach ($this->schoolCalendar->phases as $phase) {
 
                     $option_identifier = $progressSheet
                         ->options[rand(0,count($progressSheet->options)-1)]

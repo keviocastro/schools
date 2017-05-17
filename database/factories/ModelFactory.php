@@ -519,7 +519,7 @@ $factory->define(App\StudentProgressSheet::class, function ($faker, $attributes)
         $schoolClass = App\SchoolClass::findOrFail($attributes['school_class_id']);
     }
 
-    $phases = $schoolClass->schoolCalendar->schoolCalendarPhase->toArray();
+    $phases = $schoolClass->schoolCalendar->phases->toArray();
     if (empty($phases)) {
         $phases = factory(App\SchoolCalendarPhase::class, 4)->create()->toArray();
     }
