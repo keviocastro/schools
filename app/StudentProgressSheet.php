@@ -34,7 +34,7 @@ class StudentProgressSheet extends Model
     ];
 
     /**
-     * Item avaliativo ex: Reconhecimento de vogais
+     * Itens que componhem uma ficha avaliativa
      * 
      * @Relation
      * 
@@ -43,5 +43,41 @@ class StudentProgressSheet extends Model
     public function progressSheetItem()
     {
         return $this->belongsTo('App\ProgressSheetItem');
+    }
+    
+    /**
+     * Estudante que esta sendo avaliado
+     * 
+     * @Relation
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function student()
+    {
+        return $this->belongsTo('App\Student');
+    }
+    
+    /**
+     * Faze em que a avaliacao aconteceu
+     * 
+     * @Relation
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function schoolCalendarPhase()
+    {
+        return $this->belongsTo('App\SchoolCalendarPhase');
+    }
+    
+    /**
+     * Turma a qual a ficha avaliativa pertence
+     * 
+     * @Relation
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function schoolClass()
+    {
+        return $this->belongsTo('App\SchoolClass');
     }
 }
