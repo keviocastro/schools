@@ -1,7 +1,7 @@
 # Schools API
-[![Build Status]     (https://semaphoreci.com/api/v1/projects/16bb628a-54c3-4c20-b44d-7f3491caeceb/1311424/badge.svg)](https://semaphoreci.com/ke
 
-viocastro/schools)
+[![Build Status](https://semaphoreci.com/api/v1/projects/16bb628a-54c3-4c20-b44d-7f3491caeceb/1290135/badge.svg)](https://semaphoreci.com/keviocastro/schools)
+
 
 APIs e ferramentas para você gerir dados de escolas, alunos, professores, matriculas de alunos, registros de presença e notas.
 
