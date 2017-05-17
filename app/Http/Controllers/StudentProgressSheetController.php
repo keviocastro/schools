@@ -55,7 +55,7 @@ class StudentProgressSheetController extends Controller
                  * Isso significa que um requisição com a combinação de parametros progress_sheet_item_id, school_calendar_phase_id,
                  * school_class_id e student_id, já existirem, um novo registro não será criado e sim atualizado.
                  *
-                 * @see https://github.com/keviocastro/schools/issues/4
+                 * @link https://github.com/keviocastro/schools/issues/4
                  */
                 $current_answer = StudentProgressSheet::where([
                     ['progress_sheet_item_id', '=', $record['progress_sheet_item_id']],

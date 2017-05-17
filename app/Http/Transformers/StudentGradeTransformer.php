@@ -20,7 +20,7 @@ class StudentGradeTransformer extends Fractal\TransformerAbstract
 	 * 
 	 * @param  Collection $grades 
 	 * 
-	 * @return \Illuminate\Database\Eloquent\Collection"
+	 * @return Illuminate\Database\Eloquent\Collection
 	 */
 	public static function groupBySubjectAndPhase(Collection $grades)
 	{

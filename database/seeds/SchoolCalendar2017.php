@@ -43,7 +43,7 @@ class SchoolCalendar2017 extends Seeder
     public function create()
     {
         $this->createSchoolCalendar();
-        $this->createClassesWithGrade();
+        // $this->createClassesWithGrade();
         $this->createClassesWithProgressSheet();
     }
 
@@ -168,7 +168,7 @@ class SchoolCalendar2017 extends Seeder
      * Cria uma turma
      * Aulas durante todo o ano para essa turma com 5 disciplinas, onde:
      *     O professor 1 ministra aulas para as disciplinas 1 e 2.
-     *     As disciplinas 3,4,5 tem são ministradas pelos professores 2,3,4 respectivamente. 
+     *     As disciplinas 3,4,5 são ministradas pelos professores 2,3,4 respectivamente. 
      * Cria Alunos para a turma
      * Cria Responsaveis pelos alunos
      * Cria Registros de notas dos alunos durante o ano
@@ -180,8 +180,8 @@ class SchoolCalendar2017 extends Seeder
      *  
      *  NOTAS:
      *      
-     *       Para o primeiro aluno criado (id = 1), e
-     *       1º disciplina criada (id = 1), com nome Matématica, tem as notas: 
+     *       Para o primeiro aluno criado, e
+     *       1º disciplina criada, com nome Matématica, tem as notas: 
      *       
      *       Nota 1.1    = 4.1 
      *       Nota 1.2    = 5.6 
@@ -344,7 +344,8 @@ class SchoolCalendar2017 extends Seeder
                     'assessment_id' => $assessments[1]->id
                 ]
             ];
-        // dump('Registrando presenças para o 1º Bimestre...');
+
+        dump('Criando turma com avaliação por nota e por diciplina: presenças do 1º bimeste.');
         AttendanceRecordsFactory::create(
             $this->schoolCalendarPhase1, 
             3, 
@@ -352,7 +353,7 @@ class SchoolCalendar2017 extends Seeder
             $schoolClass->id
         );
 
-        // dump('Registrando notas para o 1º Bimestre...');
+        dump('Criando turma com avaliação por nota e por diciplina: notas do 1º bimeste.');
         StudentGradesFactory::create(
             $this->schoolCalendarPhase1, 
             $schoolClass, 
@@ -370,7 +371,7 @@ class SchoolCalendar2017 extends Seeder
         $fixedDataSubjects[1]['assessment_id'] = $assessments[1]->id;
         $fixedDataSubjects[1]['grade'] = 4.1;
         
-        // dump('Registrando presenças para o 2º Bimestre...');
+        dump('Criando turma com avaliação por nota e por diciplina: presenças do 2º bimeste.');
         AttendanceRecordsFactory::create(
             $this->schoolCalendarPhase2, 
             0, 
@@ -378,7 +379,7 @@ class SchoolCalendar2017 extends Seeder
             $schoolClass->id
         );
 
-        // dump('Registrando notas para o 2º Bimestre...');
+        dump('Criando turma com avaliação por nota e por diciplina: notas do 2º bimeste.');
         StudentGradesFactory::create(
             $this->schoolCalendarPhase2, 
             $schoolClass, 
@@ -396,14 +397,14 @@ class SchoolCalendar2017 extends Seeder
         $fixedDataSubjects[1]['assessment_id'] = $assessments[1]->id;
         $fixedDataSubjects[1]['grade'] = 4.3;
         
-        // dump('Registrando presenças para o 3º Bimestre...');
+        dump('Criando turma com avaliação por nota e por diciplina: presenças do 3º bimeste.');
         AttendanceRecordsFactory::create(
             $this->schoolCalendarPhase3, 
             0, 
             $studentFixedData->id,
             $schoolClass->id
         );
-        // dump('Registrando notas para o 3º Bimestre...');
+        dump('Criando turma com avaliação por nota e por diciplina: notas do 3º bimeste.');
         StudentGradesFactory::create(
             $this->schoolCalendarPhase3, 
             $schoolClass, 
@@ -421,14 +422,15 @@ class SchoolCalendar2017 extends Seeder
         $fixedDataSubjects[1]['assessment_id'] = $assessments[1]->id;
         $fixedDataSubjects[1]['grade'] = 3.1;
 
-        // dump('Registrando presenças para o 4º Bimestre...');
+        dump('Criando turma com avaliação por nota e por diciplina: presenças do 4º bimeste.');
         AttendanceRecordsFactory::create(
             $this->schoolCalendarPhase4, 
             2, 
             $studentFixedData->id,
             $schoolClass->id
         );
-        // dump('Registrando notas para o 4º Bimestre...');
+
+        dump('Criando turma com avaliação por nota e por diciplina: notas do 4º bimeste.');
         StudentGradesFactory::create(
             $this->schoolCalendarPhase4, 
             $schoolClass, 
@@ -441,7 +443,7 @@ class SchoolCalendar2017 extends Seeder
             ->first();
 
         //1º Aluno
-        // dump('Registrando presenças para a Recuperação...');
+        dump('Criando turma com avaliação por nota e por diciplina: presenças da recuperação.');
         AttendanceRecordsFactory::create(
             $this->schoolCalendarPhase5, 
             0, 
@@ -449,7 +451,7 @@ class SchoolCalendar2017 extends Seeder
             $schoolClass->id
         );
 
-        // dump('Registrando notas para a Recuperação...');
+        dump('Criando turma com avaliação por nota e por diciplina: notas da recuperação.');
         $fixedDataSubjects[0]['assessment_id'] = $assessment->id;
         $fixedDataSubjects[0]['grade'] = 7.4;
         StudentGradesFactory::create(
