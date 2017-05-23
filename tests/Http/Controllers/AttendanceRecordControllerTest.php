@@ -121,16 +121,20 @@ class AttendanceRecordControllerTest extends TestCase
             ->seeJson($attendanceRecords[0])
             ->seeJson($attendanceRecords[1]);
 
-        // The record of the student to the lesson already exists.
+        // Já existe registro de ocorrência para o aluno.
+        // O registro será atualizado.
     	$attendanceRecord = factory(AttendanceRecord::class)->create();
+        $attendanceRecord->appliedAction = 'updated';
+        $attendanceRecord->presence = ($attendanceRecord->presence == 1) ? 0 : 1;
         $this->post('api/attendance-records',
             [
                 'student_id' => $attendanceRecord->student_id,
                 'lesson_id' => $attendanceRecord->lesson_id,
-                'presence' => 1,
+                'presence' => $attendanceRecord->presence,
             ],
             $this->getAutHeader())
-            ->assertResponseStatus(409);
+            ->assertResponseStatus(201)
+            ->seeJson($attendanceRecord->toArray());
     }
 
     /**
