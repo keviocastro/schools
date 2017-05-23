@@ -160,12 +160,17 @@ retornado o registro já existente com as informações atualizadas.
     + Attributes
         + attendance_record (AttendanceRecord)
 
-+ Response 409 (application/json)
++ Request  (application/json)
+    + Headers
 
-        {
-            "message": "The record of the student (student.id = 1 ) to the lesson already exists.",
-            "status_code": 409
-        }
+            authorization: <!-- include(Token.md) -->
+
+    + Attributes (array[AttendanceRecordFillable])
+
++ Response 201 (application/json)
+
+    + Attributes
+        + attendance_records (array[AttendanceRecord])
 
 ## Registro de presença [/attendance-records/{attendance_record_id}]
 

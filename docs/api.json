@@ -4797,9 +4797,48 @@
                             ]
                           }
                         ]
-                      },
+                      }
+                    ]
+                  },
+                  {
+                    "name": "",
+                    "description": "",
+                    "requests": [
                       {
-                        "name": "409",
+                        "name": "",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "name": "authorization",
+                            "value": "Bearer {{token}}"
+                          }
+                        ],
+                        "body": "[\n  {\n    \"lesson_id\": 1,\n    \"student_id\": 1,\n    \"presence\": 2,\n    \"absence_dismissal\": \"Ricardo apresentou atestado medico\"\n  }\n]",
+                        "schema": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"array\"\n}",
+                        "content": [
+                          {
+                            "element": "dataStructure",
+                            "content": [
+                              {
+                                "element": "array",
+                                "content": [
+                                  {
+                                    "element": "AttendanceRecordFillable"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ],
+                    "responses": [
+                      {
+                        "name": "201",
                         "description": "",
                         "headers": [
                           {
@@ -4807,15 +4846,35 @@
                             "value": "application/json"
                           }
                         ],
-                        "body": "{\n    \"message\": \"The record of the student (student.id = 1 ) to the lesson already exists.\",\n    \"status_code\": 409\n}\n",
-                        "schema": "",
+                        "body": "{\n  \"attendance_records\": [\n    {\n      \"id\": 1,\n      \"lesson_id\": 1,\n      \"student_id\": 1,\n      \"presence\": 2,\n      \"absence_dismissal\": \"Ricardo apresentou atestado medico\"\n    }\n  ]\n}",
+                        "schema": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"attendance_records\": {\n      \"type\": \"array\"\n    }\n  }\n}",
                         "content": [
                           {
-                            "element": "asset",
-                            "attributes": {
-                              "role": "bodyExample"
-                            },
-                            "content": "{\n    \"message\": \"The record of the student (student.id = 1 ) to the lesson already exists.\",\n    \"status_code\": 409\n}\n"
+                            "element": "dataStructure",
+                            "content": [
+                              {
+                                "element": "object",
+                                "content": [
+                                  {
+                                    "element": "member",
+                                    "content": {
+                                      "key": {
+                                        "element": "string",
+                                        "content": "attendance_records"
+                                      },
+                                      "value": {
+                                        "element": "array",
+                                        "content": [
+                                          {
+                                            "element": "AttendanceRecord"
+                                          }
+                                        ]
+                                      }
+                                    }
+                                  }
+                                ]
+                              }
+                            ]
                           }
                         ]
                       }
@@ -13465,9 +13524,48 @@
                             ]
                           }
                         ]
-                      },
+                      }
+                    ]
+                  },
+                  {
+                    "name": "",
+                    "description": "",
+                    "requests": [
                       {
-                        "name": "409",
+                        "name": "",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "name": "authorization",
+                            "value": "Bearer {{token}}"
+                          }
+                        ],
+                        "body": "[\n  {\n    \"lesson_id\": 1,\n    \"student_id\": 1,\n    \"presence\": 2,\n    \"absence_dismissal\": \"Ricardo apresentou atestado medico\"\n  }\n]",
+                        "schema": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"array\"\n}",
+                        "content": [
+                          {
+                            "element": "dataStructure",
+                            "content": [
+                              {
+                                "element": "array",
+                                "content": [
+                                  {
+                                    "element": "AttendanceRecordFillable"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ],
+                    "responses": [
+                      {
+                        "name": "201",
                         "description": "",
                         "headers": [
                           {
@@ -13475,15 +13573,35 @@
                             "value": "application/json"
                           }
                         ],
-                        "body": "{\n    \"message\": \"The record of the student (student.id = 1 ) to the lesson already exists.\",\n    \"status_code\": 409\n}\n",
-                        "schema": "",
+                        "body": "{\n  \"attendance_records\": [\n    {\n      \"id\": 1,\n      \"lesson_id\": 1,\n      \"student_id\": 1,\n      \"presence\": 2,\n      \"absence_dismissal\": \"Ricardo apresentou atestado medico\"\n    }\n  ]\n}",
+                        "schema": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"attendance_records\": {\n      \"type\": \"array\"\n    }\n  }\n}",
                         "content": [
                           {
-                            "element": "asset",
-                            "attributes": {
-                              "role": "bodyExample"
-                            },
-                            "content": "{\n    \"message\": \"The record of the student (student.id = 1 ) to the lesson already exists.\",\n    \"status_code\": 409\n}\n"
+                            "element": "dataStructure",
+                            "content": [
+                              {
+                                "element": "object",
+                                "content": [
+                                  {
+                                    "element": "member",
+                                    "content": {
+                                      "key": {
+                                        "element": "string",
+                                        "content": "attendance_records"
+                                      },
+                                      "value": {
+                                        "element": "array",
+                                        "content": [
+                                          {
+                                            "element": "AttendanceRecord"
+                                          }
+                                        ]
+                                      }
+                                    }
+                                  }
+                                ]
+                              }
+                            ]
                           }
                         ]
                       }
@@ -20690,7 +20808,7 @@
       "message": "parameter '_with' is not found within the URI template '/attendance-records/{attendance_record_id}' for 'Registro de presença' ",
       "location": [
         {
-          "index": 30982,
+          "index": 31045,
           "length": 44
         }
       ]
@@ -20700,7 +20818,7 @@
       "message": "parameter '_q' is not found within the URI template '/student-grades' for 'Coleção de notas' ",
       "location": [
         {
-          "index": 32303,
+          "index": 32366,
           "length": 23
         }
       ]
@@ -20710,7 +20828,7 @@
       "message": "parameter '_sort' is not found within the URI template '/student-grades' for 'Coleção de notas' ",
       "location": [
         {
-          "index": 32303,
+          "index": 32366,
           "length": 23
         }
       ]
@@ -20720,7 +20838,7 @@
       "message": "parameter '_with' is not found within the URI template '/student-grades' for 'Coleção de notas' ",
       "location": [
         {
-          "index": 32303,
+          "index": 32366,
           "length": 23
         }
       ]
@@ -20730,7 +20848,7 @@
       "message": "parameter 'student_grade_id' is not found within the URI template '/student-grades/{student_grades_id}' for 'Nota' ",
       "location": [
         {
-          "index": 33177,
+          "index": 33240,
           "length": 28
         }
       ]
@@ -20740,7 +20858,7 @@
       "message": "parameter '_with' is not found within the URI template '/student-grades/{student_grades_id}' for 'Nota' ",
       "location": [
         {
-          "index": 33177,
+          "index": 33240,
           "length": 28
         }
       ]
@@ -20750,7 +20868,7 @@
       "message": "parameter 'student_grade_id' is not found within the URI template '/student-grades/{student_grades_id}' for 'Nota' ",
       "location": [
         {
-          "index": 33645,
+          "index": 33708,
           "length": 24
         }
       ]
@@ -20760,7 +20878,7 @@
       "message": "parameter 'student_grade_id' is not found within the URI template '/student-grades/{student_grades_id}' for 'Nota' ",
       "location": [
         {
-          "index": 33968,
+          "index": 34031,
           "length": 27
         }
       ]
@@ -20770,7 +20888,7 @@
       "message": "parameter '_q' is not found within the URI template '/occurences' for 'Coleção de ocorrências' ",
       "location": [
         {
-          "index": 34562,
+          "index": 34625,
           "length": 30
         }
       ]
@@ -20780,7 +20898,7 @@
       "message": "parameter '_sort' is not found within the URI template '/occurences' for 'Coleção de ocorrências' ",
       "location": [
         {
-          "index": 34562,
+          "index": 34625,
           "length": 30
         }
       ]
@@ -20790,7 +20908,7 @@
       "message": "parameter '_with' is not found within the URI template '/occurences' for 'Coleção de ocorrências' ",
       "location": [
         {
-          "index": 34562,
+          "index": 34625,
           "length": 30
         }
       ]
@@ -20800,7 +20918,7 @@
       "message": "parameter '_with' is not found within the URI template '/occurences/{occurence_id}' for 'Ocorrência' ",
       "location": [
         {
-          "index": 35426,
+          "index": 35489,
           "length": 34
         }
       ]
@@ -20810,7 +20928,7 @@
       "message": "parameter '_group_by' is not found within the URI template '/student-progress-sheets{?_q,_sort,_with}' for 'Coleção de resultados dos aluno em itens de fichas avaliativas' ",
       "location": [
         {
-          "index": 36512,
+          "index": 36575,
           "length": 46
         }
       ]
@@ -20820,7 +20938,7 @@
       "message": "response payload `201` already defined for `POST` method",
       "location": [
         {
-          "index": 38406,
+          "index": 38469,
           "length": 117
         }
       ]
@@ -20830,7 +20948,7 @@
       "message": "no value(s) specified",
       "location": [
         {
-          "index": 39560,
+          "index": 39623,
           "length": 49
         }
       ]
@@ -20840,7 +20958,7 @@
       "message": "no value(s) specified",
       "location": [
         {
-          "index": 39615,
+          "index": 39678,
           "length": 66
         }
       ]
@@ -20850,7 +20968,7 @@
       "message": "parameter 'school_calendar_id' is not found within the URI template '/teacher/{teacher_id}/workload' for 'Carga horária' ",
       "location": [
         {
-          "index": 39506,
+          "index": 39569,
           "length": 35
         }
       ]
@@ -20860,7 +20978,7 @@
       "message": "parameter '_q' is not found within the URI template '/subjects' for 'Coleção de disciplinas' ",
       "location": [
         {
-          "index": 42303,
+          "index": 42366,
           "length": 30
         }
       ]
@@ -20870,7 +20988,7 @@
       "message": "parameter '_sort' is not found within the URI template '/subjects' for 'Coleção de disciplinas' ",
       "location": [
         {
-          "index": 42303,
+          "index": 42366,
           "length": 30
         }
       ]
@@ -20880,7 +20998,7 @@
       "message": "parameter 'user_id' is not found within the URI template '/auth/user' for 'Usuarios' ",
       "location": [
         {
-          "index": 45273,
+          "index": 45336,
           "length": 38
         }
       ]
@@ -20890,7 +21008,7 @@
       "message": "parameter '_with' is not found within the URI template '/auth/user' for 'Usuarios' ",
       "location": [
         {
-          "index": 45273,
+          "index": 45336,
           "length": 38
         }
       ]
@@ -20900,7 +21018,7 @@
       "message": "parameter '_q' is not found within the URI template '/assessments' for 'Coleção de avaliacoes' ",
       "location": [
         {
-          "index": 57753,
+          "index": 57816,
           "length": 29
         }
       ]
@@ -20910,7 +21028,7 @@
       "message": "parameter '_sort' is not found within the URI template '/assessments' for 'Coleção de avaliacoes' ",
       "location": [
         {
-          "index": 57753,
+          "index": 57816,
           "length": 29
         }
       ]
@@ -20920,7 +21038,7 @@
       "message": "parameter '_with' is not found within the URI template '/assessments' for 'Coleção de avaliacoes' ",
       "location": [
         {
-          "index": 57753,
+          "index": 57816,
           "length": 29
         }
       ]
@@ -20930,7 +21048,7 @@
       "message": "parameter '_attach' is not found within the URI template '/progress-sheets/{progress_sheet_id}' for 'Ficha avaliativa' ",
       "location": [
         {
-          "index": 60242,
+          "index": 60305,
           "length": 40
         }
       ]
@@ -20940,7 +21058,7 @@
       "message": "parameter '_with' is not found within the URI template '/progress-sheets/{progress_sheet_id}' for 'Ficha avaliativa' ",
       "location": [
         {
-          "index": 60242,
+          "index": 60305,
           "length": 40
         }
       ]
@@ -20950,7 +21068,7 @@
       "message": "parameter 'progress_sheet_item_id' is not found within the URI template '/progress-sheets/{progress_sheet_id}/items{?_q,_sort,_with}' for 'Coleção de items da ficha avaliativa' ",
       "location": [
         {
-          "index": 63011,
+          "index": 63074,
           "length": 47
         }
       ]
