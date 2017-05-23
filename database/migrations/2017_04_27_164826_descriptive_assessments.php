@@ -7,7 +7,7 @@ use Illuminate\Database\Migrations\Migration;
 /**
  * Epic "Avaliações descritivas e turmas multidisciplinares"
  * 
- * @see https://github.com/keviocastro/daily-ui/issues/2
+ * @link https://github.com/keviocastro/daily-ui/issues/2
  * 
  */
 class DescriptiveAssessments extends Migration

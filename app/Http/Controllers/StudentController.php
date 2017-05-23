@@ -81,6 +81,7 @@ class StudentController extends Controller
         $student = Student::findOrFail($student_id);
 
         $result['report_by_subjects'] = $student->averagesAndAbsencesInTheYear($schoolCalendar);
+        $result['report_by_phases'] = $student->absenceGrouBySchoolCalendarPhases($schoolCalendar);
 
         return $result;
     }

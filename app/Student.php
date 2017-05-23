@@ -583,8 +583,7 @@ class Student extends Model
     }
 
     /**
-     * 
-     * Registros de chamada do aluno durante
+     * Query de registros de chamada do aluno durante
      * uma fase de ano letivo (SchoolCalendarPhase)
      * 
      * @param  int $school_calendar_id 
@@ -592,35 +591,74 @@ class Student extends Model
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      * @author Kévio Castro <keviocastro@gmail.com>
      */
-    public function absencesYearPhase($school_calendar_phase_id)
+    public function queryAbsencesYearPhase($school_calendar_phase_id)
     {
         return $this->attendanceRecords()
             ->join('lessons', 
                 'lessons.id', 
                 '=' ,
                 'attendance_records.lesson_id')
-            
             ->join('school_classes', 
                 'school_classes.id', 
                 '=', 
                 'lessons.school_class_id')
-            
             ->join('school_calendars', 
                 'school_calendars.id', 
                 '=', 
                 'school_classes.school_calendar_id')
-
             ->join('school_calendar_phases',
                 'school_calendar_phases.school_calendar_id',
                 '=',
                 'school_calendars.id')
-
             ->where('presence', 0)
             ->where('school_calendar_phases.id', $school_calendar_phase_id)
-            
             ->whereRaw('DATE_FORMAT(lessons.start, "%Y-%m-%d") >= school_calendar_phases.start')
-
             ->whereRaw('DATE_FORMAT(lessons.end, "%Y-%m-%d") <= school_calendar_phases.end');
+    }
+
+    /**
+     * Faltas do aluno agrupadas por fase do calendário escolar
+     *
+     * @param SchoolCalendar $schoolCalendar
+     * @return array
+     * 
+     * @example 
+     * 
+     * [
+     *      "id": 1,
+     *      "name": "1º Bimestre",
+     *      "school_calendar_id": 1,
+     *      "start": "2016-01-16",
+     *      "end": "2016-04-15",
+     *      "average_formula": "({Nota 1.1} + {Nota 1.2})/2",
+     *      "absences": 4
+     * ],
+     * [
+     * 
+     *      "id": 2,
+     *      "name": "2º Bimestre",
+     *      "school_calendar_id": 1,
+     *      "start": "...",
+     *      "end": "...",
+     *      "average_formula": "({Nota 1.1} + {Nota 1.2})/2",
+     *      "absences": 11
+     * ]
+     */
+    public function absenceGrouBySchoolCalendarPhases($schoolCalendar)
+    {
+        $phases = $schoolCalendar->phases->toArray();
+            
+        foreach($phases as $key => $phase){
+            
+            $absences = $this->queryAbsencesYearPhase($phase['id'])
+                ->select(DB::raw('count(attendance_records.id) as absences'))
+                ->first()
+                ->absences;
+
+           $phases[$key]['absences'] = $absences;
+       }     
+
+       return $phases;
     }
 
     /**

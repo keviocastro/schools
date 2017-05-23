@@ -8,7 +8,7 @@ e relatórios como "Boletim anual do aluno" e "Histórico escolar", registro de 
 ### Ver relatório anual do aluno [GET]
 
 + Parameters
-    + school_calendar_id: 1 (required, number) - ID do ano letivo
+    + school_calendar_id: 1 (required, number) - ID do calendário escolar
 
 + Request  (application/json)
     + Headers
@@ -18,7 +18,8 @@ e relatórios como "Boletim anual do aluno" e "Histórico escolar", registro de 
 + Response 200 (application/json)
 
     + Attributes (object)
-        + report_by_subjects (array[SubjectAnnualReport]) - Médias e faltas por disciplina no ano letivo
+        + report_by_subjects (array[SubjectAnnualReport]) - Médias e faltas agrupadas por disciplina
+        + report_by_phases (array[AnnualReportPerPhase]) - Faltas agrupadas por fase do calendário escolar
 
 ## Resumo anual do aluno [/students/{student_id}/annual-summary/{school_calendar_id}]
 
