@@ -43,7 +43,7 @@ class AuthControllerTest extends TestCase
         // O usuário é identificado pelo token que está no cabeçario da requisição, 
         // variável "authHeader".
         $this->get('api/auth/user',
-            $this->getAutHeader())->dump()
+            $this->getAutHeader())
             ->assertResponseStatus(200)
             ->seeJson($teacher->toArray());
     }
