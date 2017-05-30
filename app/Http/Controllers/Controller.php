@@ -146,33 +146,33 @@ class Controller extends BaseController
      * 
      * @return array $result grouped if applicable
      */
-    public function parseGroupBy($result, $group_by, $group_by_count)
+    public function parseGroupBy($result, $groupBy, $groupByCount)
     {
         
-        if($group_by){
+        if($groupBy){
             if($result['total'] > 0){
                 
-                $group_by = explode(',', $group_by);
-                $group_by_count =  $group_by_count;
+                $groupBy = explode(',', $groupBy);
+                $groupByCount =  $groupByCount;
 
                 // If attribute exists in the results
                 $attributes = collect(array_keys($result['data'][0]));
-                $group_by = collect($group_by);
-                $group_by->each(function($group) use ($attributes){
+                $groupBy = collect($groupBy);
+                $groupBy->each(function($group) use ($attributes){
                     if ( !$attributes->search($group) )
                         throw new ResourceException(
                             "The attribute ($group) defined in the _group_by parameter does not exist in the result set."
                             );
                 });
 
-                $result['data'] = collect($result['data'])->groupBy(function($item) use ($group_by){
-                    $groupValues = $group_by->reduce(function($carry, $group) use ($item){
+                $result['data'] = collect($result['data'])->groupBy(function($item) use ($groupBy){
+                    $groupValues = $groupBy->reduce(function($carry, $group) use ($item){
                         return empty($carry) ? $item[$group] : $carry .'-'. $item[$group]; 
                     });
                     return  $groupValues;
                 });
                 
-                if($group_by_count){
+                if($groupByCount){
                     $result['data'] = $result['data']->mapWithKeys(function($item, $key){
                         return [$key => count($item)];
                     });
