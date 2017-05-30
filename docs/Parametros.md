@@ -73,8 +73,7 @@ Veja o exemplo:
     "data": [
       {
           "id": 1, 
-          "name": 
-          "Name of school", 
+          "name": "Name of school", 
           "type": "middle-school"
       },
       ....
@@ -83,7 +82,10 @@ Veja o exemplo:
 
 # Parametros de transformação
 
-O prametro _group_by é utilizado para agrupar o conjunto de resultados da página atual da consulta por atributo.
+O prametro _group_by é utilizado para agrupar o conjunto de resultados da página atual 
+da consulta por um ou mais atributos. Os nomes dos atributos são separados por virgula.
+
+Atenção: esse parametro agrupa somente os resultantes da pesquisa.
 
 Veja o exemplo:
 
@@ -103,29 +105,35 @@ Considerando que esse recurso retornaria o resultado
     "data": [
       {
           "id": 1, 
-          "name": 
-          "Name of school", 
-          "type": "middle-school"
+          "name": "Name of school 1",
+          "type": "middle-school",
+          "UF": "GO"
       },
       {
           "id": 1, 
-          "name": 
-          "Name of school", 
-          "type": "middle-school"
+          "name": "Name of school 2", 
+          "type": "middle-school",
+          "UF": "GO"
       },
       {
           "id": 1, 
-          "name": 
-          "Name of school", 
-          "type": "high-school"
+          "name": "Name of school 3", 
+          "type": "high-school",
+          "UF": "GO"
       },
+      {
+          "id": 1, 
+          "name": "Name of school 4", 
+          "type": "high-school",
+          "UF": "DF"
+      }
     ]
 }
 ```
 
-<pre><code>GET /api/schools</code></pre>
+<pre><code>GET /api/schools?_group_by=type,UF</code></pre>
 
-Utilizando o parametro _group_id=type, teriamos:
+Utilizando o parametro _group_by=type,UF teriamos:
 
 ```
 { 
@@ -136,28 +144,56 @@ Utilizando o parametro _group_id=type, teriamos:
     "next_page_url": "null"
     "prev_page_url": "null"
     "data": [
-       "middle-school": [
+       "middle-school-GO": [
           {
               "id": 1, 
-              "name": 
-              "Name of school", 
+              "name": "Name of school 1", 
               "type": "middle-school"
           },
           {
               "id": 1, 
-              "name": 
-              "Name of school", 
+              "name": "Name of school 2", 
               "type": "middle-school"
           }
        ],
-       "high-school": [
+       "high-school-GO": [
+          {
+            "id": 1, 
+            "name": "Name of school 3", 
+            "type": "high-school",
+            "UF": "GO"
+          }
+       ]
+       "high-school-DF": [
           {
               "id": 1, 
-              "name": 
-              "Name of school", 
+              "name": "Name of school 4", 
               "type": "high-school"
           }
        ]
+    ]
+}
+```
+
+O prametro `_group_by_count` é utilizado em conjunto com `_group_by` e é utilizado para retornar somente a quantidade
+de itens contidos nos grupos.
+
+Considerando o exemplo acima e adicionando o _group_by_count=true teriamos:
+
+<pre><code>GET /api/schools?_group_id=type&_group_by_count=true</code></pre>
+
+```
+{ 
+    "total": "3"
+    "per_page": "15",
+    "current_page": "1",
+    "last_page": "1",
+    "next_page_url": "null"
+    "prev_page_url": "null"
+    "data": [
+       "middle-school-GO": 2,
+       "high-school-GO": 1,
+       "high-school-DF": 1
     ]
 }
 ```

@@ -13,7 +13,7 @@
       }
     ],
     "name": "Schools API",
-    "description": "Schools é uma api para manter informações sobre escolas e seus registros administrativos.\n\n\n# Autentificação\n\nA autentificação de usuário para acesso aos recursos da api, deve ser feita atribuindo\nsempre o seguinte cabeçario na requisição:\n\n`authorization: Bearer token_id`\n\nOnde \"token id\" é obtido durante a autenficação do usuário no microservice de atentificação\nauth0 através do dominio \"logos.auth0.com\".\nVeja ver mais detalhes de como realizar essa autentificação nesse link: https://auth0.com/docs\n\n\n\n# Parametros de filtros, ordenação e pesquisa\n\nCada parâmetro de consulta, exceto as funções pré-definidas _with, _sort, _q e _group_by é interpretado como um filtro.\n\nExemplo: Listar todas as escolas que começam com nome: Vieira.\n\n<pre><code>/api/schools?name-lk=Vieira*</code></pre>\n\nNo exemplo acima o parametro name recebe o nome vieira que e o nome da escola, é com prefixo -lk sendo este igual a like do sql.\n\nTodos os filtros podem ser combinados com um operador AND.\n\n<pre><code>/api/schools?name-lk=Vieira*&created_at-min=2016-12-01 12:55:02</code></pre>\n\nO exemplo acima resultaria na seguinte SQL:\n\n<pre><code>Where `schools` LIKE \"Vieira%\" AND `created_at` >= \"2016-12-01 12:55:02\"</code></pre>\n\nÉ também possível usar vários valores para um filtro.\nVários valores estão separados por barra vertical |.\nVários valores são combinados com OR a não ser quando há um -not como sufixo, então eles são combinados com AND.\nPor exemplo, todos os livros com o ID de 5 ou 6:\n\n<pre><code>/api/schools?id=5|6</code></pre>\n\nOu todas as escolas, exceto aqueles com ID 5 ou 6:\n\n<pre><code>/api/schools?id-not=5|6</code></pre>\n\nO mesmo pode ser conseguido usando o -in como sufixo:\n\n<pre><code>/api/schools?id-in=5,6</code></pre>\n\nRespectivamente, o not-insufixo:\n\n<pre><code>/api/schools?id-not-in=5,6</code></pre>\n\n| Suffix        | Operator  | Meaning                               |\n|:--------------|-----------|---------------------------------------|\n| `-lk`         | LIKE      | O mesmo que o operador LIKE do SQL    |\n| `-not-lk`     | NOT LIKE  | O mesmo que o operador NOT LIKE do SQL|\n| `-in`         | IN        | O mesmo que o operador IN do SQL      |\n| `-not-in`     | NOT IN    | O mesmo que o operador NOT IN do SQL  |\n| `-min`        | >=        | Maior ou igual a                      |\n| `-max`        | <=        | Menor ou igual a                      |\n| `-st`         | <         | Menor que                             |\n| `-gt`         | >         | Maior que                             |\n| `-not`        | !=        | Diferente                             |\n\n\n# Parametros paginação\n\nOs parametros de paginação são: _page e _per_page.\n\n`_page` Define o número de página da consulta que será obtido.\n`_per_page` Define a quantidade de resultados da consulta por página.\n\n<pre><code>GET /api/schools?_page=2&_per_page=50</code></pre>\n\nNeste exemplo o resultado será a segunda página da coleção de resultados da listagem de escolas,\ncom 50 escolas por página, tendo um total de 4 páginas e 156 resultados no total.\n\nVeja o exemplo:\n\n```\n{\n    \"total\": \"156\",\n    \"per_page\": \"50\",\n    \"current_page\": \"2\",\n    \"last_page\": \"4\",\n    \"next_page_url\": \"https://schools.logoseducacao.com.br/api/schools?_page=3\"\n    \"prev_page_url\": \"https://schools.logoseducacao.com.br/api/schools?_page=1\"\n    \"data\": [\n      {\n          \"id\": 1, \n          \"name\": \n          \"Name of school\", \n          \"type\": \"middle-school\"\n      },\n      ....\n}\n```\n\n# Parametros de transformação\n\nO prametro _group_by é utilizado para agrupar o conjunto de resultados da página atual da consulta por atributo.\n\nVeja o exemplo:\n\n<pre><code>GET /api/schools</code></pre>\n\nConsiderando que esse recurso retornaria o resultado\n\n\n```\n{ \n    \"total\": \"3\"\n    \"per_page\": \"15\",\n    \"current_page\": \"1\",\n    \"last_page\": \"1\",\n    \"next_page_url\": \"null\"\n    \"prev_page_url\": \"null\"\n    \"data\": [\n      {\n          \"id\": 1, \n          \"name\": \n          \"Name of school\", \n          \"type\": \"middle-school\"\n      },\n      {\n          \"id\": 1, \n          \"name\": \n          \"Name of school\", \n          \"type\": \"middle-school\"\n      },\n      {\n          \"id\": 1, \n          \"name\": \n          \"Name of school\", \n          \"type\": \"high-school\"\n      },\n    ]\n}\n```\n\n<pre><code>GET /api/schools</code></pre>\n\nUtilizando o parametro _group_id=type, teriamos:\n\n```\n{ \n    \"total\": \"3\"\n    \"per_page\": \"15\",\n    \"current_page\": \"1\",\n    \"last_page\": \"1\",\n    \"next_page_url\": \"null\"\n    \"prev_page_url\": \"null\"\n    \"data\": [\n       \"middle-school\": [\n          {\n              \"id\": 1, \n              \"name\": \n              \"Name of school\", \n              \"type\": \"middle-school\"\n          },\n          {\n              \"id\": 1, \n              \"name\": \n              \"Name of school\", \n              \"type\": \"middle-school\"\n          }\n       ],\n       \"high-school\": [\n          {\n              \"id\": 1, \n              \"name\": \n              \"Name of school\", \n              \"type\": \"high-school\"\n          }\n       ]\n    ]\n}\n```\n\n",
+    "description": "Schools é uma api para manter informações sobre escolas e seus registros administrativos.\n\n\n# Autentificação\n\nA autentificação de usuário para acesso aos recursos da api, deve ser feita atribuindo\nsempre o seguinte cabeçario na requisição:\n\n`authorization: Bearer token_id`\n\nOnde \"token id\" é obtido durante a autenficação do usuário no microservice de atentificação\nauth0 através do dominio \"logos.auth0.com\".\nVeja ver mais detalhes de como realizar essa autentificação nesse link: https://auth0.com/docs\n\n\n\n# Parametros de filtros, ordenação e pesquisa\n\nCada parâmetro de consulta, exceto as funções pré-definidas _with, _sort, _q e _group_by é interpretado como um filtro.\n\nExemplo: Listar todas as escolas que começam com nome: Vieira.\n\n<pre><code>/api/schools?name-lk=Vieira*</code></pre>\n\nNo exemplo acima o parametro name recebe o nome vieira que e o nome da escola, é com prefixo -lk sendo este igual a like do sql.\n\nTodos os filtros podem ser combinados com um operador AND.\n\n<pre><code>/api/schools?name-lk=Vieira*&created_at-min=2016-12-01 12:55:02</code></pre>\n\nO exemplo acima resultaria na seguinte SQL:\n\n<pre><code>Where `schools` LIKE \"Vieira%\" AND `created_at` >= \"2016-12-01 12:55:02\"</code></pre>\n\nÉ também possível usar vários valores para um filtro.\nVários valores estão separados por barra vertical |.\nVários valores são combinados com OR a não ser quando há um -not como sufixo, então eles são combinados com AND.\nPor exemplo, todos os livros com o ID de 5 ou 6:\n\n<pre><code>/api/schools?id=5|6</code></pre>\n\nOu todas as escolas, exceto aqueles com ID 5 ou 6:\n\n<pre><code>/api/schools?id-not=5|6</code></pre>\n\nO mesmo pode ser conseguido usando o -in como sufixo:\n\n<pre><code>/api/schools?id-in=5,6</code></pre>\n\nRespectivamente, o not-insufixo:\n\n<pre><code>/api/schools?id-not-in=5,6</code></pre>\n\n| Suffix        | Operator  | Meaning                               |\n|:--------------|-----------|---------------------------------------|\n| `-lk`         | LIKE      | O mesmo que o operador LIKE do SQL    |\n| `-not-lk`     | NOT LIKE  | O mesmo que o operador NOT LIKE do SQL|\n| `-in`         | IN        | O mesmo que o operador IN do SQL      |\n| `-not-in`     | NOT IN    | O mesmo que o operador NOT IN do SQL  |\n| `-min`        | >=        | Maior ou igual a                      |\n| `-max`        | <=        | Menor ou igual a                      |\n| `-st`         | <         | Menor que                             |\n| `-gt`         | >         | Maior que                             |\n| `-not`        | !=        | Diferente                             |\n\n\n# Parametros paginação\n\nOs parametros de paginação são: _page e _per_page.\n\n`_page` Define o número de página da consulta que será obtido.\n`_per_page` Define a quantidade de resultados da consulta por página.\n\n<pre><code>GET /api/schools?_page=2&_per_page=50</code></pre>\n\nNeste exemplo o resultado será a segunda página da coleção de resultados da listagem de escolas,\ncom 50 escolas por página, tendo um total de 4 páginas e 156 resultados no total.\n\nVeja o exemplo:\n\n```\n{\n    \"total\": \"156\",\n    \"per_page\": \"50\",\n    \"current_page\": \"2\",\n    \"last_page\": \"4\",\n    \"next_page_url\": \"https://schools.logoseducacao.com.br/api/schools?_page=3\"\n    \"prev_page_url\": \"https://schools.logoseducacao.com.br/api/schools?_page=1\"\n    \"data\": [\n      {\n          \"id\": 1, \n          \"name\": \"Name of school\", \n          \"type\": \"middle-school\"\n      },\n      ....\n}\n```\n\n# Parametros de transformação\n\nO prametro _group_by é utilizado para agrupar o conjunto de resultados da página atual \nda consulta por um ou mais atributos. Os nomes dos atributos são separados por virgula.\n\nAtenção: esse parametro agrupa somente os resultantes da pesquisa.\n\nVeja o exemplo:\n\n<pre><code>GET /api/schools</code></pre>\n\nConsiderando que esse recurso retornaria o resultado\n\n\n```\n{ \n    \"total\": \"3\"\n    \"per_page\": \"15\",\n    \"current_page\": \"1\",\n    \"last_page\": \"1\",\n    \"next_page_url\": \"null\"\n    \"prev_page_url\": \"null\"\n    \"data\": [\n      {\n          \"id\": 1, \n          \"name\": \"Name of school 1\",\n          \"type\": \"middle-school\",\n          \"UF\": \"GO\"\n      },\n      {\n          \"id\": 1, \n          \"name\": \"Name of school 2\", \n          \"type\": \"middle-school\",\n          \"UF\": \"GO\"\n      },\n      {\n          \"id\": 1, \n          \"name\": \"Name of school 3\", \n          \"type\": \"high-school\",\n          \"UF\": \"GO\"\n      },\n      {\n          \"id\": 1, \n          \"name\": \"Name of school 4\", \n          \"type\": \"high-school\",\n          \"UF\": \"DF\"\n      }\n    ]\n}\n```\n\n<pre><code>GET /api/schools?_group_by=type,UF</code></pre>\n\nUtilizando o parametro _group_by=type,UF teriamos:\n\n```\n{ \n    \"total\": \"3\"\n    \"per_page\": \"15\",\n    \"current_page\": \"1\",\n    \"last_page\": \"1\",\n    \"next_page_url\": \"null\"\n    \"prev_page_url\": \"null\"\n    \"data\": [\n       \"middle-school-GO\": [\n          {\n              \"id\": 1, \n              \"name\": \"Name of school 1\", \n              \"type\": \"middle-school\"\n          },\n          {\n              \"id\": 1, \n              \"name\": \"Name of school 2\", \n              \"type\": \"middle-school\"\n          }\n       ],\n       \"high-school-GO\": [\n          {\n            \"id\": 1, \n            \"name\": \"Name of school 3\", \n            \"type\": \"high-school\",\n            \"UF\": \"GO\"\n          }\n       ]\n       \"high-school-DF\": [\n          {\n              \"id\": 1, \n              \"name\": \"Name of school 4\", \n              \"type\": \"high-school\"\n          }\n       ]\n    ]\n}\n```\n\nO prametro `_group_by_count` é utilizado em conjunto com `_group_by` e é utilizado para retornar somente a quantidade\nde itens contidos nos grupos.\n\nConsiderando o exemplo acima e adicionando o _group_by_count=true teriamos:\n\n<pre><code>GET /api/schools?_group_id=type&_group_by_count=true</code></pre>\n\n```\n{ \n    \"total\": \"3\"\n    \"per_page\": \"15\",\n    \"current_page\": \"1\",\n    \"last_page\": \"1\",\n    \"next_page_url\": \"null\"\n    \"prev_page_url\": \"null\"\n    \"data\": [\n       \"middle-school-GO\": 2,\n       \"high-school-GO\": 1,\n       \"high-school-DF\": 1\n    ]\n}\n```\n\n",
     "element": "category",
     "resourceGroups": [
       {
@@ -1471,12 +1471,564 @@
             "element": "resource",
             "name": "Relatório anual da turma por disciplina",
             "description": "",
-            "uriTemplate": "/school-classes/{school_class_id}/annual-report-by/{subject_id}{?_sort_students}",
+            "uriTemplate": "/school-classes/{school_class_id}/annual-report-by-subject/{subject_id}{?_sort_students}",
             "model": {},
             "parameters": [],
             "actions": [
               {
                 "name": "Relatório anual por disciplina",
+                "description": "",
+                "method": "GET",
+                "parameters": [
+                  {
+                    "name": "_sort_students",
+                    "description": "Para ordenar os resultados de report_by_user",
+                    "type": "string",
+                    "required": false,
+                    "default": "",
+                    "example": "",
+                    "values": [
+                      {
+                        "value": "name"
+                      },
+                      {
+                        "value": "-name"
+                      }
+                    ]
+                  }
+                ],
+                "attributes": {
+                  "relation": "",
+                  "uriTemplate": ""
+                },
+                "content": [],
+                "examples": [
+                  {
+                    "name": "",
+                    "description": "",
+                    "requests": [
+                      {
+                        "name": "",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "name": "authorization",
+                            "value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1OGUzOTk1NWFmZWMzMTU4YTMyNWI1MGEiLCJhdWQiOlsiYXBpLnNjaG9vbHMiLCJodHRwczovL2xvZ29zLmF1dGgwLmNvbS91c2VyaW5mbyJdLCJhenAiOiJYeGpJMUNUTlRHWU45dGJCeDB5Sm10TXZ2VGJ0NWhXVyIsImV4cCI6MTQ5NTA1MjMwNCwiaWF0IjoxNDk0OTY1OTA0LCJzY29wZSI6Im9wZW5pZCBwcm9maWxlIiwiZ3R5IjoicGFzc3dvcmQifQ.eJMa_XoDICzW5xBE5FQ23pVl-DfR9liPGDWQOaUK3fxfG_YV_SCLVjWXXgLDRg0bbUQYheIrIBQOvF4HexDygK_7f0GGd1kiNr0ZZ0tIamkAAjWNAKNnk_c7zI6uQbKaNN_Ijh-_dX7T22csZLZB3fRc0rZwEcgleg1Q1-wHCMHrAQR5C_7Jj96WGlYG1dBRVwLDrxpABGupAnuEiN_7X2oTOfRp3vSFmF1jXsniNRlM79UKE0Wz38sR5A97M55yLSfN8kFtz42AGNv4EQSF5WRdCmZMghpBm0r6RArKgEX3vuCpvvrm9xdI7wburxJdFWPtCROX1mCblfDZ2_Kd8Q"
+                          }
+                        ],
+                        "body": "",
+                        "schema": "",
+                        "content": []
+                      }
+                    ],
+                    "responses": [
+                      {
+                        "name": "200",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": "{\n  \"report_by_student\": [\n    {\n      \"student\": {\n        \"id\": 1,\n        \"person\": {\n          \"id\": 1,\n          \"name\": \"Caio Fernando Chaves\",\n          \"age\": 15,\n          \"birthday\": \"2001-04-21\",\n          \"piture\": \"https://randomuser.me/api/portraits/lego/6.jpg\",\n          \"gender\": \"male\",\n          \"place_of_birth\": \"Santa Alenssandra\",\n          \"more\": \"descricao\",\n          \"phone\": \"(62) 8385-5421\"\n        }\n      },\n      \"school_calendar_report\": {\n        \"average\": 9.2,\n        \"average_calculation\": \"((4.6 + 1.2)*0.4 + (9 + 3.1)*0.6)/2\",\n        \"average_formula\": \"(({1º Bimestre}+...+ {4º Bimestre})*0.6)/2\\\"\",\n        \"absences\": 22\n      },\n      \"phases_report\": {\n        \"school_calendar_phase_id\": 1,\n        \"average\": 7.9,\n        \"average_calculation\": \"({8.3} + {7.4})/2\",\n        \"average_formula\": \"({Nota 1} + {Nota 2})/2\",\n        \"absences\": 4,\n        \"student_grades\": [\n          {\n            \"id\": 1,\n            \"grade\": 8.3,\n            \"assessment_id\": 1\n          },\n          {\n            \"id\": 2,\n            \"grade\": 7.4,\n            \"assessment_id\": 2\n          }\n        ]\n      }\n    }\n  ],\n  \"school_class_report\": [\n    {\n      \"school_calendar_report\": {\n        \"average\": 8.2\n      },\n      \"phases_report\": [\n        {\n          \"school_calendar_phase_id\": 1,\n          \"average\": 7.7\n        }\n      ]\n    }\n  ]\n}",
+                        "schema": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"report_by_student\": {\n      \"type\": \"array\"\n    },\n    \"school_class_report\": {\n      \"type\": \"array\"\n    }\n  }\n}",
+                        "content": [
+                          {
+                            "element": "dataStructure",
+                            "content": [
+                              {
+                                "element": "object",
+                                "content": [
+                                  {
+                                    "element": "member",
+                                    "content": {
+                                      "key": {
+                                        "element": "string",
+                                        "content": "report_by_student"
+                                      },
+                                      "value": {
+                                        "element": "array",
+                                        "content": [
+                                          {
+                                            "element": "object",
+                                            "content": [
+                                              {
+                                                "element": "member",
+                                                "content": {
+                                                  "key": {
+                                                    "element": "string",
+                                                    "content": "student"
+                                                  },
+                                                  "value": {
+                                                    "element": "object",
+                                                    "content": [
+                                                      {
+                                                        "element": "member",
+                                                        "meta": {
+                                                          "description": "ID do estudante"
+                                                        },
+                                                        "content": {
+                                                          "key": {
+                                                            "element": "string",
+                                                            "content": "id"
+                                                          },
+                                                          "value": {
+                                                            "element": "number",
+                                                            "content": 1
+                                                          }
+                                                        }
+                                                      },
+                                                      {
+                                                        "element": "member",
+                                                        "meta": {
+                                                          "description": "Informações básicas do estudante"
+                                                        },
+                                                        "content": {
+                                                          "key": {
+                                                            "element": "string",
+                                                            "content": "person"
+                                                          },
+                                                          "value": {
+                                                            "element": "Person"
+                                                          }
+                                                        }
+                                                      }
+                                                    ]
+                                                  }
+                                                }
+                                              },
+                                              {
+                                                "element": "member",
+                                                "meta": {
+                                                  "description": "Relatório do aluno durante o calendário escolar para disciplina (subject_id)"
+                                                },
+                                                "content": {
+                                                  "key": {
+                                                    "element": "string",
+                                                    "content": "school_calendar_report"
+                                                  },
+                                                  "value": {
+                                                    "element": "object",
+                                                    "content": [
+                                                      {
+                                                        "element": "member",
+                                                        "meta": {
+                                                          "description": "Média do aluno no ano"
+                                                        },
+                                                        "content": {
+                                                          "key": {
+                                                            "element": "string",
+                                                            "content": "average"
+                                                          },
+                                                          "value": {
+                                                            "element": "number",
+                                                            "content": 9.2
+                                                          }
+                                                        }
+                                                      },
+                                                      {
+                                                        "element": "member",
+                                                        "meta": {
+                                                          "description": "Formula da média do aluno no ano"
+                                                        },
+                                                        "content": {
+                                                          "key": {
+                                                            "element": "string",
+                                                            "content": "average_calculation"
+                                                          },
+                                                          "value": {
+                                                            "element": "string",
+                                                            "content": "((4.6 + 1.2)*0.4 + (9 + 3.1)*0.6)/2"
+                                                          }
+                                                        }
+                                                      },
+                                                      {
+                                                        "element": "member",
+                                                        "meta": {
+                                                          "description": "Calculo da média do aluno no ano"
+                                                        },
+                                                        "content": {
+                                                          "key": {
+                                                            "element": "string",
+                                                            "content": "average_formula"
+                                                          },
+                                                          "value": {
+                                                            "element": "string",
+                                                            "content": "(({1º Bimestre}+...+ {4º Bimestre})*0.6)/2\""
+                                                          }
+                                                        }
+                                                      },
+                                                      {
+                                                        "element": "member",
+                                                        "meta": {
+                                                          "description": "Total de faltas do aluno na disciplina em todo o calendário escolar"
+                                                        },
+                                                        "content": {
+                                                          "key": {
+                                                            "element": "string",
+                                                            "content": "absences"
+                                                          },
+                                                          "value": {
+                                                            "element": "number",
+                                                            "content": 22
+                                                          }
+                                                        }
+                                                      }
+                                                    ]
+                                                  }
+                                                }
+                                              },
+                                              {
+                                                "element": "member",
+                                                "meta": {
+                                                  "description": "Relatório do aluno durante as fases do calendário escolar"
+                                                },
+                                                "content": {
+                                                  "key": {
+                                                    "element": "string",
+                                                    "content": "phases_report"
+                                                  },
+                                                  "value": {
+                                                    "element": "object",
+                                                    "content": [
+                                                      {
+                                                        "element": "member",
+                                                        "meta": {
+                                                          "description": "ID da fase do calendário escolar"
+                                                        },
+                                                        "content": {
+                                                          "key": {
+                                                            "element": "string",
+                                                            "content": "school_calendar_phase_id"
+                                                          },
+                                                          "value": {
+                                                            "element": "number",
+                                                            "content": 1
+                                                          }
+                                                        }
+                                                      },
+                                                      {
+                                                        "element": "member",
+                                                        "meta": {
+                                                          "description": "Média do aluno na fase para a disciplina"
+                                                        },
+                                                        "content": {
+                                                          "key": {
+                                                            "element": "string",
+                                                            "content": "average"
+                                                          },
+                                                          "value": {
+                                                            "element": "number",
+                                                            "content": 7.9
+                                                          }
+                                                        }
+                                                      },
+                                                      {
+                                                        "element": "member",
+                                                        "meta": {
+                                                          "description": "Calculo da média"
+                                                        },
+                                                        "content": {
+                                                          "key": {
+                                                            "element": "string",
+                                                            "content": "average_calculation"
+                                                          },
+                                                          "value": {
+                                                            "element": "string",
+                                                            "content": "({8.3} + {7.4})/2"
+                                                          }
+                                                        }
+                                                      },
+                                                      {
+                                                        "element": "member",
+                                                        "meta": {
+                                                          "description": "Formula utilizada no calculo"
+                                                        },
+                                                        "content": {
+                                                          "key": {
+                                                            "element": "string",
+                                                            "content": "average_formula"
+                                                          },
+                                                          "value": {
+                                                            "element": "string",
+                                                            "content": "({Nota 1} + {Nota 2})/2"
+                                                          }
+                                                        }
+                                                      },
+                                                      {
+                                                        "element": "member",
+                                                        "meta": {
+                                                          "description": "Total de faltas na fase"
+                                                        },
+                                                        "content": {
+                                                          "key": {
+                                                            "element": "string",
+                                                            "content": "absences"
+                                                          },
+                                                          "value": {
+                                                            "element": "number",
+                                                            "content": 4
+                                                          }
+                                                        }
+                                                      },
+                                                      {
+                                                        "element": "member",
+                                                        "meta": {
+                                                          "description": "Notas do aluno que compõem a média da fase"
+                                                        },
+                                                        "content": {
+                                                          "key": {
+                                                            "element": "string",
+                                                            "content": "student_grades"
+                                                          },
+                                                          "value": {
+                                                            "element": "array",
+                                                            "content": [
+                                                              {
+                                                                "element": "object",
+                                                                "content": [
+                                                                  {
+                                                                    "element": "member",
+                                                                    "meta": {
+                                                                      "description": "ID do registro de nota do aluno na avaliação"
+                                                                    },
+                                                                    "content": {
+                                                                      "key": {
+                                                                        "element": "string",
+                                                                        "content": "id"
+                                                                      },
+                                                                      "value": {
+                                                                        "element": "number",
+                                                                        "content": 1
+                                                                      }
+                                                                    }
+                                                                  },
+                                                                  {
+                                                                    "element": "member",
+                                                                    "meta": {
+                                                                      "description": "Nota do aluno na avaliação (assessment_id)"
+                                                                    },
+                                                                    "content": {
+                                                                      "key": {
+                                                                        "element": "string",
+                                                                        "content": "grade"
+                                                                      },
+                                                                      "value": {
+                                                                        "element": "number",
+                                                                        "content": 8.3
+                                                                      }
+                                                                    }
+                                                                  },
+                                                                  {
+                                                                    "element": "member",
+                                                                    "meta": {
+                                                                      "description": "ID da avaliação da fase"
+                                                                    },
+                                                                    "content": {
+                                                                      "key": {
+                                                                        "element": "string",
+                                                                        "content": "assessment_id"
+                                                                      },
+                                                                      "value": {
+                                                                        "element": "number",
+                                                                        "content": 1
+                                                                      }
+                                                                    }
+                                                                  }
+                                                                ]
+                                                              },
+                                                              {
+                                                                "element": "object",
+                                                                "content": [
+                                                                  {
+                                                                    "element": "member",
+                                                                    "content": {
+                                                                      "key": {
+                                                                        "element": "string",
+                                                                        "content": "id"
+                                                                      },
+                                                                      "value": {
+                                                                        "element": "number",
+                                                                        "content": 2
+                                                                      }
+                                                                    }
+                                                                  },
+                                                                  {
+                                                                    "element": "member",
+                                                                    "content": {
+                                                                      "key": {
+                                                                        "element": "string",
+                                                                        "content": "grade"
+                                                                      },
+                                                                      "value": {
+                                                                        "element": "number",
+                                                                        "content": 7.4
+                                                                      }
+                                                                    }
+                                                                  },
+                                                                  {
+                                                                    "element": "member",
+                                                                    "content": {
+                                                                      "key": {
+                                                                        "element": "string",
+                                                                        "content": "assessment_id"
+                                                                      },
+                                                                      "value": {
+                                                                        "element": "number",
+                                                                        "content": 2
+                                                                      }
+                                                                    }
+                                                                  }
+                                                                ]
+                                                              }
+                                                            ]
+                                                          }
+                                                        }
+                                                      }
+                                                    ]
+                                                  }
+                                                }
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                    }
+                                  },
+                                  {
+                                    "element": "member",
+                                    "content": {
+                                      "key": {
+                                        "element": "string",
+                                        "content": "school_class_report"
+                                      },
+                                      "value": {
+                                        "element": "array",
+                                        "content": [
+                                          {
+                                            "element": "object",
+                                            "content": [
+                                              {
+                                                "element": "member",
+                                                "meta": {
+                                                  "description": "Relatório da turma no calendário escolar para uma disciplina."
+                                                },
+                                                "content": {
+                                                  "key": {
+                                                    "element": "string",
+                                                    "content": "school_calendar_report"
+                                                  },
+                                                  "value": {
+                                                    "element": "object",
+                                                    "content": [
+                                                      {
+                                                        "element": "member",
+                                                        "meta": {
+                                                          "description": "Media aritimetica das notas dos alunos da turma no calendário escolar de uma disciplina."
+                                                        },
+                                                        "content": {
+                                                          "key": {
+                                                            "element": "string",
+                                                            "content": "average"
+                                                          },
+                                                          "value": {
+                                                            "element": "number",
+                                                            "content": 8.2
+                                                          }
+                                                        }
+                                                      }
+                                                    ]
+                                                  }
+                                                }
+                                              },
+                                              {
+                                                "element": "member",
+                                                "meta": {
+                                                  "description": "Relatório da tuma em uma fase do calendário escolar para uma disciplina."
+                                                },
+                                                "content": {
+                                                  "key": {
+                                                    "element": "string",
+                                                    "content": "phases_report"
+                                                  },
+                                                  "value": {
+                                                    "element": "array",
+                                                    "content": [
+                                                      {
+                                                        "element": "object",
+                                                        "content": [
+                                                          {
+                                                            "element": "member",
+                                                            "meta": {
+                                                              "description": "ID da fase do calendário escolar para uma disciplina."
+                                                            },
+                                                            "content": {
+                                                              "key": {
+                                                                "element": "string",
+                                                                "content": "school_calendar_phase_id"
+                                                              },
+                                                              "value": {
+                                                                "element": "number",
+                                                                "content": 1
+                                                              }
+                                                            }
+                                                          },
+                                                          {
+                                                            "element": "member",
+                                                            "meta": {
+                                                              "description": "Media aritimetica das notas de todos os alunos da turma em uma disciplina para a fase do calendário escolar."
+                                                            },
+                                                            "content": {
+                                                              "key": {
+                                                                "element": "string",
+                                                                "content": "average"
+                                                              },
+                                                              "value": {
+                                                                "element": "number",
+                                                                "content": 7.7
+                                                              }
+                                                            }
+                                                          }
+                                                        ]
+                                                      }
+                                                    ]
+                                                  }
+                                                }
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                    }
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "content": []
+          },
+          {
+            "element": "resource",
+            "name": "Relatório anual da turma por ficha",
+            "description": "",
+            "uriTemplate": "/school-classes/{school_class_id}/annual-report-by-progress-sheet{?_sort_students}",
+            "model": {},
+            "parameters": [],
+            "actions": [
+              {
+                "name": "Relatório anual por ficha",
                 "description": "",
                 "method": "GET",
                 "parameters": [
@@ -6130,6 +6682,15 @@
                         "value": "progressSheetItem"
                       },
                       {
+                        "value": "student"
+                      },
+                      {
+                        "value": "schoolCalendarPhase"
+                      },
+                      {
+                        "value": "schoolClass"
+                      },
+                      {
                         "value": "schoolCalendarPhase"
                       },
                       {
@@ -7938,6 +8499,9 @@
                     "values": [
                       {
                         "value": "items"
+                      },
+                      {
+                        "value": "groups"
                       }
                     ]
                   }
@@ -8154,6 +8718,9 @@
                     "values": [
                       {
                         "value": "items"
+                      },
+                      {
+                        "value": "groups"
                       }
                     ]
                   }
@@ -8431,7 +8998,7 @@
                         "value": "progressSheet"
                       },
                       {
-                        "value": "group"
+                        "value": "groups"
                       }
                     ]
                   }
@@ -10210,12 +10777,564 @@
             "element": "resource",
             "name": "Relatório anual da turma por disciplina",
             "description": "",
-            "uriTemplate": "/school-classes/{school_class_id}/annual-report-by/{subject_id}{?_sort_students}",
+            "uriTemplate": "/school-classes/{school_class_id}/annual-report-by-subject/{subject_id}{?_sort_students}",
             "model": {},
             "parameters": [],
             "actions": [
               {
                 "name": "Relatório anual por disciplina",
+                "description": "",
+                "method": "GET",
+                "parameters": [
+                  {
+                    "name": "_sort_students",
+                    "description": "Para ordenar os resultados de report_by_user",
+                    "type": "string",
+                    "required": false,
+                    "default": "",
+                    "example": "",
+                    "values": [
+                      {
+                        "value": "name"
+                      },
+                      {
+                        "value": "-name"
+                      }
+                    ]
+                  }
+                ],
+                "attributes": {
+                  "relation": "",
+                  "uriTemplate": ""
+                },
+                "content": [],
+                "examples": [
+                  {
+                    "name": "",
+                    "description": "",
+                    "requests": [
+                      {
+                        "name": "",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "name": "authorization",
+                            "value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1OGUzOTk1NWFmZWMzMTU4YTMyNWI1MGEiLCJhdWQiOlsiYXBpLnNjaG9vbHMiLCJodHRwczovL2xvZ29zLmF1dGgwLmNvbS91c2VyaW5mbyJdLCJhenAiOiJYeGpJMUNUTlRHWU45dGJCeDB5Sm10TXZ2VGJ0NWhXVyIsImV4cCI6MTQ5NTA1MjMwNCwiaWF0IjoxNDk0OTY1OTA0LCJzY29wZSI6Im9wZW5pZCBwcm9maWxlIiwiZ3R5IjoicGFzc3dvcmQifQ.eJMa_XoDICzW5xBE5FQ23pVl-DfR9liPGDWQOaUK3fxfG_YV_SCLVjWXXgLDRg0bbUQYheIrIBQOvF4HexDygK_7f0GGd1kiNr0ZZ0tIamkAAjWNAKNnk_c7zI6uQbKaNN_Ijh-_dX7T22csZLZB3fRc0rZwEcgleg1Q1-wHCMHrAQR5C_7Jj96WGlYG1dBRVwLDrxpABGupAnuEiN_7X2oTOfRp3vSFmF1jXsniNRlM79UKE0Wz38sR5A97M55yLSfN8kFtz42AGNv4EQSF5WRdCmZMghpBm0r6RArKgEX3vuCpvvrm9xdI7wburxJdFWPtCROX1mCblfDZ2_Kd8Q"
+                          }
+                        ],
+                        "body": "",
+                        "schema": "",
+                        "content": []
+                      }
+                    ],
+                    "responses": [
+                      {
+                        "name": "200",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": "{\n  \"report_by_student\": [\n    {\n      \"student\": {\n        \"id\": 1,\n        \"person\": {\n          \"id\": 1,\n          \"name\": \"Caio Fernando Chaves\",\n          \"age\": 15,\n          \"birthday\": \"2001-04-21\",\n          \"piture\": \"https://randomuser.me/api/portraits/lego/6.jpg\",\n          \"gender\": \"male\",\n          \"place_of_birth\": \"Santa Alenssandra\",\n          \"more\": \"descricao\",\n          \"phone\": \"(62) 8385-5421\"\n        }\n      },\n      \"school_calendar_report\": {\n        \"average\": 9.2,\n        \"average_calculation\": \"((4.6 + 1.2)*0.4 + (9 + 3.1)*0.6)/2\",\n        \"average_formula\": \"(({1º Bimestre}+...+ {4º Bimestre})*0.6)/2\\\"\",\n        \"absences\": 22\n      },\n      \"phases_report\": {\n        \"school_calendar_phase_id\": 1,\n        \"average\": 7.9,\n        \"average_calculation\": \"({8.3} + {7.4})/2\",\n        \"average_formula\": \"({Nota 1} + {Nota 2})/2\",\n        \"absences\": 4,\n        \"student_grades\": [\n          {\n            \"id\": 1,\n            \"grade\": 8.3,\n            \"assessment_id\": 1\n          },\n          {\n            \"id\": 2,\n            \"grade\": 7.4,\n            \"assessment_id\": 2\n          }\n        ]\n      }\n    }\n  ],\n  \"school_class_report\": [\n    {\n      \"school_calendar_report\": {\n        \"average\": 8.2\n      },\n      \"phases_report\": [\n        {\n          \"school_calendar_phase_id\": 1,\n          \"average\": 7.7\n        }\n      ]\n    }\n  ]\n}",
+                        "schema": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"report_by_student\": {\n      \"type\": \"array\"\n    },\n    \"school_class_report\": {\n      \"type\": \"array\"\n    }\n  }\n}",
+                        "content": [
+                          {
+                            "element": "dataStructure",
+                            "content": [
+                              {
+                                "element": "object",
+                                "content": [
+                                  {
+                                    "element": "member",
+                                    "content": {
+                                      "key": {
+                                        "element": "string",
+                                        "content": "report_by_student"
+                                      },
+                                      "value": {
+                                        "element": "array",
+                                        "content": [
+                                          {
+                                            "element": "object",
+                                            "content": [
+                                              {
+                                                "element": "member",
+                                                "content": {
+                                                  "key": {
+                                                    "element": "string",
+                                                    "content": "student"
+                                                  },
+                                                  "value": {
+                                                    "element": "object",
+                                                    "content": [
+                                                      {
+                                                        "element": "member",
+                                                        "meta": {
+                                                          "description": "ID do estudante"
+                                                        },
+                                                        "content": {
+                                                          "key": {
+                                                            "element": "string",
+                                                            "content": "id"
+                                                          },
+                                                          "value": {
+                                                            "element": "number",
+                                                            "content": 1
+                                                          }
+                                                        }
+                                                      },
+                                                      {
+                                                        "element": "member",
+                                                        "meta": {
+                                                          "description": "Informações básicas do estudante"
+                                                        },
+                                                        "content": {
+                                                          "key": {
+                                                            "element": "string",
+                                                            "content": "person"
+                                                          },
+                                                          "value": {
+                                                            "element": "Person"
+                                                          }
+                                                        }
+                                                      }
+                                                    ]
+                                                  }
+                                                }
+                                              },
+                                              {
+                                                "element": "member",
+                                                "meta": {
+                                                  "description": "Relatório do aluno durante o calendário escolar para disciplina (subject_id)"
+                                                },
+                                                "content": {
+                                                  "key": {
+                                                    "element": "string",
+                                                    "content": "school_calendar_report"
+                                                  },
+                                                  "value": {
+                                                    "element": "object",
+                                                    "content": [
+                                                      {
+                                                        "element": "member",
+                                                        "meta": {
+                                                          "description": "Média do aluno no ano"
+                                                        },
+                                                        "content": {
+                                                          "key": {
+                                                            "element": "string",
+                                                            "content": "average"
+                                                          },
+                                                          "value": {
+                                                            "element": "number",
+                                                            "content": 9.2
+                                                          }
+                                                        }
+                                                      },
+                                                      {
+                                                        "element": "member",
+                                                        "meta": {
+                                                          "description": "Formula da média do aluno no ano"
+                                                        },
+                                                        "content": {
+                                                          "key": {
+                                                            "element": "string",
+                                                            "content": "average_calculation"
+                                                          },
+                                                          "value": {
+                                                            "element": "string",
+                                                            "content": "((4.6 + 1.2)*0.4 + (9 + 3.1)*0.6)/2"
+                                                          }
+                                                        }
+                                                      },
+                                                      {
+                                                        "element": "member",
+                                                        "meta": {
+                                                          "description": "Calculo da média do aluno no ano"
+                                                        },
+                                                        "content": {
+                                                          "key": {
+                                                            "element": "string",
+                                                            "content": "average_formula"
+                                                          },
+                                                          "value": {
+                                                            "element": "string",
+                                                            "content": "(({1º Bimestre}+...+ {4º Bimestre})*0.6)/2\""
+                                                          }
+                                                        }
+                                                      },
+                                                      {
+                                                        "element": "member",
+                                                        "meta": {
+                                                          "description": "Total de faltas do aluno na disciplina em todo o calendário escolar"
+                                                        },
+                                                        "content": {
+                                                          "key": {
+                                                            "element": "string",
+                                                            "content": "absences"
+                                                          },
+                                                          "value": {
+                                                            "element": "number",
+                                                            "content": 22
+                                                          }
+                                                        }
+                                                      }
+                                                    ]
+                                                  }
+                                                }
+                                              },
+                                              {
+                                                "element": "member",
+                                                "meta": {
+                                                  "description": "Relatório do aluno durante as fases do calendário escolar"
+                                                },
+                                                "content": {
+                                                  "key": {
+                                                    "element": "string",
+                                                    "content": "phases_report"
+                                                  },
+                                                  "value": {
+                                                    "element": "object",
+                                                    "content": [
+                                                      {
+                                                        "element": "member",
+                                                        "meta": {
+                                                          "description": "ID da fase do calendário escolar"
+                                                        },
+                                                        "content": {
+                                                          "key": {
+                                                            "element": "string",
+                                                            "content": "school_calendar_phase_id"
+                                                          },
+                                                          "value": {
+                                                            "element": "number",
+                                                            "content": 1
+                                                          }
+                                                        }
+                                                      },
+                                                      {
+                                                        "element": "member",
+                                                        "meta": {
+                                                          "description": "Média do aluno na fase para a disciplina"
+                                                        },
+                                                        "content": {
+                                                          "key": {
+                                                            "element": "string",
+                                                            "content": "average"
+                                                          },
+                                                          "value": {
+                                                            "element": "number",
+                                                            "content": 7.9
+                                                          }
+                                                        }
+                                                      },
+                                                      {
+                                                        "element": "member",
+                                                        "meta": {
+                                                          "description": "Calculo da média"
+                                                        },
+                                                        "content": {
+                                                          "key": {
+                                                            "element": "string",
+                                                            "content": "average_calculation"
+                                                          },
+                                                          "value": {
+                                                            "element": "string",
+                                                            "content": "({8.3} + {7.4})/2"
+                                                          }
+                                                        }
+                                                      },
+                                                      {
+                                                        "element": "member",
+                                                        "meta": {
+                                                          "description": "Formula utilizada no calculo"
+                                                        },
+                                                        "content": {
+                                                          "key": {
+                                                            "element": "string",
+                                                            "content": "average_formula"
+                                                          },
+                                                          "value": {
+                                                            "element": "string",
+                                                            "content": "({Nota 1} + {Nota 2})/2"
+                                                          }
+                                                        }
+                                                      },
+                                                      {
+                                                        "element": "member",
+                                                        "meta": {
+                                                          "description": "Total de faltas na fase"
+                                                        },
+                                                        "content": {
+                                                          "key": {
+                                                            "element": "string",
+                                                            "content": "absences"
+                                                          },
+                                                          "value": {
+                                                            "element": "number",
+                                                            "content": 4
+                                                          }
+                                                        }
+                                                      },
+                                                      {
+                                                        "element": "member",
+                                                        "meta": {
+                                                          "description": "Notas do aluno que compõem a média da fase"
+                                                        },
+                                                        "content": {
+                                                          "key": {
+                                                            "element": "string",
+                                                            "content": "student_grades"
+                                                          },
+                                                          "value": {
+                                                            "element": "array",
+                                                            "content": [
+                                                              {
+                                                                "element": "object",
+                                                                "content": [
+                                                                  {
+                                                                    "element": "member",
+                                                                    "meta": {
+                                                                      "description": "ID do registro de nota do aluno na avaliação"
+                                                                    },
+                                                                    "content": {
+                                                                      "key": {
+                                                                        "element": "string",
+                                                                        "content": "id"
+                                                                      },
+                                                                      "value": {
+                                                                        "element": "number",
+                                                                        "content": 1
+                                                                      }
+                                                                    }
+                                                                  },
+                                                                  {
+                                                                    "element": "member",
+                                                                    "meta": {
+                                                                      "description": "Nota do aluno na avaliação (assessment_id)"
+                                                                    },
+                                                                    "content": {
+                                                                      "key": {
+                                                                        "element": "string",
+                                                                        "content": "grade"
+                                                                      },
+                                                                      "value": {
+                                                                        "element": "number",
+                                                                        "content": 8.3
+                                                                      }
+                                                                    }
+                                                                  },
+                                                                  {
+                                                                    "element": "member",
+                                                                    "meta": {
+                                                                      "description": "ID da avaliação da fase"
+                                                                    },
+                                                                    "content": {
+                                                                      "key": {
+                                                                        "element": "string",
+                                                                        "content": "assessment_id"
+                                                                      },
+                                                                      "value": {
+                                                                        "element": "number",
+                                                                        "content": 1
+                                                                      }
+                                                                    }
+                                                                  }
+                                                                ]
+                                                              },
+                                                              {
+                                                                "element": "object",
+                                                                "content": [
+                                                                  {
+                                                                    "element": "member",
+                                                                    "content": {
+                                                                      "key": {
+                                                                        "element": "string",
+                                                                        "content": "id"
+                                                                      },
+                                                                      "value": {
+                                                                        "element": "number",
+                                                                        "content": 2
+                                                                      }
+                                                                    }
+                                                                  },
+                                                                  {
+                                                                    "element": "member",
+                                                                    "content": {
+                                                                      "key": {
+                                                                        "element": "string",
+                                                                        "content": "grade"
+                                                                      },
+                                                                      "value": {
+                                                                        "element": "number",
+                                                                        "content": 7.4
+                                                                      }
+                                                                    }
+                                                                  },
+                                                                  {
+                                                                    "element": "member",
+                                                                    "content": {
+                                                                      "key": {
+                                                                        "element": "string",
+                                                                        "content": "assessment_id"
+                                                                      },
+                                                                      "value": {
+                                                                        "element": "number",
+                                                                        "content": 2
+                                                                      }
+                                                                    }
+                                                                  }
+                                                                ]
+                                                              }
+                                                            ]
+                                                          }
+                                                        }
+                                                      }
+                                                    ]
+                                                  }
+                                                }
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                    }
+                                  },
+                                  {
+                                    "element": "member",
+                                    "content": {
+                                      "key": {
+                                        "element": "string",
+                                        "content": "school_class_report"
+                                      },
+                                      "value": {
+                                        "element": "array",
+                                        "content": [
+                                          {
+                                            "element": "object",
+                                            "content": [
+                                              {
+                                                "element": "member",
+                                                "meta": {
+                                                  "description": "Relatório da turma no calendário escolar para uma disciplina."
+                                                },
+                                                "content": {
+                                                  "key": {
+                                                    "element": "string",
+                                                    "content": "school_calendar_report"
+                                                  },
+                                                  "value": {
+                                                    "element": "object",
+                                                    "content": [
+                                                      {
+                                                        "element": "member",
+                                                        "meta": {
+                                                          "description": "Media aritimetica das notas dos alunos da turma no calendário escolar de uma disciplina."
+                                                        },
+                                                        "content": {
+                                                          "key": {
+                                                            "element": "string",
+                                                            "content": "average"
+                                                          },
+                                                          "value": {
+                                                            "element": "number",
+                                                            "content": 8.2
+                                                          }
+                                                        }
+                                                      }
+                                                    ]
+                                                  }
+                                                }
+                                              },
+                                              {
+                                                "element": "member",
+                                                "meta": {
+                                                  "description": "Relatório da tuma em uma fase do calendário escolar para uma disciplina."
+                                                },
+                                                "content": {
+                                                  "key": {
+                                                    "element": "string",
+                                                    "content": "phases_report"
+                                                  },
+                                                  "value": {
+                                                    "element": "array",
+                                                    "content": [
+                                                      {
+                                                        "element": "object",
+                                                        "content": [
+                                                          {
+                                                            "element": "member",
+                                                            "meta": {
+                                                              "description": "ID da fase do calendário escolar para uma disciplina."
+                                                            },
+                                                            "content": {
+                                                              "key": {
+                                                                "element": "string",
+                                                                "content": "school_calendar_phase_id"
+                                                              },
+                                                              "value": {
+                                                                "element": "number",
+                                                                "content": 1
+                                                              }
+                                                            }
+                                                          },
+                                                          {
+                                                            "element": "member",
+                                                            "meta": {
+                                                              "description": "Media aritimetica das notas de todos os alunos da turma em uma disciplina para a fase do calendário escolar."
+                                                            },
+                                                            "content": {
+                                                              "key": {
+                                                                "element": "string",
+                                                                "content": "average"
+                                                              },
+                                                              "value": {
+                                                                "element": "number",
+                                                                "content": 7.7
+                                                              }
+                                                            }
+                                                          }
+                                                        ]
+                                                      }
+                                                    ]
+                                                  }
+                                                }
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                    }
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "content": []
+          },
+          {
+            "element": "resource",
+            "name": "Relatório anual da turma por ficha",
+            "description": "",
+            "uriTemplate": "/school-classes/{school_class_id}/annual-report-by-progress-sheet{?_sort_students}",
+            "model": {},
+            "parameters": [],
+            "actions": [
+              {
+                "name": "Relatório anual por ficha",
                 "description": "",
                 "method": "GET",
                 "parameters": [
@@ -14875,6 +15994,15 @@
                     "values": [
                       {
                         "value": "progressSheetItem"
+                      },
+                      {
+                        "value": "student"
+                      },
+                      {
+                        "value": "schoolCalendarPhase"
+                      },
+                      {
+                        "value": "schoolClass"
                       },
                       {
                         "value": "schoolCalendarPhase"
@@ -19738,6 +20866,9 @@
                     "values": [
                       {
                         "value": "items"
+                      },
+                      {
+                        "value": "groups"
                       }
                     ]
                   }
@@ -19954,6 +21085,9 @@
                     "values": [
                       {
                         "value": "items"
+                      },
+                      {
+                        "value": "groups"
                       }
                     ]
                   }
@@ -20231,7 +21365,7 @@
                         "value": "progressSheet"
                       },
                       {
-                        "value": "group"
+                        "value": "groups"
                       }
                     ]
                   }
@@ -20554,7 +21688,7 @@
       "message": "parameter '_q' is not found within the URI template '/school-calendars' for 'Coleção de calendarios escolares' ",
       "location": [
         {
-          "index": 5393,
+          "index": 6413,
           "length": 40
         }
       ]
@@ -20564,7 +21698,7 @@
       "message": "parameter '_sort' is not found within the URI template '/school-calendars' for 'Coleção de calendarios escolares' ",
       "location": [
         {
-          "index": 5393,
+          "index": 6413,
           "length": 40
         }
       ]
@@ -20574,7 +21708,7 @@
       "message": "parameter '_with' is not found within the URI template '/school-calendars' for 'Coleção de calendarios escolares' ",
       "location": [
         {
-          "index": 5393,
+          "index": 6413,
           "length": 40
         }
       ]
@@ -20584,7 +21718,7 @@
       "message": "parameter '_with' is not found within the URI template '/school-calendars/{school_calendar_id}' for 'Calendário escolar' ",
       "location": [
         {
-          "index": 8200,
+          "index": 9220,
           "length": 42
         }
       ]
@@ -20594,7 +21728,7 @@
       "message": "parameter '_q' is not found within the URI template '/schools' for 'Coleção de escolas' ",
       "location": [
         {
-          "index": 12059,
+          "index": 13079,
           "length": 25
         }
       ]
@@ -20604,7 +21738,7 @@
       "message": "parameter '_sort' is not found within the URI template '/schools' for 'Coleção de escolas' ",
       "location": [
         {
-          "index": 12059,
+          "index": 13079,
           "length": 25
         }
       ]
@@ -20614,7 +21748,7 @@
       "message": "parameter '_with' is not found within the URI template '/schools' for 'Coleção de escolas' ",
       "location": [
         {
-          "index": 12059,
+          "index": 13079,
           "length": 25
         }
       ]
@@ -20624,7 +21758,7 @@
       "message": "parameter '_with' is not found within the URI template '/schools/{school_id}' for 'Escola' ",
       "location": [
         {
-          "index": 14685,
+          "index": 15705,
           "length": 30
         }
       ]
@@ -20634,7 +21768,7 @@
       "message": "parameter '_q' is not found within the URI template '/school-classes' for 'Coleção de turmas' ",
       "location": [
         {
-          "index": 17990,
+          "index": 19010,
           "length": 25
         }
       ]
@@ -20644,7 +21778,7 @@
       "message": "parameter '_sort' is not found within the URI template '/school-classes' for 'Coleção de turmas' ",
       "location": [
         {
-          "index": 17990,
+          "index": 19010,
           "length": 25
         }
       ]
@@ -20654,7 +21788,7 @@
       "message": "parameter '_with' is not found within the URI template '/school-classes' for 'Coleção de turmas' ",
       "location": [
         {
-          "index": 17990,
+          "index": 19010,
           "length": 25
         }
       ]
@@ -20664,7 +21798,7 @@
       "message": "parameter '_with' is not found within the URI template '/school-classes/{school_class_id}' for 'Turma' ",
       "location": [
         {
-          "index": 20935,
+          "index": 21955,
           "length": 29
         }
       ]
@@ -20674,7 +21808,7 @@
       "message": "parameter '_q' is not found within the URI template '/lessons' for 'Coleção de aulas' ",
       "location": [
         {
-          "index": 28597,
+          "index": 33625,
           "length": 24
         }
       ]
@@ -20684,7 +21818,7 @@
       "message": "parameter '_sort' is not found within the URI template '/lessons' for 'Coleção de aulas' ",
       "location": [
         {
-          "index": 28597,
+          "index": 33625,
           "length": 24
         }
       ]
@@ -20694,7 +21828,7 @@
       "message": "parameter '_with' is not found within the URI template '/lessons' for 'Coleção de aulas' ",
       "location": [
         {
-          "index": 28597,
+          "index": 33625,
           "length": 24
         }
       ]
@@ -20704,7 +21838,7 @@
       "message": "parameter '_with' is not found within the URI template '/lessons/{lesson_id}' for 'Aula' ",
       "location": [
         {
-          "index": 31291,
+          "index": 36319,
           "length": 28
         }
       ]
@@ -20714,7 +21848,7 @@
       "message": "parameter 'attach' is not found within the URI template '/lessons/{lesson_id}' for 'Aula' ",
       "location": [
         {
-          "index": 31291,
+          "index": 36319,
           "length": 28
         }
       ]
@@ -20724,7 +21858,7 @@
       "message": "ignoring unrecognized block",
       "location": [
         {
-          "index": 36368,
+          "index": 41396,
           "length": 80
         }
       ]
@@ -20734,7 +21868,7 @@
       "message": "mixin base type should be the same as parent base type. objects should contain object mixins. arrays should contain array mixins",
       "location": [
         {
-          "index": 37995,
+          "index": 43023,
           "length": 17
         }
       ]
@@ -20744,7 +21878,7 @@
       "message": "parameter 'start' is not found within the URI template '/lessons/per-day' for 'Aulas por dia' ",
       "location": [
         {
-          "index": 36002,
+          "index": 41030,
           "length": 32
         }
       ]
@@ -20754,7 +21888,7 @@
       "message": "parameter 'end' is not found within the URI template '/lessons/per-day' for 'Aulas por dia' ",
       "location": [
         {
-          "index": 36002,
+          "index": 41030,
           "length": 32
         }
       ]
@@ -20764,7 +21898,7 @@
       "message": "parameter '_with' is not found within the URI template '/lessons/per-day' for 'Aulas por dia' ",
       "location": [
         {
-          "index": 36002,
+          "index": 41030,
           "length": 32
         }
       ]
@@ -20774,7 +21908,7 @@
       "message": "parameter '_q' is not found within the URI template '/lesson-plans' for 'Coleção de planos de aula' ",
       "location": [
         {
-          "index": 38292,
+          "index": 43320,
           "length": 33
         }
       ]
@@ -20784,7 +21918,7 @@
       "message": "parameter '_sort' is not found within the URI template '/lesson-plans' for 'Coleção de planos de aula' ",
       "location": [
         {
-          "index": 38292,
+          "index": 43320,
           "length": 33
         }
       ]
@@ -20794,7 +21928,7 @@
       "message": "parameter '_with' is not found within the URI template '/lesson-plans' for 'Coleção de planos de aula' ",
       "location": [
         {
-          "index": 38292,
+          "index": 43320,
           "length": 33
         }
       ]
@@ -20804,7 +21938,7 @@
       "message": "parameter '_with' is not found within the URI template '/lesson-plans/{lesson_plan_id}' for 'Plano de aula' ",
       "location": [
         {
-          "index": 41075,
+          "index": 46103,
           "length": 37
         }
       ]
@@ -20814,7 +21948,7 @@
       "message": "parameter '_q' is not found within the URI template '/students' for 'Coleção de estudantes' ",
       "location": [
         {
-          "index": 54240,
+          "index": 59268,
           "length": 29
         }
       ]
@@ -20824,7 +21958,7 @@
       "message": "parameter '_sort' is not found within the URI template '/students' for 'Coleção de estudantes' ",
       "location": [
         {
-          "index": 54240,
+          "index": 59268,
           "length": 29
         }
       ]
@@ -20834,7 +21968,7 @@
       "message": "parameter '_with' is not found within the URI template '/students' for 'Coleção de estudantes' ",
       "location": [
         {
-          "index": 54240,
+          "index": 59268,
           "length": 29
         }
       ]
@@ -20844,7 +21978,7 @@
       "message": "parameter '_with' is not found within the URI template '/students/{id}' for 'Estudante' ",
       "location": [
         {
-          "index": 55979,
+          "index": 61007,
           "length": 33
         }
       ]
@@ -20854,7 +21988,7 @@
       "message": "parameter '_q' is not found within the URI template '/attendance-records' for 'Coleção de registro de presença' ",
       "location": [
         {
-          "index": 57519,
+          "index": 62547,
           "length": 39
         }
       ]
@@ -20864,7 +21998,7 @@
       "message": "parameter '_sort' is not found within the URI template '/attendance-records' for 'Coleção de registro de presença' ",
       "location": [
         {
-          "index": 57519,
+          "index": 62547,
           "length": 39
         }
       ]
@@ -20874,7 +22008,7 @@
       "message": "parameter '_with' is not found within the URI template '/attendance-records' for 'Coleção de registro de presença' ",
       "location": [
         {
-          "index": 57519,
+          "index": 62547,
           "length": 39
         }
       ]
@@ -20884,7 +22018,7 @@
       "message": "parameter '_with' is not found within the URI template '/attendance-records/{attendance_record_id}' for 'Registro de presença' ",
       "location": [
         {
-          "index": 61771,
+          "index": 66799,
           "length": 44
         }
       ]
@@ -20894,7 +22028,7 @@
       "message": "parameter '_q' is not found within the URI template '/student-grades' for 'Coleção de notas' ",
       "location": [
         {
-          "index": 65447,
+          "index": 70475,
           "length": 23
         }
       ]
@@ -20904,7 +22038,7 @@
       "message": "parameter '_sort' is not found within the URI template '/student-grades' for 'Coleção de notas' ",
       "location": [
         {
-          "index": 65447,
+          "index": 70475,
           "length": 23
         }
       ]
@@ -20914,7 +22048,7 @@
       "message": "parameter '_with' is not found within the URI template '/student-grades' for 'Coleção de notas' ",
       "location": [
         {
-          "index": 65447,
+          "index": 70475,
           "length": 23
         }
       ]
@@ -20924,7 +22058,7 @@
       "message": "parameter 'student_grade_id' is not found within the URI template '/student-grades/{student_grades_id}' for 'Nota' ",
       "location": [
         {
-          "index": 67106,
+          "index": 72134,
           "length": 28
         }
       ]
@@ -20934,7 +22068,7 @@
       "message": "parameter '_with' is not found within the URI template '/student-grades/{student_grades_id}' for 'Nota' ",
       "location": [
         {
-          "index": 67106,
+          "index": 72134,
           "length": 28
         }
       ]
@@ -20944,7 +22078,7 @@
       "message": "parameter 'student_grade_id' is not found within the URI template '/student-grades/{student_grades_id}' for 'Nota' ",
       "location": [
         {
-          "index": 68359,
+          "index": 73387,
           "length": 24
         }
       ]
@@ -20954,7 +22088,7 @@
       "message": "parameter 'student_grade_id' is not found within the URI template '/student-grades/{student_grades_id}' for 'Nota' ",
       "location": [
         {
-          "index": 69467,
+          "index": 74495,
           "length": 27
         }
       ]
@@ -20964,7 +22098,7 @@
       "message": "parameter '_q' is not found within the URI template '/occurences' for 'Coleção de ocorrências' ",
       "location": [
         {
-          "index": 71631,
+          "index": 76659,
           "length": 30
         }
       ]
@@ -20974,7 +22108,7 @@
       "message": "parameter '_sort' is not found within the URI template '/occurences' for 'Coleção de ocorrências' ",
       "location": [
         {
-          "index": 71631,
+          "index": 76659,
           "length": 30
         }
       ]
@@ -20984,7 +22118,7 @@
       "message": "parameter '_with' is not found within the URI template '/occurences' for 'Coleção de ocorrências' ",
       "location": [
         {
-          "index": 71631,
+          "index": 76659,
           "length": 30
         }
       ]
@@ -20994,7 +22128,7 @@
       "message": "parameter '_with' is not found within the URI template '/occurences/{occurence_id}' for 'Ocorrência' ",
       "location": [
         {
-          "index": 73280,
+          "index": 78308,
           "length": 34
         }
       ]
@@ -21004,7 +22138,7 @@
       "message": "parameter '_group_by' is not found within the URI template '/student-progress-sheets{?_q,_sort,_with}' for 'Coleção de resultados dos aluno em itens de fichas avaliativas' ",
       "location": [
         {
-          "index": 76721,
+          "index": 81749,
           "length": 46
         }
       ]
@@ -21014,7 +22148,7 @@
       "message": "response payload `201` already defined for `POST` method",
       "location": [
         {
-          "index": 80185,
+          "index": 85376,
           "length": 117
         }
       ]
@@ -21024,7 +22158,7 @@
       "message": "no value(s) specified",
       "location": [
         {
-          "index": 82124,
+          "index": 87315,
           "length": 49
         }
       ]
@@ -21034,7 +22168,7 @@
       "message": "no value(s) specified",
       "location": [
         {
-          "index": 82179,
+          "index": 87370,
           "length": 66
         }
       ]
@@ -21044,7 +22178,7 @@
       "message": "parameter 'school_calendar_id' is not found within the URI template '/teacher/{teacher_id}/workload' for 'Carga horária' ",
       "location": [
         {
-          "index": 82070,
+          "index": 87261,
           "length": 35
         }
       ]
@@ -21054,7 +22188,7 @@
       "message": "parameter '_q' is not found within the URI template '/subjects' for 'Coleção de disciplinas' ",
       "location": [
         {
-          "index": 87222,
+          "index": 92413,
           "length": 30
         }
       ]
@@ -21064,7 +22198,7 @@
       "message": "parameter '_sort' is not found within the URI template '/subjects' for 'Coleção de disciplinas' ",
       "location": [
         {
-          "index": 87222,
+          "index": 92413,
           "length": 30
         }
       ]
@@ -21074,7 +22208,7 @@
       "message": "parameter 'user_id' is not found within the URI template '/auth/user' for 'Usuarios' ",
       "location": [
         {
-          "index": 94117,
+          "index": 99308,
           "length": 38
         }
       ]
@@ -21084,7 +22218,7 @@
       "message": "parameter '_with' is not found within the URI template '/auth/user' for 'Usuarios' ",
       "location": [
         {
-          "index": 94117,
+          "index": 99308,
           "length": 38
         }
       ]
@@ -21094,7 +22228,7 @@
       "message": "parameter '_q' is not found within the URI template '/assessments' for 'Coleção de avaliacoes' ",
       "location": [
         {
-          "index": 107533,
+          "index": 112724,
           "length": 29
         }
       ]
@@ -21104,7 +22238,7 @@
       "message": "parameter '_sort' is not found within the URI template '/assessments' for 'Coleção de avaliacoes' ",
       "location": [
         {
-          "index": 107533,
+          "index": 112724,
           "length": 29
         }
       ]
@@ -21114,7 +22248,7 @@
       "message": "parameter '_with' is not found within the URI template '/assessments' for 'Coleção de avaliacoes' ",
       "location": [
         {
-          "index": 107533,
+          "index": 112724,
           "length": 29
         }
       ]
@@ -21124,7 +22258,7 @@
       "message": "parameter '_attach' is not found within the URI template '/progress-sheets/{progress_sheet_id}' for 'Ficha avaliativa' ",
       "location": [
         {
-          "index": 112377,
+          "index": 117639,
           "length": 40
         }
       ]
@@ -21134,7 +22268,7 @@
       "message": "parameter '_with' is not found within the URI template '/progress-sheets/{progress_sheet_id}' for 'Ficha avaliativa' ",
       "location": [
         {
-          "index": 112377,
+          "index": 117639,
           "length": 40
         }
       ]
@@ -21144,7 +22278,7 @@
       "message": "parameter 'progress_sheet_item_id' is not found within the URI template '/progress-sheets/{progress_sheet_id}/items{?_q,_sort,_with}' for 'Coleção de items da ficha avaliativa' ",
       "location": [
         {
-          "index": 119856,
+          "index": 125190,
           "length": 47
         }
       ]

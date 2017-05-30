@@ -39,6 +39,42 @@ class Controller extends BaseController
     }
 
     /**
+     * Parametros customizados:
+     *  _group_by =         Agrupa o resultado por 1 ou mais valores de atributos (separados por virgula) que contenham no resultado.
+     *  Exemplo: api/student-grades/?_group_by=student_id,school_class_id
+     *      [
+     *          ...
+     *          "data" => [
+     *              "1-3": [
+     *                  [
+     *                      student_id: 1,
+     *                      school_class: 3
+     *                  ],
+     *                  [
+     *                      ....
+     *                  ]
+     *              ],
+     *              "2-3": [
+     *                  [
+     *                      student_id: 2,
+     *                      school_class: 3
+     *                  ]
+     *              ]
+     *          ]
+     *      ]
+     * 
+     *  _group_by_count =   Funciona em combinação com _group_by. 
+     *                      Se true, retorna somente a quantidade de registros existentes no grupo
+     *                      definido em _group_by.
+     * Exemplo:
+     *         [
+     *          ...
+     *          "data" => [
+     *              "1-3": 2,
+     *              "2-3": 1
+     *          ]
+     *      ]
+     * 
      * Retorna um objeto de resultado padrão para api de multiplos resultados. 
      *
      * @param  mixed            $queryBuilder          Some kind of query builder instance
@@ -51,11 +87,14 @@ class Controller extends BaseController
         $queryParams = false)
     {
         $group_by = false;
+        $group_by_count = false;
         if ($queryParams === false) {
             $queryParams = Input::get();
 
             if (!empty($queryParams['_group_by'])) {
                 $group_by = $queryParams['_group_by'];
+                $group_by = explode(',', $group_by);
+                $group_by_count =  Input::get('_group_by_count', false);
             }
         }
 
@@ -69,7 +108,8 @@ class Controller extends BaseController
             'XDEBUG_SESSION_STOP',
             '_limit',
             '_offset',
-            '_group_by'
+            '_group_by',
+            '_group_by_count'
         ];
 
         foreach ($notAFilter as $value) {
@@ -89,12 +129,28 @@ class Controller extends BaseController
 
         if($group_by){
             if($result['total'] > 0){
+                
                 // If attribute exists in the results
-                $attributes = array_keys($result['data'][0]);
-                if(array_search($group_by, $attributes)){
-                    $result['data'] = collect($result['data'])->groupBy($group_by);
-                }else{
-                    throw new ResourceException('The attribute defined in the _group_by parameter does not exist in the result set.');
+                $attributes = collect(array_keys($result['data'][0]));
+                $group_by = collect($group_by);
+                $group_by->each(function($group) use ($attributes){
+                    if ( !$attributes->search($group) )
+                        throw new ResourceException(
+                            "The attribute ($group) defined in the _group_by parameter does not exist in the result set."
+                            );
+                });
+
+                $result['data'] = collect($result['data'])->groupBy(function($item) use ($group_by){
+                    $groupValues = $group_by->reduce(function($carry, $group) use ($item){
+                        return empty($carry) ? $item[$group] : $carry .'-'. $item[$group]; 
+                    });
+                    return  $groupValues;
+                });
+                
+                if($group_by_count){
+                    $result['data'] = $result['data']->mapWithKeys(function($item, $key){
+                        return [$key => count($item)];
+                    });
                 }
             }
         }
