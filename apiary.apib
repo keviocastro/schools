@@ -95,8 +95,7 @@ Veja o exemplo:
     "data": [
       {
           "id": 1, 
-          "name": 
-          "Name of school", 
+          "name": "Name of school", 
           "type": "middle-school"
       },
       ....
@@ -105,7 +104,10 @@ Veja o exemplo:
 
 # Parametros de transformação
 
-O prametro _group_by é utilizado para agrupar o conjunto de resultados da página atual da consulta por atributo.
+O prametro _group_by é utilizado para agrupar o conjunto de resultados da página atual 
+da consulta por um ou mais atributos. Os nomes dos atributos são separados por virgula.
+
+Atenção: esse parametro agrupa somente os resultantes da pesquisa.
 
 Veja o exemplo:
 
@@ -125,29 +127,35 @@ Considerando que esse recurso retornaria o resultado
     "data": [
       {
           "id": 1, 
-          "name": 
-          "Name of school", 
-          "type": "middle-school"
+          "name": "Name of school 1",
+          "type": "middle-school",
+          "UF": "GO"
       },
       {
           "id": 1, 
-          "name": 
-          "Name of school", 
-          "type": "middle-school"
+          "name": "Name of school 2", 
+          "type": "middle-school",
+          "UF": "GO"
       },
       {
           "id": 1, 
-          "name": 
-          "Name of school", 
-          "type": "high-school"
+          "name": "Name of school 3", 
+          "type": "high-school",
+          "UF": "GO"
       },
+      {
+          "id": 1, 
+          "name": "Name of school 4", 
+          "type": "high-school",
+          "UF": "DF"
+      }
     ]
 }
 ```
 
-<pre><code>GET /api/schools</code></pre>
+<pre><code>GET /api/schools?_group_by=type,UF</code></pre>
 
-Utilizando o parametro _group_id=type, teriamos:
+Utilizando o parametro _group_by=type,UF teriamos:
 
 ```
 { 
@@ -158,28 +166,56 @@ Utilizando o parametro _group_id=type, teriamos:
     "next_page_url": "null"
     "prev_page_url": "null"
     "data": [
-       "middle-school": [
+       "middle-school-GO": [
           {
               "id": 1, 
-              "name": 
-              "Name of school", 
+              "name": "Name of school 1", 
               "type": "middle-school"
           },
           {
               "id": 1, 
-              "name": 
-              "Name of school", 
+              "name": "Name of school 2", 
               "type": "middle-school"
           }
        ],
-       "high-school": [
+       "high-school-GO": [
+          {
+            "id": 1, 
+            "name": "Name of school 3", 
+            "type": "high-school",
+            "UF": "GO"
+          }
+       ]
+       "high-school-DF": [
           {
               "id": 1, 
-              "name": 
-              "Name of school", 
+              "name": "Name of school 4", 
               "type": "high-school"
           }
        ]
+    ]
+}
+```
+
+O prametro `_group_by_count` é utilizado em conjunto com `_group_by` e é utilizado para retornar somente a quantidade
+de itens contidos nos grupos.
+
+Considerando o exemplo acima e adicionando o _group_by_count=true teriamos:
+
+<pre><code>GET /api/schools?_group_id=type&_group_by_count=true</code></pre>
+
+```
+{ 
+    "total": "3"
+    "per_page": "15",
+    "current_page": "1",
+    "last_page": "1",
+    "next_page_url": "null"
+    "prev_page_url": "null"
+    "data": [
+       "middle-school-GO": 2,
+       "high-school-GO": 1,
+       "high-school-DF": 1
     ]
 }
 ```
@@ -484,7 +520,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="#
 
 + Response 204
 
-## Relatório anual da turma por disciplina [/school-classes/{school_class_id}/annual-report-by/{subject_id}{?_sort_students}]
+## Relatório anual da turma por disciplina [/school-classes/{school_class_id}/annual-report-by-subject/{subject_id}{?_sort_students}]
 
 ### Relatório anual por disciplina [GET]
 
@@ -536,6 +572,60 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="#
                     + (object)
                         + school_calendar_phase_id: 1 (number) - ID da fase do calendário escolar para uma disciplina.
                         + average: 7.7 (number) - Media aritimetica das notas de todos os alunos da turma em uma disciplina para a fase do calendário escolar.
+
+## Relatório anual da turma por ficha [/school-classes/{school_class_id}/annual-report-by-progress-sheet{?_sort_students}]
+
+### Relatório anual por ficha [GET]
+
++ Parameters 
+    + _sort_students (string, optional) - Para ordenar os resultados de report_by_user
+        + Members
+            + name  - Para listar estudantes ordenado por nome em ordem crescente
+            + `-name` - Para listar em ordem decrescente
+
++ Request  (application/json)
+    + Headers
+
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1OGUzOTk1NWFmZWMzMTU4YTMyNWI1MGEiLCJhdWQiOlsiYXBpLnNjaG9vbHMiLCJodHRwczovL2xvZ29zLmF1dGgwLmNvbS91c2VyaW5mbyJdLCJhenAiOiJYeGpJMUNUTlRHWU45dGJCeDB5Sm10TXZ2VGJ0NWhXVyIsImV4cCI6MTQ5NTA1MjMwNCwiaWF0IjoxNDk0OTY1OTA0LCJzY29wZSI6Im9wZW5pZCBwcm9maWxlIiwiZ3R5IjoicGFzc3dvcmQifQ.eJMa_XoDICzW5xBE5FQ23pVl-DfR9liPGDWQOaUK3fxfG_YV_SCLVjWXXgLDRg0bbUQYheIrIBQOvF4HexDygK_7f0GGd1kiNr0ZZ0tIamkAAjWNAKNnk_c7zI6uQbKaNN_Ijh-_dX7T22csZLZB3fRc0rZwEcgleg1Q1-wHCMHrAQR5C_7Jj96WGlYG1dBRVwLDrxpABGupAnuEiN_7X2oTOfRp3vSFmF1jXsniNRlM79UKE0Wz38sR5A97M55yLSfN8kFtz42AGNv4EQSF5WRdCmZMghpBm0r6RArKgEX3vuCpvvrm9xdI7wburxJdFWPtCROX1mCblfDZ2_Kd8Q
+
++ Response 200 (application/json)
+
+    + Attributes
+
+        + report_by_student (array)
+            + (object)
+                + student (object)
+                    + id: 1 (number) - ID do estudante
+                    + person (Person) - Informações básicas do estudante
+                + school_calendar_report (object) - Relatório do aluno durante o calendário escolar para disciplina (subject_id)
+                    + average: 9.2 (number) - Média do aluno no ano
+                    + average_calculation: `((4.6 + 1.2)*0.4 + (9 + 3.1)*0.6)/2` (string) - Formula da média do aluno no ano
+                    + average_formula: `(({1º Bimestre}+...+ {4º Bimestre})*0.6)/2"` (string) - Calculo da média do aluno no ano
+                    + absences: 22 (number) - Total de faltas do aluno na disciplina em todo o calendário escolar
+                + phases_report (object)  - Relatório do aluno durante as fases do calendário escolar
+                    + school_calendar_phase_id: 1 (number) - ID da fase do calendário escolar
+                    + average: 7.9 (number) - Média do aluno na fase para a disciplina
+                    + average_calculation: `({8.3} + {7.4})/2` (string) - Calculo da média
+                    + average_formula: `({Nota 1} + {Nota 2})/2` (string) - Formula utilizada no calculo
+                    + absences: 4 (number) - Total de faltas na fase
+                    + student_grades (array) - Notas do aluno que compõem a média da fase
+                        + (object)
+                            + id: 1 (number) - ID do registro de nota do aluno na avaliação
+                            + grade: 8.3 (number) - Nota do aluno na avaliação (assessment_id)
+                            + assessment_id: 1 (number) - ID da avaliação da fase
+                        + (object)
+                            + id: 2 (number)
+                            + grade: 7.4 (number)
+                            + assessment_id: 2 (number)
+        + school_class_report (array)
+            + (object)
+                + school_calendar_report (object) - Relatório da turma no calendário escolar para uma disciplina.
+                    + average: 8.2 (number) - Media aritimetica das notas dos alunos da turma no calendário escolar de uma disciplina.
+                + phases_report (array)  - Relatório da tuma em uma fase do calendário escolar para uma disciplina.
+                    + (object)
+                        + school_calendar_phase_id: 1 (number) - ID da fase do calendário escolar para uma disciplina.
+                        + average: 7.7 (number) - Media aritimetica das notas de todos os alunos da turma em uma disciplina para a fase do calendário escolar.
+
 
 
 # Group Aulas
@@ -1328,6 +1418,9 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="#
     + _with (string, optional) - Obtem informações do recurso relacionado.
         + Members
             + progressSheetItem - Item de avaliação da ficha relacionado.
+            + student - Estudante avaliado.
+            + schoolCalendarPhase - Fase em que a avaliacao aconteceu.
+            + schoolClass - Turma do estudante.
             + schoolCalendarPhase - Fase do ano relacionada ao item de avaliação do aluno.
             + schoolClass - Turma relacionada ao item.
             + student - Estudante relacionado ao item.
@@ -1992,6 +2085,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="#
     + _with (string, optional) - Obtem informações do recurso relacionado.
         + Members
             + items - Items da ficha avaliativa
+            + groups - Todos os grupos relacionados a ficha avaliativa
 
 + Request  (application/json)
     + Headers
@@ -2032,6 +2126,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="#
     + _with (string, optional) - Inclui as relações da ficha a resposta
         + Members
             + items - Items da ficha avaliativa
+            + groups - Todos os grupos relacionados a ficha avaliativa
 
 
 + Request  (application/json)
@@ -2091,7 +2186,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="#
     + _with (string, optional) - Obtem informações do recurso relacionado.
         + Members
             + progressSheet - Ficha avaliativa associada ao item.
-            + group - Grupo associado ao item
+            + groups - Grupo associado ao item
 
 + Request  (application/json)
     + Headers
