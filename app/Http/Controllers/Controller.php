@@ -86,18 +86,35 @@ class Controller extends BaseController
         $fullTextSearchColumns = array(), 
         $queryParams = false)
     {
-        $group_by = false;
-        $group_by_count = false;
+
         if ($queryParams === false) {
             $queryParams = Input::get();
-
-            if (!empty($queryParams['_group_by'])) {
-                $group_by = $queryParams['_group_by'];
-                $group_by = explode(',', $group_by);
-                $group_by_count =  Input::get('_group_by_count', false);
-            }
+            $group_by = empty($queryParams['_group_by']) ? false : $queryParams['_group_by'] ;
+            $group_by_count = empty($queryParams['_group_by_count']) ? false : true;
         }
+        
+        $queryParams = $this->filterQueryParams($queryParams);
 
+        $result = $this->apiHandler->parseMultiple($queryBuilder, 
+            $fullTextSearchColumns, $queryParams);
+        
+        $result = $result->getBuilder()->paginate(
+            Input::get('_per_page', null), 
+            $columns = ['*'], 
+            $pageName = '_page', 
+            $page = null)->toArray();
+
+        return $this->parseGroupBy($result, $group_by, $group_by_count);
+    }
+
+    /**
+     * Filter valid params
+     *
+     * @return array 
+     */
+    public function filterQueryParams($queryParams)
+    {
+        
         // Se não remover apiHandler utiliza como filter.
         // _limit e _offset foram removidos porque é utilizado
         // o parametro _per_page para realizar a paginação.
@@ -118,18 +135,26 @@ class Controller extends BaseController
             }
         }
 
-        $result = $this->apiHandler->parseMultiple($queryBuilder, 
-            $fullTextSearchColumns, $queryParams);
-        
-        $result = $result->getBuilder()->paginate(
-            Input::get('_per_page', null), 
-            $columns = ['*'], 
-            $pageName = '_page', 
-            $page = null)->toArray();
+        return $queryParams;
+    }
 
+    /**
+     * Parse _group_by and _group_by_count params
+     *
+     * @param array $result
+     * @param array $queryParams
+     * 
+     * @return array $result grouped if applicable
+     */
+    public function parseGroupBy($result, $group_by, $group_by_count)
+    {
+        
         if($group_by){
             if($result['total'] > 0){
                 
+                $group_by = explode(',', $group_by);
+                $group_by_count =  $group_by_count;
+
                 // If attribute exists in the results
                 $attributes = collect(array_keys($result['data'][0]));
                 $group_by = collect($group_by);
