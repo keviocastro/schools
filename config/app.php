@@ -169,6 +169,8 @@ return [
         App\Providers\CustomValidationServiceProvider::class,
 
         Conner\Tagging\Providers\TaggingServiceProvider::class,
+
+        Spatie\ResponseCache\ResponseCacheServiceProvider::class,
     ],
 
     /*
@@ -216,6 +218,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'Auth0' => Auth0\Login\Facade\Auth0::class,
         'ApiHandler' => Marcelgwerder\ApiHandler\Facades\ApiHandler::class,
+        'ResponseCache' => Spatie\ResponseCache\ResponseCacheFacade::class,
 
     ],
 

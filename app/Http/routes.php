@@ -1,6 +1,8 @@
 <?php
 $api = app('Dingo\Api\Routing\Router');
 Route::get('/', function () {
+	$value = Cache::get('welcome');
+	Cache::set('welcome', 'Bem vindo');
 	return view('welcome');
 });
 

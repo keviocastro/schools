@@ -496,7 +496,7 @@ class Student extends Model
                 $phase['absences'] = empty($absences_phase->absences) ? 0 :
                     $absences_phase->absences;
 
-                $subject->absences += $phase['absences']; 
+                $subject->absences += $phase['absences'];
 
                 return $phase;
             });
