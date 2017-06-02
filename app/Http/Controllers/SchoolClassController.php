@@ -100,9 +100,9 @@ class SchoolClassController extends Controller
      * 
      * @return \Illuminate\Http\Response          
      */
-    public function annualReport(Request $request, $school_class_id, $subject_id)
+    public function annualReport(Request $request, $schoolClassId, $subject_id)
     {
-        $schoolClass = SchoolClass::findOrFail($school_class_id);
+        $schoolClass = SchoolClass::findOrFail($schoolClassId);
         $subject = Subject::findOrFail($subject_id);
 
         $queryStudents = $schoolClass->students()
@@ -141,14 +141,14 @@ class SchoolClassController extends Controller
      * 
      *
      * @param Request $request
-     * @param int $school_class_id
+     * @param int $schoolClassId
      * @return void
      */
-    public function absences(Request $request, $school_class_id){
+    public function absences(Request $request, $schoolClassId){
         $indexById = $request->input('index_by_id', false);
         $orderBy = $request->input('_sort', 'student_name');
 
-        $schoolClass = SchoolClass::findOrFail($school_class_id);
+        $schoolClass = SchoolClass::findOrFail($schoolClassId);
         $phases = $schoolClass->schoolCalendar->phases;
         $students = $schoolClass->students()
             ->join('people', 'people.id', '=' ,'students.person_id');
