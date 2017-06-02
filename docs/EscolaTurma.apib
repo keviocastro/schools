@@ -251,3 +251,29 @@
                     + (object)
                         + school_calendar_phase_id: 1 (number) - ID da fase do calendário escolar para uma disciplina.
                         + average: 7.7 (number) - Media aritimetica das notas de todos os alunos da turma em uma disciplina para a fase do calendário escolar.
+
+
+## Faltas dos alunos da turma [/school-classes/{school_class_id}/absences]
+
+Esse recurso representa todas as faltas dos alunos em aulas da turma.
+
+### Faltas dos alunos [GET]
+
++ Parameters 
+    + school_class_id (numeric) - ID  da turma
+
+
++ Request  (application/json)
+    + Headers
+
+            authorization: <!-- include(Token.md) -->
+
++ Response 200 (application/json)
+
+    + Attributes
+
+        + (array[object])
+            + student_id: 1 (number) - ID do estudante
+            + school_calendar_phases (object) - Phases do calendário escolar relacionado a turma
+                + school_calendar_phase_id: 1 (number) - ID da fase do calendário escolar
+                + absences: 4 (number) - Total de faltas do aluno na fase

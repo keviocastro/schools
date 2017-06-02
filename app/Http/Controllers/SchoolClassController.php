@@ -131,4 +131,35 @@ class SchoolClassController extends Controller
         
         return $this->response->array($resource);
     }
+
+    public function absences(Request $request, $school_class_id){
+        $schoolClass = SchoolClass::findOrFail($school_class_id);
+        $phases = $schoolClass->schoolCalendar->phases;
+        $students = $schoolClass->students()
+            ->join('people', 'people.id', '=' ,'students.person_id')
+            ->orderBy('name')
+            ->get();
+        $result = [];
+
+        foreach($students as $student){
+            $absencesPerPhase = [];
+            foreach($phases as $phase){
+                $absences = $student->queryAbsencesYearPhase($phase->id)
+                    ->count();
+
+                array_push($absencesPerPhase, [
+                    'school_calendar_phase_id' => $phase->id,
+                    'absences' => $absences,
+                    ]);
+            }
+            
+            array_push($result, [
+                'student_id' => $student->id,
+                'student_name' => $student->person->name,
+                'school_calendar_phases' => $absencesPerPhase
+                ]);
+        }
+
+        return $result;
+    } 
 }
