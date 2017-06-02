@@ -71,6 +71,8 @@ $api->version('v1', function ($api) {
 				'App\Http\Controllers\SchoolClassController@destroy');
 			$api->get('school-classes/{school_class_id}/annual-report-by-subject/{subject_id}', 
 				'App\Http\Controllers\SchoolClassController@annualReport');
+			$api->get('school-classes/{school_class_id}/absences', 
+				'App\Http\Controllers\SchoolClassController@absences');
 			
 			// Lessons
 			$api->get('lessons/per-day', 'App\Http\Controllers\LessonController@listPerDay');
