@@ -145,7 +145,7 @@ class SchoolClassController extends Controller
      * @return void
      */
     public function absences(Request $request, $schoolClassId){
-        $indexById = $request->input('index_by_id', false);
+        $indexById = $request->input('_index_by_id', false);
         $orderBy = $request->input('_sort', 'student_name');
 
         $schoolClass = SchoolClass::findOrFail($schoolClassId);
