@@ -57,7 +57,7 @@ e relatórios como "Boletim anual do aluno" e "Histórico escolar", registro de 
 
 ## Coleção de estudantes [/students]
 
-### Listar estudantes [GET]
+### Listar estudantes [GET /students{?_q,_sort,_with}]
 
 <!-- include(LinkParametrosPadroesListagem.md) -->
 
@@ -84,7 +84,7 @@ e relatórios como "Boletim anual do aluno" e "Histórico escolar", registro de 
 
 ## Estudante [/students/{id}]
 
-### Detalhes do estudante [GET]
+### Detalhes do estudante [GET /students/{id}{?_with}]
 
 + Parameters
     + id: 1 (required, number) - ID do estudante.
@@ -109,7 +109,7 @@ e relatórios como "Boletim anual do aluno" e "Histórico escolar", registro de 
 `Attendance Records` são os registros de presenças dos alunos em uma aula, definindo
 se o aluno estava ou não presente durante a aula.
 
-### Listar registro de presença [GET]
+### Listar registro de presença [GET /attendance-records{_q,_sort,_with}]
 
 <!-- include(LinkParametrosPadroesListagem.md) -->
 
@@ -178,7 +178,7 @@ retornado o registro já existente com as informações atualizadas.
 + Parameters
     + attendance_record_id: 1 (number) - ID of the attendance record
 
-### Detalhes do registro de presença [GET]
+### Detalhes do registro de presença [GET /attendance-records/{attendance_record_id}{_with}]
 
 + Parameters
     + _with (string, optional) - Obtem informações do recurso relacionado.
@@ -236,7 +236,7 @@ retornado o registro já existente com as informações atualizadas.
     + Attributes
         + StudentGrade (StudentGrade)
 
-### Litar notas [GET]
+### Litar notas [GET /student-grades{_q,_sort,_with}]
 
 <!-- include(LinkParametrosPadroesListagem.md) -->
 
@@ -263,9 +263,9 @@ retornado o registro já existente com as informações atualizadas.
             + (StudentGrade)
 
 
-## Nota [/student-grades/{student_grades_id}]
+## Nota [/student-grades/{student_grade_id}]
 
-### Detalhes da nota [GET]
+### Detalhes da nota [GET /student-grades/{student_grade_id}{?_with}]
 
 + Parameters
     + student_grade_id: 1 (number) - ID of the occurence
@@ -335,7 +335,7 @@ retornado o registro já existente com as informações atualizadas.
     + Attributes
         + occurence (Occurence)
 
-### Listar ocorrências [GET]
+### Listar ocorrências [GET /occurences{?_q,_sort,_with}]
 
 <!-- include(LinkParametrosPadroesListagem.md) -->
 
@@ -363,7 +363,7 @@ retornado o registro já existente com as informações atualizadas.
 
 ## Ocorrência [/occurences/{occurence_id}]
 
-### Detalhes da ocorrência [GET]
+### Detalhes da ocorrência [GET /occurences/{occurence_id}{?_with}]
 
 + Parameters
     + occurence_id: 1 (number) - Identificador único da Occorencia
@@ -431,12 +431,6 @@ retornado o registro já existente com as informações atualizadas.
             + schoolCalendarPhase - Fase do ano relacionada ao item de avaliação do aluno.
             + schoolClass - Turma relacionada ao item.
             + student - Estudante relacionado ao item.
-    + _group_by (string, optional) - Agrupar o conjunto de resultados.
-        + Members
-            + option_identifier
-            + student_id
-            + school_calendar_phase_id
-            + school_class_id
 
 + Request  (application/json)
     + Headers
@@ -463,11 +457,6 @@ school_class_id e student_id, já existirem, um novo registro não será criado 
 
     + Attributes (array)
         + (ProgressSheetStudentFillable)
-
-+ Response 201 (application/json)
-
-    + Attributes
-        + student_progress_sheet (ProgressSheetStudent)
 
 + Response 201 (application/json)
 

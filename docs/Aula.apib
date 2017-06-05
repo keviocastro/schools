@@ -4,7 +4,7 @@
 
 `Lessons` são as aulas programadas para as turmas de uma escola.
 
-### Listar aulas [GET]
+### Listar aulas [GET /lessons{?_q,_sort,_with}]
 
 <!-- include(LinkParametrosPadroesListagem.md) -->
 
@@ -49,7 +49,7 @@
 
 ## Aula [/lessons/{lesson_id}]
 
-### Detalhes da aula [GET]
+### Detalhes da aula [GET /lessons/{lesson_id}{?_with,attach}]
 
 + Parameters
     + lesson_id: 1 (number) - ID of the lesson
@@ -131,7 +131,7 @@
 + Response 204
 
 
-## Aulas por dia [/lessons/per-day]
+## Aulas por dia [/lessons/per-day{?start,end,user_id,_with}]
 
 ### Listar aulas por dia [GET]
 
@@ -142,7 +142,7 @@
         + Default: NOW()
     + end (string, optional) Data final
         + Default: NOW() + 15 days
-    + user_id (string, optional) ID do usuário no serviço de autentificação (auth0)
+    + user_id (string, optional) - ID do usuário no serviço de autentificação (auth0)
     + _with (string, optional) Nome da relação a ser incluida da resposta.
         + Members
             + schoolClass
@@ -169,15 +169,16 @@
             + (object)
                 + day: `2016-10-01` (string)
                 + lessons (array)
-                    + include Lesson
-                    + user_id: auth0|58e39955afec3158a325b50a (string, optional) ID do usuário no serviço de autentificação
+                    + (object)
+                        + include Lesson
+                        + user_id: auth0|58e39955afec3158a325b50a (string, optional) ID do usuário no serviço de autentificação
 
 
 ## Coleção de planos de aula [/lesson-plans]
 
 `Lesson plan` são planejamentos dos professores para como e quando vão aplicar conteúdos na sala de aula. 
 
-### Listar planos de aula [GET]
+### Listar planos de aula [GET /lesson-plans{?_q,_sort,_with}]
 
 + Parameters
     + _q (string, optional) - Pesquisa por palavra-chave, a correspondência e incluida conjunto de resultados.
@@ -222,7 +223,7 @@
 
 ## Plano de aula [/lesson-plans/{lesson_plan_id}]
 
-### Detalhes do plano de aula [GET]
+### Detalhes do plano de aula [GET /lesson-plans/{lesson_plan_id}{?_with}]
 
 + Parameters
     + lesson_plan_id: 1 (number) - ID of the lesson plan

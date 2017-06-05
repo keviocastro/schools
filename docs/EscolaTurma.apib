@@ -6,7 +6,7 @@
 
 ## Coleção de escolas [/schools]
 
-### Listar escolas [GET]
+### Listar escolas [GET /schools{_q,_sort,_with}]
 <!-- include(LinkParametrosPadroesListagem.md) -->
 
 + Parameters
@@ -46,7 +46,7 @@
 
 ## Escola [/schools/{school_id}]
 
-### Detalhes da escola [GET]
+### Detalhes da escola [GET /schools/{school_id}{?_with}]
 
 + Parameters
     + school_id: 1 (number) - Identificador único da escola
@@ -98,7 +98,7 @@
 
 ## Coleção de turmas [/school-classes]
 
-### Listar turmas [GET]
+### Listar turmas [GET /school-classes{?_q,_sort,_with}]
 
 <!-- include(LinkParametrosPadroesListagem.md) -->
 
@@ -147,7 +147,7 @@
 + Parameters
     - school_class_id: 1 (number) - ID of the school class
 
-### Detalhes da turma [GET]
+### Detalhes da turma [GET /school-classes/{school_class_id}{?_with}]
 
 + Parameters
     + _with (string, optional) - Obtem informações do recurso relacionado.
@@ -257,10 +257,16 @@
 
 Esse recurso representa todas as faltas dos alunos em aulas da turma.
 
-### Faltas dos alunos [GET]
+### Faltas dos alunos [GET /school-classes/{school_class_id}/absences{?_index_by_id,_sort}]
 
 + Parameters 
-    + school_class_id (numeric) - ID  da turma
+    + school_class_id: 1 (numeric) - ID  da turma
+    + `_index_by_id`: false (boolean, optional) - `Modifica o formato do recurso onde o ID do estudante (student_id) é o indice do array de resultados e 
+    o ID da fase (school_calendar_phase_id) é o indice do array de resultados de faltas por fase.`
+    + _sort (string, optional) - Nome da coluna permitida para ordenar os resultados.
+        + Members
+            + student_name - Ordena por nome do estudante na ordem crescente.
+            + `-student_name` - Na ordem decrescente.
 
 + Request  (application/json)
     + Headers
@@ -271,7 +277,7 @@ Esse recurso representa todas as faltas dos alunos em aulas da turma.
 
     + Attributes
 
-        + (array)
+        + data (array)
             + (object)
                 + student_id: 1 (number) - ID do estudante
                 + school_calendar_phases (array) - Phases do calendário escolar relacionado a turma

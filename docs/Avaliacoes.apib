@@ -12,7 +12,7 @@ Veja a imagem neste [link](https://drive.google.com/file/d/0B3GJIAxM0VTOSWpoLTY4
 Veja a imagem neste [Link](https://drive.google.com/a/logoseducacao.com.br/file/d/0B_HwgyV_NIl-OEhRWkQ0dnc3Z28/view?usp=sharing) com exemplo de um aplicativo
 para registrar notas dos alunos de uma turma.<br/>`Nota 1.1` e `Nota 1.2` são os assessments.
 
-### Listar avaliações [GET]
+### Listar avaliações [GET /assessments{?_q,_sort,_with}]
 
 <!-- include(LinkParametrosPadroesListagem.md) -->
 
@@ -89,7 +89,7 @@ onde é registrado a ficha de avaliação de um aluno.
 
 ## Ficha avaliativa [/progress-sheets/{progress_sheet_id}]
 
-### Detalhes da ficha avaliativa [GET]
+### Detalhes da ficha avaliativa [GET /progress-sheets/{progress_sheet_id}{?_attach,_with}]
 
 + Parameters
     + progress_sheet_id: 1 (number) - ID da ficha avaliativa
@@ -144,14 +144,14 @@ onde é registrado a ficha de avaliação de um aluno.
 
 
 
-## Coleção de items da ficha avaliativa [/progress-sheets/{progress_sheet_id}/items{?_q,_sort,_with}]
+## Coleção de items da ficha avaliativa [/progress-sheets/{progress_sheet_id}/items]
 
-### Listar items [GET]
+### Listar items [GET /progress-sheets/{progress_sheet_id}/items{?_q,_sort,_with}]
 
 <!-- include(LinkParametrosPadroesListagem.md) -->
 
 + Parameters
-    + progress_sheet_id (number) - ID da ficha avaliativa
+    + progress_sheet_id: 1 (number) - ID da ficha avaliativa
     + _q (string, optional) - Pesquisa por palavra-chave, a correspondência e incluida conjunto de resultados.
         + Members
             +name
@@ -187,20 +187,8 @@ onde é registrado a ficha de avaliação de um aluno.
     + Attributes
         + progress_sheet_items (array[ProgressSheetItem])
 
-+ Request  (application/json)
-    + Headers
 
-            authorization: <!-- include(Token.md) -->
-
-    + Attributes (ProgressSheetItemFillable)
-
-+ Response 201 (application/json)
-
-    + Attributes
-        + progress_sheet_item (ProgressSheetItem)
-
-
-### Excluir item da ficha avaliativa [DELETE]
+### Excluir item da ficha avaliativa [DELETE /progress-sheets/{progress_sheet_id}/items/{progress_sheet_item_id}]
 
 + Parameters
     + progress_sheet_item_id: 1 (number) - ID do item da ficha avaliativa

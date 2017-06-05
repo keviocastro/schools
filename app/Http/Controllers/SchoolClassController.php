@@ -154,7 +154,7 @@ class SchoolClassController extends Controller
             ->join('people', 'people.id', '=' ,'students.person_id');
         
         if($orderBy == '-student_name'){
-            $students->orderBy('people.name');
+            $students->orderBy('people.name', 'desc');
         }elseif($orderBy == 'student_name'){
             $students->orderBy('people.name');
         }
