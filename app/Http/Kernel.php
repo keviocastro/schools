@@ -44,13 +44,9 @@ class Kernel extends HttpKernel
      * @var array
      */
     protected $routeMiddleware = [
-        // 'auth' => \App\Http\Middleware\Authenticate::class,
-        // 'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
-        // 'can' => \Illuminate\Foundation\Http\Middleware\Authorize::class,
-        // 'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
-        // 'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
-
         'auth0.jwt' => '\Auth0\Login\Middleware\Auth0JWTMiddleware',
         'config' => \App\Http\Middleware\Config::class,
+
+        'response.cache' => \App\Http\Middleware\ResponseCache::class,
     ];
 }

@@ -78,4 +78,12 @@ return [
 
     'prefix' => 'laravel',
 
+
+    /**
+     * Default one week
+     * 
+     * When using the default CacheRequestFilter this setting controls the
+     * number of minutes responses must be cached.
+     */
+    'lifetime' => env('CACHE_LIFETIME_IN_MINUTES', 60 * 24 * 7),
 ];
