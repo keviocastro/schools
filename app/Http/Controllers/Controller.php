@@ -126,7 +126,8 @@ class Controller extends BaseController
             '_limit',
             '_offset',
             '_group_by',
-            '_group_by_count'
+            '_group_by_count',
+            'XDEBUG_PROFILE'
         ];
 
         foreach ($notAFilter as $value) {

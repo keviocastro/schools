@@ -2,6 +2,7 @@
 FROM keviocastro/laravel:5
 
 RUN curl -sL https://deb.nodesource.com/setup_6.x | bash -
+
 RUN apt-get update && apt-get install -y \
     mysql-client \
     vim \
@@ -41,19 +42,18 @@ RUN curl -fsSL 'https://xdebug.org/files/xdebug-2.4.0.tgz' -o xdebug.tar.gz \
     ) \
     && rm -r xdebug
 
+RUN mkdir /var/log/xdebug/
 RUN echo "zend_extension=$(find /usr/local/lib/php/extensions/ -name xdebug.so)" > /usr/local/etc/php/conf.d/xdebug.ini \
-    && echo "xdebug.default_enable=1"               >> /usr/local/etc/php/conf.d/xdebug.ini \
-    && echo "xdebug.remote_enable=1"                >> /usr/local/etc/php/conf.d/xdebug.ini \
-    && echo "xdebug.remote_mode=req"                >> /usr/local/etc/php/conf.d/xdebug.ini \
-    && echo "xdebug.remote_handler=dbgp"            >> /usr/local/etc/php/conf.d/xdebug.ini \
-    && echo "xdebug.remote_connect_back=1"          >> /usr/local/etc/php/conf.d/xdebug.ini \
-    && echo "xdebug.remote_autostart=1"             >> /usr/local/etc/php/conf.d/xdebug.ini \
-    && echo "xdebug.remote_port=9000"               >> /usr/local/etc/php/conf.d/xdebug.ini \
-    # && echo "xdebug.remote_host=192.168.0.19"       >> /usr/local/etc/php/conf.d/xdebug.ini \
-    # && echo "xdebug.profiler_enable=0"              >> /usr/local/etc/php/conf.d/xdebug.ini \
-    # && echo "xdebug.profiler_enable_trigger=1"      >> /usr/local/etc/php/conf.d/xdebug.ini \
-    # && echo "xdebug.idekey=sublime.xdebug"          >> /usr/local/etc/php/conf.d/xdebug.ini \
-    && echo "xdebug.remote_log=/var/log/xdebug_remote.log" >> /usr/local/etc/php/conf.d/xdebug.ini
+    && echo "xdebug.default_enable=1"                       >> /usr/local/etc/php/conf.d/xdebug.ini \
+    && echo "xdebug.remote_enable=1"                        >> /usr/local/etc/php/conf.d/xdebug.ini \
+    && echo "xdebug.remote_mode=req"                        >> /usr/local/etc/php/conf.d/xdebug.ini \
+    && echo "xdebug.remote_handler=dbgp"                    >> /usr/local/etc/php/conf.d/xdebug.ini \
+    && echo "xdebug.remote_connect_back=1"                  >> /usr/local/etc/php/conf.d/xdebug.ini \
+    && echo "xdebug.remote_autostart=1"                     >> /usr/local/etc/php/conf.d/xdebug.ini \
+    && echo "xdebug.remote_port=9000"                       >> /usr/local/etc/php/conf.d/xdebug.ini \
+    && echo "xdebug.profiler_enable=1"                      >> /usr/local/etc/php/conf.d/xdebug.ini \
+    && echo "xdebug.profiler_output_dir=/var/log/xdebug/"   >> /usr/local/etc/php/conf.d/xdebug.ini \
+    && echo "xdebug.profiler_enable_trigger=1"              >> /usr/local/etc/php/conf.d/xdebug.ini
 
 COPY docker/entrypoint.sh /usr/local/bin/docker-dev-entrypoint
 RUN chmod +x /usr/local/bin/docker-dev-entrypoint
