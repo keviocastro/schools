@@ -106,6 +106,24 @@ return array(
     |   This is used to verify the decoded tokens when using RS256
     |
     */
-    'api_identifier'  => [env('AUTH0_API_IDENTIFIER')],
+    'api_identifier'  => env('AUTH0_API_IDENTIFIER'),
+
+    /*
+    |--------------------------------------------------------------------------
+    |   The secret format
+    |--------------------------------------------------------------------------
+    |   Used to know if it should decode the secret when using HS256
+    |
+    */
+    // 'secret_base64_encoded'  => true,
+
+    /*
+    |--------------------------------------------------------------------------
+    |   Supported algs by your API
+    |--------------------------------------------------------------------------
+    |   Algs supported by your API
+    |
+    */
+    'supported_algs'        => ['HS256', 'RS256'],
 
 );
