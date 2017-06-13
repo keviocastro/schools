@@ -29,7 +29,7 @@ RUN php composer-setup.php --install-dir=/usr/local/bin --filename=composer
 RUN php -r "unlink('composer-setup.php');"
 
 # Install Xdebug
-RUN curl -fsSL 'https://xdebug.org/files/xdebug-2.4.0.tgz' -o xdebug.tar.gz \
+RUN curl -fsSL 'https://xdebug.org/files/xdebug-2.5.4.tgz' -o xdebug.tar.gz \
     && mkdir -p xdebug \
     && tar -xf xdebug.tar.gz -C xdebug --strip-components=1 \
     && rm xdebug.tar.gz \
@@ -42,7 +42,6 @@ RUN curl -fsSL 'https://xdebug.org/files/xdebug-2.4.0.tgz' -o xdebug.tar.gz \
     ) \
     && rm -r xdebug
 
-RUN mkdir /var/log/xdebug/
 RUN echo "zend_extension=$(find /usr/local/lib/php/extensions/ -name xdebug.so)" > /usr/local/etc/php/conf.d/xdebug.ini \
     && echo "xdebug.default_enable=1"                       >> /usr/local/etc/php/conf.d/xdebug.ini \
     && echo "xdebug.remote_enable=1"                        >> /usr/local/etc/php/conf.d/xdebug.ini \
@@ -51,9 +50,9 @@ RUN echo "zend_extension=$(find /usr/local/lib/php/extensions/ -name xdebug.so)"
     && echo "xdebug.remote_connect_back=1"                  >> /usr/local/etc/php/conf.d/xdebug.ini \
     && echo "xdebug.remote_autostart=1"                     >> /usr/local/etc/php/conf.d/xdebug.ini \
     && echo "xdebug.remote_port=9000"                       >> /usr/local/etc/php/conf.d/xdebug.ini \
-    && echo "xdebug.profiler_enable=1"                      >> /usr/local/etc/php/conf.d/xdebug.ini \
-    && echo "xdebug.profiler_output_dir=/var/log/xdebug/"   >> /usr/local/etc/php/conf.d/xdebug.ini \
-    && echo "xdebug.profiler_enable_trigger=1"              >> /usr/local/etc/php/conf.d/xdebug.ini
+    && echo "xdebug.profiler_enable_trigger=1"              >> /usr/local/etc/php/conf.d/xdebug.ini \
+    && echo "xdebug.profiler_enable=0"                      >> /usr/local/etc/php/conf.d/xdebug.ini \
+    && echo "xdebug.profiler_output_dir=/var/log/xdebug/"   >> /usr/local/etc/php/conf.d/xdebug.ini
 
 COPY docker/entrypoint.sh /usr/local/bin/docker-dev-entrypoint
 RUN chmod +x /usr/local/bin/docker-dev-entrypoint
