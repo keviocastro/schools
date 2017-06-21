@@ -27,7 +27,7 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->app->bind(
             \Auth0\Login\Contract\Auth0UserRepository::class,
-            \Auth0\Login\Repository\Auth0UserRepository::class);
+            \App\Repository\UserRepository::class);
 
         $this->app->bind(
         '\Auth0\SDK\Helpers\Cache\CacheHandler',
