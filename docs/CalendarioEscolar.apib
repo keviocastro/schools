@@ -1,12 +1,11 @@
 # Group Calendários escolares
 
-`Calendário escolar` (definido nesta API como SchoolCalendar) é considerado como a definição do ano letivo,
-contendo fases fases avaliativas do ano (Ex.: bimestres), feriados, férias,
+`Calendário escolar` (definido nesta API como SchoolCalendar) é considerado como a definição do ano letivo ou calendário letivo, contendo fases avaliativas (Ex.: bimestres, recuperação).
 inicio e fim do ano.
 
 ## Coleção de calendarios escolares [/school-calendars]
 
-### Listar calendarios escolares [GET]
+### Listar calendarios escolares [GET /school-calendars{?_q,_sort,_with}]
 
 <!-- include(LinkParametrosPadroesListagem.md) -->
 
@@ -15,8 +14,8 @@ inicio e fim do ano.
     + _sort (string, optional) - Ordena a coluna desejada, de forma acendente ou descendente.
     + _with (string, optional) - Obtem informações do recurso relacionado.
         + Members
-            + schoolClasses - Turmas do ano letivo.
-            + phases - Fases avaliativas do ano letivo. Recurso (SchoolCalendarPhase)
+            + schoolClasses - Turmas do calendário escolar. Ex.: 1 Ano A.
+            + phases - Fases avaliativas do calendário escolar. Ex.: 1º Bimestre.
 
 + Request  (application/json)
 
@@ -47,14 +46,14 @@ inicio e fim do ano.
 
 ## Calendário escolar [/school-calendars/{school_calendar_id}]
 
-### Detalhes do calendário escolar [GET]
+### Detalhes do calendário escolar [GET /school-calendars/{school_calendar_id}{?_with}]
 
 + Parameters
     + school_calendar_id: 1 (number) - ID of the school class
     + _with (string, optional) - Obtem informações do recurso relacionado.
         + Members
-            + schoolClasses - Turmas do ano letivo.
-            + phases - Fases avaliativas do ano letivo. Recurso (SchoolCalendarPhase)
+            + schoolClasses - Turmas do calendário escolar. Ex.: 1 Ano A.
+            + phases - Fases avaliativas do calendário escolar. Ex.: 1º Bimestre.
 
 + Request  (application/json)
     + Headers
@@ -95,38 +94,4 @@ inicio e fim do ano.
             authorization: <!-- include(Token.md) -->
 
 + Response 204
-
-## Coleção de avaliacoes [/assessments]
-
-`Assessments` são as definições das avaliações que um professor precisar aplicar
-aos seus alunos durante uma fase do ano.
-Exemplo: No 1º Bimestre o professor precisa avaliar seus alunos com duas provas (N1 e N2),
-e a nota do aluno no 1º Bimestre será composta pela conta (N1*0,4)+(N2*0,6)=NOTA_DO_BIMESTRE.
-
-### Listar avaliações [GET]
-
-<!-- include(LinkParametrosPadroesListagem.md) -->
-
-
-+ Parameters
-    + _q (string, optional) - Pesquisa por palavra-chave, a correspondência e incluida conjunto de resultados.
-        + Members
-            +name
-    + _sort (string, optional) - Ordena a coluna desejada, de forma acendente ou descendente.
-    + _with (string, optional) - Obtem informações do recurso relacionado.
-        + Members
-            + studentGrades
-            + schoolCalendarPhase
-
-+ Request  (application/json)
-    + Headers
-
-            authorization: <!-- include(Token.md) -->
-
-+ Response 200 (application/json)
-
-    + Attributes
-        + Include Paginator
-        + data (array)
-            + (Assessment)
 

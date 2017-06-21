@@ -126,6 +126,18 @@ class StudentControllerTest extends TestCase
                             ]
                         ], 
                     ] 
+                ],
+                'report_by_phases' => // Informações agrupadas por fase do calendário escolar
+                ['*' => 
+                    [
+                        'id',
+                        'name',
+                        'school_calendar_id',
+                        'start',
+                        'end',
+                        'average_formula',
+                        'absences'
+                    ]    
                 ]
             ]);
     }

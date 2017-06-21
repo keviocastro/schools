@@ -1,5 +1,69 @@
 # Data structure
 
+## ProgressSheetStudentFillable (object)
+
++ progress_sheet_item_id: 1 (number) - Id do item da ficha avaliativa.
++ school_calendar_phase_id: 1 (number) - ID da fase do calendário escolar em que o aluno foi avaliado.
++ school_class_id: 1 (number) - ID da turma em que o aluno estava quando foi avaliado.
++ student_id: 1 (number) - ID do aluno.
++ option_identifier: `I` (string) - Identificador de resposta/avaliação em relação ao item.
+
+## ProgressSheetStudent (object)
+
++ id: 1 (number) - Id de resultado do aluno em um item de ficha de avaliação
++ Include (ProgressSheetStudentFillable)
+
+## Tag (object)
+
++ id: 1 (number) - ID da tag.
++ tag_group_id: 1 (number) - ID do grupo que a tag está associada.
++ slug: habilidade-cognitiva (string) - Nome normalizado da tag.
++ name: Habilidade cognitiva (string) - Nome da tag
++ count: 10 (number) - Quantidade total de utilização da tag.
+
+## GroupFillable (object)
+
++ name: Habilidade cognitiva (string) - Nome do grupo
++ order: 3 (number) - Número de ordenação do grupo
+
+## Group (object)
+
++ id: 1 (number) - ID do grupo
++ include GroupFillable
+
+## ProgressSheetItemFillable
+
++ nome: `Conhece o alfabeto como símbolo da escrita` (string) - Nome do item da ficha avaliativa
++ progress_sheet_id: 1 (number, optional) - ID da ficha avaliativa
++ group_id: 1 (number, optional) - ID do grupo associado ao item.
+
+## ProgressSheetItem
+
++ id: 1 (number) - Id Do item da ficha avaliativa
++ Include (ProgressSheetItemFillable)
+
+## ProgressSheetFillable
+
++ nome: `Ficha de Acompanhamento da Aprendizagem` (string) - Nome da ficha avaliativa
++ options (array) - Opções de resposta de avaliação dos itens da ficha
+    + (object)
+        + identifier: `I` (string)
+        + label: `Irregular` (string)
+    + (object)
+        + identifier: `R` (string)
+        + label: `Regular` (string)
+    + (object)
+        + identifier: `B` (string)
+        + label: `Bom` (string)
+    + (object)
+        + identifier: `O` (string)
+        + label: `Ótimo` (string)
+
+## ProgressSheet
+
++ id: 1 (number) - ID da ficha de avaliacao
++ Include (ProgressSheetFillable)
+
 ## LessonPlanModelFillable
 
 + definition (array) - String JSON válido com definição do formulário de castro do plano de aula
@@ -72,6 +136,11 @@
         + student_grades (array)
             + (StudentGrade)
 
+
+## AnnualReportPerPhase (object)
+
++ Include (SchoolCalendarPhase)
++ absences: 10 (number) - `Total de faltas do aluno na fase do calendário escolar.`
 
 ## SubjectFillable (object)
 
@@ -154,6 +223,11 @@
 + shift_id: 1 (number) - ID do turno.
 + school_calendar_id: 1 (number) - ID do Ano letivo em que a turma existe.
 + school_id: 1 (number) - ID da escola relacionada.
++ evaluation_type (enum[string]) - Definiçao do modo de avaliação da turma.
+    + members
+        + grade_phase - Define que a avaliação da turma é por notas númericas calculadas por fase do calendário escolar.
+        + progress_sheet_phase - Define que a avaliação da turma é por ficha descritiva por aluno. 
++ progress_sheet_id (number) - ID da ficha descritiva utilizada para avaliar os alunos da turma.
 
 ## SchoolClass (object)
 

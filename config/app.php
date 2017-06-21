@@ -167,6 +167,8 @@ return [
         App\Providers\HelperServiceProvider::class,  
 
         App\Providers\CustomValidationServiceProvider::class,
+
+        Conner\Tagging\Providers\TaggingServiceProvider::class,
     ],
 
     /*
@@ -212,7 +214,7 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-        'Auth0' => Auth0\Login\Facade\Auth0::class,
+        'Auth0' => Auth0\Login\facade\Auth0::class,
         'ApiHandler' => Marcelgwerder\ApiHandler\Facades\ApiHandler::class,
 
     ],

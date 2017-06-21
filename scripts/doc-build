@@ -1,5 +1,9 @@
+# Este script deve ser executado a partir da pasta docs.
+# cd docs && ../scritps/doc-build
+
 aglio -i gist.md -o api.apib
 apiary preview --path=api.apib
 cp /tmp/api-preview.html api.html
 drafter -f json -t ast -o api.json api.apib 
 blueman convert --output=api-postman-collection.json api.json
+cp api.apib ../apiary.apib

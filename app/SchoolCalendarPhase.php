@@ -59,7 +59,8 @@ class SchoolCalendarPhase extends Model
     }
 
     /**
-     * Aulas da fase do ano escolar
+     * Todas aulas da fase do ano escolar. 
+     * Obs.: de todas as turmas relacionadas ao calendário escolar.
      * 
      * @Relation
      *

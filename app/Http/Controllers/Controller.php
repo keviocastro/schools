@@ -39,6 +39,42 @@ class Controller extends BaseController
     }
 
     /**
+     * Parametros customizados:
+     *  _group_by =         Agrupa o resultado por 1 ou mais valores de atributos (separados por virgula) que contenham no resultado.
+     *  Exemplo: api/student-grades/?_group_by=student_id,school_class_id
+     *      [
+     *          ...
+     *          "data" => [
+     *              "1-3": [
+     *                  [
+     *                      student_id: 1,
+     *                      school_class: 3
+     *                  ],
+     *                  [
+     *                      ....
+     *                  ]
+     *              ],
+     *              "2-3": [
+     *                  [
+     *                      student_id: 2,
+     *                      school_class: 3
+     *                  ]
+     *              ]
+     *          ]
+     *      ]
+     * 
+     *  _group_by_count =   Funciona em combinação com _group_by. 
+     *                      Se true, retorna somente a quantidade de registros existentes no grupo
+     *                      definido em _group_by.
+     * Exemplo:
+     *         [
+     *          ...
+     *          "data" => [
+     *              "1-3": 2,
+     *              "2-3": 1
+     *          ]
+     *      ]
+     * 
      * Retorna um objeto de resultado padrão para api de multiplos resultados. 
      *
      * @param  mixed            $queryBuilder          Some kind of query builder instance
@@ -46,13 +82,39 @@ class Controller extends BaseController
      * @param  array|boolean    $queryParams           A list of query parameter
      * @return Result
      */
-    public function parseMultiple($queryBuilder, $fullTextSearchColumns = array(), $queryParams = false)
+    public function parseMultiple($queryBuilder, 
+        $fullTextSearchColumns = array(), 
+        $queryParams = false)
     {
+
         if ($queryParams === false) {
             $queryParams = Input::get();
+            $group_by = empty($queryParams['_group_by']) ? false : $queryParams['_group_by'] ;
+            $group_by_count = empty($queryParams['_group_by_count']) ? false : true;
         }
+        
+        $queryParams = $this->filterQueryParams($queryParams);
 
+        $result = $this->apiHandler->parseMultiple($queryBuilder, 
+            $fullTextSearchColumns, $queryParams);
+        
+        $result = $result->getBuilder()->paginate(
+            Input::get('_per_page', null), 
+            $columns = ['*'], 
+            $pageName = '_page', 
+            $page = null)->toArray();
 
+        return $this->parseGroupBy($result, $group_by, $group_by_count);
+    }
+
+    /**
+     * Filter valid params
+     *
+     * @return array 
+     */
+    public function filterQueryParams($queryParams)
+    {
+        
         // Se não remover apiHandler utiliza como filter.
         // _limit e _offset foram removidos porque é utilizado
         // o parametro _per_page para realizar a paginação.
@@ -62,7 +124,10 @@ class Controller extends BaseController
             'XDEBUG_SESSION_START', 
             'XDEBUG_SESSION_STOP',
             '_limit',
-            '_offset'
+            '_offset',
+            '_group_by',
+            '_group_by_count',
+            'XDEBUG_PROFILE'
         ];
 
         foreach ($notAFilter as $value) {
@@ -71,18 +136,53 @@ class Controller extends BaseController
             }
         }
 
-        $result = $this->apiHandler->parseMultiple($queryBuilder, 
-            $fullTextSearchColumns, $queryParams);
+        return $queryParams;
+    }
+
+    /**
+     * Parse _group_by and _group_by_count params
+     *
+     * @param array $result
+     * @param array $queryParams
+     * 
+     * @return array $result grouped if applicable
+     */
+    public function parseGroupBy($result, $groupBy, $groupByCount)
+    {
         
-        $result = $result->getBuilder()->paginate(
-            Input::get('_per_page', null), 
-            $columns = ['*'], 
-            $pageName = '_page', 
-            $page = null);        
+        if($groupBy){
+            if($result['total'] > 0){
+                
+                $groupBy = explode(',', $groupBy);
+                $groupByCount =  $groupByCount;
+
+                // If attribute exists in the results
+                $attributes = collect(array_keys($result['data'][0]));
+                $groupBy = collect($groupBy);
+                $groupBy->each(function($group) use ($attributes){
+                    if ( !$attributes->search($group) )
+                        throw new ResourceException(
+                            "The attribute ($group) defined in the _group_by parameter does not exist in the result set."
+                            );
+                });
+
+                $result['data'] = collect($result['data'])->groupBy(function($item) use ($groupBy){
+                    $groupValues = $groupBy->reduce(function($carry, $group) use ($item){
+                        return empty($carry) ? $item[$group] : $carry .'-'. $item[$group]; 
+                    });
+                    return  $groupValues;
+                });
+                
+                if($groupByCount){
+                    $result['data'] = $result['data']->mapWithKeys(function($item, $key){
+                        return [$key => count($item)];
+                    });
+                }
+            }
+        }
 
         return $result;
     }
-
 
     /**
      * Validation for store action queryParams
@@ -105,7 +205,7 @@ class Controller extends BaseController
 
         if ($accept_items_array) {
             $inputs = $this->makeMultipleInputData();
-
+            
             collect($inputs)->map(function($item, $key) use ($rules,$error_msg){
                 $validator = app('validator')->make($item, $rules);
                 if ($validator->fails()) {
@@ -123,7 +223,7 @@ class Controller extends BaseController
     /**
      * Validation for update action 
      * 
-     * @param  [type] $request   
+     * @param  Request $request   
      * @param  array  $rules     See https://laravel.com/docs/5.3/validation
      * @param  string $error_msg 
      * @return void
@@ -183,9 +283,9 @@ class Controller extends BaseController
     public function makeMultipleInputData()
     {
         if ($this->checkMultipleInputData()) {
-            return request()->all();
+            return request()->input();
         }else{
-            return [request()->all()];
+            return [request()->input()];
         }
     }
 }

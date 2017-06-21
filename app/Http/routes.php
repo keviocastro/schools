@@ -3,6 +3,11 @@ $api = app('Dingo\Api\Routing\Router');
 Route::get('/', function () {
 	return view('welcome');
 });
+
+Route::get('/apidocs', function () {
+	return File::get(base_path() . '/docs/api.html');
+});
+
 $api->version('v1', function ($api) {
 	
 	$api->group(['middleware' => 'config'], function($api){
@@ -66,6 +71,8 @@ $api->version('v1', function ($api) {
 				'App\Http\Controllers\SchoolClassController@destroy');
 			$api->get('school-classes/{school_class_id}/annual-report-by-subject/{subject_id}', 
 				'App\Http\Controllers\SchoolClassController@annualReport');
+			$api->get('school-classes/{school_class_id}/absences', 
+				'App\Http\Controllers\SchoolClassController@absences');
 			
 			// Lessons
 			$api->get('lessons/per-day', 'App\Http\Controllers\LessonController@listPerDay');
@@ -127,6 +134,23 @@ $api->version('v1', function ($api) {
 			$api->get('lesson-plan-models/{id}','App\Http\Controllers\LessonPlanModelController@show');
 			$api->put('lesson-plan-models/{id}','App\Http\Controllers\LessonPlanModelController@update');
 			$api->delete('lesson-plan-models/{id}','App\Http\Controllers\LessonPlanModelController@destroy');
+
+			//EvaluationSheets
+			$api->get('progress-sheets','App\Http\Controllers\ProgressSheetController@index');
+			$api->post('progress-sheets','App\Http\Controllers\ProgressSheetController@store');
+			$api->get('progress-sheets/{id}','App\Http\Controllers\ProgressSheetController@show');
+			$api->put('progress-sheets/{id}','App\Http\Controllers\ProgressSheetController@update');
+			$api->delete('progress-sheets/{id}','App\Http\Controllers\ProgressSheetController@destroy');
+
+			$api->get('progress-sheets/{id}/items','App\Http\Controllers\ProgressSheetController@indexItems');
+			$api->post('progress-sheets/{id}/items','App\Http\Controllers\ProgressSheetController@storeItems');
+
+			$api->get('student-progress-sheets','App\Http\Controllers\StudentProgressSheetController@index');
+			$api->post('student-progress-sheets','App\Http\Controllers\StudentProgressSheetController@store');
+			$api->get('student-progress-sheets/{id}','App\Http\Controllers\StudentProgressSheetController@show');
+			$api->put('student-progress-sheets/{id}','App\Http\Controllers\StudentProgressSheetController@update');
+			$api->delete('student-progress-sheets/{id}','App\Http\Controllers\StudentProgressSheetController@destroy');
+			
 			});
 		});
 	});

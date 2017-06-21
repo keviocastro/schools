@@ -22,9 +22,9 @@ Veja ver mais detalhes de como realizar essa autentificação nesse link: https:
 
 # Parametros de filtros, ordenação e pesquisa
 
-Cada parâmetro de consulta, exceto as funções pré-definidas _with, _sort e _q, é interpretado como um filtro.
+Cada parâmetro de consulta, exceto as funções pré-definidas _with, _sort, _q e _group_by é interpretado como um filtro.
 
-Exemplo: Listar todas as escola que começam com nome: Vieira.
+Exemplo: Listar todas as escolas que começam com nome: Vieira.
 
 <pre><code>/api/schools?name-lk=Vieira*</code></pre>
 
@@ -39,13 +39,13 @@ O exemplo acima resultaria na seguinte SQL:
 <pre><code>Where `schools` LIKE "Vieira%" AND `created_at` >= "2016-12-01 12:55:02"</code></pre>
 
 É também possível usar vários valores para um filtro.
-Vários valores estão separados por um tubo |.
+Vários valores estão separados por barra vertical |.
 Vários valores são combinados com OR a não ser quando há um -not como sufixo, então eles são combinados com AND.
 Por exemplo, todos os livros com o ID de 5 ou 6:
 
 <pre><code>/api/schools?id=5|6</code></pre>
 
-Ou todos os livros, exceto aqueles com ID 5 ou 6:
+Ou todas as escolas, exceto aqueles com ID 5 ou 6:
 
 <pre><code>/api/schools?id-not=5|6</code></pre>
 
@@ -70,33 +70,180 @@ Respectivamente, o not-insufixo:
 | `-not`        | !=        | Diferente                             |
 
 
+# Parametros paginação
 
+Os parametros de paginação são: _page e _per_page.
+
+`_page` Define o número de página da consulta que será obtido.
+`_per_page` Define a quantidade de resultados da consulta por página.
+
+<pre><code>GET /api/schools?_page=2&_per_page=50</code></pre>
+
+Neste exemplo o resultado será a segunda página da coleção de resultados da listagem de escolas,
+com 50 escolas por página, tendo um total de 4 páginas e 156 resultados no total.
+
+Veja o exemplo:
+
+```
+{
+    "total": "156",
+    "per_page": "50",
+    "current_page": "2",
+    "last_page": "4",
+    "next_page_url": "https://schools.logoseducacao.com.br/api/schools?_page=3"
+    "prev_page_url": "https://schools.logoseducacao.com.br/api/schools?_page=1"
+    "data": [
+      {
+          "id": 1, 
+          "name": "Name of school", 
+          "type": "middle-school"
+      },
+      ....
+}
+```
+
+# Parametros de transformação
+
+O prametro _group_by é utilizado para agrupar o conjunto de resultados da página atual 
+da consulta por um ou mais atributos. Os nomes dos atributos são separados por virgula.
+
+Atenção: esse parametro agrupa somente os resultantes da pesquisa.
+
+Veja o exemplo:
+
+<pre><code>GET /api/schools</code></pre>
+
+Considerando que esse recurso retornaria o resultado
+
+
+```
+{ 
+    "total": "3"
+    "per_page": "15",
+    "current_page": "1",
+    "last_page": "1",
+    "next_page_url": "null"
+    "prev_page_url": "null"
+    "data": [
+      {
+          "id": 1, 
+          "name": "Name of school 1",
+          "type": "middle-school",
+          "UF": "GO"
+      },
+      {
+          "id": 1, 
+          "name": "Name of school 2", 
+          "type": "middle-school",
+          "UF": "GO"
+      },
+      {
+          "id": 1, 
+          "name": "Name of school 3", 
+          "type": "high-school",
+          "UF": "GO"
+      },
+      {
+          "id": 1, 
+          "name": "Name of school 4", 
+          "type": "high-school",
+          "UF": "DF"
+      }
+    ]
+}
+```
+
+<pre><code>GET /api/schools?_group_by=type,UF</code></pre>
+
+Utilizando o parametro _group_by=type,UF teriamos:
+
+```
+{ 
+    "total": "3"
+    "per_page": "15",
+    "current_page": "1",
+    "last_page": "1",
+    "next_page_url": "null"
+    "prev_page_url": "null"
+    "data": [
+       "middle-school-GO": [
+          {
+              "id": 1, 
+              "name": "Name of school 1", 
+              "type": "middle-school"
+          },
+          {
+              "id": 1, 
+              "name": "Name of school 2", 
+              "type": "middle-school"
+          }
+       ],
+       "high-school-GO": [
+          {
+            "id": 1, 
+            "name": "Name of school 3", 
+            "type": "high-school",
+            "UF": "GO"
+          }
+       ]
+       "high-school-DF": [
+          {
+              "id": 1, 
+              "name": "Name of school 4", 
+              "type": "high-school"
+          }
+       ]
+    ]
+}
+```
+
+O prametro `_group_by_count` é utilizado em conjunto com `_group_by` e é utilizado para retornar somente a quantidade
+de itens contidos nos grupos.
+
+Considerando o exemplo acima e adicionando o _group_by_count=true teriamos:
+
+<pre><code>GET /api/schools?_group_id=type&_group_by_count=true</code></pre>
+
+```
+{ 
+    "total": "3"
+    "per_page": "15",
+    "current_page": "1",
+    "last_page": "1",
+    "next_page_url": "null"
+    "prev_page_url": "null"
+    "data": [
+       "middle-school-GO": 2,
+       "high-school-GO": 1,
+       "high-school-DF": 1
+    ]
+}
+```
 
 # Group Calendários escolares
 
-`Calendário escolar` (definido nesta API como SchoolCalendar) é considerado como a definição do ano letivo,
-contendo fases fases avaliativas do ano (Ex.: bimestres), feriados, férias,
+`Calendário escolar` (definido nesta API como SchoolCalendar) é considerado como a definição do ano letivo ou calendário letivo, contendo fases avaliativas (Ex.: bimestres, recuperação).
 inicio e fim do ano.
 
 ## Coleção de calendarios escolares [/school-calendars]
 
-### Listar calendarios escolares [GET]
+### Listar calendarios escolares [GET /school-calendars{?_q,_sort,_with}]
 
-Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="output.html#header-parametros-de-filtros-em-listagem">sessão</a> como definir os parametros da requisição.
+Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="#header-parametros-de-filtros-em-listagem">sessão</a> como definir os parametros da requisição.
 
 + Parameters
     + _q (string, optional) - Pesquisa por palavra-chave, a correspondência e incluida conjunto de resultados.
     + _sort (string, optional) - Ordena a coluna desejada, de forma acendente ou descendente.
     + _with (string, optional) - Obtem informações do recurso relacionado.
         + Members
-            + schoolClasses - Turmas do ano letivo.
-            + phases - Fases avaliativas do ano letivo. Recurso (SchoolCalendarPhase)
+            + schoolClasses - Turmas do calendário escolar. Ex.: 1 Ano A.
+            + phases - Fases avaliativas do calendário escolar. Ex.: 1º Bimestre.
 
 + Request  (application/json)
 
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1OGUzOTk1NWFmZWMzMTU4YTMyNWI1MGEiLCJhdWQiOlsiYXBpLnNjaG9vbHMiLCJodHRwczovL2xvZ29zLmF1dGgwLmNvbS91c2VyaW5mbyJdLCJhenAiOiJYeGpJMUNUTlRHWU45dGJCeDB5Sm10TXZ2VGJ0NWhXVyIsImV4cCI6MTQ5MTUwMDM3OCwiaWF0IjoxNDkxNDEzOTc4LCJzY29wZSI6Im9wZW5pZCBwcm9maWxlIiwiZ3R5IjoicGFzc3dvcmQifQ.ny6mKtvFbLFVokGpTzYtBruhXgNEO6dsJ1PU5A1fvZcuNGArRUprfHWBpW14N31Kh-WajY0ZMoQFFfSeE4_U3GdYM6u3S1gsPFe0nbNgQRIOXJwI4Q7qnG9z0QKJQjE2vW_ZyLBRhlxPPZQFr5BlcOi8_LkIId5QiFmSa-wdnNbjY9HdezJu9zphBG9p5C9YrP4eQO6Y_Xnk4Ozh2a31kyp123zCZirJoeTBzWMg0fhPbomm17Hdts1CVINn_0Z8DJUgTfSsbFDnh9MZ_SG_Tdx1Kfvzex9GQApXo2jgtHDy_pN8HC6VYCplJxtZa924twbUIkjoX0-Glen7vis9HA
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJnb29nbGUtb2F1dGgyfDEwODQyMDU0ODQ3NTA0MzYwOTQyOCIsImF1ZCI6WyJhcGkuc2Nob29scyIsImh0dHBzOi8vbG9nb3MuYXV0aDAuY29tL3VzZXJpbmZvIl0sImF6cCI6Ilh4akkxQ1ROVEdZTjl0YkJ4MHlKbXRNdnZUYnQ1aFdXIiwiZXhwIjoxNTA0NDY1MjUzLCJpYXQiOjE0OTY2ODkyNTMsInNjb3BlIjoib3BlbmlkIHByb2ZpbGUiLCJndHkiOiJwYXNzd29yZCJ9.xeNDgFx4NumVoIT9VafzCsqvDo5_Sm1LZfxQjxNI5rxERTYOOsDl5b5yhsPvYzCXZScXjOxaWgfvfDRMlzPJ_UypbPQKAmD_-tgBuBi_6mQzr2HWyD4jrvkjfDkQVD9dy2MjBKU1Es8YFETjIcmSe2ZolvvxrYbPJtDrbtQ5hotgvZu2CvHhkpJbxNRtm3jvPskkIOWoKbqgTqA7NiPNBc4Rvy2aj5xrIbJ0omq-c2C1RlaLQ9lUKE_k2llZgYE0m1MqwUgCmGhX6dXQLdVuguXvt2ev7UvnU-j3ChKQkYq9NGShJ-K0n53tF5miII2yc521nn9xsLpMzTFZ_075Bw
 
 + Response 200 (application/json)
 
@@ -110,7 +257,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 + Request  (application/json)
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1OGUzOTk1NWFmZWMzMTU4YTMyNWI1MGEiLCJhdWQiOlsiYXBpLnNjaG9vbHMiLCJodHRwczovL2xvZ29zLmF1dGgwLmNvbS91c2VyaW5mbyJdLCJhenAiOiJYeGpJMUNUTlRHWU45dGJCeDB5Sm10TXZ2VGJ0NWhXVyIsImV4cCI6MTQ5MTUwMDM3OCwiaWF0IjoxNDkxNDEzOTc4LCJzY29wZSI6Im9wZW5pZCBwcm9maWxlIiwiZ3R5IjoicGFzc3dvcmQifQ.ny6mKtvFbLFVokGpTzYtBruhXgNEO6dsJ1PU5A1fvZcuNGArRUprfHWBpW14N31Kh-WajY0ZMoQFFfSeE4_U3GdYM6u3S1gsPFe0nbNgQRIOXJwI4Q7qnG9z0QKJQjE2vW_ZyLBRhlxPPZQFr5BlcOi8_LkIId5QiFmSa-wdnNbjY9HdezJu9zphBG9p5C9YrP4eQO6Y_Xnk4Ozh2a31kyp123zCZirJoeTBzWMg0fhPbomm17Hdts1CVINn_0Z8DJUgTfSsbFDnh9MZ_SG_Tdx1Kfvzex9GQApXo2jgtHDy_pN8HC6VYCplJxtZa924twbUIkjoX0-Glen7vis9HA
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJnb29nbGUtb2F1dGgyfDEwODQyMDU0ODQ3NTA0MzYwOTQyOCIsImF1ZCI6WyJhcGkuc2Nob29scyIsImh0dHBzOi8vbG9nb3MuYXV0aDAuY29tL3VzZXJpbmZvIl0sImF6cCI6Ilh4akkxQ1ROVEdZTjl0YkJ4MHlKbXRNdnZUYnQ1aFdXIiwiZXhwIjoxNTA0NDY1MjUzLCJpYXQiOjE0OTY2ODkyNTMsInNjb3BlIjoib3BlbmlkIHByb2ZpbGUiLCJndHkiOiJwYXNzd29yZCJ9.xeNDgFx4NumVoIT9VafzCsqvDo5_Sm1LZfxQjxNI5rxERTYOOsDl5b5yhsPvYzCXZScXjOxaWgfvfDRMlzPJ_UypbPQKAmD_-tgBuBi_6mQzr2HWyD4jrvkjfDkQVD9dy2MjBKU1Es8YFETjIcmSe2ZolvvxrYbPJtDrbtQ5hotgvZu2CvHhkpJbxNRtm3jvPskkIOWoKbqgTqA7NiPNBc4Rvy2aj5xrIbJ0omq-c2C1RlaLQ9lUKE_k2llZgYE0m1MqwUgCmGhX6dXQLdVuguXvt2ev7UvnU-j3ChKQkYq9NGShJ-K0n53tF5miII2yc521nn9xsLpMzTFZ_075Bw
 
     + Attributes (SchoolCalendarFillable)
 
@@ -121,19 +268,19 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 
 ## Calendário escolar [/school-calendars/{school_calendar_id}]
 
-### Detalhes do calendário escolar [GET]
+### Detalhes do calendário escolar [GET /school-calendars/{school_calendar_id}{?_with}]
 
 + Parameters
     + school_calendar_id: 1 (number) - ID of the school class
     + _with (string, optional) - Obtem informações do recurso relacionado.
         + Members
-            + schoolClasses - Turmas do ano letivo.
-            + phases - Fases avaliativas do ano letivo. Recurso (SchoolCalendarPhase)
+            + schoolClasses - Turmas do calendário escolar. Ex.: 1 Ano A.
+            + phases - Fases avaliativas do calendário escolar. Ex.: 1º Bimestre.
 
 + Request  (application/json)
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1OGUzOTk1NWFmZWMzMTU4YTMyNWI1MGEiLCJhdWQiOlsiYXBpLnNjaG9vbHMiLCJodHRwczovL2xvZ29zLmF1dGgwLmNvbS91c2VyaW5mbyJdLCJhenAiOiJYeGpJMUNUTlRHWU45dGJCeDB5Sm10TXZ2VGJ0NWhXVyIsImV4cCI6MTQ5MTUwMDM3OCwiaWF0IjoxNDkxNDEzOTc4LCJzY29wZSI6Im9wZW5pZCBwcm9maWxlIiwiZ3R5IjoicGFzc3dvcmQifQ.ny6mKtvFbLFVokGpTzYtBruhXgNEO6dsJ1PU5A1fvZcuNGArRUprfHWBpW14N31Kh-WajY0ZMoQFFfSeE4_U3GdYM6u3S1gsPFe0nbNgQRIOXJwI4Q7qnG9z0QKJQjE2vW_ZyLBRhlxPPZQFr5BlcOi8_LkIId5QiFmSa-wdnNbjY9HdezJu9zphBG9p5C9YrP4eQO6Y_Xnk4Ozh2a31kyp123zCZirJoeTBzWMg0fhPbomm17Hdts1CVINn_0Z8DJUgTfSsbFDnh9MZ_SG_Tdx1Kfvzex9GQApXo2jgtHDy_pN8HC6VYCplJxtZa924twbUIkjoX0-Glen7vis9HA
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJnb29nbGUtb2F1dGgyfDEwODQyMDU0ODQ3NTA0MzYwOTQyOCIsImF1ZCI6WyJhcGkuc2Nob29scyIsImh0dHBzOi8vbG9nb3MuYXV0aDAuY29tL3VzZXJpbmZvIl0sImF6cCI6Ilh4akkxQ1ROVEdZTjl0YkJ4MHlKbXRNdnZUYnQ1aFdXIiwiZXhwIjoxNTA0NDY1MjUzLCJpYXQiOjE0OTY2ODkyNTMsInNjb3BlIjoib3BlbmlkIHByb2ZpbGUiLCJndHkiOiJwYXNzd29yZCJ9.xeNDgFx4NumVoIT9VafzCsqvDo5_Sm1LZfxQjxNI5rxERTYOOsDl5b5yhsPvYzCXZScXjOxaWgfvfDRMlzPJ_UypbPQKAmD_-tgBuBi_6mQzr2HWyD4jrvkjfDkQVD9dy2MjBKU1Es8YFETjIcmSe2ZolvvxrYbPJtDrbtQ5hotgvZu2CvHhkpJbxNRtm3jvPskkIOWoKbqgTqA7NiPNBc4Rvy2aj5xrIbJ0omq-c2C1RlaLQ9lUKE_k2llZgYE0m1MqwUgCmGhX6dXQLdVuguXvt2ev7UvnU-j3ChKQkYq9NGShJ-K0n53tF5miII2yc521nn9xsLpMzTFZ_075Bw
 
 + Response 200 (application/json)
 
@@ -148,7 +295,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 + Request  (application/json)
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1OGUzOTk1NWFmZWMzMTU4YTMyNWI1MGEiLCJhdWQiOlsiYXBpLnNjaG9vbHMiLCJodHRwczovL2xvZ29zLmF1dGgwLmNvbS91c2VyaW5mbyJdLCJhenAiOiJYeGpJMUNUTlRHWU45dGJCeDB5Sm10TXZ2VGJ0NWhXVyIsImV4cCI6MTQ5MTUwMDM3OCwiaWF0IjoxNDkxNDEzOTc4LCJzY29wZSI6Im9wZW5pZCBwcm9maWxlIiwiZ3R5IjoicGFzc3dvcmQifQ.ny6mKtvFbLFVokGpTzYtBruhXgNEO6dsJ1PU5A1fvZcuNGArRUprfHWBpW14N31Kh-WajY0ZMoQFFfSeE4_U3GdYM6u3S1gsPFe0nbNgQRIOXJwI4Q7qnG9z0QKJQjE2vW_ZyLBRhlxPPZQFr5BlcOi8_LkIId5QiFmSa-wdnNbjY9HdezJu9zphBG9p5C9YrP4eQO6Y_Xnk4Ozh2a31kyp123zCZirJoeTBzWMg0fhPbomm17Hdts1CVINn_0Z8DJUgTfSsbFDnh9MZ_SG_Tdx1Kfvzex9GQApXo2jgtHDy_pN8HC6VYCplJxtZa924twbUIkjoX0-Glen7vis9HA
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJnb29nbGUtb2F1dGgyfDEwODQyMDU0ODQ3NTA0MzYwOTQyOCIsImF1ZCI6WyJhcGkuc2Nob29scyIsImh0dHBzOi8vbG9nb3MuYXV0aDAuY29tL3VzZXJpbmZvIl0sImF6cCI6Ilh4akkxQ1ROVEdZTjl0YkJ4MHlKbXRNdnZUYnQ1aFdXIiwiZXhwIjoxNTA0NDY1MjUzLCJpYXQiOjE0OTY2ODkyNTMsInNjb3BlIjoib3BlbmlkIHByb2ZpbGUiLCJndHkiOiJwYXNzd29yZCJ9.xeNDgFx4NumVoIT9VafzCsqvDo5_Sm1LZfxQjxNI5rxERTYOOsDl5b5yhsPvYzCXZScXjOxaWgfvfDRMlzPJ_UypbPQKAmD_-tgBuBi_6mQzr2HWyD4jrvkjfDkQVD9dy2MjBKU1Es8YFETjIcmSe2ZolvvxrYbPJtDrbtQ5hotgvZu2CvHhkpJbxNRtm3jvPskkIOWoKbqgTqA7NiPNBc4Rvy2aj5xrIbJ0omq-c2C1RlaLQ9lUKE_k2llZgYE0m1MqwUgCmGhX6dXQLdVuguXvt2ev7UvnU-j3ChKQkYq9NGShJ-K0n53tF5miII2yc521nn9xsLpMzTFZ_075Bw
 
     + Attributes (SchoolCalendarFillable)
 
@@ -166,43 +313,9 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1OGUzOTk1NWFmZWMzMTU4YTMyNWI1MGEiLCJhdWQiOlsiYXBpLnNjaG9vbHMiLCJodHRwczovL2xvZ29zLmF1dGgwLmNvbS91c2VyaW5mbyJdLCJhenAiOiJYeGpJMUNUTlRHWU45dGJCeDB5Sm10TXZ2VGJ0NWhXVyIsImV4cCI6MTQ5MTUwMDM3OCwiaWF0IjoxNDkxNDEzOTc4LCJzY29wZSI6Im9wZW5pZCBwcm9maWxlIiwiZ3R5IjoicGFzc3dvcmQifQ.ny6mKtvFbLFVokGpTzYtBruhXgNEO6dsJ1PU5A1fvZcuNGArRUprfHWBpW14N31Kh-WajY0ZMoQFFfSeE4_U3GdYM6u3S1gsPFe0nbNgQRIOXJwI4Q7qnG9z0QKJQjE2vW_ZyLBRhlxPPZQFr5BlcOi8_LkIId5QiFmSa-wdnNbjY9HdezJu9zphBG9p5C9YrP4eQO6Y_Xnk4Ozh2a31kyp123zCZirJoeTBzWMg0fhPbomm17Hdts1CVINn_0Z8DJUgTfSsbFDnh9MZ_SG_Tdx1Kfvzex9GQApXo2jgtHDy_pN8HC6VYCplJxtZa924twbUIkjoX0-Glen7vis9HA
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJnb29nbGUtb2F1dGgyfDEwODQyMDU0ODQ3NTA0MzYwOTQyOCIsImF1ZCI6WyJhcGkuc2Nob29scyIsImh0dHBzOi8vbG9nb3MuYXV0aDAuY29tL3VzZXJpbmZvIl0sImF6cCI6Ilh4akkxQ1ROVEdZTjl0YkJ4MHlKbXRNdnZUYnQ1aFdXIiwiZXhwIjoxNTA0NDY1MjUzLCJpYXQiOjE0OTY2ODkyNTMsInNjb3BlIjoib3BlbmlkIHByb2ZpbGUiLCJndHkiOiJwYXNzd29yZCJ9.xeNDgFx4NumVoIT9VafzCsqvDo5_Sm1LZfxQjxNI5rxERTYOOsDl5b5yhsPvYzCXZScXjOxaWgfvfDRMlzPJ_UypbPQKAmD_-tgBuBi_6mQzr2HWyD4jrvkjfDkQVD9dy2MjBKU1Es8YFETjIcmSe2ZolvvxrYbPJtDrbtQ5hotgvZu2CvHhkpJbxNRtm3jvPskkIOWoKbqgTqA7NiPNBc4Rvy2aj5xrIbJ0omq-c2C1RlaLQ9lUKE_k2llZgYE0m1MqwUgCmGhX6dXQLdVuguXvt2ev7UvnU-j3ChKQkYq9NGShJ-K0n53tF5miII2yc521nn9xsLpMzTFZ_075Bw
 
 + Response 204
-
-## Coleção de avaliacoes [/assessments]
-
-`Assessments` são as definições das avaliações que um professor precisar aplicar
-aos seus alunos durante uma fase do ano.
-Exemplo: No 1º Bimestre o professor precisa avaliar seus alunos com duas provas (N1 e N2),
-e a nota do aluno no 1º Bimestre será composta pela conta (N1*0,4)+(N2*0,6)=NOTA_DO_BIMESTRE.
-
-### Listar avaliações [GET]
-
-Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="output.html#header-parametros-de-filtros-em-listagem">sessão</a> como definir os parametros da requisição.
-
-
-+ Parameters
-    + _q (string, optional) - Pesquisa por palavra-chave, a correspondência e incluida conjunto de resultados.
-        + Members
-            +name
-    + _sort (string, optional) - Ordena a coluna desejada, de forma acendente ou descendente.
-    + _with (string, optional) - Obtem informações do recurso relacionado.
-        + Members
-            + studentGrades
-            + schoolCalendarPhase
-
-+ Request  (application/json)
-    + Headers
-
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1OGUzOTk1NWFmZWMzMTU4YTMyNWI1MGEiLCJhdWQiOlsiYXBpLnNjaG9vbHMiLCJodHRwczovL2xvZ29zLmF1dGgwLmNvbS91c2VyaW5mbyJdLCJhenAiOiJYeGpJMUNUTlRHWU45dGJCeDB5Sm10TXZ2VGJ0NWhXVyIsImV4cCI6MTQ5MTUwMDM3OCwiaWF0IjoxNDkxNDEzOTc4LCJzY29wZSI6Im9wZW5pZCBwcm9maWxlIiwiZ3R5IjoicGFzc3dvcmQifQ.ny6mKtvFbLFVokGpTzYtBruhXgNEO6dsJ1PU5A1fvZcuNGArRUprfHWBpW14N31Kh-WajY0ZMoQFFfSeE4_U3GdYM6u3S1gsPFe0nbNgQRIOXJwI4Q7qnG9z0QKJQjE2vW_ZyLBRhlxPPZQFr5BlcOi8_LkIId5QiFmSa-wdnNbjY9HdezJu9zphBG9p5C9YrP4eQO6Y_Xnk4Ozh2a31kyp123zCZirJoeTBzWMg0fhPbomm17Hdts1CVINn_0Z8DJUgTfSsbFDnh9MZ_SG_Tdx1Kfvzex9GQApXo2jgtHDy_pN8HC6VYCplJxtZa924twbUIkjoX0-Glen7vis9HA
-
-+ Response 200 (application/json)
-
-    + Attributes
-        + Include Paginator
-        + data (array)
-            + (Assessment)
 
 
 
@@ -214,8 +327,8 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 
 ## Coleção de escolas [/schools]
 
-### Listar escolas [GET]
-Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="output.html#header-parametros-de-filtros-em-listagem">sessão</a> como definir os parametros da requisição.
+### Listar escolas [GET /schools{_q,_sort,_with}]
+Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="#header-parametros-de-filtros-em-listagem">sessão</a> como definir os parametros da requisição.
 
 + Parameters
     + _q (string, optional) - Pesquisa por palavra-chave, a correspondência e incluida conjunto de resultados.
@@ -229,7 +342,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 + Request  (application/json)
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1OGUzOTk1NWFmZWMzMTU4YTMyNWI1MGEiLCJhdWQiOlsiYXBpLnNjaG9vbHMiLCJodHRwczovL2xvZ29zLmF1dGgwLmNvbS91c2VyaW5mbyJdLCJhenAiOiJYeGpJMUNUTlRHWU45dGJCeDB5Sm10TXZ2VGJ0NWhXVyIsImV4cCI6MTQ5MTUwMDM3OCwiaWF0IjoxNDkxNDEzOTc4LCJzY29wZSI6Im9wZW5pZCBwcm9maWxlIiwiZ3R5IjoicGFzc3dvcmQifQ.ny6mKtvFbLFVokGpTzYtBruhXgNEO6dsJ1PU5A1fvZcuNGArRUprfHWBpW14N31Kh-WajY0ZMoQFFfSeE4_U3GdYM6u3S1gsPFe0nbNgQRIOXJwI4Q7qnG9z0QKJQjE2vW_ZyLBRhlxPPZQFr5BlcOi8_LkIId5QiFmSa-wdnNbjY9HdezJu9zphBG9p5C9YrP4eQO6Y_Xnk4Ozh2a31kyp123zCZirJoeTBzWMg0fhPbomm17Hdts1CVINn_0Z8DJUgTfSsbFDnh9MZ_SG_Tdx1Kfvzex9GQApXo2jgtHDy_pN8HC6VYCplJxtZa924twbUIkjoX0-Glen7vis9HA
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJnb29nbGUtb2F1dGgyfDEwODQyMDU0ODQ3NTA0MzYwOTQyOCIsImF1ZCI6WyJhcGkuc2Nob29scyIsImh0dHBzOi8vbG9nb3MuYXV0aDAuY29tL3VzZXJpbmZvIl0sImF6cCI6Ilh4akkxQ1ROVEdZTjl0YkJ4MHlKbXRNdnZUYnQ1aFdXIiwiZXhwIjoxNTA0NDY1MjUzLCJpYXQiOjE0OTY2ODkyNTMsInNjb3BlIjoib3BlbmlkIHByb2ZpbGUiLCJndHkiOiJwYXNzd29yZCJ9.xeNDgFx4NumVoIT9VafzCsqvDo5_Sm1LZfxQjxNI5rxERTYOOsDl5b5yhsPvYzCXZScXjOxaWgfvfDRMlzPJ_UypbPQKAmD_-tgBuBi_6mQzr2HWyD4jrvkjfDkQVD9dy2MjBKU1Es8YFETjIcmSe2ZolvvxrYbPJtDrbtQ5hotgvZu2CvHhkpJbxNRtm3jvPskkIOWoKbqgTqA7NiPNBc4Rvy2aj5xrIbJ0omq-c2C1RlaLQ9lUKE_k2llZgYE0m1MqwUgCmGhX6dXQLdVuguXvt2ev7UvnU-j3ChKQkYq9NGShJ-K0n53tF5miII2yc521nn9xsLpMzTFZ_075Bw
 
 + Response 200 (application/json)
 
@@ -243,7 +356,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 + Request  (application/json)
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1OGUzOTk1NWFmZWMzMTU4YTMyNWI1MGEiLCJhdWQiOlsiYXBpLnNjaG9vbHMiLCJodHRwczovL2xvZ29zLmF1dGgwLmNvbS91c2VyaW5mbyJdLCJhenAiOiJYeGpJMUNUTlRHWU45dGJCeDB5Sm10TXZ2VGJ0NWhXVyIsImV4cCI6MTQ5MTUwMDM3OCwiaWF0IjoxNDkxNDEzOTc4LCJzY29wZSI6Im9wZW5pZCBwcm9maWxlIiwiZ3R5IjoicGFzc3dvcmQifQ.ny6mKtvFbLFVokGpTzYtBruhXgNEO6dsJ1PU5A1fvZcuNGArRUprfHWBpW14N31Kh-WajY0ZMoQFFfSeE4_U3GdYM6u3S1gsPFe0nbNgQRIOXJwI4Q7qnG9z0QKJQjE2vW_ZyLBRhlxPPZQFr5BlcOi8_LkIId5QiFmSa-wdnNbjY9HdezJu9zphBG9p5C9YrP4eQO6Y_Xnk4Ozh2a31kyp123zCZirJoeTBzWMg0fhPbomm17Hdts1CVINn_0Z8DJUgTfSsbFDnh9MZ_SG_Tdx1Kfvzex9GQApXo2jgtHDy_pN8HC6VYCplJxtZa924twbUIkjoX0-Glen7vis9HA
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJnb29nbGUtb2F1dGgyfDEwODQyMDU0ODQ3NTA0MzYwOTQyOCIsImF1ZCI6WyJhcGkuc2Nob29scyIsImh0dHBzOi8vbG9nb3MuYXV0aDAuY29tL3VzZXJpbmZvIl0sImF6cCI6Ilh4akkxQ1ROVEdZTjl0YkJ4MHlKbXRNdnZUYnQ1aFdXIiwiZXhwIjoxNTA0NDY1MjUzLCJpYXQiOjE0OTY2ODkyNTMsInNjb3BlIjoib3BlbmlkIHByb2ZpbGUiLCJndHkiOiJwYXNzd29yZCJ9.xeNDgFx4NumVoIT9VafzCsqvDo5_Sm1LZfxQjxNI5rxERTYOOsDl5b5yhsPvYzCXZScXjOxaWgfvfDRMlzPJ_UypbPQKAmD_-tgBuBi_6mQzr2HWyD4jrvkjfDkQVD9dy2MjBKU1Es8YFETjIcmSe2ZolvvxrYbPJtDrbtQ5hotgvZu2CvHhkpJbxNRtm3jvPskkIOWoKbqgTqA7NiPNBc4Rvy2aj5xrIbJ0omq-c2C1RlaLQ9lUKE_k2llZgYE0m1MqwUgCmGhX6dXQLdVuguXvt2ev7UvnU-j3ChKQkYq9NGShJ-K0n53tF5miII2yc521nn9xsLpMzTFZ_075Bw
 
     + Attributes (SchoolFillable)
 
@@ -254,7 +367,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 
 ## Escola [/schools/{school_id}]
 
-### Detalhes da escola [GET]
+### Detalhes da escola [GET /schools/{school_id}{?_with}]
 
 + Parameters
     + school_id: 1 (number) - Identificador único da escola
@@ -265,7 +378,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 + Request  (application/json)
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1OGUzOTk1NWFmZWMzMTU4YTMyNWI1MGEiLCJhdWQiOlsiYXBpLnNjaG9vbHMiLCJodHRwczovL2xvZ29zLmF1dGgwLmNvbS91c2VyaW5mbyJdLCJhenAiOiJYeGpJMUNUTlRHWU45dGJCeDB5Sm10TXZ2VGJ0NWhXVyIsImV4cCI6MTQ5MTUwMDM3OCwiaWF0IjoxNDkxNDEzOTc4LCJzY29wZSI6Im9wZW5pZCBwcm9maWxlIiwiZ3R5IjoicGFzc3dvcmQifQ.ny6mKtvFbLFVokGpTzYtBruhXgNEO6dsJ1PU5A1fvZcuNGArRUprfHWBpW14N31Kh-WajY0ZMoQFFfSeE4_U3GdYM6u3S1gsPFe0nbNgQRIOXJwI4Q7qnG9z0QKJQjE2vW_ZyLBRhlxPPZQFr5BlcOi8_LkIId5QiFmSa-wdnNbjY9HdezJu9zphBG9p5C9YrP4eQO6Y_Xnk4Ozh2a31kyp123zCZirJoeTBzWMg0fhPbomm17Hdts1CVINn_0Z8DJUgTfSsbFDnh9MZ_SG_Tdx1Kfvzex9GQApXo2jgtHDy_pN8HC6VYCplJxtZa924twbUIkjoX0-Glen7vis9HA
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJnb29nbGUtb2F1dGgyfDEwODQyMDU0ODQ3NTA0MzYwOTQyOCIsImF1ZCI6WyJhcGkuc2Nob29scyIsImh0dHBzOi8vbG9nb3MuYXV0aDAuY29tL3VzZXJpbmZvIl0sImF6cCI6Ilh4akkxQ1ROVEdZTjl0YkJ4MHlKbXRNdnZUYnQ1aFdXIiwiZXhwIjoxNTA0NDY1MjUzLCJpYXQiOjE0OTY2ODkyNTMsInNjb3BlIjoib3BlbmlkIHByb2ZpbGUiLCJndHkiOiJwYXNzd29yZCJ9.xeNDgFx4NumVoIT9VafzCsqvDo5_Sm1LZfxQjxNI5rxERTYOOsDl5b5yhsPvYzCXZScXjOxaWgfvfDRMlzPJ_UypbPQKAmD_-tgBuBi_6mQzr2HWyD4jrvkjfDkQVD9dy2MjBKU1Es8YFETjIcmSe2ZolvvxrYbPJtDrbtQ5hotgvZu2CvHhkpJbxNRtm3jvPskkIOWoKbqgTqA7NiPNBc4Rvy2aj5xrIbJ0omq-c2C1RlaLQ9lUKE_k2llZgYE0m1MqwUgCmGhX6dXQLdVuguXvt2ev7UvnU-j3ChKQkYq9NGShJ-K0n53tF5miII2yc521nn9xsLpMzTFZ_075Bw
 
 + Response 200 (application/json)
 
@@ -282,7 +395,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1OGUzOTk1NWFmZWMzMTU4YTMyNWI1MGEiLCJhdWQiOlsiYXBpLnNjaG9vbHMiLCJodHRwczovL2xvZ29zLmF1dGgwLmNvbS91c2VyaW5mbyJdLCJhenAiOiJYeGpJMUNUTlRHWU45dGJCeDB5Sm10TXZ2VGJ0NWhXVyIsImV4cCI6MTQ5MTUwMDM3OCwiaWF0IjoxNDkxNDEzOTc4LCJzY29wZSI6Im9wZW5pZCBwcm9maWxlIiwiZ3R5IjoicGFzc3dvcmQifQ.ny6mKtvFbLFVokGpTzYtBruhXgNEO6dsJ1PU5A1fvZcuNGArRUprfHWBpW14N31Kh-WajY0ZMoQFFfSeE4_U3GdYM6u3S1gsPFe0nbNgQRIOXJwI4Q7qnG9z0QKJQjE2vW_ZyLBRhlxPPZQFr5BlcOi8_LkIId5QiFmSa-wdnNbjY9HdezJu9zphBG9p5C9YrP4eQO6Y_Xnk4Ozh2a31kyp123zCZirJoeTBzWMg0fhPbomm17Hdts1CVINn_0Z8DJUgTfSsbFDnh9MZ_SG_Tdx1Kfvzex9GQApXo2jgtHDy_pN8HC6VYCplJxtZa924twbUIkjoX0-Glen7vis9HA
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJnb29nbGUtb2F1dGgyfDEwODQyMDU0ODQ3NTA0MzYwOTQyOCIsImF1ZCI6WyJhcGkuc2Nob29scyIsImh0dHBzOi8vbG9nb3MuYXV0aDAuY29tL3VzZXJpbmZvIl0sImF6cCI6Ilh4akkxQ1ROVEdZTjl0YkJ4MHlKbXRNdnZUYnQ1aFdXIiwiZXhwIjoxNTA0NDY1MjUzLCJpYXQiOjE0OTY2ODkyNTMsInNjb3BlIjoib3BlbmlkIHByb2ZpbGUiLCJndHkiOiJwYXNzd29yZCJ9.xeNDgFx4NumVoIT9VafzCsqvDo5_Sm1LZfxQjxNI5rxERTYOOsDl5b5yhsPvYzCXZScXjOxaWgfvfDRMlzPJ_UypbPQKAmD_-tgBuBi_6mQzr2HWyD4jrvkjfDkQVD9dy2MjBKU1Es8YFETjIcmSe2ZolvvxrYbPJtDrbtQ5hotgvZu2CvHhkpJbxNRtm3jvPskkIOWoKbqgTqA7NiPNBc4Rvy2aj5xrIbJ0omq-c2C1RlaLQ9lUKE_k2llZgYE0m1MqwUgCmGhX6dXQLdVuguXvt2ev7UvnU-j3ChKQkYq9NGShJ-K0n53tF5miII2yc521nn9xsLpMzTFZ_075Bw
 
     + Attributes (SchoolFillable)
 
@@ -300,15 +413,15 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1OGUzOTk1NWFmZWMzMTU4YTMyNWI1MGEiLCJhdWQiOlsiYXBpLnNjaG9vbHMiLCJodHRwczovL2xvZ29zLmF1dGgwLmNvbS91c2VyaW5mbyJdLCJhenAiOiJYeGpJMUNUTlRHWU45dGJCeDB5Sm10TXZ2VGJ0NWhXVyIsImV4cCI6MTQ5MTUwMDM3OCwiaWF0IjoxNDkxNDEzOTc4LCJzY29wZSI6Im9wZW5pZCBwcm9maWxlIiwiZ3R5IjoicGFzc3dvcmQifQ.ny6mKtvFbLFVokGpTzYtBruhXgNEO6dsJ1PU5A1fvZcuNGArRUprfHWBpW14N31Kh-WajY0ZMoQFFfSeE4_U3GdYM6u3S1gsPFe0nbNgQRIOXJwI4Q7qnG9z0QKJQjE2vW_ZyLBRhlxPPZQFr5BlcOi8_LkIId5QiFmSa-wdnNbjY9HdezJu9zphBG9p5C9YrP4eQO6Y_Xnk4Ozh2a31kyp123zCZirJoeTBzWMg0fhPbomm17Hdts1CVINn_0Z8DJUgTfSsbFDnh9MZ_SG_Tdx1Kfvzex9GQApXo2jgtHDy_pN8HC6VYCplJxtZa924twbUIkjoX0-Glen7vis9HA
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJnb29nbGUtb2F1dGgyfDEwODQyMDU0ODQ3NTA0MzYwOTQyOCIsImF1ZCI6WyJhcGkuc2Nob29scyIsImh0dHBzOi8vbG9nb3MuYXV0aDAuY29tL3VzZXJpbmZvIl0sImF6cCI6Ilh4akkxQ1ROVEdZTjl0YkJ4MHlKbXRNdnZUYnQ1aFdXIiwiZXhwIjoxNTA0NDY1MjUzLCJpYXQiOjE0OTY2ODkyNTMsInNjb3BlIjoib3BlbmlkIHByb2ZpbGUiLCJndHkiOiJwYXNzd29yZCJ9.xeNDgFx4NumVoIT9VafzCsqvDo5_Sm1LZfxQjxNI5rxERTYOOsDl5b5yhsPvYzCXZScXjOxaWgfvfDRMlzPJ_UypbPQKAmD_-tgBuBi_6mQzr2HWyD4jrvkjfDkQVD9dy2MjBKU1Es8YFETjIcmSe2ZolvvxrYbPJtDrbtQ5hotgvZu2CvHhkpJbxNRtm3jvPskkIOWoKbqgTqA7NiPNBc4Rvy2aj5xrIbJ0omq-c2C1RlaLQ9lUKE_k2llZgYE0m1MqwUgCmGhX6dXQLdVuguXvt2ev7UvnU-j3ChKQkYq9NGShJ-K0n53tF5miII2yc521nn9xsLpMzTFZ_075Bw
 
 + Response 204
 
 ## Coleção de turmas [/school-classes]
 
-### Listar turmas [GET]
+### Listar turmas [GET /school-classes{?_q,_sort,_with}]
 
-Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="output.html#header-parametros-de-filtros-em-listagem">sessão</a> como definir os parametros da requisição.
+Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="#header-parametros-de-filtros-em-listagem">sessão</a> como definir os parametros da requisição.
 
 + Parameters
     + _q (string, optional) - Pesquisa por palavra-chave, a correspondência e incluida conjunto de resultados.
@@ -321,12 +434,13 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
             + students - Aluno.
             + schoolCalendar - Ano letivo.
             + subjects - Avaliação.
+            + progressSheet - Ficha descritiva que é utilizada para avaliar os alunos da turma. 
 
 + Request  (application/json)
 
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1OGUzOTk1NWFmZWMzMTU4YTMyNWI1MGEiLCJhdWQiOlsiYXBpLnNjaG9vbHMiLCJodHRwczovL2xvZ29zLmF1dGgwLmNvbS91c2VyaW5mbyJdLCJhenAiOiJYeGpJMUNUTlRHWU45dGJCeDB5Sm10TXZ2VGJ0NWhXVyIsImV4cCI6MTQ5MTUwMDM3OCwiaWF0IjoxNDkxNDEzOTc4LCJzY29wZSI6Im9wZW5pZCBwcm9maWxlIiwiZ3R5IjoicGFzc3dvcmQifQ.ny6mKtvFbLFVokGpTzYtBruhXgNEO6dsJ1PU5A1fvZcuNGArRUprfHWBpW14N31Kh-WajY0ZMoQFFfSeE4_U3GdYM6u3S1gsPFe0nbNgQRIOXJwI4Q7qnG9z0QKJQjE2vW_ZyLBRhlxPPZQFr5BlcOi8_LkIId5QiFmSa-wdnNbjY9HdezJu9zphBG9p5C9YrP4eQO6Y_Xnk4Ozh2a31kyp123zCZirJoeTBzWMg0fhPbomm17Hdts1CVINn_0Z8DJUgTfSsbFDnh9MZ_SG_Tdx1Kfvzex9GQApXo2jgtHDy_pN8HC6VYCplJxtZa924twbUIkjoX0-Glen7vis9HA
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJnb29nbGUtb2F1dGgyfDEwODQyMDU0ODQ3NTA0MzYwOTQyOCIsImF1ZCI6WyJhcGkuc2Nob29scyIsImh0dHBzOi8vbG9nb3MuYXV0aDAuY29tL3VzZXJpbmZvIl0sImF6cCI6Ilh4akkxQ1ROVEdZTjl0YkJ4MHlKbXRNdnZUYnQ1aFdXIiwiZXhwIjoxNTA0NDY1MjUzLCJpYXQiOjE0OTY2ODkyNTMsInNjb3BlIjoib3BlbmlkIHByb2ZpbGUiLCJndHkiOiJwYXNzd29yZCJ9.xeNDgFx4NumVoIT9VafzCsqvDo5_Sm1LZfxQjxNI5rxERTYOOsDl5b5yhsPvYzCXZScXjOxaWgfvfDRMlzPJ_UypbPQKAmD_-tgBuBi_6mQzr2HWyD4jrvkjfDkQVD9dy2MjBKU1Es8YFETjIcmSe2ZolvvxrYbPJtDrbtQ5hotgvZu2CvHhkpJbxNRtm3jvPskkIOWoKbqgTqA7NiPNBc4Rvy2aj5xrIbJ0omq-c2C1RlaLQ9lUKE_k2llZgYE0m1MqwUgCmGhX6dXQLdVuguXvt2ev7UvnU-j3ChKQkYq9NGShJ-K0n53tF5miII2yc521nn9xsLpMzTFZ_075Bw
 
 + Response 200 (application/json)
 
@@ -340,7 +454,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 + Request  (application/json)
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1OGUzOTk1NWFmZWMzMTU4YTMyNWI1MGEiLCJhdWQiOlsiYXBpLnNjaG9vbHMiLCJodHRwczovL2xvZ29zLmF1dGgwLmNvbS91c2VyaW5mbyJdLCJhenAiOiJYeGpJMUNUTlRHWU45dGJCeDB5Sm10TXZ2VGJ0NWhXVyIsImV4cCI6MTQ5MTUwMDM3OCwiaWF0IjoxNDkxNDEzOTc4LCJzY29wZSI6Im9wZW5pZCBwcm9maWxlIiwiZ3R5IjoicGFzc3dvcmQifQ.ny6mKtvFbLFVokGpTzYtBruhXgNEO6dsJ1PU5A1fvZcuNGArRUprfHWBpW14N31Kh-WajY0ZMoQFFfSeE4_U3GdYM6u3S1gsPFe0nbNgQRIOXJwI4Q7qnG9z0QKJQjE2vW_ZyLBRhlxPPZQFr5BlcOi8_LkIId5QiFmSa-wdnNbjY9HdezJu9zphBG9p5C9YrP4eQO6Y_Xnk4Ozh2a31kyp123zCZirJoeTBzWMg0fhPbomm17Hdts1CVINn_0Z8DJUgTfSsbFDnh9MZ_SG_Tdx1Kfvzex9GQApXo2jgtHDy_pN8HC6VYCplJxtZa924twbUIkjoX0-Glen7vis9HA
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJnb29nbGUtb2F1dGgyfDEwODQyMDU0ODQ3NTA0MzYwOTQyOCIsImF1ZCI6WyJhcGkuc2Nob29scyIsImh0dHBzOi8vbG9nb3MuYXV0aDAuY29tL3VzZXJpbmZvIl0sImF6cCI6Ilh4akkxQ1ROVEdZTjl0YkJ4MHlKbXRNdnZUYnQ1aFdXIiwiZXhwIjoxNTA0NDY1MjUzLCJpYXQiOjE0OTY2ODkyNTMsInNjb3BlIjoib3BlbmlkIHByb2ZpbGUiLCJndHkiOiJwYXNzd29yZCJ9.xeNDgFx4NumVoIT9VafzCsqvDo5_Sm1LZfxQjxNI5rxERTYOOsDl5b5yhsPvYzCXZScXjOxaWgfvfDRMlzPJ_UypbPQKAmD_-tgBuBi_6mQzr2HWyD4jrvkjfDkQVD9dy2MjBKU1Es8YFETjIcmSe2ZolvvxrYbPJtDrbtQ5hotgvZu2CvHhkpJbxNRtm3jvPskkIOWoKbqgTqA7NiPNBc4Rvy2aj5xrIbJ0omq-c2C1RlaLQ9lUKE_k2llZgYE0m1MqwUgCmGhX6dXQLdVuguXvt2ev7UvnU-j3ChKQkYq9NGShJ-K0n53tF5miII2yc521nn9xsLpMzTFZ_075Bw
 
     + Attributes (SchoolClassFillable)
 
@@ -354,20 +468,22 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 + Parameters
     - school_class_id: 1 (number) - ID of the school class
 
-### Detalhes da turma [GET]
+### Detalhes da turma [GET /school-classes/{school_class_id}{?_with}]
 
 + Parameters
     + _with (string, optional) - Obtem informações do recurso relacionado.
         + Members
             + shift - Turno.
-            + students - Aluno.
-            + schoolCalendar - Ano letivo.
-            + subjects - Avaliação.
+            + students - Alunos.
+            + schoolCalendar - Calendário letivo/ano letivo em qual a turma foi criada.
+            + subjects - Disciplinas ministradas na turma.
+            + progressSheet - Filha de avaliação descritiva da turma.
+            + progressSheet.items - Filha de avaliação descritiva com items.
 
 + Request  (application/json)
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1OGUzOTk1NWFmZWMzMTU4YTMyNWI1MGEiLCJhdWQiOlsiYXBpLnNjaG9vbHMiLCJodHRwczovL2xvZ29zLmF1dGgwLmNvbS91c2VyaW5mbyJdLCJhenAiOiJYeGpJMUNUTlRHWU45dGJCeDB5Sm10TXZ2VGJ0NWhXVyIsImV4cCI6MTQ5MTUwMDM3OCwiaWF0IjoxNDkxNDEzOTc4LCJzY29wZSI6Im9wZW5pZCBwcm9maWxlIiwiZ3R5IjoicGFzc3dvcmQifQ.ny6mKtvFbLFVokGpTzYtBruhXgNEO6dsJ1PU5A1fvZcuNGArRUprfHWBpW14N31Kh-WajY0ZMoQFFfSeE4_U3GdYM6u3S1gsPFe0nbNgQRIOXJwI4Q7qnG9z0QKJQjE2vW_ZyLBRhlxPPZQFr5BlcOi8_LkIId5QiFmSa-wdnNbjY9HdezJu9zphBG9p5C9YrP4eQO6Y_Xnk4Ozh2a31kyp123zCZirJoeTBzWMg0fhPbomm17Hdts1CVINn_0Z8DJUgTfSsbFDnh9MZ_SG_Tdx1Kfvzex9GQApXo2jgtHDy_pN8HC6VYCplJxtZa924twbUIkjoX0-Glen7vis9HA
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJnb29nbGUtb2F1dGgyfDEwODQyMDU0ODQ3NTA0MzYwOTQyOCIsImF1ZCI6WyJhcGkuc2Nob29scyIsImh0dHBzOi8vbG9nb3MuYXV0aDAuY29tL3VzZXJpbmZvIl0sImF6cCI6Ilh4akkxQ1ROVEdZTjl0YkJ4MHlKbXRNdnZUYnQ1aFdXIiwiZXhwIjoxNTA0NDY1MjUzLCJpYXQiOjE0OTY2ODkyNTMsInNjb3BlIjoib3BlbmlkIHByb2ZpbGUiLCJndHkiOiJwYXNzd29yZCJ9.xeNDgFx4NumVoIT9VafzCsqvDo5_Sm1LZfxQjxNI5rxERTYOOsDl5b5yhsPvYzCXZScXjOxaWgfvfDRMlzPJ_UypbPQKAmD_-tgBuBi_6mQzr2HWyD4jrvkjfDkQVD9dy2MjBKU1Es8YFETjIcmSe2ZolvvxrYbPJtDrbtQ5hotgvZu2CvHhkpJbxNRtm3jvPskkIOWoKbqgTqA7NiPNBc4Rvy2aj5xrIbJ0omq-c2C1RlaLQ9lUKE_k2llZgYE0m1MqwUgCmGhX6dXQLdVuguXvt2ev7UvnU-j3ChKQkYq9NGShJ-K0n53tF5miII2yc521nn9xsLpMzTFZ_075Bw
 
 + Response 200 (application/json)
 
@@ -382,7 +498,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 + Request  (application/json)
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1OGUzOTk1NWFmZWMzMTU4YTMyNWI1MGEiLCJhdWQiOlsiYXBpLnNjaG9vbHMiLCJodHRwczovL2xvZ29zLmF1dGgwLmNvbS91c2VyaW5mbyJdLCJhenAiOiJYeGpJMUNUTlRHWU45dGJCeDB5Sm10TXZ2VGJ0NWhXVyIsImV4cCI6MTQ5MTUwMDM3OCwiaWF0IjoxNDkxNDEzOTc4LCJzY29wZSI6Im9wZW5pZCBwcm9maWxlIiwiZ3R5IjoicGFzc3dvcmQifQ.ny6mKtvFbLFVokGpTzYtBruhXgNEO6dsJ1PU5A1fvZcuNGArRUprfHWBpW14N31Kh-WajY0ZMoQFFfSeE4_U3GdYM6u3S1gsPFe0nbNgQRIOXJwI4Q7qnG9z0QKJQjE2vW_ZyLBRhlxPPZQFr5BlcOi8_LkIId5QiFmSa-wdnNbjY9HdezJu9zphBG9p5C9YrP4eQO6Y_Xnk4Ozh2a31kyp123zCZirJoeTBzWMg0fhPbomm17Hdts1CVINn_0Z8DJUgTfSsbFDnh9MZ_SG_Tdx1Kfvzex9GQApXo2jgtHDy_pN8HC6VYCplJxtZa924twbUIkjoX0-Glen7vis9HA
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJnb29nbGUtb2F1dGgyfDEwODQyMDU0ODQ3NTA0MzYwOTQyOCIsImF1ZCI6WyJhcGkuc2Nob29scyIsImh0dHBzOi8vbG9nb3MuYXV0aDAuY29tL3VzZXJpbmZvIl0sImF6cCI6Ilh4akkxQ1ROVEdZTjl0YkJ4MHlKbXRNdnZUYnQ1aFdXIiwiZXhwIjoxNTA0NDY1MjUzLCJpYXQiOjE0OTY2ODkyNTMsInNjb3BlIjoib3BlbmlkIHByb2ZpbGUiLCJndHkiOiJwYXNzd29yZCJ9.xeNDgFx4NumVoIT9VafzCsqvDo5_Sm1LZfxQjxNI5rxERTYOOsDl5b5yhsPvYzCXZScXjOxaWgfvfDRMlzPJ_UypbPQKAmD_-tgBuBi_6mQzr2HWyD4jrvkjfDkQVD9dy2MjBKU1Es8YFETjIcmSe2ZolvvxrYbPJtDrbtQ5hotgvZu2CvHhkpJbxNRtm3jvPskkIOWoKbqgTqA7NiPNBc4Rvy2aj5xrIbJ0omq-c2C1RlaLQ9lUKE_k2llZgYE0m1MqwUgCmGhX6dXQLdVuguXvt2ev7UvnU-j3ChKQkYq9NGShJ-K0n53tF5miII2yc521nn9xsLpMzTFZ_075Bw
 
     + Attributes (SchoolClassFillable)
 
@@ -400,7 +516,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1OGUzOTk1NWFmZWMzMTU4YTMyNWI1MGEiLCJhdWQiOlsiYXBpLnNjaG9vbHMiLCJodHRwczovL2xvZ29zLmF1dGgwLmNvbS91c2VyaW5mbyJdLCJhenAiOiJYeGpJMUNUTlRHWU45dGJCeDB5Sm10TXZ2VGJ0NWhXVyIsImV4cCI6MTQ5MTUwMDM3OCwiaWF0IjoxNDkxNDEzOTc4LCJzY29wZSI6Im9wZW5pZCBwcm9maWxlIiwiZ3R5IjoicGFzc3dvcmQifQ.ny6mKtvFbLFVokGpTzYtBruhXgNEO6dsJ1PU5A1fvZcuNGArRUprfHWBpW14N31Kh-WajY0ZMoQFFfSeE4_U3GdYM6u3S1gsPFe0nbNgQRIOXJwI4Q7qnG9z0QKJQjE2vW_ZyLBRhlxPPZQFr5BlcOi8_LkIId5QiFmSa-wdnNbjY9HdezJu9zphBG9p5C9YrP4eQO6Y_Xnk4Ozh2a31kyp123zCZirJoeTBzWMg0fhPbomm17Hdts1CVINn_0Z8DJUgTfSsbFDnh9MZ_SG_Tdx1Kfvzex9GQApXo2jgtHDy_pN8HC6VYCplJxtZa924twbUIkjoX0-Glen7vis9HA
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJnb29nbGUtb2F1dGgyfDEwODQyMDU0ODQ3NTA0MzYwOTQyOCIsImF1ZCI6WyJhcGkuc2Nob29scyIsImh0dHBzOi8vbG9nb3MuYXV0aDAuY29tL3VzZXJpbmZvIl0sImF6cCI6Ilh4akkxQ1ROVEdZTjl0YkJ4MHlKbXRNdnZUYnQ1aFdXIiwiZXhwIjoxNTA0NDY1MjUzLCJpYXQiOjE0OTY2ODkyNTMsInNjb3BlIjoib3BlbmlkIHByb2ZpbGUiLCJndHkiOiJwYXNzd29yZCJ9.xeNDgFx4NumVoIT9VafzCsqvDo5_Sm1LZfxQjxNI5rxERTYOOsDl5b5yhsPvYzCXZScXjOxaWgfvfDRMlzPJ_UypbPQKAmD_-tgBuBi_6mQzr2HWyD4jrvkjfDkQVD9dy2MjBKU1Es8YFETjIcmSe2ZolvvxrYbPJtDrbtQ5hotgvZu2CvHhkpJbxNRtm3jvPskkIOWoKbqgTqA7NiPNBc4Rvy2aj5xrIbJ0omq-c2C1RlaLQ9lUKE_k2llZgYE0m1MqwUgCmGhX6dXQLdVuguXvt2ev7UvnU-j3ChKQkYq9NGShJ-K0n53tF5miII2yc521nn9xsLpMzTFZ_075Bw
 
 + Response 204
 
@@ -417,7 +533,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 + Request  (application/json)
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1OGUzOTk1NWFmZWMzMTU4YTMyNWI1MGEiLCJhdWQiOlsiYXBpLnNjaG9vbHMiLCJodHRwczovL2xvZ29zLmF1dGgwLmNvbS91c2VyaW5mbyJdLCJhenAiOiJYeGpJMUNUTlRHWU45dGJCeDB5Sm10TXZ2VGJ0NWhXVyIsImV4cCI6MTQ5MTUwMDM3OCwiaWF0IjoxNDkxNDEzOTc4LCJzY29wZSI6Im9wZW5pZCBwcm9maWxlIiwiZ3R5IjoicGFzc3dvcmQifQ.ny6mKtvFbLFVokGpTzYtBruhXgNEO6dsJ1PU5A1fvZcuNGArRUprfHWBpW14N31Kh-WajY0ZMoQFFfSeE4_U3GdYM6u3S1gsPFe0nbNgQRIOXJwI4Q7qnG9z0QKJQjE2vW_ZyLBRhlxPPZQFr5BlcOi8_LkIId5QiFmSa-wdnNbjY9HdezJu9zphBG9p5C9YrP4eQO6Y_Xnk4Ozh2a31kyp123zCZirJoeTBzWMg0fhPbomm17Hdts1CVINn_0Z8DJUgTfSsbFDnh9MZ_SG_Tdx1Kfvzex9GQApXo2jgtHDy_pN8HC6VYCplJxtZa924twbUIkjoX0-Glen7vis9HA
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJnb29nbGUtb2F1dGgyfDEwODQyMDU0ODQ3NTA0MzYwOTQyOCIsImF1ZCI6WyJhcGkuc2Nob29scyIsImh0dHBzOi8vbG9nb3MuYXV0aDAuY29tL3VzZXJpbmZvIl0sImF6cCI6Ilh4akkxQ1ROVEdZTjl0YkJ4MHlKbXRNdnZUYnQ1aFdXIiwiZXhwIjoxNTA0NDY1MjUzLCJpYXQiOjE0OTY2ODkyNTMsInNjb3BlIjoib3BlbmlkIHByb2ZpbGUiLCJndHkiOiJwYXNzd29yZCJ9.xeNDgFx4NumVoIT9VafzCsqvDo5_Sm1LZfxQjxNI5rxERTYOOsDl5b5yhsPvYzCXZScXjOxaWgfvfDRMlzPJ_UypbPQKAmD_-tgBuBi_6mQzr2HWyD4jrvkjfDkQVD9dy2MjBKU1Es8YFETjIcmSe2ZolvvxrYbPJtDrbtQ5hotgvZu2CvHhkpJbxNRtm3jvPskkIOWoKbqgTqA7NiPNBc4Rvy2aj5xrIbJ0omq-c2C1RlaLQ9lUKE_k2llZgYE0m1MqwUgCmGhX6dXQLdVuguXvt2ev7UvnU-j3ChKQkYq9NGShJ-K0n53tF5miII2yc521nn9xsLpMzTFZ_075Bw
 
 + Response 200 (application/json)
 
@@ -458,15 +574,47 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
                         + average: 7.7 (number) - Media aritimetica das notas de todos os alunos da turma em uma disciplina para a fase do calendário escolar.
 
 
+## Faltas dos alunos da turma [/school-classes/{school_class_id}/absences]
+
+Esse recurso representa todas as faltas dos alunos em aulas da turma.
+
+### Faltas dos alunos [GET /school-classes/{school_class_id}/absences{?_index_by_id,_sort}]
+
++ Parameters 
+    + school_class_id: 1 (numeric) - ID  da turma
+    + `_index_by_id`: false (boolean, optional) - `Modifica o formato do recurso onde o ID do estudante (student_id) é o indice do array de resultados e 
+    o ID da fase (school_calendar_phase_id) é o indice do array de resultados de faltas por fase.`
+    + _sort (string, optional) - Nome da coluna permitida para ordenar os resultados.
+        + Members
+            + student_name - Ordena por nome do estudante na ordem crescente.
+            + `-student_name` - Na ordem decrescente.
+
++ Request  (application/json)
+    + Headers
+
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJnb29nbGUtb2F1dGgyfDEwODQyMDU0ODQ3NTA0MzYwOTQyOCIsImF1ZCI6WyJhcGkuc2Nob29scyIsImh0dHBzOi8vbG9nb3MuYXV0aDAuY29tL3VzZXJpbmZvIl0sImF6cCI6Ilh4akkxQ1ROVEdZTjl0YkJ4MHlKbXRNdnZUYnQ1aFdXIiwiZXhwIjoxNTA0NDY1MjUzLCJpYXQiOjE0OTY2ODkyNTMsInNjb3BlIjoib3BlbmlkIHByb2ZpbGUiLCJndHkiOiJwYXNzd29yZCJ9.xeNDgFx4NumVoIT9VafzCsqvDo5_Sm1LZfxQjxNI5rxERTYOOsDl5b5yhsPvYzCXZScXjOxaWgfvfDRMlzPJ_UypbPQKAmD_-tgBuBi_6mQzr2HWyD4jrvkjfDkQVD9dy2MjBKU1Es8YFETjIcmSe2ZolvvxrYbPJtDrbtQ5hotgvZu2CvHhkpJbxNRtm3jvPskkIOWoKbqgTqA7NiPNBc4Rvy2aj5xrIbJ0omq-c2C1RlaLQ9lUKE_k2llZgYE0m1MqwUgCmGhX6dXQLdVuguXvt2ev7UvnU-j3ChKQkYq9NGShJ-K0n53tF5miII2yc521nn9xsLpMzTFZ_075Bw
+
++ Response 200 (application/json)
+
+    + Attributes
+
+        + data (array)
+            + (object)
+                + student_id: 1 (number) - ID do estudante
+                + school_calendar_phases (array) - Phases do calendário escolar relacionado a turma
+                    + (object)
+                        + school_calendar_phase_id: 1 (number) - `ID da fase do calendário escolar`
+                        + absences: 4 (number) - Total de faltas do aluno na fase
+
 # Group Aulas
 
 ## Coleção de aulas [/lessons]
 
 `Lessons` são as aulas programadas para as turmas de uma escola.
 
-### Listar aulas [GET]
+### Listar aulas [GET /lessons{?_q,_sort,_with}]
 
-Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="output.html#header-parametros-de-filtros-em-listagem">sessão</a> como definir os parametros da requisição.
+Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="#header-parametros-de-filtros-em-listagem">sessão</a> como definir os parametros da requisição.
 
 
 + Parameters
@@ -483,7 +631,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 + Request  (application/json)
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1OGUzOTk1NWFmZWMzMTU4YTMyNWI1MGEiLCJhdWQiOlsiYXBpLnNjaG9vbHMiLCJodHRwczovL2xvZ29zLmF1dGgwLmNvbS91c2VyaW5mbyJdLCJhenAiOiJYeGpJMUNUTlRHWU45dGJCeDB5Sm10TXZ2VGJ0NWhXVyIsImV4cCI6MTQ5MTUwMDM3OCwiaWF0IjoxNDkxNDEzOTc4LCJzY29wZSI6Im9wZW5pZCBwcm9maWxlIiwiZ3R5IjoicGFzc3dvcmQifQ.ny6mKtvFbLFVokGpTzYtBruhXgNEO6dsJ1PU5A1fvZcuNGArRUprfHWBpW14N31Kh-WajY0ZMoQFFfSeE4_U3GdYM6u3S1gsPFe0nbNgQRIOXJwI4Q7qnG9z0QKJQjE2vW_ZyLBRhlxPPZQFr5BlcOi8_LkIId5QiFmSa-wdnNbjY9HdezJu9zphBG9p5C9YrP4eQO6Y_Xnk4Ozh2a31kyp123zCZirJoeTBzWMg0fhPbomm17Hdts1CVINn_0Z8DJUgTfSsbFDnh9MZ_SG_Tdx1Kfvzex9GQApXo2jgtHDy_pN8HC6VYCplJxtZa924twbUIkjoX0-Glen7vis9HA
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJnb29nbGUtb2F1dGgyfDEwODQyMDU0ODQ3NTA0MzYwOTQyOCIsImF1ZCI6WyJhcGkuc2Nob29scyIsImh0dHBzOi8vbG9nb3MuYXV0aDAuY29tL3VzZXJpbmZvIl0sImF6cCI6Ilh4akkxQ1ROVEdZTjl0YkJ4MHlKbXRNdnZUYnQ1aFdXIiwiZXhwIjoxNTA0NDY1MjUzLCJpYXQiOjE0OTY2ODkyNTMsInNjb3BlIjoib3BlbmlkIHByb2ZpbGUiLCJndHkiOiJwYXNzd29yZCJ9.xeNDgFx4NumVoIT9VafzCsqvDo5_Sm1LZfxQjxNI5rxERTYOOsDl5b5yhsPvYzCXZScXjOxaWgfvfDRMlzPJ_UypbPQKAmD_-tgBuBi_6mQzr2HWyD4jrvkjfDkQVD9dy2MjBKU1Es8YFETjIcmSe2ZolvvxrYbPJtDrbtQ5hotgvZu2CvHhkpJbxNRtm3jvPskkIOWoKbqgTqA7NiPNBc4Rvy2aj5xrIbJ0omq-c2C1RlaLQ9lUKE_k2llZgYE0m1MqwUgCmGhX6dXQLdVuguXvt2ev7UvnU-j3ChKQkYq9NGShJ-K0n53tF5miII2yc521nn9xsLpMzTFZ_075Bw
 
 + Response 200 (application/json)
 
@@ -497,7 +645,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 + Request  (application/json)
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1OGUzOTk1NWFmZWMzMTU4YTMyNWI1MGEiLCJhdWQiOlsiYXBpLnNjaG9vbHMiLCJodHRwczovL2xvZ29zLmF1dGgwLmNvbS91c2VyaW5mbyJdLCJhenAiOiJYeGpJMUNUTlRHWU45dGJCeDB5Sm10TXZ2VGJ0NWhXVyIsImV4cCI6MTQ5MTUwMDM3OCwiaWF0IjoxNDkxNDEzOTc4LCJzY29wZSI6Im9wZW5pZCBwcm9maWxlIiwiZ3R5IjoicGFzc3dvcmQifQ.ny6mKtvFbLFVokGpTzYtBruhXgNEO6dsJ1PU5A1fvZcuNGArRUprfHWBpW14N31Kh-WajY0ZMoQFFfSeE4_U3GdYM6u3S1gsPFe0nbNgQRIOXJwI4Q7qnG9z0QKJQjE2vW_ZyLBRhlxPPZQFr5BlcOi8_LkIId5QiFmSa-wdnNbjY9HdezJu9zphBG9p5C9YrP4eQO6Y_Xnk4Ozh2a31kyp123zCZirJoeTBzWMg0fhPbomm17Hdts1CVINn_0Z8DJUgTfSsbFDnh9MZ_SG_Tdx1Kfvzex9GQApXo2jgtHDy_pN8HC6VYCplJxtZa924twbUIkjoX0-Glen7vis9HA
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJnb29nbGUtb2F1dGgyfDEwODQyMDU0ODQ3NTA0MzYwOTQyOCIsImF1ZCI6WyJhcGkuc2Nob29scyIsImh0dHBzOi8vbG9nb3MuYXV0aDAuY29tL3VzZXJpbmZvIl0sImF6cCI6Ilh4akkxQ1ROVEdZTjl0YkJ4MHlKbXRNdnZUYnQ1aFdXIiwiZXhwIjoxNTA0NDY1MjUzLCJpYXQiOjE0OTY2ODkyNTMsInNjb3BlIjoib3BlbmlkIHByb2ZpbGUiLCJndHkiOiJwYXNzd29yZCJ9.xeNDgFx4NumVoIT9VafzCsqvDo5_Sm1LZfxQjxNI5rxERTYOOsDl5b5yhsPvYzCXZScXjOxaWgfvfDRMlzPJ_UypbPQKAmD_-tgBuBi_6mQzr2HWyD4jrvkjfDkQVD9dy2MjBKU1Es8YFETjIcmSe2ZolvvxrYbPJtDrbtQ5hotgvZu2CvHhkpJbxNRtm3jvPskkIOWoKbqgTqA7NiPNBc4Rvy2aj5xrIbJ0omq-c2C1RlaLQ9lUKE_k2llZgYE0m1MqwUgCmGhX6dXQLdVuguXvt2ev7UvnU-j3ChKQkYq9NGShJ-K0n53tF5miII2yc521nn9xsLpMzTFZ_075Bw
 
     + Attributes (LessonFillable)
 
@@ -509,7 +657,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 
 ## Aula [/lessons/{lesson_id}]
 
-### Detalhes da aula [GET]
+### Detalhes da aula [GET /lessons/{lesson_id}{?_with,attach}]
 
 + Parameters
     + lesson_id: 1 (number) - ID of the lesson
@@ -543,7 +691,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 + Request  (application/json)
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1OGUzOTk1NWFmZWMzMTU4YTMyNWI1MGEiLCJhdWQiOlsiYXBpLnNjaG9vbHMiLCJodHRwczovL2xvZ29zLmF1dGgwLmNvbS91c2VyaW5mbyJdLCJhenAiOiJYeGpJMUNUTlRHWU45dGJCeDB5Sm10TXZ2VGJ0NWhXVyIsImV4cCI6MTQ5MTUwMDM3OCwiaWF0IjoxNDkxNDEzOTc4LCJzY29wZSI6Im9wZW5pZCBwcm9maWxlIiwiZ3R5IjoicGFzc3dvcmQifQ.ny6mKtvFbLFVokGpTzYtBruhXgNEO6dsJ1PU5A1fvZcuNGArRUprfHWBpW14N31Kh-WajY0ZMoQFFfSeE4_U3GdYM6u3S1gsPFe0nbNgQRIOXJwI4Q7qnG9z0QKJQjE2vW_ZyLBRhlxPPZQFr5BlcOi8_LkIId5QiFmSa-wdnNbjY9HdezJu9zphBG9p5C9YrP4eQO6Y_Xnk4Ozh2a31kyp123zCZirJoeTBzWMg0fhPbomm17Hdts1CVINn_0Z8DJUgTfSsbFDnh9MZ_SG_Tdx1Kfvzex9GQApXo2jgtHDy_pN8HC6VYCplJxtZa924twbUIkjoX0-Glen7vis9HA
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJnb29nbGUtb2F1dGgyfDEwODQyMDU0ODQ3NTA0MzYwOTQyOCIsImF1ZCI6WyJhcGkuc2Nob29scyIsImh0dHBzOi8vbG9nb3MuYXV0aDAuY29tL3VzZXJpbmZvIl0sImF6cCI6Ilh4akkxQ1ROVEdZTjl0YkJ4MHlKbXRNdnZUYnQ1aFdXIiwiZXhwIjoxNTA0NDY1MjUzLCJpYXQiOjE0OTY2ODkyNTMsInNjb3BlIjoib3BlbmlkIHByb2ZpbGUiLCJndHkiOiJwYXNzd29yZCJ9.xeNDgFx4NumVoIT9VafzCsqvDo5_Sm1LZfxQjxNI5rxERTYOOsDl5b5yhsPvYzCXZScXjOxaWgfvfDRMlzPJ_UypbPQKAmD_-tgBuBi_6mQzr2HWyD4jrvkjfDkQVD9dy2MjBKU1Es8YFETjIcmSe2ZolvvxrYbPJtDrbtQ5hotgvZu2CvHhkpJbxNRtm3jvPskkIOWoKbqgTqA7NiPNBc4Rvy2aj5xrIbJ0omq-c2C1RlaLQ9lUKE_k2llZgYE0m1MqwUgCmGhX6dXQLdVuguXvt2ev7UvnU-j3ChKQkYq9NGShJ-K0n53tF5miII2yc521nn9xsLpMzTFZ_075Bw
 
 + Response 200 (application/json)
 
@@ -568,7 +716,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 + Request  (application/json)
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1OGUzOTk1NWFmZWMzMTU4YTMyNWI1MGEiLCJhdWQiOlsiYXBpLnNjaG9vbHMiLCJodHRwczovL2xvZ29zLmF1dGgwLmNvbS91c2VyaW5mbyJdLCJhenAiOiJYeGpJMUNUTlRHWU45dGJCeDB5Sm10TXZ2VGJ0NWhXVyIsImV4cCI6MTQ5MTUwMDM3OCwiaWF0IjoxNDkxNDEzOTc4LCJzY29wZSI6Im9wZW5pZCBwcm9maWxlIiwiZ3R5IjoicGFzc3dvcmQifQ.ny6mKtvFbLFVokGpTzYtBruhXgNEO6dsJ1PU5A1fvZcuNGArRUprfHWBpW14N31Kh-WajY0ZMoQFFfSeE4_U3GdYM6u3S1gsPFe0nbNgQRIOXJwI4Q7qnG9z0QKJQjE2vW_ZyLBRhlxPPZQFr5BlcOi8_LkIId5QiFmSa-wdnNbjY9HdezJu9zphBG9p5C9YrP4eQO6Y_Xnk4Ozh2a31kyp123zCZirJoeTBzWMg0fhPbomm17Hdts1CVINn_0Z8DJUgTfSsbFDnh9MZ_SG_Tdx1Kfvzex9GQApXo2jgtHDy_pN8HC6VYCplJxtZa924twbUIkjoX0-Glen7vis9HA
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJnb29nbGUtb2F1dGgyfDEwODQyMDU0ODQ3NTA0MzYwOTQyOCIsImF1ZCI6WyJhcGkuc2Nob29scyIsImh0dHBzOi8vbG9nb3MuYXV0aDAuY29tL3VzZXJpbmZvIl0sImF6cCI6Ilh4akkxQ1ROVEdZTjl0YkJ4MHlKbXRNdnZUYnQ1aFdXIiwiZXhwIjoxNTA0NDY1MjUzLCJpYXQiOjE0OTY2ODkyNTMsInNjb3BlIjoib3BlbmlkIHByb2ZpbGUiLCJndHkiOiJwYXNzd29yZCJ9.xeNDgFx4NumVoIT9VafzCsqvDo5_Sm1LZfxQjxNI5rxERTYOOsDl5b5yhsPvYzCXZScXjOxaWgfvfDRMlzPJ_UypbPQKAmD_-tgBuBi_6mQzr2HWyD4jrvkjfDkQVD9dy2MjBKU1Es8YFETjIcmSe2ZolvvxrYbPJtDrbtQ5hotgvZu2CvHhkpJbxNRtm3jvPskkIOWoKbqgTqA7NiPNBc4Rvy2aj5xrIbJ0omq-c2C1RlaLQ9lUKE_k2llZgYE0m1MqwUgCmGhX6dXQLdVuguXvt2ev7UvnU-j3ChKQkYq9NGShJ-K0n53tF5miII2yc521nn9xsLpMzTFZ_075Bw
 
     + Attributes (LessonFillable)
 
@@ -586,23 +734,23 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 + Request  (application/json)
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1OGUzOTk1NWFmZWMzMTU4YTMyNWI1MGEiLCJhdWQiOlsiYXBpLnNjaG9vbHMiLCJodHRwczovL2xvZ29zLmF1dGgwLmNvbS91c2VyaW5mbyJdLCJhenAiOiJYeGpJMUNUTlRHWU45dGJCeDB5Sm10TXZ2VGJ0NWhXVyIsImV4cCI6MTQ5MTUwMDM3OCwiaWF0IjoxNDkxNDEzOTc4LCJzY29wZSI6Im9wZW5pZCBwcm9maWxlIiwiZ3R5IjoicGFzc3dvcmQifQ.ny6mKtvFbLFVokGpTzYtBruhXgNEO6dsJ1PU5A1fvZcuNGArRUprfHWBpW14N31Kh-WajY0ZMoQFFfSeE4_U3GdYM6u3S1gsPFe0nbNgQRIOXJwI4Q7qnG9z0QKJQjE2vW_ZyLBRhlxPPZQFr5BlcOi8_LkIId5QiFmSa-wdnNbjY9HdezJu9zphBG9p5C9YrP4eQO6Y_Xnk4Ozh2a31kyp123zCZirJoeTBzWMg0fhPbomm17Hdts1CVINn_0Z8DJUgTfSsbFDnh9MZ_SG_Tdx1Kfvzex9GQApXo2jgtHDy_pN8HC6VYCplJxtZa924twbUIkjoX0-Glen7vis9HA
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJnb29nbGUtb2F1dGgyfDEwODQyMDU0ODQ3NTA0MzYwOTQyOCIsImF1ZCI6WyJhcGkuc2Nob29scyIsImh0dHBzOi8vbG9nb3MuYXV0aDAuY29tL3VzZXJpbmZvIl0sImF6cCI6Ilh4akkxQ1ROVEdZTjl0YkJ4MHlKbXRNdnZUYnQ1aFdXIiwiZXhwIjoxNTA0NDY1MjUzLCJpYXQiOjE0OTY2ODkyNTMsInNjb3BlIjoib3BlbmlkIHByb2ZpbGUiLCJndHkiOiJwYXNzd29yZCJ9.xeNDgFx4NumVoIT9VafzCsqvDo5_Sm1LZfxQjxNI5rxERTYOOsDl5b5yhsPvYzCXZScXjOxaWgfvfDRMlzPJ_UypbPQKAmD_-tgBuBi_6mQzr2HWyD4jrvkjfDkQVD9dy2MjBKU1Es8YFETjIcmSe2ZolvvxrYbPJtDrbtQ5hotgvZu2CvHhkpJbxNRtm3jvPskkIOWoKbqgTqA7NiPNBc4Rvy2aj5xrIbJ0omq-c2C1RlaLQ9lUKE_k2llZgYE0m1MqwUgCmGhX6dXQLdVuguXvt2ev7UvnU-j3ChKQkYq9NGShJ-K0n53tF5miII2yc521nn9xsLpMzTFZ_075Bw
 
 + Response 204
 
 
-## Aulas por dia [/lessons/per-day]
+## Aulas por dia [/lessons/per-day{?start,end,user_id,_with}]
 
 ### Listar aulas por dia [GET]
 
-Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="output.html#header-parametros-de-filtros-em-listagem">sessão</a> como definir os parametros da requisição.
+Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="#header-parametros-de-filtros-em-listagem">sessão</a> como definir os parametros da requisição.
 
 + Parameters
     + start (string, optional) Data inicial
         + Default: NOW()
     + end (string, optional) Data final
         + Default: NOW() + 15 days
-    + user_id (string, optional) ID do usuário no serviço de autentificação (auth0)
+    + user_id (string, optional) - ID do usuário no serviço de autentificação (auth0)
     + _with (string, optional) Nome da relação a ser incluida da resposta.
         + Members
             + schoolClass
@@ -618,7 +766,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 + Request  (application/json)
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1OGUzOTk1NWFmZWMzMTU4YTMyNWI1MGEiLCJhdWQiOlsiYXBpLnNjaG9vbHMiLCJodHRwczovL2xvZ29zLmF1dGgwLmNvbS91c2VyaW5mbyJdLCJhenAiOiJYeGpJMUNUTlRHWU45dGJCeDB5Sm10TXZ2VGJ0NWhXVyIsImV4cCI6MTQ5MTUwMDM3OCwiaWF0IjoxNDkxNDEzOTc4LCJzY29wZSI6Im9wZW5pZCBwcm9maWxlIiwiZ3R5IjoicGFzc3dvcmQifQ.ny6mKtvFbLFVokGpTzYtBruhXgNEO6dsJ1PU5A1fvZcuNGArRUprfHWBpW14N31Kh-WajY0ZMoQFFfSeE4_U3GdYM6u3S1gsPFe0nbNgQRIOXJwI4Q7qnG9z0QKJQjE2vW_ZyLBRhlxPPZQFr5BlcOi8_LkIId5QiFmSa-wdnNbjY9HdezJu9zphBG9p5C9YrP4eQO6Y_Xnk4Ozh2a31kyp123zCZirJoeTBzWMg0fhPbomm17Hdts1CVINn_0Z8DJUgTfSsbFDnh9MZ_SG_Tdx1Kfvzex9GQApXo2jgtHDy_pN8HC6VYCplJxtZa924twbUIkjoX0-Glen7vis9HA
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJnb29nbGUtb2F1dGgyfDEwODQyMDU0ODQ3NTA0MzYwOTQyOCIsImF1ZCI6WyJhcGkuc2Nob29scyIsImh0dHBzOi8vbG9nb3MuYXV0aDAuY29tL3VzZXJpbmZvIl0sImF6cCI6Ilh4akkxQ1ROVEdZTjl0YkJ4MHlKbXRNdnZUYnQ1aFdXIiwiZXhwIjoxNTA0NDY1MjUzLCJpYXQiOjE0OTY2ODkyNTMsInNjb3BlIjoib3BlbmlkIHByb2ZpbGUiLCJndHkiOiJwYXNzd29yZCJ9.xeNDgFx4NumVoIT9VafzCsqvDo5_Sm1LZfxQjxNI5rxERTYOOsDl5b5yhsPvYzCXZScXjOxaWgfvfDRMlzPJ_UypbPQKAmD_-tgBuBi_6mQzr2HWyD4jrvkjfDkQVD9dy2MjBKU1Es8YFETjIcmSe2ZolvvxrYbPJtDrbtQ5hotgvZu2CvHhkpJbxNRtm3jvPskkIOWoKbqgTqA7NiPNBc4Rvy2aj5xrIbJ0omq-c2C1RlaLQ9lUKE_k2llZgYE0m1MqwUgCmGhX6dXQLdVuguXvt2ev7UvnU-j3ChKQkYq9NGShJ-K0n53tF5miII2yc521nn9xsLpMzTFZ_075Bw
 
 + Response 200 (application/json)
 
@@ -629,15 +777,16 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
             + (object)
                 + day: `2016-10-01` (string)
                 + lessons (array)
-                    + include Lesson
-                    + user_id: auth0|58e39955afec3158a325b50a (string, optional) ID do usuário no serviço de autentificação
+                    + (object)
+                        + include Lesson
+                        + user_id: auth0|58e39955afec3158a325b50a (string, optional) ID do usuário no serviço de autentificação
 
 
 ## Coleção de planos de aula [/lesson-plans]
 
 `Lesson plan` são planejamentos dos professores para como e quando vão aplicar conteúdos na sala de aula. 
 
-### Listar planos de aula [GET]
+### Listar planos de aula [GET /lesson-plans{?_q,_sort,_with}]
 
 + Parameters
     + _q (string, optional) - Pesquisa por palavra-chave, a correspondência e incluida conjunto de resultados.
@@ -649,7 +798,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 + Request  (application/json)
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1OGUzOTk1NWFmZWMzMTU4YTMyNWI1MGEiLCJhdWQiOlsiYXBpLnNjaG9vbHMiLCJodHRwczovL2xvZ29zLmF1dGgwLmNvbS91c2VyaW5mbyJdLCJhenAiOiJYeGpJMUNUTlRHWU45dGJCeDB5Sm10TXZ2VGJ0NWhXVyIsImV4cCI6MTQ5MTUwMDM3OCwiaWF0IjoxNDkxNDEzOTc4LCJzY29wZSI6Im9wZW5pZCBwcm9maWxlIiwiZ3R5IjoicGFzc3dvcmQifQ.ny6mKtvFbLFVokGpTzYtBruhXgNEO6dsJ1PU5A1fvZcuNGArRUprfHWBpW14N31Kh-WajY0ZMoQFFfSeE4_U3GdYM6u3S1gsPFe0nbNgQRIOXJwI4Q7qnG9z0QKJQjE2vW_ZyLBRhlxPPZQFr5BlcOi8_LkIId5QiFmSa-wdnNbjY9HdezJu9zphBG9p5C9YrP4eQO6Y_Xnk4Ozh2a31kyp123zCZirJoeTBzWMg0fhPbomm17Hdts1CVINn_0Z8DJUgTfSsbFDnh9MZ_SG_Tdx1Kfvzex9GQApXo2jgtHDy_pN8HC6VYCplJxtZa924twbUIkjoX0-Glen7vis9HA
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJnb29nbGUtb2F1dGgyfDEwODQyMDU0ODQ3NTA0MzYwOTQyOCIsImF1ZCI6WyJhcGkuc2Nob29scyIsImh0dHBzOi8vbG9nb3MuYXV0aDAuY29tL3VzZXJpbmZvIl0sImF6cCI6Ilh4akkxQ1ROVEdZTjl0YkJ4MHlKbXRNdnZUYnQ1aFdXIiwiZXhwIjoxNTA0NDY1MjUzLCJpYXQiOjE0OTY2ODkyNTMsInNjb3BlIjoib3BlbmlkIHByb2ZpbGUiLCJndHkiOiJwYXNzd29yZCJ9.xeNDgFx4NumVoIT9VafzCsqvDo5_Sm1LZfxQjxNI5rxERTYOOsDl5b5yhsPvYzCXZScXjOxaWgfvfDRMlzPJ_UypbPQKAmD_-tgBuBi_6mQzr2HWyD4jrvkjfDkQVD9dy2MjBKU1Es8YFETjIcmSe2ZolvvxrYbPJtDrbtQ5hotgvZu2CvHhkpJbxNRtm3jvPskkIOWoKbqgTqA7NiPNBc4Rvy2aj5xrIbJ0omq-c2C1RlaLQ9lUKE_k2llZgYE0m1MqwUgCmGhX6dXQLdVuguXvt2ev7UvnU-j3ChKQkYq9NGShJ-K0n53tF5miII2yc521nn9xsLpMzTFZ_075Bw
 
 + Response 200 (application/json)
 
@@ -664,7 +813,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 + Request  (application/json)
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1OGUzOTk1NWFmZWMzMTU4YTMyNWI1MGEiLCJhdWQiOlsiYXBpLnNjaG9vbHMiLCJodHRwczovL2xvZ29zLmF1dGgwLmNvbS91c2VyaW5mbyJdLCJhenAiOiJYeGpJMUNUTlRHWU45dGJCeDB5Sm10TXZ2VGJ0NWhXVyIsImV4cCI6MTQ5MTUwMDM3OCwiaWF0IjoxNDkxNDEzOTc4LCJzY29wZSI6Im9wZW5pZCBwcm9maWxlIiwiZ3R5IjoicGFzc3dvcmQifQ.ny6mKtvFbLFVokGpTzYtBruhXgNEO6dsJ1PU5A1fvZcuNGArRUprfHWBpW14N31Kh-WajY0ZMoQFFfSeE4_U3GdYM6u3S1gsPFe0nbNgQRIOXJwI4Q7qnG9z0QKJQjE2vW_ZyLBRhlxPPZQFr5BlcOi8_LkIId5QiFmSa-wdnNbjY9HdezJu9zphBG9p5C9YrP4eQO6Y_Xnk4Ozh2a31kyp123zCZirJoeTBzWMg0fhPbomm17Hdts1CVINn_0Z8DJUgTfSsbFDnh9MZ_SG_Tdx1Kfvzex9GQApXo2jgtHDy_pN8HC6VYCplJxtZa924twbUIkjoX0-Glen7vis9HA
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJnb29nbGUtb2F1dGgyfDEwODQyMDU0ODQ3NTA0MzYwOTQyOCIsImF1ZCI6WyJhcGkuc2Nob29scyIsImh0dHBzOi8vbG9nb3MuYXV0aDAuY29tL3VzZXJpbmZvIl0sImF6cCI6Ilh4akkxQ1ROVEdZTjl0YkJ4MHlKbXRNdnZUYnQ1aFdXIiwiZXhwIjoxNTA0NDY1MjUzLCJpYXQiOjE0OTY2ODkyNTMsInNjb3BlIjoib3BlbmlkIHByb2ZpbGUiLCJndHkiOiJwYXNzd29yZCJ9.xeNDgFx4NumVoIT9VafzCsqvDo5_Sm1LZfxQjxNI5rxERTYOOsDl5b5yhsPvYzCXZScXjOxaWgfvfDRMlzPJ_UypbPQKAmD_-tgBuBi_6mQzr2HWyD4jrvkjfDkQVD9dy2MjBKU1Es8YFETjIcmSe2ZolvvxrYbPJtDrbtQ5hotgvZu2CvHhkpJbxNRtm3jvPskkIOWoKbqgTqA7NiPNBc4Rvy2aj5xrIbJ0omq-c2C1RlaLQ9lUKE_k2llZgYE0m1MqwUgCmGhX6dXQLdVuguXvt2ev7UvnU-j3ChKQkYq9NGShJ-K0n53tF5miII2yc521nn9xsLpMzTFZ_075Bw
 
     + Attributes (object)
         + Include LessonPlanFillable
@@ -682,7 +831,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 
 ## Plano de aula [/lesson-plans/{lesson_plan_id}]
 
-### Detalhes do plano de aula [GET]
+### Detalhes do plano de aula [GET /lesson-plans/{lesson_plan_id}{?_with}]
 
 + Parameters
     + lesson_plan_id: 1 (number) - ID of the lesson plan
@@ -693,7 +842,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 + Request  (application/json)
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1OGUzOTk1NWFmZWMzMTU4YTMyNWI1MGEiLCJhdWQiOlsiYXBpLnNjaG9vbHMiLCJodHRwczovL2xvZ29zLmF1dGgwLmNvbS91c2VyaW5mbyJdLCJhenAiOiJYeGpJMUNUTlRHWU45dGJCeDB5Sm10TXZ2VGJ0NWhXVyIsImV4cCI6MTQ5MTUwMDM3OCwiaWF0IjoxNDkxNDEzOTc4LCJzY29wZSI6Im9wZW5pZCBwcm9maWxlIiwiZ3R5IjoicGFzc3dvcmQifQ.ny6mKtvFbLFVokGpTzYtBruhXgNEO6dsJ1PU5A1fvZcuNGArRUprfHWBpW14N31Kh-WajY0ZMoQFFfSeE4_U3GdYM6u3S1gsPFe0nbNgQRIOXJwI4Q7qnG9z0QKJQjE2vW_ZyLBRhlxPPZQFr5BlcOi8_LkIId5QiFmSa-wdnNbjY9HdezJu9zphBG9p5C9YrP4eQO6Y_Xnk4Ozh2a31kyp123zCZirJoeTBzWMg0fhPbomm17Hdts1CVINn_0Z8DJUgTfSsbFDnh9MZ_SG_Tdx1Kfvzex9GQApXo2jgtHDy_pN8HC6VYCplJxtZa924twbUIkjoX0-Glen7vis9HA
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJnb29nbGUtb2F1dGgyfDEwODQyMDU0ODQ3NTA0MzYwOTQyOCIsImF1ZCI6WyJhcGkuc2Nob29scyIsImh0dHBzOi8vbG9nb3MuYXV0aDAuY29tL3VzZXJpbmZvIl0sImF6cCI6Ilh4akkxQ1ROVEdZTjl0YkJ4MHlKbXRNdnZUYnQ1aFdXIiwiZXhwIjoxNTA0NDY1MjUzLCJpYXQiOjE0OTY2ODkyNTMsInNjb3BlIjoib3BlbmlkIHByb2ZpbGUiLCJndHkiOiJwYXNzd29yZCJ9.xeNDgFx4NumVoIT9VafzCsqvDo5_Sm1LZfxQjxNI5rxERTYOOsDl5b5yhsPvYzCXZScXjOxaWgfvfDRMlzPJ_UypbPQKAmD_-tgBuBi_6mQzr2HWyD4jrvkjfDkQVD9dy2MjBKU1Es8YFETjIcmSe2ZolvvxrYbPJtDrbtQ5hotgvZu2CvHhkpJbxNRtm3jvPskkIOWoKbqgTqA7NiPNBc4Rvy2aj5xrIbJ0omq-c2C1RlaLQ9lUKE_k2llZgYE0m1MqwUgCmGhX6dXQLdVuguXvt2ev7UvnU-j3ChKQkYq9NGShJ-K0n53tF5miII2yc521nn9xsLpMzTFZ_075Bw
 
 + Response 200 (application/json)
 
@@ -708,7 +857,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 + Request  (application/json)
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1OGUzOTk1NWFmZWMzMTU4YTMyNWI1MGEiLCJhdWQiOlsiYXBpLnNjaG9vbHMiLCJodHRwczovL2xvZ29zLmF1dGgwLmNvbS91c2VyaW5mbyJdLCJhenAiOiJYeGpJMUNUTlRHWU45dGJCeDB5Sm10TXZ2VGJ0NWhXVyIsImV4cCI6MTQ5MTUwMDM3OCwiaWF0IjoxNDkxNDEzOTc4LCJzY29wZSI6Im9wZW5pZCBwcm9maWxlIiwiZ3R5IjoicGFzc3dvcmQifQ.ny6mKtvFbLFVokGpTzYtBruhXgNEO6dsJ1PU5A1fvZcuNGArRUprfHWBpW14N31Kh-WajY0ZMoQFFfSeE4_U3GdYM6u3S1gsPFe0nbNgQRIOXJwI4Q7qnG9z0QKJQjE2vW_ZyLBRhlxPPZQFr5BlcOi8_LkIId5QiFmSa-wdnNbjY9HdezJu9zphBG9p5C9YrP4eQO6Y_Xnk4Ozh2a31kyp123zCZirJoeTBzWMg0fhPbomm17Hdts1CVINn_0Z8DJUgTfSsbFDnh9MZ_SG_Tdx1Kfvzex9GQApXo2jgtHDy_pN8HC6VYCplJxtZa924twbUIkjoX0-Glen7vis9HA
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJnb29nbGUtb2F1dGgyfDEwODQyMDU0ODQ3NTA0MzYwOTQyOCIsImF1ZCI6WyJhcGkuc2Nob29scyIsImh0dHBzOi8vbG9nb3MuYXV0aDAuY29tL3VzZXJpbmZvIl0sImF6cCI6Ilh4akkxQ1ROVEdZTjl0YkJ4MHlKbXRNdnZUYnQ1aFdXIiwiZXhwIjoxNTA0NDY1MjUzLCJpYXQiOjE0OTY2ODkyNTMsInNjb3BlIjoib3BlbmlkIHByb2ZpbGUiLCJndHkiOiJwYXNzd29yZCJ9.xeNDgFx4NumVoIT9VafzCsqvDo5_Sm1LZfxQjxNI5rxERTYOOsDl5b5yhsPvYzCXZScXjOxaWgfvfDRMlzPJ_UypbPQKAmD_-tgBuBi_6mQzr2HWyD4jrvkjfDkQVD9dy2MjBKU1Es8YFETjIcmSe2ZolvvxrYbPJtDrbtQ5hotgvZu2CvHhkpJbxNRtm3jvPskkIOWoKbqgTqA7NiPNBc4Rvy2aj5xrIbJ0omq-c2C1RlaLQ9lUKE_k2llZgYE0m1MqwUgCmGhX6dXQLdVuguXvt2ev7UvnU-j3ChKQkYq9NGShJ-K0n53tF5miII2yc521nn9xsLpMzTFZ_075Bw
 
     + Attributes (object)
         + Include LessonPlanFillable
@@ -735,7 +884,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 + Request  (application/json)
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1OGUzOTk1NWFmZWMzMTU4YTMyNWI1MGEiLCJhdWQiOlsiYXBpLnNjaG9vbHMiLCJodHRwczovL2xvZ29zLmF1dGgwLmNvbS91c2VyaW5mbyJdLCJhenAiOiJYeGpJMUNUTlRHWU45dGJCeDB5Sm10TXZ2VGJ0NWhXVyIsImV4cCI6MTQ5MTUwMDM3OCwiaWF0IjoxNDkxNDEzOTc4LCJzY29wZSI6Im9wZW5pZCBwcm9maWxlIiwiZ3R5IjoicGFzc3dvcmQifQ.ny6mKtvFbLFVokGpTzYtBruhXgNEO6dsJ1PU5A1fvZcuNGArRUprfHWBpW14N31Kh-WajY0ZMoQFFfSeE4_U3GdYM6u3S1gsPFe0nbNgQRIOXJwI4Q7qnG9z0QKJQjE2vW_ZyLBRhlxPPZQFr5BlcOi8_LkIId5QiFmSa-wdnNbjY9HdezJu9zphBG9p5C9YrP4eQO6Y_Xnk4Ozh2a31kyp123zCZirJoeTBzWMg0fhPbomm17Hdts1CVINn_0Z8DJUgTfSsbFDnh9MZ_SG_Tdx1Kfvzex9GQApXo2jgtHDy_pN8HC6VYCplJxtZa924twbUIkjoX0-Glen7vis9HA
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJnb29nbGUtb2F1dGgyfDEwODQyMDU0ODQ3NTA0MzYwOTQyOCIsImF1ZCI6WyJhcGkuc2Nob29scyIsImh0dHBzOi8vbG9nb3MuYXV0aDAuY29tL3VzZXJpbmZvIl0sImF6cCI6Ilh4akkxQ1ROVEdZTjl0YkJ4MHlKbXRNdnZUYnQ1aFdXIiwiZXhwIjoxNTA0NDY1MjUzLCJpYXQiOjE0OTY2ODkyNTMsInNjb3BlIjoib3BlbmlkIHByb2ZpbGUiLCJndHkiOiJwYXNzd29yZCJ9.xeNDgFx4NumVoIT9VafzCsqvDo5_Sm1LZfxQjxNI5rxERTYOOsDl5b5yhsPvYzCXZScXjOxaWgfvfDRMlzPJ_UypbPQKAmD_-tgBuBi_6mQzr2HWyD4jrvkjfDkQVD9dy2MjBKU1Es8YFETjIcmSe2ZolvvxrYbPJtDrbtQ5hotgvZu2CvHhkpJbxNRtm3jvPskkIOWoKbqgTqA7NiPNBc4Rvy2aj5xrIbJ0omq-c2C1RlaLQ9lUKE_k2llZgYE0m1MqwUgCmGhX6dXQLdVuguXvt2ev7UvnU-j3ChKQkYq9NGShJ-K0n53tF5miII2yc521nn9xsLpMzTFZ_075Bw
 
 + Response 204
 
@@ -745,14 +894,14 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 'Modelos de plano de aula' são definições de formatos que os professores devem seguir
 ao criar seus planos de aula
 
-Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="output.html#header-parametros-de-filtros-em-listagem">sessão</a> como definir os parametros da requisição.
+Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="#header-parametros-de-filtros-em-listagem">sessão</a> como definir os parametros da requisição.
 
 ### Listar modelos de plano de aula [GET]
 
 + Request  (application/json)
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1OGUzOTk1NWFmZWMzMTU4YTMyNWI1MGEiLCJhdWQiOlsiYXBpLnNjaG9vbHMiLCJodHRwczovL2xvZ29zLmF1dGgwLmNvbS91c2VyaW5mbyJdLCJhenAiOiJYeGpJMUNUTlRHWU45dGJCeDB5Sm10TXZ2VGJ0NWhXVyIsImV4cCI6MTQ5MTUwMDM3OCwiaWF0IjoxNDkxNDEzOTc4LCJzY29wZSI6Im9wZW5pZCBwcm9maWxlIiwiZ3R5IjoicGFzc3dvcmQifQ.ny6mKtvFbLFVokGpTzYtBruhXgNEO6dsJ1PU5A1fvZcuNGArRUprfHWBpW14N31Kh-WajY0ZMoQFFfSeE4_U3GdYM6u3S1gsPFe0nbNgQRIOXJwI4Q7qnG9z0QKJQjE2vW_ZyLBRhlxPPZQFr5BlcOi8_LkIId5QiFmSa-wdnNbjY9HdezJu9zphBG9p5C9YrP4eQO6Y_Xnk4Ozh2a31kyp123zCZirJoeTBzWMg0fhPbomm17Hdts1CVINn_0Z8DJUgTfSsbFDnh9MZ_SG_Tdx1Kfvzex9GQApXo2jgtHDy_pN8HC6VYCplJxtZa924twbUIkjoX0-Glen7vis9HA
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJnb29nbGUtb2F1dGgyfDEwODQyMDU0ODQ3NTA0MzYwOTQyOCIsImF1ZCI6WyJhcGkuc2Nob29scyIsImh0dHBzOi8vbG9nb3MuYXV0aDAuY29tL3VzZXJpbmZvIl0sImF6cCI6Ilh4akkxQ1ROVEdZTjl0YkJ4MHlKbXRNdnZUYnQ1aFdXIiwiZXhwIjoxNTA0NDY1MjUzLCJpYXQiOjE0OTY2ODkyNTMsInNjb3BlIjoib3BlbmlkIHByb2ZpbGUiLCJndHkiOiJwYXNzd29yZCJ9.xeNDgFx4NumVoIT9VafzCsqvDo5_Sm1LZfxQjxNI5rxERTYOOsDl5b5yhsPvYzCXZScXjOxaWgfvfDRMlzPJ_UypbPQKAmD_-tgBuBi_6mQzr2HWyD4jrvkjfDkQVD9dy2MjBKU1Es8YFETjIcmSe2ZolvvxrYbPJtDrbtQ5hotgvZu2CvHhkpJbxNRtm3jvPskkIOWoKbqgTqA7NiPNBc4Rvy2aj5xrIbJ0omq-c2C1RlaLQ9lUKE_k2llZgYE0m1MqwUgCmGhX6dXQLdVuguXvt2ev7UvnU-j3ChKQkYq9NGShJ-K0n53tF5miII2yc521nn9xsLpMzTFZ_075Bw
 
 + Response 200 (application/json)
 
@@ -766,7 +915,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 + Request  (application/json)
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1OGUzOTk1NWFmZWMzMTU4YTMyNWI1MGEiLCJhdWQiOlsiYXBpLnNjaG9vbHMiLCJodHRwczovL2xvZ29zLmF1dGgwLmNvbS91c2VyaW5mbyJdLCJhenAiOiJYeGpJMUNUTlRHWU45dGJCeDB5Sm10TXZ2VGJ0NWhXVyIsImV4cCI6MTQ5MTUwMDM3OCwiaWF0IjoxNDkxNDEzOTc4LCJzY29wZSI6Im9wZW5pZCBwcm9maWxlIiwiZ3R5IjoicGFzc3dvcmQifQ.ny6mKtvFbLFVokGpTzYtBruhXgNEO6dsJ1PU5A1fvZcuNGArRUprfHWBpW14N31Kh-WajY0ZMoQFFfSeE4_U3GdYM6u3S1gsPFe0nbNgQRIOXJwI4Q7qnG9z0QKJQjE2vW_ZyLBRhlxPPZQFr5BlcOi8_LkIId5QiFmSa-wdnNbjY9HdezJu9zphBG9p5C9YrP4eQO6Y_Xnk4Ozh2a31kyp123zCZirJoeTBzWMg0fhPbomm17Hdts1CVINn_0Z8DJUgTfSsbFDnh9MZ_SG_Tdx1Kfvzex9GQApXo2jgtHDy_pN8HC6VYCplJxtZa924twbUIkjoX0-Glen7vis9HA
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJnb29nbGUtb2F1dGgyfDEwODQyMDU0ODQ3NTA0MzYwOTQyOCIsImF1ZCI6WyJhcGkuc2Nob29scyIsImh0dHBzOi8vbG9nb3MuYXV0aDAuY29tL3VzZXJpbmZvIl0sImF6cCI6Ilh4akkxQ1ROVEdZTjl0YkJ4MHlKbXRNdnZUYnQ1aFdXIiwiZXhwIjoxNTA0NDY1MjUzLCJpYXQiOjE0OTY2ODkyNTMsInNjb3BlIjoib3BlbmlkIHByb2ZpbGUiLCJndHkiOiJwYXNzd29yZCJ9.xeNDgFx4NumVoIT9VafzCsqvDo5_Sm1LZfxQjxNI5rxERTYOOsDl5b5yhsPvYzCXZScXjOxaWgfvfDRMlzPJ_UypbPQKAmD_-tgBuBi_6mQzr2HWyD4jrvkjfDkQVD9dy2MjBKU1Es8YFETjIcmSe2ZolvvxrYbPJtDrbtQ5hotgvZu2CvHhkpJbxNRtm3jvPskkIOWoKbqgTqA7NiPNBc4Rvy2aj5xrIbJ0omq-c2C1RlaLQ9lUKE_k2llZgYE0m1MqwUgCmGhX6dXQLdVuguXvt2ev7UvnU-j3ChKQkYq9NGShJ-K0n53tF5miII2yc521nn9xsLpMzTFZ_075Bw
 
     + Attributes (LessonPlanModelFillable)
 
@@ -785,7 +934,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 + Request  (application/json)
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1OGUzOTk1NWFmZWMzMTU4YTMyNWI1MGEiLCJhdWQiOlsiYXBpLnNjaG9vbHMiLCJodHRwczovL2xvZ29zLmF1dGgwLmNvbS91c2VyaW5mbyJdLCJhenAiOiJYeGpJMUNUTlRHWU45dGJCeDB5Sm10TXZ2VGJ0NWhXVyIsImV4cCI6MTQ5MTUwMDM3OCwiaWF0IjoxNDkxNDEzOTc4LCJzY29wZSI6Im9wZW5pZCBwcm9maWxlIiwiZ3R5IjoicGFzc3dvcmQifQ.ny6mKtvFbLFVokGpTzYtBruhXgNEO6dsJ1PU5A1fvZcuNGArRUprfHWBpW14N31Kh-WajY0ZMoQFFfSeE4_U3GdYM6u3S1gsPFe0nbNgQRIOXJwI4Q7qnG9z0QKJQjE2vW_ZyLBRhlxPPZQFr5BlcOi8_LkIId5QiFmSa-wdnNbjY9HdezJu9zphBG9p5C9YrP4eQO6Y_Xnk4Ozh2a31kyp123zCZirJoeTBzWMg0fhPbomm17Hdts1CVINn_0Z8DJUgTfSsbFDnh9MZ_SG_Tdx1Kfvzex9GQApXo2jgtHDy_pN8HC6VYCplJxtZa924twbUIkjoX0-Glen7vis9HA
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJnb29nbGUtb2F1dGgyfDEwODQyMDU0ODQ3NTA0MzYwOTQyOCIsImF1ZCI6WyJhcGkuc2Nob29scyIsImh0dHBzOi8vbG9nb3MuYXV0aDAuY29tL3VzZXJpbmZvIl0sImF6cCI6Ilh4akkxQ1ROVEdZTjl0YkJ4MHlKbXRNdnZUYnQ1aFdXIiwiZXhwIjoxNTA0NDY1MjUzLCJpYXQiOjE0OTY2ODkyNTMsInNjb3BlIjoib3BlbmlkIHByb2ZpbGUiLCJndHkiOiJwYXNzd29yZCJ9.xeNDgFx4NumVoIT9VafzCsqvDo5_Sm1LZfxQjxNI5rxERTYOOsDl5b5yhsPvYzCXZScXjOxaWgfvfDRMlzPJ_UypbPQKAmD_-tgBuBi_6mQzr2HWyD4jrvkjfDkQVD9dy2MjBKU1Es8YFETjIcmSe2ZolvvxrYbPJtDrbtQ5hotgvZu2CvHhkpJbxNRtm3jvPskkIOWoKbqgTqA7NiPNBc4Rvy2aj5xrIbJ0omq-c2C1RlaLQ9lUKE_k2llZgYE0m1MqwUgCmGhX6dXQLdVuguXvt2ev7UvnU-j3ChKQkYq9NGShJ-K0n53tF5miII2yc521nn9xsLpMzTFZ_075Bw
 
 + Response 200 (application/json)
 
@@ -800,7 +949,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 + Request  (application/json)
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1OGUzOTk1NWFmZWMzMTU4YTMyNWI1MGEiLCJhdWQiOlsiYXBpLnNjaG9vbHMiLCJodHRwczovL2xvZ29zLmF1dGgwLmNvbS91c2VyaW5mbyJdLCJhenAiOiJYeGpJMUNUTlRHWU45dGJCeDB5Sm10TXZ2VGJ0NWhXVyIsImV4cCI6MTQ5MTUwMDM3OCwiaWF0IjoxNDkxNDEzOTc4LCJzY29wZSI6Im9wZW5pZCBwcm9maWxlIiwiZ3R5IjoicGFzc3dvcmQifQ.ny6mKtvFbLFVokGpTzYtBruhXgNEO6dsJ1PU5A1fvZcuNGArRUprfHWBpW14N31Kh-WajY0ZMoQFFfSeE4_U3GdYM6u3S1gsPFe0nbNgQRIOXJwI4Q7qnG9z0QKJQjE2vW_ZyLBRhlxPPZQFr5BlcOi8_LkIId5QiFmSa-wdnNbjY9HdezJu9zphBG9p5C9YrP4eQO6Y_Xnk4Ozh2a31kyp123zCZirJoeTBzWMg0fhPbomm17Hdts1CVINn_0Z8DJUgTfSsbFDnh9MZ_SG_Tdx1Kfvzex9GQApXo2jgtHDy_pN8HC6VYCplJxtZa924twbUIkjoX0-Glen7vis9HA
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJnb29nbGUtb2F1dGgyfDEwODQyMDU0ODQ3NTA0MzYwOTQyOCIsImF1ZCI6WyJhcGkuc2Nob29scyIsImh0dHBzOi8vbG9nb3MuYXV0aDAuY29tL3VzZXJpbmZvIl0sImF6cCI6Ilh4akkxQ1ROVEdZTjl0YkJ4MHlKbXRNdnZUYnQ1aFdXIiwiZXhwIjoxNTA0NDY1MjUzLCJpYXQiOjE0OTY2ODkyNTMsInNjb3BlIjoib3BlbmlkIHByb2ZpbGUiLCJndHkiOiJwYXNzd29yZCJ9.xeNDgFx4NumVoIT9VafzCsqvDo5_Sm1LZfxQjxNI5rxERTYOOsDl5b5yhsPvYzCXZScXjOxaWgfvfDRMlzPJ_UypbPQKAmD_-tgBuBi_6mQzr2HWyD4jrvkjfDkQVD9dy2MjBKU1Es8YFETjIcmSe2ZolvvxrYbPJtDrbtQ5hotgvZu2CvHhkpJbxNRtm3jvPskkIOWoKbqgTqA7NiPNBc4Rvy2aj5xrIbJ0omq-c2C1RlaLQ9lUKE_k2llZgYE0m1MqwUgCmGhX6dXQLdVuguXvt2ev7UvnU-j3ChKQkYq9NGShJ-K0n53tF5miII2yc521nn9xsLpMzTFZ_075Bw
 
     + Attributes (LessonPlanModelFillable)
 
@@ -817,7 +966,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 + Request  (application/json)
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1OGUzOTk1NWFmZWMzMTU4YTMyNWI1MGEiLCJhdWQiOlsiYXBpLnNjaG9vbHMiLCJodHRwczovL2xvZ29zLmF1dGgwLmNvbS91c2VyaW5mbyJdLCJhenAiOiJYeGpJMUNUTlRHWU45dGJCeDB5Sm10TXZ2VGJ0NWhXVyIsImV4cCI6MTQ5MTUwMDM3OCwiaWF0IjoxNDkxNDEzOTc4LCJzY29wZSI6Im9wZW5pZCBwcm9maWxlIiwiZ3R5IjoicGFzc3dvcmQifQ.ny6mKtvFbLFVokGpTzYtBruhXgNEO6dsJ1PU5A1fvZcuNGArRUprfHWBpW14N31Kh-WajY0ZMoQFFfSeE4_U3GdYM6u3S1gsPFe0nbNgQRIOXJwI4Q7qnG9z0QKJQjE2vW_ZyLBRhlxPPZQFr5BlcOi8_LkIId5QiFmSa-wdnNbjY9HdezJu9zphBG9p5C9YrP4eQO6Y_Xnk4Ozh2a31kyp123zCZirJoeTBzWMg0fhPbomm17Hdts1CVINn_0Z8DJUgTfSsbFDnh9MZ_SG_Tdx1Kfvzex9GQApXo2jgtHDy_pN8HC6VYCplJxtZa924twbUIkjoX0-Glen7vis9HA
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJnb29nbGUtb2F1dGgyfDEwODQyMDU0ODQ3NTA0MzYwOTQyOCIsImF1ZCI6WyJhcGkuc2Nob29scyIsImh0dHBzOi8vbG9nb3MuYXV0aDAuY29tL3VzZXJpbmZvIl0sImF6cCI6Ilh4akkxQ1ROVEdZTjl0YkJ4MHlKbXRNdnZUYnQ1aFdXIiwiZXhwIjoxNTA0NDY1MjUzLCJpYXQiOjE0OTY2ODkyNTMsInNjb3BlIjoib3BlbmlkIHByb2ZpbGUiLCJndHkiOiJwYXNzd29yZCJ9.xeNDgFx4NumVoIT9VafzCsqvDo5_Sm1LZfxQjxNI5rxERTYOOsDl5b5yhsPvYzCXZScXjOxaWgfvfDRMlzPJ_UypbPQKAmD_-tgBuBi_6mQzr2HWyD4jrvkjfDkQVD9dy2MjBKU1Es8YFETjIcmSe2ZolvvxrYbPJtDrbtQ5hotgvZu2CvHhkpJbxNRtm3jvPskkIOWoKbqgTqA7NiPNBc4Rvy2aj5xrIbJ0omq-c2C1RlaLQ9lUKE_k2llZgYE0m1MqwUgCmGhX6dXQLdVuguXvt2ev7UvnU-j3ChKQkYq9NGShJ-K0n53tF5miII2yc521nn9xsLpMzTFZ_075Bw
 
 + Response 204
 
@@ -831,17 +980,18 @@ e relatórios como "Boletim anual do aluno" e "Histórico escolar", registro de 
 ### Ver relatório anual do aluno [GET]
 
 + Parameters
-    + school_calendar_id: 1 (required, number) - ID do ano letivo
+    + school_calendar_id: 1 (required, number) - ID do calendário escolar
 
 + Request  (application/json)
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1OGUzOTk1NWFmZWMzMTU4YTMyNWI1MGEiLCJhdWQiOlsiYXBpLnNjaG9vbHMiLCJodHRwczovL2xvZ29zLmF1dGgwLmNvbS91c2VyaW5mbyJdLCJhenAiOiJYeGpJMUNUTlRHWU45dGJCeDB5Sm10TXZ2VGJ0NWhXVyIsImV4cCI6MTQ5MTUwMDM3OCwiaWF0IjoxNDkxNDEzOTc4LCJzY29wZSI6Im9wZW5pZCBwcm9maWxlIiwiZ3R5IjoicGFzc3dvcmQifQ.ny6mKtvFbLFVokGpTzYtBruhXgNEO6dsJ1PU5A1fvZcuNGArRUprfHWBpW14N31Kh-WajY0ZMoQFFfSeE4_U3GdYM6u3S1gsPFe0nbNgQRIOXJwI4Q7qnG9z0QKJQjE2vW_ZyLBRhlxPPZQFr5BlcOi8_LkIId5QiFmSa-wdnNbjY9HdezJu9zphBG9p5C9YrP4eQO6Y_Xnk4Ozh2a31kyp123zCZirJoeTBzWMg0fhPbomm17Hdts1CVINn_0Z8DJUgTfSsbFDnh9MZ_SG_Tdx1Kfvzex9GQApXo2jgtHDy_pN8HC6VYCplJxtZa924twbUIkjoX0-Glen7vis9HA
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJnb29nbGUtb2F1dGgyfDEwODQyMDU0ODQ3NTA0MzYwOTQyOCIsImF1ZCI6WyJhcGkuc2Nob29scyIsImh0dHBzOi8vbG9nb3MuYXV0aDAuY29tL3VzZXJpbmZvIl0sImF6cCI6Ilh4akkxQ1ROVEdZTjl0YkJ4MHlKbXRNdnZUYnQ1aFdXIiwiZXhwIjoxNTA0NDY1MjUzLCJpYXQiOjE0OTY2ODkyNTMsInNjb3BlIjoib3BlbmlkIHByb2ZpbGUiLCJndHkiOiJwYXNzd29yZCJ9.xeNDgFx4NumVoIT9VafzCsqvDo5_Sm1LZfxQjxNI5rxERTYOOsDl5b5yhsPvYzCXZScXjOxaWgfvfDRMlzPJ_UypbPQKAmD_-tgBuBi_6mQzr2HWyD4jrvkjfDkQVD9dy2MjBKU1Es8YFETjIcmSe2ZolvvxrYbPJtDrbtQ5hotgvZu2CvHhkpJbxNRtm3jvPskkIOWoKbqgTqA7NiPNBc4Rvy2aj5xrIbJ0omq-c2C1RlaLQ9lUKE_k2llZgYE0m1MqwUgCmGhX6dXQLdVuguXvt2ev7UvnU-j3ChKQkYq9NGShJ-K0n53tF5miII2yc521nn9xsLpMzTFZ_075Bw
 
 + Response 200 (application/json)
 
     + Attributes (object)
-        + report_by_subjects (array[SubjectAnnualReport]) - Médias e faltas por disciplina no ano letivo
+        + report_by_subjects (array[SubjectAnnualReport]) - Médias e faltas agrupadas por disciplina
+        + report_by_phases (array[AnnualReportPerPhase]) - Faltas agrupadas por fase do calendário escolar
 
 ## Resumo anual do aluno [/students/{student_id}/annual-summary/{school_calendar_id}]
 
@@ -853,7 +1003,7 @@ e relatórios como "Boletim anual do aluno" e "Histórico escolar", registro de 
 + Request  (application/json)
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1OGUzOTk1NWFmZWMzMTU4YTMyNWI1MGEiLCJhdWQiOlsiYXBpLnNjaG9vbHMiLCJodHRwczovL2xvZ29zLmF1dGgwLmNvbS91c2VyaW5mbyJdLCJhenAiOiJYeGpJMUNUTlRHWU45dGJCeDB5Sm10TXZ2VGJ0NWhXVyIsImV4cCI6MTQ5MTUwMDM3OCwiaWF0IjoxNDkxNDEzOTc4LCJzY29wZSI6Im9wZW5pZCBwcm9maWxlIiwiZ3R5IjoicGFzc3dvcmQifQ.ny6mKtvFbLFVokGpTzYtBruhXgNEO6dsJ1PU5A1fvZcuNGArRUprfHWBpW14N31Kh-WajY0ZMoQFFfSeE4_U3GdYM6u3S1gsPFe0nbNgQRIOXJwI4Q7qnG9z0QKJQjE2vW_ZyLBRhlxPPZQFr5BlcOi8_LkIId5QiFmSa-wdnNbjY9HdezJu9zphBG9p5C9YrP4eQO6Y_Xnk4Ozh2a31kyp123zCZirJoeTBzWMg0fhPbomm17Hdts1CVINn_0Z8DJUgTfSsbFDnh9MZ_SG_Tdx1Kfvzex9GQApXo2jgtHDy_pN8HC6VYCplJxtZa924twbUIkjoX0-Glen7vis9HA
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJnb29nbGUtb2F1dGgyfDEwODQyMDU0ODQ3NTA0MzYwOTQyOCIsImF1ZCI6WyJhcGkuc2Nob29scyIsImh0dHBzOi8vbG9nb3MuYXV0aDAuY29tL3VzZXJpbmZvIl0sImF6cCI6Ilh4akkxQ1ROVEdZTjl0YkJ4MHlKbXRNdnZUYnQ1aFdXIiwiZXhwIjoxNTA0NDY1MjUzLCJpYXQiOjE0OTY2ODkyNTMsInNjb3BlIjoib3BlbmlkIHByb2ZpbGUiLCJndHkiOiJwYXNzd29yZCJ9.xeNDgFx4NumVoIT9VafzCsqvDo5_Sm1LZfxQjxNI5rxERTYOOsDl5b5yhsPvYzCXZScXjOxaWgfvfDRMlzPJ_UypbPQKAmD_-tgBuBi_6mQzr2HWyD4jrvkjfDkQVD9dy2MjBKU1Es8YFETjIcmSe2ZolvvxrYbPJtDrbtQ5hotgvZu2CvHhkpJbxNRtm3jvPskkIOWoKbqgTqA7NiPNBc4Rvy2aj5xrIbJ0omq-c2C1RlaLQ9lUKE_k2llZgYE0m1MqwUgCmGhX6dXQLdVuguXvt2ev7UvnU-j3ChKQkYq9NGShJ-K0n53tF5miII2yc521nn9xsLpMzTFZ_075Bw
 
 + Response 200 (application/json)
 
@@ -879,9 +1029,9 @@ e relatórios como "Boletim anual do aluno" e "Histórico escolar", registro de 
 
 ## Coleção de estudantes [/students]
 
-### Listar estudantes [GET]
+### Listar estudantes [GET /students{?_q,_sort,_with}]
 
-Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="output.html#header-parametros-de-filtros-em-listagem">sessão</a> como definir os parametros da requisição.
+Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="#header-parametros-de-filtros-em-listagem">sessão</a> como definir os parametros da requisição.
 
 + Parameters
     + _q (string, optional) - Pesquisa por palavra-chave, a correspondência e incluida conjunto de resultados.
@@ -895,7 +1045,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 + Request  (application/json)
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1OGUzOTk1NWFmZWMzMTU4YTMyNWI1MGEiLCJhdWQiOlsiYXBpLnNjaG9vbHMiLCJodHRwczovL2xvZ29zLmF1dGgwLmNvbS91c2VyaW5mbyJdLCJhenAiOiJYeGpJMUNUTlRHWU45dGJCeDB5Sm10TXZ2VGJ0NWhXVyIsImV4cCI6MTQ5MTUwMDM3OCwiaWF0IjoxNDkxNDEzOTc4LCJzY29wZSI6Im9wZW5pZCBwcm9maWxlIiwiZ3R5IjoicGFzc3dvcmQifQ.ny6mKtvFbLFVokGpTzYtBruhXgNEO6dsJ1PU5A1fvZcuNGArRUprfHWBpW14N31Kh-WajY0ZMoQFFfSeE4_U3GdYM6u3S1gsPFe0nbNgQRIOXJwI4Q7qnG9z0QKJQjE2vW_ZyLBRhlxPPZQFr5BlcOi8_LkIId5QiFmSa-wdnNbjY9HdezJu9zphBG9p5C9YrP4eQO6Y_Xnk4Ozh2a31kyp123zCZirJoeTBzWMg0fhPbomm17Hdts1CVINn_0Z8DJUgTfSsbFDnh9MZ_SG_Tdx1Kfvzex9GQApXo2jgtHDy_pN8HC6VYCplJxtZa924twbUIkjoX0-Glen7vis9HA
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJnb29nbGUtb2F1dGgyfDEwODQyMDU0ODQ3NTA0MzYwOTQyOCIsImF1ZCI6WyJhcGkuc2Nob29scyIsImh0dHBzOi8vbG9nb3MuYXV0aDAuY29tL3VzZXJpbmZvIl0sImF6cCI6Ilh4akkxQ1ROVEdZTjl0YkJ4MHlKbXRNdnZUYnQ1aFdXIiwiZXhwIjoxNTA0NDY1MjUzLCJpYXQiOjE0OTY2ODkyNTMsInNjb3BlIjoib3BlbmlkIHByb2ZpbGUiLCJndHkiOiJwYXNzd29yZCJ9.xeNDgFx4NumVoIT9VafzCsqvDo5_Sm1LZfxQjxNI5rxERTYOOsDl5b5yhsPvYzCXZScXjOxaWgfvfDRMlzPJ_UypbPQKAmD_-tgBuBi_6mQzr2HWyD4jrvkjfDkQVD9dy2MjBKU1Es8YFETjIcmSe2ZolvvxrYbPJtDrbtQ5hotgvZu2CvHhkpJbxNRtm3jvPskkIOWoKbqgTqA7NiPNBc4Rvy2aj5xrIbJ0omq-c2C1RlaLQ9lUKE_k2llZgYE0m1MqwUgCmGhX6dXQLdVuguXvt2ev7UvnU-j3ChKQkYq9NGShJ-K0n53tF5miII2yc521nn9xsLpMzTFZ_075Bw
 
 + Response 200 (application/json)
 
@@ -906,7 +1056,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 
 ## Estudante [/students/{id}]
 
-### Detalhes do estudante [GET]
+### Detalhes do estudante [GET /students/{id}{?_with}]
 
 + Parameters
     + id: 1 (required, number) - ID do estudante.
@@ -919,7 +1069,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 + Request  (application/json)
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1OGUzOTk1NWFmZWMzMTU4YTMyNWI1MGEiLCJhdWQiOlsiYXBpLnNjaG9vbHMiLCJodHRwczovL2xvZ29zLmF1dGgwLmNvbS91c2VyaW5mbyJdLCJhenAiOiJYeGpJMUNUTlRHWU45dGJCeDB5Sm10TXZ2VGJ0NWhXVyIsImV4cCI6MTQ5MTUwMDM3OCwiaWF0IjoxNDkxNDEzOTc4LCJzY29wZSI6Im9wZW5pZCBwcm9maWxlIiwiZ3R5IjoicGFzc3dvcmQifQ.ny6mKtvFbLFVokGpTzYtBruhXgNEO6dsJ1PU5A1fvZcuNGArRUprfHWBpW14N31Kh-WajY0ZMoQFFfSeE4_U3GdYM6u3S1gsPFe0nbNgQRIOXJwI4Q7qnG9z0QKJQjE2vW_ZyLBRhlxPPZQFr5BlcOi8_LkIId5QiFmSa-wdnNbjY9HdezJu9zphBG9p5C9YrP4eQO6Y_Xnk4Ozh2a31kyp123zCZirJoeTBzWMg0fhPbomm17Hdts1CVINn_0Z8DJUgTfSsbFDnh9MZ_SG_Tdx1Kfvzex9GQApXo2jgtHDy_pN8HC6VYCplJxtZa924twbUIkjoX0-Glen7vis9HA
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJnb29nbGUtb2F1dGgyfDEwODQyMDU0ODQ3NTA0MzYwOTQyOCIsImF1ZCI6WyJhcGkuc2Nob29scyIsImh0dHBzOi8vbG9nb3MuYXV0aDAuY29tL3VzZXJpbmZvIl0sImF6cCI6Ilh4akkxQ1ROVEdZTjl0YkJ4MHlKbXRNdnZUYnQ1aFdXIiwiZXhwIjoxNTA0NDY1MjUzLCJpYXQiOjE0OTY2ODkyNTMsInNjb3BlIjoib3BlbmlkIHByb2ZpbGUiLCJndHkiOiJwYXNzd29yZCJ9.xeNDgFx4NumVoIT9VafzCsqvDo5_Sm1LZfxQjxNI5rxERTYOOsDl5b5yhsPvYzCXZScXjOxaWgfvfDRMlzPJ_UypbPQKAmD_-tgBuBi_6mQzr2HWyD4jrvkjfDkQVD9dy2MjBKU1Es8YFETjIcmSe2ZolvvxrYbPJtDrbtQ5hotgvZu2CvHhkpJbxNRtm3jvPskkIOWoKbqgTqA7NiPNBc4Rvy2aj5xrIbJ0omq-c2C1RlaLQ9lUKE_k2llZgYE0m1MqwUgCmGhX6dXQLdVuguXvt2ev7UvnU-j3ChKQkYq9NGShJ-K0n53tF5miII2yc521nn9xsLpMzTFZ_075Bw
 
 + Response 200 (application/json)
 
@@ -931,9 +1081,9 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 `Attendance Records` são os registros de presenças dos alunos em uma aula, definindo
 se o aluno estava ou não presente durante a aula.
 
-### Listar registro de presença [GET]
+### Listar registro de presença [GET /attendance-records{_q,_sort,_with}]
 
-Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="output.html#header-parametros-de-filtros-em-listagem">sessão</a> como definir os parametros da requisição.
+Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="#header-parametros-de-filtros-em-listagem">sessão</a> como definir os parametros da requisição.
 
 
 + Parameters
@@ -952,7 +1102,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 + Request  (application/json)
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1OGUzOTk1NWFmZWMzMTU4YTMyNWI1MGEiLCJhdWQiOlsiYXBpLnNjaG9vbHMiLCJodHRwczovL2xvZ29zLmF1dGgwLmNvbS91c2VyaW5mbyJdLCJhenAiOiJYeGpJMUNUTlRHWU45dGJCeDB5Sm10TXZ2VGJ0NWhXVyIsImV4cCI6MTQ5MTUwMDM3OCwiaWF0IjoxNDkxNDEzOTc4LCJzY29wZSI6Im9wZW5pZCBwcm9maWxlIiwiZ3R5IjoicGFzc3dvcmQifQ.ny6mKtvFbLFVokGpTzYtBruhXgNEO6dsJ1PU5A1fvZcuNGArRUprfHWBpW14N31Kh-WajY0ZMoQFFfSeE4_U3GdYM6u3S1gsPFe0nbNgQRIOXJwI4Q7qnG9z0QKJQjE2vW_ZyLBRhlxPPZQFr5BlcOi8_LkIId5QiFmSa-wdnNbjY9HdezJu9zphBG9p5C9YrP4eQO6Y_Xnk4Ozh2a31kyp123zCZirJoeTBzWMg0fhPbomm17Hdts1CVINn_0Z8DJUgTfSsbFDnh9MZ_SG_Tdx1Kfvzex9GQApXo2jgtHDy_pN8HC6VYCplJxtZa924twbUIkjoX0-Glen7vis9HA
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJnb29nbGUtb2F1dGgyfDEwODQyMDU0ODQ3NTA0MzYwOTQyOCIsImF1ZCI6WyJhcGkuc2Nob29scyIsImh0dHBzOi8vbG9nb3MuYXV0aDAuY29tL3VzZXJpbmZvIl0sImF6cCI6Ilh4akkxQ1ROVEdZTjl0YkJ4MHlKbXRNdnZUYnQ1aFdXIiwiZXhwIjoxNTA0NDY1MjUzLCJpYXQiOjE0OTY2ODkyNTMsInNjb3BlIjoib3BlbmlkIHByb2ZpbGUiLCJndHkiOiJwYXNzd29yZCJ9.xeNDgFx4NumVoIT9VafzCsqvDo5_Sm1LZfxQjxNI5rxERTYOOsDl5b5yhsPvYzCXZScXjOxaWgfvfDRMlzPJ_UypbPQKAmD_-tgBuBi_6mQzr2HWyD4jrvkjfDkQVD9dy2MjBKU1Es8YFETjIcmSe2ZolvvxrYbPJtDrbtQ5hotgvZu2CvHhkpJbxNRtm3jvPskkIOWoKbqgTqA7NiPNBc4Rvy2aj5xrIbJ0omq-c2C1RlaLQ9lUKE_k2llZgYE0m1MqwUgCmGhX6dXQLdVuguXvt2ev7UvnU-j3ChKQkYq9NGShJ-K0n53tF5miII2yc521nn9xsLpMzTFZ_075Bw
 
 + Response 200 (application/json)
 
@@ -970,7 +1120,7 @@ retornado o registro já existente com as informações atualizadas.
 + Request  (application/json)
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1OGUzOTk1NWFmZWMzMTU4YTMyNWI1MGEiLCJhdWQiOlsiYXBpLnNjaG9vbHMiLCJodHRwczovL2xvZ29zLmF1dGgwLmNvbS91c2VyaW5mbyJdLCJhenAiOiJYeGpJMUNUTlRHWU45dGJCeDB5Sm10TXZ2VGJ0NWhXVyIsImV4cCI6MTQ5MTUwMDM3OCwiaWF0IjoxNDkxNDEzOTc4LCJzY29wZSI6Im9wZW5pZCBwcm9maWxlIiwiZ3R5IjoicGFzc3dvcmQifQ.ny6mKtvFbLFVokGpTzYtBruhXgNEO6dsJ1PU5A1fvZcuNGArRUprfHWBpW14N31Kh-WajY0ZMoQFFfSeE4_U3GdYM6u3S1gsPFe0nbNgQRIOXJwI4Q7qnG9z0QKJQjE2vW_ZyLBRhlxPPZQFr5BlcOi8_LkIId5QiFmSa-wdnNbjY9HdezJu9zphBG9p5C9YrP4eQO6Y_Xnk4Ozh2a31kyp123zCZirJoeTBzWMg0fhPbomm17Hdts1CVINn_0Z8DJUgTfSsbFDnh9MZ_SG_Tdx1Kfvzex9GQApXo2jgtHDy_pN8HC6VYCplJxtZa924twbUIkjoX0-Glen7vis9HA
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJnb29nbGUtb2F1dGgyfDEwODQyMDU0ODQ3NTA0MzYwOTQyOCIsImF1ZCI6WyJhcGkuc2Nob29scyIsImh0dHBzOi8vbG9nb3MuYXV0aDAuY29tL3VzZXJpbmZvIl0sImF6cCI6Ilh4akkxQ1ROVEdZTjl0YkJ4MHlKbXRNdnZUYnQ1aFdXIiwiZXhwIjoxNTA0NDY1MjUzLCJpYXQiOjE0OTY2ODkyNTMsInNjb3BlIjoib3BlbmlkIHByb2ZpbGUiLCJndHkiOiJwYXNzd29yZCJ9.xeNDgFx4NumVoIT9VafzCsqvDo5_Sm1LZfxQjxNI5rxERTYOOsDl5b5yhsPvYzCXZScXjOxaWgfvfDRMlzPJ_UypbPQKAmD_-tgBuBi_6mQzr2HWyD4jrvkjfDkQVD9dy2MjBKU1Es8YFETjIcmSe2ZolvvxrYbPJtDrbtQ5hotgvZu2CvHhkpJbxNRtm3jvPskkIOWoKbqgTqA7NiPNBc4Rvy2aj5xrIbJ0omq-c2C1RlaLQ9lUKE_k2llZgYE0m1MqwUgCmGhX6dXQLdVuguXvt2ev7UvnU-j3ChKQkYq9NGShJ-K0n53tF5miII2yc521nn9xsLpMzTFZ_075Bw
 
     + Attributes (AttendanceRecordFillable)
 
@@ -983,19 +1133,24 @@ retornado o registro já existente com as informações atualizadas.
     + Attributes
         + attendance_record (AttendanceRecord)
 
-+ Response 409 (application/json)
++ Request  (application/json)
+    + Headers
 
-        {
-            "message": "The record of the student (student.id = 1 ) to the lesson already exists.",
-            "status_code": 409
-        }
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJnb29nbGUtb2F1dGgyfDEwODQyMDU0ODQ3NTA0MzYwOTQyOCIsImF1ZCI6WyJhcGkuc2Nob29scyIsImh0dHBzOi8vbG9nb3MuYXV0aDAuY29tL3VzZXJpbmZvIl0sImF6cCI6Ilh4akkxQ1ROVEdZTjl0YkJ4MHlKbXRNdnZUYnQ1aFdXIiwiZXhwIjoxNTA0NDY1MjUzLCJpYXQiOjE0OTY2ODkyNTMsInNjb3BlIjoib3BlbmlkIHByb2ZpbGUiLCJndHkiOiJwYXNzd29yZCJ9.xeNDgFx4NumVoIT9VafzCsqvDo5_Sm1LZfxQjxNI5rxERTYOOsDl5b5yhsPvYzCXZScXjOxaWgfvfDRMlzPJ_UypbPQKAmD_-tgBuBi_6mQzr2HWyD4jrvkjfDkQVD9dy2MjBKU1Es8YFETjIcmSe2ZolvvxrYbPJtDrbtQ5hotgvZu2CvHhkpJbxNRtm3jvPskkIOWoKbqgTqA7NiPNBc4Rvy2aj5xrIbJ0omq-c2C1RlaLQ9lUKE_k2llZgYE0m1MqwUgCmGhX6dXQLdVuguXvt2ev7UvnU-j3ChKQkYq9NGShJ-K0n53tF5miII2yc521nn9xsLpMzTFZ_075Bw
+
+    + Attributes (array[AttendanceRecordFillable])
+
++ Response 201 (application/json)
+
+    + Attributes
+        + attendance_records (array[AttendanceRecord])
 
 ## Registro de presença [/attendance-records/{attendance_record_id}]
 
 + Parameters
     + attendance_record_id: 1 (number) - ID of the attendance record
 
-### Detalhes do registro de presença [GET]
+### Detalhes do registro de presença [GET /attendance-records/{attendance_record_id}{_with}]
 
 + Parameters
     + _with (string, optional) - Obtem informações do recurso relacionado.
@@ -1011,7 +1166,7 @@ retornado o registro já existente com as informações atualizadas.
 + Request  (application/json)
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1OGUzOTk1NWFmZWMzMTU4YTMyNWI1MGEiLCJhdWQiOlsiYXBpLnNjaG9vbHMiLCJodHRwczovL2xvZ29zLmF1dGgwLmNvbS91c2VyaW5mbyJdLCJhenAiOiJYeGpJMUNUTlRHWU45dGJCeDB5Sm10TXZ2VGJ0NWhXVyIsImV4cCI6MTQ5MTUwMDM3OCwiaWF0IjoxNDkxNDEzOTc4LCJzY29wZSI6Im9wZW5pZCBwcm9maWxlIiwiZ3R5IjoicGFzc3dvcmQifQ.ny6mKtvFbLFVokGpTzYtBruhXgNEO6dsJ1PU5A1fvZcuNGArRUprfHWBpW14N31Kh-WajY0ZMoQFFfSeE4_U3GdYM6u3S1gsPFe0nbNgQRIOXJwI4Q7qnG9z0QKJQjE2vW_ZyLBRhlxPPZQFr5BlcOi8_LkIId5QiFmSa-wdnNbjY9HdezJu9zphBG9p5C9YrP4eQO6Y_Xnk4Ozh2a31kyp123zCZirJoeTBzWMg0fhPbomm17Hdts1CVINn_0Z8DJUgTfSsbFDnh9MZ_SG_Tdx1Kfvzex9GQApXo2jgtHDy_pN8HC6VYCplJxtZa924twbUIkjoX0-Glen7vis9HA
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJnb29nbGUtb2F1dGgyfDEwODQyMDU0ODQ3NTA0MzYwOTQyOCIsImF1ZCI6WyJhcGkuc2Nob29scyIsImh0dHBzOi8vbG9nb3MuYXV0aDAuY29tL3VzZXJpbmZvIl0sImF6cCI6Ilh4akkxQ1ROVEdZTjl0YkJ4MHlKbXRNdnZUYnQ1aFdXIiwiZXhwIjoxNTA0NDY1MjUzLCJpYXQiOjE0OTY2ODkyNTMsInNjb3BlIjoib3BlbmlkIHByb2ZpbGUiLCJndHkiOiJwYXNzd29yZCJ9.xeNDgFx4NumVoIT9VafzCsqvDo5_Sm1LZfxQjxNI5rxERTYOOsDl5b5yhsPvYzCXZScXjOxaWgfvfDRMlzPJ_UypbPQKAmD_-tgBuBi_6mQzr2HWyD4jrvkjfDkQVD9dy2MjBKU1Es8YFETjIcmSe2ZolvvxrYbPJtDrbtQ5hotgvZu2CvHhkpJbxNRtm3jvPskkIOWoKbqgTqA7NiPNBc4Rvy2aj5xrIbJ0omq-c2C1RlaLQ9lUKE_k2llZgYE0m1MqwUgCmGhX6dXQLdVuguXvt2ev7UvnU-j3ChKQkYq9NGShJ-K0n53tF5miII2yc521nn9xsLpMzTFZ_075Bw
 
 + Response 200 (application/json)
 
@@ -1026,7 +1181,7 @@ retornado o registro já existente com as informações atualizadas.
 + Request  (application/json)
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1OGUzOTk1NWFmZWMzMTU4YTMyNWI1MGEiLCJhdWQiOlsiYXBpLnNjaG9vbHMiLCJodHRwczovL2xvZ29zLmF1dGgwLmNvbS91c2VyaW5mbyJdLCJhenAiOiJYeGpJMUNUTlRHWU45dGJCeDB5Sm10TXZ2VGJ0NWhXVyIsImV4cCI6MTQ5MTUwMDM3OCwiaWF0IjoxNDkxNDEzOTc4LCJzY29wZSI6Im9wZW5pZCBwcm9maWxlIiwiZ3R5IjoicGFzc3dvcmQifQ.ny6mKtvFbLFVokGpTzYtBruhXgNEO6dsJ1PU5A1fvZcuNGArRUprfHWBpW14N31Kh-WajY0ZMoQFFfSeE4_U3GdYM6u3S1gsPFe0nbNgQRIOXJwI4Q7qnG9z0QKJQjE2vW_ZyLBRhlxPPZQFr5BlcOi8_LkIId5QiFmSa-wdnNbjY9HdezJu9zphBG9p5C9YrP4eQO6Y_Xnk4Ozh2a31kyp123zCZirJoeTBzWMg0fhPbomm17Hdts1CVINn_0Z8DJUgTfSsbFDnh9MZ_SG_Tdx1Kfvzex9GQApXo2jgtHDy_pN8HC6VYCplJxtZa924twbUIkjoX0-Glen7vis9HA
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJnb29nbGUtb2F1dGgyfDEwODQyMDU0ODQ3NTA0MzYwOTQyOCIsImF1ZCI6WyJhcGkuc2Nob29scyIsImh0dHBzOi8vbG9nb3MuYXV0aDAuY29tL3VzZXJpbmZvIl0sImF6cCI6Ilh4akkxQ1ROVEdZTjl0YkJ4MHlKbXRNdnZUYnQ1aFdXIiwiZXhwIjoxNTA0NDY1MjUzLCJpYXQiOjE0OTY2ODkyNTMsInNjb3BlIjoib3BlbmlkIHByb2ZpbGUiLCJndHkiOiJwYXNzd29yZCJ9.xeNDgFx4NumVoIT9VafzCsqvDo5_Sm1LZfxQjxNI5rxERTYOOsDl5b5yhsPvYzCXZScXjOxaWgfvfDRMlzPJ_UypbPQKAmD_-tgBuBi_6mQzr2HWyD4jrvkjfDkQVD9dy2MjBKU1Es8YFETjIcmSe2ZolvvxrYbPJtDrbtQ5hotgvZu2CvHhkpJbxNRtm3jvPskkIOWoKbqgTqA7NiPNBc4Rvy2aj5xrIbJ0omq-c2C1RlaLQ9lUKE_k2llZgYE0m1MqwUgCmGhX6dXQLdVuguXvt2ev7UvnU-j3ChKQkYq9NGShJ-K0n53tF5miII2yc521nn9xsLpMzTFZ_075Bw
 
     + Attributes (AttendanceRecordFillable)
 
@@ -1044,7 +1199,7 @@ retornado o registro já existente com as informações atualizadas.
 + Request  (application/json)
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1OGUzOTk1NWFmZWMzMTU4YTMyNWI1MGEiLCJhdWQiOlsiYXBpLnNjaG9vbHMiLCJodHRwczovL2xvZ29zLmF1dGgwLmNvbS91c2VyaW5mbyJdLCJhenAiOiJYeGpJMUNUTlRHWU45dGJCeDB5Sm10TXZ2VGJ0NWhXVyIsImV4cCI6MTQ5MTUwMDM3OCwiaWF0IjoxNDkxNDEzOTc4LCJzY29wZSI6Im9wZW5pZCBwcm9maWxlIiwiZ3R5IjoicGFzc3dvcmQifQ.ny6mKtvFbLFVokGpTzYtBruhXgNEO6dsJ1PU5A1fvZcuNGArRUprfHWBpW14N31Kh-WajY0ZMoQFFfSeE4_U3GdYM6u3S1gsPFe0nbNgQRIOXJwI4Q7qnG9z0QKJQjE2vW_ZyLBRhlxPPZQFr5BlcOi8_LkIId5QiFmSa-wdnNbjY9HdezJu9zphBG9p5C9YrP4eQO6Y_Xnk4Ozh2a31kyp123zCZirJoeTBzWMg0fhPbomm17Hdts1CVINn_0Z8DJUgTfSsbFDnh9MZ_SG_Tdx1Kfvzex9GQApXo2jgtHDy_pN8HC6VYCplJxtZa924twbUIkjoX0-Glen7vis9HA
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJnb29nbGUtb2F1dGgyfDEwODQyMDU0ODQ3NTA0MzYwOTQyOCIsImF1ZCI6WyJhcGkuc2Nob29scyIsImh0dHBzOi8vbG9nb3MuYXV0aDAuY29tL3VzZXJpbmZvIl0sImF6cCI6Ilh4akkxQ1ROVEdZTjl0YkJ4MHlKbXRNdnZUYnQ1aFdXIiwiZXhwIjoxNTA0NDY1MjUzLCJpYXQiOjE0OTY2ODkyNTMsInNjb3BlIjoib3BlbmlkIHByb2ZpbGUiLCJndHkiOiJwYXNzd29yZCJ9.xeNDgFx4NumVoIT9VafzCsqvDo5_Sm1LZfxQjxNI5rxERTYOOsDl5b5yhsPvYzCXZScXjOxaWgfvfDRMlzPJ_UypbPQKAmD_-tgBuBi_6mQzr2HWyD4jrvkjfDkQVD9dy2MjBKU1Es8YFETjIcmSe2ZolvvxrYbPJtDrbtQ5hotgvZu2CvHhkpJbxNRtm3jvPskkIOWoKbqgTqA7NiPNBc4Rvy2aj5xrIbJ0omq-c2C1RlaLQ9lUKE_k2llZgYE0m1MqwUgCmGhX6dXQLdVuguXvt2ev7UvnU-j3ChKQkYq9NGShJ-K0n53tF5miII2yc521nn9xsLpMzTFZ_075Bw
 
     + Attributes (StudentGradeFillable)
 
@@ -1053,9 +1208,9 @@ retornado o registro já existente com as informações atualizadas.
     + Attributes
         + StudentGrade (StudentGrade)
 
-### Litar notas [GET]
+### Litar notas [GET /student-grades{_q,_sort,_with}]
 
-Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="output.html#header-parametros-de-filtros-em-listagem">sessão</a> como definir os parametros da requisição.
+Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="#header-parametros-de-filtros-em-listagem">sessão</a> como definir os parametros da requisição.
 
 + Parameters
     + _q (string, optional) - Pesquisa por palavra-chave, a correspondência e incluida conjunto de resultados.
@@ -1070,7 +1225,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 + Request  (application/json)
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1OGUzOTk1NWFmZWMzMTU4YTMyNWI1MGEiLCJhdWQiOlsiYXBpLnNjaG9vbHMiLCJodHRwczovL2xvZ29zLmF1dGgwLmNvbS91c2VyaW5mbyJdLCJhenAiOiJYeGpJMUNUTlRHWU45dGJCeDB5Sm10TXZ2VGJ0NWhXVyIsImV4cCI6MTQ5MTUwMDM3OCwiaWF0IjoxNDkxNDEzOTc4LCJzY29wZSI6Im9wZW5pZCBwcm9maWxlIiwiZ3R5IjoicGFzc3dvcmQifQ.ny6mKtvFbLFVokGpTzYtBruhXgNEO6dsJ1PU5A1fvZcuNGArRUprfHWBpW14N31Kh-WajY0ZMoQFFfSeE4_U3GdYM6u3S1gsPFe0nbNgQRIOXJwI4Q7qnG9z0QKJQjE2vW_ZyLBRhlxPPZQFr5BlcOi8_LkIId5QiFmSa-wdnNbjY9HdezJu9zphBG9p5C9YrP4eQO6Y_Xnk4Ozh2a31kyp123zCZirJoeTBzWMg0fhPbomm17Hdts1CVINn_0Z8DJUgTfSsbFDnh9MZ_SG_Tdx1Kfvzex9GQApXo2jgtHDy_pN8HC6VYCplJxtZa924twbUIkjoX0-Glen7vis9HA
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJnb29nbGUtb2F1dGgyfDEwODQyMDU0ODQ3NTA0MzYwOTQyOCIsImF1ZCI6WyJhcGkuc2Nob29scyIsImh0dHBzOi8vbG9nb3MuYXV0aDAuY29tL3VzZXJpbmZvIl0sImF6cCI6Ilh4akkxQ1ROVEdZTjl0YkJ4MHlKbXRNdnZUYnQ1aFdXIiwiZXhwIjoxNTA0NDY1MjUzLCJpYXQiOjE0OTY2ODkyNTMsInNjb3BlIjoib3BlbmlkIHByb2ZpbGUiLCJndHkiOiJwYXNzd29yZCJ9.xeNDgFx4NumVoIT9VafzCsqvDo5_Sm1LZfxQjxNI5rxERTYOOsDl5b5yhsPvYzCXZScXjOxaWgfvfDRMlzPJ_UypbPQKAmD_-tgBuBi_6mQzr2HWyD4jrvkjfDkQVD9dy2MjBKU1Es8YFETjIcmSe2ZolvvxrYbPJtDrbtQ5hotgvZu2CvHhkpJbxNRtm3jvPskkIOWoKbqgTqA7NiPNBc4Rvy2aj5xrIbJ0omq-c2C1RlaLQ9lUKE_k2llZgYE0m1MqwUgCmGhX6dXQLdVuguXvt2ev7UvnU-j3ChKQkYq9NGShJ-K0n53tF5miII2yc521nn9xsLpMzTFZ_075Bw
 
 + Response 200 (application/json)
 
@@ -1080,9 +1235,9 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
             + (StudentGrade)
 
 
-## Nota [/student-grades/{student_grades_id}]
+## Nota [/student-grades/{student_grade_id}]
 
-### Detalhes da nota [GET]
+### Detalhes da nota [GET /student-grades/{student_grade_id}{?_with}]
 
 + Parameters
     + student_grade_id: 1 (number) - ID of the occurence
@@ -1096,7 +1251,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 + Request  (application/json)
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1OGUzOTk1NWFmZWMzMTU4YTMyNWI1MGEiLCJhdWQiOlsiYXBpLnNjaG9vbHMiLCJodHRwczovL2xvZ29zLmF1dGgwLmNvbS91c2VyaW5mbyJdLCJhenAiOiJYeGpJMUNUTlRHWU45dGJCeDB5Sm10TXZ2VGJ0NWhXVyIsImV4cCI6MTQ5MTUwMDM3OCwiaWF0IjoxNDkxNDEzOTc4LCJzY29wZSI6Im9wZW5pZCBwcm9maWxlIiwiZ3R5IjoicGFzc3dvcmQifQ.ny6mKtvFbLFVokGpTzYtBruhXgNEO6dsJ1PU5A1fvZcuNGArRUprfHWBpW14N31Kh-WajY0ZMoQFFfSeE4_U3GdYM6u3S1gsPFe0nbNgQRIOXJwI4Q7qnG9z0QKJQjE2vW_ZyLBRhlxPPZQFr5BlcOi8_LkIId5QiFmSa-wdnNbjY9HdezJu9zphBG9p5C9YrP4eQO6Y_Xnk4Ozh2a31kyp123zCZirJoeTBzWMg0fhPbomm17Hdts1CVINn_0Z8DJUgTfSsbFDnh9MZ_SG_Tdx1Kfvzex9GQApXo2jgtHDy_pN8HC6VYCplJxtZa924twbUIkjoX0-Glen7vis9HA
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJnb29nbGUtb2F1dGgyfDEwODQyMDU0ODQ3NTA0MzYwOTQyOCIsImF1ZCI6WyJhcGkuc2Nob29scyIsImh0dHBzOi8vbG9nb3MuYXV0aDAuY29tL3VzZXJpbmZvIl0sImF6cCI6Ilh4akkxQ1ROVEdZTjl0YkJ4MHlKbXRNdnZUYnQ1aFdXIiwiZXhwIjoxNTA0NDY1MjUzLCJpYXQiOjE0OTY2ODkyNTMsInNjb3BlIjoib3BlbmlkIHByb2ZpbGUiLCJndHkiOiJwYXNzd29yZCJ9.xeNDgFx4NumVoIT9VafzCsqvDo5_Sm1LZfxQjxNI5rxERTYOOsDl5b5yhsPvYzCXZScXjOxaWgfvfDRMlzPJ_UypbPQKAmD_-tgBuBi_6mQzr2HWyD4jrvkjfDkQVD9dy2MjBKU1Es8YFETjIcmSe2ZolvvxrYbPJtDrbtQ5hotgvZu2CvHhkpJbxNRtm3jvPskkIOWoKbqgTqA7NiPNBc4Rvy2aj5xrIbJ0omq-c2C1RlaLQ9lUKE_k2llZgYE0m1MqwUgCmGhX6dXQLdVuguXvt2ev7UvnU-j3ChKQkYq9NGShJ-K0n53tF5miII2yc521nn9xsLpMzTFZ_075Bw
 
 + Response 200 (application/json)
 
@@ -1112,7 +1267,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1OGUzOTk1NWFmZWMzMTU4YTMyNWI1MGEiLCJhdWQiOlsiYXBpLnNjaG9vbHMiLCJodHRwczovL2xvZ29zLmF1dGgwLmNvbS91c2VyaW5mbyJdLCJhenAiOiJYeGpJMUNUTlRHWU45dGJCeDB5Sm10TXZ2VGJ0NWhXVyIsImV4cCI6MTQ5MTUwMDM3OCwiaWF0IjoxNDkxNDEzOTc4LCJzY29wZSI6Im9wZW5pZCBwcm9maWxlIiwiZ3R5IjoicGFzc3dvcmQifQ.ny6mKtvFbLFVokGpTzYtBruhXgNEO6dsJ1PU5A1fvZcuNGArRUprfHWBpW14N31Kh-WajY0ZMoQFFfSeE4_U3GdYM6u3S1gsPFe0nbNgQRIOXJwI4Q7qnG9z0QKJQjE2vW_ZyLBRhlxPPZQFr5BlcOi8_LkIId5QiFmSa-wdnNbjY9HdezJu9zphBG9p5C9YrP4eQO6Y_Xnk4Ozh2a31kyp123zCZirJoeTBzWMg0fhPbomm17Hdts1CVINn_0Z8DJUgTfSsbFDnh9MZ_SG_Tdx1Kfvzex9GQApXo2jgtHDy_pN8HC6VYCplJxtZa924twbUIkjoX0-Glen7vis9HA
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJnb29nbGUtb2F1dGgyfDEwODQyMDU0ODQ3NTA0MzYwOTQyOCIsImF1ZCI6WyJhcGkuc2Nob29scyIsImh0dHBzOi8vbG9nb3MuYXV0aDAuY29tL3VzZXJpbmZvIl0sImF6cCI6Ilh4akkxQ1ROVEdZTjl0YkJ4MHlKbXRNdnZUYnQ1aFdXIiwiZXhwIjoxNTA0NDY1MjUzLCJpYXQiOjE0OTY2ODkyNTMsInNjb3BlIjoib3BlbmlkIHByb2ZpbGUiLCJndHkiOiJwYXNzd29yZCJ9.xeNDgFx4NumVoIT9VafzCsqvDo5_Sm1LZfxQjxNI5rxERTYOOsDl5b5yhsPvYzCXZScXjOxaWgfvfDRMlzPJ_UypbPQKAmD_-tgBuBi_6mQzr2HWyD4jrvkjfDkQVD9dy2MjBKU1Es8YFETjIcmSe2ZolvvxrYbPJtDrbtQ5hotgvZu2CvHhkpJbxNRtm3jvPskkIOWoKbqgTqA7NiPNBc4Rvy2aj5xrIbJ0omq-c2C1RlaLQ9lUKE_k2llZgYE0m1MqwUgCmGhX6dXQLdVuguXvt2ev7UvnU-j3ChKQkYq9NGShJ-K0n53tF5miII2yc521nn9xsLpMzTFZ_075Bw
 
     + Attributes (StudentGradeFillable)
 
@@ -1130,7 +1285,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1OGUzOTk1NWFmZWMzMTU4YTMyNWI1MGEiLCJhdWQiOlsiYXBpLnNjaG9vbHMiLCJodHRwczovL2xvZ29zLmF1dGgwLmNvbS91c2VyaW5mbyJdLCJhenAiOiJYeGpJMUNUTlRHWU45dGJCeDB5Sm10TXZ2VGJ0NWhXVyIsImV4cCI6MTQ5MTUwMDM3OCwiaWF0IjoxNDkxNDEzOTc4LCJzY29wZSI6Im9wZW5pZCBwcm9maWxlIiwiZ3R5IjoicGFzc3dvcmQifQ.ny6mKtvFbLFVokGpTzYtBruhXgNEO6dsJ1PU5A1fvZcuNGArRUprfHWBpW14N31Kh-WajY0ZMoQFFfSeE4_U3GdYM6u3S1gsPFe0nbNgQRIOXJwI4Q7qnG9z0QKJQjE2vW_ZyLBRhlxPPZQFr5BlcOi8_LkIId5QiFmSa-wdnNbjY9HdezJu9zphBG9p5C9YrP4eQO6Y_Xnk4Ozh2a31kyp123zCZirJoeTBzWMg0fhPbomm17Hdts1CVINn_0Z8DJUgTfSsbFDnh9MZ_SG_Tdx1Kfvzex9GQApXo2jgtHDy_pN8HC6VYCplJxtZa924twbUIkjoX0-Glen7vis9HA
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJnb29nbGUtb2F1dGgyfDEwODQyMDU0ODQ3NTA0MzYwOTQyOCIsImF1ZCI6WyJhcGkuc2Nob29scyIsImh0dHBzOi8vbG9nb3MuYXV0aDAuY29tL3VzZXJpbmZvIl0sImF6cCI6Ilh4akkxQ1ROVEdZTjl0YkJ4MHlKbXRNdnZUYnQ1aFdXIiwiZXhwIjoxNTA0NDY1MjUzLCJpYXQiOjE0OTY2ODkyNTMsInNjb3BlIjoib3BlbmlkIHByb2ZpbGUiLCJndHkiOiJwYXNzd29yZCJ9.xeNDgFx4NumVoIT9VafzCsqvDo5_Sm1LZfxQjxNI5rxERTYOOsDl5b5yhsPvYzCXZScXjOxaWgfvfDRMlzPJ_UypbPQKAmD_-tgBuBi_6mQzr2HWyD4jrvkjfDkQVD9dy2MjBKU1Es8YFETjIcmSe2ZolvvxrYbPJtDrbtQ5hotgvZu2CvHhkpJbxNRtm3jvPskkIOWoKbqgTqA7NiPNBc4Rvy2aj5xrIbJ0omq-c2C1RlaLQ9lUKE_k2llZgYE0m1MqwUgCmGhX6dXQLdVuguXvt2ev7UvnU-j3ChKQkYq9NGShJ-K0n53tF5miII2yc521nn9xsLpMzTFZ_075Bw
 
 + Response 204
 
@@ -1143,7 +1298,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 + Request  (application/json)
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1OGUzOTk1NWFmZWMzMTU4YTMyNWI1MGEiLCJhdWQiOlsiYXBpLnNjaG9vbHMiLCJodHRwczovL2xvZ29zLmF1dGgwLmNvbS91c2VyaW5mbyJdLCJhenAiOiJYeGpJMUNUTlRHWU45dGJCeDB5Sm10TXZ2VGJ0NWhXVyIsImV4cCI6MTQ5MTUwMDM3OCwiaWF0IjoxNDkxNDEzOTc4LCJzY29wZSI6Im9wZW5pZCBwcm9maWxlIiwiZ3R5IjoicGFzc3dvcmQifQ.ny6mKtvFbLFVokGpTzYtBruhXgNEO6dsJ1PU5A1fvZcuNGArRUprfHWBpW14N31Kh-WajY0ZMoQFFfSeE4_U3GdYM6u3S1gsPFe0nbNgQRIOXJwI4Q7qnG9z0QKJQjE2vW_ZyLBRhlxPPZQFr5BlcOi8_LkIId5QiFmSa-wdnNbjY9HdezJu9zphBG9p5C9YrP4eQO6Y_Xnk4Ozh2a31kyp123zCZirJoeTBzWMg0fhPbomm17Hdts1CVINn_0Z8DJUgTfSsbFDnh9MZ_SG_Tdx1Kfvzex9GQApXo2jgtHDy_pN8HC6VYCplJxtZa924twbUIkjoX0-Glen7vis9HA
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJnb29nbGUtb2F1dGgyfDEwODQyMDU0ODQ3NTA0MzYwOTQyOCIsImF1ZCI6WyJhcGkuc2Nob29scyIsImh0dHBzOi8vbG9nb3MuYXV0aDAuY29tL3VzZXJpbmZvIl0sImF6cCI6Ilh4akkxQ1ROVEdZTjl0YkJ4MHlKbXRNdnZUYnQ1aFdXIiwiZXhwIjoxNTA0NDY1MjUzLCJpYXQiOjE0OTY2ODkyNTMsInNjb3BlIjoib3BlbmlkIHByb2ZpbGUiLCJndHkiOiJwYXNzd29yZCJ9.xeNDgFx4NumVoIT9VafzCsqvDo5_Sm1LZfxQjxNI5rxERTYOOsDl5b5yhsPvYzCXZScXjOxaWgfvfDRMlzPJ_UypbPQKAmD_-tgBuBi_6mQzr2HWyD4jrvkjfDkQVD9dy2MjBKU1Es8YFETjIcmSe2ZolvvxrYbPJtDrbtQ5hotgvZu2CvHhkpJbxNRtm3jvPskkIOWoKbqgTqA7NiPNBc4Rvy2aj5xrIbJ0omq-c2C1RlaLQ9lUKE_k2llZgYE0m1MqwUgCmGhX6dXQLdVuguXvt2ev7UvnU-j3ChKQkYq9NGShJ-K0n53tF5miII2yc521nn9xsLpMzTFZ_075Bw
 
     + Attributes (OccurenceFillable)
 
@@ -1152,9 +1307,9 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
     + Attributes
         + occurence (Occurence)
 
-### Listar ocorrências [GET]
+### Listar ocorrências [GET /occurences{?_q,_sort,_with}]
 
-Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="output.html#header-parametros-de-filtros-em-listagem">sessão</a> como definir os parametros da requisição.
+Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="#header-parametros-de-filtros-em-listagem">sessão</a> como definir os parametros da requisição.
 
 + Parameters
     + _q (string, optional) - Pesquisa por palavra-chave, a correspondência e incluida conjunto de resultados.
@@ -1169,7 +1324,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 + Request  (application/json)
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1OGUzOTk1NWFmZWMzMTU4YTMyNWI1MGEiLCJhdWQiOlsiYXBpLnNjaG9vbHMiLCJodHRwczovL2xvZ29zLmF1dGgwLmNvbS91c2VyaW5mbyJdLCJhenAiOiJYeGpJMUNUTlRHWU45dGJCeDB5Sm10TXZ2VGJ0NWhXVyIsImV4cCI6MTQ5MTUwMDM3OCwiaWF0IjoxNDkxNDEzOTc4LCJzY29wZSI6Im9wZW5pZCBwcm9maWxlIiwiZ3R5IjoicGFzc3dvcmQifQ.ny6mKtvFbLFVokGpTzYtBruhXgNEO6dsJ1PU5A1fvZcuNGArRUprfHWBpW14N31Kh-WajY0ZMoQFFfSeE4_U3GdYM6u3S1gsPFe0nbNgQRIOXJwI4Q7qnG9z0QKJQjE2vW_ZyLBRhlxPPZQFr5BlcOi8_LkIId5QiFmSa-wdnNbjY9HdezJu9zphBG9p5C9YrP4eQO6Y_Xnk4Ozh2a31kyp123zCZirJoeTBzWMg0fhPbomm17Hdts1CVINn_0Z8DJUgTfSsbFDnh9MZ_SG_Tdx1Kfvzex9GQApXo2jgtHDy_pN8HC6VYCplJxtZa924twbUIkjoX0-Glen7vis9HA
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJnb29nbGUtb2F1dGgyfDEwODQyMDU0ODQ3NTA0MzYwOTQyOCIsImF1ZCI6WyJhcGkuc2Nob29scyIsImh0dHBzOi8vbG9nb3MuYXV0aDAuY29tL3VzZXJpbmZvIl0sImF6cCI6Ilh4akkxQ1ROVEdZTjl0YkJ4MHlKbXRNdnZUYnQ1aFdXIiwiZXhwIjoxNTA0NDY1MjUzLCJpYXQiOjE0OTY2ODkyNTMsInNjb3BlIjoib3BlbmlkIHByb2ZpbGUiLCJndHkiOiJwYXNzd29yZCJ9.xeNDgFx4NumVoIT9VafzCsqvDo5_Sm1LZfxQjxNI5rxERTYOOsDl5b5yhsPvYzCXZScXjOxaWgfvfDRMlzPJ_UypbPQKAmD_-tgBuBi_6mQzr2HWyD4jrvkjfDkQVD9dy2MjBKU1Es8YFETjIcmSe2ZolvvxrYbPJtDrbtQ5hotgvZu2CvHhkpJbxNRtm3jvPskkIOWoKbqgTqA7NiPNBc4Rvy2aj5xrIbJ0omq-c2C1RlaLQ9lUKE_k2llZgYE0m1MqwUgCmGhX6dXQLdVuguXvt2ev7UvnU-j3ChKQkYq9NGShJ-K0n53tF5miII2yc521nn9xsLpMzTFZ_075Bw
 
 + Response 200 (application/json)
 
@@ -1180,7 +1335,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 
 ## Ocorrência [/occurences/{occurence_id}]
 
-### Detalhes da ocorrência [GET]
+### Detalhes da ocorrência [GET /occurences/{occurence_id}{?_with}]
 
 + Parameters
     + occurence_id: 1 (number) - Identificador único da Occorencia
@@ -1192,7 +1347,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 + Request  (application/json)
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1OGUzOTk1NWFmZWMzMTU4YTMyNWI1MGEiLCJhdWQiOlsiYXBpLnNjaG9vbHMiLCJodHRwczovL2xvZ29zLmF1dGgwLmNvbS91c2VyaW5mbyJdLCJhenAiOiJYeGpJMUNUTlRHWU45dGJCeDB5Sm10TXZ2VGJ0NWhXVyIsImV4cCI6MTQ5MTUwMDM3OCwiaWF0IjoxNDkxNDEzOTc4LCJzY29wZSI6Im9wZW5pZCBwcm9maWxlIiwiZ3R5IjoicGFzc3dvcmQifQ.ny6mKtvFbLFVokGpTzYtBruhXgNEO6dsJ1PU5A1fvZcuNGArRUprfHWBpW14N31Kh-WajY0ZMoQFFfSeE4_U3GdYM6u3S1gsPFe0nbNgQRIOXJwI4Q7qnG9z0QKJQjE2vW_ZyLBRhlxPPZQFr5BlcOi8_LkIId5QiFmSa-wdnNbjY9HdezJu9zphBG9p5C9YrP4eQO6Y_Xnk4Ozh2a31kyp123zCZirJoeTBzWMg0fhPbomm17Hdts1CVINn_0Z8DJUgTfSsbFDnh9MZ_SG_Tdx1Kfvzex9GQApXo2jgtHDy_pN8HC6VYCplJxtZa924twbUIkjoX0-Glen7vis9HA
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJnb29nbGUtb2F1dGgyfDEwODQyMDU0ODQ3NTA0MzYwOTQyOCIsImF1ZCI6WyJhcGkuc2Nob29scyIsImh0dHBzOi8vbG9nb3MuYXV0aDAuY29tL3VzZXJpbmZvIl0sImF6cCI6Ilh4akkxQ1ROVEdZTjl0YkJ4MHlKbXRNdnZUYnQ1aFdXIiwiZXhwIjoxNTA0NDY1MjUzLCJpYXQiOjE0OTY2ODkyNTMsInNjb3BlIjoib3BlbmlkIHByb2ZpbGUiLCJndHkiOiJwYXNzd29yZCJ9.xeNDgFx4NumVoIT9VafzCsqvDo5_Sm1LZfxQjxNI5rxERTYOOsDl5b5yhsPvYzCXZScXjOxaWgfvfDRMlzPJ_UypbPQKAmD_-tgBuBi_6mQzr2HWyD4jrvkjfDkQVD9dy2MjBKU1Es8YFETjIcmSe2ZolvvxrYbPJtDrbtQ5hotgvZu2CvHhkpJbxNRtm3jvPskkIOWoKbqgTqA7NiPNBc4Rvy2aj5xrIbJ0omq-c2C1RlaLQ9lUKE_k2llZgYE0m1MqwUgCmGhX6dXQLdVuguXvt2ev7UvnU-j3ChKQkYq9NGShJ-K0n53tF5miII2yc521nn9xsLpMzTFZ_075Bw
 
 + Response 200 (application/json)
 
@@ -1208,7 +1363,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1OGUzOTk1NWFmZWMzMTU4YTMyNWI1MGEiLCJhdWQiOlsiYXBpLnNjaG9vbHMiLCJodHRwczovL2xvZ29zLmF1dGgwLmNvbS91c2VyaW5mbyJdLCJhenAiOiJYeGpJMUNUTlRHWU45dGJCeDB5Sm10TXZ2VGJ0NWhXVyIsImV4cCI6MTQ5MTUwMDM3OCwiaWF0IjoxNDkxNDEzOTc4LCJzY29wZSI6Im9wZW5pZCBwcm9maWxlIiwiZ3R5IjoicGFzc3dvcmQifQ.ny6mKtvFbLFVokGpTzYtBruhXgNEO6dsJ1PU5A1fvZcuNGArRUprfHWBpW14N31Kh-WajY0ZMoQFFfSeE4_U3GdYM6u3S1gsPFe0nbNgQRIOXJwI4Q7qnG9z0QKJQjE2vW_ZyLBRhlxPPZQFr5BlcOi8_LkIId5QiFmSa-wdnNbjY9HdezJu9zphBG9p5C9YrP4eQO6Y_Xnk4Ozh2a31kyp123zCZirJoeTBzWMg0fhPbomm17Hdts1CVINn_0Z8DJUgTfSsbFDnh9MZ_SG_Tdx1Kfvzex9GQApXo2jgtHDy_pN8HC6VYCplJxtZa924twbUIkjoX0-Glen7vis9HA
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJnb29nbGUtb2F1dGgyfDEwODQyMDU0ODQ3NTA0MzYwOTQyOCIsImF1ZCI6WyJhcGkuc2Nob29scyIsImh0dHBzOi8vbG9nb3MuYXV0aDAuY29tL3VzZXJpbmZvIl0sImF6cCI6Ilh4akkxQ1ROVEdZTjl0YkJ4MHlKbXRNdnZUYnQ1aFdXIiwiZXhwIjoxNTA0NDY1MjUzLCJpYXQiOjE0OTY2ODkyNTMsInNjb3BlIjoib3BlbmlkIHByb2ZpbGUiLCJndHkiOiJwYXNzd29yZCJ9.xeNDgFx4NumVoIT9VafzCsqvDo5_Sm1LZfxQjxNI5rxERTYOOsDl5b5yhsPvYzCXZScXjOxaWgfvfDRMlzPJ_UypbPQKAmD_-tgBuBi_6mQzr2HWyD4jrvkjfDkQVD9dy2MjBKU1Es8YFETjIcmSe2ZolvvxrYbPJtDrbtQ5hotgvZu2CvHhkpJbxNRtm3jvPskkIOWoKbqgTqA7NiPNBc4Rvy2aj5xrIbJ0omq-c2C1RlaLQ9lUKE_k2llZgYE0m1MqwUgCmGhX6dXQLdVuguXvt2ev7UvnU-j3ChKQkYq9NGShJ-K0n53tF5miII2yc521nn9xsLpMzTFZ_075Bw
 
     + Attributes (OccurenceFillable)
 
@@ -1225,12 +1380,60 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 + Request  (application/json)
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1OGUzOTk1NWFmZWMzMTU4YTMyNWI1MGEiLCJhdWQiOlsiYXBpLnNjaG9vbHMiLCJodHRwczovL2xvZ29zLmF1dGgwLmNvbS91c2VyaW5mbyJdLCJhenAiOiJYeGpJMUNUTlRHWU45dGJCeDB5Sm10TXZ2VGJ0NWhXVyIsImV4cCI6MTQ5MTUwMDM3OCwiaWF0IjoxNDkxNDEzOTc4LCJzY29wZSI6Im9wZW5pZCBwcm9maWxlIiwiZ3R5IjoicGFzc3dvcmQifQ.ny6mKtvFbLFVokGpTzYtBruhXgNEO6dsJ1PU5A1fvZcuNGArRUprfHWBpW14N31Kh-WajY0ZMoQFFfSeE4_U3GdYM6u3S1gsPFe0nbNgQRIOXJwI4Q7qnG9z0QKJQjE2vW_ZyLBRhlxPPZQFr5BlcOi8_LkIId5QiFmSa-wdnNbjY9HdezJu9zphBG9p5C9YrP4eQO6Y_Xnk4Ozh2a31kyp123zCZirJoeTBzWMg0fhPbomm17Hdts1CVINn_0Z8DJUgTfSsbFDnh9MZ_SG_Tdx1Kfvzex9GQApXo2jgtHDy_pN8HC6VYCplJxtZa924twbUIkjoX0-Glen7vis9HA
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJnb29nbGUtb2F1dGgyfDEwODQyMDU0ODQ3NTA0MzYwOTQyOCIsImF1ZCI6WyJhcGkuc2Nob29scyIsImh0dHBzOi8vbG9nb3MuYXV0aDAuY29tL3VzZXJpbmZvIl0sImF6cCI6Ilh4akkxQ1ROVEdZTjl0YkJ4MHlKbXRNdnZUYnQ1aFdXIiwiZXhwIjoxNTA0NDY1MjUzLCJpYXQiOjE0OTY2ODkyNTMsInNjb3BlIjoib3BlbmlkIHByb2ZpbGUiLCJndHkiOiJwYXNzd29yZCJ9.xeNDgFx4NumVoIT9VafzCsqvDo5_Sm1LZfxQjxNI5rxERTYOOsDl5b5yhsPvYzCXZScXjOxaWgfvfDRMlzPJ_UypbPQKAmD_-tgBuBi_6mQzr2HWyD4jrvkjfDkQVD9dy2MjBKU1Es8YFETjIcmSe2ZolvvxrYbPJtDrbtQ5hotgvZu2CvHhkpJbxNRtm3jvPskkIOWoKbqgTqA7NiPNBc4Rvy2aj5xrIbJ0omq-c2C1RlaLQ9lUKE_k2llZgYE0m1MqwUgCmGhX6dXQLdVuguXvt2ev7UvnU-j3ChKQkYq9NGShJ-K0n53tF5miII2yc521nn9xsLpMzTFZ_075Bw
 
 
 + Response 204
 
+## Coleção de resultados dos aluno em itens de fichas avaliativas [/student-progress-sheets{?_q,_sort,_with}]
 
+### Listar itens de fichas avaliativas [GET]
+
+Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="#header-parametros-de-filtros-em-listagem">sessão</a> como definir os parametros da requisição.
+
++ Parameters
+    + _q (string, optional) - Pesquisa por palavra-chave, a correspondência e incluida conjunto de resultados.
+    + _sort (string, optional) - Ordena a coluna desejada, de forma acendente ou descendente.
+    + _with (string, optional) - Obtem informações do recurso relacionado.
+        + Members
+            + progressSheetItem - Item de avaliação da ficha relacionado.
+            + student - Estudante avaliado.
+            + schoolCalendarPhase - Fase em que a avaliacao aconteceu.
+            + schoolClass - Turma do estudante.
+            + schoolCalendarPhase - Fase do ano relacionada ao item de avaliação do aluno.
+            + schoolClass - Turma relacionada ao item.
+            + student - Estudante relacionado ao item.
+
++ Request  (application/json)
+    + Headers
+
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJnb29nbGUtb2F1dGgyfDEwODQyMDU0ODQ3NTA0MzYwOTQyOCIsImF1ZCI6WyJhcGkuc2Nob29scyIsImh0dHBzOi8vbG9nb3MuYXV0aDAuY29tL3VzZXJpbmZvIl0sImF6cCI6Ilh4akkxQ1ROVEdZTjl0YkJ4MHlKbXRNdnZUYnQ1aFdXIiwiZXhwIjoxNTA0NDY1MjUzLCJpYXQiOjE0OTY2ODkyNTMsInNjb3BlIjoib3BlbmlkIHByb2ZpbGUiLCJndHkiOiJwYXNzd29yZCJ9.xeNDgFx4NumVoIT9VafzCsqvDo5_Sm1LZfxQjxNI5rxERTYOOsDl5b5yhsPvYzCXZScXjOxaWgfvfDRMlzPJ_UypbPQKAmD_-tgBuBi_6mQzr2HWyD4jrvkjfDkQVD9dy2MjBKU1Es8YFETjIcmSe2ZolvvxrYbPJtDrbtQ5hotgvZu2CvHhkpJbxNRtm3jvPskkIOWoKbqgTqA7NiPNBc4Rvy2aj5xrIbJ0omq-c2C1RlaLQ9lUKE_k2llZgYE0m1MqwUgCmGhX6dXQLdVuguXvt2ev7UvnU-j3ChKQkYq9NGShJ-K0n53tF5miII2yc521nn9xsLpMzTFZ_075Bw
+
++ Response 200 (application/json)
+
+    + Attributes
+        + Include Paginator
+        + data (array)
+            + (ProgressSheetStudent)
+
+### Criar resultado do aluno para itens de ficha avaliativa [POST]
+
+O aluno pode ter somente um resposta de um item de avaliação, em uma fase do ano, para uma turma.
+Isso significa que um requisição com a combinação de parametros progress_sheet_item_id, school_calendar_phase_id,
+school_class_id e student_id, já existirem, um novo registro não será criado e sim atualizado.
+
++ Request  (application/json)
+    + Headers
+
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJnb29nbGUtb2F1dGgyfDEwODQyMDU0ODQ3NTA0MzYwOTQyOCIsImF1ZCI6WyJhcGkuc2Nob29scyIsImh0dHBzOi8vbG9nb3MuYXV0aDAuY29tL3VzZXJpbmZvIl0sImF6cCI6Ilh4akkxQ1ROVEdZTjl0YkJ4MHlKbXRNdnZUYnQ1aFdXIiwiZXhwIjoxNTA0NDY1MjUzLCJpYXQiOjE0OTY2ODkyNTMsInNjb3BlIjoib3BlbmlkIHByb2ZpbGUiLCJndHkiOiJwYXNzd29yZCJ9.xeNDgFx4NumVoIT9VafzCsqvDo5_Sm1LZfxQjxNI5rxERTYOOsDl5b5yhsPvYzCXZScXjOxaWgfvfDRMlzPJ_UypbPQKAmD_-tgBuBi_6mQzr2HWyD4jrvkjfDkQVD9dy2MjBKU1Es8YFETjIcmSe2ZolvvxrYbPJtDrbtQ5hotgvZu2CvHhkpJbxNRtm3jvPskkIOWoKbqgTqA7NiPNBc4Rvy2aj5xrIbJ0omq-c2C1RlaLQ9lUKE_k2llZgYE0m1MqwUgCmGhX6dXQLdVuguXvt2ev7UvnU-j3ChKQkYq9NGShJ-K0n53tF5miII2yc521nn9xsLpMzTFZ_075Bw
+
+    + Attributes (array)
+        + (ProgressSheetStudentFillable)
+
++ Response 201 (application/json)
+
+    + Attributes
+        + student_progress_sheets (array[ProgressSheetStudent])
 
 # Group Professores
 
@@ -1240,7 +1443,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 
 ### Listar turmas do professor [GET]
 
-Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="output.html#header-parametros-de-filtros-em-listagem">sessão</a> como definir os parametros da requisição.
+Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="#header-parametros-de-filtros-em-listagem">sessão</a> como definir os parametros da requisição.
 
 + Parameters
     + _sort (string, optional) - Ordena a coluna desejada, de forma acendente ou descendente.
@@ -1253,7 +1456,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 + Request
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1OGUzOTk1NWFmZWMzMTU4YTMyNWI1MGEiLCJhdWQiOlsiYXBpLnNjaG9vbHMiLCJodHRwczovL2xvZ29zLmF1dGgwLmNvbS91c2VyaW5mbyJdLCJhenAiOiJYeGpJMUNUTlRHWU45dGJCeDB5Sm10TXZ2VGJ0NWhXVyIsImV4cCI6MTQ5MTUwMDM3OCwiaWF0IjoxNDkxNDEzOTc4LCJzY29wZSI6Im9wZW5pZCBwcm9maWxlIiwiZ3R5IjoicGFzc3dvcmQifQ.ny6mKtvFbLFVokGpTzYtBruhXgNEO6dsJ1PU5A1fvZcuNGArRUprfHWBpW14N31Kh-WajY0ZMoQFFfSeE4_U3GdYM6u3S1gsPFe0nbNgQRIOXJwI4Q7qnG9z0QKJQjE2vW_ZyLBRhlxPPZQFr5BlcOi8_LkIId5QiFmSa-wdnNbjY9HdezJu9zphBG9p5C9YrP4eQO6Y_Xnk4Ozh2a31kyp123zCZirJoeTBzWMg0fhPbomm17Hdts1CVINn_0Z8DJUgTfSsbFDnh9MZ_SG_Tdx1Kfvzex9GQApXo2jgtHDy_pN8HC6VYCplJxtZa924twbUIkjoX0-Glen7vis9HA
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJnb29nbGUtb2F1dGgyfDEwODQyMDU0ODQ3NTA0MzYwOTQyOCIsImF1ZCI6WyJhcGkuc2Nob29scyIsImh0dHBzOi8vbG9nb3MuYXV0aDAuY29tL3VzZXJpbmZvIl0sImF6cCI6Ilh4akkxQ1ROVEdZTjl0YkJ4MHlKbXRNdnZUYnQ1aFdXIiwiZXhwIjoxNTA0NDY1MjUzLCJpYXQiOjE0OTY2ODkyNTMsInNjb3BlIjoib3BlbmlkIHByb2ZpbGUiLCJndHkiOiJwYXNzd29yZCJ9.xeNDgFx4NumVoIT9VafzCsqvDo5_Sm1LZfxQjxNI5rxERTYOOsDl5b5yhsPvYzCXZScXjOxaWgfvfDRMlzPJ_UypbPQKAmD_-tgBuBi_6mQzr2HWyD4jrvkjfDkQVD9dy2MjBKU1Es8YFETjIcmSe2ZolvvxrYbPJtDrbtQ5hotgvZu2CvHhkpJbxNRtm3jvPskkIOWoKbqgTqA7NiPNBc4Rvy2aj5xrIbJ0omq-c2C1RlaLQ9lUKE_k2llZgYE0m1MqwUgCmGhX6dXQLdVuguXvt2ev7UvnU-j3ChKQkYq9NGShJ-K0n53tF5miII2yc521nn9xsLpMzTFZ_075Bw
 
 + Response 200 (application/json)
     
@@ -1264,25 +1467,6 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
                 + schoolClass (SchoolClass)
                 + subject (Subject)
 
-## Carga horária [/teacher/{teacher_id}/workload]
-
-### Resumo de carga horária [GET]
-
-+ Parameters
-    + teacher_id: (number, required) - ID do professor
-    + school_calendar_id: (number, required) - ID do calendário escolar
-
-+ Request 
-    + Headers
-
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1OGUzOTk1NWFmZWMzMTU4YTMyNWI1MGEiLCJhdWQiOlsiYXBpLnNjaG9vbHMiLCJodHRwczovL2xvZ29zLmF1dGgwLmNvbS91c2VyaW5mbyJdLCJhenAiOiJYeGpJMUNUTlRHWU45dGJCeDB5Sm10TXZ2VGJ0NWhXVyIsImV4cCI6MTQ5MTUwMDM3OCwiaWF0IjoxNDkxNDEzOTc4LCJzY29wZSI6Im9wZW5pZCBwcm9maWxlIiwiZ3R5IjoicGFzc3dvcmQifQ.ny6mKtvFbLFVokGpTzYtBruhXgNEO6dsJ1PU5A1fvZcuNGArRUprfHWBpW14N31Kh-WajY0ZMoQFFfSeE4_U3GdYM6u3S1gsPFe0nbNgQRIOXJwI4Q7qnG9z0QKJQjE2vW_ZyLBRhlxPPZQFr5BlcOi8_LkIId5QiFmSa-wdnNbjY9HdezJu9zphBG9p5C9YrP4eQO6Y_Xnk4Ozh2a31kyp123zCZirJoeTBzWMg0fhPbomm17Hdts1CVINn_0Z8DJUgTfSsbFDnh9MZ_SG_Tdx1Kfvzex9GQApXo2jgtHDy_pN8HC6VYCplJxtZa924twbUIkjoX0-Glen7vis9HA
-
-+ Response 200 (application/json)
-
-    + Attributes (object)
-        + annual_workload: 400 (number) - Total de carga horária em horas do professor no calendário escolar
-        
-
 
 # Group Configurações
 
@@ -1292,13 +1476,12 @@ Configurações da contado do usuário logado.
 
 ### Listar configurações [GET]
 
-Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="output.html#header-parametros-de-filtros-em-listagem">sessão</a> como definir os parametros da requisição.
-
+Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="#header-parametros-de-filtros-em-listagem">sessão</a> como definir os parametros da requisição.
 
 + Request  (application/json)
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1OGUzOTk1NWFmZWMzMTU4YTMyNWI1MGEiLCJhdWQiOlsiYXBpLnNjaG9vbHMiLCJodHRwczovL2xvZ29zLmF1dGgwLmNvbS91c2VyaW5mbyJdLCJhenAiOiJYeGpJMUNUTlRHWU45dGJCeDB5Sm10TXZ2VGJ0NWhXVyIsImV4cCI6MTQ5MTUwMDM3OCwiaWF0IjoxNDkxNDEzOTc4LCJzY29wZSI6Im9wZW5pZCBwcm9maWxlIiwiZ3R5IjoicGFzc3dvcmQifQ.ny6mKtvFbLFVokGpTzYtBruhXgNEO6dsJ1PU5A1fvZcuNGArRUprfHWBpW14N31Kh-WajY0ZMoQFFfSeE4_U3GdYM6u3S1gsPFe0nbNgQRIOXJwI4Q7qnG9z0QKJQjE2vW_ZyLBRhlxPPZQFr5BlcOi8_LkIId5QiFmSa-wdnNbjY9HdezJu9zphBG9p5C9YrP4eQO6Y_Xnk4Ozh2a31kyp123zCZirJoeTBzWMg0fhPbomm17Hdts1CVINn_0Z8DJUgTfSsbFDnh9MZ_SG_Tdx1Kfvzex9GQApXo2jgtHDy_pN8HC6VYCplJxtZa924twbUIkjoX0-Glen7vis9HA
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJnb29nbGUtb2F1dGgyfDEwODQyMDU0ODQ3NTA0MzYwOTQyOCIsImF1ZCI6WyJhcGkuc2Nob29scyIsImh0dHBzOi8vbG9nb3MuYXV0aDAuY29tL3VzZXJpbmZvIl0sImF6cCI6Ilh4akkxQ1ROVEdZTjl0YkJ4MHlKbXRNdnZUYnQ1aFdXIiwiZXhwIjoxNTA0NDY1MjUzLCJpYXQiOjE0OTY2ODkyNTMsInNjb3BlIjoib3BlbmlkIHByb2ZpbGUiLCJndHkiOiJwYXNzd29yZCJ9.xeNDgFx4NumVoIT9VafzCsqvDo5_Sm1LZfxQjxNI5rxERTYOOsDl5b5yhsPvYzCXZScXjOxaWgfvfDRMlzPJ_UypbPQKAmD_-tgBuBi_6mQzr2HWyD4jrvkjfDkQVD9dy2MjBKU1Es8YFETjIcmSe2ZolvvxrYbPJtDrbtQ5hotgvZu2CvHhkpJbxNRtm3jvPskkIOWoKbqgTqA7NiPNBc4Rvy2aj5xrIbJ0omq-c2C1RlaLQ9lUKE_k2llZgYE0m1MqwUgCmGhX6dXQLdVuguXvt2ev7UvnU-j3ChKQkYq9NGShJ-K0n53tF5miII2yc521nn9xsLpMzTFZ_075Bw
 
 + Response 200 (application/json)
 
@@ -1327,32 +1510,20 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
                 + name: passing_grade_threshold (string) - `Média mínima para o aluno ser aprovado em uma disciplina`
                 + value: 6 (number)
                 + `default`: 6 (number)
-            + (object)]
+
+            + (object)
                 + id: 5 (number)
-                + name: lesson_plan_model_id (number) - `ID do modelo de plano de aula padrão da conta`
+                + name: lesson_plan_model_id (string) - `ID do modelo de plano de aula padrão da conta`
                 + `default`: 1 (number) 
 
 ## Coleção de disciplinas [/subjects]
 
 `Subjects` São quais quer disciplinas ministradas nas escolas. ex: Português, matemática, direito constitucional entre outras.
 
-### Criar disciplina [POST]
 
-+ Request  (application/json)
-    + Headers
+### Listar disciplinas [GET /subjects{_q,_sort}]
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1OGUzOTk1NWFmZWMzMTU4YTMyNWI1MGEiLCJhdWQiOlsiYXBpLnNjaG9vbHMiLCJodHRwczovL2xvZ29zLmF1dGgwLmNvbS91c2VyaW5mbyJdLCJhenAiOiJYeGpJMUNUTlRHWU45dGJCeDB5Sm10TXZ2VGJ0NWhXVyIsImV4cCI6MTQ5MTUwMDM3OCwiaWF0IjoxNDkxNDEzOTc4LCJzY29wZSI6Im9wZW5pZCBwcm9maWxlIiwiZ3R5IjoicGFzc3dvcmQifQ.ny6mKtvFbLFVokGpTzYtBruhXgNEO6dsJ1PU5A1fvZcuNGArRUprfHWBpW14N31Kh-WajY0ZMoQFFfSeE4_U3GdYM6u3S1gsPFe0nbNgQRIOXJwI4Q7qnG9z0QKJQjE2vW_ZyLBRhlxPPZQFr5BlcOi8_LkIId5QiFmSa-wdnNbjY9HdezJu9zphBG9p5C9YrP4eQO6Y_Xnk4Ozh2a31kyp123zCZirJoeTBzWMg0fhPbomm17Hdts1CVINn_0Z8DJUgTfSsbFDnh9MZ_SG_Tdx1Kfvzex9GQApXo2jgtHDy_pN8HC6VYCplJxtZa924twbUIkjoX0-Glen7vis9HA
-
-    + Attributes (SubjectFillable)
-
-+ Response 201 (application/json)
-
-    + Attributes
-        + Subject (Subject)
-
-### Listar disciplinas [GET]
-
-Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="output.html#header-parametros-de-filtros-em-listagem">sessão</a> como definir os parametros da requisição.
+Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="#header-parametros-de-filtros-em-listagem">sessão</a> como definir os parametros da requisição.
 
 
 + Parameters
@@ -1364,14 +1535,15 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 + Request  (application/json)
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1OGUzOTk1NWFmZWMzMTU4YTMyNWI1MGEiLCJhdWQiOlsiYXBpLnNjaG9vbHMiLCJodHRwczovL2xvZ29zLmF1dGgwLmNvbS91c2VyaW5mbyJdLCJhenAiOiJYeGpJMUNUTlRHWU45dGJCeDB5Sm10TXZ2VGJ0NWhXVyIsImV4cCI6MTQ5MTUwMDM3OCwiaWF0IjoxNDkxNDEzOTc4LCJzY29wZSI6Im9wZW5pZCBwcm9maWxlIiwiZ3R5IjoicGFzc3dvcmQifQ.ny6mKtvFbLFVokGpTzYtBruhXgNEO6dsJ1PU5A1fvZcuNGArRUprfHWBpW14N31Kh-WajY0ZMoQFFfSeE4_U3GdYM6u3S1gsPFe0nbNgQRIOXJwI4Q7qnG9z0QKJQjE2vW_ZyLBRhlxPPZQFr5BlcOi8_LkIId5QiFmSa-wdnNbjY9HdezJu9zphBG9p5C9YrP4eQO6Y_Xnk4Ozh2a31kyp123zCZirJoeTBzWMg0fhPbomm17Hdts1CVINn_0Z8DJUgTfSsbFDnh9MZ_SG_Tdx1Kfvzex9GQApXo2jgtHDy_pN8HC6VYCplJxtZa924twbUIkjoX0-Glen7vis9HA
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJnb29nbGUtb2F1dGgyfDEwODQyMDU0ODQ3NTA0MzYwOTQyOCIsImF1ZCI6WyJhcGkuc2Nob29scyIsImh0dHBzOi8vbG9nb3MuYXV0aDAuY29tL3VzZXJpbmZvIl0sImF6cCI6Ilh4akkxQ1ROVEdZTjl0YkJ4MHlKbXRNdnZUYnQ1aFdXIiwiZXhwIjoxNTA0NDY1MjUzLCJpYXQiOjE0OTY2ODkyNTMsInNjb3BlIjoib3BlbmlkIHByb2ZpbGUiLCJndHkiOiJwYXNzd29yZCJ9.xeNDgFx4NumVoIT9VafzCsqvDo5_Sm1LZfxQjxNI5rxERTYOOsDl5b5yhsPvYzCXZScXjOxaWgfvfDRMlzPJ_UypbPQKAmD_-tgBuBi_6mQzr2HWyD4jrvkjfDkQVD9dy2MjBKU1Es8YFETjIcmSe2ZolvvxrYbPJtDrbtQ5hotgvZu2CvHhkpJbxNRtm3jvPskkIOWoKbqgTqA7NiPNBc4Rvy2aj5xrIbJ0omq-c2C1RlaLQ9lUKE_k2llZgYE0m1MqwUgCmGhX6dXQLdVuguXvt2ev7UvnU-j3ChKQkYq9NGShJ-K0n53tF5miII2yc521nn9xsLpMzTFZ_075Bw
 
 + Response 200 (application/json)
 
-    + Attributes
-        + Include Paginator
-        + data (array)
-            + (Subject)
+    + Attributes (array)
+        + (object)
+            + Include Paginator
+            + data (array)
+                + (Subject)
 
 ## Disciplina [/subjects/{subject_id}]
 
@@ -1383,7 +1555,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 + Request  (application/json)
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1OGUzOTk1NWFmZWMzMTU4YTMyNWI1MGEiLCJhdWQiOlsiYXBpLnNjaG9vbHMiLCJodHRwczovL2xvZ29zLmF1dGgwLmNvbS91c2VyaW5mbyJdLCJhenAiOiJYeGpJMUNUTlRHWU45dGJCeDB5Sm10TXZ2VGJ0NWhXVyIsImV4cCI6MTQ5MTUwMDM3OCwiaWF0IjoxNDkxNDEzOTc4LCJzY29wZSI6Im9wZW5pZCBwcm9maWxlIiwiZ3R5IjoicGFzc3dvcmQifQ.ny6mKtvFbLFVokGpTzYtBruhXgNEO6dsJ1PU5A1fvZcuNGArRUprfHWBpW14N31Kh-WajY0ZMoQFFfSeE4_U3GdYM6u3S1gsPFe0nbNgQRIOXJwI4Q7qnG9z0QKJQjE2vW_ZyLBRhlxPPZQFr5BlcOi8_LkIId5QiFmSa-wdnNbjY9HdezJu9zphBG9p5C9YrP4eQO6Y_Xnk4Ozh2a31kyp123zCZirJoeTBzWMg0fhPbomm17Hdts1CVINn_0Z8DJUgTfSsbFDnh9MZ_SG_Tdx1Kfvzex9GQApXo2jgtHDy_pN8HC6VYCplJxtZa924twbUIkjoX0-Glen7vis9HA
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJnb29nbGUtb2F1dGgyfDEwODQyMDU0ODQ3NTA0MzYwOTQyOCIsImF1ZCI6WyJhcGkuc2Nob29scyIsImh0dHBzOi8vbG9nb3MuYXV0aDAuY29tL3VzZXJpbmZvIl0sImF6cCI6Ilh4akkxQ1ROVEdZTjl0YkJ4MHlKbXRNdnZUYnQ1aFdXIiwiZXhwIjoxNTA0NDY1MjUzLCJpYXQiOjE0OTY2ODkyNTMsInNjb3BlIjoib3BlbmlkIHByb2ZpbGUiLCJndHkiOiJwYXNzd29yZCJ9.xeNDgFx4NumVoIT9VafzCsqvDo5_Sm1LZfxQjxNI5rxERTYOOsDl5b5yhsPvYzCXZScXjOxaWgfvfDRMlzPJ_UypbPQKAmD_-tgBuBi_6mQzr2HWyD4jrvkjfDkQVD9dy2MjBKU1Es8YFETjIcmSe2ZolvvxrYbPJtDrbtQ5hotgvZu2CvHhkpJbxNRtm3jvPskkIOWoKbqgTqA7NiPNBc4Rvy2aj5xrIbJ0omq-c2C1RlaLQ9lUKE_k2llZgYE0m1MqwUgCmGhX6dXQLdVuguXvt2ev7UvnU-j3ChKQkYq9NGShJ-K0n53tF5miII2yc521nn9xsLpMzTFZ_075Bw
 
 + Response 200 (application/json)
 
@@ -1399,7 +1571,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1OGUzOTk1NWFmZWMzMTU4YTMyNWI1MGEiLCJhdWQiOlsiYXBpLnNjaG9vbHMiLCJodHRwczovL2xvZ29zLmF1dGgwLmNvbS91c2VyaW5mbyJdLCJhenAiOiJYeGpJMUNUTlRHWU45dGJCeDB5Sm10TXZ2VGJ0NWhXVyIsImV4cCI6MTQ5MTUwMDM3OCwiaWF0IjoxNDkxNDEzOTc4LCJzY29wZSI6Im9wZW5pZCBwcm9maWxlIiwiZ3R5IjoicGFzc3dvcmQifQ.ny6mKtvFbLFVokGpTzYtBruhXgNEO6dsJ1PU5A1fvZcuNGArRUprfHWBpW14N31Kh-WajY0ZMoQFFfSeE4_U3GdYM6u3S1gsPFe0nbNgQRIOXJwI4Q7qnG9z0QKJQjE2vW_ZyLBRhlxPPZQFr5BlcOi8_LkIId5QiFmSa-wdnNbjY9HdezJu9zphBG9p5C9YrP4eQO6Y_Xnk4Ozh2a31kyp123zCZirJoeTBzWMg0fhPbomm17Hdts1CVINn_0Z8DJUgTfSsbFDnh9MZ_SG_Tdx1Kfvzex9GQApXo2jgtHDy_pN8HC6VYCplJxtZa924twbUIkjoX0-Glen7vis9HA
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJnb29nbGUtb2F1dGgyfDEwODQyMDU0ODQ3NTA0MzYwOTQyOCIsImF1ZCI6WyJhcGkuc2Nob29scyIsImh0dHBzOi8vbG9nb3MuYXV0aDAuY29tL3VzZXJpbmZvIl0sImF6cCI6Ilh4akkxQ1ROVEdZTjl0YkJ4MHlKbXRNdnZUYnQ1aFdXIiwiZXhwIjoxNTA0NDY1MjUzLCJpYXQiOjE0OTY2ODkyNTMsInNjb3BlIjoib3BlbmlkIHByb2ZpbGUiLCJndHkiOiJwYXNzd29yZCJ9.xeNDgFx4NumVoIT9VafzCsqvDo5_Sm1LZfxQjxNI5rxERTYOOsDl5b5yhsPvYzCXZScXjOxaWgfvfDRMlzPJ_UypbPQKAmD_-tgBuBi_6mQzr2HWyD4jrvkjfDkQVD9dy2MjBKU1Es8YFETjIcmSe2ZolvvxrYbPJtDrbtQ5hotgvZu2CvHhkpJbxNRtm3jvPskkIOWoKbqgTqA7NiPNBc4Rvy2aj5xrIbJ0omq-c2C1RlaLQ9lUKE_k2llZgYE0m1MqwUgCmGhX6dXQLdVuguXvt2ev7UvnU-j3ChKQkYq9NGShJ-K0n53tF5miII2yc521nn9xsLpMzTFZ_075Bw
 
     + Attributes (SubjectFillable)
 
@@ -1416,7 +1588,7 @@ Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="o
 + Request  (application/json)
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1OGUzOTk1NWFmZWMzMTU4YTMyNWI1MGEiLCJhdWQiOlsiYXBpLnNjaG9vbHMiLCJodHRwczovL2xvZ29zLmF1dGgwLmNvbS91c2VyaW5mbyJdLCJhenAiOiJYeGpJMUNUTlRHWU45dGJCeDB5Sm10TXZ2VGJ0NWhXVyIsImV4cCI6MTQ5MTUwMDM3OCwiaWF0IjoxNDkxNDEzOTc4LCJzY29wZSI6Im9wZW5pZCBwcm9maWxlIiwiZ3R5IjoicGFzc3dvcmQifQ.ny6mKtvFbLFVokGpTzYtBruhXgNEO6dsJ1PU5A1fvZcuNGArRUprfHWBpW14N31Kh-WajY0ZMoQFFfSeE4_U3GdYM6u3S1gsPFe0nbNgQRIOXJwI4Q7qnG9z0QKJQjE2vW_ZyLBRhlxPPZQFr5BlcOi8_LkIId5QiFmSa-wdnNbjY9HdezJu9zphBG9p5C9YrP4eQO6Y_Xnk4Ozh2a31kyp123zCZirJoeTBzWMg0fhPbomm17Hdts1CVINn_0Z8DJUgTfSsbFDnh9MZ_SG_Tdx1Kfvzex9GQApXo2jgtHDy_pN8HC6VYCplJxtZa924twbUIkjoX0-Glen7vis9HA
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJnb29nbGUtb2F1dGgyfDEwODQyMDU0ODQ3NTA0MzYwOTQyOCIsImF1ZCI6WyJhcGkuc2Nob29scyIsImh0dHBzOi8vbG9nb3MuYXV0aDAuY29tL3VzZXJpbmZvIl0sImF6cCI6Ilh4akkxQ1ROVEdZTjl0YkJ4MHlKbXRNdnZUYnQ1aFdXIiwiZXhwIjoxNTA0NDY1MjUzLCJpYXQiOjE0OTY2ODkyNTMsInNjb3BlIjoib3BlbmlkIHByb2ZpbGUiLCJndHkiOiJwYXNzd29yZCJ9.xeNDgFx4NumVoIT9VafzCsqvDo5_Sm1LZfxQjxNI5rxERTYOOsDl5b5yhsPvYzCXZScXjOxaWgfvfDRMlzPJ_UypbPQKAmD_-tgBuBi_6mQzr2HWyD4jrvkjfDkQVD9dy2MjBKU1Es8YFETjIcmSe2ZolvvxrYbPJtDrbtQ5hotgvZu2CvHhkpJbxNRtm3jvPskkIOWoKbqgTqA7NiPNBc4Rvy2aj5xrIbJ0omq-c2C1RlaLQ9lUKE_k2llZgYE0m1MqwUgCmGhX6dXQLdVuguXvt2ev7UvnU-j3ChKQkYq9NGShJ-K0n53tF5miII2yc521nn9xsLpMzTFZ_075Bw
 
 
 + Response 204
@@ -1438,7 +1610,7 @@ Com isso o cadastro do Professor Medeiros fica pendente até que um usuário da 
 + Request  (application/json)
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1OGUzOTk1NWFmZWMzMTU4YTMyNWI1MGEiLCJhdWQiOlsiYXBpLnNjaG9vbHMiLCJodHRwczovL2xvZ29zLmF1dGgwLmNvbS91c2VyaW5mbyJdLCJhenAiOiJYeGpJMUNUTlRHWU45dGJCeDB5Sm10TXZ2VGJ0NWhXVyIsImV4cCI6MTQ5MTUwMDM3OCwiaWF0IjoxNDkxNDEzOTc4LCJzY29wZSI6Im9wZW5pZCBwcm9maWxlIiwiZ3R5IjoicGFzc3dvcmQifQ.ny6mKtvFbLFVokGpTzYtBruhXgNEO6dsJ1PU5A1fvZcuNGArRUprfHWBpW14N31Kh-WajY0ZMoQFFfSeE4_U3GdYM6u3S1gsPFe0nbNgQRIOXJwI4Q7qnG9z0QKJQjE2vW_ZyLBRhlxPPZQFr5BlcOi8_LkIId5QiFmSa-wdnNbjY9HdezJu9zphBG9p5C9YrP4eQO6Y_Xnk4Ozh2a31kyp123zCZirJoeTBzWMg0fhPbomm17Hdts1CVINn_0Z8DJUgTfSsbFDnh9MZ_SG_Tdx1Kfvzex9GQApXo2jgtHDy_pN8HC6VYCplJxtZa924twbUIkjoX0-Glen7vis9HA
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJnb29nbGUtb2F1dGgyfDEwODQyMDU0ODQ3NTA0MzYwOTQyOCIsImF1ZCI6WyJhcGkuc2Nob29scyIsImh0dHBzOi8vbG9nb3MuYXV0aDAuY29tL3VzZXJpbmZvIl0sImF6cCI6Ilh4akkxQ1ROVEdZTjl0YkJ4MHlKbXRNdnZUYnQ1aFdXIiwiZXhwIjoxNTA0NDY1MjUzLCJpYXQiOjE0OTY2ODkyNTMsInNjb3BlIjoib3BlbmlkIHByb2ZpbGUiLCJndHkiOiJwYXNzd29yZCJ9.xeNDgFx4NumVoIT9VafzCsqvDo5_Sm1LZfxQjxNI5rxERTYOOsDl5b5yhsPvYzCXZScXjOxaWgfvfDRMlzPJ_UypbPQKAmD_-tgBuBi_6mQzr2HWyD4jrvkjfDkQVD9dy2MjBKU1Es8YFETjIcmSe2ZolvvxrYbPJtDrbtQ5hotgvZu2CvHhkpJbxNRtm3jvPskkIOWoKbqgTqA7NiPNBc4Rvy2aj5xrIbJ0omq-c2C1RlaLQ9lUKE_k2llZgYE0m1MqwUgCmGhX6dXQLdVuguXvt2ev7UvnU-j3ChKQkYq9NGShJ-K0n53tF5miII2yc521nn9xsLpMzTFZ_075Bw
 
 
 + Response 200 (application/json)
@@ -1446,7 +1618,7 @@ Com isso o cadastro do Professor Medeiros fica pendente até que um usuário da 
     + Attributes
         + request_access (object)
             + id: 1 (number) - Identificador único da solicitação
-            + user_id: auth0|57c0840deae095471aba4093 (string) - id do usuário no microservice de autentificação auth0.
+            + user_id: auth0|57c0840deae095471aba4093 (string) - id do usuário no serviço de autentificação.
             + status: 0 (number) - Situação da solicitação.
                                 0 pendente
                                 1 negada
@@ -1459,19 +1631,20 @@ Com isso o cadastro do Professor Medeiros fica pendente até que um usuário da 
 
 `Users` contem ações que identificam e gerenciam informações do usuário nesta API. 
 
-### Detalhes do usuário logado [GET]
+### Detalhes do usuário logado [GET /auth/user{?user_id,_with}]
 
 + Parameters
     + user_id: 1 (number) - ID do usuário no serviço de autentificação
     + _with (string, optional) - Obtem informações do recurso relacionado.
         + Members
-            + teacher
-            + student
+            + student.responsibles
+            + student.attendanceRecords
+            + student.studentGrades
 
 + Request  (application/json)
     + Headers
 
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1OGUzOTk1NWFmZWMzMTU4YTMyNWI1MGEiLCJhdWQiOlsiYXBpLnNjaG9vbHMiLCJodHRwczovL2xvZ29zLmF1dGgwLmNvbS91c2VyaW5mbyJdLCJhenAiOiJYeGpJMUNUTlRHWU45dGJCeDB5Sm10TXZ2VGJ0NWhXVyIsImV4cCI6MTQ5MTUwMDM3OCwiaWF0IjoxNDkxNDEzOTc4LCJzY29wZSI6Im9wZW5pZCBwcm9maWxlIiwiZ3R5IjoicGFzc3dvcmQifQ.ny6mKtvFbLFVokGpTzYtBruhXgNEO6dsJ1PU5A1fvZcuNGArRUprfHWBpW14N31Kh-WajY0ZMoQFFfSeE4_U3GdYM6u3S1gsPFe0nbNgQRIOXJwI4Q7qnG9z0QKJQjE2vW_ZyLBRhlxPPZQFr5BlcOi8_LkIId5QiFmSa-wdnNbjY9HdezJu9zphBG9p5C9YrP4eQO6Y_Xnk4Ozh2a31kyp123zCZirJoeTBzWMg0fhPbomm17Hdts1CVINn_0Z8DJUgTfSsbFDnh9MZ_SG_Tdx1Kfvzex9GQApXo2jgtHDy_pN8HC6VYCplJxtZa924twbUIkjoX0-Glen7vis9HA
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJnb29nbGUtb2F1dGgyfDEwODQyMDU0ODQ3NTA0MzYwOTQyOCIsImF1ZCI6WyJhcGkuc2Nob29scyIsImh0dHBzOi8vbG9nb3MuYXV0aDAuY29tL3VzZXJpbmZvIl0sImF6cCI6Ilh4akkxQ1ROVEdZTjl0YkJ4MHlKbXRNdnZUYnQ1aFdXIiwiZXhwIjoxNTA0NDY1MjUzLCJpYXQiOjE0OTY2ODkyNTMsInNjb3BlIjoib3BlbmlkIHByb2ZpbGUiLCJndHkiOiJwYXNzd29yZCJ9.xeNDgFx4NumVoIT9VafzCsqvDo5_Sm1LZfxQjxNI5rxERTYOOsDl5b5yhsPvYzCXZScXjOxaWgfvfDRMlzPJ_UypbPQKAmD_-tgBuBi_6mQzr2HWyD4jrvkjfDkQVD9dy2MjBKU1Es8YFETjIcmSe2ZolvvxrYbPJtDrbtQ5hotgvZu2CvHhkpJbxNRtm3jvPskkIOWoKbqgTqA7NiPNBc4Rvy2aj5xrIbJ0omq-c2C1RlaLQ9lUKE_k2llZgYE0m1MqwUgCmGhX6dXQLdVuguXvt2ev7UvnU-j3ChKQkYq9NGShJ-K0n53tF5miII2yc521nn9xsLpMzTFZ_075Bw
 
 + Response 200 (application/json)
 
@@ -1483,6 +1656,70 @@ Com isso o cadastro do Professor Medeiros fica pendente até que um usuário da 
 
 
 # Data structure
+
+## ProgressSheetStudentFillable (object)
+
++ progress_sheet_item_id: 1 (number) - Id do item da ficha avaliativa.
++ school_calendar_phase_id: 1 (number) - ID da fase do calendário escolar em que o aluno foi avaliado.
++ school_class_id: 1 (number) - ID da turma em que o aluno estava quando foi avaliado.
++ student_id: 1 (number) - ID do aluno.
++ option_identifier: `I` (string) - Identificador de resposta/avaliação em relação ao item.
+
+## ProgressSheetStudent (object)
+
++ id: 1 (number) - Id de resultado do aluno em um item de ficha de avaliação
++ Include (ProgressSheetStudentFillable)
+
+## Tag (object)
+
++ id: 1 (number) - ID da tag.
++ tag_group_id: 1 (number) - ID do grupo que a tag está associada.
++ slug: habilidade-cognitiva (string) - Nome normalizado da tag.
++ name: Habilidade cognitiva (string) - Nome da tag
++ count: 10 (number) - Quantidade total de utilização da tag.
+
+## GroupFillable (object)
+
++ name: Habilidade cognitiva (string) - Nome do grupo
++ order: 3 (number) - Número de ordenação do grupo
+
+## Group (object)
+
++ id: 1 (number) - ID do grupo
++ include GroupFillable
+
+## ProgressSheetItemFillable
+
++ nome: `Conhece o alfabeto como símbolo da escrita` (string) - Nome do item da ficha avaliativa
++ progress_sheet_id: 1 (number, optional) - ID da ficha avaliativa
++ group_id: 1 (number, optional) - ID do grupo associado ao item.
+
+## ProgressSheetItem
+
++ id: 1 (number) - Id Do item da ficha avaliativa
++ Include (ProgressSheetItemFillable)
+
+## ProgressSheetFillable
+
++ nome: `Ficha de Acompanhamento da Aprendizagem` (string) - Nome da ficha avaliativa
++ options (array) - Opções de resposta de avaliação dos itens da ficha
+    + (object)
+        + identifier: `I` (string)
+        + label: `Irregular` (string)
+    + (object)
+        + identifier: `R` (string)
+        + label: `Regular` (string)
+    + (object)
+        + identifier: `B` (string)
+        + label: `Bom` (string)
+    + (object)
+        + identifier: `O` (string)
+        + label: `Ótimo` (string)
+
+## ProgressSheet
+
++ id: 1 (number) - ID da ficha de avaliacao
++ Include (ProgressSheetFillable)
 
 ## LessonPlanModelFillable
 
@@ -1556,6 +1793,11 @@ Com isso o cadastro do Professor Medeiros fica pendente até que um usuário da 
         + student_grades (array)
             + (StudentGrade)
 
+
+## AnnualReportPerPhase (object)
+
++ Include (SchoolCalendarPhase)
++ absences: 10 (number) - `Total de faltas do aluno na fase do calendário escolar.`
 
 ## SubjectFillable (object)
 
@@ -1638,6 +1880,11 @@ Com isso o cadastro do Professor Medeiros fica pendente até que um usuário da 
 + shift_id: 1 (number) - ID do turno.
 + school_calendar_id: 1 (number) - ID do Ano letivo em que a turma existe.
 + school_id: 1 (number) - ID da escola relacionada.
++ evaluation_type (enum[string]) - Definiçao do modo de avaliação da turma.
+    + members
+        + grade_phase - Define que a avaliação da turma é por notas númericas calculadas por fase do calendário escolar.
+        + progress_sheet_phase - Define que a avaliação da turma é por ficha descritiva por aluno. 
++ progress_sheet_id (number) - ID da ficha descritiva utilizada para avaliar os alunos da turma.
 
 ## SchoolClass (object)
 
@@ -1714,3 +1961,205 @@ Com isso o cadastro do Professor Medeiros fica pendente até que um usuário da 
 + from: 1 (number) - Número inicial de resultados de paginação da página atual
 + to: 15 (number) - Número final de resultados de paginação da página atual
 
+
+# Group Avaliações
+
+Nesta API, avaliações são definições de desempenho dos alunos. <br/>
+O desempenho do aluno pode ser avaliado por `Notas` ou `Avaliações descritivas`.<br/>
+`Notas` são os registros de resultados dos alunos em provas/trabalhos/etc.<br/>
+`Avaliações descritivas` são registros que os professores fazem para indicar qual a situação do aluno referente a uma habilidade.<br>
+Veja a imagem neste [link](https://drive.google.com/file/d/0B3GJIAxM0VTOSWpoLTY4aXo0VkE/view) com a simulação de um aplicativo durante o preenchimento da ficha de avaliação de um aluno.
+
+## Coleção de avaliacoes [/assessments]
+
+`Assessments` são as notas dos alunos que o professor precisa informar durante o ano/calendário escolar.<br/>
+Veja a imagem neste [Link](https://drive.google.com/a/logoseducacao.com.br/file/d/0B_HwgyV_NIl-OEhRWkQ0dnc3Z28/view?usp=sharing) com exemplo de um aplicativo
+para registrar notas dos alunos de uma turma.<br/>`Nota 1.1` e `Nota 1.2` são os assessments.
+
+### Listar avaliações [GET /assessments{?_q,_sort,_with}]
+
+Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="#header-parametros-de-filtros-em-listagem">sessão</a> como definir os parametros da requisição.
+
+
++ Parameters
+    + _q (string, optional) - Pesquisa por palavra-chave, a correspondência e incluida conjunto de resultados.
+        + Members
+            +name
+    + _sort (string, optional) - Ordena a coluna desejada, de forma acendente ou descendente.
+    + _with (string, optional) - Obtem informações do recurso relacionado.
+        + Members
+            + schoolCalendarPhase - Fase do calendário escolar relacionada a avaliação. 
+
++ Request  (application/json)
+    + Headers
+
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJnb29nbGUtb2F1dGgyfDEwODQyMDU0ODQ3NTA0MzYwOTQyOCIsImF1ZCI6WyJhcGkuc2Nob29scyIsImh0dHBzOi8vbG9nb3MuYXV0aDAuY29tL3VzZXJpbmZvIl0sImF6cCI6Ilh4akkxQ1ROVEdZTjl0YkJ4MHlKbXRNdnZUYnQ1aFdXIiwiZXhwIjoxNTA0NDY1MjUzLCJpYXQiOjE0OTY2ODkyNTMsInNjb3BlIjoib3BlbmlkIHByb2ZpbGUiLCJndHkiOiJwYXNzd29yZCJ9.xeNDgFx4NumVoIT9VafzCsqvDo5_Sm1LZfxQjxNI5rxERTYOOsDl5b5yhsPvYzCXZScXjOxaWgfvfDRMlzPJ_UypbPQKAmD_-tgBuBi_6mQzr2HWyD4jrvkjfDkQVD9dy2MjBKU1Es8YFETjIcmSe2ZolvvxrYbPJtDrbtQ5hotgvZu2CvHhkpJbxNRtm3jvPskkIOWoKbqgTqA7NiPNBc4Rvy2aj5xrIbJ0omq-c2C1RlaLQ9lUKE_k2llZgYE0m1MqwUgCmGhX6dXQLdVuguXvt2ev7UvnU-j3ChKQkYq9NGShJ-K0n53tF5miII2yc521nn9xsLpMzTFZ_075Bw
+
++ Response 200 (application/json)
+
+    + Attributes
+        + Include Paginator
+        + data (array)
+            + (Assessment)
+
+
+## Coleção de fichas avaliativas [/progress-sheets{?_q,_sort,_with}]
+
+`progress-sheets` são fichas de avaliação descritiva preenchidas pelos professores com informações sobre o desempenho dos alunos. 
+Normalmente essas fichas são utilizadas para avaliações durante o nível de educação infantíl.
+Veja a imagem neste [link](https://drive.google.com/file/d/0B3GJIAxM0VTOSWpoLTY4aXo0VkE/view) a simulação de um aplicativo 
+onde é registrado a ficha de avaliação de um aluno.
+
+### Listar de fichas avaliativas [GET]
+
+Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="#header-parametros-de-filtros-em-listagem">sessão</a> como definir os parametros da requisição.
+
++ Parameters
+    + _q (string, optional) - Pesquisa por palavra-chave, a correspondência e incluida conjunto de resultados.
+        + Members
+            +name
+    + _sort (string, optional) - Ordena a coluna desejada, de forma acendente ou descendente.
+    + _with (string, optional) - Obtem informações do recurso relacionado.
+        + Members
+            + items - Items da ficha avaliativa
+            + groups - Todos os grupos relacionados a ficha avaliativa
+
++ Request  (application/json)
+    + Headers
+
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJnb29nbGUtb2F1dGgyfDEwODQyMDU0ODQ3NTA0MzYwOTQyOCIsImF1ZCI6WyJhcGkuc2Nob29scyIsImh0dHBzOi8vbG9nb3MuYXV0aDAuY29tL3VzZXJpbmZvIl0sImF6cCI6Ilh4akkxQ1ROVEdZTjl0YkJ4MHlKbXRNdnZUYnQ1aFdXIiwiZXhwIjoxNTA0NDY1MjUzLCJpYXQiOjE0OTY2ODkyNTMsInNjb3BlIjoib3BlbmlkIHByb2ZpbGUiLCJndHkiOiJwYXNzd29yZCJ9.xeNDgFx4NumVoIT9VafzCsqvDo5_Sm1LZfxQjxNI5rxERTYOOsDl5b5yhsPvYzCXZScXjOxaWgfvfDRMlzPJ_UypbPQKAmD_-tgBuBi_6mQzr2HWyD4jrvkjfDkQVD9dy2MjBKU1Es8YFETjIcmSe2ZolvvxrYbPJtDrbtQ5hotgvZu2CvHhkpJbxNRtm3jvPskkIOWoKbqgTqA7NiPNBc4Rvy2aj5xrIbJ0omq-c2C1RlaLQ9lUKE_k2llZgYE0m1MqwUgCmGhX6dXQLdVuguXvt2ev7UvnU-j3ChKQkYq9NGShJ-K0n53tF5miII2yc521nn9xsLpMzTFZ_075Bw
+
++ Response 200 (application/json)
+
+    + Attributes
+        + Include Paginator
+        + data (array)
+            + (ProgressSheet)
+
+### Criar ficha avaliativa [POST]
+
++ Request  (application/json)
+    + Headers
+
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJnb29nbGUtb2F1dGgyfDEwODQyMDU0ODQ3NTA0MzYwOTQyOCIsImF1ZCI6WyJhcGkuc2Nob29scyIsImh0dHBzOi8vbG9nb3MuYXV0aDAuY29tL3VzZXJpbmZvIl0sImF6cCI6Ilh4akkxQ1ROVEdZTjl0YkJ4MHlKbXRNdnZUYnQ1aFdXIiwiZXhwIjoxNTA0NDY1MjUzLCJpYXQiOjE0OTY2ODkyNTMsInNjb3BlIjoib3BlbmlkIHByb2ZpbGUiLCJndHkiOiJwYXNzd29yZCJ9.xeNDgFx4NumVoIT9VafzCsqvDo5_Sm1LZfxQjxNI5rxERTYOOsDl5b5yhsPvYzCXZScXjOxaWgfvfDRMlzPJ_UypbPQKAmD_-tgBuBi_6mQzr2HWyD4jrvkjfDkQVD9dy2MjBKU1Es8YFETjIcmSe2ZolvvxrYbPJtDrbtQ5hotgvZu2CvHhkpJbxNRtm3jvPskkIOWoKbqgTqA7NiPNBc4Rvy2aj5xrIbJ0omq-c2C1RlaLQ9lUKE_k2llZgYE0m1MqwUgCmGhX6dXQLdVuguXvt2ev7UvnU-j3ChKQkYq9NGShJ-K0n53tF5miII2yc521nn9xsLpMzTFZ_075Bw
+
+    + Attributes (ProgressSheetFillable)
+
++ Response 201 (application/json)
+
+    + Attributes
+        + progress_sheet (ProgressSheet)
+
+
+## Ficha avaliativa [/progress-sheets/{progress_sheet_id}]
+
+### Detalhes da ficha avaliativa [GET /progress-sheets/{progress_sheet_id}{?_attach,_with}]
+
++ Parameters
+    + progress_sheet_id: 1 (number) - ID da ficha avaliativa
+    + _attach (string, optional) - Anexa outras informações a ficha a resposta
+        + Members
+            + groups - Lista de todos os grupos relacionados os itens da ficha avaliativa.
+    + _with (string, optional) - Inclui as relações da ficha a resposta
+        + Members
+            + items - Items da ficha avaliativa
+            + groups - Todos os grupos relacionados a ficha avaliativa
+
+
++ Request  (application/json)
+    + Headers
+
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJnb29nbGUtb2F1dGgyfDEwODQyMDU0ODQ3NTA0MzYwOTQyOCIsImF1ZCI6WyJhcGkuc2Nob29scyIsImh0dHBzOi8vbG9nb3MuYXV0aDAuY29tL3VzZXJpbmZvIl0sImF6cCI6Ilh4akkxQ1ROVEdZTjl0YkJ4MHlKbXRNdnZUYnQ1aFdXIiwiZXhwIjoxNTA0NDY1MjUzLCJpYXQiOjE0OTY2ODkyNTMsInNjb3BlIjoib3BlbmlkIHByb2ZpbGUiLCJndHkiOiJwYXNzd29yZCJ9.xeNDgFx4NumVoIT9VafzCsqvDo5_Sm1LZfxQjxNI5rxERTYOOsDl5b5yhsPvYzCXZScXjOxaWgfvfDRMlzPJ_UypbPQKAmD_-tgBuBi_6mQzr2HWyD4jrvkjfDkQVD9dy2MjBKU1Es8YFETjIcmSe2ZolvvxrYbPJtDrbtQ5hotgvZu2CvHhkpJbxNRtm3jvPskkIOWoKbqgTqA7NiPNBc4Rvy2aj5xrIbJ0omq-c2C1RlaLQ9lUKE_k2llZgYE0m1MqwUgCmGhX6dXQLdVuguXvt2ev7UvnU-j3ChKQkYq9NGShJ-K0n53tF5miII2yc521nn9xsLpMzTFZ_075Bw
+
++ Response 200 (application/json)
+
+    + Attributes
+        + progress_sheet (ProgressSheet)
+
+### Alterar ficha avaliativa [PUT]
+
++ Parameters
+    + progress_sheet_id: 1 (number) - ID da ficha avaliativa
+
++ Request  (application/json)
+    + Headers
+
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJnb29nbGUtb2F1dGgyfDEwODQyMDU0ODQ3NTA0MzYwOTQyOCIsImF1ZCI6WyJhcGkuc2Nob29scyIsImh0dHBzOi8vbG9nb3MuYXV0aDAuY29tL3VzZXJpbmZvIl0sImF6cCI6Ilh4akkxQ1ROVEdZTjl0YkJ4MHlKbXRNdnZUYnQ1aFdXIiwiZXhwIjoxNTA0NDY1MjUzLCJpYXQiOjE0OTY2ODkyNTMsInNjb3BlIjoib3BlbmlkIHByb2ZpbGUiLCJndHkiOiJwYXNzd29yZCJ9.xeNDgFx4NumVoIT9VafzCsqvDo5_Sm1LZfxQjxNI5rxERTYOOsDl5b5yhsPvYzCXZScXjOxaWgfvfDRMlzPJ_UypbPQKAmD_-tgBuBi_6mQzr2HWyD4jrvkjfDkQVD9dy2MjBKU1Es8YFETjIcmSe2ZolvvxrYbPJtDrbtQ5hotgvZu2CvHhkpJbxNRtm3jvPskkIOWoKbqgTqA7NiPNBc4Rvy2aj5xrIbJ0omq-c2C1RlaLQ9lUKE_k2llZgYE0m1MqwUgCmGhX6dXQLdVuguXvt2ev7UvnU-j3ChKQkYq9NGShJ-K0n53tF5miII2yc521nn9xsLpMzTFZ_075Bw
+
+    + Attributes (ProgressSheetFillable)
+
++ Response 200 (application/json)
+
+    + Attributes
+        + progress_sheet (ProgressSheet)
+
+
+### Excluir ficha avaliativa [DELETE]
+
++ Parameters
+    + progress_sheet_id: 1 (number) - ID da ficha avaliativa
+
++ Request  (application/json)
+    + Headers
+
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJnb29nbGUtb2F1dGgyfDEwODQyMDU0ODQ3NTA0MzYwOTQyOCIsImF1ZCI6WyJhcGkuc2Nob29scyIsImh0dHBzOi8vbG9nb3MuYXV0aDAuY29tL3VzZXJpbmZvIl0sImF6cCI6Ilh4akkxQ1ROVEdZTjl0YkJ4MHlKbXRNdnZUYnQ1aFdXIiwiZXhwIjoxNTA0NDY1MjUzLCJpYXQiOjE0OTY2ODkyNTMsInNjb3BlIjoib3BlbmlkIHByb2ZpbGUiLCJndHkiOiJwYXNzd29yZCJ9.xeNDgFx4NumVoIT9VafzCsqvDo5_Sm1LZfxQjxNI5rxERTYOOsDl5b5yhsPvYzCXZScXjOxaWgfvfDRMlzPJ_UypbPQKAmD_-tgBuBi_6mQzr2HWyD4jrvkjfDkQVD9dy2MjBKU1Es8YFETjIcmSe2ZolvvxrYbPJtDrbtQ5hotgvZu2CvHhkpJbxNRtm3jvPskkIOWoKbqgTqA7NiPNBc4Rvy2aj5xrIbJ0omq-c2C1RlaLQ9lUKE_k2llZgYE0m1MqwUgCmGhX6dXQLdVuguXvt2ev7UvnU-j3ChKQkYq9NGShJ-K0n53tF5miII2yc521nn9xsLpMzTFZ_075Bw
+
++ Response 204
+
+
+
+## Coleção de items da ficha avaliativa [/progress-sheets/{progress_sheet_id}/items]
+
+### Listar items [GET /progress-sheets/{progress_sheet_id}/items{?_q,_sort,_with}]
+
+Nesta ação você pode usar varios filtros para listagem, veja nesta <a href="#header-parametros-de-filtros-em-listagem">sessão</a> como definir os parametros da requisição.
+
++ Parameters
+    + progress_sheet_id: 1 (number) - ID da ficha avaliativa
+    + _q (string, optional) - Pesquisa por palavra-chave, a correspondência e incluida conjunto de resultados.
+        + Members
+            +name
+    + _sort (string, optional) - Ordena a coluna desejada, de forma acendente ou descendente.
+    + _with (string, optional) - Obtem informações do recurso relacionado.
+        + Members
+            + progressSheet - Ficha avaliativa associada ao item.
+            + groups - Grupo associado ao item
+
++ Request  (application/json)
+    + Headers
+
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJnb29nbGUtb2F1dGgyfDEwODQyMDU0ODQ3NTA0MzYwOTQyOCIsImF1ZCI6WyJhcGkuc2Nob29scyIsImh0dHBzOi8vbG9nb3MuYXV0aDAuY29tL3VzZXJpbmZvIl0sImF6cCI6Ilh4akkxQ1ROVEdZTjl0YkJ4MHlKbXRNdnZUYnQ1aFdXIiwiZXhwIjoxNTA0NDY1MjUzLCJpYXQiOjE0OTY2ODkyNTMsInNjb3BlIjoib3BlbmlkIHByb2ZpbGUiLCJndHkiOiJwYXNzd29yZCJ9.xeNDgFx4NumVoIT9VafzCsqvDo5_Sm1LZfxQjxNI5rxERTYOOsDl5b5yhsPvYzCXZScXjOxaWgfvfDRMlzPJ_UypbPQKAmD_-tgBuBi_6mQzr2HWyD4jrvkjfDkQVD9dy2MjBKU1Es8YFETjIcmSe2ZolvvxrYbPJtDrbtQ5hotgvZu2CvHhkpJbxNRtm3jvPskkIOWoKbqgTqA7NiPNBc4Rvy2aj5xrIbJ0omq-c2C1RlaLQ9lUKE_k2llZgYE0m1MqwUgCmGhX6dXQLdVuguXvt2ev7UvnU-j3ChKQkYq9NGShJ-K0n53tF5miII2yc521nn9xsLpMzTFZ_075Bw
+
++ Response 200 (application/json)
+
+    + Attributes
+        + Include Paginator
+        + data (array)
+            + (ProgressSheetItem)
+
+### Criar item da ficha avaliativa [POST]
+
++ Request  (application/json)
+    + Headers
+
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJnb29nbGUtb2F1dGgyfDEwODQyMDU0ODQ3NTA0MzYwOTQyOCIsImF1ZCI6WyJhcGkuc2Nob29scyIsImh0dHBzOi8vbG9nb3MuYXV0aDAuY29tL3VzZXJpbmZvIl0sImF6cCI6Ilh4akkxQ1ROVEdZTjl0YkJ4MHlKbXRNdnZUYnQ1aFdXIiwiZXhwIjoxNTA0NDY1MjUzLCJpYXQiOjE0OTY2ODkyNTMsInNjb3BlIjoib3BlbmlkIHByb2ZpbGUiLCJndHkiOiJwYXNzd29yZCJ9.xeNDgFx4NumVoIT9VafzCsqvDo5_Sm1LZfxQjxNI5rxERTYOOsDl5b5yhsPvYzCXZScXjOxaWgfvfDRMlzPJ_UypbPQKAmD_-tgBuBi_6mQzr2HWyD4jrvkjfDkQVD9dy2MjBKU1Es8YFETjIcmSe2ZolvvxrYbPJtDrbtQ5hotgvZu2CvHhkpJbxNRtm3jvPskkIOWoKbqgTqA7NiPNBc4Rvy2aj5xrIbJ0omq-c2C1RlaLQ9lUKE_k2llZgYE0m1MqwUgCmGhX6dXQLdVuguXvt2ev7UvnU-j3ChKQkYq9NGShJ-K0n53tF5miII2yc521nn9xsLpMzTFZ_075Bw
+
+    + Attributes (array[ProgressSheetItemFillable])
+
++ Response 201 (application/json)
+
+    + Attributes
+        + progress_sheet_items (array[ProgressSheetItem])
+
+
+### Excluir item da ficha avaliativa [DELETE /progress-sheets/{progress_sheet_id}/items/{progress_sheet_item_id}]
+
++ Parameters
+    + progress_sheet_item_id: 1 (number) - ID do item da ficha avaliativa
+
++ Request  (application/json)
+    + Headers
+
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik0wRkdOelEzUlVZd1JqTTNNREEzTVRRd04wTkZNakJHUkRNMVJEZ3pNa1kyTXpRNE5qTTROZyJ9.eyJpc3MiOiJodHRwczovL2xvZ29zLmF1dGgwLmNvbS8iLCJzdWIiOiJnb29nbGUtb2F1dGgyfDEwODQyMDU0ODQ3NTA0MzYwOTQyOCIsImF1ZCI6WyJhcGkuc2Nob29scyIsImh0dHBzOi8vbG9nb3MuYXV0aDAuY29tL3VzZXJpbmZvIl0sImF6cCI6Ilh4akkxQ1ROVEdZTjl0YkJ4MHlKbXRNdnZUYnQ1aFdXIiwiZXhwIjoxNTA0NDY1MjUzLCJpYXQiOjE0OTY2ODkyNTMsInNjb3BlIjoib3BlbmlkIHByb2ZpbGUiLCJndHkiOiJwYXNzd29yZCJ9.xeNDgFx4NumVoIT9VafzCsqvDo5_Sm1LZfxQjxNI5rxERTYOOsDl5b5yhsPvYzCXZScXjOxaWgfvfDRMlzPJ_UypbPQKAmD_-tgBuBi_6mQzr2HWyD4jrvkjfDkQVD9dy2MjBKU1Es8YFETjIcmSe2ZolvvxrYbPJtDrbtQ5hotgvZu2CvHhkpJbxNRtm3jvPskkIOWoKbqgTqA7NiPNBc4Rvy2aj5xrIbJ0omq-c2C1RlaLQ9lUKE_k2llZgYE0m1MqwUgCmGhX6dXQLdVuguXvt2ev7UvnU-j3ChKQkYq9NGShJ-K0n53tF5miII2yc521nn9xsLpMzTFZ_075Bw
+
++ Response 204

@@ -21,3 +21,11 @@ phpunit.xml
 !.elasticbeanstalk/*.cfg.yml
 !.elasticbeanstalk/*.global.yml
 
+#Docs
+docs/api.apib
+docs/api.html
+apiary.apib
+
+#Composer
+composer.json
+composer.lock

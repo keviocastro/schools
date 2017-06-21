@@ -34,6 +34,7 @@ class AttendanceRecordController extends Controller
             'lesson_id' => 'required|exists:lessons,id',
             'student_id' => 'required|exists:students,id',
             'presence' => 'required|integer|in:0,1,2',
+            'absence_dismissal' => 'string|nullable'
             ], '', true);
 
         $records = $this->makeMultipleInputData();
@@ -46,11 +47,21 @@ class AttendanceRecordController extends Controller
                             ->where('student_id', '=', $record['student_id'])
                             ->first();
 
+                // O registro de frequencia do aluno é unico para uma aula,
+                // então se o registro já existir ele é atualizado e não é criado um novo.
                 if ($currentRecord) {
-                    throw new ConflictHttpException("The record of the student (student.id = {$record['student_id']} ) to the lesson already exists.");
-                }
-                
-                array_push($attendanceRecords, AttendanceRecord::create($record));
+                    $currentRecord->update([
+                            'presence' => $record['presence'], 
+                            'absence_dismissal' => empty($record['absence_dismissal']) ? '' : $record['absence_dismissal']  
+                    ]); // Não é permitido alterar outros atributos
+                    $currentRecord->fresh();
+                    $currentRecord->appliedAction = 'updated';
+                    array_push($attendanceRecords, $currentRecord);
+                }else{
+                    $newRecord = AttendanceRecord::create($record);
+                    $newRecord->appliedAction = 'created';
+                    array_push($attendanceRecords, $newRecord);
+                }                
             }
 
         });

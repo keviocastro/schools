@@ -13,7 +13,7 @@ class SchoolClass extends Model
 
      /**
      * 
-     * The attributes that should be hidden for arrays.
+     * Atributos que não são exibidos json ou arrays
      *
      * @var array
      */
@@ -27,14 +27,14 @@ class SchoolClass extends Model
         ];
     
     /**
-     * The attributes that should be mutated to dates.
+     * Atributos convertidos em formato de data
      *
      * @var array
      */
     protected $dates = ['deleted_at'];
 
     /**
-     * The attributes that are mass assignable.
+     * Atributos que podem ser preenchidos/modificados
      *
      * @var array
      */
@@ -43,7 +43,30 @@ class SchoolClass extends Model
         'grade_id', 
         'shift_id',
         'school_calendar_id',
-        'school_id'];
+        'school_id',
+        'evaluation_type',
+        'progress_sheet_id'];
+
+    /**
+     * Os atributos que devem ser convertidos em tipos nativos
+     *
+     * @var array
+     */
+    protected $casts = [
+        'options' => 'array',
+    ];
+
+    /**
+     * Ficha de avaliação descritiva da turma
+     *
+     * @Relation
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function progressSheet()
+    {
+        return $this->belongsTo('App\ProgressSheet');
+    }
 
     /**
      * Turno da turma 

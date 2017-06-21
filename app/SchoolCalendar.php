@@ -73,8 +73,7 @@ class SchoolCalendar extends Model
      */
     public function phases()
     {
-        return $this->hasMany('App\SchoolCalendarPhase')
-            ->orderBy('start', 'asc');  
+        return $this->hasMany('App\SchoolCalendarPhase');
     }
 
 }

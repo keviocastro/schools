@@ -22,7 +22,7 @@ Com isso o cadastro do Professor Medeiros fica pendente até que um usuário da 
     + Attributes
         + request_access (object)
             + id: 1 (number) - Identificador único da solicitação
-            + user_id: auth0|57c0840deae095471aba4093 (string) - id do usuário no microservice de autentificação auth0.
+            + user_id: auth0|57c0840deae095471aba4093 (string) - id do usuário no serviço de autentificação.
             + status: 0 (number) - Situação da solicitação.
                                 0 pendente
                                 1 negada
@@ -35,7 +35,7 @@ Com isso o cadastro do Professor Medeiros fica pendente até que um usuário da 
 
 `Users` contem ações que identificam e gerenciam informações do usuário nesta API. 
 
-### Detalhes do usuário logado [GET]
+### Detalhes do usuário logado [GET /auth/user{?user_id,_with}]
 
 + Parameters
     + user_id: 1 (number) - ID do usuário no serviço de autentificação
