@@ -131,6 +131,7 @@ class AttendanceRecordControllerTest extends TestCase
                 'student_id' => $attendanceRecord->student_id,
                 'lesson_id' => $attendanceRecord->lesson_id,
                 'presence' => $attendanceRecord->presence,
+                'absence_dismissal' => $attendanceRecord->absence_dismissal
             ],
             $this->getAutHeader())
             ->assertResponseStatus(201)

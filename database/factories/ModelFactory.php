@@ -228,8 +228,11 @@ $factory->define(App\SchoolClassStudent::class, function ($faker) use ($factory)
         ];
 });
 
-$factory->define(App\AttendanceRecord::class, function ($faker) use ($factory) {
-    $presence = rand(0,2);
+$factory->define(App\AttendanceRecord::class, function ($faker, $attributes) use ($factory) {
+    if(empty($attributes['presence'])){
+        $presence = rand(0,2);
+    }
+    
     $absenceDismissal = '';
     if ($presence == 2) {
         $absenceDismissal = $faker->sentence;
