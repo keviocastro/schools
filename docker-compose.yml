@@ -9,6 +9,7 @@ services:
     volumes:
       - ".:/var/app/"
       - "~/.bash_history:/root/.bash_history"
+      - "./storage/logs/xdebug/:/var/log/xdebug/"
     ports:
       - "80:80"
     links:
