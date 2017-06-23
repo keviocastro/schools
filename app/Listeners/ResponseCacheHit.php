@@ -2,11 +2,11 @@
 
 namespace App\Listeners;
 
-use Spatie\ResponseCache\Events\ResponseCacheHit;
+use Spatie\ResponseCache\Events\ResponseCacheHit as ResponseCacheHitEvent;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class ResponseCacheSuccess
+class ResponseCacheHit
 {
     /**
      * Create the event listener.
@@ -24,7 +24,8 @@ class ResponseCacheSuccess
      * @param  ResponseCacheHit  $event
      * @return void
      */
-    public function handle(ResponseCacheHit $event)
+    public function handle(ResponseCacheHitEvent $event)
     {
+        
     }
 }
