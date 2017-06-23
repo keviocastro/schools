@@ -31,8 +31,8 @@ class AccountConfigControllerTest extends TestCase
     {
         $this->get('api/account-configs', 
         	$this->getAutHeader())
-        ->assertResponseStatus(200)
-        ->seeJsonStructure([
+        ->assertStatus(200)
+        ->assertJsonFragmentStructure([
             'account_configs' => [
                 '*' => [
                     'id', 'name', 'value', 'default'
@@ -58,8 +58,8 @@ class AccountConfigControllerTest extends TestCase
         $this->put("api/account-configs/$config->id",
             ['value' => 30],
             $this->getAutHeader())
-        ->assertResponseStatus(200)
-        ->seeJson([
+        ->assertStatus(200)
+        ->assertJsonFragment([
             'account_config' => [
                     'id' => $config->id, 
                     'name' => 'percentage_absences_reprove', 

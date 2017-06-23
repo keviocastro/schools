@@ -23,8 +23,8 @@ class SchoolControllerTest extends TestCase
         $this->post('api/schools', 
             $school,
             $this->getAutHeader())
-        	->assertResponseStatus(201)
-        	->seeJson($school);
+        	->assertStatus(201)
+        	->assertJsonFragment($school);
     }
 
     /**
@@ -44,8 +44,8 @@ class SchoolControllerTest extends TestCase
         
         $this->get('api/schools?_with=schoolClasses',
             $this->getAutHeader())
-            ->assertResponseStatus(200)
-            ->seeJsonStructure([
+            ->assertStatus(200)
+            ->assertJsonFragmentStructure([
                 'total',
                 'per_page',
                 'current_page',
@@ -81,8 +81,8 @@ class SchoolControllerTest extends TestCase
 
         $this->get("api/schools/{$school->id}",
             $this->getAutHeader())
-            ->assertResponseStatus(200)
-            ->seeJson($school->toArray());
+            ->assertStatus(200)
+            ->assertJsonFragment($school->toArray());
     }
 
     /**
@@ -97,7 +97,7 @@ class SchoolControllerTest extends TestCase
         $this->delete("api/schools/{$school->id}",
             [],
             $this->getAutHeader())
-            ->assertResponseStatus(204)
+            ->assertStatus(204)
             ->seeIsSoftDeletedInDatabase('schools', ['id' => $school->id]);
     }
 
@@ -114,7 +114,7 @@ class SchoolControllerTest extends TestCase
         $this->put("api/schools/{$school['id']}",
             $school_changed,
             $this->getAutHeader())
-            ->assertResponseStatus(200)
-            ->seeJson($school_changed);
+            ->assertStatus(200)
+            ->assertJsonFragment($school_changed);
     }
 }

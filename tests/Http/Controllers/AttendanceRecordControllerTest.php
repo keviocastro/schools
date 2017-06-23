@@ -20,8 +20,8 @@ class AttendanceRecordControllerTest extends TestCase
         
         $this->get('api/attendance-records?_sort=-id',
         	$this->getAutHeader())
-        	->assertResponseStatus(200)
-        	->seeJson($attendanceRecord->toArray());
+        	->assertStatus(200)
+        	->assertJsonFragment($attendanceRecord->toArray());
     }
 
     /**
@@ -38,8 +38,8 @@ class AttendanceRecordControllerTest extends TestCase
         $this->put("api/attendance-records/{$attendanceRecord->id}",
         	['presence' => 0],
         	$this->getAutHeader())
-        	->assertResponseStatus(200)
-        	->seeJson(['presence' => 0]);
+        	->assertStatus(200)
+        	->assertJsonFragment(['presence' => 0]);
 
 
         // Não é permitido alterar o estudante nem a aula.
@@ -50,8 +50,8 @@ class AttendanceRecordControllerTest extends TestCase
                 'lesson_id' => $newAttendanceRecord->lesson_id
             ],
             $this->getAutHeader())
-            ->assertResponseStatus(200)
-            ->seeJson([
+            ->assertStatus(200)
+            ->assertJsonFragment([
                     'student_id' => $attendanceRecord->student_id,
                     'lesson_id' => $attendanceRecord->lesson_id
                 ]);
@@ -75,8 +75,8 @@ class AttendanceRecordControllerTest extends TestCase
         $this->put("api/attendance-records/{$attendanceRecord['id']}",
             $attendanceRecord,
             $this->getAutHeader())
-            ->assertResponseStatus(200)
-            ->seeJsonEquals(['attendance_record' => $attendanceRecord]);
+            ->assertStatus(200)
+            ->assertJsonFragmentEquals(['attendance_record' => $attendanceRecord]);
     }
 
     /**
@@ -89,8 +89,8 @@ class AttendanceRecordControllerTest extends TestCase
     	$attendanceRecord = factory(AttendanceRecord::class)->create()->toArray();
         $this->get("api/attendance-records/{$attendanceRecord['id']}",
         	$this->getAutHeader())
-        	->assertResponseStatus(200)
-        	->seeJson($attendanceRecord);
+        	->assertStatus(200)
+        	->assertJsonFragment($attendanceRecord);
     }
 
     /**
@@ -108,8 +108,8 @@ class AttendanceRecordControllerTest extends TestCase
         $this->post('api/attendance-records',
             $attendanceRecord,
             $this->getAutHeader())
-            ->assertResponseStatus(201)
-            ->seeJson($attendanceRecord);
+            ->assertStatus(201)
+            ->assertJsonFragment($attendanceRecord);
 
         $attendanceRecords = factory(AttendanceRecord::class, 2)->make()->toArray();
         
@@ -117,9 +117,9 @@ class AttendanceRecordControllerTest extends TestCase
         $this->post('api/attendance-records',
             $attendanceRecords,
             $this->getAutHeader())
-            ->assertResponseStatus(201)
-            ->seeJson($attendanceRecords[0])
-            ->seeJson($attendanceRecords[1]);
+            ->assertStatus(201)
+            ->assertJsonFragment($attendanceRecords[0])
+            ->assertJsonFragment($attendanceRecords[1]);
 
         // Já existe registro de ocorrência para o aluno.
         // O registro será atualizado.
@@ -133,8 +133,8 @@ class AttendanceRecordControllerTest extends TestCase
                 'presence' => $attendanceRecord->presence,
             ],
             $this->getAutHeader())
-            ->assertResponseStatus(201)
-            ->seeJson($attendanceRecord->toArray());
+            ->assertStatus(201)
+            ->assertJsonFragment($attendanceRecord->toArray());
     }
 
     /**
@@ -149,7 +149,7 @@ class AttendanceRecordControllerTest extends TestCase
         $this->delete("api/attendance-records/{$attendanceRecord->id}",
             [],
             $this->getAutHeader())
-            ->assertResponseStatus(204)
+            ->assertStatus(204)
             ->seeIsSoftDeletedInDatabase('attendance_records', ['id' => $attendanceRecord->id]);
     }
 }

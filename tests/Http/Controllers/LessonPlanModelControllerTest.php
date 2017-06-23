@@ -18,8 +18,8 @@ class LessonPlanModelControllerTest extends TestCase
 
         $this->get('api/lesson-plan-models?_sort=-id',
         	$this->getAutHeader())
-        	->assertResponseStatus(200)
-        	->seeJson($lessonPlanModel->toArray());
+        	->assertStatus(200)
+        	->assertJsonFragment($lessonPlanModel->toArray());
     }
 
     /**
@@ -34,8 +34,8 @@ class LessonPlanModelControllerTest extends TestCase
         $this->post('api/lesson-plan-models',
         	$lessonPlanModel,
         	$this->getAutHeader())
-        	->assertResponseStatus(201)
-        	->seeJson($lessonPlanModel);
+        	->assertStatus(201)
+        	->assertJsonFragment($lessonPlanModel);
     }
 
     /**
@@ -53,8 +53,8 @@ class LessonPlanModelControllerTest extends TestCase
         $this->post('api/lesson-plan-models',
             $lessonPlanModel,
             $this->getAutHeader())
-            ->assertResponseStatus(422)
-            ->seeJson([
+            ->assertStatus(422)
+            ->assertJsonFragment([
                     'errors' => [
                         'definition' => [
                             "The definition must be an array."
@@ -74,8 +74,8 @@ class LessonPlanModelControllerTest extends TestCase
         
         $this->get("api/lesson-plan-models/{$lessonPlanModel['id']}",
         	$this->getAutHeader())
-        	->assertResponseStatus(200)
-        	->seeJson($lessonPlanModel);
+        	->assertStatus(200)
+        	->assertJsonFragment($lessonPlanModel);
     }
 
     /**
@@ -91,8 +91,8 @@ class LessonPlanModelControllerTest extends TestCase
         $this->put("api/lesson-plan-models/{$lessonPlanModel->id}",
         	$lessonPlanModel_changed,
         	$this->getAutHeader())
-        	->assertResponseStatus(200)
-        	->seeJson($lessonPlanModel_changed);
+        	->assertStatus(200)
+        	->assertJsonFragment($lessonPlanModel_changed);
     }
 
     /**
@@ -107,7 +107,7 @@ class LessonPlanModelControllerTest extends TestCase
         $this->delete("api/lesson-plan-models/{$lessonPlanModel->id}",
             [],
             $this->getAutHeader())
-            ->assertResponseStatus(204)
+            ->assertStatus(204)
             ->seeIsSoftDeletedInDatabase('lesson_plan_models', ['id' => $lessonPlanModel->id]);
     }
 }

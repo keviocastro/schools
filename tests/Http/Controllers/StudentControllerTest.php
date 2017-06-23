@@ -41,7 +41,7 @@ class StudentControllerTest extends TestCase
     	$student = factory(Student::class)->create();
 
     	$this->get('api/students',$this->getAutHeader())
-    		->assertResponseStatus(200);
+    		->assertStatus(200);
     }
 
     /**
@@ -55,8 +55,8 @@ class StudentControllerTest extends TestCase
         
         $this->get("api/students/{$student['id']}",
             $this->getAutHeader())
-            ->assertResponseStatus(200)
-            ->seeJson($student);
+            ->assertStatus(200)
+            ->assertJsonFragment($student);
     }
 
     /**
@@ -75,8 +75,8 @@ class StudentControllerTest extends TestCase
         $this->get("api/students/1/annual-summary".
             "?school_calendar_id=1",
             $this->getAutHeader())
-            ->assertResponseStatus(200)
-            ->seeJsonStructure([
+            ->assertStatus(200)
+            ->assertJsonFragmentStructure([
                 "absences" => ['total'],
                 "best_average" => $this->average_structure,
                 "low_average" => $this->average_structure
@@ -98,8 +98,8 @@ class StudentControllerTest extends TestCase
         $this->get('api/students/1/annual-report'.
             "?school_calendar_id=1",
             $this->getAutHeader())
-            ->assertResponseStatus(200)
-            ->seeJsonStructure([
+            ->assertStatus(200)
+            ->assertJsonFragmentStructure([
                 'report_by_subjects' => // Informações por disciplina no ano letivo
                              // faltas, notas e médias
                 ['*' => 

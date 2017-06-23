@@ -60,7 +60,7 @@ class TeacherControllerTest extends TestCase
             "?_sort=school_class_id,subject_id".
             "&_with=schoolClass.grade,schoolClass.shift",
             $this->getAutHeader())
-            ->assertResponseStatus(200)
-            ->seeJsonEquals($resource);
+            ->assertStatus(200)
+            ->assertJsonFragmentEquals($resource);
     }
 }

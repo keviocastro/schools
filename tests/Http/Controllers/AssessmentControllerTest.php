@@ -20,8 +20,8 @@ class AssessmentControllerTest extends TestCase
       
         $this->get('api/assessments?_sort=-id',
         	$this->getAutHeader())
-        	->assertResponseStatus(200)
-        	->seeJson($assessment->toArray());
+        	->assertStatus(200)
+        	->assertJsonFragment($assessment->toArray());
     }
 
     /**
@@ -61,7 +61,7 @@ class AssessmentControllerTest extends TestCase
             ];
         $this->get("api/assessments?_q=$name",
             $this->getAutHeader())
-            ->assertResponseStatus(200)
-            ->seeJsonStructure($struture);
+            ->assertStatus(200)
+            ->assertJsonFragmentStructure($struture);
     }
 }

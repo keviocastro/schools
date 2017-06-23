@@ -35,8 +35,8 @@ class OccurenceControllerTest extends TestCase
         $this->get('api/occurences?_with=level,aboutPerson'.
           "&id=$ids",
             $this->getAutHeader())
-            ->assertResponseStatus(200)
-            ->seeJsonEquals($json);
+            ->assertStatus(200)
+            ->assertJsonFragmentEquals($json);
     }
     /**
      * @covers App\Http\Controllers\OccurenceController::index
@@ -72,8 +72,8 @@ class OccurenceControllerTest extends TestCase
         $word = explode(' ', $comment, 4)[2];
         $this->get("api/occurences?_q=$word",
             $this->getAutHeader())
-            ->assertResponseStatus(200)
-            ->seeJsonStructure($struture);
+            ->assertStatus(200)
+            ->assertJsonFragmentStructure($struture);
     }
 
     /**
@@ -89,8 +89,8 @@ class OccurenceControllerTest extends TestCase
         $this->post('api/occurences',
         	$ocurrence,
         	$this->getAutHeader())
-        	->assertResponseStatus(201)
-        	->seeJson($ocurrence);
+        	->assertStatus(201)
+        	->assertJsonFragment($ocurrence);
     }
 
 
@@ -105,8 +105,8 @@ class OccurenceControllerTest extends TestCase
     	
         $this->get("api/occurences/{$occurence->id}",
         	$this->getAutHeader())
-        	->assertResponseStatus(200)
-        	->seeJson($occurence->toArray());
+        	->assertStatus(200)
+        	->assertJsonFragment($occurence->toArray());
     }
 
     /**
@@ -121,7 +121,7 @@ class OccurenceControllerTest extends TestCase
         $this->delete("api/occurences/{$occurence->id}",
             [],
             $this->getAutHeader())
-            ->assertResponseStatus(204)
+            ->assertStatus(204)
             ->seeIsSoftDeletedInDatabase('occurences', ['id' => $occurence->id]);
     }
 
@@ -138,7 +138,7 @@ class OccurenceControllerTest extends TestCase
         $this->put("api/occurences/{$occurence->id}",
             $occurence_changed,
             $this->getAutHeader())
-            ->assertResponseStatus(200)
-            ->seeJson($occurence_changed);
+            ->assertStatus(200)
+            ->assertJsonFragment($occurence_changed);
     }
 }

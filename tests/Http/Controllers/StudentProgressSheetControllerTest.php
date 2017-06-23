@@ -77,8 +77,8 @@ class StudentProgressSheetControllerTest extends TestCase
         $this->get('api/student-progress-sheets?_sort=-id'.
                 '&_with=progressSheetItem,schoolCalendarPhase,schoolClass,student',
         	$this->getAutHeader())
-        	->assertResponseStatus(200)
-        	->seeJson($studentProgressSheet->toArray());
+        	->assertStatus(200)
+        	->assertJsonFragment($studentProgressSheet->toArray());
     }
 
     /**
@@ -103,7 +103,7 @@ class StudentProgressSheetControllerTest extends TestCase
                 "&school_class_id={$this->schoolClass->id}".
             '&_group_by=school_calendar_phase_id',
             $this->getAutHeader())
-            ->assertResponseStatus(200);
+            ->assertStatus(200);
 
         // Not existing group
         $this->get('api/student-progress-sheets'.
@@ -111,7 +111,7 @@ class StudentProgressSheetControllerTest extends TestCase
                 "&school_class_id={$this->schoolClass->id}".
             '&_group_by=not_exist_group',
             $this->getAutHeader())
-            ->assertResponseStatus(422);
+            ->assertStatus(422);
     }
 
     /**
@@ -158,8 +158,8 @@ class StudentProgressSheetControllerTest extends TestCase
                 $studentItems,
                 $this->getAutHeader()
             )
-            ->assertResponseStatus(201)
-            ->seeJsonStructure([
+            ->assertStatus(201)
+            ->assertJsonFragmentStructure([
                     'student_progress_sheets' => ['*' => $resultItemStructure]
                 ]);
 
@@ -175,8 +175,8 @@ class StudentProgressSheetControllerTest extends TestCase
                 $item,
                 $this->getAutHeader()
             )
-            ->assertResponseStatus(201)
-            ->seeJsonStructure([
+            ->assertStatus(201)
+            ->assertJsonFragmentStructure([
                     'student_progress_sheet' => $resultItemStructure
                 ]);
     }
@@ -216,8 +216,8 @@ class StudentProgressSheetControllerTest extends TestCase
                 $item,
                 $this->getAutHeader()
             )
-            ->assertResponseStatus(201)
-            ->seeJsonEquals([
+            ->assertStatus(201)
+            ->assertJsonFragmentEquals([
                     'student_progress_sheet' => $item
                 ]);
 
@@ -237,8 +237,8 @@ class StudentProgressSheetControllerTest extends TestCase
             $item,
             $this->getAutHeader()
             )
-            ->assertResponseStatus(201)
-            ->seeJsonEquals(['student_progress_sheet' => $item]);
+            ->assertStatus(201)
+            ->assertJsonFragmentEquals(['student_progress_sheet' => $item]);
     }
 
      /**
@@ -267,8 +267,8 @@ class StudentProgressSheetControllerTest extends TestCase
         $this->post('api/student-progress-sheets',
             $item,
             $this->getAutHeader())
-            ->assertResponseStatus(409)
-            ->seeJson([
+            ->assertStatus(409)
+            ->assertJsonFragment([
                 'message' => "The student is not in the school class id ({$item['school_class_id']}).",
                 ]);
     }
@@ -298,8 +298,8 @@ class StudentProgressSheetControllerTest extends TestCase
         $this->get("api/student-progress-sheets/{$studentProgressSheet->id}".
             "?_with=progressSheetItem",
             $this->getAutHeader())
-            ->assertResponseStatus(200)
-            ->seeJsonEquals($structure);
+            ->assertStatus(200)
+            ->assertJsonFragmentEquals($structure);
     }
 
     /**
@@ -326,8 +326,8 @@ class StudentProgressSheetControllerTest extends TestCase
         $this->put("api/student-progress-sheets/{$studentProgressSheet->id}",
             $studentProgressSheet_changed->toArray(),
             $this->getAutHeader())
-            ->assertResponseStatus(200)
-            ->seeJsonEquals($json);
+            ->assertStatus(200)
+            ->assertJsonFragmentEquals($json);
     }
 
     /**
@@ -342,7 +342,7 @@ class StudentProgressSheetControllerTest extends TestCase
         $this->delete("api/student-progress-sheets/{$studentProgressSheet->id}",
             [],
             $this->getAutHeader())
-            ->assertResponseStatus(204)
+            ->assertStatus(204)
             ->seeIsSoftDeletedInDatabase('student_progress_sheets', ['id' => $studentProgressSheet->id]);
     }
 }

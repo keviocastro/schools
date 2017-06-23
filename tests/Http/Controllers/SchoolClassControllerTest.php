@@ -24,8 +24,8 @@ class SchoolClassControllerTest extends TestCase
             $this->get('api/school-classes?_sort=-id'.
           "&_with=progressSheet.items,shift,students,schoolCalendar,subjects,grade,school",
         	$this->getAutHeader())
-        	->assertResponseStatus(200)
-        	->seeJson($schoolClass->toArray());
+        	->assertStatus(200)
+        	->assertJsonFragment($schoolClass->toArray());
     }
 
     /**
@@ -70,8 +70,8 @@ class SchoolClassControllerTest extends TestCase
 
         $this->get("api/school-classes?_q=$identifier",
             $this->getAutHeader())
-            ->assertResponseStatus(200)
-            ->seeJsonStructure($struture);
+            ->assertStatus(200)
+            ->assertJsonFragmentStructure($struture);
     }
 
     /**
@@ -88,8 +88,8 @@ class SchoolClassControllerTest extends TestCase
         $this->post('api/school-classes',
         	$schoolClass,
         	$this->getAutHeader())
-        	->assertResponseStatus(201)
-        	->seeJson($schoolClass);
+        	->assertStatus(201)
+        	->assertJsonFragment($schoolClass);
     }
 
     /**
@@ -111,8 +111,8 @@ class SchoolClassControllerTest extends TestCase
         $this->get("api/school-classes/{$schoolClass['id']}".
             "?_with=progressSheet.items,shift,students,schoolCalendar,subjects,grade,school",
         	$this->getAutHeader())
-        	->assertResponseStatus(200)
-        	->seeJson($schoolClass);
+        	->assertStatus(200)
+        	->assertJsonFragment($schoolClass);
     }
 
     /**
@@ -128,8 +128,8 @@ class SchoolClassControllerTest extends TestCase
         $this->put("api/school-classes/{$shcoolClass->id}",
         	$shcoolClass_changed,
         	$this->getAutHeader())
-        	->assertResponseStatus(200)
-        	->seeJson($shcoolClass_changed);
+        	->assertStatus(200)
+        	->assertJsonFragment($shcoolClass_changed);
     }
 
     /**
@@ -144,7 +144,7 @@ class SchoolClassControllerTest extends TestCase
         $this->delete("api/school-classes/{$schoolClass->id}",
             [],
             $this->getAutHeader())
-            ->assertResponseStatus(204)
+            ->assertStatus(204)
             ->seeIsSoftDeletedInDatabase('school_classes', ['id' => $schoolClass->id]);
     }
 
@@ -161,8 +161,8 @@ class SchoolClassControllerTest extends TestCase
 
         $this->get("api/school-classes/1/annual-report-by-subject/1",
             $this->getAutHeader())
-            ->assertResponseStatus(200)
-            ->seeJsonStructure([
+            ->assertStatus(200)
+            ->assertJsonFragmentStructure([
               'report_by_student' => 
                 ['*' => 
                     ['student' => 
