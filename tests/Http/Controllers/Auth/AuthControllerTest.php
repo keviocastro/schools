@@ -22,7 +22,7 @@ class AuthControllerTest extends TestCase
             [],
             $this->getAutHeader())
         	->assertStatus(200)
-            ->assertJsonFragmentStructure(['request_access' => 
+            ->assertJsonStructure(['request_access' => 
                         ['id','status','status', 'user_id'], // 0 pendente
                     ]);
     }

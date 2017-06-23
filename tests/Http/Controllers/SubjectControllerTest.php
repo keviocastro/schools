@@ -58,7 +58,7 @@ class SubjectControllerTest extends TestCase
         $this->get("api/subjects?_q=$name",
             $this->getAutHeader())
             ->assertStatus(200)
-            ->assertJsonFragmentStructure($struture);
+            ->assertJsonStructure($struture);
     }
 
     /**
@@ -121,7 +121,8 @@ class SubjectControllerTest extends TestCase
         $this->delete("api/subjects/{$subject->id}",
             [],
             $this->getAutHeader())
-            ->assertStatus(204)
-            ->seeIsSoftDeletedInDatabase('subjects', ['id' => $subject->id]);
+            ->assertStatus(204);
+
+        $this->assertSoftDeleted('subjects', ['id' => $subject->id]);
     }
 }

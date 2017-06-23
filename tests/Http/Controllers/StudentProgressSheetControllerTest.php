@@ -159,7 +159,7 @@ class StudentProgressSheetControllerTest extends TestCase
                 $this->getAutHeader()
             )
             ->assertStatus(201)
-            ->assertJsonFragmentStructure([
+            ->assertJsonStructure([
                     'student_progress_sheets' => ['*' => $resultItemStructure]
                 ]);
 
@@ -176,7 +176,7 @@ class StudentProgressSheetControllerTest extends TestCase
                 $this->getAutHeader()
             )
             ->assertStatus(201)
-            ->assertJsonFragmentStructure([
+            ->assertJsonStructure([
                     'student_progress_sheet' => $resultItemStructure
                 ]);
     }
@@ -217,7 +217,7 @@ class StudentProgressSheetControllerTest extends TestCase
                 $this->getAutHeader()
             )
             ->assertStatus(201)
-            ->assertJsonFragmentEquals([
+            ->assertExactJson([
                     'student_progress_sheet' => $item
                 ]);
 
@@ -238,7 +238,7 @@ class StudentProgressSheetControllerTest extends TestCase
             $this->getAutHeader()
             )
             ->assertStatus(201)
-            ->assertJsonFragmentEquals(['student_progress_sheet' => $item]);
+            ->assertExactJson(['student_progress_sheet' => $item]);
     }
 
      /**
@@ -299,7 +299,7 @@ class StudentProgressSheetControllerTest extends TestCase
             "?_with=progressSheetItem",
             $this->getAutHeader())
             ->assertStatus(200)
-            ->assertJsonFragmentEquals($structure);
+            ->assertExactJson($structure);
     }
 
     /**
@@ -327,7 +327,7 @@ class StudentProgressSheetControllerTest extends TestCase
             $studentProgressSheet_changed->toArray(),
             $this->getAutHeader())
             ->assertStatus(200)
-            ->assertJsonFragmentEquals($json);
+            ->assertExactJson($json);
     }
 
     /**
@@ -342,7 +342,8 @@ class StudentProgressSheetControllerTest extends TestCase
         $this->delete("api/student-progress-sheets/{$studentProgressSheet->id}",
             [],
             $this->getAutHeader())
-            ->assertStatus(204)
-            ->seeIsSoftDeletedInDatabase('student_progress_sheets', ['id' => $studentProgressSheet->id]);
+            ->assertStatus(204);
+
+        $this->assertSoftDeleted('student_progress_sheets', ['id' => $studentProgressSheet->id]);
     }
 }

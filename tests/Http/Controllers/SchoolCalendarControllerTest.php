@@ -84,7 +84,8 @@ class SchoolCalendarControllerTest extends TestCase
         $this->delete("api/school-calendars/{$schoolCalendar->id}",
             [],
             $this->getAutHeader())
-            ->assertStatus(204)
-            ->seeIsSoftDeletedInDatabase('school_calendars', ['id' => $schoolCalendar->id]);
+            ->assertStatus(204);
+
+        $this->assertSoftDeleted('school_calendars', ['id' => $schoolCalendar->id]);
     }
 }

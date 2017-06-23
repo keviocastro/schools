@@ -76,7 +76,7 @@ class AttendanceRecordControllerTest extends TestCase
             $attendanceRecord,
             $this->getAutHeader())
             ->assertStatus(200)
-            ->assertJsonFragmentEquals(['attendance_record' => $attendanceRecord]);
+            ->assertExactJson(['attendance_record' => $attendanceRecord]);
     }
 
     /**
@@ -131,6 +131,7 @@ class AttendanceRecordControllerTest extends TestCase
                 'student_id' => $attendanceRecord->student_id,
                 'lesson_id' => $attendanceRecord->lesson_id,
                 'presence' => $attendanceRecord->presence,
+                'absence_dismissal' => $attendanceRecord->absence_dismissal
             ],
             $this->getAutHeader())
             ->assertStatus(201)
@@ -149,7 +150,8 @@ class AttendanceRecordControllerTest extends TestCase
         $this->delete("api/attendance-records/{$attendanceRecord->id}",
             [],
             $this->getAutHeader())
-            ->assertStatus(204)
-            ->seeIsSoftDeletedInDatabase('attendance_records', ['id' => $attendanceRecord->id]);
+            ->assertStatus(204);
+        
+        $this->assertSoftDeleted('attendance_records', ['id' => $attendanceRecord->id]);
     }
 }

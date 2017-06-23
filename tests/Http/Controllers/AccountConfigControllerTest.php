@@ -32,7 +32,7 @@ class AccountConfigControllerTest extends TestCase
         $this->get('api/account-configs', 
         	$this->getAutHeader())
         ->assertStatus(200)
-        ->assertJsonFragmentStructure([
+        ->assertJsonStructure([
             'account_configs' => [
                 '*' => [
                     'id', 'name', 'value', 'default'

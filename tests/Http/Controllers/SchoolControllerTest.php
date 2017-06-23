@@ -45,7 +45,7 @@ class SchoolControllerTest extends TestCase
         $this->get('api/schools?_with=schoolClasses',
             $this->getAutHeader())
             ->assertStatus(200)
-            ->assertJsonFragmentStructure([
+            ->assertJsonStructure([
                 'total',
                 'per_page',
                 'current_page',
@@ -97,8 +97,9 @@ class SchoolControllerTest extends TestCase
         $this->delete("api/schools/{$school->id}",
             [],
             $this->getAutHeader())
-            ->assertStatus(204)
-            ->seeIsSoftDeletedInDatabase('schools', ['id' => $school->id]);
+            ->assertStatus(204);
+
+        $this->assertSoftDeleted('schools', ['id' => $school->id]);
     }
 
     /**

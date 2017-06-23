@@ -62,6 +62,6 @@ class AssessmentControllerTest extends TestCase
         $this->get("api/assessments?_q=$name",
             $this->getAutHeader())
             ->assertStatus(200)
-            ->assertJsonFragmentStructure($struture);
+            ->assertJsonStructure($struture);
     }
 }

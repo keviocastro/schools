@@ -107,7 +107,8 @@ class LessonPlanModelControllerTest extends TestCase
         $this->delete("api/lesson-plan-models/{$lessonPlanModel->id}",
             [],
             $this->getAutHeader())
-            ->assertStatus(204)
-            ->seeIsSoftDeletedInDatabase('lesson_plan_models', ['id' => $lessonPlanModel->id]);
+            ->assertStatus(204);
+            
+        $this->assertSoftDeleted('lesson_plan_models', ['id' => $lessonPlanModel->id]);
     }
 }

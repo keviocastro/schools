@@ -37,7 +37,7 @@ class ProgressSheetControllerTest extends TestCase
         $this->get('api/progress-sheets?_sort=-id',
             $this->getAutHeader())
             ->assertStatus(200)
-            ->assertJsonFragmentStructure($json);
+            ->assertJsonStructure($json);
     }
 
     /**
@@ -89,7 +89,7 @@ class ProgressSheetControllerTest extends TestCase
             "?_with=items&_attach=groups",
         	$this->getAutHeader())
         	->assertStatus(200)
-        	->assertJsonFragmentStructure($json);
+        	->assertJsonStructure($json);
     }
 
     /**
@@ -121,8 +121,9 @@ class ProgressSheetControllerTest extends TestCase
         $this->delete("api/progress-sheets/{$progressSheet->id}",
             [],
             $this->getAutHeader())
-            ->assertStatus(204)
-            ->seeIsSoftDeletedInDatabase('progress_sheets', ['id' => $progressSheet->id]);
+            ->assertStatus(204);
+
+        $this->assertSoftDeleted('progress_sheets', ['id' => $progressSheet->id]);
     }
 
     /**
@@ -149,7 +150,7 @@ class ProgressSheetControllerTest extends TestCase
         $this->get("api/progress-sheets/$progressSheet->id/items",
             $this->getAutHeader())
             ->assertStatus(200)
-            ->assertJsonFragmentStructure($result);
+            ->assertJsonStructure($result);
     }
 
     /**
@@ -187,7 +188,7 @@ class ProgressSheetControllerTest extends TestCase
                 $this->getAutHeader()
             )
             ->assertStatus(201)
-            ->assertJsonFragmentStructure([
+            ->assertJsonStructure([
                     'progress_sheet_items' => ['*' => $resultItemStructure]
                 ]);
 
@@ -197,7 +198,7 @@ class ProgressSheetControllerTest extends TestCase
                 $this->getAutHeader()
             )
             ->assertStatus(201)
-            ->assertJsonFragmentStructure([
+            ->assertJsonStructure([
                     'progress_sheet_item' => $resultItemStructure
                 ]);
     }

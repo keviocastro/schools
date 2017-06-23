@@ -76,7 +76,7 @@ class StudentControllerTest extends TestCase
             "?school_calendar_id=1",
             $this->getAutHeader())
             ->assertStatus(200)
-            ->assertJsonFragmentStructure([
+            ->assertJsonStructure([
                 "absences" => ['total'],
                 "best_average" => $this->average_structure,
                 "low_average" => $this->average_structure
@@ -99,7 +99,7 @@ class StudentControllerTest extends TestCase
             "?school_calendar_id=1",
             $this->getAutHeader())
             ->assertStatus(200)
-            ->assertJsonFragmentStructure([
+            ->assertJsonStructure([
                 'report_by_subjects' => // Informações por disciplina no ano letivo
                              // faltas, notas e médias
                 ['*' => 

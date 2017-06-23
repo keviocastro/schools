@@ -169,8 +169,9 @@ class LessonControllerTest extends TestCase
         $this->delete("api/lessons/{$lesson->id}",
             [],
             $this->getAutHeader())
-            ->assertStatus(204)
-            ->seeIsSoftDeletedInDatabase('lessons', ['id' => $lesson->id]);
+            ->assertStatus(204);
+        
+        $this->assertSoftDeleted('lessons', ['id' => $lesson->id]);
     }
 
     /**

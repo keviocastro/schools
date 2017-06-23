@@ -29,6 +29,7 @@ class StudentGradeControllerTest extends TestCase
 			  "last_page" => 1,
 			  "next_page_url" => null,
 			  "prev_page_url" => null,
+              "path" => "http://localhost/api/student-grades",
 			  "from" => 1,
 			  "to" => 3,
 			  "data" => $studentGrades->toArray()
@@ -39,7 +40,7 @@ class StudentGradeControllerTest extends TestCase
             "&id=$ids",
         	$this->getAutHeader())
         	->assertStatus(200)
-        	->assertJsonFragmentEquals($result);
+        	->assertExactJson($result);
     }
 
     /**
@@ -102,7 +103,7 @@ class StudentGradeControllerTest extends TestCase
         	$studentGrade,
         	$this->getAutHeader())
         	->assertStatus(422)
-        	->assertJsonFragmentStructure([
+        	->assertJsonStructure([
         			'errors' => [
         				'grade'
         			]
@@ -255,7 +256,8 @@ class StudentGradeControllerTest extends TestCase
         $this->delete("api/student-grades/$studentGrade->id",
             [],
             $this->getAutHeader())
-        ->assertStatus(204)
-        ->seeIsSoftDeletedInDatabase('student_grades', ['id' => $studentGrade->id]);
+        ->assertStatus(204);
+
+        $this->assertSoftDeleted('student_grades', ['id' => $studentGrade->id]);
     }
 }

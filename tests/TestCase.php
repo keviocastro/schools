@@ -14,7 +14,6 @@ use Illuminate\Support\Facades\Artisan;
 
 class TestCase extends TestCaseLara
 {
-    use SoftDeletes;
 
     /**
      * The base URL to use while testing the application.

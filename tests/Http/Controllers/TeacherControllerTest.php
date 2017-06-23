@@ -52,6 +52,7 @@ class TeacherControllerTest extends TestCase
                 "next_page_url" => null,
                 "prev_page_url" => null,
                 "from" => 1,
+                "path" => "http://localhost/api/teachers/$teacher->id/school-classes",
                 "to" => 8,
                 "data" => $dataResult
             ];
@@ -61,6 +62,6 @@ class TeacherControllerTest extends TestCase
             "&_with=schoolClass.grade,schoolClass.shift",
             $this->getAutHeader())
             ->assertStatus(200)
-            ->assertJsonFragmentEquals($resource);
+            ->assertExactJson($resource);
     }
 }
