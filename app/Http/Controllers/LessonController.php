@@ -138,8 +138,6 @@ class LessonController extends Controller
     }
 
     /**
-     * @todo Converter sql para classe de modelo.
-     *       Decidir se as datas serão dinamicas ou serão a partir da tabela dates.
      * 
      * @return \Illuminate\Http\Response
      */
@@ -152,11 +150,11 @@ class LessonController extends Controller
                 'user_id' => 'string', 
             ]);
 
-        $startDate = $request->input('start', Carbon::now()->format('Y-m-d'));
-        $endDate = $request->input('end', Carbon::parse($startDate)->addDays(14)->format('Y-m-d'));
+        $startDate = new Carbon($request->input('start', Carbon::now()->format('Y-m-d')));
+        $endDate = new Carbon($request->input('end', Carbon::parse($startDate)->addDays(14)->format('Y-m-d')));
         $user_id = $request->input('user_id');
 
-        $queryDaysBetweenDates = "select * from (select adddate('$startDate',t4*10000 + t3*1000 + t2*100 + t1*10 + t0) day from (select 0 t0 union select 1 union select 2 union select 3 union select 4 union select 5 union select 6 union select 7 union select 8 union select 9) t0, (select 0 t1 union select 1 union select 2 union select 3 union select 4 union select 5 union select 6 union select 7 union select 8 union select 9) t1, (select 0 t2 union select 1 union select 2 union select 3 union select 4 union select 5 union select 6 union select 7 union select 8 union select 9) t2, (select 0 t3 union select 1 union select 2 union select 3 union select 4 union select 5 union select 6 union select 7 union select 8 union select 9) t3, (select 0 t4 union select 1 union select 2 union select 3 union select 4 union select 5 union select 6 union select 7 union select 8 union select 9) t4) v where day between '$startDate' and '$endDate'";
+        $queryDaysBetweenDates = Lesson::queryDaysBetweenDates($startDate, $endDate);
 
         $days = DB::select(DB::raw($queryDaysBetweenDates));
 
@@ -177,7 +175,7 @@ class LessonController extends Controller
         // apiHandler->parseMultiple para possibilitar utilizar o parametro _with da requisição
         $result = $this->apiHandler->parseMultiple($query, [], $request->except('start', 'end', 'user_id'));
         $data = $result->getResult()->toArray();
-
+        
         // To group lessons per day
         $data = collect($data)->groupBy('day')->sort()->toArray();
         foreach ($days as $key => $day) {
@@ -185,8 +183,8 @@ class LessonController extends Controller
         }
         
         return [
-                'start' => $startDate,
-                'end' => $endDate,
+                'start' => $startDate->format('Y-m-d'),
+                'end' => $endDate->format('Y-m-d'),
                 'data' => $days
             ];
     }

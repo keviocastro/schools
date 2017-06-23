@@ -246,7 +246,7 @@ class LessonControllerTest extends TestCase
                 ",subject",
             $this->getAutHeader())
             ->assertStatus(200)
-            ->assertJsonFragmentEquals($jsonResult);
+            ->assertExactJson($jsonResult);
 
         // Retorna nenhuma aula porque o professor não tem aula
         foreach ($jsonResult['data'] as $key => $value) {
@@ -262,7 +262,7 @@ class LessonControllerTest extends TestCase
                 ",subject",
             $this->getAutHeader())
             ->assertStatus(200)
-            ->assertJsonFragmentEquals($jsonResult);
+            ->assertExactJson($jsonResult);
     }
 
 }
