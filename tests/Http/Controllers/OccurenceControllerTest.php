@@ -27,6 +27,7 @@ class OccurenceControllerTest extends TestCase
               "last_page" => 1,
               "next_page_url" => null,
               "prev_page_url" => null,
+              "path" => "http://localhost/api/occurences",
               "from" => 1,
               "to" => 3,
               "data" => $ocurrences->toArray()
@@ -35,8 +36,8 @@ class OccurenceControllerTest extends TestCase
         $this->get('api/occurences?_with=level,aboutPerson'.
           "&id=$ids",
             $this->getAutHeader())
-            ->assertResponseStatus(200)
-            ->seeJsonEquals($json);
+            ->assertStatus(200)
+            ->assertExactJson($json);
     }
     /**
      * @covers App\Http\Controllers\OccurenceController::index
@@ -72,8 +73,8 @@ class OccurenceControllerTest extends TestCase
         $word = explode(' ', $comment, 4)[2];
         $this->get("api/occurences?_q=$word",
             $this->getAutHeader())
-            ->assertResponseStatus(200)
-            ->seeJsonStructure($struture);
+            ->assertStatus(200)
+            ->assertJsonStructure($struture);
     }
 
     /**
@@ -89,8 +90,8 @@ class OccurenceControllerTest extends TestCase
         $this->post('api/occurences',
         	$ocurrence,
         	$this->getAutHeader())
-        	->assertResponseStatus(201)
-        	->seeJson($ocurrence);
+        	->assertStatus(201)
+        	->assertJsonFragment($ocurrence);
     }
 
 
@@ -105,8 +106,8 @@ class OccurenceControllerTest extends TestCase
     	
         $this->get("api/occurences/{$occurence->id}",
         	$this->getAutHeader())
-        	->assertResponseStatus(200)
-        	->seeJson($occurence->toArray());
+        	->assertStatus(200)
+        	->assertJsonFragment($occurence->toArray());
     }
 
     /**
@@ -121,8 +122,9 @@ class OccurenceControllerTest extends TestCase
         $this->delete("api/occurences/{$occurence->id}",
             [],
             $this->getAutHeader())
-            ->assertResponseStatus(204)
-            ->seeIsSoftDeletedInDatabase('occurences', ['id' => $occurence->id]);
+            ->assertStatus(204);
+        
+        $this->assertSoftDeleted('occurences', ['id' => $occurence->id]);
     }
 
     /**
@@ -138,7 +140,7 @@ class OccurenceControllerTest extends TestCase
         $this->put("api/occurences/{$occurence->id}",
             $occurence_changed,
             $this->getAutHeader())
-            ->assertResponseStatus(200)
-            ->seeJson($occurence_changed);
+            ->assertStatus(200)
+            ->assertJsonFragment($occurence_changed);
     }
 }

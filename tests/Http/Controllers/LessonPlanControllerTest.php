@@ -18,8 +18,8 @@ class LessonPlanControllerTest extends TestCase
 
         $this->get('api/lesson-plans?_sort=-id',
         	$this->getAutHeader())
-        	->assertResponseStatus(200)
-        	->seeJson($lessonPlan->toArray());
+        	->assertStatus(200)
+        	->assertJsonFragment($lessonPlan->toArray());
     }
 
     /**
@@ -56,8 +56,8 @@ class LessonPlanControllerTest extends TestCase
         $this->post('api/lesson-plans',
             $lessonPlan,
             $this->getAutHeader())
-            ->assertResponseStatus(201)
-            ->seeJsonEquals(['lesson_plan' => $result]);
+            ->assertStatus(201)
+            ->assertExactJson(['lesson_plan' => $result]);
     }
 
     /**
@@ -79,8 +79,8 @@ class LessonPlanControllerTest extends TestCase
         $this->post('api/lesson-plans',
             $lessonPlan,
             $this->getAutHeader())
-            ->assertResponseStatus(422)
-            ->seeJsonEquals([
+            ->assertStatus(422)
+            ->assertExactJson([
                     "message" => "Could not create new resource.",
                     'errors' => [
                         'lesson_plan_template_id' => [
@@ -110,8 +110,8 @@ class LessonPlanControllerTest extends TestCase
         
         $this->get("api/lesson-plans/{$lessonPlan['id']}",
             $this->getAutHeader())
-            ->assertResponseStatus(200)
-            ->seeJson($lessonPlan);
+            ->assertStatus(200)
+            ->assertJsonFragment($lessonPlan);
     }
 
     /**
@@ -142,8 +142,8 @@ class LessonPlanControllerTest extends TestCase
         $this->put("api/lesson-plans/{$lessonPlan->id}",
         	$lessonPlan_changed,
         	$this->getAutHeader())
-        	->assertResponseStatus(200)
-        	->seeJsonEquals(['lesson_plan' => $lessonPlanResult]);
+        	->assertStatus(200)
+        	->assertExactJson(['lesson_plan' => $lessonPlanResult]);
     }
 
     /**
@@ -163,8 +163,8 @@ class LessonPlanControllerTest extends TestCase
         $this->put('api/lesson-plans/{$lessonPlan->id}',
             $lessonPlan,
             $this->getAutHeader())
-            ->assertResponseStatus(422)
-            ->seeJsonEquals([
+            ->assertStatus(422)
+            ->assertExactJson([
                 "message" => "Could not create new resource.",
                 'errors' => [
                     'lesson_plan_template_id' => [
@@ -195,7 +195,8 @@ class LessonPlanControllerTest extends TestCase
         $this->delete("api/lesson-plans/{$lessonPlan->id}",
             [],
             $this->getAutHeader())
-            ->assertResponseStatus(204)
-            ->seeIsSoftDeletedInDatabase('lesson_plans', ['id' => $lessonPlan->id]);
+            ->assertStatus(204);
+            
+        $this->assertSoftDeleted('lesson_plans', ['id' => $lessonPlan->id]);
     }
 }

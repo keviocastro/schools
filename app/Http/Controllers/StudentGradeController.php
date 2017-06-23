@@ -102,18 +102,18 @@ class StudentGradeController extends Controller
     public function update(Request $request, $id)
     {
         $this->validationForUpdateAction($request, [
-            'grade' => 'nullable|required|numeric|max:10|min:0'
+            'grade' => 'nullable|numeric|max:10|min:0'
         ]);
 
         $studentGrade = StudentGrade::findOrFail($id);
 
         $allowChange = ['grade'];
+        
         foreach ($request->except($allowChange) as $key => $value) {
             if ($value != $studentGrade->$key) {
                 throw new ConflictHttpException('Only the grade can be changed.');
             }
         }
-
         $studentGrade->update($request->all());
 
         return $studentGrade;

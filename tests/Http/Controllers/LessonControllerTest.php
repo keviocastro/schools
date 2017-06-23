@@ -33,11 +33,12 @@ class LessonControllerTest extends TestCase
             'schoolClass.shift',
             'subject');
 
-    	$this->get('api/lessons?_sort=-id'.
-            '&_with=lessonPlan,schoolClass.grade,schoolClass.shift,subject',
+    	$this->get("api/lessons?id={$lesson->id}".
+            '&_with=lessonPlan,schoolClass.grade,schoolClass.shift,subject'
+            ,
             $this->getAutHeader())
-    		->assertResponseStatus(200)
-    		->seeJson($lesson->toArray());
+    		->assertStatus(200)
+    		->assertJsonFragment($lesson->toArray());
     }
 
     /**
@@ -52,8 +53,8 @@ class LessonControllerTest extends TestCase
         $this->post('api/lessons',
         	$lesson,
         	$this->getAutHeader())
-        	->assertResponseStatus(201)
-        	->seeJson($lesson);
+        	->assertStatus(201)
+        	->assertJsonFragment($lesson);
     }
 
     /**
@@ -67,8 +68,8 @@ class LessonControllerTest extends TestCase
 
         $this->get("api/lessons/$lesson->id",
             $this->getAutHeader())
-            ->assertResponseStatus(200)
-            ->seeJson($lesson->toArray());
+            ->assertStatus(200)
+            ->assertJsonFragment($lesson->toArray());
     }
 
     /**
@@ -103,10 +104,9 @@ class LessonControllerTest extends TestCase
             "students.absenceSummary"; 
 
         $this->get($url, $this->getAutHeader())
-            ->assertResponseStatus(200);
+            ->assertStatus(200);
             
         $response = $this->getResponseContent("GET", $url);
-
         
         // Test param students.absenceSummary
         $student = collect($response['lesson']['students'])->where('id', 1)
@@ -153,8 +153,8 @@ class LessonControllerTest extends TestCase
         $this->put("api/lessons/{$lesson->id}",
             $lesson_changed,
             $this->getAutHeader())
-            ->assertResponseStatus(200)
-            ->seeJson($lesson_changed);
+            ->assertStatus(200)
+            ->assertJsonFragment($lesson_changed);
     }
 
     /**
@@ -169,8 +169,9 @@ class LessonControllerTest extends TestCase
         $this->delete("api/lessons/{$lesson->id}",
             [],
             $this->getAutHeader())
-            ->assertResponseStatus(204)
-            ->seeIsSoftDeletedInDatabase('lessons', ['id' => $lesson->id]);
+            ->assertStatus(204);
+        
+        $this->assertSoftDeleted('lessons', ['id' => $lesson->id]);
     }
 
     /**
@@ -245,8 +246,8 @@ class LessonControllerTest extends TestCase
                 ",schoolClass.students".
                 ",subject",
             $this->getAutHeader())
-            ->assertResponseStatus(200)
-            ->seeJsonEquals($jsonResult);
+            ->assertStatus(200)
+            ->assertExactJson($jsonResult);
 
         // Retorna nenhuma aula porque o professor não tem aula
         foreach ($jsonResult['data'] as $key => $value) {
@@ -261,8 +262,8 @@ class LessonControllerTest extends TestCase
                 ",schoolClass.students".
                 ",subject",
             $this->getAutHeader())
-            ->assertResponseStatus(200)
-            ->seeJsonEquals($jsonResult);
+            ->assertStatus(200)
+            ->assertExactJson($jsonResult);
     }
 
 }

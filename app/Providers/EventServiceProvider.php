@@ -13,9 +13,9 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        'App\Events\SomeEvent' => [
-            'App\Listeners\EventListener',
-        ],
+        'Spatie\ResponseCache\Events\ResponseCacheHit' => [
+            'App\Listeners\ResponseCacheHit'
+        ]
     ];
 
     /**
@@ -27,7 +27,7 @@ class EventServiceProvider extends ServiceProvider
     public function boot()
     {
         parent::boot();
-
+        
         //
     }
 }

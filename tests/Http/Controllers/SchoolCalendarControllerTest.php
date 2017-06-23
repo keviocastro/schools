@@ -20,8 +20,8 @@ class SchoolCalendarControllerTest extends TestCase
         
         $this->get('api/school-calendars?_sort=-id',
         	$this->getAutHeader())
-        	->assertResponseStatus(200)
-        	->seeJson($schoolCalendar->toArray());
+        	->assertStatus(200)
+        	->assertJsonFragment($schoolCalendar->toArray());
     }
 
     /**
@@ -36,8 +36,8 @@ class SchoolCalendarControllerTest extends TestCase
         $this->post('api/school-calendars',
         	$schoolCalendar,
         	$this->getAutHeader())
-        	->assertResponseStatus(201)
-        	->seeJson($schoolCalendar);
+        	->assertStatus(201)
+        	->assertJsonFragment($schoolCalendar);
     }
 
     /**
@@ -51,8 +51,8 @@ class SchoolCalendarControllerTest extends TestCase
         
         $this->get("api/school-calendars/{$schoolCalendar['id']}",
         	$this->getAutHeader())
-        	->assertResponseStatus(200)
-        	->seeJson($schoolCalendar);
+        	->assertStatus(200)
+        	->assertJsonFragment($schoolCalendar);
     }
 
     /**
@@ -68,8 +68,8 @@ class SchoolCalendarControllerTest extends TestCase
         $this->put("api/school-calendars/{$schoolCalendar->id}",
         	$schoolCalendar_changed,
         	$this->getAutHeader())
-        	->assertResponseStatus(200)
-        	->seeJson($schoolCalendar_changed);
+        	->assertStatus(200)
+        	->assertJsonFragment($schoolCalendar_changed);
     }
 
     /**
@@ -84,7 +84,8 @@ class SchoolCalendarControllerTest extends TestCase
         $this->delete("api/school-calendars/{$schoolCalendar->id}",
             [],
             $this->getAutHeader())
-            ->assertResponseStatus(204)
-            ->seeIsSoftDeletedInDatabase('school_calendars', ['id' => $schoolCalendar->id]);
+            ->assertStatus(204);
+
+        $this->assertSoftDeleted('school_calendars', ['id' => $schoolCalendar->id]);
     }
 }

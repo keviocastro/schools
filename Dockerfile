@@ -42,7 +42,6 @@ RUN curl -fsSL 'https://xdebug.org/files/xdebug-2.5.4.tgz' -o xdebug.tar.gz \
     ) \
     && rm -r xdebug
 
-RUN mkdir /var/log/xdebug/
 RUN echo "zend_extension=$(find /usr/local/lib/php/extensions/ -name xdebug.so)" > /usr/local/etc/php/conf.d/xdebug.ini \
     && echo "xdebug.default_enable=1"                       >> /usr/local/etc/php/conf.d/xdebug.ini \
     && echo "xdebug.remote_enable=1"                        >> /usr/local/etc/php/conf.d/xdebug.ini \

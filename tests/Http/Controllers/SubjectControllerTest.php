@@ -21,8 +21,8 @@ class SubjectControllerTest extends TestCase
         
         $this->get('api/subjects?_sort=-id',
         	$this->getAutHeader())
-        	->assertResponseStatus(200)
-        	->seeJson($subject->toArray());
+        	->assertStatus(200)
+        	->assertJsonFragment($subject->toArray());
     }
 
     /**
@@ -57,8 +57,8 @@ class SubjectControllerTest extends TestCase
 
         $this->get("api/subjects?_q=$name",
             $this->getAutHeader())
-            ->assertResponseStatus(200)
-            ->seeJsonStructure($struture);
+            ->assertStatus(200)
+            ->assertJsonStructure($struture);
     }
 
     /**
@@ -73,8 +73,8 @@ class SubjectControllerTest extends TestCase
         $this->post('api/subjects',
         	$subject,
         	$this->getAutHeader())
-        	->assertResponseStatus(201)
-        	->seeJson($subject);
+        	->assertStatus(201)
+        	->assertJsonFragment($subject);
     }
 
     /**
@@ -88,8 +88,8 @@ class SubjectControllerTest extends TestCase
         
         $this->get("api/subjects/{$subject['id']}",
         	$this->getAutHeader())
-        	->assertResponseStatus(200)
-        	->seeJson($subject);
+        	->assertStatus(200)
+        	->assertJsonFragment($subject);
     }
 
     /**
@@ -105,8 +105,8 @@ class SubjectControllerTest extends TestCase
         $this->put("api/subjects/{$subject->id}",
         	$subject_changed,
         	$this->getAutHeader())
-        	->assertResponseStatus(200)
-        	->seeJson($subject_changed);
+        	->assertStatus(200)
+        	->assertJsonFragment($subject_changed);
     }
 
     /**
@@ -121,7 +121,8 @@ class SubjectControllerTest extends TestCase
         $this->delete("api/subjects/{$subject->id}",
             [],
             $this->getAutHeader())
-            ->assertResponseStatus(204)
-            ->seeIsSoftDeletedInDatabase('subjects', ['id' => $subject->id]);
+            ->assertStatus(204);
+
+        $this->assertSoftDeleted('subjects', ['id' => $subject->id]);
     }
 }

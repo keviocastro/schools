@@ -2,6 +2,8 @@
 
 namespace App;
 
+use Carbon\Carbon;
+
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
@@ -16,7 +18,11 @@ class Lesson extends Model
      *
      * @var array
      */
-    protected $dates = ['deleted_at'];
+    protected $dates = [
+        'deleted_at',
+        'start',
+        'end'
+        ];
 
     /**
      * The attributes that are mass assignable.
@@ -141,6 +147,67 @@ class Lesson extends Model
             where('school_class_id', $school_class_id)
             ->where('subject_id', $subject_id)
             ->count();
+    }
+
+    public static function queryDaysBetweenDates(Carbon $startDate, Carbon $endDate){
+        $startDate = $startDate->format('Y-m-d');
+        $endDate = $endDate->format('Y-m-d');
+
+        $query = "select * from (
+            select adddate('$startDate',t4*10000 + t3*1000 + t2*100 + t1*10 + t0) day 
+            from (select 0 t0 
+                    union select 1 
+                    union select 2 
+                    union select 3 
+                    union select 4 
+                    union select 5 
+                    union select 6 
+                    union select 7 
+                    union select 8 
+                    union select 9) t0, 
+                (select 0 t1 
+                    union select 1 
+                    union select 2 
+                    union select 3 
+                    union select 4 
+                    union select 5 
+                    union select 6 
+                    union select 7 
+                    union select 8 
+                    union select 9) t1, 
+                (select 0 t2 
+                    union select 1 
+                    union select 2 
+                    union select 3 
+                    union select 4 
+                    union select 5 
+                    union select 6 
+                    union select 7 
+                    union select 8 
+                    union select 9) t2, 
+                (select 0 t3 
+                    union select 1 
+                    union select 2 
+                    union select 3 
+                    union select 4 
+                    union select 5 
+                    union select 6 
+                    union select 7 
+                    union select 8 
+                    union select 9) t3, 
+                (select 0 t4 
+                    union select 1 
+                    union select 2 
+                    union select 3 
+                    union select 4 
+                    union select 5 
+                    union select 6 
+                    union select 7 
+                    union select 8 
+                    union select 9) t4) v 
+            where day between '$startDate' and '$endDate'";
+
+        return $query;
     }
 
 }

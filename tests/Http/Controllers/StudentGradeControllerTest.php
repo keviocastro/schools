@@ -29,6 +29,7 @@ class StudentGradeControllerTest extends TestCase
 			  "last_page" => 1,
 			  "next_page_url" => null,
 			  "prev_page_url" => null,
+              "path" => "http://localhost/api/student-grades",
 			  "from" => 1,
 			  "to" => 3,
 			  "data" => $studentGrades->toArray()
@@ -38,8 +39,8 @@ class StudentGradeControllerTest extends TestCase
             '_with=student,subject,assessment,schoolClass'.
             "&id=$ids",
         	$this->getAutHeader())
-        	->assertResponseStatus(200)
-        	->seeJsonEquals($result);
+        	->assertStatus(200)
+        	->assertExactJson($result);
     }
 
     /**
@@ -79,16 +80,16 @@ class StudentGradeControllerTest extends TestCase
         $this->post('api/student-grades',
         	$studentGrade,
         	$this->getAutHeader())
-        	->assertResponseStatus(201)
-        	->seeJson($studentGrade);
+        	->assertStatus(201)
+        	->assertJsonFragment($studentGrade);
 
         // grade não pode ser maior que 10
 		$studentGrade['grade'] = 20;
 		$this->post('api/student-grades',
         	$studentGrade,
         	$this->getAutHeader())
-        	->assertResponseStatus(422)
-        	->seeJson([
+        	->assertStatus(422)
+        	->assertJsonFragment([
         			'errors' => [
         				'grade' => [
         					"The grade may not be greater than 10."
@@ -101,8 +102,8 @@ class StudentGradeControllerTest extends TestCase
 		$this->post('api/student-grades',
         	$studentGrade,
         	$this->getAutHeader())
-        	->assertResponseStatus(422)
-        	->seeJsonStructure([
+        	->assertStatus(422)
+        	->assertJsonStructure([
         			'errors' => [
         				'grade'
         			]
@@ -117,8 +118,8 @@ class StudentGradeControllerTest extends TestCase
         $this->post('api/student-grades',
             $studentGrade,
             $this->getAutHeader())
-            ->assertResponseStatus(409)
-            ->seeJson(['message' => 
+            ->assertStatus(409)
+            ->assertJsonFragment(['message' => 
                 "The student is not in the school class ({$studentGrade['school_class_id']})."]);        
     }
 
@@ -196,8 +197,8 @@ class StudentGradeControllerTest extends TestCase
     	
         $this->get("api/student-grades/{$studentGrade->id}",
         	$this->getAutHeader())
-        	->assertResponseStatus(200)
-        	->seeJson($studentGrade->toArray());
+        	->assertStatus(200)
+        	->assertJsonFragment($studentGrade->toArray());
     }
 
     /**
@@ -216,8 +217,8 @@ class StudentGradeControllerTest extends TestCase
         $this->put("api/student-grades/{$studentGrade->id}",
             ['grade' => 9.9],
             $this->getAutHeader())
-            ->assertResponseStatus(200)
-            ->seeJson($studentGrade_changed);
+            ->assertStatus(200)
+            ->assertJsonFragment($studentGrade_changed);
 
         //somente a nota pode ser alterada
 
@@ -230,15 +231,15 @@ class StudentGradeControllerTest extends TestCase
         $this->put("api/student-grades/{$studentGrade->id}",
             $studentGrade_changed,
             $this->getAutHeader())
-            ->assertResponseStatus(409)
-            ->seeJson(['message' => 'Only the grade can be changed.']);
+            ->assertStatus(409)
+            ->assertJsonFragment(['message' => 'Only the grade can be changed.']);
 
         // Permite alterar para nulo
         $this->put("api/student-grades/{$studentGrade->id}",
             ['grade' => null],
             $this->getAutHeader())
-            ->assertResponseStatus(200)
-            ->seeJson(
+            ->assertStatus(200)
+            ->assertJsonFragment(
                 array_merge($studentGrade->toArray(), ['grade' => null])
                 );
     }
@@ -255,7 +256,8 @@ class StudentGradeControllerTest extends TestCase
         $this->delete("api/student-grades/$studentGrade->id",
             [],
             $this->getAutHeader())
-        ->assertResponseStatus(204)
-        ->seeIsSoftDeletedInDatabase('student_grades', ['id' => $studentGrade->id]);
+        ->assertStatus(204);
+
+        $this->assertSoftDeleted('student_grades', ['id' => $studentGrade->id]);
     }
 }

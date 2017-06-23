@@ -6,15 +6,17 @@
     "type": "project",
     "minimum-stability": "dev",
     "require": {
-        "php": ">=5.5.9",
-        "laravel/framework": "5.3.*",
+        "php": ">=7.1",
+        "laravel/framework": "~5.4",
         "auth0/login": "~5.0",
         "dingo/api": "1.0.x@dev",
         "marcelgwerder/laravel-api-handler": "dev-master",
-        "barryvdh/laravel-cors": "^0.8.2",
+        "barryvdh/laravel-cors": "0.8.*",
         "danielstjules/stringy": "~2.3",
         "rtconner/laravel-tagging": "~2.2",
-        "doctrine/dbal": "^2.5"
+        "doctrine/dbal": "~2.5",
+        "predis/predis": "~1.1",
+        "spatie/laravel-responsecache": "~3.1"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
