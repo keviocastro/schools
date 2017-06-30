@@ -14,7 +14,7 @@ machine:
 dependencies:
   override:
     - composer install
-    - docker-compose up -d
+    - docker-compose -f docker-compose.prod.yml -d
 
 test:
   override:
