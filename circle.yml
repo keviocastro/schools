@@ -1,7 +1,7 @@
 ## Customize the test machine
 machine:
   php:
-    version: 7.1
+    version: 7.0
 
 dependencies:
   pre:
@@ -11,7 +11,6 @@ dependencies:
 
 compile:
   override:
-    - cp .env.example .env
     - docker-compose up -d
 
 test:
