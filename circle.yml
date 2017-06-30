@@ -3,7 +3,7 @@ machine:
   services:
     - docker
 
-compile:
+dependencies:
   override:
     - docker-compose up -d
 
