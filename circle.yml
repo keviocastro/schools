@@ -13,6 +13,7 @@ machine:
 
 dependencies:
   override:
+    - composer install
     - docker-compose up -d
 
 test:
