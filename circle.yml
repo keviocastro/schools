@@ -8,6 +8,8 @@ machine:
     - sudo chmod +x /usr/local/bin/docker-compose
   php:
     version: 7.1.0
+  services:
+    - docker
 
 dependencies:
   override:
