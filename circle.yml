@@ -1,0 +1,19 @@
+## Customize the test machine
+machine:
+  php:
+    version: 7.1
+
+dependencies:
+  pre:
+    - set -x
+    - curl -L https://github.com/docker/compose/releases/download/1.11.2/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
+    - chmod +x /usr/local/bin/docker-compose
+
+compile:
+  override:
+    - cp .env.example .env
+    - docker-compose up -d
+
+test:
+  override:
+    -  docker exec schools_web_1 scripts/wait-health.sh vendor/bin/phpunit
