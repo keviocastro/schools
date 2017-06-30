@@ -1,8 +1,9 @@
 ## Customize the test machine
 machine:
-  services:
-    - docker
+  php:
+    version: 7.1.0
   pre:
+    - sudo apt-get update; USE_PRECOMPILE=true sudo -E circleci-install php 7.1.0
     - curl -sSL https://s3.amazonaws.com/circle-downloads/install-circleci-docker.sh | bash -s -- 1.10.0
     - curl -L https://github.com/docker/compose/releases/download/1.14.0/docker-compose-`uname -s`-`uname -m` > docker-compose 
     - sudo mv docker-compose /usr/local/bin/docker-compose
