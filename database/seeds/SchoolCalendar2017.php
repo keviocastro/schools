@@ -261,7 +261,7 @@ class SchoolCalendar2017 extends Seeder
         $subjects = [];
 
         $subject = factory(Subject::class)->create([
-                'name' => 'Word 2016'
+                'name' => 'Turma A'
             ]);
         $teacher1 = LessonsFactory::createTeacherIfNotExists(Config::get('laravel-auth0.user_id_role_teacher_1'));
         $subjectFixedData = $subject;
@@ -274,7 +274,9 @@ class SchoolCalendar2017 extends Seeder
             $subject,
             $teacher1);
 
-        $subject = factory(Subject::class)->create();
+        $subject = factory(Subject::class)->create([
+            'name' => 'Turma  B'
+        ]);
         $subjectFixedData2 = $subject;
         array_push($subjects, $subject);
         LessonsFactory::createBetweenTwoDates(
