@@ -44,7 +44,7 @@ class SchoolCalendar2017 extends Seeder
     {
         $this->createSchoolCalendar();
         $this->createClassesWithGrade();
-        $this->createClassesWithProgressSheet();
+        // $this->createClassesWithProgressSheet();
     }
 
     /**
@@ -65,13 +65,11 @@ class SchoolCalendar2017 extends Seeder
             'start' => '2017-02-01',
             'end' => '2017-12-08',
             'average_formula' => 
-                '('.
-                    '(({1º Bimestre} + {2º Bimestre} + {3º Bimestre} + {4º Bimestre})/4)-10'.
-                ')+{Recuperação}'
+                    '(({Word 2017} + {Excel 2017} + {Power Point 2017} + {Manutenção})/4)'
         ]);
         $this->schoolCalendarPhase1 = factory(SchoolCalendarPhase::class)->create([
             'school_calendar_id' => $schoolCalendar->id,
-            'name' => '1º Bimestre',
+            'name' => 'Word 2017',
             'start' => '2017-02-01',
             'end' => '2017-04-15',
             'average_formula' => '({Nota 1.1} + {Nota 1.2})/2'
@@ -90,7 +88,7 @@ class SchoolCalendar2017 extends Seeder
 
         $this->schoolCalendarPhase2 = factory(SchoolCalendarPhase::class)->create([
             'school_calendar_id' => $schoolCalendar->id,
-            'name' => '2º Bimestre',
+            'name' => 'Excel 2017',
             'start' => '2017-04-16',
             'end' => '2017-06-31',
             'average_formula' => '({Nota 2.1} + {Nota 2.2})/2'
@@ -110,7 +108,7 @@ class SchoolCalendar2017 extends Seeder
 
         $this->schoolCalendarPhase3 = factory(SchoolCalendarPhase::class)->create([
             'school_calendar_id' => $schoolCalendar->id,
-            'name' => '3º Bimestre',
+            'name' => 'Power Point 2017',
             'start' => '2017-08-01',
             'end' => '2017-09-30',
             'average_formula' => '({Nota 3.1} + {Nota 3.2})/2'
@@ -129,7 +127,7 @@ class SchoolCalendar2017 extends Seeder
 
         $this->schoolCalendarPhase4 = factory(SchoolCalendarPhase::class)->create([
             'school_calendar_id' => $schoolCalendar->id,
-            'name' => '4º Bimestre',
+            'name' => 'Manutenção',
             'start' => '2017-10-01',
             'end' => '2017-12-15',
             'average_formula' => '({Nota 4.1} + {Nota 4.2})/2'
@@ -226,8 +224,14 @@ class SchoolCalendar2017 extends Seeder
         
         dump('Criando turma com avaliação por nota e por diciplina...');
         $schoolClass = factory(SchoolClass::class)->create([
+                'identifier' => 'MOD 1',
                 'school_calendar_id' => $this->schoolCalendar->id,
-                'evaluation_type' =>  \App\EvaluationTypeRepository::GRADE_PHASE
+                'evaluation_type' =>  \App\EvaluationTypeRepository::GRADE_PHASE,
+                'grade_id' => function() {
+                    return factory(App\Grade::class)->create([
+                        'name' => 'Técnico em informática'
+                    ])->id;
+                }
             ]);
         $students = factory(Student::class, 20)->create()
             ->each(function($student) use ($schoolClass){
@@ -257,7 +261,7 @@ class SchoolCalendar2017 extends Seeder
         $subjects = [];
 
         $subject = factory(Subject::class)->create([
-                'name' => 'Matématica'
+                'name' => 'Word 2016'
             ]);
         $teacher1 = LessonsFactory::createTeacherIfNotExists(Config::get('laravel-auth0.user_id_role_teacher_1'));
         $subjectFixedData = $subject;
