@@ -18,8 +18,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 
 /**
- * A pior classe que já escrevi na vida... :)
- * 
+ * @todo Refactore A pior classe que já escrevi na vida... :)
  */
 class SchoolCalendarSeeder extends Seeder
 {
@@ -28,7 +27,6 @@ class SchoolCalendarSeeder extends Seeder
     public $schoolCalendarPhase2 = null;
     public $schoolCalendarPhase3 = null;
     public $schoolCalendarPhase4 = null;
-    public $schoolCalendarPhase5 = null;
 
     /**
      * Run the database seeds.
@@ -165,6 +163,7 @@ class SchoolCalendarSeeder extends Seeder
 
     public function createClassesWithGrade()
     {
+        
         dump('Criando turma com avaliação por nota e por diciplina...');
         $schoolClass = factory(SchoolClass::class)->create([
                 'school_calendar_id' => $this->schoolCalendar->id,
@@ -192,14 +191,12 @@ class SchoolCalendarSeeder extends Seeder
 
         $start = Carbon::createFromFormat('Y-m-d', $this->schoolCalendarPhase1->start);
         $end = Carbon::createFromFormat('Y-m-d', $this->schoolCalendarPhase4->end);
-        
+
         // Cria aulas para 5 disciplinas
         // dump('Criando aulas do calendário escolar...');
         $subjects = [];
 
-        $subject = factory(Subject::class)->create([
-                'name' => 'Matématica'
-            ]);
+        $subject = factory(Subject::class)->create();
         $teacher1 = LessonsFactory::createTeacherIfNotExists(Config::get('laravel-auth0.user_id_role_teacher_1'));
         $subjectFixedData = $subject;
         array_push($subjects, $subject);
@@ -218,6 +215,36 @@ class SchoolCalendarSeeder extends Seeder
             $start, 
             $end, 
             8,
+            $schoolClass,
+            $subject,
+            $teacher1);
+
+        $subject = factory(Subject::class)->create();
+        array_push($subjects, $subject);
+        LessonsFactory::createBetweenTwoDates(
+            $start, 
+            $end, 
+            7,
+            $schoolClass,
+            $subject,
+            $teacher1);
+
+        $subject = factory(Subject::class)->create();
+        array_push($subjects, $subject);
+        LessonsFactory::createBetweenTwoDates(
+            $start, 
+            $end, 
+            10,
+            $schoolClass,
+            $subject,
+            $teacher1);
+
+        $subject = factory(Subject::class)->create();
+        array_push($subjects, $subject);
+        LessonsFactory::createBetweenTwoDates(
+            $start, 
+            $end, 
+            11,
             $schoolClass,
             $subject,
             $teacher1);
@@ -395,8 +422,7 @@ class SchoolCalendarSeeder extends Seeder
                 }
             });
 
-        // Estudante que terá quantidade de faltas
-        // pré-definidas, conforme doc desse metodo
+
         $studentFixedData = $students[0];
 
         dump('Criando turma com avaliação por ficha descritiva: aulas');
