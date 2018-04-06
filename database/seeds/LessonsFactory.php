@@ -71,13 +71,20 @@ class LessonsFactory
      */
     public static function createTeacherIfNotExists($user_id)
     {
-        $teacher = Teacher::findByUserId($user_id, true);
+        $person = Person::where('user_id', $user_id)->first();
+        $teacher = $person->teacher;
 
-        if (empty($teacher)) {
+        if (empty($person)) {
             $teacher = factory(Teacher::class)->create([
                 'person_id' => factory(Person::class)->create([
                             'user_id' => $user_id
                         ])->id
+            ]);
+        }
+
+        if($person && empty($teacher)){
+            $teacher = factory(Teacher::class)->create([
+                'person_id' => $person->id
             ]);
         }
 
