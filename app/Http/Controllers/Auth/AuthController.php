@@ -8,6 +8,7 @@ use App\User;
 use App\Person;
 use Auth0;
 use Illuminate\Http\Request;
+use GuzzleHttp\Client;
 
 class AuthController extends Controller
 {
@@ -27,10 +28,7 @@ class AuthController extends Controller
             ->first();
 
         if (!$requestAccess) {
-            $requestAccess = RequestAccess::create([
-                    'status' => 0, // Pendente
-                    'user_id' => $auth0_user_id
-                ]);
+            $requestAccess = $this->createRequestAcess($auth0_user_id);
         }
 
         return $requestAccess;
@@ -45,12 +43,32 @@ class AuthController extends Controller
     public function showUser(Request $request)
     {
         $user_id = Auth0::jwtuser()->sub;
-        $person = Person::select()->with('student', 'teacher');
+        $person = Person::where('user_id', $user_id)
+            ->withTrashed()
+            ->first();
+    
+        if(!$person){
+            Person::createFromAuthServiceProvider($user_id);
+        }
 
+        $personSelect = Person::select()
+            ->withTrashed()
+            ->with('student', 'teacher');
         $result = $this->apiHandler
-            ->parseSingle($person, ['user_id' => $user_id])
+            ->parseSingle($personSelect, ['user_id' => $user_id])
             ->getResultOrFail();
         
         return $result;
+    }
+
+    /** 
+     * Cria uma solicitação de acesso ao sistema
+     */
+    private function createRequestAcess($auth0_user_id)
+    {
+        return RequestAccess::create([
+            'status' => 0, // Pendente
+            'user_id' => $auth0_user_id
+        ]);
     }
 }

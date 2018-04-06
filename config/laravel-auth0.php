@@ -26,8 +26,8 @@ return array(
      */
     'email_user_tester' => env('AUTH0_EMAIL_USER_TESTER'),
     'pass_user_tester' => env('AUTH0_PASS_USER_TESTER'),
+    'id_user_tester' => env('AUTH0_ID_USER_TESTER'),
     'token_user_tester' => env('AUTH0_TOKEN_USER_TESTER'),
-    'token_id_tester' => env('AUTH0_ID_USER_TESTER'),
 
     'user_id_role_teacher_1' => str_replace('\\', '', env('AUTH0_USER_ID_ROLE_TEACHER_1')), 
     'user_id_role_teacher_2' => str_replace('\\', '', env('AUTH0_USER_ID_ROLE_TEACHER_2')),

@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Services\Auth0Service;
 
 /**
  * Informações básica de pessoas
@@ -73,5 +74,26 @@ class Person extends Model
     public function student()
     {
         return $this->hasOne('App\Teacher');
-    }   
+    }
+    
+    /**
+     * Cria o registro de pessoa a partir dos dados do provedor de serviço de autentificação
+     * @todo Utiliza atualmente somente o provedor de autentificação auth0.
+     *       Deve ser criado drivers para que não seja dependente somente desse provedor.
+     * 
+     * @return \App\Person
+     */
+    public static function createFromAuthServiceProvider($user_id)
+    {
+        $attributes = Auth0Service::getUser($user_id);
+        $personAttributes = [
+            'name' => $attributes['name'], 
+    	    'gender' => empty($attributes['gender']) ? '' : $attributes['gender'], 
+            'avatarUrl' => empty($attributes['picture']) ? '' : $attributes['picture'],
+            'phone' => empty($attributes['phone_number']) ? '' : $attributes['phone_number'],
+            'user_id' => empty($attributes['user_id']) ? '' : $attributes['user_id']
+        ];
+
+        return Person::create($personAttributes);
+    }
 }

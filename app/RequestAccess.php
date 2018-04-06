@@ -1,6 +1,7 @@
 <?php
 
 namespace App;
+use App\Person;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -38,5 +39,19 @@ class RequestAccess extends Model
     protected $fillable = [
         'user_id', 'status'
     ];
+    
+    public static function create($attributes)
+    {
+        $person = Person::
+            where('user_id', $attributes['user_id'])
+            ->first();
+        
+        if(!$person){
+            $personAttributes['user_id'] = $attributes['user_id'];
+            Person::create($personAttributes);
+        }
+
+        return parent::create($attributes);
+    }
 
 }
